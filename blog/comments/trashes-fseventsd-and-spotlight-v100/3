@@ -1,0 +1,12 @@
+Draem/Comment [
+    slug: %trashes-fseventsd-and-spotlight-v100
+    author: "W^^^^L+"
+    date: 11-Dec-2009/14:15
+    old-url: http://hostilefork.com/2009/12/02/trashes-fseventsd-and-spotlight-v100/#comment-1018
+]
+
+["@Jeremy:"]
+
+[{It is certainly true that most unix-like operating systems AND WINDOWS will automatically write to a file system. However, file system recovery is a basic operation common to ALL operating systems. If the default behavior of Mac OSX prevents recovery, then it is simply the wrong action.
+It really is not hard to wait and see whether the user is trying to perform actions that require those added files to be there.
+As a Linux user, I am often called upon to recover data for Windows users. Mac users probably get just as many requests. If the OS trashes the drive before one can perform the recovery, then the above comments about not being acceptable for serious usage are true.}]

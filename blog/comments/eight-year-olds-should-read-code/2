@@ -1,0 +1,11 @@
+Draem/Comment [
+    slug: %eight-year-olds-should-read-code
+    author: "Hostile Fork"
+    date: 22-Jun-2009/13:21
+    old-url: http://hostilefork.com/2009/06/16/eight-year-olds-should-read-code/#comment-928
+]
+
+[{Hello Reboltutorial, thanks for visiting!
+IMO, the appearance of two different types of string quoting in <i>most</i> languages is more frustrating than helpful.  If something contains double quotes, then it is just about as likely to contain single quotes!  I find myself just trying to standardize on a single kind because the inconsistency bothers me...
+But REBOL's two kinds really do seem to offer an advantage.  That's because English so rarely uses braces.  So a sentence like {"I'll be back," said The Terminator.} can be handled easily.  Then there is code, where braces mostly occur in pairs!
+You may have noticed there are a couple other REBOL-oriented articles on the site: ( <a href="http://hostilefork.com/tag/rebol/" rel="nofollow" class="liinternal">http://hostilefork.com/tag/rebol</a> )...perhaps they would be of interest to you or your readers.}]

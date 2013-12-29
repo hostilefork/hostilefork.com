@@ -1,0 +1,12 @@
+Draem/Comment [
+    slug: %perfect-reconstruction-equalizer
+    author: "Dave H"
+    date: 21-Oct-2008/11:04
+    old-url: http://hostilefork.com/2007/12/16/perfect-reconstruction-equalizer/#comment-769
+]
+
+[{Hello again. I've built this EQ, but there is a problem. Being linear phase, the phase changes over time proportional to the amount of shift (size) of the filter. So when I upsample the half decimated signal, the phase slope is scaled. When the first band is added to the second band the phase differences cause a ' ^^^^V^^^^ ' like dip in the overlapping bands. The effect isn't easy to hear with high filter sizes as the overlap is quite small.}]
+
+["I think that's what's going on anyway."]
+
+["Dave"]

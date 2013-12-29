@@ -1,0 +1,16 @@
+Draem/Comment [
+    slug: %is-rebol-actually-a-revolution
+    author: "Gerard Cote"
+    date: 17-Aug-2009/12:20
+    old-url: http://hostilefork.com/2008/09/08/is-rebol-actually-a-revolution/#comment-979
+]
+
+[{Hi Fork,
+I already wrote you about the way you went around the initial limit of REBOL you saw in the product, that is not supporting an enumaretd type. Nice work and there are now some similar thinking done from other sources too. See the Reboltutorial website for yourself.
+All in all I agree with you that it even if it would be nice if every product was free for us developers, it is not the way things are normally done. And they don't have to be so either. Look around. Almost every customer product available is made and delivered on a use it as is basis. Even then some users care to own their own and use it as advertised without wanting to modify the way things are done. It's only in the CS domain that we see things like that. And even if it is interesting to be able to modify concepts, nothing prevents us to redo similar things from scratch either.
+I think Carl did and now is refactoring a great work by otself from its own experience and this is OK. He is humble enough to offer his product for free to use it and keep exploring with, while also hearing from many people that take time to suggest him some niceties to add, modify or remove from his original design. I don't know how he will do with his future licensing but even if it keeps them as they are now, many people can benefit from his work for "some" free part that would be hard to recreate for most of us... 
+So Carl's pov is debatable at any level but I can't see why his way of doing things is not at least as good as the way others do similar software tools development.
+After all, when someone needs and wants a special tool to help him getting the job done, generally he has to decide for himself if he will buy or not the product. The alternative is to recreate a similar product, find and/or get an alternative product (may be cheaper but not free either) or not use the product at all. 
+Sure it would be simpler to get everything for free in our short life but it's an utopy and it is even a rarity to find many persons that offer much use of their original thinking for free, may be except in the educational domain. And Carl is not in this domain while it offers his tool for free use.
+For me it's having this ultimate choice to get for free the product for use as a personal tool, that represents the TRUE freedom, as I envisage it.
+To go further and giving for free or selling his work to others is a commercial issue and I don't want to judge anybody on this basis. I consciously thanks everybody that works this way but I can't seriously ask everyone to agree to this way of doing things.}]

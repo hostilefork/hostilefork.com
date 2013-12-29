@@ -1,0 +1,14 @@
+Draem/Comment [
+    slug: %qtcreator-debugger-no-locals-ubuntu
+    author: "Hostile Fork"
+    date: 30-Nov-2013/22:25
+    old-url: http://hostilefork.com/nocycle/#comment-1492
+]
+
+[{@Akash (I sent a personal reply, no response in 2 months, so I'm going to approve the comment and post my response publicly...)
+Nocycle was part of a project that used CMake, so *in theory* you would need to run CMake to generate the config file:
+   <a href="http://www.cmake.org/cmake/resources/software.html" rel="nofollow" target="_blank" class="liexternal">http://www.cmake.org/cmake/resources/software.html</a>
+The file CMakeLists.txt explains what to do:
+    <a href="https://github.com/hostilefork/nocycle/blob/master/CMakeLists.txt" rel="nofollow" target="_blank" class="liexternal">https://github.com/hostilefork/nocycle/blob/master/CMakeLists.txt</a>
+BUT if you don't feel like installing CMake, there is an input file (NocycleConfig.hpp.in) which has lines in it that say "#cmakedefine01&#8243;.  You can copy that file to NocycleConfig.hpp, and then for each of those change it to either a #define for that of 0 or 1 based on whether you want it enabled.
+If you're willing to trust that it works, then you won't need the stress test comparing it to the Boost graph library.  If you're going to change the graph code itself, I'd suggest keeping that test and making sure it doesn't break from your changes!}]

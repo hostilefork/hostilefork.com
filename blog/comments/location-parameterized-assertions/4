@@ -1,0 +1,13 @@
+Draem/Comment [
+    slug: %location-parameterized-assertions
+    author: "Hostile Fork"
+    date: 8-Jan-2009/19:31
+    old-url: http://hostilefork.com/2005/05/01/location-parameterized-assertions/#comment-850
+]
+
+[{Ah, although off the top of my head it seemed you could put a codeplace into a variable and then compare against the variable in multiple places... I now see that defeats the purpose.  It would indicate the location of the variable declaration and wouldn't live right next to the "interesting" line of code.
+But bear in mind this article is out of date in terms of capturing my attempts to put identity-in-text...for reasons like that and others.  For my own projects, I've bitten the bullet and drop Base64 UUIDs all over my source, which some people might think is pointless but I find it very valuable.  The build process makes a table of them and what line numbers they are at off to the side.  Winds up looking more like:}]
+
+[{<div class="wp_syntax"><div class="code"><pre class="cpp">phone.<span style="color: #00eeff;">hangUp</span><span style="color: #008000;">&#40;</span>HERE<span style="color: #008000;">&#40;</span><span style="color: #FF0000;">"cRBhRW1wQ+ZJk+22SUv4Lg"</span><span style="color: #008000;">&#41;</span><span style="color: #008000;">&#41;</span>;</pre></div></div>}]
+
+[{Guess it's obvious that I do not care much for programming in text files!  I feel like if I can point to something on the screen with my finger I should have a way of expressing that "place" in my program.  I should be able to say "I mean that dot, there!" without having to say "the dot between phone and hangUp".  Of course, that requires a special kind of editor...one that recognizes the difference between moving that dot to another place and creating a new one...}]

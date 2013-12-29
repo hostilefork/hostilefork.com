@@ -1,0 +1,21 @@
+Draem [
+    title: "Bribing developers to make their work free"
+    category: 'post
+    tags: [blender consensus fundable open-source philosophy]
+
+    slug: %bribing-developers-to-make-their-work-free
+    date: 20-Oct-2007/9:16
+    old-url-prefix: %2007/10/20/
+]
+
+[{Some developers of closed-source/commercial software are holding onto the idea that a program they have written is going to make them a lot of money in the future.  Yet by and large, many small software projects—even very good ones—will not ever make money if they are held on to tightly.  Some do make a few hundred dollars a month, but it's usually a fantasy to believe that it will make the developer rich and famous.  This fantasy keeps them from sharing their source and possibly merging ideas with other similar codebases and generating something even better for the public.}]
+
+[{One possibility would be to convince the developer of a piece of good software to hand over their work by giving them a lump sum. This sum may be less than the hoped-for long-term revenue in the dreams of the recipient, but sufficient to fund the hours of their hobby, and offset the loss of the residual income.  This has happened on at least one instance I know about.  For 100,000 euros, the makers of <a href="http://en.wikipedia.org/wiki/Blender_%28software%29">Blender</a> were willing to transfer ownership of their project to the free software community rather than let the project disappear when the company went out of business.}]
+
+[{Can more people be paid off?  If so, one helpful tool would be a project called Fundable.  It lets you pledge funds to a pool for a specific purpose—and then the funds you donate are only billed in the event that the total donation goal is reached.}]
+
+[update {In 2007 when I wrote this, Fundable sounded like a great idea.  Apparently, questions into the legitimacy of the people who ran it and some other issues drove that company out of business and into a bad reputation.  However, the runaway success of a very similar idea called <a href="http://en.wikipedia.org/wiki/Kickstarter">KickStarter</a> suggests I might have been prescient in realizing this idea--which now is labeled <a href="http://en.wikipedia.org/wiki/Crowd_funding">crowdfunding</a>--was something that had the potential to really take off!}]
+
+[{Something that might help people be more willing to offer money would be if developers presented a reasoned rationale for why they needed it.  Discussing one's budget in an open way and putting it under the scrutiny of investors may not appeal to most independent developers.   But the experiment has been conducted by at least one individual—Jason Rohrer—who has disclosed his <a href="http://hcsoftware.sourceforge.net/jason-rohrer/supportMyWork.php">personal expenses</a> and concluded that it would take less than $1000 a month to allow him to pursue free software development full time.}]
+
+[{It's not clear that he has been successful in this, but it's a brave idea.  I do not personally use the software he develops and so I am hard pressed to determine if this represents a good value proposition compared to other efforts.  But it's a fascinating precedent that might make people more willing to donate to buy public rights to the code of a particular developer (especially if it's on an ongoing basis where their commitment to doing further work can be assessed).}]

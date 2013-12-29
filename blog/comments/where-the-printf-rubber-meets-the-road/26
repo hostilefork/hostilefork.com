@@ -1,0 +1,13 @@
+Draem/Comment [
+    slug: %where-the-printf-rubber-meets-the-road
+    author: "thavali"
+    date: 24-Jan-2011/10:48
+    old-url: http://hostilefork.com/2010/03/14/where-the-printf-rubber-meets-the-road/#comment-1244
+]
+
+["dear all,"]
+
+[{So, Printf function will find out the low-level function base on FILE object information (stdout) or get low-level function by it's self ?}]
+
+[{low-level function which can put a character to FILE object.
+please refer: <a href="http://cboard.cprogramming.com/c-programming/134041-file-object-c-cplusplus.html#post997853" rel="nofollow" target="_blank" class="liexternal">http://cboard.cprogramming.com/c-programming/134041-file-object-c-cplusplus.html#post997853</a>}]

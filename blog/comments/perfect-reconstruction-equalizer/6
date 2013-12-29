@@ -1,0 +1,12 @@
+Draem/Comment [
+    slug: %perfect-reconstruction-equalizer
+    author: "Dave H"
+    date: 14-Oct-2008/11:02
+    old-url: http://hostilefork.com/2007/12/16/perfect-reconstruction-equalizer/#comment-716
+]
+
+[{Hello, I'm trying to reproduce your nicely explained EQ. I'm a little confused about your arrowed diagram showing two bands. Basically you state that it's efficient because of the down-sampling and halving of data. But the diagram shows the lower side interleaved and the same size as the original. Can you explain at which point the next band is created from please?}]
+
+["Cheers,"]
+
+["D"]

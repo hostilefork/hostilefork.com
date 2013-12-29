@@ -1,0 +1,9 @@
+Draem/Comment [
+    slug: %trashes-fseventsd-and-spotlight-v100
+    author: "Jess H. Brewer"
+    date: 4-Apr-2012/12:53
+    old-url: http://hostilefork.com/2009/12/02/trashes-fseventsd-and-spotlight-v100/#comment-1289
+]
+
+[{Thank you for this (the original) explanation and resolution.  One thing I didn't see mentioned is the amount of HD space used up by .Spotlight-V100 files if one doesn't realize they are storing detailed information about every file on the computer.  I noticed that the free space on my HD was leaking away at a rate of several GB a day and became alarmed (understandably, I think) until I found that this was due to the creation of monster .Spotlight-V100 files.  Since I prefer to use familiar, simple tools like "locate" to find files by name (and after 50 years of programming experience I have developed the habit of giving files informative names), I have little use for Spotlight in the first place.   
+Those who believe Apple would *never* install spyware to harvest useful information from those incredibly detailed analyses of all files on a system must truly have swallowed the Kool-Aid.  Like all corporations, Apple makes every decision based on the "bottom line".  The only reason they would pass up this goldmine would be fear of expensive litigation if they get caught.  Watch for new legislation authorizing them to spy on you "to protect the children".}]

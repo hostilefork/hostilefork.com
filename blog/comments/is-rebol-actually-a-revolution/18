@@ -1,0 +1,9 @@
+Draem/Comment [
+    slug: %is-rebol-actually-a-revolution
+    author: "Edoc"
+    date: 18-Sep-2008/12:51
+    old-url: http://hostilefork.com/2008/09/08/is-rebol-actually-a-revolution/#comment-682
+]
+
+[{Quote away. re: web browsers and headaches, I hear you. However, the browser is pretty much the de-facto interface for the forseeable future. And with chrome, webkit, and competition, we may see support for more powerful and interesting applications in the future. 
+I think the concept of a closed-source, ideologically pure RIA platform conceived primarily to live outside the browser is perhaps the antithesis of where the computing world is headed. To me, the road ahead looks multi-paradigm, multi-device, poly-language, and information-dense&#8211; neither simple nor pretty. REBOL is a unique and powerful tool. I hope it doesn't become a museum piece like the Antikythera mechanism.}]

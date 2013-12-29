@@ -1,0 +1,23 @@
+Draem/Comment [
+    slug: %six-dudeney-numbers-proof
+    author: "DideC"
+    date: 13-Jan-2010/11:46
+    old-url: http://hostilefork.com/2009/12/24/six-dudeney-numbers-proof/#comment-1033
+]
+
+[{Parentheses, yes there is useless one but I imagine it is for clarity purpose.
+Anyway, nice demonstration !
+Here is just another implementation for interleave-block :
+interleave-block: func [block [block!] item /local pos] [}]
+
+["    loop subtract length? block 1 ["]
+
+["    ^^-block: insert next block item"]
+
+["    ]"]
+
+["    return head block"]
+
+[{]
+
+if block length is 1 or 0, then no loop occurs, so no item is inserted.}]

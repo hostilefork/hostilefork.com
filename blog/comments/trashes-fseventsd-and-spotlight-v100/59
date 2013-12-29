@@ -1,0 +1,8 @@
+Draem/Comment [
+    slug: %trashes-fseventsd-and-spotlight-v100
+    author: "John"
+    date: 21-Mar-2013/11:45
+    old-url: http://hostilefork.com/2009/12/02/trashes-fseventsd-and-spotlight-v100/#comment-1342
+]
+
+[{Can you write a create a file called .metadata_never_index in the root directory of the removable drive in the MAC because Windows XP will not let you - It has to have a filename. But you can create a *directory* that starts with a dot in Windows.}]

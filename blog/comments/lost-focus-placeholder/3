@@ -1,0 +1,8 @@
+Draem/Comment [
+    slug: %lost-focus-placeholder
+    author: "pete"
+    date: 8-Dec-2007/14:55
+    old-url: http://hostilefork.com/2007/11/25/lost-focus-placeholder/#comment-32
+]
+
+[{I can see how this technique allows recovery after focus is lost, and you explain the solution very well, but I think your example is not very good. If I hit alt-tab, and I know what that will do, then I know it will cause me to lose focus, so I don't do it until I don't need focus. Alt-tab is actually an activity I focus on, so it's not part of the problem. The real problem is egotistical background applications which jerk themselves to the front and STEAL my focus. In these cases, the truly annoying data and time loss occurs IN MY HEAD, and there's nothing software can do about that. Rather than complicate mousing code, I would savagely punish programmers who steal focus. On prime-time major network television. With a large studio audience. Every night. And I get to throw the switch. (I might share it with you occasionally if you ask nicely.)}]

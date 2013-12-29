@@ -1,0 +1,12 @@
+Draem/Comment [
+    slug: %perfect-reconstruction-equalizer
+    author: "Hostile Fork"
+    date: 15-Oct-2008/22:11
+    old-url: http://hostilefork.com/2007/12/16/perfect-reconstruction-equalizer/#comment-727
+]
+
+[{A bandpass approach for E equalization levels would use E filter operations on the original signal length.  This method uses roughly 2+(E-2)*2.  It is more filtering, but not <i>catastrophically more</i>...and it solves a particular problem that I explained in the article.
+I'll restate the motivation: Imagine you make a set of B bandpass filters, and then set the EQ so it's all level (e.g. the weight for each band that you use to sum into the signal is at 1).  Now ask: will running this "null equalization" on an arbitrary signal always give you the original signal back, or will the different characteristics of the filters cause interference and noise to appear?
+I'm not aware of a way to design a set of bandpass filters that would not introduce some noise.  Especially when you're trying to capture different frequencies covering logarithmic ranges, and thus possibly using different size filters...!  If you know how to do it, I'd be interested to know.
+What I came up with is trickier because it was trying to take the principles of <a href="http://www.mathworks.com/products/filterdesign/demos.html?file=/products/demos/shipping/filterdesign/pr2chfilterbankdemo.html" rel="nofollow" target="_blank" class="liexternal">Perfect Reconstruction</a> and apply them to a graphic equalizer.  In addition to acting like you'd expect an equalizer to act when you have the weights set at different values, the process of all this turmoil spits out the exact original bytes you put in when the weights are 1!  I believed I'd proven it to work, and my TAs in college did too, so maybe it's for real...but we could have been wrong. :)  
+The Remez code I found is by Egil Kvaleberg, ported from Fortran.  I will email it to you.}]

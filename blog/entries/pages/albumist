@@ -1,0 +1,96 @@
+Draem [
+    title: {ALBUMIST: Freebase-Powered Discography for Your Site}
+    category: 'page
+    tags: [misc]
+
+    slug: %albumist
+    date: 18-Aug-2008/15:21
+]
+
+[{Albumist is a discography program which gets its contents dynamically using APIs provided by <a href="http://freebase.com">Freebase</a>.   Users are one click away from adding cover art, editing the lyrics, or making corrections to information about the album and its tracks.}]
+
+[{The prolific band <i>The Legendary Pink Dots</i> is currently using it on their music page, which is a good place to go see a demo and listen to some tunes while you use it:}]
+
+[{<a href="http://legendarypinkdots.org/music">http://legendarypinkdots.org/music</a>}]
+
+[center {<a href="http://legendarypinkdots.org/music"><img src="http://hostilefork.com/wp-content/uploads/2009/03/albumist-300x189.png" alt="Sample Discography" title="albumist" width="300" height="189" class="alignnone size-medium wp-image-108" /></a>}]
+
+[{With Albumist, bands and their fans can keep control of the management of their discographies without writing any database code...and leverage the power of Freebase's powerful editor for managing corrections and updates.  They can control the advertising, and choose their own links for selling albums directly.}]
+
+[{Hopefully more bands will be interested in helping develop this, so I've released Albumist under the <a href="http://creativecommons.org/licenses/by/3.0/">Creative Commons Attribution License 3.0</a> -- which is the same license Freebase uses for its data.  You can download it from GitHub:}]
+
+[{<a href="http://github.com/hostilefork/albumist/tree/master">http://github.com/hostilefork/albumist/tree/master</a>}]
+
+[{To comply with the license terms, please make sure there's a reasonably visible link to this page (http://hostilefork.com/albumist) and Freebase (http://freebase.com).  That way, people who are interested can learn more and help improve the projects.  The script puts the links in for you by default--but if what I did breaks the visual continuity of your site then please adapt it to a prettier way.}]
+
+[note {Creative Commons is not generally seen as a legally-enforceable license for software.  But since Albumist is something to be used by bands, I think the intent is best conveyed using a CC license due to their <a href="http://creativecommons.org/about/what-is-cc">clear explanations</a>.  That's more worth learning than the details of <a href="http://en.wikipedia.org/wiki/BSD_licenses#UC_Berkeley_advertising_clause">4-clause vs. 3-clause BSD</a> or trying to gain publicity for the obscure <a href="http://www.opensource.org/licenses/cpal_1.0">CPAL</a>!}]
+
+[heading "It's simple to use!"]
+
+[{To use Albumist is easy, and it was designed to not have requirements that would make it hard to fit in systems like Joomla! or Wordpress.  Its only dependency is the <a href="http://mootools.net/">MooTools 1.11</a> JavaScript library.  If you have that loaded in your page, then all you need to do is put the code into a directory where your page can find it.  Then, place a <code>div</code> at the part in your file where you'd like the album grid to go.  Finally, make a call to the Albumist Display API:}]
+
+[code html {
+<div id="discography"></div>
+<script type="text/javascript" src="albumist.js"> </script>
+<script type="text/javascript">
+Albumist.displayByBandName(
+    "discography", 
+    "The Legendary Pink Dots"
+);
+</script>
+}]
+
+[{That's the most basic usage, which gives you the default layout.  To use the advanced features--like specifying prices, how many rows and columns, or the size of the cover art--is a little more complicated.  Rather than try to explain all the options here, the best way to learn about it is to read the latest up-to-date HTML sample file that is in the Git repository, that makes it all clear:}]
+
+[{<a href="http://github.com/hostilefork/albumist/tree/master%2Falbumist.html?raw=true">albumist.html sample code</a>}]
+
+[{It is not intended to be an online store.  Yet your web page can give Albumist prices for any of the music you want to sell directly, using your links.  This means that even though it's driven by a public database, the band has the say on the official channel of sale...with a "buy now" link that takes visitors to the method of purchase that they prefer.}]
+
+[heading "Things To Consider"]
+
+[{Freebase is a public database of information.  It is possible that it might be vandalized, and this vandalism would be reflected on the official website for the band.  However, just as with Wikipedia, reversing changes is not difficult.  A vandal who erases all of a band's albums would be quickly banned from the service, and the information can be restored from the history by anyone.}]
+
+[{Since public databases like Freebase are important in their own right, it doesn't necessarily make sense to worry about the vandalism.  In fact, having the discography on your site reflect the data brings more attention to any vandalism which might have gone unnoticed.  As Wikipedia has demonstrated, fans are quick to notice and fix inaccuracies on notable subjects.}]
+
+[{Freebase may go down, and during this time the discography would not work on your site.  But there are almost certainly weaker links in the chain to be more worried about!  Freebase is well-funded and depended on by many other projects, and certainly more reliable than most of the technology that band websites use.}]
+
+[{Unlike Wikipedia, Freebase does not require a band or a band's albums to be "notable" to be included.  There should be no worries about the administrators deleting a band due to lack of fame, or an album due to its obscurity.  There are probably limits in terms of bad taste on what cover art they'd accept or what track names would push too far... yet this won't be a concern for most.}]
+
+[{Although it is possible that Freebase may go out of business someday and stop offering their services (or charge for them), the data is free.  Thus someone else could step in and take their place.}]
+
+[note {At one time this project also connected to <a href="http://lyricwiki.org">LyricWiki</a>, but they have disabled the lyric-fetching API for copyright reasons.  This is especially lame in light of the existence of artists who are on independent labels and are willing to creative-commons license their lyrics.}]
+
+[heading "Implementation Details"]
+
+[{I'm not a guru in JavaScript or browser quirks.  The code is the result of mooshing together several small JavaScript-based pieces by other authors:}]
+
+[list [
+	[{The Mootools Toolkit: <a href="http://mootools.net/">[link]</a>}]
+	[{Douglas Crockford's JSON Helper: <a href="http://www.json.org/json.js">[link]</a>}]
+	[{Freebase's Album Query sample code: <a href="http://www.freebase.com/view/guid/9202a8c04000641f800000000544e139#fig-albumlist2">[link]</a>}]
+	[{MOOdalBox Modal Dialog Box: <a href="http://www.e-magine.ro/web-dev-and-design/36/moodalbox/">[link]</a>}]
+	[{Talk On Tech's LyricsWiki sample: <a href="http://talk-on-tech.blogspot.com/2008/07/access-to-lyricwikiorgs-rest-api-with.html">[link]</a>}]
+	[{Steven Chalmers ScrollFreeze: <a href="http://bytes.com/forum/thread498334.html">[link]</a>}]
+	[{prodigy.com's Mootools Slide Effect: <a href="http://pr0digy.com/sandbox/mootools/slide-effect/">[link]</a>}]
+	[{...and other snippets from around the 'net that I retained links to in the code itself.}]
+] ]
+
+[heading "Let's improve Albumist!"]
+
+[{Any ideas are welcome!  Bugfixes or improvements would be great.  Some ideas:}]
+
+[list [
+	[{Internet Explorer isn't currently working, though it did at one point.  I'm unsure what happened, and the debugging tools are very poor for IE.}]
+
+	[{I really wanted the UI to do automatic currency conversion using the latest exchange rates, but didn't get around to it.  This <a href="http://www.ecb.int/stats/eurofxref/eurofxref-daily.xml">XML data source</a> looked promising for implementing it...}]
+
+	[{There has to be more thought given to how to make the design work well with a non-white background.}]
+
+	[{The current CSS is poorly done and could use a complete makeover, with proper semantics and layout for when an album window is opened.}]
+
+	[{I'd like to have next/previous album buttons down next to the "Close" button, the way it is done in <a href="http://reghellin.com/milkbox/">Milkbox</a>.}]
+
+	[{A strategy for dealing with different versions of mootools is needed.  I'd like to use a compatible subset or have some way of detecting the version so it can still be kept as a single codebase.}]
+] ]
+
+[{Leave a comment or shoot me an email if you want to get involved...!}]

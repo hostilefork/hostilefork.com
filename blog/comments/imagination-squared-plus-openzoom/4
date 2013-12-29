@@ -1,0 +1,11 @@
+Draem/Comment [
+    slug: %imagination-squared-plus-openzoom
+    author: "Hostile Fork"
+    date: 16-Aug-2011/2:21
+    old-url: http://hostilefork.com/2010/09/12/imagination-squared-plus-openzoom/#comment-1269
+]
+
+[{Hi Rory,
+Thanks... I don't remember if I knew about Ruby's return keyword or not.  But I was certainly under the impression that it was idiomatic to use the last-item-in-the-block format...based on the code I saw in tutorials and that I was cutting-and-pasting from.
+This issue isn't such a big deal, but I do find myself wishing for language designers to canonize "the answer" instead of finding everyone doing it a different way.  In Rebol the source code structure is held in memory (like LISP) and the community which uses it is conscious of every superfluous byte or "word!" instance in the code.  So at least they have a uniform opinion to never use return at the end of a block, even if the rationale seems a little weird.
+I actually haven't done any more Ruby programming since this post.  Though I did spend a little time looking into the various hacks people have used to implement code reflection by bundling in a third-party Ruby parser with their projects... :-/  I'm getting into the belief that if I'm going to be using an interpreted language, I should at least be getting a <a href="http://en.wikipedia.org/wiki/Meta-circular_evaluator" rel="nofollow" target="_blank" class="liwikipedia">meta-circular evaluator</a> out of the deal!}]

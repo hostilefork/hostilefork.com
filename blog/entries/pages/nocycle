@@ -1,0 +1,202 @@
+Draem [
+    title: "NOCYCLE: Compact C++ Directed Acyclic Graph"
+    category: 'page
+    tags: [misc]
+
+    slug: %nocycle
+    date: 10-Mar-2009/3:33
+]
+
+[center {<img src="http://hostilefork.com/wp-content/uploads/2009/03/nocyclelogo.png" alt="The Nocycle Logo" title="nocyclelogo" width="400" height="160" class="alignnone size-full wp-image-105" />}]
+
+[{Nocycle is an open source library that started with a desire to make a data structure that could store a <a href="http://en.wikipedia.org/wiki/Directed_acyclic_graph">directed acyclic graph</a> in a somewhat minimized adjacency matrix format.  It can work with over 2<sup>16</sup> vertices.  This is beyond what can be achieved on 32-bit architectures with the Boost Graph Library <code>adjacency_matrix</code> (<a href="http://www.boost.org/doc/libs/1_38_0/libs/graph/doc/adjacency_matrix.html">[1]</a>)...which in my tests on gcc 4.0.1 stopped working after around 12,000 vertices.}]
+
+[{As an additional thought experiment, I decided to try getting the DAG to keep a cached sidestructure of its own <a href="http://en.wikipedia.org/wiki/Transitive_closure#Graph_Theory">transitive closure</a>.  Though this goal has been achieved, more clever methods will be needed to make it palatable for use on large graphs where edge insertions and removals are frequent.  So by default, caching is disabled and Nocycle uses a depth-first-search when reachability needs to be calculated (such as to prevent inserting a link that would cause a cycle).}]
+
+[{Though really only an exercise at this point, I didn't see why I shouldn't put this out for others to use or peer-review.  So the code is released under the <a href="http://en.wikipedia.org/wiki/Boost_Software_License">Boost Software License</a>.  This permits liberal inclusion in both open source or commercial software, and I welcome comments or improvements.  You can download it from GitHub, or just browse the source:}]
+
+[center {<a href="http://github.com/hostilefork/nocycle/tree/master">http://github.com/hostilefork/nocycle/tree/master</a>}]
+
+[note {The current choice of <a href="http://www.parashift.com/c++-faq-lite/private-inheritance.html">public inheritance vs. private inheritance vs. composition</a> is driven completely by expedience.  What role virtual methods will play needs to solidify, as well as what the best directions would be to build a storage class compatible with the boost templates.}]
+
+[{The rest of this page I'll devote to explaining the implementation.}]
+
+[heading "Compact Representation"]
+
+[{The way Nocycle stores its graph data is as an <a href="http://en.wikipedia.org/wiki/Adjacency_matrix">adjacency matrix</a>.  However, it's more compact than people typically bother to write.  Let's start by imagining we are using an adjacency matrix for just 3 vertices (<b>V0</b>, <b>V1</b>, <b>V2</b>):}]
+
+[raw {<table>
+  <tr>
+    <td>  </td>
+    <td> <b>V0</b></td>
+    <td> <b>V1</b></td>
+    <td> <b>V2</b></td>
+  </tr>
+  <tr>
+    <td><b>V0</b></td>
+    <td> ..</td>
+    <td> B1</td>
+    <td> B3</td>
+  </tr>
+  <tr>
+    <td><b>V1</b></td>
+    <td> B2</td>
+    <td> ..</td>
+    <td> B4</td>
+  </tr>
+  <tr>
+    <td><b>V2</b></td>
+    <td> B5</td>
+    <td> B6</td>
+    <td> ..</td>
+  </tr>
+</table>}]
+
+[{Excluding connections from vertices to themselves "..", we need six binary bits (B*) which indicate whether a directed edge exists.  There are two independent bits for each vertex pairing in the set, one for each direction.  For instance, B1 tells us if V0 points to V1 (<b>V0</b>&rarr;<b>V1</b>), while B2 tells us if V1 points to V0 (<b>V0</b>&larr;<b>V1</b>).  }]
+
+[{However, if we are working with a directed graph that specifically prohibits cycles, we don't need two fully independent bits to encode the relationship between a pair of vertices.  This is because <b>V<i>x</i></b>&rarr;<b>V<i>y</i></b> and <b>V<i>x</i></b>&larr;<b>V<i>y</i></b> are mutually exclusive, and allowing such connections would create an instant cycle!  So for each pairing of vertices, we only need a tristate:}]
+
+[raw {<table>
+  <tr>
+    <td></td>
+    <td><b>V0</b></td>
+    <td><b>V1</b></td>
+    <td><b>V2</b></td>
+  </tr>
+  <tr>
+    <td><b>V0</b></td>
+    <td>..</td>
+    <td>T0</td>
+    <td>T1</td>
+  </tr>
+  <tr>
+    <td><b>V1</b></td>
+    <td>XX</td>
+    <td>..</td>
+    <td>T2</td>
+  </tr>
+  <tr>
+    <td><b>V2</b></td>
+    <td>XX</td>
+    <td>XX</td>
+    <td>..</td>
+  </tr>
+</table>}]
+
+[{Where before we needed six bits, we now have three tristates (T*), each of which can hold one of these possibilities:}]
+
+[list [
+  [{<b>s0</b>: no connection}]
+  [{<b>s1</b>: lower numbered vertex points to higher numbered vertex}]
+  [{<b>s2</b>: higher numbered vertex points to lower numbered vertex}]
+] ]
+
+[{This representation saves us from accommodating states where vertices both point to each other.  Generally speaking, you'll need half as many tristates as you'd need bits...and a tristate needs slightly less than two bits to be represented.  It's an approximately 20% space savings, and you can see the <a href="http://hostilefork.com/nstate/">Nstate library</a> for some generalized helper classes that I wrote to make this transparent to the graph code layer.}]
+
+[{I wanted to allow for fast dynamic growth... from just a few vertices to thousands.  For this reason, the cells are mapped into positions in a linear tristate array such that the connection information for higher numbered vertices appears after <i>all</i> the data for connections between lowered numbered vertices.  Therefore a scheme that works for K vertices can be resized in place for K+&delta; or K-&delta; vertices without disrupting the existing data.}]
+
+[{It is still possible to represent cyclical graphs in this format, so not all encodings will be valid DAGs.  The broader class of what we are capable of representing are something called <b>oriented graphs</b>.  From Wikipedia:}]
+
+[quote {The oriented graph, is a graph (or multigraph) with an orientation or direction assigned to each of its edges. A distinction between a directed graph and an oriented simple graph is that if x and y are vertices, a directed graph allows both (x,y) and (y,x) as edges, while only one is permitted in an oriented graph.}]
+
+[{So in Nocycle, I implemented the class <code>DirectedAcyclicGraph</code> using the foundation of a class called <code>OrientedGraph</code> (which, in turn, is implemented on top of <code>NstateArray</code>!)}]
+
+[note {The usual caveats for an adjacency-matrix based implementation apply!  Getting its list of incoming or outgoing edges involves searching all slots paired with other vertices.  So regardless of how many connections a vertex has, the cost associated with getting the full list is proportional to <b>O(V)</b>...where V is the number of vertices in the graph.  Answering the question about whether any specific linkage exists is still <b>O(1)</b>.}]
+
+[heading "Tracking Vertex Existence"]
+
+[{Boost.Graph's <code>adjacency_matrix</code> does not currently implement <code>boost::add_vertex</code> or <code>boost::remove_vertex</code>.  More generally, boost graphs always have a number of functional vertices equal to their current capacity.  So although you can have a vertex with no incoming our outgoing edges, you can't have a descriptor in your vertex in your graph which "does not currently exist".}]
+
+[{Nocycle can "push" and "pop" vertices at the end of the store, and deleting vertices in the middle opens up a space that can be reused.  To assist in managing currently unused vertex IDs, an additional tristate per vertex is folded into the memory layout to track its existence.  This revised organization for 4 vertices shows the tristate indexes and whether they are (C)onnections or (E)xistence for the pertinent vertices:}]
+
+[raw {<table>
+  <tr>
+    <td></td>
+    <td><b>V0</b></td>
+    <td><b>V1</b></td>
+    <td><b>V2</b></td>
+    <td><b>V3</b></td>
+  </tr>
+  <tr>
+    <td><b>V0</b></td>
+    <td>E0</td>
+    <td>C2</td>
+    <td>C5</td>
+    <td>C9</td>
+  </tr>
+  <tr>
+    <td><b>V1</b></td>
+    <td>XX</td>
+    <td>E1</td>
+    <td>C4</td>
+    <td>C8</td>
+  </tr>
+  <tr>
+    <td><b>V2</b></td>
+    <td>XX</td>
+    <td>XX</td>
+    <td>E3</td>
+    <td>C7</td>
+  </tr>
+  <tr>
+    <td><b>V3</b></td>
+    <td>XX</td>
+    <td>XX</td>
+    <td>XX</td>
+    <td>E6</td>
+  </tr>
+</table>}]
+
+[{Now we have an array T[] which contains both the existence tristate E (with an unused state) and the connection tristates C.  We need the function E(N) where T[E(N)] is the existence tristate for vertex N.  Also, we need C(S,L) such that T[C(S,L)] is the connection tristate for <b>V<i>S</i></b> and <b>V<i>L</i></b> (where S &lt; L). }]
+
+[{First, E(N) is easy.  It's the sum of the first N natural numbers:}]
+
+[center "E(N) => N*(N+1)/2"]
+
+[{A slight tweak will give us C(S,L) for the connection between a smaller numbered vertex and a larger one:}]
+
+[center "C(S,L) => E(L) + (L - S)"]
+
+[{This way we have a growth model that lets us encode existence and connectivity in a linear series of tristates, that can expand and shrink.  I elected to use the extra state of the existence tristate as a second "vertex type"--so all vertices that exist may be either <code>vertexTypeOne</code> or <code>vertexTypeTwo</code>.}]
+
+[heading "Reachability Calculation"]
+
+[{An important question for a directed acyclic graph is whether one vertex can reach another by following a path of edges along the direction of the arrows.  To get an idea of what that means, let's imagine you have a graph like this one (from Wikipedia):}]
+
+[center {<a href='http://en.wikipedia.org/wiki/File:Directed_acyclic_graph.png'><img src="http://hostilefork.com/wp-content/uploads/2009/03/directed_acyclic_graph.png" alt="Directed Acyclic Graph Sample from Wikipedia" title="directed_acyclic_graph" width="260" height="231" class="alignnone size-full wp-image-106" /></a>}]
+
+[list [
+  [{"Can Vertex 7 Reach Vertex 10?" <i>Yes: by going via Vertex 11</i>}]
+  [{"Can Vertex 9 Reach Vertex 8?" <i>No: arrow points the wrong way</i>}]
+  [{"Can Vertex 3 Reach Vertex 5?" <i>No: no path connects them</i>}]
+] ]
+
+[{Answering this question is particularly useful for determining if it is safe to insert an edge into the graph without creating cycles.  To see this is the case, imagine making an edge pointing from Vertex 2 to Vertex 7 in the graph above.  This would create the cycle 2&rarr;7&rarr;11&rarr;2...but it would have been avoidable if you had realized that 7 "canreach" 2 prior to making that link!
+ 
+Most programs use search algorithms to answer questions of reachability, and those searches slow down as the number of vertices and/or edges increase.  A <a href="http://en.wikipedia.org/wiki/Depth-first_search">depth-first search</a> is a common approach, which has a time complexity of <b>O(V + E)</b> and a space complexity of <b>O(V)</b>.  This is the default implementation for computing reachability in Nocycle.  It should also be noted that when you account for the overhead of querying the adjacency-matrix to get the list of connections for a given vertex, the <b>O(V)</b> performance of that operation gives rise to an effective time complexity more like <b>O(V<sup>2</sup>)</b> (!!)}]
+
+[{The flag <code>DIRECTEDACYCLICGRAPH_CACHE_REACHABILITY</code> tries to cache the transitive closure to provide <b>O(1)</b> answers to reachability.  A compact graph representation mitigates the fact that storing the transitive closure alongside a graph effectively doubles its size.  (Nocycle can hold a 4 vertex graph and its transitive closure in just 64 bits!)  Unfortunately, keeping the transitive closure in sync on a <i>volatile</i> graph is computationally expensive.  :(}]
+
+[{To see this, imagine performing an insertion from <b>fromVertex</b>&rarr;<b>toVertex</b>.  We know that all vertices that canreach fromVertex (including fromVertex!) can now reach toVertex, as well as anything toVertex can reach.  We must union toVertex's reachability onto each member of the set canreach(from)...which for a graph with V vertices is an <b>O(V<sup>2</sup>)</b> time-complexity operation with <b>O(V)</b> space complexity.  When you add in that merely getting the connectivity list for a vertex in an adjacency matrix is a significant <b>O(V)</b> operation, you're approaching an <b>O(V<sup>3</sup>)</b> worst case scenario.}]
+
+[note {Building the transitive closure from scratch with the <a href="http://en.wikipedia.org/wiki/Floyd-Warshall_algorithm">Floyd-Warshall algorithm</a> is only <b>O(V<sup>3</sup>)</b> without the need for the <b>O(V)</b> operation of getting an adjacent vertices list.  So when incremental maintenance has a worst case with the same upper bound as a full regeneration, there's cause for thinking carefully about whether the nature of the data and access pattern warrants invalidation.}]
+
+[heading "Experimental Code"]
+
+[{I tried a few techniques to improve performance on volatile graphs.  For instance, I used the cache graph's <code>vertexTypeTwo</code> to indicate when the outgoing reachability for that vertex might have false positives.  This made it possible to defer the transitive closure update while still knowing <i>something</i> in the meantime (e.g. that if there <i>wasn't</i> an edge to a vertex in the reachability graph, then it still could definitely not be reached).}]
+
+[{Also, I noticed that storing reachability links for vertices that were directly connected was somewhat redundant.  After all, one can check for adjacency of <b>V<i>x</i></b> and <b>V<i>y</i></b> in <b>O(1)</b>...so performing that check prior to checking the reachability does not cost much.  This made it possible to "reclaim" a tristate for every edge in the main graph.  If you enable <code>DIRECTEDACYCLICGRAPH_USER_TRISTATE</code>, then this tristate becomes available for client use.}]
+
+[{Once I had reclaimed this tristate for every edge for the user, I decided to try taking it back to see if it could add features to the cache.  With the compile flag <code>DIRECTEDACYCLICGRAPH_CACHE_REACH_WITHOUT_LINK</code>, then two of the three possible tristates are used to answer the yes/no question of <i>"Could the vertex pointed to by this edge be reached even if the physical edge were removed."</i>  If that is true, then you know the link can be removed without propagating any further invalidation of the cache.  It might be an interesting question for certain clients in its own right.}]
+
+[{These optimizations don't do anything about the worst case performance, and don't help on volatile graphs.  But at least they give a background process something to clean up that may accelerate certain operations.  If there's a long wait between insertions and deletions, and a lot of reachability checks in the meantime...they could enable some interesting scenarios.   The regression tests handle these variations, so regardless of whether they're useful--they work and can be kept working.  :)}]
+
+[heading "Further Directions"]
+
+[{My attempt at caching the transitive closure was fairly simple and had the natural burden for maintaining such a cache.  This is a general-application implementation, there is room for optimization on specialized cases where more is known about the data or access pattern.}]
+
+[{One aspect that I found discussed in academic papers is leveraging the idea of "strongly connected subgraphs" <a href="http://www.cs.hut.fi/~enu/ps/thesis-ch3.ps">[2]</a> to compute transitive closure efficiently.  And if you know more about the nature of your graph--such as if it is sparse, or any other special properties, then "graph labeling" <a href="http://ieeexplore.ieee.org/Xplore/login.jsp?url=/iel5/10757/33902/01617443.pdf?tp=%26isnumber=%26arnumber=1617443">[3]</a> approaches are also used.}]
+
+[{As I've read more about the Boost Graph Library, I see that one of the main reasons for its abstruse mechanics is to facilitate the application of its algorithms to custom data structures without loss of performance.  It would be interesting to see an adapter developed that used <code>OrientedGraph</code> as a store for applying to boost graph algorithms.  Perhaps it could be called <code>boost::adjacency_spiral</code>, and bring about some of the missing resizability and scalability that <code>boost::adjacency_matrix</code> doesn't have for DAGs?}]
+
+[{If you know of any other interesting ideas, post a comment or email me!}]

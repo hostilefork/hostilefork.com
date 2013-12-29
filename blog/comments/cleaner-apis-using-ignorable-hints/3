@@ -1,0 +1,14 @@
+Draem/Comment [
+    slug: %cleaner-apis-using-ignorable-hints
+    author: "Hostile Fork"
+    date: 8-Jan-2009/16:19
+    old-url: http://hostilefork.com/2005/08/12/cleaner-apis-using-ignorable-hints/#comment-847
+]
+
+[{Hi Jeremy, thanks for visiting the blog (and reading these old entries!)
+You make a good point in matching problem-statement to problem-solution for the specific case I gave.  Since I wasn't taking advantage of any particular property of knowing the number in advance, it was a distracting choice.  So I should either use your hint or introduce the allocation number benefit (like, there's some memory block and knowing the number helps you allocate one block).  Since the latter just complicates no reason I'll go with yours!
+But my main thrust wasn't any particular prescription for what kind of hints you would make.  It was merely the idea of splitting exposed APIs into instructions for which <i>every</i> parameter has semantic meaning... and these "hints" in which ZERO parameters have meaning.
+It encourages clients to write their code in a natural way&#8211;and gives the API implementers a chance to be more free in inventing interesting hints based on the specific use cases that clients are encountering.  Especially since the program should still work if the implementation were changed to a no-op!  Not only will the hinting not break backwards binary compatibility when clients run against old API implementations (assuming the hints aren't statically linked), but a hint that turns out to be useless can be dropped.
+I've always wished it were possible to give these kinds of hints to hardware.  Recently I was looking at LLVM and saw they had an instruction for "prefetch" where you can give hints about the locality of your data access:
+<a href="http://llvm.org/docs/LangRef.html" rel="nofollow" target="_blank" class="liexternal">http://llvm.org/docs/LangRef.html</a>
+That looks like a pretty cool project overall, perhaps worth delving into...}]

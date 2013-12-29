@@ -1,0 +1,41 @@
+Draem [
+    title: "A Word on Programming Education and SpaceChem"
+    category: 'post
+    tags: [misc]
+
+    slug: %a-word-on-programming-education-and-spacechem
+    date: 6-Mar-2012/10:27
+    old-url-prefix: %2012/03/06/
+]
+
+[{I have a lot to say about the game SpaceChem, and have lately been organizing thoughts and educational materials surrounding it.  But because the question of "how to teach programming to the kids of today" came up on Slashdot, I posted a comment there about it.}]
+
+[{But I'm not interested in having a Slashdot account for all the usual reasons people don't jump into that fray.  That makes me an "Anonymous Coward" in their lingo, so my comment starts out with a score of 0 where it won't be shown to people.  I'll cache it here so that the whims of moderation on an  aggregator site that's yesterday's news (both literally and figuratively) won't censor my thoughts.  :)}]
+
+["The question I was responding to was this:"]
+
+[quote {I have been wondering lately if there are any kids interested in programming for its own sake anymore. When I was my nephew's age, computers were still fascinating: There wasn't a laptop on every table, facebook wasn't splattered on every screen, and you couldn't get any question answered in just a couple seconds with Google. When I was 10, I would have done anything for a close programming mentor instead of the 5-foot high stack of books that I had to read cover-to-cover on my own. So I was happy when my nephew started asking about learning to do what "Uncle Jay does." Does the responsibility now shift to us to kindle early fires in computer science, or is programming now just another profession for the educational system to manage?}]
+
+[{Here's <a href="http://ask.slashdot.org/comments.pl?sid=2709239%26cid=39260651">my response</a>:}]
+
+[quote [
+	[{There is no turning back the clock. You can't bring up a blinking terminal with [10 PRINT "HELLO WORLD"] [20 GOTO 10] and expect the average kid to feel motivated. Also, you will not learn much...all the while being frustrated by their reactions.}]
+
+	[{But I have a suggestion. First sit down with him and the two of you can watch "The Karate Kid" (the original one) all the way through. Afterward <a href="http://www.youtube.com/watch?v=Z4dkuYro4t8">go back and review</a> the entire "Wax on, wax off" / "Paint the fence" / "Sand the floor" scene, and what Mr. Miyagi says about "Karate Do" vs. "Karate Don't". Make sure he groks that getting your fundamentals right can have profound effects on reaching your goals, even if they *seem* unrelated. Remind yourself of that fact as well.}]
+
+	[{Then open up your wallet and spend ten measly bucks to buy SpaceChem, which the creator of Team Fortress has called "Pretty much the greatest game ever made". I've known for a long time that such things would be *possible* to create, but hadn't seen it done in a way that satisfied me...until now. I'm hopeful it is a prelude to many more such teaching tools:}]
+
+	[youtube http://www.youtube.com/v/Gk8JwvtVs38 400x244]
+
+	[note {Some real non-tutorial gameplay illustrates some of the amazing machinery you make in this game...}]
+
+	[youtube http://www.youtube.com/v/tsEaH2F87E4 400x244]
+
+	[{...it's not much of a spoiler as there's lots to see in the many levels.  Though if you spend too much time watching YouTube videos you will take away from the experience of playing!)}]
+
+	[{There have long been games that gave the appearance of indoctrinating one with "programming", merely because they gave you automatons that act independently to solve problems (such as "The Incredible Machine" or even pared-down systems like Logo). But SpaceChem blows them away. It has the requirement to build "stable reactors" and pipeline them to build something that works...but must do so iteratively...it is self-testing. Your solutions might turn out to be complex or inefficient, but the production quotas keep raising the bar to keep you from being sloppy. Plus the leaderboard for "elapsed cycles" and "symbols used" creates an incentive to go back and hone the craft.}]
+
+	[{I cannot say enough good things about this game and the direction it's pointing. Your nephew won't be the only one enjoying it, either.}]
+] ]
+
+[{I'm hoping to have a lot more to say about SpaceChem in the future.  But for now I just want to tell people to give this game a fair shot.  It's not 100% user-interface polished at this point, there are some rough edges...but for me it's been very inspiring.}]

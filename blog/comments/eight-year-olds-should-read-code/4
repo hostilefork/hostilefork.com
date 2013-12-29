@@ -1,0 +1,10 @@
+Draem/Comment [
+    slug: %eight-year-olds-should-read-code
+    author: "Hostile Fork"
+    date: 2-Jul-2009/19:21
+    old-url: http://hostilefork.com/2009/06/16/eight-year-olds-should-read-code/#comment-939
+]
+
+[{Thanks Leaf!
+REBOL indeed does some things simply.  Though in examining the R3 development I think it's more "set in its ways" and favoring compatibility with R2 over really busting up the barriers to understanding of source.  They also are quite concerned about performance, even though I don't know anyone called R2 slow.  :) 
+Still, it's good to look at for ideas...}]

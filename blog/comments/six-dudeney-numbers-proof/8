@@ -1,0 +1,13 @@
+Draem/Comment [
+    slug: %six-dudeney-numbers-proof
+    author: "Duane Lachney"
+    date: 17-Jun-2011/13:49
+    old-url: http://hostilefork.com/nstate/#comment-1262
+]
+
+["regarding"]
+
+[{"There was a lot of code that I might have liked to have put into the implementation file instead of the header file. Various things stood in the way of this—essentially, when you write templated classes a lot of things need to be left in the header file."
+Moving Templates Out of Header Files - maybe this dr dobbs article might help?}]
+
+[{<a href="http://drdobbs.com/184403420" rel="nofollow" target="_blank" class="liexternal">http://drdobbs.com/184403420</a>}]

@@ -1,0 +1,12 @@
+Draem/Comment [
+    slug: %computer-languages-as-artistic-medium
+    author: "hostilefork"
+    date: 24-Apr-2008/9:39
+    old-url: http://hostilefork.com/2008/04/23/computer-languages-as-artistic-medium/#comment-455
+]
+
+[{Thanks Troy...!
+Regarding API and language being a matter of: <i>"making that which should be done often terse, and that which shouldn’t be done often, verbose or impossible"</i>...absolutely.  Most programmers are vaguely aware of it and might nod along when you say so, but their code betrays the fact that they haven't truly absorbed the Truth.  When they're up against a wall and find an object needs a method, they tend to just add it--rather than think about what assurances or invariants they might be losing in the overall design.
+It's a bit like people who run red lights at intersections, and then try to explain to the cop who pulls them over that "no one was coming".  Programmers in a hurry make a RunRedLight() method on Car and trust it's ok because they know (or think they know) it's safe in the case they need it for.  But right answers are more like going to the StopLight object and tuning it so that its red/green cycles are sensitive to the existing traffic conditions--breaking no rules and benefitting the entire code base.
+This notion is not emphasized so much in computer science education.  One reason is probably because API designs are harder to grade than whether an algorithm accomplishes a certain result in a certain amount of time.  You can grade a programming problem by giving it a set of pathological test data and assume that a correct program which solves that test is probably correct overall...but how do you easily grade someone's evolution of an API or language?
+(Still another way of talking about the balance of making some things verbose-or-hard as the only way to get real "power" in computation systems is here: <a href="http://hostilefork.com/2005/07/04/freedom-to-and-freedom-from/" rel="nofollow" class="liinternal">Freedom To and Freedom From in Software Architecture</a>.)}]

@@ -1,0 +1,15 @@
+Draem/Comment [
+    slug: %where-the-printf-rubber-meets-the-road
+    author: "Max"
+    date: 27-Mar-2010/17:11
+    old-url: http://hostilefork.com/2010/03/14/where-the-printf-rubber-meets-the-road/#comment-1056
+]
+
+[{I answer to myself :
+There are 3 modes for the buffer behavior :
+#define _IOFBF 0 /* Fully buffered. */}]
+
+["#define _IOLBF 1 /* Line buffered. */"]
+
+[{#define _IONBF 2 /* No buffering. */
+And the documentation of setvbuf explain how it works.}]

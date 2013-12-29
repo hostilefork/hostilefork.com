@@ -1,0 +1,10 @@
+Draem/Comment [
+    slug: %qtcreator-debugger-no-locals-ubuntu
+    author: "Rico Chet"
+    date: 17-Nov-2013/4:06
+    old-url: http://hostilefork.com/2013/10/20/qtcreator-debugger-no-locals-ubuntu/#comment-1484
+]
+
+[{Thanks for sharing! I found though that the gdb built from std sources will not be able to use qt5 debuggung symbols provided by distro (ubuntu 13.10 in my case), own-built gdb will show errors like this:
+BFD: /usr/lib/debug/.build-id/52/285239fde688ff5dc15a1c16d06bac4233f801.debug: unable to initialize decompress status for section .zdebug_aranges
+When I build from ubuntu sources (apt-get source gdb) (also adding to configure &#8211;with-separate-debug-dir=/usr/lib/debug), it works, so now I see the qt symbols loaded.}]

@@ -1,0 +1,10 @@
+Draem/Comment [
+    slug: %qtcreator-debugger-no-locals-ubuntu
+    author: "rimongo"
+    date: 12-Dec-2013/18:19
+    old-url: http://hostilefork.com/2013/10/20/qtcreator-debugger-no-locals-ubuntu/#comment-1500
+]
+
+[{I had the same problem after upgrading Linux Mint to the latest version. Qt Creator 3.0 is already available to download on <a href="http://qt-project.org/downloads" rel="nofollow" target="_blank" class="liexternal">http://qt-project.org/downloads</a>}]
+
+[{This version works without any problems with gdb 7.6.1 built against Python3.}]

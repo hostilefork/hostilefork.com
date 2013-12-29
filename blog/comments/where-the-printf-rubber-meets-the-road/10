@@ -1,0 +1,9 @@
+Draem/Comment [
+    slug: %where-the-printf-rubber-meets-the-road
+    author: "haw flakes"
+    date: 14-May-2010/7:13
+    old-url: http://hostilefork.com/2010/03/14/where-the-printf-rubber-meets-the-road/#comment-1096
+]
+
+[{IIRC, there's some magic that happens in GCC to do some optimizations. e.g. printing a constant string vs. one with format chars, etc.
+I learned this when trying to target an embedded platform without specifying some build flag to gcc in the pre-3.0 days.}]

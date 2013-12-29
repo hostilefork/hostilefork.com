@@ -1,0 +1,91 @@
+Draem [
+    title: "Assertions Parameterized by Location"
+    category: 'post
+    tags: [cplusplus]
+
+    slug: %location-parameterized-assertions
+    date: 1-May-2005/21:09
+    old-url-prefix: %2005/05/01/
+]
+
+[{Let's say you are implementing a class to represent a Phone.  You might want to have the precondition that you cannot <code>hangUp()</code> a phone if it was already hung up.}]
+
+[{The typical way to do this is with <code>assert()</code> statements, so in the file <em>phone.cpp</em> you might write:}]
+
+[code cplusplus {
+class Phone
+{
+private:
+   enum Status {
+      Dialing,
+      Connected,
+      Disconnected
+   };
+   Status _status;
+
+public:
+   void hangUp()
+   {
+      assert(_status != Disconnected);
+      /*... some code here...*/
+   }
+
+   /*... more functions here ...*/
+};
+}]
+
+[{Then let's say in <em>caller.cpp</em> you are modeling someone who wants to have a <a href="http://en.wikipedia.org/wiki/Alice_and_Bob">"typical"</a> phone conversation:}]
+
+[code cplusplus {
+void Alice::callBob()
+{
+   _phone.dial("1-617-542-5942");
+   friendlyGreetings();
+   tellBruceSchneierJoke();
+   haveSpecialDiscussion();
+   _phone.HangUp();
+}
+
+void Alice::haveSpecialDiscussion()
+{
+   std::string password = askForThePassword();
+   if (password == "hostilefork") {
+      describeWorldTakeover();
+      laughManiacally();
+   } else {
+      talkAboutTheWeather();
+   }
+   _phone.HangUp();
+}
+}]
+
+[{When <code>callBob()</code> executes and hits line 48, the Phone's assertion will fire because it was already hung up during <code>haveSpecialDiscussion()</code> (on line 60).  Most implementations of <code>assert</code> will capture the filename and line number where the actual assertion occurs, so you'd probably get a message like:}]
+
+[error {assertion failure on line 90 of phone.cpp}]
+
+[{There's no flexibility to let you indicate another "place" in the source.  For instance, what if you wanted the assert to identify the precise offending call to <code>hangUp()</code>?  }]
+
+[{To address these kinds of needs I created <code>codeplace</code>.  One of its many uses is the location-parameterized assert...which lets you pass in a "place" to be identified when the assert triggers.  So in <em>phone.cpp</em> you would write:}]
+
+[code cplusplus {
+public:
+   void hangUp(const codeplace& cp)
+   {
+      assert(_status != Disconnected, cp);
+      /*... some code here ...*/
+   }
+}]
+
+[{Then at the call sites, you would use a special macro called <code>HERE</code> to create a <code>codeplace</code> object which you pass as a parameter.  For instance, the assertion-triggering call to <code>hangUp()</code> in <em>caller.cpp</em> would look like this:}]
+
+[code cplusplus "_phone.hangUp(HERE(false));"]
+
+[note {the forthcoming documentation for codeplace will explain what false, true, and string parameters mean for "HERE" mean...}]
+
+[{Now when the assertion is reported by the program, it will identify the call site.  With this change to our example above, you would get something more like:}]
+
+[error {assertion failure on line 48 of caller.cpp}]
+
+[{The location-parameterized assert is only one application of a codeplace.  They are helpful abstractions for any time we need to speak about a place in our source.  For instance, if we wanted to track the previous disconnection call we could have a local variable in the Phone class to save it... and the <code>tracked&lt;T&gt;</code> template even does this for you automatically.  There are some other nuances of the codeplace implementation that are beyond the scope of this particular issue.}]
+
+[{You might theorize that run-time access to the stack is the ultimate API for dealing with this sort of thing.  Imagine if <code>Phone::hangUp()</code> could somehow obtain an object representing the call stack, and then extract whatever information it wanted about the callers. That's a little heavy-handed, and I believe that the odds of the API being abused are so high that a "narrower" protocol agreement between callers and subroutines would need to be established for the common scenarios.}]

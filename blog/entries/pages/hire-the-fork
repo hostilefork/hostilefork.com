@@ -1,0 +1,24 @@
+Draem [
+    title: "Hire the Fork"
+    category: 'page
+    tags: [misc]
+
+    slug: %hire-the-fork
+    date: 22-Nov-2007/1:55
+]
+
+[{Need help with something tricky, that only someone with a <i>lot</i> of full-spectrum computer experience can do?  Let me introduce myself.}]
+
+[{I'm first and foremost a C++ developer, focused on what would be called <a href="http://hostilefork.com/2009/03/31/modern_cpp_or_modern_art/">"Modern C++"</a> <i>(in the sense of the word as used by Andrei Alexandrescu)</i>.  My motivation is to apply the language and its type safety to maintainable systems that are verified for correctness in every way possible--before a single line of code starts running.  But another big area of interest for me is how domain-specific languages can increase productivity by adapting the language of the tool to the language of the problem space.  I enjoy teaching, consulting, and coding in service of these goals.}]
+
+[{I've been programming since BASIC on the Osborne 1, and 6502 machine code...without an assembler!  With a degree in Electrical Engineering from Cornell University and experience working at Microsoft Research Labs (as well as on the SQL Server and Access products), I know both about how to future-proof a design and how to meet practical deadlines.  I've consulted independently with <a href="http://evernote.com/">Evernote Corporation</a> and <a href="http://www.oblong.com/">Oblong Industries</a>, and done some other things for people you haven't heard of.  :-)}]
+
+[{As an open source activist, I keep on top of modern trends and tools...like <a href="http://github.com">GitHub</a> and <a href="http://trello.com">Trello</a>.  Yet with a heavy skepticism on lock-in and experience spotting hype, I can help steer people toward solutions that borrow the best of the old world and the new.  As a <a href="http://stackoverflow.com/users/211160/hostilefork">10K+ reputation moderator on StackOverflow</a>, you can see how I work with people to solve their problems, as well as how I will not spend long banging my head against a problem if leveraging the experience of others is a better solution.}]
+
+[{I believe in institutional knowledge and leaving detailed tracks, so that I do not make a project perpetually dependent on information that is locked up in my brain.  Documenting quickly and clearly is of great importance to me... whether I'm <a href="http://hostilefork.com/2010/03/14/where-the-printf-rubber-meets-the-road/">going down the rabbit hole of GNU libc to explain printf's workings</a>, <a href="http://stackoverflow.com/questions/7545804/">helping someone with an esoteric bug in a system I don't even use</a>, or <a href="http://hostilefork.com/nocycle/">designing unusually specialized graph data structures</a>.  My notes as I work are part of my daily deliverable.}]
+
+[{As evidenced by how much time I donate to the Internet and Open Source projects...I'm a firm believer that money has a lot to do with the <a href="http://www.youtube.com/watch?v=PTUY16CkS-k">roots of evil</a>.  So it's a fairly poor reason to do one thing instead of another.  Yet I need to eat, and I happen to like sushi.  That stuff isn't cheap!}]
+
+[{But until we solve the money problem, if you just happen to have some and want a consultation from the Fork--<i>(or even if you just have a problem and no money)</i>--send a rough description of the issue to <em>brian@hostilefork.com</em>.  I'll analyze what you've got and give you whatever free advice I can initially.  After that we'll see where it goes...!  I can work remotely, and can also travel on-site to help you and your team if necessary.}]
+
+[{Currently I am considering full-time opportunities in Europe if they involve work visas and relocation assistance (and don't mind that I only speak English and Spanish at the moment).}]

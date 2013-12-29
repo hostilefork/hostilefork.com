@@ -1,0 +1,20 @@
+Draem/Comment [
+    slug: %cleaner-apis-using-ignorable-hints
+    author: "Jeremy Friesner"
+    date: 2-Jan-2009/15:11
+    old-url: http://hostilefork.com/2005/08/12/cleaner-apis-using-ignorable-hints/#comment-844
+]
+
+["Oops, that should be:^/[code]"]
+
+["void EndMakingWidgetsBatch()"]
+
+["{"]
+
+["   if (-–widgets_batch_count == 0)"]
+
+["      RestartProcesses();"]
+
+["}"]
+
+["[/code]"]

@@ -1,0 +1,66 @@
+Draem/Comment [
+    slug: %cleaner-apis-using-ignorable-hints
+    author: "Jeremy Friesner"
+    date: 2-Jan-2009/15:08
+    old-url: http://hostilefork.com/2005/08/12/cleaner-apis-using-ignorable-hints/#comment-842
+]
+
+[{Hi Brian,
+I do something similar, but perhaps a little bit better.  My version of the API would look like this:
+[code]}]
+
+["[...]^/public:"]
+
+["   void BeginMakingWidgetsBatch()"]
+
+["   {"]
+
+["      widgets_batch_count++;"]
+
+["   }^/   Widget * MakeAWidget()"]
+
+["   {"]
+
+["      if (ProcessesRunning())"]
+
+[{         StopProcessesSoItsSafeToMakeWidgets();
+      Widget * w = new Widget();
+      if (widgets_batch_count == 0)}]
+
+["         RestartProcesses();^/      return w;"]
+
+["   }^/   void EndMakingWidgetsBatch()"]
+
+["   {"]
+
+["      if (&#8211;widgets_batch_count == 0)"]
+
+["         RestartProcesses();"]
+
+["   }"]
+
+[{[/code]
+
+I think this is better, because it doesn't force the caller to try and predict in advance how many widgets he is planning to make.  If he wants "better performance mode", he simply does this:
+[code]}]
+
+["   BeginMakingWidgetsBatch();"]
+
+[{   // however many calls to MakeAWidget() he cares to do, go here}]
+
+["   EndMakingWidgetsBatch();"]
+
+[{[/code]
+
+... and it handles nested calls correctly as well.  The processes are always restored at the last call to EndMakingWidgetsBatch().  And of course the non-batch version does the right thing as well.
+The only hazard here would be the possibility that the user will call BeginMakingWidgetsBatch() and forget to call a matching EndMakingWidgetsBatch(), in which case your processes would never get restarted.  So if you wanted to be extra safe/fancy, you could preclude that possibility by putting those calls into the constructor and destructor of an object that the user puts on the stack, instead:
+[code]}]
+
+[{    WidgetFactoryBatchObject batchMe(&theWidgetFactory);}]
+
+[{    // any number of calls to MakeWidget() can go here}]
+
+[{[/code]
+
+(Making the code exception-safe is left as an exercise to the reader ;^^^^) )
+-Jeremy}]

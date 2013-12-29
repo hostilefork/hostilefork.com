@@ -1,0 +1,12 @@
+Draem/Comment [
+    slug: %trashes-fseventsd-and-spotlight-v100
+    author: "Hostile Fork"
+    date: 14-Apr-2010/15:32
+    old-url: http://hostilefork.com/2009/12/02/trashes-fseventsd-and-spotlight-v100/#comment-1074
+]
+
+[{<i>Oh, there is one other thing that the MacBook wrote on the flash drive that you didn't mention in your blog: a file (not folder) in the root called "._.Trashes".</i>
+Hi Randy; I didn't see that particular file in my case.  But Googling for "._.Trashes" shows you're not alone.
+As a general concept, the ._ prefix is explained here:
+<a href="http://www.westwind.com/reference/OS-X/invisibles.html" rel="nofollow" target="_blank" class="liexternal">http://www.westwind.com/reference/OS-X/invisibles.html</a>
+"These files are created on volumes that don't natively support full HFS file characteristics (e.g. ufs volumes, Windows fileshares, etc). When a Mac file is copied to such a volume, its data fork is stored under the file's regular name, and the additional HFS information (resource fork, type & creator codes, etc) is stored in a second file (in AppleDouble format), with a name that starts with "._". (These files are, of course, invisible as far as OS-X is concerned, but not to other OS's; this can sometimes be annoying...)"}]

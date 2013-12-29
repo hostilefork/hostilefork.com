@@ -1,0 +1,8 @@
+Draem/Comment [
+    slug: %qtcreator-debugger-no-locals-ubuntu
+    author: "james"
+    date: 16-Nov-2013/8:42
+    old-url: http://hostilefork.com/2013/10/20/qtcreator-debugger-no-locals-ubuntu/#comment-1483
+]
+
+[{Phew, thanks for this post, i was having a hard time figuring out why qt creator was little more than a pretty editor under 13.10 because debugging didn't work. qt creator beta 3.0 fixes this.}]

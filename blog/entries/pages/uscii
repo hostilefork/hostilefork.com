@@ -1,0 +1,190 @@
+Draem [
+    title: "USCII: Character Codes With Meaning"
+    category: 'page
+    tags: [misc]
+
+    slug: %uscii
+    date: 26-Jun-2009/3:47
+]
+
+[center {<img src="http://hostilefork.com/shared/uscii/uscii_logo_400x160.png" alt="The USCII Standard for Information Interchange" title="usciilogo" width="400" height="160" class="alignnone size-full wp-image-103" />}]
+
+[update 26-Jul-2009 {Try out the new online <a href="http://hostilefork.com/demos/uscii-5x7-english-c0/encode.html">Encoder</a> and <a href="http://hostilefork.com/demos/uscii-5x7-english-c0/decode.html">Decoder</a> for USCII-5x7-ENGLISH-C0!}]
+
+[{USCII ("you-ski") stands for <i>Universal Semiotic Coding for Information Interchange</i>. It is a system for embedding pictures <i>inside</i> the coded numbers agreed upon to represent symbols and signals.  I was inspired to create it by the famous <a href="http://en.wikipedia.org/wiki/Arecibo_message">Arecibo Message</a>, which attempted to convey humanity's physics knowledge without assuming a cultural context other than math.  }]
+
+[{For instance, instead of ASCII's encoding of 65 for "A" and 66 for "B"...we might consider using the number 15621226033 for "A" and 16400753439 for "B".  To see the bitmaps, you must first convert these values into binary:}]
+
+[list [
+	[{15621226033 (base 10) = 01110100011000110001111111000110001 (base 2)}]
+	[{16400753439 (base 10) = 11110100011000111110100011000111110 (base 2)}]
+] ]
+
+[{When transmitted in a medium which hints at the significance of a 35-bit pattern, the <a href="http://en.wikipedia.org/wiki/Semiprime">semiprime</a> nature of 35 suggests decomposing it into the factors 7 and 5.  Interpreting these bits as a 5x7 rectangle produces a picture--which happens to be a picture of <i>the letter which the code is representing</i>!  For 01110100011000110001111111000110001, you would get:}]
+
+[text {0 1 1 1 0
+1 0 0 0 1
+1 0 0 0 1
+1 0 0 0 1
+1 1 1 1 1
+1 0 0 0 1
+1 0 0 0 1
+}]
+
+[{Do you see the "A" drawn by the ones?  Now let's try putting a break at every fifth bit in 11110100011000111110100011000111110:}]
+
+[text {1 1 1 1 0
+1 0 0 0 1
+1 0 0 0 1
+1 1 1 1 0
+1 0 0 0 1
+1 0 0 0 1
+1 1 1 1 0}]
+
+[{Since USCII is a general methodology, there can be <i>many</i> standards--the only requirement is that the bit length be a product of primes.  You could have a 31x31 USCII which establishes codes for all the characters in Chinese.  Or a 7x11 USCII that has all the characters you need for Dutch...as well as a standard set of Emoticons!}]
+
+[{USCII codes have additional interesting properties, some of which I laid out in <a href="http://hostilefork.com/2008/10/20/can-you-crack-arecibo-ascii/">a blog post from last year</a>.}]
+
+[heading "Arecibo ASCII"]
+
+[{I've developed a *draft* specification of USCII variation "5x7-ENGLISH-C0".  This uses 35 bits per character, and includes printable characters as well as the <a href="http://en.wikipedia.org/wiki/C0_and_C1_control_codes">"C0 control codes"</a>.  You can read the script that generates it, which contains comments on why I picked the bit patterns:}]
+
+[center {<a href="http://github.com/hostilefork/uscii/blob/master/specifications/uscii-5x7-english-c0.rebol">specifications/uscii-5x7-english-c0.rebol</a>}]
+
+[{I've informally named this variant "Arecibo Ascii".  That's because it is possible to losslessly convert a stream of conventional ASCII characters into USCII-5x7-ENGLISH-C0 (and back again).  It's still a work in progress, but here's the table as it currently stands:}]
+
+[raw {<table>
+<thead><tr><td><b>ASCII</b></td><td><b>Character</b></td><td><b>Arecibo ASCII (35-bit binary)</b></td></tr></thead>
+<tbody>
+<tr><td>0</td><td>Null character</td><td>10101010101010101010101010101010101</td></tr>
+<tr><td>1</td><td>Start of Header</td><td>10101101111010110111101011011110101</td></tr>
+<tr><td>2</td><td>Start of Text</td><td>11011111111101111111110111111111011</td></tr>
+<tr><td>3</td><td>End of Text</td><td>11011110111101111011110111111111011</td></tr>
+<tr><td>4</td><td>End of Transmission</td><td>11111111111111111111111111001110011</td></tr>
+<tr><td>5</td><td>Enquiry</td><td>11111111010000011101101110000010111</td></tr>
+<tr><td>6</td><td>Acknowledgment</td><td>11111101011111111111011101000111111</td></tr>
+<tr><td>7</td><td>Bell</td><td>11011100011000110001000001111111011</td></tr>
+<tr><td>8</td><td>Backspace</td><td>11111110111011100000101111101111111</td></tr>
+<tr><td>9</td><td>Horizontal Tab</td><td>00000000000000111101000010000000000</td></tr>
+<tr><td>10</td><td>Line Feed</td><td>11100001000010000100111110111000100</td></tr>
+<tr><td>11</td><td>Vertical Tab</td><td>00100001000010000100001000000001110</td></tr>
+<tr><td>12</td><td>Form feed</td><td>11111011100010000000111110111000100</td></tr>
+<tr><td>13</td><td>Carriage return</td><td>00001000010010101101111110110000100</td></tr>
+<tr><td>14</td><td>Shift Out</td><td>00100101111101111011110111110111100</td></tr>
+<tr><td>15</td><td>Shift In</td><td>11100111011101111011110111011100100</td></tr>
+<tr><td>16</td><td>Data Link Escape</td><td>11111111110010001110001001111111111</td></tr>
+<tr><td>17</td><td>Device Control 1</td><td>11111101111001110001100111011111111</td></tr>
+<tr><td>18</td><td>Device Control 2</td><td>11011110110101001010011100111010001</td></tr>
+<tr><td>19</td><td>Device Control 3</td><td>11111101011010110101101011010111111</td></tr>
+<tr><td>20</td><td>Device Control 4</td><td>11111100011000110001100011000111111</td></tr>
+<tr><td>21</td><td>Negative Acknowledgement</td><td>11111101011111111111100010111011111</td></tr>
+<tr><td>22</td><td>Synchronous Idle</td><td>11111111111111111111111110101011111</td></tr>
+<tr><td>23</td><td>End of Trans. Block</td><td>11111000000111001010011100000011111</td></tr>
+<tr><td>24</td><td>Cancel</td><td>10001000000101000100010100000010001</td></tr>
+<tr><td>25</td><td>End of Medium</td><td>11111100010110001010001101000111111</td></tr>
+<tr><td>26</td><td>Substitute</td><td>10001011101111011101110111111111011</td></tr>
+<tr><td>27</td><td>Escape</td><td>00011001100101011110011100111010001</td></tr>
+<tr><td>28</td><td>File Separator</td><td>10101101011010110101101011010110101</td></tr>
+<tr><td>29</td><td>Group Separator</td><td>11011110111101111011110111101111011</td></tr>
+<tr><td>30</td><td>Record Separator</td><td>11110111101101010010000001001111011</td></tr>
+<tr><td>31</td><td>Unit Separator</td><td>11111111111111111111100111101110111</td></tr>
+<tr><td>32</td><td>Space</td><td>00000000000000000000000000000000000</td></tr>
+<tr><td>33</td><td>!</td><td>00100001000010000100000000000000100</td></tr>
+<tr><td>34</td><td>"</td><td>01010010100101000000000000000000000</td></tr>
+<tr><td>35</td><td>#</td><td>01010010101111101010111110101001010</td></tr>
+<tr><td>36</td><td>$</td><td>00100011111010001110001011111000100</td></tr>
+<tr><td>37</td><td>%</td><td>11000110010001000100010001001100011</td></tr>
+<tr><td>38</td><td>&amp;</td><td>01100100101010001000101011001001101</td></tr>
+<tr><td>39</td><td>'</td><td>01100001000100000000000000000000000</td></tr>
+<tr><td>40</td><td>(</td><td>00010001000100001000010000010000010</td></tr>
+<tr><td>41</td><td>)</td><td>01000001000001000010000100010001000</td></tr>
+<tr><td>42</td><td>*</td><td>00000001001010101110101010010000000</td></tr>
+<tr><td>43</td><td>+</td><td>00000001000010011111001000010000000</td></tr>
+<tr><td>44</td><td>,</td><td>00000000000000000000011000010001000</td></tr>
+<tr><td>45</td><td>-</td><td>00000000000000011111000000000000000</td></tr>
+<tr><td>46</td><td>.</td><td>00000000000000000000000000110001100</td></tr>
+<tr><td>47</td><td>/</td><td>00000000010001000100010001000000000</td></tr>
+<tr><td>48</td><td>0</td><td>01110100011001110101110011000101110</td></tr>
+<tr><td>49</td><td>1</td><td>00100011000010000100001000010001110</td></tr>
+<tr><td>50</td><td>2</td><td>01110100010000100010001000100011111</td></tr>
+<tr><td>51</td><td>3</td><td>11111000100010000010000011000101110</td></tr>
+<tr><td>52</td><td>4</td><td>00010001100101010010111110001000010</td></tr>
+<tr><td>53</td><td>5</td><td>11111100001111000001000011000101110</td></tr>
+<tr><td>54</td><td>6</td><td>00110010001000011110100011000101110</td></tr>
+<tr><td>55</td><td>7</td><td>11111000010001000100010000100001000</td></tr>
+<tr><td>56</td><td>8</td><td>01110100011000101110100011000101110</td></tr>
+<tr><td>57</td><td>9</td><td>01110100011000101111000010001001100</td></tr>
+<tr><td>58</td><td>:</td><td>00000011000110000000011000110000000</td></tr>
+<tr><td>59</td><td>;</td><td>00000011000110000000011000010001000</td></tr>
+<tr><td>60</td><td>&lt;</td><td>00010001000100010000010000010000010</td></tr>
+<tr><td>61</td><td>=</td><td>00000000001111100000111110000000000</td></tr>
+<tr><td>62</td><td>&gt;</td><td>01000001000001000001000100010001000</td></tr>
+<tr><td>63</td><td>?</td><td>01110100010000100010001000000000100</td></tr>
+<tr><td>64</td><td>@</td><td>01110100010000101101101011010101110</td></tr>
+<tr><td>65</td><td>A</td><td>01110100011000110001111111000110001</td></tr>
+<tr><td>66</td><td>B</td><td>11110100011000111110100011000111110</td></tr>
+<tr><td>67</td><td>C</td><td>01110100011000010000100001000101110</td></tr>
+<tr><td>68</td><td>D</td><td>11100100101000110001100011001011100</td></tr>
+<tr><td>69</td><td>E</td><td>11111100001000011110100001000011111</td></tr>
+<tr><td>70</td><td>F</td><td>11111100001000011110100001000010000</td></tr>
+<tr><td>71</td><td>G</td><td>01110100011000010111100011000101111</td></tr>
+<tr><td>72</td><td>H</td><td>10001100011000111111100011000110001</td></tr>
+<tr><td>73</td><td>I</td><td>01110001000010000100001000010001110</td></tr>
+<tr><td>74</td><td>J</td><td>00111000100001000010000101001001100</td></tr>
+<tr><td>75</td><td>K</td><td>10001100101010011000101001001010001</td></tr>
+<tr><td>76</td><td>L</td><td>10000100001000010000100001000011111</td></tr>
+<tr><td>77</td><td>M</td><td>10001110111010110101100011000110001</td></tr>
+<tr><td>78</td><td>N</td><td>10001100011100110101100111000110001</td></tr>
+<tr><td>79</td><td>O</td><td>01110100011000110001100011000101110</td></tr>
+<tr><td>80</td><td>P</td><td>11110100011000111110100001000010000</td></tr>
+<tr><td>81</td><td>Q</td><td>01110100011000110001101011001001101</td></tr>
+<tr><td>82</td><td>R</td><td>11110100011000111110101001001010001</td></tr>
+<tr><td>83</td><td>S</td><td>01111100001000001110000010000111110</td></tr>
+<tr><td>84</td><td>T</td><td>11111001000010000100001000010000100</td></tr>
+<tr><td>85</td><td>U</td><td>10001100011000110001100011000101110</td></tr>
+<tr><td>86</td><td>V</td><td>10001100011000110001100010101000100</td></tr>
+<tr><td>87</td><td>W</td><td>10001100011000110001101011010101010</td></tr>
+<tr><td>88</td><td>X</td><td>10001100010101000100010101000110001</td></tr>
+<tr><td>89</td><td>Y</td><td>10001100011000101010001000010000100</td></tr>
+<tr><td>90</td><td>Z</td><td>11111000010001000100010001000011111</td></tr>
+<tr><td>91</td><td>[</td><td>01110010000100001000010000100001110</td></tr>
+<tr><td>92</td><td>\</td><td>00000100000100000100000100000100000</td></tr>
+<tr><td>93</td><td>]</td><td>01110000100001000010000100001001110</td></tr>
+<tr><td>94</td><td>^^</td><td>00100010101000100000000000000000000</td></tr>
+<tr><td>95</td><td>_</td><td>00000000000000000000000000000011111</td></tr>
+<tr><td>96</td><td>`</td><td>01000001000001000000000000000000000</td></tr>
+<tr><td>97</td><td>a</td><td>00000000000111000001011111000101111</td></tr>
+<tr><td>98</td><td>b</td><td>10000100001000011110100011000111110</td></tr>
+<tr><td>99</td><td>c</td><td>00000000000111110000100001000001111</td></tr>
+<tr><td>100</td><td>d</td><td>00001000010000101111100011000101111</td></tr>
+<tr><td>101</td><td>e</td><td>00000000000111010001111111000001111</td></tr>
+<tr><td>102</td><td>f</td><td>00010001010010001110001000010000100</td></tr>
+<tr><td>103</td><td>g</td><td>00000000000111110001011110000111110</td></tr>
+<tr><td>104</td><td>h</td><td>10000100001000011110100011000110001</td></tr>
+<tr><td>105</td><td>i</td><td>00000001000000000100001000010000100</td></tr>
+<tr><td>106</td><td>j</td><td>00010000000001000010000101001001100</td></tr>
+<tr><td>107</td><td>k</td><td>01000010000100101010011000101001001</td></tr>
+<tr><td>108</td><td>l</td><td>01100001000010000100001000010001110</td></tr>
+<tr><td>109</td><td>m</td><td>00000000001101110101101011010110001</td></tr>
+<tr><td>110</td><td>n</td><td>00000000001011011001100011000110001</td></tr>
+<tr><td>111</td><td>o</td><td>00000000000111010001100011000101110</td></tr>
+<tr><td>112</td><td>p</td><td>00000000001111010001111101000010000</td></tr>
+<tr><td>113</td><td>q</td><td>00000000000111110001011110000100001</td></tr>
+<tr><td>114</td><td>r</td><td>00000000001011011001100001000010000</td></tr>
+<tr><td>115</td><td>s</td><td>00000000000111110000011100000111110</td></tr>
+<tr><td>116</td><td>t</td><td>00100001001111100100001000010100010</td></tr>
+<tr><td>117</td><td>u</td><td>00000000001000110001100011000101110</td></tr>
+<tr><td>118</td><td>v</td><td>00000000001000110001100010101000100</td></tr>
+<tr><td>119</td><td>w</td><td>00000000001000110001101011010101010</td></tr>
+<tr><td>120</td><td>x</td><td>00000000001000101010001000101010001</td></tr>
+<tr><td>121</td><td>y</td><td>00000000001000101010001000010001000</td></tr>
+<tr><td>122</td><td>z</td><td>00000000001111100010001000100011111</td></tr>
+<tr><td>123</td><td>{</td><td>00011001000010001000001000010000011</td></tr>
+<tr><td>124</td><td>|</td><td>00100001000010000000001000010000100</td></tr>
+<tr><td>125</td><td>}</td><td>11000001000010000010001000010011000</td></tr>
+<tr><td>126</td><td>~</td><td>00001011101000000000000000000000000</td></tr>
+<tr><td>127</td><td>Delete</td><td>11111110001010100010101011100011111</td></tr>
+</tbody>
+</table>}]
+
+[{The C0 codes are admittedly rather tricky.  Especially to depict things like "Data Link Escape" or "Device Control 1"!  It would be possible to use a larger bit size and get clearer images.  But I'd like to see how far the 35 bit standard can go in cueing people who aren't familiar with ASCII into what the bitmaps signify...}]

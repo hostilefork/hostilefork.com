@@ -1,0 +1,13 @@
+Draem/Comment [
+    slug: %perfect-reconstruction-equalizer
+    author: "Hostile Fork"
+    date: 24-Sep-2008/23:52
+    old-url: http://hostilefork.com/albumist/#comment-687
+]
+
+[{Hello Iain!  Thanks for the idea!
+I hadn't really considered the idea of injecting albumist into pages that weren't designed to use them, but now that you mention it, a single column or single row layout might be kind of nice, and it could accompany other non-discography pages on a site.  Here's an example I sketched up:
+<center><a href="http://hostilefork.com/wp-content/uploads/2008/09/singlecolumn_albumist.png" rel="nofollow"><img src="http://hostilefork.com/wp-content/uploads/2008/09/singlecolumn_albumist_thumbnail.png" alt="Albumist Single Column Sidebar" /></a></center>
+I've been fretting a lot about releasing the code into the wild before it's necessarily "ready", but maybe people will be coming up with things like GreaseMonkey scripts or interesting uses like this soon.  I suggested on the <a href="http://lyricwiki.wordpress.com/2008/03/16/api-is-back-d/#comment-8689" rel="nofollow" target="_blank" class="liexternal">LyricWiki blog</a> that maybe it would be a good future candidate for using in their current method of showing pages for artists, such as:
+<a href="http://lyricwiki.org/Legendary_Pink_Dots" rel="nofollow" target="_blank" class="liexternal">http://lyricwiki.org/Legendary_Pink_Dots</a>
+And that would be nifty...}]

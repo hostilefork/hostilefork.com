@@ -1,0 +1,31 @@
+Draem [
+    title: {Nenad Rakocevic for O'Reilly 2013 Open Source Awards}
+    category: 'post
+    tags: [open-source rebol red philosophy]
+
+    slug: %nenad-rakocevic-oscon-2013
+    date: 16-May-2013/14:09
+    old-url-prefix: %2013/05/16/
+]
+
+[{I realize that it is probably a long shot for O'Reilly to recognize a "fringe" language project as deserving of recognition in their open source awards.  But I (and the rest of you!) would be remiss not to at least nominate Nenad Rakocevic a.k.a. @DocKimbel.  He has spent two years of diligent work and organizing on <a href="http://red-lang.org">Red</a>...and that's not to mention the broad open-source contributions to the Rebol community over the years!}]
+
+[{Here's the link where you can enter your nomination:}]
+
+[{<a href="http://www.oscon.com/oscon2013/public/sv/q/478">OSCON 2013 Nomination Form</a>}]
+
+["And here's what I wrote:"]
+
+[quote [
+	[{The closed-source Rebol interpreted language lived in the shadows for decades.  Designed by one of the fathers of AmigaOS, it has impressed many...and is frequently cited by Douglas Crockford as his inspiration for creating JSON.}]
+
+	[{Nenad Rakocevic was one of the most prolific and high profile of open-source Rebol programmers.  While Rebol and many of its clients were creating closed-source applications, he was BSD-licensing major projects like his web server Cheyenne, the Rebol MySQL driver, and the CureCode bug database.}]
+
+	[{In a classic example of how closed-source methods can hold back remarkable ideas, Rebol Technologies stalled development.  So Nenad broke away with the idea of creating a "full stack" language based on Rebol called <b>Red</b>.  But instead of merely having the same range of applicability as Ruby, Python, or other interpreted languages...his plan for Red was to apply the methods to create compiled (or mostly-compiled) code.  This could just as easily be used for device drivers as high-level programming.}]
+
+	[{Nenad's progress has been prolific over two years.  Most suspect his speed and community inclusivity was the trigger that caused Rebol's creator to open-source his own project in December 2012.  Thanks to his efforts, the Rebol community has *two* strong codebases to build from going forward.}]
+
+	[{Red (and Rebol) are currently in the margins of the technology world.  But it would impress me if O'Reilly recognized the efforts of someone working diligently to lead longstanding closed-source tools into the light, as well as eliminate complexity (rather than continue to build upon pillars of salt and sand.)}]
+
+	[{Read more at: http://red-lang.org}]
+] ]

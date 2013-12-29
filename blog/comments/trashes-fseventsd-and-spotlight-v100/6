@@ -1,0 +1,9 @@
+Draem/Comment [
+    slug: %trashes-fseventsd-and-spotlight-v100
+    author: "Morten Sørvig"
+    date: 25-Jan-2010/8:18
+    old-url: http://hostilefork.com/thinker-qt/#comment-1035
+]
+
+[{Interesting stuff! (I worked on Qt Concurrent back in the Qt 4.4 days)
+Have you had a look at the Clojure programming language and its persistent data structures? (see <a href="http://clojure.org/state" rel="nofollow" target="_blank" class="liexternal">http://clojure.org/state</a>). I've considered experimenting with something similar for Qt: data structures were you can create read-only snapshots that are guaranteed to be stable, and where the writers pay for the copy-on-write. Your SnapshotPointer seems to be a similar thing.}]

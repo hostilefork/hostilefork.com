@@ -1,0 +1,10 @@
+Draem/Comment [
+    slug: %trashes-fseventsd-and-spotlight-v100
+    author: "paolog"
+    date: 18-Sep-2010/13:32
+    old-url: http://hostilefork.com/nocycle/#comment-1230
+]
+
+["The adjacency matrix is likely to be sparse."]
+
+[{There are sparse (compressed) bitset classes around, but what about simply using just std::set for the edge "list" ?}]

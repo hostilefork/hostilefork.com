@@ -1,0 +1,16 @@
+Draem/Comment [
+    slug: %major-quirks-of-the-rebol-language
+    author: "Hostile Fork"
+    date: 16-Sep-2008/16:18
+    old-url: http://hostilefork.com/2008/09/10/major-quirks-of-the-rebol-language/#comment-672
+]
+
+[{Hi Kaj, thanks for reading!
+I'd like to believe that legal pressures wouldn't be used to shut down an open REBOL implementation.  And what you say about languages <i>seems</i>  reasonable&#8211;that it cannot be patented&#8211;but much of copyright and patent law is not based on reason!  You may remember the big controversy with Sun and Microsoft over Java...
+<a href="http://www.javaworld.com/javaworld/jw-01-2001/jw-0124-iw-mssuncourt.html" rel="nofollow" target="_blank" class="liexternal">http://www.javaworld.com/javaworld/jw-01-2001/jw-0124-iw-mssuncourt.html</a>
+So it's important to have an official word on the issue.  If an open implementation of REBOL that shipped with the mezzanine would be considered a breach of the license or RT's intellectual property, this must be established up front.  Otherwise, open source developers should spend their time working on improving other languages and bringing some of the REBOL goodness to Python or Ruby.
+I understand your feelings about wanting to make the open implementation match REBOL's efficiency&#8211;even so far as to implement the Mezzanine in C!  But an Open REBOL effort would almost certainly be running with a skeleton crew.  Consequently, if the executable ended up being 2GB for just the core... this would be an acceptable tradeoff IF it meant that the code could keep pace with the evolving standard.
+Attracting developers would rely on it not being a lot of custom code, but rather a minimalist and maintainable reinvention.  Those few who are really intense about wanting the super small executable should be willing to pay RT for their proprietary and optimized version&#8211;they'll come out ahead in the end, it's worth the money.  The point of the Open REBOL would be so that developers could not fear that there isn't a free alternative to turn to in the case of RT taking some kind of unpleasant turn, or if a non-commercial enterprise wished to leverage a REBOL codebase.
+Best,}]
+
+["Fork"]

@@ -1,0 +1,10 @@
+Draem/Comment [
+    slug: %where-the-printf-rubber-meets-the-road
+    author: "Nuclear"
+    date: 14-May-2010/4:50
+    old-url: http://hostilefork.com/2010/03/14/where-the-printf-rubber-meets-the-road/#comment-1092
+]
+
+[{I think this answer is a) misleading, b) needlessly complicated.
+a) The very next step which you ommited is the implementation of syscall, which on x86 is most commonly: mov , %eax   mov <second argument, %ebx .... int $0&#215;80 So, at the depth you reached, which is still in libc and hasn't "met the road" yet it's all C, but the very next step is to interrupt the CPU in order to transfer control to the kernel, which must obviously be done with assembly.
+b) GNU libc is maybe the *most* complicated libc out there. You could find much simpler libc implementations to describe how would one implement printf on a modern operating system. And a toy example implementation could be 2-3 lines of code plus vsprintf.}]

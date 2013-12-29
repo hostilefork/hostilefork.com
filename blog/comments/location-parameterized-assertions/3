@@ -1,0 +1,9 @@
+Draem/Comment [
+    slug: %location-parameterized-assertions
+    author: "Jeremy Friesner"
+    date: 8-Jan-2009/18:38
+    old-url: http://hostilefork.com/2005/05/01/location-parameterized-assertions/#comment-849
+]
+
+[{Hmm, it's hard to see what security concern there could be, since they don't actually change the state of anything.  You're right about requiring debug symbols in your executable if you want human-readable function names.
+As for testing for specific codeplaces, that would be pretty fragile, since whenever you inserted/deleted a line of code in the file above where the codeplace was declared, the codeplace's identity would change and any test for that codeplace would break.}]

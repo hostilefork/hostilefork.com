@@ -1,0 +1,14 @@
+Draem/Comment [
+    slug: %trashes-fseventsd-and-spotlight-v100
+    author: "Jim Knoble"
+    date: 11-Jan-2010/2:01
+    old-url: http://hostilefork.com/2009/12/02/trashes-fseventsd-and-spotlight-v100/#comment-1030
+]
+
+[{Folks connecting external drives to a Mac should mount them read-only if they don't want them written to (just like a savvy user would 'mount -r' or 'mount -o ro' under Linux).  Here's a prefpane ("ReadOnlyMounter") that helps with that:
+<a href="http://homepage3.nifty.com/extant/MacOSXsoft/MacOSXsoft.html" rel="nofollow" target="_blank" class="liexternal">http://homepage3.nifty.com/extant/MacOSXsoft/MacOSXsoft.html</a>
+I agree, the use of .Cruftiness to tell Spotlight and fseventsd and Finder not to drop crap on my drives is irritating.  I use these to help with that:
+<a href="http://www.zeroonetwenty.com/blueharvest/" rel="nofollow" target="_blank" class="liexternal">http://www.zeroonetwenty.com/blueharvest/</a>}]
+
+[{<a href="http://myhowto.org/mac-os-x/52-disabling-spotlight-in-os-x-leopard-for-the-removable-drives/" rel="nofollow" target="_blank" class="liexternal">http://myhowto.org/mac-os-x/52-disabling-spotlight-in-os-x-leopard-for-the-removable-drives/</a>
+To be honest, I'd rather live with this stuff than with Windows Vista constantly rearranging my desktop icons and resetting my folder views on its whim, because it thinks one file is a photograph, so therefore the whole folder must contain photos and i must want to view them as tiles, even though every other bleeding time i viewed the folder i viewed it as a Detailed List.  At least Apple makes it possible to turn it off....}]

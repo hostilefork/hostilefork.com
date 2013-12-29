@@ -1,0 +1,48 @@
+Draem [
+    title: "Legal Issues"
+    category: 'page
+    tags: [misc]
+
+    slug: %legal
+    date: 14-Dec-2007/14:10
+]
+
+[{Firstly, I'll "say":}]
+
+[quote {I make no guarantees that the code samples on this site don't contain bugs, or that any information I give out is necessarily correct.  If by reading or doing anything I suggest you find yourself emotionally, physically, or financially affected for the worse--you agree to not hold the operator(s) of HostileFork.com liable in any way.  If these terms are not satisfactory, do not visit the site.}]
+
+[{Yet in reality, I'm all about personal responsibility and accountability.  So if I give you terribly bad advice, such as a code segment that erases your hard drive for reasons I should have known about... then yeah... um, I should make that up to you somehow.}]
+
+[{However, I do not acknowledge the legitimacy of today's American Court System in arbitrating such matters.  When the laws and the people working with them get better I'll happily get rid of that disclaimer.}]
+
+[heading "Articles"]
+
+["I have licensed the articles on Hostile Fork as:"]
+
+[raw {<div class="license_block"><div class="wp_license" style="text-align:center;">
+<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/" target="_blank"><img src="http://i.creativecommons.org/l/by-nc-sa/3.0/88x31.png" alt="Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported"/><br/>Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported</a>
+</div></div>}]
+
+[note {If you plan to use any material from this site on your own--such as quoting or copying an article in its entirety--please do me a favor and write me an email or a comment here to tell me what you are doing.}]
+
+[{If you want to know what the license terms are in legalese, click through to the Creative Commons site above.  The way I'll summarize it is:}]
+
+[list [
+	[{<b>you cannot make a single red cent off of derivatives of my work</b>.  No commercial purposes!!  That means if your site contains ads, or obviously designed to steal content to manipulate search engines for commercial purposes... forget it!}]
+
+	[{assuming your motives are noncommercial, then you can make copies of my articles and put them on your site, or take parts and make new articles out of them with more information--BUT you must give attribution.  Not in the fine print, but rather as <i>a prominent link to the article's archival link EMBEDDED BEFORE the material you've used</i>.}]
+
+	[{If you derive from this work, then you <i>must</i> pass on the the terms of this license to those who wish to use any part you've added.  You might recognize this as being kind of like the viral nature of the GPL; once you've used part of my work then this license has to apply to what you've made too.}]
+] ]
+
+[{I do not particularly <i>encourage</i> people to copy the material from this site onto another one if they don't have a good reason.  I merely know that unreasonable people will ignore licensing altogether (e.g. <a href="http://en.wikipedia.org/wiki/Scraper_site">Scraper Sites</a>) and I wish to express openness toward decent people who have interesting ideas for what to do with the content.}]
+
+[heading "Code"]
+
+[{All short code samples presented in articles, unless otherwise marked, do not require attribution to when used in your own software.  However, I will point out that it's often very nice (for maintenance reasons) to link to the source of such information in a comment.}]
+
+[heading "Software Patents"]
+
+[{<a href="http://www.fsf.org/news/end-soft-patents">Abolish them.</a>  Pathetic garbage perpetrated by beings who are malicious and/or foolish.  (Doesn't really have anything to do with this site, just something I had to say about lawyers and law.)}]
+
+[{My name is on ONE software patent, and I disavow my association with it.  As a riff on what nude models say when they grow up: <i>"I was young and I thought I needed the money."</i>}]

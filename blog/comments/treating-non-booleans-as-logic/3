@@ -1,0 +1,8 @@
+Draem/Comment [
+    slug: %treating-non-booleans-as-logic
+    author: "David Stone"
+    date: 14-Nov-2012/14:49
+    old-url: http://hostilefork.com/2009/10/26/treating-non-booleans-as-logic/#comment-1319
+]
+
+[{I use "and" instead of "&&" and "or" instead of "||". However, I use "!" instead of "not" and feel bad about it. I've considered switching to "not" for a while, and I'm glad to hear that at least someone else uses it.}]

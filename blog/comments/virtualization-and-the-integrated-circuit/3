@@ -1,0 +1,10 @@
+Draem/Comment [
+    slug: %virtualization-and-the-integrated-circuit
+    author: "Joseph"
+    date: 6-Nov-2007/13:28
+    old-url: http://hostilefork.com/2007/11/03/virtualization-and-the-integrated-circuit/#comment-7
+]
+
+[{The broad question of "What ought we waste in order to maximally produce?" has had many answers over the course of history.  When the answer to that goes through a period of change, fortunes are made and lost.  Also this question, coupled with efficiency expertise, forms the crux of many engineering trade-off problems.}]
+
+[{You prophetically notice that bridging from wasting processor cycles to wasting virtual machines may be a next step for many.  I know that my group is well on its way toward that today.}]

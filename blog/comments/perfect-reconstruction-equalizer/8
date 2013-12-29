@@ -1,0 +1,15 @@
+Draem/Comment [
+    slug: %perfect-reconstruction-equalizer
+    author: "Hostile Fork"
+    date: 14-Oct-2008/18:22
+    old-url: http://hostilefork.com/2007/12/16/perfect-reconstruction-equalizer/#comment-720
+]
+
+[note {It's been a long time since I did this.  Er, 12 years ago?  I was an undergraduate electrical engineer, and I haven't done much DSP since.  So I'd be surprised if someone didn't have a better idea of how to do it than what I came up with for a project, or if I was wrong about something!}]
+
+[{
+The decreasing of array widths is a conceptual thing...and really the data can all be processed in place.  But to more clearly explicitly show what's happening and what all the bookkeeping needs to do, I tried to "pull it apart".  Here I'll badly hack up the "next step" if you want more than 3 bands in your EQ...and you'll see why I preferred to stop after 2 steps.  :) 
+<p align="center"><img src="http://hostilefork.com/wp-content/uploads/2008/10/step3dsp.png" alt="Third Step In Recursive Process" title="step3dsp" class="alignnone size-medium wp-image-93" />
+So imagine that if you have a low pass Remez filter that basically passes everything below 2kHz, and you want to pass everything below 1kHz instead.  To get an equivalent to a low pass 1kHz Remez filter, just use the 2kHz design on the even samples, the odd samples, and then interleave them back together in time.  (The idea of taking a 4kHz Remez filter and dropping it to 1kHz by taking every 1st, 2nd, 3rd, and 4th sample... running the process...and then putting the samples back in their sequence post-filtering would be expected if this were true.)
+This process is what I'm referring to as a "logarithmic drop".  I almost certainly can't prove myself today that process would give you another perfect reconstruction.  That must have been something I read or learned at the time, because I don't know how I'd have just taken that for granted unless the professor said I could!  Still--it would be very interesting to me if someone could recreate the effect (or debunk it).  Please let me know how it goes...
+(P.S. I found an old C program that generates Remez filter coefficients if you don't have Matlab or something like that available.)}]

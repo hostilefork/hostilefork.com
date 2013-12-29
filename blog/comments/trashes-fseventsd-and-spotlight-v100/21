@@ -1,0 +1,10 @@
+Draem/Comment [
+    slug: %trashes-fseventsd-and-spotlight-v100
+    author: "Laga Mahesa"
+    date: 28-Jan-2011/20:56
+    old-url: http://hostilefork.com/2009/12/02/trashes-fseventsd-and-spotlight-v100/#comment-1245
+]
+
+[{Steve:
+Actually I'm with Randy on that point. Windows (since NT) is the only OS to store its configuration in a single monolithic and vulnerable datastore. Whenever possible, I force all my programs to store its settings in its own program folder. This way I have never lost important configuration data and have rarely, if ever, had to actually reinstall anything, except for windows itself and I haven't reformatted in over ten years.
+However, in the current 21st century climate of pandering to the low-browed, formatting-is-a-solution-for-everything and OMG BIG BUTTONS! masses, I wouldn't advise non-techs to do this.}]

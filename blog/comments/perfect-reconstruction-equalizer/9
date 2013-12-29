@@ -1,0 +1,14 @@
+Draem/Comment [
+    slug: %perfect-reconstruction-equalizer
+    author: "Dave H"
+    date: 15-Oct-2008/8:41
+    old-url: http://hostilefork.com/2007/12/16/perfect-reconstruction-equalizer/#comment-723
+]
+
+[{Hello thank-you for the extra information on this, it's much clearer now, especially with the new diagram. There's a lot of filtering going on there, so I was wondering why you couldn't just bandpass filter the original signal at different frequencies. I might look at some wavelet stuff, although I hear that aliasing is an issue, so it could end up very similar to your technique.}]
+
+[{I found some C code by Jake Janovetz to do the remez coefficients, it seems to work O.K, but it does crash with certain values, did you use his code?}]
+
+["Thanks again,"]
+
+["Dave H"]

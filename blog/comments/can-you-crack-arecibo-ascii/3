@@ -1,0 +1,10 @@
+Draem/Comment [
+    slug: %can-you-crack-arecibo-ascii
+    author: "Hostile Fork"
+    date: 23-May-2009/12:23
+    old-url: http://hostilefork.com/blackhighlighter/#comment-888
+]
+
+[{Hi Lloyd, glad you like it!  Thanks for the feedback on the article, I'm trying to hone it a bit here in the early stages.  I also want to put together a screencast with an actual script and am looking for some of the most compelling use cases.  If you know anyone who would be interested or maybe have a thought to pitch in, please forward it on!
+You're right that my point about Gmail seemed like a non-sequitur, so I reworded that part.  It's just that lately I've thought about how people accept how Google indexes and analyzes your private email and keeps the generated data to themselves.  Here I'm supporting how much value is latent in those communications--but it shouldn't be one company who you give that value to <b>and</b> you should be composing using a client that lets you protect sensitive or identifying parts, rather than trusting third parties to do the anonymization in a way you agree with.
+Blackhighlighter doesn't ever precisely send "the message" encrypted over the network (as you might say you had done if you sent a password-locked ZIP file).  SHA256 is "just a hash", and due to the <a href="http://en.wikipedia.org/wiki/Pigeonhole_principle" rel="nofollow" target="_blank" class="liwikipedia">Pigeonhole principle</a> there are an infinite number of messages that exist with that hash.  For clarity I think it's safe to say what you suggest, that "protected parts of your text are never sent over the network unencrypted", and ignore the subtle question of whether they are actually "sent encrypted" or not.}]

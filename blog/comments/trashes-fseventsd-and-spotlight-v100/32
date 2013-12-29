@@ -1,0 +1,12 @@
+Draem/Comment [
+    slug: %trashes-fseventsd-and-spotlight-v100
+    author: "Old Man"
+    date: 24-Mar-2011/15:37
+    old-url: http://hostilefork.com/2009/12/02/trashes-fseventsd-and-spotlight-v100/#comment-1255
+]
+
+[{"In any disagreement between two or more parties, the truth is always in between them."  And now finally having become intelligent in the eyes of my then 16.5 year old, I will add the following.
+The lock switch on SD cards DOES NOT LOCK THE DATA.  SD card drive hardware IS NOT REQUIRED to respect this switch's setting.
+And yes, engineers do design according to their personal philosophies.  That's how we get nightmares and a very few fantastic systems.  I would submit that Windows, Mac OS (pre-UNIX), and UNIX have all caused nightmares for many.  It's also why DOS is still used for data forensics natively.  All other OSes require drive locking hardware between the host and drive.
+After some 45 years in engineering, building stuff that several billion people have now used, I've learned that Occam's Razor (see William of Okham) applies in every case.  No system should perform any function without necessity.  In this case Mac OS should not leave trash behind on a non-Mac file system.  If Mac OS really needs additional files or directories, then it should put them on its own system disk.  And note that garbage collection on the flash drive itself is not viable, as it requires user cooperation to not rip the drive out before clean-up occurs.
+Finally Apple is just as much a pirate as any other in Silicon Valley (my home), Redmond, or anywhere else.  The many people who don't buy Apple products, do so because Apple does not make them happy as customers.  Steve Jobs is more a tyrant than Bill Gates ever was, and altruism is not a part of Apple any more than it is at any other corporation.  Pandering to incompentent users brings in more dollars, and the IT support industry, one as large as the hardware/software development sector itself, sees sees this too.  Not cynicism, this is just reality.  As George Bernard Shaw wrote: "The power of accurate observation is commonly called cynicism by those who have not got it".}]

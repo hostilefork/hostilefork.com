@@ -1,0 +1,178 @@
+Draem [
+    title: "Proving There are Only Six Dudeney Numbers"
+    category: 'post
+    tags: [rebol math puzzles]
+
+    slug: %six-dudeney-numbers-proof
+    date: 24-Dec-2009/6:30
+    old-url-prefix: %2009/12/24/
+]
+
+[{I came across an article in Wikipedia about <a href="http://en.wikipedia.org/wiki/Dudeney_number">Dudeney numbers</a>.  These are numbers whose digit sum add up to their cube root:}]
+
+[text {
+    1 =  1 x  1 x  1   ;   1 = 1
+  512 =  8 x  8 x  8   ;   8 = 5 + 1 + 2
+ 4913 = 17 x 17 x 17   ;  17 = 4 + 9 + 1 + 3
+ 5832 = 18 x 18 x 18   ;  18 = 5 + 8 + 3 + 2
+17576 = 26 x 26 x 26   ;  26 = 1 + 7 + 5 + 7 + 6
+19683 = 27 x 27 x 27   ;  27 = 1 + 9 + 6 + 8 + 3
+}]
+
+[{The wiki page went on to proclaim that those are the <i>only</i> six such numbers.  Somebody on the talk page asked where the proof was.}]
+
+[{I poked on Google and didn't find anything, so I wondered if I could just prove it myself.  Here's what I came up with off the cuff.  Perhaps others would find it interesting.}]
+
+[more]
+
+[heading "Bounding From Above"]
+
+[{Let us define <code>DigitCount</code> to be the number of decimal digits in a value, e.g.}]
+
+[text {
+DigitCount(132) = 3
+DigitCount(9999) = 4
+}]
+
+[{Then let us define <code>DigitSum</code> to be the sum of the values of digits in the decimal representation of a number.  So for instance:}]
+
+[text {
+DigitSum(132) = 1 + 3 + 2 = 6
+DigitSum(9999) = 9 + 9 + 9 + 9 = 36
+}]
+
+[{We can see that for any n-digit number, the largest possible digit sum is the case where all those digits are 9.  To put this a little more formally:}]
+
+[text "DigitSum(value) <= 9 * DigitCount(value)"]
+
+[{Another interesting property is that an <code>n</code>-digit number will have <i>at most</i> as many digits as the cube of a 1 followed by <code>n</code> zeroes.  (So for instance 1000^^^^3 will always have a greater or equal number of digits than 999^^^^3.)}]
+
+[{Now let's put that together with the fact that if you cube a 1 followed by <code>n</code> zeroes then it will have <code>3*n+1</code> digits:}]
+
+[text {DigitCount(value^^3) <= 3 * DigitCount(value) + 1}]
+
+[{One last thing we need is a mathematical way of expressing a maximum bound on the number of digits, and that comes from the base 10 logarithm:}]
+
+[text "DigitCount(value) <= log(value) + 1"]
+
+[heading "Limiting The Search Space"]
+
+[{In this case, I want to show that once <code>value</code> becomes a certain size, even a generous overestimate of what possible value <code>DigitSum(value^^3)</code> could have is going to be less than <code>value</code> (hence not equal, and not meeting the requirement to be a Dudeney number).
+ 
+So let's apply the bounds.  Since we're working with &lt;= and not = it's okay for me to substitute any expression which is known to be <i>larger or equal to</i> the previous value... the inequality will still hold true:}]
+
+[text {
+DigitSum(value^^^^3)
+    <= 9 * DigitCount(value^^^^3) 
+    <= 9 * (3 * DigitCount(value) + 1)
+    <= 9 + 27 * DigitCount(value)
+    <= 9 + 27 * (log(value) + 1)
+    <= 36 + 27 * log(value)
+}]
+
+[{Remember that we are looking for Dudeney numbers where this rule holds:}]
+
+[text "value = DigitSum(value^^3)"]
+
+[{Let's mutate this into the question "find a boundary above which <code>value</code> must always be greater than <code>DigitSum(value^^3)</code>".  It would be nice to find a minimal boundary, but any boundary is better than nothing.  Using our simple case we look to find where:}]
+
+[text "value > 36 + 27 * log(value)"]
+
+[{Wolfram Alpha is here to <a href="http://www.wolframalpha.com/input/?i=%2836+%2B+27+*+log%28x%29%29+-+x+from+1+to+100%26a=*FunClash.log-_*Log10.Log-">help with this</a>.  We just look for where the crossover is in this plot:}]
+
+[center {<img src="http://hostilefork.com/media/blog/six-dudeney-numbers-proof/dudeney-equation.gif" alt="Dudeney Equation" />}]
+
+[center {<img src="http://hostilefork.com/media/blog/six-dudeney-numbers-proof/dudeney-graph.gif" alt="Dudeney Graph" />}]
+
+[{88 is the last number for which the right hand side is bigger than the left, and from then on we know that <code>log(value)</code>--even multiplied by a constant and added to another constant--will not have the possibility of catching up with <code>value</code> again.}]
+
+[heading "Brute Force The Remaining Possibilities"]
+
+[{89 is probably not the best bound we could find.  But it didn't need any advanced math knowledge to get to.  Now the only remaining thing to do is let the computer pick up the slack and try from 1 to 88.  If the claim is true, we should only find those six numbers.}]
+
+[{Easy program to write in any programming language.  But I'll use Rebol just to show how nicely it can format the output for us without too much overhead:}]
+
+[code rebol {
+; This generates a block of integers containing the decimal
+; digits of an integer's absolute value, e.g.
+;    >> make-digit-block 123
+;    == [1 2 3]
+
+make-digit-block: func [value [integer!] /local result] [
+    result: copy []
+
+    foreach ch (to-string abs (value)) [
+        append result (to-integer (to-string ch))
+    ]
+
+    return result
+]
+
+; This interleave function puts a value between elements
+; in a block, e.g.:
+;     >> interleave-block [a b c] 'FOO
+;     == [a FOO b FOO c]
+
+interleave-block: func [block [block!] item /local pos] [
+    if (1 < length? block) [
+       pos: next block
+       while [not tail? pos] [
+            pos: next (insert pos item)
+       ]
+
+    ]
+
+    return block
+]
+
+; Now we loop from 1 to 88 and test each for
+; Dudeney-ness
+
+for value 1 88 1 [
+    ; make an expression of cube as a product
+    threeValues: array/initial 3 value
+    cubeExpression: interleave-block threeValues '*
+
+    ; evaluate the expression to show it off
+    ; could have also used: (value ** 3)
+    cube: first (reduce cubeExpression)
+
+    ; express the digits of the cube as a sum
+    digits: make-digit-block cube
+    sumExpression: interleave-block digits '+
+
+    ; now evaluate that sum
+    sum: first (reduce sumExpression)
+
+    ; if we got the value back, it's a Dudeney!
+    if (sum == value) [
+        print mold compose [
+            (cube) = (cubeExpression)
+            and
+            (value) = (sumExpression)
+        ]
+    ]
+]
+}]
+
+["The output of the program is:"]
+
+[code rebol {
+[1 = 1 * 1 * 1 and 1 = 1]
+
+[512 = 8 * 8 * 8 and 8 = 5 + 1 + 2]
+
+[4913 = 17 * 17 * 17 and 17 = 4 + 9 + 1 + 3]
+
+[5832 = 18 * 18 * 18 and 18 = 5 + 8 + 3 + 2]
+
+[17576 = 26 * 26 * 26 and 26 = 1 + 7 + 5 + 7 + 6]
+
+[19683 = 27 * 27 * 27 and 27 = 1 + 9 + 6 + 8 + 3]
+}]
+
+["That's it!"]
+
+[{Notice how Rebol lets us build a symbolic structure to represent the sums and products.  That structure can be reflected, evaluated, and "molded" into output.  It actually builds blocks of symbols like <code>[4 + 9 + 1 + 3]</code>.  Then it "evals" it (using <code>reduce</code>) to get back a single-element list <code>[26]</code>.  Finally it picks the first and only item out of that block to get the result as a value.}]
+
+[{Pretty nifty, eh?  And isn't it much more <i>natural</i> looking than Lisp, with all those parentheses and <code>CAR</code> and <code>CDR</code>?}]

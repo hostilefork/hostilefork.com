@@ -1,0 +1,9 @@
+Draem/Comment [
+    slug: %the-essential-noisy-debug-hook-for-qt
+    author: "kkoehne"
+    date: 7-Oct-2012/7:50
+    old-url: http://hostilefork.com/2012/10/02/the-essential-noisy-debug-hook-for-qt/#comment-1315
+]
+
+[{How about just getting the Connection error fixed upstream (Qt 5)?
+Anyhow, to make your code bullet proof you should probably check whether the message handler is actually called from the GUI thread before trying to pop up the message box.}]

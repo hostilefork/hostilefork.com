@@ -1,0 +1,12 @@
+Draem/Comment [
+    slug: %computer-languages-as-artistic-medium
+    author: "Troy"
+    date: 24-Apr-2008/1:33
+    old-url: http://hostilefork.com/2008/04/23/computer-languages-as-artistic-medium/#comment-444
+]
+
+[{Great post.
+Few thoughts, hope they aren't too abstract.
+One of my hobbies is collecting metaphors and design patterns, both of which I consider ways to exploit symmetries in a complex system in order to identify and compress it.  Similar to identifying  isomers, are different arrangements of the same atoms, by casting a finite number of shadows, the shadows can act as hashes of sorts.
+One of the key insights for me is that like powers of 10, these patterns exist in strata, typically as frameworks and object hierarchies are built up to 'automate' away the redundant aspects of programming (growing skin to protect itself)  hide away the details from the user, and form another black box.  By this act of defining their 4 colors (say blue and yellow), force the user  to have to work hard to recreate other colors (say green) or be impossible (say black).  This is the essence of API and language...making that which should be done often terse, and that which shouldn't be done often, verbose or impossible.
+In the end (as we've discussed) I really wish there were a few more colors built in.  The fundamental usage patterns like do/undo/redo, state management and transition is typically left as an exercise to the programmer, and I think that is a mistake, and thus we constantly reinvent the wheel, axles, etc., and have spent likely trillions of dollars in broken code by getting it wrong, and/or attempting to add it in as an after-fact.  Much like the large amounts of changes to get an additional color in on the graphic you've shown.}]

@@ -1,0 +1,8 @@
+Draem/Comment [
+    slug: %trashes-fseventsd-and-spotlight-v100
+    author: "Steve"
+    date: 22-Nov-2010/21:19
+    old-url: http://hostilefork.com/2009/12/02/trashes-fseventsd-and-spotlight-v100/#comment-1239
+]
+
+[{Randy, the program directory is a terrible place for configuration data - this folder should be read only. The Windows registry is actually much more appropriate, though personally I prefer the ProgramData and AppData folders.}]

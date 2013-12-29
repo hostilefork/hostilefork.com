@@ -1,0 +1,10 @@
+Draem/Comment [
+    slug: %trashes-fseventsd-and-spotlight-v100
+    author: "Allen Huffman"
+    date: 24-Sep-2012/8:41
+    old-url: http://hostilefork.com/2009/12/02/trashes-fseventsd-and-spotlight-v100/#comment-1313
+]
+
+[{I have been fighting these files for several years now. When I plug in an UltraProjector (solid state projector, <a href="http://www.ultraprojector.com" rel="nofollow" target="_blank" class="liexternal">http://www.ultraprojector.com</a>), the Mac put those files there and the stupid ROCKCHIP player hardware in this projector just locks up. Because of this, making these files would probably not help.
+But, the Eject to Windows can simplify the command-line "rm" option I have been using to kill the ".*" files.
+I am glad I found this post &#8212; I am in the process of documenting how to use the UltraProjector on a Mac, and I fear my list of Terminal commands might have been a bit overwhelming to casual users :)}]

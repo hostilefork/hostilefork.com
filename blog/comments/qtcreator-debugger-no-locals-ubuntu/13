@@ -1,0 +1,10 @@
+Draem/Comment [
+    slug: %qtcreator-debugger-no-locals-ubuntu
+    author: "Simon"
+    date: 7-Nov-2013/3:53
+    old-url: http://hostilefork.com/2013/10/20/qtcreator-debugger-no-locals-ubuntu/#comment-1480
+]
+
+[{thanks for this post. After "aptitude purge gdb", setting the gdb path in "Tools->Options->Build & Run->Kits" worked for me on qtcreator 2.8.1/qt 5.0.2}]
+
+["best, simon"]

@@ -1,0 +1,9 @@
+Draem/Comment [
+    slug: %location-parameterized-assertions
+    author: "Jeremy friesner"
+    date: 7-Jan-2009/17:32
+    old-url: http://hostilefork.com/2005/05/01/location-parameterized-assertions/#comment-846
+]
+
+[{It should be noted that most sane OS's (read: those not designed in Redmond) provide a handy backtrace_symbols() function that can be used to obtain the current stack trace in human readable form.  An assert() function could use that to print out the errant caller's full location, log it to a file, etc.
+Jeremy}]

@@ -1,0 +1,27 @@
+Draem/Comment [
+    slug: %major-quirks-of-the-rebol-language
+    author: "Graham"
+    date: 12-Sep-2008/19:30
+    old-url: http://hostilefork.com/2008/09/10/major-quirks-of-the-rebol-language/#comment-667
+]
+
+[{There have been a few open source efforts to produce a REBOL clone and Orca has survived the longest, and is actually in use by the chief developer as the scripting language for Syllable ( <a href="http://web.syllable.org/pages/index.html" rel="nofollow" target="_blank" class="liexternal">http://web.syllable.org/pages/index.html</a> ).
+I'm not aware of any official reaction to Orca ... Carl does not tend to comment on these things, except by promising new features each time a clone appears :)  I'm not aware that one can copyright a language so no one is seeing any legal issues.
+Having two distributables .. one with graphics and one without is how RT currently distribute REBOL.
+As for whether RT will allow their mezzanine functions to be used by an OS clone ... the license header for the SDK says
+"^^-; You are free to use, modify, and distribute this file as long as the}]
+
+[{^^-; above header, copyright, and this entire comment remains intact.}]
+
+[{^^-; This software is provided "as is" without warranties of any kind.}]
+
+[{^^-; In no event shall REBOL Technologies or source contributors be liable}]
+
+[{^^-; for any damages of any kind, even if advised of the possibility of such}]
+
+[{^^-; damage. See license for more information.
+^^-; Please help us to improve this software by contributing changes and}]
+
+[{^^-; fixes. See <a href="http://www.rebol.com/support.html" rel="nofollow" target="_blank" class="liexternal">http://www.rebol.com/support.html</a> for details.}]
+
+[{"}]

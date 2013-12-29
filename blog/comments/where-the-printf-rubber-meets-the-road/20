@@ -1,0 +1,13 @@
+Draem/Comment [
+    slug: %where-the-printf-rubber-meets-the-road
+    author: "Nuclear"
+    date: 15-May-2010/13:56
+    old-url: http://hostilefork.com/2010/03/14/where-the-printf-rubber-meets-the-road/#comment-1109
+]
+
+[{The question, although ineptly phrased was whether it's possible to implement printf completely with C or if there's any bit of code needed: "Something like in dos, first mov beginning of the string to some memory location or register and than call some int"
+The implied answer from your post is "you can do the whole thing in C"
+The real answer is "you must trap the processor to enter the supervisor code which is done using a little bit of assembly" In fact the bit of assembly code you must write under x86 linux in order to output a string is strikingly similar to the piece of code the original poster described.
+You put the syscall number (4) in eax, then you put the file descriptor in ebx, the pointer to the buffer in ecx, and the number of bytes to write in edx, and then raise the software interrupt 80h.
+And no LDM, that's not in the kernel, we're talking user space now, and the implementation of syscall in libc in particular.
+There are other methods to call syscalls now like sysenter, they all still require a little bit of assembly code somewhere in the depths of libc.}]

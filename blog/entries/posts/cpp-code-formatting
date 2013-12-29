@@ -1,0 +1,158 @@
+Draem [
+    title: "Some C++ Code Formatting Thoughts"
+    category: 'post
+    tags: [cplusplus]
+
+    slug: %cpp-code-formatting
+    date: 1-Jan-2005/16:25
+    old-url-prefix: %2005/01/01/
+]
+
+[{There's a great page on Wikipedia where people are gathering together information about <a href="http://en.wikipedia.org/wiki/Programming_style">programming style</a>  But here are some notes on formatting that I put together a few years ago, which shares a few of my ideas.}]
+
+[heading "Overview"]
+
+[{Adopting a system of formatting is not just a means of keeping collaborators from constantly reformatting each others files. Uniformity can be a vehicle for helping those who are approaching a new program's source to absorb it faster.  It can also make humdrum decisions for developing on that code base flow more automatically, which avoids wasting valuable time which could be spent working on the design.}]
+
+[{All told, the conventions which are chosen are far less important than agreeing upon a system.  I have faith that someday we will use development tools which abstract us from the legacy of ASCII and let us focus on the computational intent of our projects, rendering our programs to us however we want to see them. Until that day comes, an agreement must be forged for each development group that shares text files among multiple people.}]
+
+[heading "Indentation"]
+
+[{Wikipedia has a great survey of <a href="http://en.wikipedia.org/wiki/Indent_style">indentation styles</a>.  My own indentation favorite for a long time was the Whitesmith's style (though I didn't know it was called that):}]
+
+[code cplusplus {
+void SomeFunction()
+   {
+   if (condition)
+      {
+      TakeAction1();
+      TakeAction2();
+      }
+   }
+}]
+
+[{The article sums up the advantages, and why it rose to prominence in certain domains (though it's not so popular today):}]
+
+[quote {The advantages of this style are similar to those of the Allman style in that blocks are clearly set apart from control statements. However with Whitesmiths style, the block is still visually connected to its control statement instead of looking like an unrelated block of code surrounded by whitespace. Another advantage is that the alignment of the braces with the block emphasizes the fact that the entire block is conceptually (as well as programmatically) a single compound statement. Furthermore, indenting the braces emphasizes that they are subordinate to the control statement.}]
+
+[{I still like it the best, and it's what I use if I'm starting something from scratch for myself.  If I could go back in time and convince everyone to use it...I might.  But though I do think there's a reasonable case for it visually, there are rationales that sometimes transcend the visual.  Such is the case when GNU developers format their code like this:}]
+
+[code cplusplus {
+void SomeFunction()
+{
+  if (condition)
+    {
+      TakeAction1();
+      TakeAction2();
+    }
+}
+}]
+
+[{Which isn't even consistent--the indentation rule for the function is asymmetric to the indentation for the block inside the <code>if</code> statement.  Yet many important GNU developers use Emacs, where parentheses and braces in the first column are called "defun"s (for <i><b>def</b>ine <b>fun</b>ction</i>) and are used for automatic navigation, and other forms of processing.  If you develop on GNU source and try to do it any other way, they will reformat your changes.}]
+
+[{Whatever style I'm using, I prefer braces to have their own lines in order to call out the importance of a scope.  The addition or removal of a scope is an important programming act in C++ because they trigger destructors.  As an added benefit of having braces on their own line, you can prevent a spurious difference on the condition line if you change between the above and:}]
+
+[code cplusplus {
+void SomeFunction()
+   {
+   if (condition)
+      TakeAction1();
+   }
+}]
+
+[{The condition didn't change.  Why should that line be flagged with a diff?}]
+
+[heading "Padding"]
+
+[{Generally speaking, I don't like to treat source code as "two-dimensional"...where the programmer is concerned with the absolute location of code on the screen. This means that I don't use padding--either with spaces or tabs--to specifically align variable declarations in columns. For example, I would not write:}]
+
+[code cplusplus {
+void SomeFunction()
+   {
+   int               IntegerVariable;
+   float             FloatVariable;
+   LPDIRECT3DDEVICE8 lpd3d;
+   ...
+   }
+}]
+
+[{There's obviously a lot of maintenance involved: each time you add or remove a variable you have to manually update the spacing.  As with most questionable-value formatting decisions, I suggest keeping it simple and low-maintenance...shifting my effort towards the code itself.  Readability can be helped in a much less labor-intensive fashion by merely using a proportional font (instead of a fixed-width font like Courier):}]
+
+[{
+&nbsp;&nbsp;&nbsp;void <b>SomeFunction</b>()<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int <b>IntegerVariable</b>;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;float <b>FloatVariable</b>;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LPDIRECT3DDEVICE8 <b>lpd3d</b>;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+}]
+
+[{Many professional code editors now provide this feature.  If you are still using a fixed-width font for editing source code, I suggest you try changing to something like Verdana or Times New Roman for a few days.  (These work better than Arial because the typeface distinguishes lowercase "L" from uppercase "I".)  See if you're not convinced.}]
+
+[{Of course, that only works if you use genuine "tab" characters instead of spaces (it surprises me that not everyone does, but apparently there are some holdouts).  It frees you from having to force your programming team to use any particular number of spaces for indentation, they can just choose a way to view tabs in their editor.  Indenting and outdenting takes only one keypress instead of N (where N is your tab width).}]
+
+[{So if you are indenting with spaces, <u>stop that</u>!!}]
+
+[heading "Line breaks"]
+
+[{I put line breaks in a few specific places which could grow into a long list of what are essentially statements. Member initialization is the case that comes to mind:}]
+
+[code cplusplus {
+SomeClass::SomeClass(float initial_value, char* name) :
+   BaseClass (universal_constant * Sine(initial_value)),
+   member_name (MakeSafeString(name))
+   {
+   ...
+   }
+}]
+
+[{Generally, though, I avoid using line breaks. Trying to fit the code into an 80 column view and keeping the line breaks up to date as you change code strikes me as a waste of valuable time. You can go a long way toward using fewer line breaks if you are editing in a proportional font, since a lot more fits on the screen at once.  Many editors support word wrap, and you can assign that to a hotkey to turn it on and off.  (Visual Studio has it under Ctrl-RR.)}]
+
+[heading "Spacing"]
+
+[{A few rules I employ about spacing, since applying consistency is generally nice:}]
+
+[list [
+  [{No spaces between function calls and their parameters}]
+  [{...e.g. <code>Foo(a)</code> and not <code>Foo (a)</code>}]
+  [{A space between keywords and their parameters}]
+  [{...e.g. <code>if (a)</code> and not <code>if(a)</code>}]
+  [{Spaces between constructors and their parenthesis}]
+  [{...e.g. <code>new FOO (a)</code> and not <code>new FOO(a)</code>}]
+  [{Spaces between formal and actual parameters}]
+  [{...e.g. <code>void Foo(int a, int b)</code> and not <code>void Foo(int a,int b)</code>}]
+] ]
+
+[{Not too important, but since spacing doesn't matter, it is nice to go ahead and use it to help visually cue the differences between these different constructs.}]
+
+[heading "Comments"]
+
+[{When comments are necessary, I use the "//" C++ comment format, generally avoiding the "/* */ " C style.  I reserve the C style for surgically removing randomly ranged blocks of code for test purposes (such as parameters in the middle of long argument lists).}]
+
+[{If I'm programming on my own projects, then in order to distinguish between comments of specific functions/classes and documentation of function/class groups, I use the following convention:}]
+
+[code cplusplus {
+// function group comment, applies until next group comment.
+// e.g., the following are Brian's Math Library Functions  
+
+float sqrt(float f)
+   // computes the square root using an offset table
+   // iterates on the number 16 times, blah blah
+   {
+   ...
+   }
+
+float sqr(float f)
+   // uses simple multiplication, special escape
+   // route if zero since floating point multiplication
+   // is not specialized to recognize zero
+   {
+   ...
+   }
+
+// function group comment, applies to next set
+// of functions etc. etc.
+}]
+
+[{This is particularly useful when integrated with Microsoft Visual Studio's outlining feature, because the function-level comments do not interfere with the outlined display. Due to the growing success of such modes, I avoid putting in large dividing lines (e.g. comment lines full of dashes) because their function is much better achieved by outlining tools.}]

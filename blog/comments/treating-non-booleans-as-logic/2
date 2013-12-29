@@ -1,0 +1,10 @@
+Draem/Comment [
+    slug: %treating-non-booleans-as-logic
+    author: "Leafy"
+    date: 22-Nov-2009/16:36
+    old-url: http://hostilefork.com/2009/10/26/treating-non-booleans-as-logic/#comment-1014
+]
+
+[{It's not that big an issue for me, I'm used to it. Then again, if I must I'd use this politically-incorrect solution:}]
+
+[{#define ISNULL(x)(!(x)) but it'd do the job for me..}]

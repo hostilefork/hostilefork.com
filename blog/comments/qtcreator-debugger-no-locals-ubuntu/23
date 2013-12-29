@@ -1,0 +1,12 @@
+Draem/Comment [
+    slug: %qtcreator-debugger-no-locals-ubuntu
+    author: "Hostile Fork"
+    date: 30-Nov-2013/22:32
+    old-url: http://hostilefork.com/nocycle/#comment-1493
+]
+
+[{@paolog To give you some context, I wrote it because I applied for a job which asked you to submit your resume with code implementing a DAG and detecting cycles.  They were specific about the requirement that it handle up to 2^^^^16 vertices.
+Since I'm a C++ person and I knew boost::graph existed, I dug into that and learned how to use it, which was harder than I thought.  Anyway, once I got it working I tried the pathological worst case... 2^^^^16 nodes in a dense graph... and it crashed due to memory issues and overflows in the index math.  That's the stuff I use unsigned long long to get around, e.g.:
+        <a href="http://github.com/hostilefork/nocycle/blob/master/OrientedGraph.hpp#L64" rel="nofollow" target="_blank" class="liexternal">http://github.com/hostilefork/nocycle/blob/master/OrientedGraph.hpp#L64</a>
+So I was going to have to manually code something lower level to meet the requirement.   I didn't want to send something boring or trivial... and I also didn't want the time to go to waste if they didn't reply.  So I decided to make a graph with some interesting properties and open source it.
+Sure, this is a rare case.  But back when I was interviewing people, I liked the questions that made people think.  "What if it needed to be faster, what if you couldn't do this, what if the data was read-only..." etc.  This is a data structure based on the idea that the graph density may be pahological, you want to know transitive connectivity in O(1), and it needs to grow and shrink in a certain way.  The odds of anyone having this precise problem are slim... but if they did, this is the solution to it.  <img src='http://hostilefork.com/wp-includes/images/smilies/icon_smile.gif' alt=':-)' class='wp-smiley' />}]

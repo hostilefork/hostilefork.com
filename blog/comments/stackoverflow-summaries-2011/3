@@ -1,0 +1,8 @@
+Draem/Comment [
+    slug: %stackoverflow-summaries-2011
+    author: "Stephen Chu"
+    date: 6-Nov-2011/22:35
+    old-url: http://hostilefork.com/thinker-qt/#comment-1278
+]
+
+[{Brian. Thanks for your reply. I did ended up using just simple QRunnable & QtConcurrent. They did the job but I had to switch gears and do another project first. Later on I will have to come back to it and may have to use something more feature rich like yours.}]

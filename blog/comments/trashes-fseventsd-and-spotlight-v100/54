@@ -1,0 +1,63 @@
+Draem/Comment [
+    slug: %trashes-fseventsd-and-spotlight-v100
+    author: "M Nicole"
+    date: 24-Dec-2012/19:35
+    old-url: http://hostilefork.com/2009/12/02/trashes-fseventsd-and-spotlight-v100/#comment-1332
+]
+
+["Thanks a lot for this tip !"]
+
+[{It's now some time that I cannot accept longer this ugly stuff !}]
+
+[{Hope there is "macports" with this apple system <img src='http://hostilefork.com/wp-includes/images/smilies/icon_sad.gif' alt=':-(' class='wp-smiley' /> 
+Here is a script I made immediately (tested; but simple), if it can avoid some minutes of work for others...
+&#8212; script begin &#8212;
+#!/bin/sh}]
+
+["#"]
+
+["# Tip for putting off those apple ugly shitty dirs"]
+
+["# ( .Spotlight-V100 / .Trashes / .fseventsd )"]
+
+["#"]
+
+[{# Change to the concerned directory for running this script
+dir1="./.Spotlight-V100&#8243;}]
+
+[{dir2="./.Trashes"}]
+
+[{dir3="./.fseventsd"
+tag1=".metadata_never_index"}]
+
+[{tag2=".Trashes"}]
+
+[{tag3="no_log"
+echo "Removing recursively dirs [$dir1, $dir2, $dir3] ..."}]
+
+["rm -rf $dir1 $dir2 $dir3^/# &#8212; spotlight off"]
+
+["#"]
+
+["touch $tag1"]
+
+[{echo "Tagfile [$tag1] created."
+# &#8212; trash off}]
+
+["#"]
+
+["touch $tag2"]
+
+[{echo "Tagfile [$tag2] created."
+# &#8212; fseventsd off}]
+
+["#"]
+
+["mkdir $dir3 && touch $dir3/$tag3 && \"]
+
+[{    (echo "Tagfile [$dir3/$tag3] created.") || \}]
+
+[{    (echo "ERROR tagfile [$dir3/$tag3] "; exit 1)
+chmod 400 $tag1 $tag2 $dir3/$tag3
+#
+&#8212; script end &#8212;}]

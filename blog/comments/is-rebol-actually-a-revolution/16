@@ -1,0 +1,11 @@
+Draem/Comment [
+    slug: %is-rebol-actually-a-revolution
+    author: "Edoc"
+    date: 12-Sep-2008/11:25
+    old-url: http://hostilefork.com/2008/09/08/is-rebol-actually-a-revolution/#comment-663
+]
+
+[{While REBOL has great qualities, it is more about a revolution in attitude than technology. If REBOL were a person, it would be a green eco-scientist who lives off the grid with a solar-powered satellite uplink. To the average on-looker, however, this person would probably look more like Captain Caveman. <img src='http://hostilefork.com/wp-includes/images/smilies/icon_smile.gif' alt=':-)' class='wp-smiley' /> In all seriousness, though, REBOL appeals to people who largely reject the mainstream of today's computing, i.e., large executables and runtimes, huge LOC, complex paradigms (OOP), or multi-markup mash-ups (DOM/HTML/CSS/JS/CGI). 
+With compactness, platform-independence and design simplicity being paramount, there are compromises (depending on your pov), such as interoperability & native platform integration and raw speed. Also, partly because REBOL appeals to fervently independent "outsider" types, the community has remained quite small, and, with some exceptions, the available programs/scripts tend to reflect that. Add to that the fact that REBOL is not open-source and its closed development cycle seems to be sychronized to the Clock of the Long Now...  
+That is my perspective of the "dirt". On the positive side, the people who create REBOL have bonafide principles and credentials. They're on a mission and they refuse to release code before it's ready. REBOL is already a joy to program now, and I expect that the next major release is going to reflect newly learned lessons as well as enough great features to remind people why they fell in love with it in the first place.
+When played to its strengths (shell scripting, programming-in-the-small, network exploration), REBOL is a real joy to program with. I definitely hope REBOL is carefully domesticated from its current form in the wild. Either way, it's definitely something every open-minded programmer should experience.}]

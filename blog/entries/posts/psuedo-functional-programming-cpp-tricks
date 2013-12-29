@@ -1,0 +1,85 @@
+Draem [
+    title: "Pseudo-functional programming tricks in C++"
+    category: 'post
+    tags: [cplusplus]
+
+    slug: %psuedo-functional-programming-cpp-tricks
+    date: 15-Mar-2005/19:10
+    old-url-prefix: %2005/03/15/
+]
+
+[{Wouldn't you be upset if you discovered that <code>sqrt(9)</code> was 3 on weekends and 3.7 every other day of the week?  I certainly would.}]
+
+[{Yet in languages like C++, there is nothing fundamental about the language which keeps a misguided library author from writing things like:}]
+
+[code cplusplus {
+float sqrt(float x)
+   {
+   if (x == 9)
+      if (today() == Saturday || today() == Sunday))
+         return 3;
+      else
+         return 3.7;
+   ...
+   }
+}]
+
+[{Of course, you'd hope that the authors of the standard math libraries wouldn't do something so blatantly crazy.  But you can't really protect a module from a dependency you don't want to arise in C++.  So <i>any function</i> in <i>any library</i> can--theoretically--examine <i>any information</i> it wants.  That information might live in a global variable, somewhere in the file system, in the video buffer, or even on the Internet.}]
+
+[{To address this issue, computer science academics often advocate ditching traditional OOP entirely and moving to <a href="http://en.wikipedia.org/wiki/Functional_programming">functional programming</a>.  This lets you contractually define operations which are guaranteed to depend solely on the parameters you give to them.  This is great, but it requires a certain "stylized" way of thinking...and it doesn't trust programmers to "do the right thing".  So functional programming often makes seemingly-simple procedures a hassle to write.}]
+
+[{Yet it's possible to abuse C++ a little, in order to be relatively sure certain methods aren't depending on certain things.  For instance, let's imagine that you have a Region object type which is going to receive some number of Enter() and Exit() calls, followed by a call to RunAction():}]
+
+[code cplusplus {
+class Region
+   {
+   ...
+   virtual void Enter() = 0;
+   virtual void Exit() = 0;
+
+   // supply action code here, by overriding "RunAction"
+   // please do not make behavior depend on how
+   // many times Exit or Enter was called, only
+   // depend on what the last call was!
+   virtual void RunAction() = 0;
+   ...
+   };
+}]
+
+[{Notice that you would very much like <code>RunAction()</code>'s effects to NOT depend on how many <code>Enter()</code>s or <code>Exit()</code>s happened.  Yet the comments do little to enforce this: if any of Region's members are modified by the <code>Enter()</code> or <code>Exit()</code> calls, that might introduce a dependency!  If you want to discourage the <code>RunAction()</code> method from depending on those modifications to Region, you can introduce a cooperating class:}]
+
+[code cplusplus {
+class Action
+   {
+   ...
+   virtual void Run(bool inside) = 0;
+   ...
+   };
+
+class Region
+   {
+   ...
+   virtual void Enter() = 0;
+   virtual void Exit() = 0;
+   virtual std::auto_ptr<Action> AllocateAction() = 0 const;
+   ...
+   };
+}]
+
+[{I've used a smart pointer here (std::auto_ptr), to indicate a transfer of ownership.  The Action that Region::GetAction returns is owned by the caller and can be freed by it.  That's important!}]
+
+[{Before any <code>Enter()</code> or <code>Exit()</code> calls are made, the caller asks the Region object to construct an Action object which predetermines the final action.  The Action object does not have access to the state which may be accumulated by the Region object, and vice-versa.  Yet Region still drives the logic--it was able to give us a class which dictates what will happen when a <code>Action::Run()</code> is finally invoked...but without being able to make that execution conditional on the state it might gather.}]
+
+[{On the surface this looks good, but it can be undermined (unintentionally or otherwise) in several ways. For instance, the Region object could poke a <code>this</code> pointer into the Action it returns, thus giving the Action access to its state to the later call to <code>Action::Run()</code>. However, as long as we require (by convention) that Region::AllocateAction() produce an isomorphic object on each invocation, the caller can:}]
+
+[list [
+  [{Construct an object region1 of type Region}]
+  [{Call region1::AllocateAction() to produce an object action of type Action}]
+  [{Construct a new object region2 of type Region (same constructor as step 1)}]
+  [{make the Enter() and Exit() calls on region2}]
+  [{optional: make a few spurious Enter() and Exit() calls on region1}]
+  [{Destroy region1}]
+  [{Call action::Run(inside) where inside indicates whether we are inside region2}]
+] ]
+
+[{This obviously hampers the ability of Region developers to build a coupling between the Region object and the Action object it hands you.  It's not exactly functional programming, and of course a programmer could subvert any hard-coded strategy you might come up with (it's even better if you do something more random).  Yet it should catch most major violations of the model, and alert a programmer who is simply unaware of the dependency that they were doing something wrong.}]

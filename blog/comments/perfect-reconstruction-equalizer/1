@@ -1,0 +1,13 @@
+Draem/Comment [
+    slug: %perfect-reconstruction-equalizer
+    author: "Dave H"
+    date: 29-Oct-2008/15:01
+    old-url: http://hostilefork.com/2007/12/16/perfect-reconstruction-equalizer/#comment-783
+]
+
+[{O.K. just a quick followup. I got this to work, and a single pulse can be reconstructed! The problem was that the descending cascade of FIR filters were creating an ever increasing delay. This needs to be compensated with a large delay for the first (top) band and decreasing through to nothing for the lower bands.}]
+
+[{I've got 6 bands with a 12 point (SSE) FIR's running at about 15% of my P4 cpu, which isn't great, but I can take advantage of the fact that every other sample is zero which would take nearly half the time. I might also look at QMF's now you've got me started, although I think that the delay aspect might get a bit...interesting...
+Thanks again.}]
+
+["Dave"]

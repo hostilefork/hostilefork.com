@@ -1,0 +1,12 @@
+Draem/Comment [
+    slug: %defense-of-hungarian-notation
+    author: "David Stone"
+    date: 14-Nov-2012/15:26
+    old-url: http://hostilefork.com/2005/09/24/defense-of-hungarian-notation/#comment-1320
+]
+
+[{When I hear "Hungarian notation", I think of two things. The first is the poor excuse that most people use, of just prefixing an abbreviated form of the type before the name of every variable. The other is similar to how Joel explained it: a way to make wrong code look wrong. <a href="http://www.joelonsoftware.com/articles/Wrong.html" rel="nofollow" target="_blank" class="liexternal">http://www.joelonsoftware.com/articles/Wrong.html</a>
+However, I believe both of these approaches are wrong in strongly-typed languages, but the approach you outline here is correct.
+In fact, I consider this to be the single most important part of writing correct code in C++: <a href="http://stackoverflow.com/questions/2963019/how-to-learn-proper-c/11926698#11926698" rel="nofollow" target="_blank" class="liexternal">http://stackoverflow.com/questions/2963019/how-to-learn-proper-c/11926698#11926698</a>
+My code regularly contains things like Level const level; and Move move(Moves::Tackle); Sure, the level is secretly just a number, but even then, putting it in a class is helpful. No one has to know or care exactly which integer type underlies the Level, just that it's big enough to hold all of the data necessary to calculate a level. No one has to know if it stores the level directly as an integer or stores the experience and calculates the level.
+I completely agree with you on when context is appropriate to disambiguate and when it isn't. If I'm calculating the speed that my group can travel, it's perfectly acceptable to have something like Speed::Speed(Group const & group);, but if I want to know who is faster, then I'd do something like Group const & faster(Group const & me, Group const & foe);}]

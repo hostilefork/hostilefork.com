@@ -1,0 +1,9 @@
+Draem/Comment [
+    slug: %trashes-fseventsd-and-spotlight-v100
+    author: "cvk"
+    date: 14-Mar-2011/9:55
+    old-url: http://hostilefork.com/2009/12/02/trashes-fseventsd-and-spotlight-v100/#comment-1247
+]
+
+[{I think it's unfair to characterize the indexing and logging as "shameful." Apple's metadata and filesystem features are powerful and satisfy a lot of use cases, especially for the average user.
+That said, I 100% agree that it's very bad behavior to just set up shop with .Trashes, .Spotlight-V100, and .fseventsd directories on external filesystems that aren't in Mac OS filesystem format. Many times external devices are very proprietary (digital cameras, voice recorders, etc) and when I throw away a file, I want it gone, not just moved into the .Trashes directory where it still takes up space. This alone drives me nuts; I can't imagine the frustration of trying to do volume recovery when the OS is scribbling on it.}]

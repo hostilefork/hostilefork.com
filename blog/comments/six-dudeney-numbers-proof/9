@@ -1,0 +1,11 @@
+Draem/Comment [
+    slug: %six-dudeney-numbers-proof
+    author: "Cloudy0"
+    date: 19-Jun-2011/9:47
+    old-url: http://hostilefork.com/2009/12/24/six-dudeney-numbers-proof/#comment-1263
+]
+
+[{"88 is the last number for which the right hand side is bigger than the left, and from then on we know that log(value)—even multiplied by a constant and added to another constant—will not have the possibility of catching up with value again."
+Clarification:}]
+
+[{Using Wolfram Alpha, you can find that the derivative of (36+27*log10(x))-x is 27/(x ln(10))-1, and this function stays at the negative part forever beyond a certain point. Therefore (36+27*log10(x))-x never goes up again.}]

@@ -1,0 +1,14 @@
+Draem/Comment [
+    slug: %perfect-reconstruction-equalizer
+    author: "Dave H"
+    date: 14-Oct-2008/14:39
+    old-url: http://hostilefork.com/2007/12/16/perfect-reconstruction-equalizer/#comment-718
+]
+
+[{Hello Dave,
+Would be interesting to have someone reproduce it!  I actually had coded this for a Texas Instruments DSP chip.  Lost the source code but still had the writeup and diagrams, so I figured...well, might as well post them...
+Not sure I understand your question, but I'll try and answer.  (Note that this algorithm isn't suitable for processing real-time data; you must know how long your input signal is...let's call that length L).
+This is a recursive process.  Each time you apply "the process" you will get two signals of length L.  One of those is the time-domain representation of a higher pass band which you're done filtering.  It's suitable for weighting and adding together to get a band in the overall signal.  The other you have a choice: (1) you can take it as it is as a band in its own right, or (2) you can run the algorithm again on it to get another two signals of length L.
+So if you refer to the "Implementation Diagram", it does two steps on your data to produce two completed series of length L (the black ones: labeled band 1 and band 2).  Then after the second step you've got a band on the left that you may choose to run the process on again, or consider yourself done and use it as band 3.
+Make sense?  Each time you get a completed band it needs to be the same size as the original.  Then you multiply the samples in that signal by your EQ setting for that band, and add them all up.  
+If you write a modern reference implementation I'd appreciate you sharing your findings or tools used.  I looked into tweaking Audacity to use the method but it looked like more of a project than I wanted at the time...}]

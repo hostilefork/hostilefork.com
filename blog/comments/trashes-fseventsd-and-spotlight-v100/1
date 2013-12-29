@@ -1,0 +1,11 @@
+Draem/Comment [
+    slug: %trashes-fseventsd-and-spotlight-v100
+    author: "David W"
+    date: 2-Dec-2009/20:33
+    old-url: http://hostilefork.com/2009/12/02/trashes-fseventsd-and-spotlight-v100/#comment-1015
+]
+
+[{I'd like to share with you the story of a botched backup software installation, a lost partition table/boot sector, untold hours spend relearning enough about hard disks, partition tables, FAT filesystems, etc., to locate the start of the second partition (which happened to be close on disk to where an older partition used to live).
+Partition table finally reconstructed, I plug it into my Mac. Having clicked on the first file it's clear there is something still terribly wrong with the drive - it seems I've created the partition table to point at one of the old 'nearby' filesystems, rather than the most recent one.
+Ordinarily, simply updating the start of partition +3mb or so would have been all required, but OS X had kindly created all the files you mentioned above - clobbering to death the second partition image.
+Never, ever, ever, use OS X for recovery. These are toy computers for toy people, that do toy things when you least expect it.. like writing to a f**king disk without asking. Lesson learned.}]

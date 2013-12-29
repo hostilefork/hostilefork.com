@@ -1,0 +1,11 @@
+Draem/Comment [
+    slug: %trashes-fseventsd-and-spotlight-v100
+    author: "Hostile Fork"
+    date: 29-Feb-2012/18:13
+    old-url: http://hostilefork.com/nstate/#comment-1283
+]
+
+[{Hi Duane...
+Thanks for the suggestion!  Now that I've gotten around to reading the article, I am aware of the Dr. Dobbs method.  It works if you control the codebase completely.  But the problem is that as a library author, if you're supplying a class with an arbitrary number of parameterizations (such as any integer)...you can't really predict which ones to pre-specialize and export!
+Since there's StackOverflow these days, I've phrased my actual issues more specifically there:
+<a href="http://stackoverflow.com/questions/9507973/how-to-mitigate-user-facing-api-effect-of-shared-members-in-templated-classes" rel="nofollow" target="_blank" class="liexternal">http://stackoverflow.com/questions/9507973/how-to-mitigate-user-facing-api-effect-of-shared-members-in-templated-classes</a>}]

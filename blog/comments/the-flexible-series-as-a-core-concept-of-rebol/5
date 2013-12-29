@@ -1,0 +1,12 @@
+Draem/Comment [
+    slug: %the-flexible-series-as-a-core-concept-of-rebol
+    author: "Hostile Fork"
+    date: 17-Sep-2008/21:33
+    old-url: http://hostilefork.com/2008/09/05/the-flexible-series-as-a-core-concept-of-rebol/#comment-680
+]
+
+[{Hi SiKaNrOnG,
+Well, certainly your feelings are not uncommon (and I share the opinion on the open source bit).  Beyond that, it's just generally hard to convince someone to give almost anything "new" a chance.  People are busy.
+For instance I haven't learned to type on a Dvorak keyboard.  Even though I type all day, I refuse to try it without serious incentive.  Every time I go to another developer's terminal to look at something and they have to go switch the keyboard settings back to standard I roll my eyes.  It's definitely points off my evaluation of a developer if they do that sort of thing (due to the fact that it's all <a href="http://en.wikipedia.org/wiki/Dvorak_Simplified_Keyboard#Resistance_to_adoption" rel="nofollow" target="_blank" class="liwikipedia">pseudoscience</a>).
+I'm willing to believe REBOL would fall in the category of things that will be perpetually off your radar.  But this set of articles here are an attempt to explain why I find the novelty of REBOL interesting.  Then again, I don't demand something be completely practical to think they're worth looking at.  Turing Machines sure aren't very "useful", but everyone who programs should become familiar with them at some point.
+If you don't like weird language & platform projects (like Erlang and Squeak and such) then you're almost certainly not going to like REBOL either.  People who feel that languages which are "Java, more or less" stay out of their way and let them achieve what they want in software will not be motivated to learn REBOL...}]

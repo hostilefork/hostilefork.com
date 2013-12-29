@@ -1,0 +1,13 @@
+Draem/Comment [
+    slug: %trashes-fseventsd-and-spotlight-v100
+    author: "Hostile Fork"
+    date: 31-Oct-2011/21:19
+    old-url: http://hostilefork.com/thinker-qt/#comment-1276
+]
+
+[{Hi Stephen, sorry for the late response.  I was moving in February and lost track of this.  But better late than never, maybe?!?!
+Yes, you generally need a watcher for each Thinker that you have started.  There are two signals offered by a ThinkerPresentWatcher.  One is every time a write happens to the data in the thinker and is called "written()".  The other happens when it completes and is called "finished()":
+<a href="http://gitorious.org/thinker-qt/thinker-qt/blobs/master/include/thinkerqt/thinkerpresentwatcher.h#line44" rel="nofollow" target="_blank" class="liexternal">Declaration in ThinkerPresentWatcher.h</a>
+But do note that if you are only interested in "finished()" then you probably just want QtConcurrent.  Especially if your task is not particularly long running, and you are willing to do cancellation at the pending results limit.  I've faced some tricky questions about how to handle thread pools with Thinker-Qt and have to get back to working on issues related to that:
+<a href="http://stackoverflow.com/questions/1972888/large-number-of-simultaneous-long-running-operations-in-qt" rel="nofollow" target="_blank" class="liexternal">StackOverflow post on large number of simultaneous operations</a>
+Sorry again for the delay.  I'll be using Thinker-Qt again soon and back to active development on it, hopefully this month...}]

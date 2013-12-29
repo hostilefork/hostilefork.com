@@ -1,0 +1,9 @@
+Draem/Comment [
+    slug: %trashes-fseventsd-and-spotlight-v100
+    author: "Randy Steer"
+    date: 14-Apr-2010/15:57
+    old-url: http://hostilefork.com/2009/12/02/trashes-fseventsd-and-spotlight-v100/#comment-1075
+]
+
+[{Thanks.  I've never really understood why MacOS "speak with forked tongue" &#8212; seems an unnecessary complication, like the Windows Registry.  (Dear Windows: If a program needs configuration data, store it in a damn file in the program directory!)
+I guess the extra "._" files make sense for cross-file-format compatibility though.}]

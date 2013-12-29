@@ -1,0 +1,11 @@
+Draem/Comment [
+    slug: %trashes-fseventsd-and-spotlight-v100
+    author: "Stephen Chu"
+    date: 18-Feb-2011/20:39
+    old-url: http://hostilefork.com/thinker-qt/#comment-1246
+]
+
+[{Thanks for creating this library. I am looking for Qt threads solution and this seems to help.
+I want to split the construction and display of large image data into threads. Basically divide up the image into tiles and each tile will be completed in a QRunnable like task and whenever a tile is done, the GUI is notified and fetch the image tile to update the display.
+To use thinker-qt, how should I make the connection between many thinkers and a widget? In the mandelbrot example, there's only one thinker and one display widget so the connection is easy to see. In my case, there'll be dozens or even hundreds of tiles/thinkers to watch. I guess I'll just connect all the watcher to my widget?
+Again. Thanks for the work. Very appreciated.}]

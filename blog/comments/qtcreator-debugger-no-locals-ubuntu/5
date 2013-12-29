@@ -1,0 +1,8 @@
+Draem/Comment [
+    slug: %qtcreator-debugger-no-locals-ubuntu
+    author: "vlad"
+    date: 24-Oct-2013/10:46
+    old-url: http://hostilefork.com/2013/10/20/qtcreator-debugger-no-locals-ubuntu/#comment-1477
+]
+
+[{Thank you for sharing this. I installed Qt 5.2 beta1 in Kubuntu 13.10 and been bitten by this issue. Compiled latest gdb and was able to specify the path to it within Qt Creator 3.0 beta's (Tools > Options > Build & Run > Debuggers). It works! :)}]

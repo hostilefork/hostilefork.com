@@ -1,0 +1,9 @@
+Draem/Comment [
+    slug: %trashes-fseventsd-and-spotlight-v100
+    author: "Jeremy Friesner"
+    date: 5-Dec-2009/0:32
+    old-url: http://hostilefork.com/2009/12/02/trashes-fseventsd-and-spotlight-v100/#comment-1016
+]
+
+[{Actually, many unix systems will write to a mounted disk automatically, unless you mount the fs with the -noatime flag.  I think if you mount the disk read/write, that's giving the OS permission to write to the disk.  If you don't want it to do that (e.g. Because the fs integrity is damaged) the you need to be sure to mount it read only.
+Apple's focus is rightly on providing the best user experience to the non-technical user.  People trying to rescue hosed filesystems or avoid harmless dot-files are a special niche, and a secondary concern at best.}]

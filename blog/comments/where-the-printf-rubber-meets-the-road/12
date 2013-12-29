@@ -1,0 +1,9 @@
+Draem/Comment [
+    slug: %where-the-printf-rubber-meets-the-road
+    author: "spotter"
+    date: 14-May-2010/8:24
+    old-url: http://hostilefork.com/2010/03/14/where-the-printf-rubber-meets-the-road/#comment-1098
+]
+
+[{uclibc is a better version to see, glbic is insanely complicated.  the uclibc version is somewhat crazy as well, but that's because printf is a fairly complicated function with all the conversions built into it, but is basically contained in a single file.
+you can see this in other places with how glibc does crazy stuff when doing simple things such as wrapping system calls.}]

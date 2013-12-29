@@ -1,0 +1,11 @@
+Draem/Comment [
+    slug: %the-flexible-series-as-a-core-concept-of-rebol
+    author: "Hostile Fork"
+    date: 12-Sep-2008/16:08
+    old-url: http://hostilefork.com/2008/09/05/the-flexible-series-as-a-core-concept-of-rebol/#comment-666
+]
+
+[{Hi Gregg, thanks again for another follow up.  I updated the article.  I'm using REBOL 2.7.6 actually, but I may have copy-pasted that example from somewhere instead of actually running in the interpreter.  So much for journalistic integrity, eh?
+Someone pointed me toward ORCA:
+<a href="http://freshmeat.net/projects/rebol-orca/" rel="nofollow" target="_blank" class="liexternal">http://freshmeat.net/projects/rebol-orca/</a>
+Since you seem close to the REBOL community, I am wondering if there is an official stance on disposition toward a competing GPL interpreter kernel.  Could it use the same mezzanine functions that the canonical version of REBOL does?  Can an official statement be made on what is and isn't allowed in terms of creating a clone, so people working on such an effort do not waste their time, only to face lawsuits when the project becomes big enough to be a "threat"?}]

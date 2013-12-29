@@ -1,0 +1,12 @@
+Draem/Comment [
+    slug: %major-quirks-of-the-rebol-language
+    author: "Hostile Fork"
+    date: 11-Sep-2008/16:18
+    old-url: http://hostilefork.com/2008/09/10/major-quirks-of-the-rebol-language/#comment-661
+]
+
+[{Hi Gregg!  Good to have an experienced REBOL programmer visiting the site...
+Interesting, I got the idea in my head that REBOL actually didn't permit you to put a newline in a statement unless there was an open brace from somewhere.  Possibly early on working with the command line, and I just never saw code that did otherwise.  I've updated that section of the article, thanks!
+Please feel free to point any REBOL developers you know to this stuff so it gets more eyeballs auditing it.  I'm trying a grassroots campaign to hopefully push REBOL a little more into the public awareness.  Even like, by making little icons and such:
+<a href="http://hostilefork.com/rebol/favicon.html" rel="nofollow" class="liinternal">http://hostilefork.com/rebol/favicon.html</a>
+But I'd like to be correct on my technical and philosophical arguments, at least.   My hope is to maybe help bridge some of <a href="http://www.reddit.com/comments/6vo0q/why_i_havent_looked_at_rebol_much/" rel="nofollow" target="_blank" class="liexternal">the divide</a> with the communities of influence that have made Ruby and Python so successful.  Seems there must be a way...}]

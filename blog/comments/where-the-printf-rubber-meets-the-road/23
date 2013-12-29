@@ -1,0 +1,8 @@
+Draem/Comment [
+    slug: %where-the-printf-rubber-meets-the-road
+    author: "Matt"
+    date: 14-May-2010/13:15
+    old-url: http://hostilefork.com/2010/03/14/where-the-printf-rubber-meets-the-road/#comment-1105
+]
+
+[{@Nuclear, the question was specifically how it's implemented in C/C++ in the standard library.  It's hardly "misleading" when this is the exact answer traced through the real code base.  It might be a "needlessly complicated" implementation, but it's still the answer when using GNU's libc.}]

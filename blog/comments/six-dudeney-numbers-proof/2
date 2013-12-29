@@ -1,0 +1,10 @@
+Draem/Comment [
+    slug: %six-dudeney-numbers-proof
+    author: "Hostile Fork"
+    date: 24-Dec-2009/17:52
+    old-url: http://hostilefork.com/2009/12/24/six-dudeney-numbers-proof/#comment-1024
+]
+
+[{Thanks Gregg!
+It was interesting for me to try this.  I didn't study proofs of this kind in school (at least not that I remember :P).  But I've read enough Wikipedia math articles on map coloring and distribution of primes to now grok the strategy of attack.  Reading up on hard problems might not get you measurably closer to solving other unsolved problems, but it makes little puzzles like this look trivial by comparison!
+I fixed up the code a little...but if anyone has ideas to improve it (that <i>don't</i> involve taking out parentheses) let me know!}]

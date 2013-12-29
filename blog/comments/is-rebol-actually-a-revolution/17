@@ -1,0 +1,17 @@
+Draem/Comment [
+    slug: %is-rebol-actually-a-revolution
+    author: "Hostile Fork"
+    date: 17-Sep-2008/16:06
+    old-url: http://hostilefork.com/2008/09/08/is-rebol-actually-a-revolution/#comment-678
+]
+
+[{Hi there... thanks for the comment!  Your comparison to the eco-scientist is good, mind if I quote it in an article here?
+REBOL's rejection of the multi-markup madness is a very good thing.  I was working on a JavaScript program and trying to do CSS attributes a couple days ago, when I hit the issue that if you're going to express something like "margin-right" you can't use hyphens, and float is a reserved word.  So to translate:}]
+
+[{<div class="wp_syntax"><div class="code"><pre class="css"><span style="color: #6666ff;">.style</span> <span style="color: #66cc66;">&#123;</span><span style="color: #000000; font-weight: bold;">float</span><span style="color: #66cc66;">:</span> <span style="color: #000000; font-weight: bold;">left</span><span style="color: #66cc66;">;</span> <span style="color: #000000; font-weight: bold;">margin-right</span><span style="color: #66cc66;">:</span> <span style="color: #933;">80px</span><span style="color: #66cc66;">;</span> <span style="color: #66cc66;">&#125;</span></pre></div></div>}]
+
+["...this becomes in Javascript:"]
+
+[{<div class="wp_syntax"><div class="code"><pre class="javascript">style = <span style="color: #66cc66;">&#123;</span>floatCss: <span style="color: #3366CC;">"left"</span>, marginRight: <span style="color: #3366CC;">"80px"</span><span style="color: #66cc66;">&#125;</span>;</pre></div></div>}]
+
+[{That's to say nothing of the browser standards headache on top of that... it's like <i>nothing</i> works!  Web developers are basically doing a disservice by patching up their sites to work on broken browsers, they've allowed things like Internet Explorer to survive.  Why is it so hard for people to stage revolts?}]

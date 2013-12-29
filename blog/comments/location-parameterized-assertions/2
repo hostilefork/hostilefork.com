@@ -1,0 +1,9 @@
+Draem/Comment [
+    slug: %location-parameterized-assertions
+    author: "Hostile Fork"
+    date: 8-Jan-2009/16:39
+    old-url: http://hostilefork.com/2005/05/01/location-parameterized-assertions/#comment-848
+]
+
+[{Stack traces are useful, although those APIs are generally platform-dependent (and require that you're shipping a version of your program with debug symbols).  I imagine that those APIs generally trigger some sort of security concerns as well.
+This allows some fairly useful information without going quite that far.  Also, you can use them in a comparative way.  You can save a codeplace in a value and then test against specific ones.  It's a little harder to pick over a stack data structure to extract the information you're interested in...}]

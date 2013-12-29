@@ -1,0 +1,11 @@
+Draem/Comment [
+    slug: %trashes-fseventsd-and-spotlight-v100
+    author: "Hostile Fork"
+    date: 16-Aug-2011/2:45
+    old-url: http://hostilefork.com/rebmu/#comment-1270
+]
+
+[{Thanks Tamas, most people don't take it too seriously!  Though it does amuse.  The last thing someone said to me when I showed him Rebmu and some of the examples was:
+<i>"That GolfMaze stuff is insane. Those guys are insane. You're insane. Batshit crazy, man. Love it. :-)"</i>
+I'm not so much trying to beat the weirdest perl solutions, as I'm trying to make it possible to write "maintainable" golfed code.  The idea being that you come in striking range of ultra-hacks with just plain straightforward programming.  That way, you're not so married to a "trick" in the problem spec you're exploiting, but you have a versatile algorithm that could easily be adapted to reasonably simple changes in the problem.  Plus, being able to escape into verbose Rebol to use the functionality inline helps it be far more useful than most languages tailored to this task.
+I do think that if this were done well, when coupled with Rebol's small size, there would be a few practical applications.  That would be in terms of transmitting over limited mediums, stacked on top of SMS or Twitter or similar.  Also if you were trying to get a useful program across some pathologically low-bandwidth connection...}]

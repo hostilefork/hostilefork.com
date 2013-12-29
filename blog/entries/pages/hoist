@@ -1,0 +1,338 @@
+Draem [
+    title: "HOIST: Strong Source Identity Library for C++"
+    category: 'page
+    tags: [misc]
+
+    slug: %hoist
+    date: 22-Oct-2009/12:50
+]
+
+[center {<img src="http://hostilefork.com/media/hoist/hoist-logo-400x160.png" alt="The hoist logo" title="hoistlogo" width="400" height="160" class="alignnone size-full wp-image-103" />}]
+
+[{Current methods for identifying source locations in C++ (e.g. in asserts) are based on __FILE__ and __LINE__.  But what happens when source code gets reorganized?  Even one line of change would make it impossible to reliably be sure you were dealing with the same assert.}]
+
+[{This is typically not a big issue, because assertions are things developers handle manually.  They even turn them off before they ship their product, in order to increase performance.  There is a strong distinction made between a user-visible error (which needs to be named and documented in advance) and an internal error condition.}]
+
+[{Hoist consists of a C++ library and toolset that is based on a different perspective.  At the foundation is something called <code>codeplace</code>, which gives the power to specify invariant locations in your source.  These locations are either literal UUID constants, or programmer conveniences from which a UUID can be derived.  Though they have a variety of applications, they can be used as compact error codes that <i>imply where they were generated</i>.}]
+
+[{Using these numbers, programs can guide testers and end users directly to a place to make reports and get help.  Neither a meaningful error message nor triage page need be thought of in advance...rather, they grow <i>on-demand</i> based on which alarms actually trigger in the field.  }]
+
+[{Traditional assertion failures capture the source code that caused the problem, which adds no new information to what the developer could already find with the file and line.  But hoist's <code>tracked</code> templates actually capture the unexpected runtime data into the error message itself, along with the specific location of last assignment.  When combined with the invariance of <code>codeplace</code>, this makes the report of a failure far more useful--with far less need for stack or core dumps to figure out what went wrong.}]
+
+[{Hoist is open source and is built on top of <a href="http://en.wikipedia.org/wiki/Qt_(toolkit)">Qt</a>.  It is released under the permissive <a href="http://en.wikipedia.org/wiki/Boost_Software_License">boost software license</a>.}]
+
+[heading "But First, Some Philosophy..."]
+
+[{Imagine if there existed sensors that measured anything--such as pressure, temperature, and acceleration--and which were the size of grains of sand.  Then imagine if those sensors were self-powered and could wirelessly communicate with a central computer.  Now let's say you could get dozens of them for just a penny!}]
+
+[{<i>What sane engineering organization wouldn't use these everywhere</i>???  Auto companies would drop them into your tires and pepper them on your car engine.  Bridge builders would cover suspension bridges with these devices.  Doctors would implant them in your body to give you a continuous early warning of potential problems.}]
+
+[{Though we've got some pretty <a href="http://en.wikipedia.org/wiki/Nanosensor">impressive  advances</a> in <a href="http://en.wikipedia.org/wiki/Wireless_sensor_network">sensor technology</a>, the dream is somewhat distant.  Yet in the virtual space of software design, we have precisely this opportunity today!}]
+
+[{Most programmers will think I'm talking about assertions, pre-conditions, post-conditions, and type-safe systems.  And yes, those are all things I admire and try to use to their fullest effect.  But hoist brings something new to the table...}]
+
+[heading "hoist::codeplace"]
+
+[{The foundation of the new "sensors" in hoist is called <code>codeplace</code>.  It carries the unconventional notion that locations in your code should be identified by invariant identities...instead of transient filenames and line numbers.  By tightly integrating codeplace with Qt's QUuid, a certain "sweet spot" emerges.  They become trivially easy to work with inside <i>and outside</i> of your application.}]
+
+[{By building liberally on codeplace, your classes can point to the <i>cause</i> of a problem instead of the symptom.  Bug databases tracking failures will not lose value each time a minor code reorganization shuffles the line a check is on.  Runtime errors can be triaged with no stack analysis or core dump analysis...automatically sending testers and users to the right place to discuss causes and workarounds.}]
+
+[{Since codeplace requires putting lots of literal UUIDs in your code, it will strike some people as an awkward idea.  But to bridge the gap with editing and let you defer the inclusion of these large numbers until it is convenient, there's a clever trick.  Let's say your file is foo.cpp:}]
+
+[code cplusplus {
+void myFunction() {
+   codeplace cp = HERE;
+   cout << "file is " << cp.getFilename() << endl;
+   cout << "line is " << cp.getLine() << endl;
+   cout << "uuid is " << cp.getUuid().toString() << endl;
+}
+}]
+
+[{As you might guess, this will say the file is foo.cpp and the line number is 10 (where the "HERE" instantiation is).  The magic is that as long as you don't insert or remove any lines above #10...every time myFunction runs <i>you will get the same value of uuid</i>!  That's because the uuid is a function of the hash of the filename and line number...giving an almost certainly unique 128-bit number.}]
+
+[{This is not the long term solution, of course... just expedient while you're coding.  There's a utility called <em>placecode</em> which your pre-checkin tests or build bot should run to edit this into the truly invariant form.  It also checks to ensure that copy-and-pastes inside your code don't accidentally use the same UUID more than once:}]
+
+[code cplusplus {
+void myFunction() {
+   codeplace cp = PLACE("cRBhRW1wQ+ZJk+22SUv4Lg");
+   cout << "file is " << cp.getFilename() << endl;
+   cout << "line is " << cp.getLine() << endl;
+   cout << "uuid is " << cp.getUuid().toString() << endl;
+}
+}]
+
+[note {For brevity in these examples, I generally use HERE instead of the filled-in form.  In practice, you would run placecode over the source before checking such things in!}]
+
+[heading "hoist::hopefully"]
+
+[{Obviously codeplace calls for a new kind of "assert"--one which is explicitly parameterized by location.  I'm also taking this opportunity to fight what I think is a dangerous attitude brought about by the common uses of "assert" and "verify".}]
+
+["Assert has a well-known pitfall:"]
+
+[code cplusplus {
+int x = 0;
+
+bool wasZeroBeforeIncrement() {
+   // returns if x is equal to zero
+   // also increments x
+   return x++ > 0;
+}
+
+int main() {
+   assert(wasZeroBeforeIncrement());
+   // ^^^^-- should be true
+   
+   float ratio = 42 / x;
+   // ^^^^-- ratio is 42.0 in debug build
+   // ...but divides by zero in release build!
+   
+   return 0;
+}
+}]
+
+[{Most people conclude you should not be having "important" side-effects in routines you call from assert.  That's true, but if this sort of thing is <i>even a possibility</i>, how do you divide your time in testing the debug and the release builds independently?  90/10?  50/50?}]
+
+[{One answer people have is to use "verify".  It doesn't vaporize the expression evaluation, it only turns off the alarm you get if the unexpected condition happens.  But when your sensors are grains of sand and cost pennies, why deprive your users (and yourself) of the information they offer by pulling off the warning light?}]
+
+[{Because I think terminology can often help shift attitudes, I've introduced a new term.  This term is <code>hopefully</code>.  One reason I like it is because it is a very different word from "assert" and rather unusual, which cues you that it takes a codeplace in addition to a boolean expression.  But another reason I like it is because it's a reminder that few things are certain in software... we programmers are fallible, and we should avail ourselves of every tool we can to <i>let the computer alert us when something is not right</i>.}]
+
+[{Because hopefully takes only one codeplace, it should generally be parameterized on the line of the function call:}]
+
+[code cplusplus {
+int x = 5;
+hopefully(x == 10, PLACE("cRBhRW1wQ+ZJk+22SUv4Lg"));
+// ^^^^-- this will signal an alert
+}]
+
+[{Though it's true that a developer armed with a version stamp + filename + line number could dig up the relevant line of code with some effort, that wouldn't have the edge that codeplace has in <i>automated triage</i>.  Minor code reorganizations will not break the binding between the event and your bug database, solutions wiki, or wherever you might want to send the user.}]
+
+[{These will always be part of your program's runtime.  Because they're run-time errors, the handlers must close a communication loop: if someone hits one of these they need a pleasant experience of reporting it.  The application should restart with no data loss, giving an experience virtually indistinguishable from handling a simple user input error.}]
+
+[{This may sound radical...but I'm a firm believer that you should only ship what you test.  Your users should not be the first guinea pigs of the "release build" and get sidelined by a mystery bug from an assert() with a side-effect.}]
+
+[{I'm working on providing dialogs and transaction mechanisms that make it easier to report these bugs, and integrate with Trac and Wiki.  Most of my handling is somewhat entangled with the specific applications I have that use hoist, which use a particular notion of transactions... but I'll do my best to generalize it.}]
+
+[heading "hoist::tracked&lt; type &gt;"]
+
+[{One of the foundational templates built atop of codeplace is <code>tracked</code>.  Reads from a tracked type are just like any other variable.  But each assignment to a type that has been "tracked" has to be marked with a codeplace.  For instance:}]
+
+[code cplusplus {
+tracked< int > trackMe (0, HERE); 
+// ^^^^-- last assign line #11
+
+trackMe.hopefullyEqualTo(0, HERE); 
+// ^^^^-- akin to "hopefully(trackMe == 0, HERE)"
+// since it is 0 this triggers no alert
+
+trackMe.hopefullyNotEqualTo(5 - 5, HERE); 
+// ^^^^-- uh, it is zero. indicates line 11 as culprit
+ 
+trackMe.assign(1, HERE); 
+// ^^^^-- resets last assignment to line 21
+
+trackMe.guarantee(1, HERE); 
+// ^^^^-- no need to update last assign location
+// ...because it is already 1!
+
+trackMe.hopefullyNotEqualTo(1, HERE);
+// ^^^^-- indicates line #21
+}]
+
+[{The reason for functions like trackMe::hopefullyEqualTo is that they provide richer debug information than hopefully could provide with just a boolean condition.  These special member functions use C++ stream operators for <code>type</code>, and report the last assignment.  What you get is something like:}]
+
+[text {at line 18 in foo.cpp:
+(temporary id: "cRBhRW1wQ+ZJk+22SUv4Lg")
+
+did not expect value to be 0
+
+last assignment was at line 11 in foo.cpp
+(temporary id: "kgKowEAAZB+AAAAAAAASNw")}]
+
+[{With this kind of code style, you'll pinpoint runtime failures without complex stack analysis or sending core dumps over the wire.  This data usually goes to the core of what programmers need to track down and fix a bug.  If a simple "hopefully" on a variable leads to something that surprises a developer, all it takes is changing that to use tracked&lt;&gt; in the next version to get the information required to squash a Heisenbug.}]
+
+[{To improve the quality of the debug message, make sure there is a string output operator for your type, e.g.:}]
+
+[code cplusplus {
+class Foo {
+    private:
+        int x;
+    friend QTextStream& operator<< (QTextStream& o, const Foo& foo);
+};
+
+inline QTextStream& operator<< (QTextStream& o, const Foo& foo)
+{
+    o << "Foo(" << foo.x << ")";
+    return o;
+}
+}]
+
+[note {I've provided helpers like tracked::hopefullyTransition to assist in some applications along the lines of building lightweight state machines.  But do be aware that Qt has its own more complex <a href="http://doc.trolltech.com/solutions/4/qtanimationframework/statemachine-api.html">State Machine framework</a>.}]
+
+[" "]
+
+[heading "hoist::stacked&lt; type &gt;"]
+
+[{The <code>stacked</code> template is a companion to tracked, which can be used to pass context information through the call stack.  It does this on a per-thread basis.  So you can say:}]
+
+[code cplusplus {
+stacked< int >::manager mgr;
+
+void myFunction();
+
+int main() {
+   // at the beginning, nothing on stack...
+   hopefully(mgr.getStack().empty(), HERE);
+
+   // put ten on current thread's stack in mgr...
+   stacked< int > ten (10, mgr, HERE);
+
+   cout << "before: " << mgr.getStack().front() << endl;
+   // ^^^^-- prints 10
+
+   myFunction();
+
+   cout << "after: " << mgr.getStack().front() << endl;
+   // ^^^^-- prints 10 again!
+
+   return 0;
+}
+
+void myFunction() {
+   cout << "start: " << mgr.getStack().front() << endl;
+   // ^^^^-- prints 10
+
+   // put 20 on current thread's stack in mgr
+   stacked< int > twenty (20, mgr, HERE);
+
+   cout << "end: " << mgr.getStack().front() << endl;
+   // ^^^^-- prints 20
+}
+}]
+
+[{This is a convenient way to pass context information without forcing every routine in the call chain to explicitly pass the information along.  Perhaps obviously, you should only allocate stacked types on the stack, to ensure that they are destroyed in the order they are created!}]
+
+[note {<code>getStack</code> returns a QList, and not a QStack.  This is due to the fact that QStack is built on QVector and mandates that its objects be default-constructible.  I did not want to impose this restriction on tracked types.  So simply treat the front of the QList as the "top" of the stack and the back as the "bottom".}]
+
+[heading "hoist::listed&lt; type &gt;"]
+
+[{I once had the idea of making a template that you could derive from which would make a base class able to enumerate over all the instances of itself and its derived classes.  But for various technical reasons I couldn't get it to work the way I wanted.}]
+
+[{So when I was creating tracked and stacked, I decided to extend it with <code>listed</code>.  Unlike tracked and stacked it was not an invention of necessity, but rather an experiment to continue the pattern.  It works like this:}]
+
+[code cplusplus {
+listed< int >::manager mgr;
+listed< int > five (mgr, 5, HERE);
+
+if (true) {
+    listed< int > ten (mgr, 10, HERE);
+
+    cout << "Inner list" << endl;
+    QList< tracked< int > > listInner (mgr.getList());
+    foreach (tracked< int > trackMe, listInner) {
+        trackMe.hopefullyInSet(5, 10, HERE);
+        cout << ti << endl;
+    }
+    // ^^^^-- prints 5 and 10
+
+    // now the ten instance goes out of scope
+}
+
+cout << "Outer list" << endl;
+QList< tracked< int > > listOuter (mgr.getList());
+foreach (tracked< int > trackMe, listOuter) {
+    trackMe.hopefullyEqualTo(5, HERE);
+    cout << ti << endl;
+}
+// ^^^^-- prints 5 only
+}]
+
+[{Obviously it's not that difficult to maintain one's own list of objects.  But this gives you all the benefits of a tracked type while managing that list for you.  I've found a few applications for it, including making it a member variable in a class which stores the "this" pointer--thus achieving the self-listing class intent I set out to build.}]
+
+[note {Although listed is "thread-safe", if multiple threads are creating and destroying instances from the same listed::manager... then you will probably need to apply additional synchronization, as the list you would receive might be different if you called getList() twice in a row...}]
+
+[heading "hoist::mapped&lt; type &gt;"]
+
+[{With <code>listed</code>, I realized that it was possible to have a member in a class implicitly manage the membership of that class in a list.  Yet in the programming I do, I often want the existence of something to put it into a map.  Hence <code>mapped</code> was born.}]
+
+[code cplusplus {
+mapped< char, int >::manager mgr;
+mapped< char, int > aToFive (mgr, 'a', 5, HERE);
+
+if (true) {
+    mapped< char, int > bToTen (mgr, 'b', 10, HERE);
+
+    cout << "Inner map" << endl;
+    QMap< char, tracked< int > > mapInner (mgr.getMap());
+    QMapIterator< char, tracked< int > > iter;
+    while (iter.hasNext()) {
+        iter.next();
+        cout << iter.key() << ", " << iter.value() << endl();
+    }
+    // ^^^^-- prints a, 5 and b, 10
+
+    // now the bToTen instance goes out of scope
+}
+
+cout << "Outer map" << endl;
+QMap< char, tracked< int > > mapOuter (mgr.getMap());
+QMapIterator< char, tracked< int > > iter;
+while (iter.hasNext()) {
+    iter.next();
+     cout << iter.key() << ", " << iter.value() << endl();
+}
+// ^^^^-- prints a, 5 only
+}]
+
+[{This is a quite useful tool whenever you want classes to effectively announce their membership in a set for as long as their lifetime lasts.}]
+
+[heading "hoist::hopefully_cast&lt; type &gt;(data)"]
+
+[{Other people have implemented finer-grained checking in cast, through abstractions with names like "checked_cast".  hoist includes a codeplace-aware abstraction called <code>hopefully_cast</code> which blends checking of numeric limits with run-time error reporting:}]
+
+[code cplusplus {
+int sv = -1;
+unsigned uv = hopefully_cast< unsigned >(sv, HERE);
+// ^^^^-- FAIL and indicate this codeplace
+}]
+
+[{It also serves as a substitute for dynamic_cast if you expect it to succeed:}]
+
+[code cplusplus {
+class A { int i; }
+class B { bool b; }
+A a;
+B* b = hopefully_cast< B* >(&a, HERE);
+// ^^^^-- FAIL and indicate this codeplace
+}]
+
+[heading "hoist::chronicle"]
+
+[{The hoist analogue to DebugOut is called <code>chronicle</code>.  Incorporating codeplace brings enhancements to this common programmer need.  After all...it's nice to know where a certain line of debug spew is coming from, or where the flag controlling the spew was turned on!}]
+
+[{So with that in mind, every call to chronicle must be passed a tracked&lt;bool&gt; which is the flag indicating whether the output is on or off.  It also gets a codeplace for identifying the specific line of output.}]
+
+[code cplusplus {
+tracked< bool > debugEvents (true, HERE);
+unsigned numKeyPresses = 0;
+
+void MyWidget::keyPressEvent(QKeyEvent* event) {
+    chronicle(debugEvents, "Key press received", HERE);
+    if (debugEvents) {
+        numKeyPresses++;
+    }
+}   
+}]
+
+[{What you see here is how naturally the hoist abstractions plug together.  Your debug output can point clearly to this origin, as well as exactly where the control variable was set.  And that control variable isn't a horrible thing--it behaves like a boolean when you need it to!}]
+
+[heading "hoist::largedigit"]
+
+[{Because large identities are harder to communicate than files and line numbers, <code>largedigit</code> helps streamline situations where mnemonic codes are needed.  Largedigit is a flexible standard that can be applied to a variety of situations.  It is a generalization of the <a href="http://tothink.com/mnemonic/">mnemonic encoding</a> proposed by Oren Tirosh.}]
+
+[note {Oren has stated that it is unlikely his mnemonic encoding will evolve beyond 0.73 as he does not have the time.  I will seek his blessing of largedigit as the joint finalization of this standard.  There will be a separate page on hostilefork for the largedigit project in other languages.  Release of largedigit functionality in hoist is pending that refinement.}]
+
+[heading "Getting the Source"]
+
+["Hoist source code is available on GitHub:"]
+
+[{<a href="http://github.com/hostilefork/hoist">http://github.com/hostilefork/hoist</a>}]

@@ -1,0 +1,313 @@
+Draem [
+    title: "Sums of numbers that add to X"
+    category: 'post
+    tags: [algorithms cplusplus puzzles]
+
+    slug: %summing-numbers-puzzle
+    date: 10-Oct-2004/17:45
+    old-url-prefix: %2004/10/10/
+]
+
+["I saw the following coding problem:"]
+
+[quote [
+  [{Write a function that takes 4 integers as input and returns an integer.  The four input values will each range from 1-10, and the function should calculate the number of combinations of input that add to 15 and return that number of combinations.}]
+
+  [{For example, if the four input values were labeled A-D and had the values A=5, B=5, C=5 and D=10 there would be 4 combinations adding to 15.}]
+
+[text {A+D = 15 
+B+D = 15 
+C+D = 15 
+A+B+C = 15}]
+
+  ["So the desired output would be: 4 "]
+
+  [{Please describe how you would modify your solution to accept N input values (instead of just four).}]
+]]
+
+[{My first try turned out to be slower than a solution from an experienced C++ programmer who'd leveraged the C++ standard library algorithms.  Here's how he did it:}]
+
+[code cplusplus {
+class Knapsack
+{
+public:
+  Knapsack (std::vector::const_iterator beg,
+      std::vector::const_iterator end,
+      int sum)
+    : _pieces (beg, end), _sum (sum)
+    {
+        // precondition: input was sorted
+    }
+  int UniqueCombinations ();
+private:
+  std::vector _pieces;
+  int _sum;
+};
+
+// Each combination is counted only once
+// Hint: If a pick contains several equal items in a row,
+// they were all picked from the front of a run of
+// equal items in the (sorted) input (see the skipping below)
+int Knapsack::UniqueCombinations ()
+{
+  int count = 0;
+  std::vector::const_iterator it = _pieces.begin ();
+  std::vector::const_iterator end = _pieces.end ();
+  assert (it != end);    
+  do
+  {
+     int curItem = *it;
+     int newSum = _sum - curItem;
+     ++it;
+     if (newSum == 0)
+     {
+       ++count;
+     }
+     else if (newSum > 0 && it != end)
+     {
+       Knapsack smallerKnapsack (it, end, newSum);
+       count += smallerKnapsack.UniqueCombinations ();
+     }
+     // skip all equal value items
+     while (it != end && *it == curItem)
+       ++it;
+    } while (it != end);
+  return count;
+}
+
+int FillKnapsack (int const * arr, int size, int sum)
+{
+  if (size == 0)
+  {
+    std::cout << "0 combinations: empty array" << std::endl;
+    return 0;
+  }
+
+  try
+  {
+    std::vector data (arr, arr + size);
+    // sort in decreasing order
+    std::sort (data.begin (), data.end (), std::greater ());
+    Knapsack knapsack (data.begin (), data.end (), sum);
+    int comb = knapsack.UniqueCombinations ();
+
+    std::cout << comb << " combination(s)" << std::endl;
+    return comb;
+  }
+  catch (std::bad_alloc)
+  {
+    std::cerr << "Out of memory" << std::endl;
+  }
+  catch (...)
+  {
+    std::cerr << "Unknown error" << std::endl;
+  }
+  return 0;
+}
+}]
+
+[{Not to be outdone, I started wondering if there was a way to do it even faster.  Since the values in the array are bounded, I decided to immediately transform the input into a histogram telling how many of each number appeared.  Then I would do a brute force march through all the histograms that were "recipes" adding to the target sum, and add the appropriate number of sums for each match.  So  the sample case:}]
+
+[text {A = 5 
+B = 5 
+C = 5 
+D = 10}]
+
+["I'd quickly transform it to mean:"]
+
+[text {[0,0,0,0,3,0,0,0,0,1] // three fives and one 10}]
+
+[{Then, I'd generate the exhaustive list of "recipes" that sum to 15:}]
+
+[text {[15,0,0,0,0,0,0,0,0,0] // fifteen ones
+[13,1,0,0,0,0,0,0,0,0] // thirteen ones and one two
+[12,0,1,0,0,0,0,0,0,0] // twelve ones and one three
+...
+[0,0,0,0,1,0,0,0,0,1] // one ten and one five}]
+
+[{From there it was just a matter of seeing how many times a recipe could be applied on the input.  That's relatively straightforward combinatorics, but my example cases on large data sets overflowed my naive algorithm for combinations.  It was a hard bug to track down, but once I replaced it with a better routine off the web I had a blazing fast algorithm.  Its performance is determined by the range of the numbers and the value of the sum, not the size of the input array.}]
+
+[code cplusplus {
+// combinations
+// how many combinations of k objects can you choose from a set of n objects ?
+// this method avoids overflow that you hit with:
+//    factorial(n) / (factorial(k) * factorial(n-k))
+// see http://www.cs.sjsu.edu/faculty/fecteau/cs140/combPerm.html
+unsigned int combinations(unsigned int r, unsigned int n)
+  {
+  // Assert(n >= k);
+  unsigned int k = r < n-r ? r : n-r;
+  unsigned int answer = 1;
+  unsigned int multiplier = n;
+  unsigned int divisor = 1;
+  while (divisor <= k)
+    {
+    answer = ( answer * multiplier ) / divisor; // this will evenly divide 
+    multiplier--;
+    divisor++;
+    }
+  return answer;
+  }
+
+// SumsRecipe
+//
+// Given a "recipe" for producing a certain sum, tell how many ways that recipe
+// can be achieved given the set of numbers indicated by Nums.  Both the recipe
+// and the input list are set up so that array[j] tells you how many j's you have
+// (or in the case of the recipe, how many j's are needed)
+//
+unsigned int SumsRecipe(const unsigned int Nums[],
+    const unsigned int Recipe[],
+    unsigned int Max)
+  {
+  unsigned int Sums = 1;
+  for (unsigned int j = 1; j <= Max; j++)
+    {
+    if (Nums[j] < Recipe[j])
+      return 0;
+    if (Recipe[j] != 0)
+      Sums *= combinations(Recipe[j], Nums[j]);
+    }
+  return Sums;
+  }
+
+// EnumRecipe
+//
+// Class which provides a somewhat brute-force method of enumerating over all
+// the possible "Recipes" for making the value X as a sum of numbers 1-Max.
+//
+// It really just ticks through the recipes like an odometer, trying:
+//   1 one, then 2 ones, then 3 ones...
+// When it hits the maximum number of ones you can have it then tries:
+//   1 two with 0 ones, then 1 two with 1 one, then 1 two with 2 ones...
+//
+// Although it might seem like this is a terrible way to generate these
+// recipes, there are a couple of "saving graces".  We know
+// we don't have more than Length numbers available, and that the total
+// can't be greater than X...so if we hit an excess of either of these
+// conditions we can fast-forward the "odometer" to the next setting
+// which zeroes one of the wheels.
+//
+class EnumRecipe
+  {
+private:
+  unsigned int m_X; // Target value for our recipe's sum
+  unsigned int m_Length; // Most numbers that could occur in a recipe
+  unsigned int m_Max; // Maximum value of any given number
+  unsigned int m_Used; // Numbers used in this recipe
+  unsigned int m_Total; // Current running total sum
+  bool m_First; // First time calling the enumerator?
+  const unsigned int* m_Nums; // How many of each number is available in the input?
+
+public:
+  EnumRecipe(unsigned int X,  
+      const unsigned int* Nums, 
+      unsigned int Length, 
+      unsigned int Max) :
+    m_X(X),
+    m_Nums(Nums),
+    m_Length(Length),
+    m_Max(Max),
+    m_Used(0),
+    m_Total(0),
+    m_First(true)
+    { // Nothing to do
+    }
+
+  bool NextRecipe(unsigned int Recipe[])
+    {
+    if (m_First)
+      // since this is the first call, start by zeroing out
+      // the recipe that the user passed in...
+      {
+      for (unsigned int j = 0; j <= m_Max; j++)
+        Recipe[j] = 0;
+      m_First = false;
+      // Assert(m_Total == 0);
+      // Assert(m_Used == 0);
+      }
+
+    unsigned int Wheel = 1;
+    while (true)
+      {
+      // Will increasing the current "Wheel" lead to a
+      // "Recipe" that uses more values than we have as
+      // input, or one that the recipe's summation will 
+      // exceed our target X value?
+      if ((m_Used < m_Length) && 
+          (m_Total < m_X) && 
+          (m_Nums[Wheel] >= Recipe[Wheel]))
+        {
+        Recipe[Wheel]++;
+        m_Total += Wheel;
+        m_Used++;
+
+        if (m_Total == m_X)
+          return true;
+
+        // as on an odometer, each time we successfully
+        // increment one of the wheels, the next wheel
+        // we'll try to increment will be the first again
+        Wheel = 1;
+        }
+      else
+        // We reached the maximum value for this "wheel"
+        {
+        // Is it the last one?  If so, we're done.
+        if (Wheel == m_Max)
+          return false;
+
+        // Zero this wheel and update our state variables.
+        // This intermediate state is one that we've visited
+        // before, so no need to test total against m_X
+       m_Total -= (Wheel * Recipe[Wheel]);
+       m_Used -= Recipe[Wheel];
+       Recipe[Wheel] = 0;
+       Wheel++;
+        }
+      }
+
+    return true;
+    }
+
+  virtual ~EnumRecipe()
+    { // Nothing to do
+    }
+  };
+
+// SumsThatAddToXSpecialized
+//
+// Specialized version of code which answers the "how many ways
+// are there to achieve the sum of X using the integers in Values[]".
+// This case is specialized because it assumes that the
+// values in the array range from 1..Max.  What's different about
+// this particular approach is that the performance is not a
+// function of the length of the input array.
+//
+unsigned int SumsThatAddToXSpecialized(
+    unsigned int X, 
+    const unsigned int Values[], 
+    unsigned int Length,
+    unsigned int Max)
+  {
+  unsigned int Nums[Max+1];
+  for (unsigned int j = 0; j <= Max; j++)
+    Nums[j] = 0;
+  for (unsigned int i = 0; i < Length; i++)
+    {
+    // Assert((Values[i] <= Max) && (Values[i] > 0));
+    Nums[Values[i]]++;
+    }
+
+  unsigned int Sums = 0;
+
+  unsigned int Recipe[Max+1];
+  EnumRecipe er (X, Nums, Length, Max);
+  while (er.NextRecipe(Recipe))
+    Sums += SumsRecipe(Nums, Recipe, Max);
+
+  return Sums;
+  }
+}]
+
+[{It's fun to see something like this run so fast and still be correct!}]

@@ -1,0 +1,52 @@
+Draem/Comment [
+    slug: %object-lifetime-as-protocol
+    author: "Gremnebulin"
+    date: 7-Aug-2012/8:10
+    old-url: http://hostilefork.com/2005/04/21/object-lifetime-as-protocol/#comment-1307
+]
+
+[{or, to look at the other way round: the reason people keep trying to construct an object in multiple stages is that it is a natural and beneficial pattern, and}]
+
+[{C++ is restrictive in providing  only  a single stage of construction.
+The idea of once-and-for-all}]
+
+[{construction is not a good match for processing that builds up complex data}]
+
+[{structures in a number of stages. All the required data might not be initially}]
+
+[{available to do the processing upfront, and it might be undesirableto do all the}]
+
+["construction at once on timing grounds."]
+
+[{On the other hand, naively implemented "get" functions might try to return}]
+
+[{data that isn;t ready yet. On way of solving that is for the "get.." for stage}]
+
+[{N to check that the data from stage N-1 is ready, and if not, call the get of the previous}]
+
+[{stage. N gets can therefore chain back. The user does not have to worry about}]
+
+[{callign a series of methods in the right order. The check will prevent unnecessary}]
+
+[{duplication of effort, since no processing is performed unconditionally (methods that engage}]
+
+[{in staged construction can be made private). (Necessary re-performing of stages}]
+
+[{where data has changed requires more complexity...blanking out all the data}]
+
+[{belonging to the upstream stages to force them to be reperformed), The downside}]
+
+[{is a small amount of extra runtime to perform the check. This technique resembles}]
+
+[{the way SQL interfaces typically do not perform the query till the first fetch.(Lazy Initialisation}]
+
+[{pattern). 
+Alternatively, the stages could be turned into}]
+
+[{a hierarchy. The class representing the Nth stage embeds an object of stage}]
+
+[{N-1, or calls the constructor of its parent (and so on). However,}]
+
+[{the C++/Java style of OO is not much more accomodating to the nesting/wrapping than}]
+
+["it is to staged construction."]

@@ -1,0 +1,8 @@
+Draem/Comment [
+    slug: %qtcreator-debugger-no-locals-ubuntu
+    author: "Juha Vuolle"
+    date: 24-Oct-2013/9:49
+    old-url: http://hostilefork.com/2013/10/20/qtcreator-debugger-no-locals-ubuntu/#comment-1476
+]
+
+[{Cheers for sharing. Had the same issue on lubuntu 13.10 and qtcreator 2.8 but building the gdb solved the issue (furthermore I compiled the gdb for ARM i.e. added '&#8211;target=arm-fsl-linux-gnueabi' to the configure line -works nicely).}]

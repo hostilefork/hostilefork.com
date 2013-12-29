@@ -1,0 +1,45 @@
+Draem [
+    title: "Load Balancing on Massively Parallel Networks"
+    category: 'post
+    tags: [math]
+
+    slug: %load-balancing-teenage-coding
+    date: 10-Dec-2013/4:56
+    old-url-prefix: %2013/12/10/
+]
+
+[{In an old box I found a copy of a high school science project I turned in sometime in December 1992.  I'd have been 17.  In my efforts to scan and pack up my history, I went ahead and typed it into Google Docs.  You can read it here:}]
+
+[{<a href="https://docs.google.com/document/d/1BbRA7KdrhsAW7qSrdSG5qRmtaLOu1jGCusf4uE-Xbmc/edit?usp=sharing">"Load Balancing on Massively Parallel Networks: A Cellular Automaton Approach"</a>.}]
+
+[note {The original had all the images packed into 3 pages at the end, which made it awkward to read.  So I went ahead and put the pictures inline.}]
+
+[{There's a somewhat interesting equilibrium "game" at work here, <a href="http://math.stackexchange.com/questions/601914/cellular-automata-method-to-reach-equilibrium-on-a-network-of-numbers">which I posted about on the Mathematics StackExchange</a>.  Cool though that game is, I was sort of stretching with the the idea that it could be meaningfully applied to work distribution on a parallel network.}]
+
+[{But here's what actually happened with this project and why it came out the way it did...}]
+
+[more]
+
+[divider]
+
+[{At first, I was doing an exploration into computational chemistry.  I thought it would be neat if I could figure out how to simulate chemical reactions in software... to build models of how atoms or molecules would interact, without actually having to do the experiment.  Of course <b>we</b> know that is not something a teenage human in 1992 equipped with Turbo C was going to be able to do.  But the human in question did not know that, and there was no world wide web to consult.}]
+
+[{So armed with a couple of library books about quantum mechanics, I read about wave functions and Hamiltonians and had no clue how to get simulated models of molecules to interact on the computer.  Apparently I was too stupid.  After a lot of spinning my wheels, I decided that I would attack something simpler... the diffusion of a concentrated substance in water.  Start with a drop of dark blue dye at the surface of a clear tank, and then model the steps it took until the whole tank had turned an even shade of pale blue.  Easier, right?}]
+
+[{We can certainly simulate something that <i>looks</i> like what happens when you do that.  Even then there were people with a C compiler who could have made a fancy demo of that sort.  But I was tackling it without much information, and also I had the idea of doing it via a cellular automaton.  I'd seen the <a href="http://en.wikipedia.org/wiki/Conway's_Game_of_Life">Game of Life</a> and <a href="http://en.wikipedia.org/wiki/Wireworld">WireWorld</a>, and I thought it would be neat to create a diffusion "rule" that could run on a volume of connected nodes... and after some number of iterations stabilize so that all the concentrated areas had spread out.  So I'd do it in 2-D first, and then a volume.}]
+
+[note {I thought the kid who showed me his implementation of WireWorld had invented it, and was really impressed...I later found out he'd just coded it.  Not saying he misrepresented his work, I likely misunderstood or assumed.}]
+
+[{This project was the focus of our "technology lab" class, and we had one class period a day to do our research and coding.  You <i>could</i> work on it outside of class...of course.  But senior year had a lot of work to be done...including college applications and other stuff.  Plus I was actually doing two "technology labs" because I was also taking organic chemistry, which would also count for fulfilling the credit.}]
+
+[{After all the false starts with chemical modeling, deadlines began to approach.  To write it as a computer science paper instead of a math paper, I needed to come up with an angle on how what I was doing could be related to relevant things in the field.  There were course requirements about using references and doing background research with citations.  So incorporating advice of my CS teacher <a href="http://www.donaldhyatt.com/">Don Hyatt</a>, I tweaked it into being ostensibly applicable to load balancing on SIMD ("Single Instruction, Multiple Data") machines.  That got me to start thinking about how the method might work on arbitrary connectivity graphs...like networked computers which were not uniform like the grids or volumes I'd been considering in the diffusion.}]
+
+[{Armed with a borrowed laptop, I wrote pretty much the whole paper over Thanksgiving break.  It was due when we got back, to be submitted to the Westinghouse Science Talent Search.  I got on some honorable mention list... (that and $2 gets you lunch in the school cafeteria.)  Which is fair enough, there were a bunch of other projects that had better science going on.}]
+
+[note {It's apparently the "Intel Science Talent Search" now, I did not know.}]
+
+[{But Don Hyatt had also submitted all the papers to some other places, and one of them was the <a href="http://wdcb.stcwdc.org/prof-dev/edu-info/austin-brown/">Austin T. Brown Technical Communication Award</a>.  I won that instead.  Which was pretty cool.  And somehow winning that qualified me for submission into some broader international pool of another competition run by the Society for Technical Communication...and I won that too.  That came with a nice scholarship for college, more than the Westinghouse first place prize!}]
+
+[{So all's well that ends well.  I put what code I had attached in the appendix <a href="https://github.com/hostilefork/teenage-coding/tree/master/BALANCE">on GitHub</a>, but it's missing a lot.  And it's terrible.  I could code better C than that even in 1992.  But I was originally writing my code to run on some donated SGI machines (Cyber 910, which was actually an SGI Personal Iris rebranded).  I was also struggling with learning vi.}]
+
+[{Eventually I moved the code to a plain old 20 Megahertz 386 with Turbo C just to get something finished in time to submit!}]

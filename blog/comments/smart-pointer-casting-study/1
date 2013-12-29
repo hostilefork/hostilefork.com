@@ -1,0 +1,10 @@
+Draem/Comment [
+    slug: %smart-pointer-casting-study
+    author: "Jeremy Friesner"
+    date: 2-Sep-2009/13:55
+    old-url: http://hostilefork.com/2009/07/10/smart-pointer-casting-study/#comment-1001
+]
+
+[{Hi Brian,
+You might be interested in this recent blog posting at the Qt web site, where Thiago Macieira reviews the various smart-pointer classes that are currently part of Qt:
+<a href="http://labs.trolltech.com/blogs/2009/08/25/count-with-me-how-many-smart-pointer-classes-does-qt-have/" rel="nofollow" target="_blank" class="liexternal">http://labs.trolltech.com/blogs/2009/08/25/count-with-me-how-many-smart-pointer-classes-does-qt-have/</a>}]

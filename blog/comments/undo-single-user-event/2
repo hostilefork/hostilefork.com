@@ -1,0 +1,10 @@
+Draem/Comment [
+    slug: %undo-single-user-event
+    author: "hostilefork"
+    date: 27-Nov-2007/16:23
+    old-url: http://hostilefork.com/2007/11/25/undo-single-user-event/#comment-19
+]
+
+[{I just found Microsoft's amusing article on <a href="http://support.microsoft.com/kb/320167" target="_blank" rel="nofollow" class="liexternal">how to rename multiple files</a>, which outlines the behavior and then says:
+<i>"If you make a mistake when you try to rename multiple files, you can press CTRL+Z, or click Undo Rename on the Edit menu to undo file rename action you just completed, and you can repeat this process as needed.</i>
+So they've been telling people to "repeat this process as needed" since 2002.  I don't think there's very far you can get with reporting bugs to companies that publish things like that.  I'd rather invest my time offering constructive feedback to <a href="http://www.reactos.org/" target="_blank" rel="nofollow" class="liexternal">ReactOS</a>...}]

@@ -1,0 +1,8 @@
+Draem/Comment [
+    slug: %trashes-fseventsd-and-spotlight-v100
+    author: "adam"
+    date: 5-Jan-2010/23:16
+    old-url: http://hostilefork.com/2009/12/02/trashes-fseventsd-and-spotlight-v100/#comment-1027
+]
+
+[{Awesome!  Thanks for this post.  I have no proof, but I suspect these were screwing up my RAID.  Incidentally, I have my RAID drive added to be excluded from both Time Machine and Spotlight, yet these directories are still created and contain loads of data.}]

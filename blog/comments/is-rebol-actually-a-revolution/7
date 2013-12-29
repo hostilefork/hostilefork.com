@@ -1,0 +1,17 @@
+Draem/Comment [
+    slug: %is-rebol-actually-a-revolution
+    author: "antoine"
+    date: 17-Oct-2009/9:33
+    old-url: http://hostilefork.com/2008/09/08/is-rebol-actually-a-revolution/#comment-1006
+]
+
+[{There is an interesting article at the following link:-}]
+
+[{ <a href="http://www.albert2233.wordpress.com/2009/10/09/rebol-not" rel="nofollow" target="_blank" class="liexternal">http://www.albert2233.wordpress.com/2009/10/09/rebol-not</a>
+I personally am convinced that rebol is not going to become a mainstream language. It will just be for some "hobbyists"  rather than used by the general programming community.
+The world has changed. It's no longer the 1980s,  It looks to me that Carl Sassenrath is still living in the 80s.
+We are interested in free or open languages.  Yes he has to make money, but his chances are very low with the model he is using. He can still have it fully open so that there is higher dissemination of the language, and charge only those who use it in a business setting.  Just like  Resin (caucho.com)
+Why will someone use his language when they have the likes of PHP, SCALA, CLOJURE, RUBY, PERL .... and so on free and that can do everything Rebol does ?  
+actually Rebol is still missing a lot of features e.g multi threading and nobody knows how it scales. There is no MAJOR enterprise application developed with this language.  Yes they say there is Alt me and cheyenne, but  who is using them in real life under a load of over a thousand users or more ? 
+Its rate of adoption is so small as to be considered insignificant and will be so for ever.
+cheers}]

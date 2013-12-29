@@ -1,0 +1,16 @@
+Draem/Comment [
+    slug: %qtcreator-debugger-no-locals-ubuntu
+    author: "Antonello"
+    date: 3-Dec-2013/5:46
+    old-url: http://hostilefork.com/2013/10/20/qtcreator-debugger-no-locals-ubuntu/#comment-1494
+]
+
+[{The bug report says that this problem has been fixed in the Qt Creator 3.0.0-rc1 (and not in the beta as reported in other comments).}]
+
+[{I have personally tested in ubuntu 13.10 x64 and it works.}]
+
+["Download of the bare QtCreator here:"]
+
+[{<a href="http://download.qt-project.org/development_releases/qtcreator/3.0/3.0.0-rc1/" rel="nofollow" target="_blank" class="liexternal">http://download.qt-project.org/development_releases/qtcreator/3.0/3.0.0-rc1/</a>}]
+
+["(3.0.0-rc1 is internally named 2.8.84)"]
