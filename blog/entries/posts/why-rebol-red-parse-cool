@@ -43,7 +43,7 @@ Draem [
 == {<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0}
 }]
 
-[{That's because a URL! is recognized as anything of the form <b>foo://blahblahblah</b>.  And that's actually used as an extension method for "scheme handlers" which is a nifty subject in its own right.  If I really wanted to invoke a divide operation I would need to write something like <b>foo: / /blahblahblah</b>.  That's a legitimate sequence of tokens in Rebol, actually... and though it will give you a runtime error by default if you try to execute it, it could be given legitimate meaning within some specific context.}]
+[{That's because a URL! is recognized as anything of the form <code>foo://blahblahblah</code>.  And that's actually used as an extension method for "scheme handlers" which is a nifty subject in its own right.  If I really wanted to invoke a divide operation I would need to write something like <code>foo: / /blahblahblah</code>.  That's a legitimate sequence of tokens in Rebol, actually... and though it will give you a runtime error by default if you try to execute it, it could be given legitimate meaning within some specific context.}]
 
 [{There are other things built in, like dates and times:}]
 
@@ -180,7 +180,7 @@ parse code [
 ]
 }]
 
-[{Believe it or not, that will give you a result block of your code reading <b>[print {Hello} print {Rebol and Red} print {World}]</b>.  If you wanted to, you could then execute that result by invoking the evaluator with <b>do result</b>.  So as much as they disguise themselves as looking like an unusual-but-typical scripting languages, Rebol and Red are anything but typical.}]
+[{Believe it or not, that will give you a result block of your code reading <code>[print {Hello} print {Rebol and Red} print {World}]</code>.  If you wanted to, you could then execute that result by invoking the evaluator with <code>do result</code>.  So as much as they disguise themselves as looking like an unusual-but-typical scripting languages, Rebol and Red are anything but typical.}]
 
 [{For a programmer who hasn't experienced a system like Lisp, there's going to be one level of "OMG" realization.  But even jaded language surveyors (who have seen paradigms come and go) should find something to appreciate in the way the design has evolved.  And for those who cast their lot with heavyweight meta-programming and aspect-oriented systems like <a href="http://en.wikipedia.org/wiki/JetBrains_MPS">JetBrains MPS</a> or <a href="http://martinfowler.com/bliki/IntentionalSoftware.html">Intentional Programming</a>, the under-1MB size of the zero-install cross-platform executables should offer some amount of "OMG".}]
 
