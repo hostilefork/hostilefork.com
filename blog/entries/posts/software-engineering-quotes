@@ -2,39 +2,79 @@ Draem [
     title: "Software Engineering Quotes"
     category: 'post
     tags: [misc]
-
     slug: %software-engineering-quotes
     date: 1-Dec-2012/9:27
     old-url-prefix: %2012/12/01/
 ]
 
-[{Every now and again I get an urge to repeat some quote on programming.  But I can't always find what I'm looking for when I go search for it on Google, in order to quote it accurately and cite the source.  So here's a list of some of my favorites which I'll try to keep up to date as I find new ones:}]
+{Every now and again I get an urge to repeat some quote on programming.  But I can't always find what I'm looking for when I go search for it on Google, in order to quote it accurately and cite the source.  So here's a list of some of my favorites which I'll try to keep up to date as I find new ones:}
 
-[{<i>"The essence of architecture is the suppression of information not necessary to the task at hand, and so it is somehow fitting that the very nature of architecture is such that it never presents its whole self to us but only a facet or two at a time."</i> -- <a href="http://www.amazon.com/Documenting-Software-Architectures-Views-Beyond/dp/0321552687">Documenting Software Architectures: Views and Beyond</a>}]
+[quote
+	{The essence of architecture is the suppression of information not necessary to the task at hand, and so it is somehow fitting that the very nature of architecture is such that it never presents its whole self to us but only a facet or two at a time.}
+	[http://www.amazon.com/Documenting-Software-Architectures-Views-Beyond/dp/0321552687 {Documenting Software Architectures: Views and Beyond}]
+]
 
-[{<i>"Increasingly, people seem to misinterpret complexity as sophistication, which is baffling---the incomprehensible should cause suspicion rather than admiration. Possibly, this trend results from a mistaken belief that using a somewhat mysterious device confers an aura of power on the user.</i> -- <a href="http://en.wikipedia.org/wiki/Niklaus_Wirth">Niklaus Wirth</a>}]
+[quote
+	{Increasingly, people seem to misinterpret complexity as sophistication, which is baffling---the incomprehensible should cause suspicion rather than admiration. Possibly, this trend results from a mistaken belief that using a somewhat mysterious device confers an aura of power on the user.}
+	[http://en.wikipedia.org/wiki/Niklaus_Wirth {Niklaus Wirth}]
+]
 
-[{<i>"90% of a program's execution time is spent in only 10% of its code. The standard inference from this rule is that programmers should find that 10% of the code and optimize it ... But a second inference is just as important: programmers can deoptimize the other 90% of the code (in order to make it easier to use, maintain, etc.)"</i> -- <a href="http://en.wikipedia.org/wiki/Richard_E._Pattis">Richard Pattis</a>}]
+[quote
+	{90% of a program's execution time is spent in only 10% of its code. The standard inference from this rule is that programmers should find that 10% of the code and optimize it ... But a second inference is just as important: programmers can deoptimize the other 90% of the code (in order to make it easier to use, maintain, etc.)}
+	[http://en.wikipedia.org/wiki/Richard_E._Pattis {Richard Pattis}]
+]
 
-[{<i>"Some facets of usability such as cancellation, undo, progress bars, and others require software architecture support. Because they reach so deeply into the architecture of a system, these facets must be built into the system from its inception rather than added after an initial system design and user interface has been achieved."</i> -- <a href="http://www.sei.cmu.edu/about/people/profile.cfm?id=bass_13085">Len Bass</a>}]
+[quote
+	{Some facets of usability such as cancellation, undo, progress bars, and others require software architecture support. Because they reach so deeply into the architecture of a system, these facets must be built into the system from its inception rather than added after an initial system design and user interface has been achieved.}
+	[http://www.sei.cmu.edu/about/people/profile.cfm?id=bass_13085 {Len Bass}]
+]
 
-[{<i>"There are two ways of constructing a software design: One way is to make it so simple that there are obviously no deficiencies, and the other way is to make it so complicated that there are no obvious deficiencies. The first method is far more difficult."</i> -- <a href="http://en.wikipedia.org/wiki/Tony_Hoare">C.A.R. Hoare</a>}]
+[quote 
+	{There are two ways of constructing a software design: One way is to make it so simple that there are obviously no deficiencies, and the other way is to make it so complicated that there are no obvious deficiencies. The first method is far more difficult.}
+	[http://en.wikipedia.org/wiki/Tony_Hoare {C.A.R. Hoare}]
+]
 
-[{<i>"Should array indices start at 0 or 1?  My compromise of 0.5 was rejected without, I thought, proper consideration."</i> -- <a href="http://en.wikipedia.org/wiki/Stan_Kelly-Bootle">Stan Kelly-Bootle</a>}]
+[quote 
+	{Should array indices start at 0 or 1?  My compromise of 0.5 was rejected without, I thought, proper consideration.}
+	[http://en.wikipedia.org/wiki/Stan_Kelly-Bootle {Stan Kelly-Bootle}]
+]
 
-[{<i>"If the automobile had followed the same development cycle as the computer, a Rolls-Royce would today cost $100, get a million miles per gallon, and explode once a year, killing everyone inside."</i> -- <a href="http://en.wikipedia.org/wiki/Robert_X._Cringely">Robert X. Cringely</a>
+[quote
+	{If the automobile had followed the same development cycle as the computer, a Rolls-Royce would today cost $100, get a million miles per gallon, and explode once a year, killing everyone inside.}
+	[http://en.wikipedia.org/wiki/Robert_X._Cringely {Robert X. Cringely}]
+]
  
-<i>"That’s the thing about people who think they hate computers.  What they really hate is lousy programmers."</i> -- <a href="http://en.wikipedia.org/wiki/Larry_Niven">Larry Niven</a>}]
+[quote
+	{That’s the thing about people who think they hate computers.  What they really hate is lousy programmers.}
+	[http://en.wikipedia.org/wiki/Larry_Niven {Larry Niven}]
+]
 
-[{<i>"There’s an old story about the person who wished his computer were as easy to use as his telephone.  That wish has come true, since I no longer know how to use my telephone."</i>
--- <a href="http://en.wikipedia.org/wiki/Bjarne_Stroustrup">Bjarne Stroustrup</a>
+[quote
+	{There’s an old story about the person who wished his computer were as easy to use as his telephone.  That wish has come true, since I no longer know how to use my telephone.}
+	[http://en.wikipedia.org/wiki/Bjarne_Stroustrup {Bjarne Stroustrup}]
+]
  
-<i>"I once wrote a database using only the letter O."</i> -- Wally from <a href="http://dilbert.com/strips/comic/1992-09-08/">Dilbert</a>}]
+[quote
+	{I once wrote a database using only the letter O.}
+	[http://dilbert.com/strips/comic/1992-09-08/ {Wally from "Dilbert"}]
+]
 
-[{<i>"I mean, if 10 years from now, when you are doing something quick and dirty, you suddenly visualize that I am looking over your shoulders and say to yourself "Dijkstra would not have liked this", well, that would be enough immortality for me."</i> -- <a href="http://en.wikipedia.org/wiki/Edsger_W._Dijkstra">Edsger R. Dijstra</a>}]
+[quote
+	{I mean, if 10 years from now, when you are doing something quick and dirty, you suddenly visualize that I am looking over your shoulders and say to yourself "Dijkstra would not have liked this", well, that would be enough immortality for me.}
+	[http://en.wikipedia.org/wiki/Edsger_W._Dijkstra {Edsger R. Dijstra}]
+]
 
-[{<i> "Always code as if the guy who ends up maintaining your code will be a violent psychopath who knows where you live."</i> -- Martin Golding}]
+[quote
+	{Always code as if the guy who ends up maintaining your code will be a violent psychopath who knows where you live.}
+	{Martin Golding}
+]
 
-[{<i>"Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it."</i> -- <a href="http://en.wikipedia.org/wiki/Brian_Kernighan">Brian W. Kernighan</a>}]
+[quote
+	{Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.}
+	[http://en.wikipedia.org/wiki/Brian_Kernighan {Brian W. Kernighan}]
+]
 
-[{<i>"It's been proven there are at most three numbers you should use when programming: 0, 1, and N.  I've long been of the opinion that 1 should be avoided.  But lately I'm becoming increasingly skeptical about zero."</i> -- self}]
+[quote
+	{It's been proven there are at most three numbers you should hardcode when programming: 0, 1, and N.  I've long been of the opinion that 1 should be avoided.  But lately I'm becoming increasingly skeptical about zero.}
+	{self}
+]

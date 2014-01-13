@@ -2,36 +2,37 @@ Draem [
     title: {&quot;Freedom To&quot; and &quot;Freedom From&quot; in Software Architecture}
     category: 'post
     tags: [philosophy]
-
     slug: %freedom-to-and-freedom-from
     date: 4-Jul-2005/17:16
     old-url-prefix: %2005/07/04/
 ]
 
-[{A lot of programmers are drawn to the field of computer science precisely because there were no rules restricting the worlds they created.  In some sense, we do rely upon the power of <a href="http://zombo.com/" target="_blank">"being able to do anything"</a> in order to unleash the creative and technical power of computers for solving problems in new ways.  Yet experienced developers generally realize that choosing a development platform with more narrow capabilities can actually help focus the problem and produce a better product--and that those restrictions are there for their own good!}]
+{A lot of programmers are drawn to the field of computer science precisely because there were no rules restricting the worlds they created.  In some sense, we do rely upon the power of <a href="http://zombo.com/">"being able to do anything"</a> in order to unleash the creative and technical power of computers for solving problems in new ways.  Yet experienced developers generally realize that choosing a development platform with more narrow capabilities can actually help focus the problem and produce a better product--and that those restrictions are there for their own good!}
 
-[{This seeming paradox is actually a pervasive Zen Truth, which shows up in every area of philosophical inquiry.  I like to borrow terminology from the political theorists, who have articulated the two types of freedom: "freedom to" and "freedom from".  You might say that each restriction placed on a software developer is a limitation of their "freedom to", which provides someone else (another developer or the user themselves) a "freedom from".  The classic statement "your right to swing your arm ends where my nose begins" captures the importance of balancing the power of the individual and the guarantees offered to others.}]
+{This seeming paradox is actually a pervasive Zen Truth, which shows up in every area of philosophical inquiry.  I like to borrow terminology from the political theorists, who have articulated the two types of freedom: "freedom to" and "freedom from".  You might say that each restriction placed on a software developer is a limitation of their "freedom to", which provides someone else (another developer or the user themselves) a "freedom from".  The classic statement "your right to swing your arm ends where my nose begins" captures the importance of balancing the power of the individual and the guarantees offered to others.}
 
-[{The balance comes into play no matter how you design a system; you cannot "opt-out" of the decisions! Any failure on your part to put a restriction in place is an implicit declaration that everything is permitted. That may have been an expedient choice in the Wild West of computer history, but software is now a tightly intertwined urban landscape...where lawlessness breeds chaos.  Although security restrictions are experiencing a boon due to the prevalence of hackers, very little emphasis is currently being placed on imposing clever restrictions on an application's internal structure.  If your computer were a country, it's as if there are detailed immigration policies but no one is bothering to enforce traffic laws!}]
+{The balance comes into play no matter how you design a system; you cannot "opt-out" of the decisions! Any failure on your part to put a restriction in place is an implicit declaration that everything is permitted. That may have been an expedient choice in the Wild West of computer history, but software is now a tightly intertwined urban landscape...where lawlessness breeds chaos.  Although security restrictions are experiencing a boon due to the prevalence of hackers, very little emphasis is currently being placed on imposing clever restrictions on an application's internal structure.  If your computer were a country, it's as if there are detailed immigration policies but no one is bothering to enforce traffic laws!}
 
-[{When I think about most of the tools and frameworks that are being marketed today, I'm reminded of the story of Stone Soup.  I'll paraphrase the fable like this:}]
+{When I think about most of the tools and frameworks that are being marketed today, I'm reminded of the story of Stone Soup.  I'll paraphrase the fable like this:}
 
 [quote [
-	[{A mischevious individual sits with a stone and some water in a pot. Curious villagers come to see what's being made, and the stranger tells them that it's "stone soup".  The people doubt that you can really make soup from a stone, but they sit and wait to watch and see if anything happens.}]
 
-	[center {<img src="http://hostilefork.com/wp-content/uploads/2007/11/stone_soup_small.jpg" alt="Man serving stone soup" />}]
+        {A mischevious individual sits with a stone and some water in a pot. Curious villagers come to see what's being made, and the stranger tells them that it's "stone soup".  The people doubt that you can really make soup from a stone, but they sit and wait to watch and see if anything happens.}
 
-	[{As the time passes, the chef mourns the fact that there's no salt, because that would make the stone soup "much better".  Someone runs home to get salt to put in the pot.  Then the chef mentions that there are no carrots, which is too bad since carrots really give that extra "oomph" to stone soup.  That leads another person to run to their garden to get the ingredient, and this pattern is repeated a few times.  Eventually it makes a great pot of soup--leaving the villagers in awe of the magic stone's power.}]
-] ]
+        [center {<img src="http://hostilefork.com/wp-content/uploads/2007/11/stone_soup_small.jpg" alt="Man serving stone soup" />}]
 
-[{Usually the man with the stone is seen as a hero for getting the hungry villagers to share their ingredients with the community instead of hoarding them.  Thus the moral of the story is that when you catalyze a group so that everyone contributes what they can, a greater good is achieved.  But I always felt like a more obvious moral was important:}]
+        {As the time passes, the chef mourns the fact that there's no salt, because that would make the stone soup "much better".  Someone runs home to get salt to put in the pot.  Then the chef mentions that there are no carrots, which is too bad since carrots really give that extra "oomph" to stone soup.  That leads another person to run to their garden to get the ingredient, and this pattern is repeated a few times.  Eventually it makes a great pot of soup--leaving the villagers in awe of the magic stone's power.}
+
+    ]]
+
+{Usually the man with the stone is seen as a hero for getting the hungry villagers to share their ingredients with the community instead of hoarding them.  Thus the moral of the story is that when you catalyze a group so that everyone contributes what they can, a greater good is achieved.  But I always felt like a more obvious moral was important:}
 
 [center {<em>If you provide all the seasonings, vegetables, and meat then you will have soup--stone or no stone!</em>}]
 
-[{To recast this lesson into engineering terminology:}]
+{To recast this lesson into engineering terminology:}
 
 [center {<em>Projects can end up succeeding <i>in spite of</i> infrastructure...rather than <i>because of</i> it!</em>}]
 
-[{Like these hungry villagers, programming communities often achieve outstanding results by using tools which have no more to do with their success than the stone.  In fact, software developers are especially vulnerable to stone soup salesmen because of the discoveries often <a href="http://hostilefork.com/2005/06/20/turings-thesis-in-his-own-words/">attributed to Alan Turing</a>.  Since computing is universal, even bad tools can't <i>stop</i> you from solving any problem you need to.  The only place new computing "power" comes into the picture is when a platform clearly defines which problems it <i>doesn't</i> solve--so that it may be closer fit to the problems you are interested in.}]
+{Like these hungry villagers, programming communities often achieve outstanding results by using tools which have no more to do with their success than the stone.  In fact, software developers are especially vulnerable to stone soup salesmen because of the discoveries often <a href="http://hostilefork.com/2005/06/20/turings-thesis-in-his-own-words/">attributed to Alan Turing</a>.  Since computing is universal, even bad tools can't <i>stop</i> you from solving any problem you need to.  The only place new computing "power" comes into the picture is when a platform clearly defines which problems it <i>doesn't</i> solve--so that it may be closer fit to the problems you are interested in.}
 
-[{Thus, to truly find advantage in a new platform, it must be very specific about the limitations it created to reshape its environment in a manner more catalytic than the Universal Computation stone!}]
+{Thus, to truly find advantage in a new platform, it must be very specific about the limitations it created to reshape its environment in a manner more catalytic than the Universal Computation stone!}

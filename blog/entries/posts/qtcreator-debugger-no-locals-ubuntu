@@ -2,75 +2,79 @@ Draem [
     title: {QtCreator 2.8.1 Not Debugging Locals in Ubuntu 13.10}
     category: 'post
     tags: [debugging qt qt-creator cplusplus]
-
     slug: %qtcreator-debugger-no-locals-ubuntu
     date: 20-Oct-2013/16:59
     old-url-prefix: %2013/10/20/
 ]
 
-[{<i>(UPDATE: The problem described in this post is now reportedly fixed in Qt 3.0.  So the easier thing than this procedure is to upgrade to that, if you can!)</i>}]
+[update 12-Dec-2013 {The problem described in this post is now reportedly fixed in Qt 3.0.  So the easier thing than this procedure is to upgrade to that, if you can!}]
 
-[{Every now and again I build a new Qt development virtual machine, to try the "bleeding edge".  This weekend I tried moving some Qt 4.8 projects to Qt 5.1.  And I decided to do this under a new Kubuntu 13.10 installation, with QtCreator 2.8.1.}]
+{Every now and again I build a new Qt development virtual machine, to try the "bleeding edge".  This weekend I tried moving some Qt 4.8 projects to Qt 5.1.  And I decided to do this under a new Kubuntu 13.10 installation, with QtCreator 2.8.1.}
 
-[{It got started pretty painlessly.  I bumped around and visited several blogs where people had gone through similar steps.  There were some hassles with updating the CMake files (which I consider on par with voodoo), and a few reasonably well-documented changes that needed to be made the source code.}]
+{It got started pretty painlessly.  I bumped around and visited several blogs where people had gone through similar steps.  There were some hassles with updating the CMake files (which I consider on par with voodoo), and a few reasonably well-documented changes that needed to be made the source code.}
 
-[{But the problem that took down pretty much a whole day of investigation turned out to be an interaction between the gdb that ships with Ubuntu 13.10 not playing well with Qt Creator.  The result was that no variables could be inspected or viewed in the debugger (a clearly untenable situation).  The appearance was similar to this StackOverflow question:}]
+{But the problem that took down pretty much a whole day of investigation turned out to be an interaction between the gdb that ships with Ubuntu 13.10 not playing well with Qt Creator.  The result was that no variables could be inspected or viewed in the debugger (a clearly untenable situation).  The appearance was similar to this StackOverflow question:}
 
-[{<a href="http://stackoverflow.com/questions/16611678/">How to make the “Locals and Expressions" debugging window operational with gcc 4.8?</a>}]
+[http://stackoverflow.com/questions/16611678/ {How to make the "Locals and Expressions" debugging window operational with gcc 4.8?}]
 
-[{But that person's problem was running an outdated version of GDB, while mine was the latest.  It turns out the problem can also occur if your GDB is <i>too new</i>... for instance, compiled against Python3 instead of Python2.  :-/}]
+{But that person's problem was running an outdated version of GDB, while mine was the latest.  It turns out the problem can also occur if your GDB is <i>too new</i>... for instance, compiled against Python3 instead of Python2.  :-/}
 
-[{Assuming your GDB is built with any Python abilities at all, you can check the version by running gdb and then at the prompt:}]
+{Assuming your GDB is built with any Python abilities at all, you can check the version by running gdb and then at the prompt:}
 
 [code txt "(gdb) python print sys.version"]
 
-[{If that gives you an "invalid syntax" error, it's because Python3 requires parentheses around the print.  So try doing:}]
+{If that gives you an "invalid syntax" error, it's because Python3 requires parentheses around the print.  So try doing:}
 
 [code txt "(gdb) python print(sys.version)"]
 
-[{If you get a <em>3.x.x</em> back from that, then you're living proof that what the Qt docs say about <a href="http://qt-project.org/doc/qtcreator-2.8/creator-debugger-engines.html#supported-gdb-versions">supported gdb versions</a> is no longer true:}]
+{If you get a <em>3.x.x</em> back from that, then you're living proof that what the Qt docs say about <a href="http://qt-project.org/doc/qtcreator-2.8/creator-debugger-engines.html#supported-gdb-versions">supported gdb versions</a> is no longer true:}
 
 [quote {The minimal supported version in this case is FSF GDB 7.4.1, using Python version 2.6 or 2.7. Note that Python 3.x is not supported by GDB. (wrong!)}]
 
-[{What *is* true is that at this time of writing, the QtCreator dumper scripts won't run under Python3.  Someone <a href="https://bugs.launchpad.net/ubuntu/+source/gdb/+bug/1216660">recently reported this to Ubuntu</a>, and <a href="https://bugreports.qt-project.org/browse/QTCREATORBUG-10161">submitted a bug report to Qt</a> along with some preliminary steps to adapt the dumpers.}]
+{What *is* true is that at this time of writing, the QtCreator dumper scripts won't run under Python3.  Someone <a href="https://bugs.launchpad.net/ubuntu/+source/gdb/+bug/1216660">recently reported this to Ubuntu</a>, and <a href="https://bugreports.qt-project.org/browse/QTCREATORBUG-10161">submitted a bug report to Qt</a> along with some preliminary steps to adapt the dumpers.}
 
-[{At this time it looks like getting a version of GDB built against Python2 and using that instead is the easiest thing to do.  Here's how... <i>(and thanks to all the comments I've received, although integrating and testing them has made this into a bit more time than I wanted to spend!  But glad people are finding it useful...)</i>}]
+{At this time it looks like getting a version of GDB built against Python2 and using that instead is the easiest thing to do.  Here's how... <i>(and thanks to all the comments I've received, although integrating and testing them has made this into a bit more time than I wanted to spend!  But glad people are finding it useful...)</i>}
 
-[more]
+more
 
 [heading "Building GDB with embedded Python2"]
 
 [note "I did this on Kubuntu 13.10"]
 
 [list [
-	[{Make sure ncurses-dev is installed (<b>sudo apt-get install ncurses-dev</b>).  Commentator <a href="http://hostilefork.com/2013/10/20/qtcreator-debugger-no-locals-ubuntu/#comment-1478">Daniele</a> points out another dependency that I already had installed, but you might not: <b>sudo apt-get install python-dev</b>}]
 
-	[{To get the GDB sources, you can either extract the latest GDB version from <a href="ftp://sourceware.org/pub/gdb/releases/">ftp://sourceware.org/pub/gdb/releases/</a> (at the time of this writing that would be <em>gdb-7.6.1.tar.gz</em>.}]
+        {Make sure ncurses-dev is installed (<b>sudo apt-get install ncurses-dev</b>).  Commentator <a href="http://hostilefork.com/2013/10/20/qtcreator-debugger-no-locals-ubuntu/#comment-1478">Daniele</a> points out another dependency that I already had installed, but you might not: <b>sudo apt-get install python-dev</b>}
 
-	[note {Commentator <a href="http://hostilefork.com/2013/10/20/qtcreator-debugger-no-locals-ubuntu/#comment-1484">Rico Chet</a> reported that getting the ability to see the callstack into Qt itself required using <b>apt-get install source gdb</b> to get the source instead.  I did not have this problem, but if you do then you may want to try his method.  It required additional dependencies for me: <code>sudo apt-get install dpkg-dev</code> and <code>sudo apt-get install texinfo</code>.  Then I had to set the MAKEINFO environment variable prior to configuring with <code>export MAKEINFO=makeinfo</code>.  Also note that if you use the <em>apt-get</em> approach for the source, it will put that source in your current directory.  You do not need to use <em>sudo</em>... and if you do, it will make root the owner and complicate the build process.)}]
+        [group
 
-	[{In the directory extracted, you're going to either run <code>./configure --prefix /usr/local/gdb-python2 --with-python</code> if you downloaded the .tar.gz, or <code>./configure -with-separate-debug-dir=/usr/lib/debug --prefix /usr/local/gdb-python2</code> if you used the <em>apt-get</em> approach to get the source.  Follow this by <code>make</code> and <code>sudo make install</code> <i>(You can specify another --prefix option if you want it installed somewhere else)</i>}]
-] ]
+            {To get the GDB sources, you can either extract the latest GDB version from <a href="ftp://sourceware.org/pub/gdb/releases/">ftp://sourceware.org/pub/gdb/releases/</a> (at the time of this writing that would be <em>gdb-7.6.1.tar.gz</em>.}
+
+            [note {Commentator <a href="http://hostilefork.com/2013/10/20/qtcreator-debugger-no-locals-ubuntu/#comment-1484">Rico Chet</a> reported that getting the ability to see the callstack into Qt itself required using <b>apt-get install source gdb</b> to get the source instead.  I did not have this problem, but if you do then you may want to try his method.  It required additional dependencies for me: <code>sudo apt-get install dpkg-dev</code> and <code>sudo apt-get install texinfo</code>.  Then I had to set the MAKEINFO environment variable prior to configuring with <code>export MAKEINFO=makeinfo</code>.  Also note that if you use the <em>apt-get</em> approach for the source, it will put that source in your current directory.  You do not need to use <em>sudo</em>... and if you do, it will make root the owner and complicate the build process.)}]
+        ]
+
+        {In the directory extracted, you're going to either run <code>./configure --prefix /usr/local/gdb-python2 --with-python</code> if you downloaded the .tar.gz, or <code>./configure -with-separate-debug-dir=/usr/lib/debug --prefix /usr/local/gdb-python2</code> if you used the <em>apt-get</em> approach to get the source.  Follow this by <code>make</code> and <code>sudo make install</code> <i>(You can specify another --prefix option if you want it installed somewhere else)</i>}
+
+    ]]
 
 [note {If you happen to be building for ARM, commentator <a href="http://hostilefork.com/2013/10/20/qtcreator-debugger-no-locals-ubuntu/#comment-1476">Juha</a> points out that you can add <code>–target=arm-fsl-linux-gnueabi</code> to the <em>configure</em> command line and get an ARM version of GDB.}]
 
-[{Once you've got the build, do a sanity check on the version by running <b>/usr/local/gdb-python2/bin/gdb</b> and testing with <b>python print sys.version</b>.  <i>(If you try to run gdb from the directory, remember to invoke it with <b>./gdb</b> or else you'll get the default installation)</i>  If you didn't get an embedded Python 2.x, don't bother continuing until you figure out why not.}]
+{Once you've got the build, do a sanity check on the version by running <b>/usr/local/gdb-python2/bin/gdb</b> and testing with <b>python print sys.version</b>.  <i>(If you try to run gdb from the directory, remember to invoke it with <b>./gdb</b> or else you'll get the default installation)</i>  If you didn't get an embedded Python 2.x, don't bother continuing until you figure out why not.}
 
-[{The fact that I got Python2 by default raises the question of what flags or switches the Ubuntu people used to get Python3.  Knowing the answer to that is beyond the scope of this post--and involves dealing more with autotools (another voodoo-oriented build environment).  But if someone wants to leave a comment explaining that, I guess I'll add it.  :-)}]
+{The fact that I got Python2 by default raises the question of what flags or switches the Ubuntu people used to get Python3.  Knowing the answer to that is beyond the scope of this post--and involves dealing more with autotools (another voodoo-oriented build environment).  But if someone wants to leave a comment explaining that, I guess I'll add it.  :-)}
 
 [heading "Get QtCreator to use the new GDB"]
 
-[{Though it would seem that there are settings dialogs for making QtCreator use a different GDB than the one in <b>/usr/bin/gdb</b> (in <i>Tools->Options->Build & Run->Kits</i>), that wouldn't work for me.}]
+{Though it would seem that there are settings dialogs for making QtCreator use a different GDB than the one in <b>/usr/bin/gdb</b> (in <i>Tools->Options->Build & Run->Kits</i>), that wouldn't work for me.}
 
 [update {Commentator <a href="http://hostilefork.com/2013/10/20/qtcreator-debugger-no-locals-ubuntu/#comment-1480">Simon</a> reports that the feature of setting the debugger in Qt Creator worked in 2.8.1, if he ran <b>aptitude purge gdb</b>.  Commentator <a href="http://hostilefork.com/2013/10/20/qtcreator-debugger-no-locals-ubuntu/#comment-1486">Matthias</a> said it just worked for him.  Commentator <a href="http://hostilefork.com/2013/10/20/qtcreator-debugger-no-locals-ubuntu/#comment-1477">Vlad</a> reports that there is a different setting in the beta of Qt Creator 3.0, under (Tools > Options > Build & Run > Debuggers, for this path which overrides it correctly.  He says it works.  So if you're even more bleeding edge than I am, you might try that.)}]
 
-[{So YMMV.  But I couldn't override the GDB setting in the automatic "Kit".  If I added a new kit and poked a debugger path into the slot where it seems you can set it... it seems to be ignored and just runs the old one anyway.  It didn't matter what kit I would "Make Default".}]
+{So YMMV.  But I couldn't override the GDB setting in the automatic "Kit".  If I added a new kit and poked a debugger path into the slot where it seems you can set it... it seems to be ignored and just runs the old one anyway.  It didn't matter what kit I would "Make Default".}
 
-[{To prove that it wasn't paying attention to my settings, I did <b>sudo mv /usr/bin/gdb /usr/bin/gdb-python3</b> so it couldn't be found.  The debugger declared <i>"Could Not Run: No debugger set up."</i>, even though I had specified <b>/usr/local/gdb-python2/bin/gdb</b> in another configuration I'd chosen to be the default.  The simple solution I used was <b>sudo ln -s /usr/local/gdb-python2/bin/gdb /usr/bin/gdb</b>.}]
+{To prove that it wasn't paying attention to my settings, I did <b>sudo mv /usr/bin/gdb /usr/bin/gdb-python3</b> so it couldn't be found.  The debugger declared <i>"Could Not Run: No debugger set up."</i>, even though I had specified <b>/usr/local/gdb-python2/bin/gdb</b> in another configuration I'd chosen to be the default.  The simple solution I used was <b>sudo ln -s /usr/local/gdb-python2/bin/gdb /usr/bin/gdb</b>.}
 
 [heading "Additional notes"]
 
-[{If you're having problems that this doesn't solve, then <i>Window->Views->Debugger Log</i> gives a lot of debug spew where you might find a smoking gun.  It guided me toward knowing at least what to look at; I started snooping around Python linkage due to seeing this:}]
+{If you're having problems that this doesn't solve, then <i>Window->Views->Debugger Log</i> gives a lot of debug spew where you might find a smoking gun.  It guided me toward knowing at least what to look at; I started snooping around Python linkage due to seeing this:}
 
 [code txt {
 &"Traceback (most recent call last):\n"
@@ -80,10 +84,10 @@ Draem [
 151^^error,msg="Error while executing Python code."
 }]
 
-[{This caused me to go read up a bit on how the <a href="http://qt-project.org/doc/qtcreator-2.6/creator-debugging-helpers.html">Qt Creator debugger uses Python</a>.  It suggested that the so-called "Python Helpers" don't work in newer versions of Linux (my case was running Kubuntu 13.10):}]
+{This caused me to go read up a bit on how the <a href="http://qt-project.org/doc/qtcreator-2.6/creator-debugging-helpers.html">Qt Creator debugger uses Python</a>.  It suggested that the so-called "Python Helpers" don't work in newer versions of Linux (my case was running Kubuntu 13.10):}
 
 [quote {"There are two approaches to displaying complex data types. The first and original one is to use debugging helpers based on C++. While it has been superseded on most platforms by the more robust and more flexible second approch that uses Python scripting, it is the only feasible one on Windows/MSVC, Mac OS, and old Linux distributions. Moreover, this approach is automatically chosen as fallback if the Python based approach fails."}]
 
-[{But even when I disabled the Python Helpers, I still had problems.  So it turns out that Python is used for other purposes in the debugger, even when C++ helpers are in effect.}]
+{But even when I disabled the Python Helpers, I still had problems.  So it turns out that Python is used for other purposes in the debugger, even when C++ helpers are in effect.}
 
-[{And the moral of the story is: <a href="http://www.youtube.com/watch?v=gAYL5H46QnQ">You can't trust the system.</a>  :-)}]
+{And the moral of the story is: <a href="http://www.youtube.com/watch?v=gAYL5H46QnQ">You can't trust the system.</a>  :-)}

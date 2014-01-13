@@ -2,23 +2,22 @@ Draem [
     title: "Ideas on Meaningful Prefixes in C++ Code"
     category: 'post
     tags: [naming cplusplus]
-
     slug: %meaningful-prefix-ideas-cplusplus
     date: 14-Nov-2009/17:58
     old-url-prefix: %2009/11/14/
 ]
 
-[{In the article <a href="http://hostilefork.com/2005/09/24/defense-of-hungarian-notation/">In Defense of Hungarian Notation (with caveats)</a> I talked about why that convention was not inherently bad.  In fact, if one isn't using it <i>blatantly incorrectly</i>--the way the Win32 API does--it can be rather nice.  It's a way of avoiding meaningless or arbitrary pieces of a variable's name which could be supplied from context alone.}]
+{In the article <a href="http://hostilefork.com/2005/09/24/defense-of-hungarian-notation/">In Defense of Hungarian Notation (with caveats)</a> I talked about why that convention was not inherently bad.  In fact, if one isn't using it <i>blatantly incorrectly</i>--the way the Win32 API does--it can be rather nice.  It's a way of avoiding meaningless or arbitrary pieces of a variable's name which could be supplied from context alone.}
 
-[{However, I concluded that article by saying that modern IDEs and languages call for different conventions.  While I've become a bit interested in the literacy of <a href="http://hostilefork.com/2008/09/10/major-quirks-of-the-rebol-language/">Rebol</a> code, I still use other languages.  In C++ specifically, I've become curious about what naming conventions are "good".}]
+{However, I concluded that article by saying that modern IDEs and languages call for different conventions.  While I've become a bit interested in the literacy of <a href="http://hostilefork.com/2008/09/10/major-quirks-of-the-rebol-language/">Rebol</a> code, I still use other languages.  In C++ specifically, I've become curious about what naming conventions are "good".}
 
-[{Despite my penchant for <a href="http://hostilefork.com/rebmu/">Rebmu</a>, in real programming I'm not concerned with brevity in the "fewest characters of source code" sense. Brief names are a case of <i>"penny-wise, pound-foolish"</i>--the stronger form of brevity to capture essential patterns so there's less code overall.  Sometimes a long and descriptive name can help point out smoking guns. Think about a routine that returns a pointer which can either be written as <code>GetEmployee</code> and <code>GetEmployeeMaybeNull</code>.  Depending on your tastes, you might think "MaybeNull" is a verbose suffix, but what will cost you more in the long run: 9 characters or the lack of awareness of the actual function's behavior?}]
+{Despite my penchant for <a href="http://hostilefork.com/rebmu/">Rebmu</a>, in real programming I'm not concerned with brevity in the "fewest characters of source code" sense. Brief names are a case of <i>"penny-wise, pound-foolish"</i>--the stronger form of brevity to capture essential patterns so there's less code overall.  Sometimes a long and descriptive name can help point out smoking guns. Think about a routine that returns a pointer which can either be written as <code>GetEmployee</code> and <code>GetEmployeeMaybeNull</code>.  Depending on your tastes, you might think "MaybeNull" is a verbose suffix, but what will cost you more in the long run: 9 characters or the lack of awareness of the actual function's behavior?}
 
-[{While naming is a broad general topic, in this article I'm just going to talk about some of my unusual uses of prefixes on method names.}]
+{While naming is a broad general topic, in this article I'm just going to talk about some of my unusual uses of prefixes on method names.}
 
 [heading "booleans"]
 
-[{The convention of using "is" on boolean methods is pretty good.  But it tends to be a bad idea for variables that capture the results from such methods:}]
+{The convention of using "is" on boolean methods is pretty good.  But it tends to be a bad idea for variables that capture the results from such methods:}
 
 [code cplusplus {
 bool isDoorOpen = door.isOpen();
@@ -27,9 +26,9 @@ if (isDoorOpen) // well, its not any more!
     complain("you left the door open");
 }]
 
-[{
+{
  
-I've found some interesting words for working around this.  For instance, you can use "should" in the variable name if you know what it's going to control later...}]
+I've found some interesting words for working around this.  For instance, you can use "should" in the variable name if you know what it's going to control later...}
 
 [code cplusplus {
 bool shouldCloseDoor = door.isOpen();
@@ -41,7 +40,7 @@ if (shouldCloseDoor) {
 ...
 }]
 
-[{If you know you're capturing just to look at later, "was" can be a nice word:}]
+{If you know you're capturing just to look at later, "was" can be a nice word:}
 
 [code cplusplus {
 bool wasDoorOpen = door.isOpen();
@@ -54,7 +53,7 @@ if (wasDoorOpen)
    complain("you left the door open earlier this morning");
 }]
 
-[{Generally speaking, "is" comes in handy for const methods... but non-const methods usually want to emphasize their action and not the result.  If your non-const method has a boolean result, then "maybe" can come in handy:}]
+{Generally speaking, "is" comes in handy for const methods... but non-const methods usually want to emphasize their action and not the result.  If your non-const method has a boolean result, then "maybe" can come in handy:}
 
 [code cplusplus {
 bool didCloseDoor = door.maybeClose();
@@ -64,26 +63,26 @@ if (not didCloseDoor)
 
 [note {I used to use "try" for this, but I think that since try has very specific meaning in exception handling it's better to use maybe.}]
 
-[{We also see that "did" lines up with actions, in a way similar to how "was" worked for simple observation.}]
+{We also see that "did" lines up with actions, in a way similar to how "was" worked for simple observation.}
 
 [heading "get, set, fetch, extract"]
 
-[{Everyone knows "get" and "set".  But sometimes you have a more heavyweight version of get.  Like with an object that contains a shared pointer.  You might have a get method that retrieves the pointer, and a "fetch" method that retrieves the *shared* pointer... thus letting go of a bit of control.}]
+{Everyone knows "get" and "set".  But sometimes you have a more heavyweight version of get.  Like with an object that contains a shared pointer.  You might have a get method that retrieves the pointer, and a "fetch" method that retrieves the *shared* pointer... thus letting go of a bit of control.}
 
-[{I use "extract" to mean a complete takeover of ownership.  So in the example I just explained, that would mean getting back a unique pointer.}]
+{I use "extract" to mean a complete takeover of ownership.  So in the example I just explained, that would mean getting back a unique pointer.}
 
 [heading "maybe"]
 
-[{I mentioned <b>maybe</b> earlier in the context of boolean results regarding an action with side-effects that may or may not succeed.  A specific application I have of that is as <code>maybeGet</code> to indicate when something might not return a result, such as with <code>optional</code>:}]
+{I mentioned <b>maybe</b> earlier in the context of boolean results regarding an action with side-effects that may or may not succeed.  A specific application I have of that is as <code>maybeGet</code> to indicate when something might not return a result, such as with <code>optional</code>:}
 
 [code cplusplus "optional<Foo> maybeGetFooFromBar(Bar& bar);"]
 
-[{While I've concluded that putting <code>shared_ptr</code> or <code>unique_ptr</code> inside of an optional is questionable, I still use the "maybe" prefix to cue when a nullptr result is legitimate.}]
+{While I've concluded that putting <code>shared_ptr</code> or <code>unique_ptr</code> inside of an optional is questionable, I still use the "maybe" prefix to cue when a nullptr result is legitimate.}
 
 [heading "hopefully"]
 
-[{When I use hopefully at the beginning of a name, that means it's returning a boolean of whether that hope succeeded *and* it will be <a href="http://hostilefork.com/hoist/">taking a codeplace</a> of where to indicate the problem happened.  In other words, it is the client who has the hope and is providing a token to hang it on.}]
+{When I use hopefully at the beginning of a name, that means it's returning a boolean of whether that hope succeeded *and* it will be <a href="http://hostilefork.com/hoist/">taking a codeplace</a> of where to indicate the problem happened.  In other words, it is the client who has the hope and is providing a token to hang it on.}
 
-[{In this sense it is like a "maybe" on steroids.  The caller does not have to worry about providing a handler for the case that didn't succeed, but can do so in order to assist in debug overrides which may be injected after the fact.  (Presumably the override allowing the code to continue to run would not be added if the implications hadn't been thought out!)}]
+{In this sense it is like a "maybe" on steroids.  The caller does not have to worry about providing a handler for the case that didn't succeed, but can do so in order to assist in debug overrides which may be injected after the fact.  (Presumably the override allowing the code to continue to run would not be added if the implications hadn't been thought out!)}
 
-[{When I use hopefully at the *end* of a name, that means it is not returning a boolean of whether the hope succeeded or not.  The hope is just part of the process.  You still are providing a codeplace.}]
+{When I use hopefully at the *end* of a name, that means it is not returning a boolean of whether the hope succeeded or not.  The hope is just part of the process.  You still are providing a codeplace.}

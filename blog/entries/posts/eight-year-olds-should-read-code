@@ -2,31 +2,30 @@ Draem [
     title: "8-Year-Olds Should *Read* My Code"
     category: 'post
     tags: [rebol philosophy cplusplus]
-
     slug: %eight-year-olds-should-read-code
     date: 16-Jun-2009/17:21
     old-url-prefix: %2009/06/16/
 ]
 
-[{A couple years ago, I read an article that gained popularity on social-bookmarking sites which was entitled <a href="http://www.cs.nyu.edu/~michaels/blog/?cat=6">"8-year-olds should test my code"</a>.  It's a story about a child named Brian (no relation :P), who crashed <a href="http://en.wikipedia.org/wiki/UCBLogo">UCBLogo</a> only seconds after encountering it for the first time:}]
+{A couple years ago, I read an article that gained popularity on social-bookmarking sites which was entitled <a href="http://www.cs.nyu.edu/~michaels/blog/?cat=6">"8-year-olds should test my code"</a>.  It's a story about a child named Brian (no relation :P), who crashed <a href="http://en.wikipedia.org/wiki/UCBLogo">UCBLogo</a> only seconds after encountering it for the first time:}
 
-[center {<a href="http://hostilefork.com/shared/doodlebyte/screenshot056_thumb.jpg"><img src="http://hostilefork.com/shared/doodlebyte/screenshot056.png" alt="Logo Crash Caused By 8-Year-Old" title="screenshot" width="400" height="237" class="alignnone size-medium wp-image-98" /></a>}]
+[center {<a href="http://hostilefork.com/shared/doodlebyte/screenshot056_thumb.jpg"><img src="http://hostilefork.com/shared/doodlebyte/screenshot056.png" alt="Logo Crash Caused By 8-Year-Old" width="400" height="237" class="alignnone size-medium wp-image-98" /></a>}]
 
-[{The author is an engineer at Google, and said this:}]
+{The author is an engineer at Google, and said this:}
 
-[quote "I had played with UCBLogo for two weeks and hadn't made it crash once. Brian brought the whole thing down in three commands. The most telling part is that when I tried to reproduce the defect a week later I couldn't.  I issued rt with a ton of 9s and just couldn't get it to break.  As it turns, it only crashes when you omit the space, which of course I didn't think of doing.  It took me more time to reproduce the defect than it took Brian to discover it."]
+[quote {I had played with UCBLogo for two weeks and hadn't made it crash once. Brian brought the whole thing down in three commands. The most telling part is that when I tried to reproduce the defect a week later I couldn't.  I issued rt with a ton of 9s and just couldn't get it to break.  As it turns, it only crashes when you omit the space, which of course I didn't think of doing.  It took me more time to reproduce the defect than it took Brian to discover it.}]
 
-[{We're offered the conclusion that we need legions of 8-year old testers, since their lack of preconceptions makes them great sources of unanticipated input.  I <i>strongly</i> disagree.  }]
+{We're offered the conclusion that we need legions of 8-year old testers, since their lack of preconceptions makes them great sources of unanticipated input.  I <i>strongly</i> disagree.  }
 
-[{For one thing, automated <a href="http://en.wikipedia.org/wiki/Fuzz_testing">fuzz testing</a> can be made much more genuinely random.  But more importantly: 8-year-olds have better things to do than feed random data into programs that were developed using defective methods!  It's <i>much</i> more gratifying if kids are using solid software tools that enable creativity and learning.  <i>Even better</i> is if their curiosity about the tool can be satisfied by reading its implementation!}]
+{For one thing, automated <a href="http://en.wikipedia.org/wiki/Fuzz_testing">fuzz testing</a> can be made much more genuinely random.  But more importantly: 8-year-olds have better things to do than feed random data into programs that were developed using defective methods!  It's <i>much</i> more gratifying if kids are using solid software tools that enable creativity and learning.  <i>Even better</i> is if their curiosity about the tool can be satisfied by reading its implementation!}
 
-[{This is not as unattainable as it sounds.  I'll go deeper into this example to make my case...by showing what caused this bug and how far ahead modern techniques are.}]
+{This is not as unattainable as it sounds.  I'll go deeper into this example to make my case...by showing what caused this bug and how far ahead modern techniques are.}
 
-[more]
+more
 
 [heading "This Bug Is Obvious"]
 
-[{You don't need to hire a tester of <i>any age</i> to know this bug is there.  You don't even need a compiler!  Just do what I did, and search the source for patterns like "bufXXX[Y]", where Y is a fixed number:}]
+{You don't need to hire a tester of <i>any age</i> to know this bug is there.  You don't even need a compiler!  Just do what I did, and search the source for patterns like "bufXXX[Y]", where Y is a fixed number:}
 
 [code c {
 NODE *lerror(NODE *args) {
@@ -46,9 +45,9 @@ NODE *lerror(NODE *args) {
     }
 }]
 
-[{How can anyone be surprised that banging on a keyboard with long strings will break code with fixed-sized buffers?  In this case, forming the error message crashes when it tries to embed an arbitrarily long command line into 200 character array.  A back-of-the-envelope calculation suggests that on an 80 column terminal, it'll choke when your input string is about two and a half lines long.  As that's what happens, I'll bet you $0.99999999... this is the very bug.  :)}]
+{How can anyone be surprised that banging on a keyboard with long strings will break code with fixed-sized buffers?  In this case, forming the error message crashes when it tries to embed an arbitrarily long command line into 200 character array.  A back-of-the-envelope calculation suggests that on an 80 column terminal, it'll choke when your input string is about two and a half lines long.  As that's what happens, I'll bet you $0.99999999... this is the very bug.  :)}
 
-[{Notice that this routine just sets up the buffer.  It doesn't do the formatting work, it just calls <code>err_print</code>:}]
+{Notice that this routine just sets up the buffer.  It doesn't do the formatting work, it just calls <code>err_print</code>:}
 
 [code c {
 void err_print(char *buffer) {
@@ -101,15 +100,15 @@ void err_print(char *buffer) {
 
 [heading "Can C++ help?"]
 
-[{Now in the past, I've directed C-string-manipulation people to the excellent short paper <a href="http://www.research.att.com/~bs/new_learning.pdf">Learning Standard C++ As A New Language</a> by Bjarne Stroustrup.  He makes a very clear argument for avoiding C-style string management.  In fact, if your program is running faster in C, it's probably only faster <i>because it's incorrect</i>!}]
+{Now in the past, I've directed C-string-manipulation people to the excellent short paper <a href="http://www.research.att.com/~bs/new_learning.pdf">Learning Standard C++ As A New Language</a> by Bjarne Stroustrup.  He makes a very clear argument for avoiding C-style string management.  In fact, if your program is running faster in C, it's probably only faster <i>because it's incorrect</i>!}
 
-["In the paper, Bjarne says:"]
+"In the paper, Bjarne says:"
 
-[quote {"We want our C++ programs to be easy to write, correct, maintainable, and acceptably efficient. To do that, we must design and program at a higher level of abstraction than has typically been done with C and early C++. Through the use of libraries, this ideal is achievable without loss of efficiency compared to lower-level styles."}]
+[quote {We want our C++ programs to be easy to write, correct, maintainable, and acceptably efficient. To do that, we must design and program at a higher level of abstraction than has typically been done with C and early C++. Through the use of libraries, this ideal is achievable without loss of efficiency compared to lower-level styles.}]
 
-[{There's a tricky word in there, however.  That's "abstraction"--the complexity didn't <i>disappear</i> from the codebase, it just moved into library classes as more C++ code!  And it's not code meant for humans (despite the fact that humans are regularly exposed to it).}]
+{There's a tricky word in there, however.  That's "abstraction"--the complexity didn't <i>disappear</i> from the codebase, it just moved into library classes as more C++ code!  And it's not code meant for humans (despite the fact that humans are regularly exposed to it).}
 
-[{Here's some of <a href="http://www.ib.cnea.gov.ar/~oop/biblio/libstdc++/basic__string_8h-source.html">basic_string.h</a> for the interface of concatenating a character to an existing string:}]
+{Here's some of <a href="http://www.ib.cnea.gov.ar/~oop/biblio/libstdc++/basic__string_8h-source.html">basic_string.h</a> for the interface of concatenating a character to an existing string:}
 
 [code cplusplus {
 template<typename _CharT, typename _Traits, typename _Alloc>
@@ -124,7 +123,7 @@ template<typename _CharT, typename _Traits, typename _Alloc>
     }
 }]
 
-[{Here's some of the interface for creation and destruction:}]
+{Here's some of the interface for creation and destruction:}
 
 [code cplusplus {
     // Create & Destroy
@@ -155,31 +154,33 @@ template<typename _CharT, typename _Traits, typename _Alloc>
     }  // XXX MT
 }]
 
-[{Small mistakes in using strings will give you error messages that expose the details of this abstraction.  Just as a simple example, comparing strings to integers will get you the message:}]
+{Small mistakes in using strings will give you error messages that expose the details of this abstraction.  Just as a simple example, comparing strings to integers will get you the message:}
 
 [error {error C2784: 'bool std::operator >(const std::basic_string<_Elem,_Traits,_Alloc> &,const _Elem *)' : could not deduce template argument for 'const _Elem *' from 'int'}]
 
 [heading "The Need For Terra Firma"]
 
-[{It's not a very good idea to use abstractions we don't really understand.  This was recently <a href="http://www.rebol.com/cgi-bin/blog.r?view=0411">echoed by the architect of Rebol</a>, Carl Sassenrath:}]
+{It's not a very good idea to use abstractions we don't really understand.  This was recently <a href="http://www.rebol.com/cgi-bin/blog.r?view=0411">echoed by the architect of Rebol</a>, Carl Sassenrath:}
 
 [quote [
-  [{"When we separate ourselves from the systems that work on our behalf by adding layers and layers of complexity, we are ultimately doomed to fail. This applies to all domains, from insurance companies to medical systems to space vehicles to entire governments.}]
 
-  [{The reason is quite clear. We (as humans) exist within a narrow band of comprehension and intuition. Once our systems grow too complex, we as humans no longer possess our essential 'gut intuition' nor any idea at all how our monster system will react to unforeseen situations.}]
-] ]
+        {"When we separate ourselves from the systems that work on our behalf by adding layers and layers of complexity, we are ultimately doomed to fail. This applies to all domains, from insurance companies to medical systems to space vehicles to entire governments.}
 
-[{This is why many programmers stick with low-level solutions, like C string management.  Although <code>char*</code> and <code>strcpy</code> are abstractions in their own right, they are made to seem "fundamental".  Coding with them directly may make a program more brittle...but the developers <i>feel more in-control</i> to adapt the software.}]
+        {The reason is quite clear. We (as humans) exist within a narrow band of comprehension and intuition. Once our systems grow too complex, we as humans no longer possess our essential 'gut intuition' nor any idea at all how our monster system will react to unforeseen situations.}
 
-[{Of course, most languages being used these days offer strings as natives.  In fact, a lot of languages handle not only arbitrary-length strings but also <a href="http://en.wikipedia.org/wiki/Arbitrary-precision_arithmetic">arbitrary-precision arithmetic</a>.  (I don't see why most casual programmers should ever be using anything else!)}]
+    ]]
 
-[{Still, an arbitrary-length string doesn't help much if people on UNIX machines are still putting filenames in their code with "/forward/slashes" while Windows programmers are using "C:\\Back\\Slashes"!  One must use helper classes to clear up such a basic issue (analogues to <a href="http://www.boost.org/doc/libs/1_39_0/libs/filesystem/doc/index.htm">boost::filesystem</a>).  This brings us back to the abstraction uneasiness we had before.}]
+{This is why many programmers stick with low-level solutions, like C string management.  Although <code>char*</code> and <code>strcpy</code> are abstractions in their own right, they are made to seem "fundamental".  Coding with them directly may make a program more brittle...but the developers <i>feel more in-control</i> to adapt the software.}
 
-[{So I think we have to take our cue from the benefits of building strings into the language.  We shouldn't be afraid to grow the "periodic table of types" in more directions to provide additional "atoms" that are indivisible.  It's not a bad thing if a language's bare metal aligns with the <a href="http://en.wikipedia.org/wiki/Essential_complexity">essential complexity</a> of what people are actually writing code to do.}]
+{Of course, most languages being used these days offer strings as natives.  In fact, a lot of languages handle not only arbitrary-length strings but also <a href="http://en.wikipedia.org/wiki/Arbitrary-precision_arithmetic">arbitrary-precision arithmetic</a>.  (I don't see why most casual programmers should ever be using anything else!)}
+
+{Still, an arbitrary-length string doesn't help much if people on UNIX machines are still putting filenames in their code with "/forward/slashes" while Windows programmers are using "C:\\Back\\Slashes"!  One must use helper classes to clear up such a basic issue (analogues to <a href="http://www.boost.org/doc/libs/1_39_0/libs/filesystem/doc/index.htm">boost::filesystem</a>).  This brings us back to the abstraction uneasiness we had before.}
+
+{So I think we have to take our cue from the benefits of building strings into the language.  We shouldn't be afraid to grow the "periodic table of types" in more directions to provide additional "atoms" that are indivisible.  It's not a bad thing if a language's bare metal aligns with the <a href="http://en.wikipedia.org/wiki/Essential_complexity">essential complexity</a> of what people are actually writing code to do.}
 
 [heading "Code An 8-Year-Old Can Read"]
 
-[{Going back to the error message code, let's draft it in Rebol and see how much simpler it gets:}]
+{Going back to the error message code, let's draft it in Rebol and see how much simpler it gets:}
 
 [code rebol {
 >> do [
@@ -197,9 +198,9 @@ template<typename _CharT, typename _Traits, typename _Alloc>
 Assuming you meant: 'rt 99', not rt99
 }]
 
-[{For those who think this is easy enough to do in Lisp, sure.  But since this article is about getting atomics that can gracefully handle arbitrary string sizes, please read the article where I show <a href="http://hostilefork.com/2008/09/05/the-flexible-series-as-a-core-concept-of-rebol/">Lisp does this wrong</a>.}]
+{For those who think this is easy enough to do in Lisp, sure.  But since this article is about getting atomics that can gracefully handle arbitrary string sizes, please read the article where I show <a href="http://hostilefork.com/2008/09/05/the-flexible-series-as-a-core-concept-of-rebol/">Lisp does this wrong</a>.}
 
-[{Also, the code shows off some of Rebol's nice readability touches--such as using curly braces as an alternative string representation.  JavaScript and other languages accept "string" and 'string', but that compromises readability in cases like "',".  (I chose to break these symbols into their own strings, and join them, to be abundantly clear.)  Another benefit of using an asymmetric symbol is that Rebol can handle embedded braces as long as they match up, e.g.}]
+{Also, the code shows off some of Rebol's nice readability touches--such as using curly braces as an alternative string representation.  JavaScript and other languages accept "string" and 'string', but that compromises readability in cases like "',".  (I chose to break these symbols into their own strings, and join them, to be abundantly clear.)  Another benefit of using an asymmetric symbol is that Rebol can handle embedded braces as long as they match up, e.g.}
 
 [code rebol {
 >> code: {if (true) {print "hello"}}
@@ -207,7 +208,7 @@ Assuming you meant: 'rt 99', not rt99
 if (true) {print "hello"}
 }]
 
-[{We're not only able to handle a command line of arbitrary length without crashing, but there's also all the infrastructure needed for commands with multiple parameters.  Turning this into a function, I'll demonstrate what I mean:}]
+{We're not only able to handle a command line of arbitrary length without crashing, but there's also all the infrastructure needed for commands with multiple parameters.  Turning this into a function, I'll demonstrate what I mean:}
 
 [code rebol {
 warn-user: func [
@@ -225,7 +226,7 @@ warn-user: func [
 
 }]
 
-[{Let's show what it would look like for a command that takes 3 parameters (Logo's setorientation).  We'll time it, too:}]
+{Let's show what it would look like for a command that takes 3 parameters (Logo's setorientation).  We'll time it, too:}
 
 [code rebol {
 >> do [
@@ -242,8 +243,8 @@ Assuming you meant: 'setorientation 0 0 90', not setorientation0 0 90
 It took 1.718 milliseconds to print that!
 }]
 
-[{That's on an Intel Core Duo with Rebol3 Alpha, and is pretty fast--considering that it's measuring the I/O as well as the string generation.  Could it be done faster with low-level string manipulation and an optimized C compiler?  Sure, you can beat it easily...<i>if</i> you don't care about being correct, readable, or easy to modify!  :)}]
+{That's on an Intel Core Duo with Rebol3 Alpha, and is pretty fast--considering that it's measuring the I/O as well as the string generation.  Could it be done faster with low-level string manipulation and an optimized C compiler?  Sure, you can beat it easily...<i>if</i> you don't care about being correct, readable, or easy to modify!  :)}
 
-[{My argument here isn't that everyone should program in Rebol.  It just happens to have properties that will appeal to those C programmers who are afraid of big interpreters and libraries that push them farther from the machine.  We need approaches that pull us closer to new, efficient machines--that think natively more like the work being done.}]
+{My argument here isn't that everyone should program in Rebol.  It just happens to have properties that will appeal to those C programmers who are afraid of big interpreters and libraries that push them farther from the machine.  We need approaches that pull us closer to new, efficient machines--that think natively more like the work being done.}
 
-[{Until we upgrade our infrastructure to something <i>along these lines</i>, we must slap a "not safe for children" label on UCBLogo...and just about everything else!}]
+{Until we upgrade our infrastructure to something <i>along these lines</i>, we must slap a "not safe for children" label on UCBLogo...and just about everything else!}

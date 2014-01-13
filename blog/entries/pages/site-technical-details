@@ -2,42 +2,50 @@ Draem [
     title: "Site Technical Details"
     category: 'page
     tags: [misc]
-
     slug: %site-technical-details
     date: 7-Nov-2007/19:11
 ]
 
 [update 1-Jan-2014 [
-  [{This is an article about historic technical details related to installing my site with Wordpress 2.5, which I installed in November 2007.  The "LAMP" stack was something I knew I probably would not enjoy dealing with.  Little did I know that the experience would be so annoying that WordPress would wind up leaving my occasional writings trapped <i>for over six years</i> in a system with a fixed-width theme that could barely display code samples worth a darn.}]
 
-  [{Between then and when I actually learned something about web development, I made entire websites for other individuals, bands, projects.  Somehow the tedium of figuring out how to get the data out of an old WordPress just seemed like an exercise not worth bothering with.  Especially since I wasn't all that convinced other solutions were better.}]
+        {This is an article about historic technical details related to installing my site with Wordpress 2.5, which I installed in November 2007.  The "LAMP" stack was something I knew I probably would not enjoy dealing with.  Little did I know that the experience would be so annoying that WordPress would wind up leaving my occasional writings trapped <i>for over six years</i> in a system with a fixed-width theme that could barely display code samples worth a darn.}
 
-  [{But for the 2013 holidays and my New Years resolution, I bit the bullet to get my data out and build a new site.  I'm sure WordPress has improved, but what I'm looking for in a publishing system needs to have more of a "programming" flavor.  <i>(I know many developers who have switched to <a href="http://jekyllrb.com/">Jekyll</a> and GitHub pages, precisely because having developer-style control with reigned-in complexity outweighs large monolithic systems that seem to have every feature in them but the ones you actually want!)</i>}]
+        {Between then and when I actually learned something about web development, I made entire websites for other individuals, bands, projects.  Somehow the tedium of figuring out how to get the data out of an old WordPress just seemed like an exercise not worth bothering with.  Especially since I wasn't all that convinced other solutions were better.}
 
-  [{So the following remains as a time capsule of the frustrations I had to work through just to get the basic WordPress installed, which left me convinced I needed something better...}]
-] ]
+        {But for the 2013 holidays and my New Years resolution, I bit the bullet to get my data out and build a new site.  I'm sure WordPress has improved, but what I'm looking for in a publishing system needs to have more of a "programming" flavor.  <i>(I know many developers who have switched to <a href="http://jekyllrb.com/">Jekyll</a> and GitHub pages, precisely because having developer-style control with reigned-in complexity outweighs large monolithic systems that seem to have every feature in them but the ones you actually want!)</i>}
 
-[divider]
+        {So the following remains as a time capsule of the frustrations I had to work through just to get the basic WordPress installed, which left me convinced I needed something better...}
 
-[{I've had to do various customizations to <a href="http://en.wikipedia.org/wiki/Wordpress">Wordpress</a> in order to make it a viable content management system.  Some of these relate to theming and plug ins, but there are also some outright bugs.  Here are the changes I made from the default installation, and hopefully they can be useful for anyone else who is going through the motions of dealing with WordPress quirks.  }]
+    ]]
+
+divider
+
+{I've had to do various customizations to <a href="http://en.wikipedia.org/wiki/Wordpress">Wordpress</a> in order to make it a viable content management system.  Some of these relate to theming and plug ins, but there are also some outright bugs.  Here are the changes I made from the default installation, and hopefully they can be useful for anyone else who is going through the motions of dealing with WordPress quirks.  }
 
 [heading "Visual Changes"]
 
-[{The theme I use is <a href="http://binarybonsai.com/wordpress/kubrick/">Kubrick</a>, which is the default.  Here were the changes I made for visual customization, and I tried to keep it minimal.  (Note: please let me know if the site doesn't look right in your browser!)}]
+{The theme I use is <a href="http://binarybonsai.com/wordpress/kubrick/">Kubrick</a>, which is the default.  Here were the changes I made for visual customization, and I tried to keep it minimal.}
+
+[note {Please let me know if the site doesn't look right in your browser!}]
 
 [list [
-  [
-    [{Replacement of the <span class="filepath">wp-content / themes / default / images / kubrickheader.jpg</span> <a href="http://hostilefork.com/wp-content/themes/default/images/kubrickheader_backup.jpg">default image</a> with <a href="http://hostilefork.com/wp-content/themes/default/images/kubrickheader.jpg">one of my own devising</a>.  One also needs to go into the presentation options under "Header Image and Color"...click advanced...and toggle the text display off.  (Note: If you've tweaked the colors for the header you have to use the "Revert" button to get it back to using your header jpeg instead of a gradient.)}]
 
-    [{Another thing that's a good idea is to pick a background color for the header region that doesn't look too horrible while your header image is being downloaded.  Otherwise you'll see a flash of a color that doesn't fit your theme while the page is loading.  You make this change in two places in <span class="filepath">wp-content / themes / default / style.css</span>, replacing the hex value #73a0c5 in the header style with whatever color you think is most appropriate.  I don't know why this number appears more than once, but presumably they have their reasons:}]
+        [
+            group
 
-    [code css {
+            {Replacement of the <span class="filepath">wp-content / themes / default / images / kubrickheader.jpg</span> <a href="http://hostilefork.com/wp-content/themes/default/images/kubrickheader_backup.jpg">default image</a> with <a href="http://hostilefork.com/wp-content/themes/default/images/kubrickheader.jpg">one of my own devising</a>.  One also needs to go into the presentation options under "Header Image and Color"...click advanced...and toggle the text display off.}
+
+            [note {If you've tweaked the colors for the header you have to use the "Revert" button to get it back to using your header jpeg instead of a gradient.}]
+
+            {Another thing that's a good idea is to pick a background color for the header region that doesn't look too horrible while your header image is being downloaded.  Otherwise you'll see a flash of a color that doesn't fit your theme while the page is loading.  You make this change in two places in <span class="filepath">wp-content / themes / default / style.css</span>, replacing the hex value #73a0c5 in the header style with whatever color you think is most appropriate.  I don't know why this number appears more than once, but presumably they have their reasons:}
+
+            [code css {
 #header {
         background: #73a0c5 url('images/kubrickheader.jpg') no-repeat bottom center;
         }
 }]
 
-    [code css {
+            [code css {
 #header {
         background-color: #73a0c5;
         margin: 0 0 0 1px;
@@ -47,18 +55,19 @@ Draem [
         }
 }]
 
-  ]
+        ] [
+            group
 
-  [
-    [{Increase of the font size of body text in <span class="filepath">wp-content / themes / default / style.css</span> from 62.5% to 10px.  Without this change, fixed width fonts were unreadable on my machine:}]
+            {Increase of the font size of body text in <span class="filepath">wp-content / themes / default / style.css</span> from 62.5% to 10px.  Without this change, fixed width fonts were unreadable on my machine:}
 
-    [code css {font-size: 10px; /* Resets 1em to 10px */}]
-  ]
+            [code css "font-size: 10px; /* Resets 1em to 10px */"]
 
-  [
-    [{Add the following styles for pre-formatted text to <span class="filepath">wp-content / themes / default / style.css</span>, as used in code samples:}]
+        ] [
+            group
 
-    [code css {
+            {Add the following styles for pre-formatted text to <span class="filepath">wp-content / themes / default / style.css</span>, as used in code samples:}
+
+            [code css {
 code {
   color: #090;
   font-size: 9px;
@@ -72,9 +81,9 @@ pre {
   font: 11px lucida console, courier new;
 }}]
 
-    [{The narrow columns of the Kubrick theme does not <em>C:\handle\file\paths\which\are\long\very\gracefully</em> and the justification gets ruined very quickly.  (Notice how screwed up the first line of this section is if you are using Firefox 2 or other older browsers?)  This is disruptive since I like to talk about the precise paths I'm working with.  So I added the following style to <span class="filepath">wp-content / themes / default / style.css</span>}]
+            {The narrow columns of the Kubrick theme does not <em>C:\handle\file\paths\which\are\long\very\gracefully</em> and the justification gets ruined very quickly.  (Notice how screwed up the first line of this section is if you are using Firefox 2 or other older browsers?)  This is disruptive since I like to talk about the precise paths I'm working with.  So I added the following style to <span class="filepath">wp-content / themes / default / style.css</span>}
 
-    [code css {
+            [code css {
 /* to use, do:
 <span class="filepath">
 c: / directory / subdir / file.txt
@@ -86,104 +95,125 @@ c: / directory / subdir / file.txt
     font-weight: bold;
     background-color: LightGoldenRodYellow;
 }}]
-  ]
 
-  [
-    [{When naming the <span class="filepath">style.css</span> file to add these lines to, all I had to do was type:}]
+        ] [
+            group
 
-    [code html {
+            {When naming the <span class="filepath">style.css</span> file to add these lines to, all I had to do was type:}
+
+            [code html {
 <span class="filepath">wp-content / themes / default / style.css</span>
 }]
-  ]
 
-  [{Change the text in <span class="filepath">wp-content / themes / default / footer.php</span> from "Hostile Fork is proudly powered by WordPress" (where WordPress is a link to <a href="http://wordpress.org">http://wordpress.org</a>) to say "Hostile Fork grudgingly admits to running his site with WordPress" (where WordPress is a link to <a href="http://en.wikipedia.org/wiki/WordPress">WordPress [wikipedia]</a>).  While I'm glad the software is free and has a large community of people working with it, I don't necessarily think it's the best option out there (even given what little I know at this point)--and it's certainly not best for <i>everyone</i>.  So I think it's best to link to a better vetted overview which will lead people to understand their options in <a href="http://en.wikipedia.org/wiki/Comparison_of_content_management_systems">content management systems</a>.}]
+        ] [
+            group
 
-  [
-    [{By default, article pages do not have the sidebar, which is silly in my opinion as you already have to make the article look good in a narrow column for the main page...so you might as well have the sidebar there to give readers additional information about the site.  To put the sidebar on single article view, change the part in <span class="filepath">wp-content / themes / default / single.php</span> so it says:}]
+            {Change the text in <span class="filepath">wp-content / themes / default / footer.php</span> from "Hostile Fork is proudly powered by WordPress" (where WordPress is a link to <a href="http://wordpress.org">http://wordpress.org</a>) to say "Hostile Fork grudgingly admits to running his site with WordPress" (where WordPress is a link to <a href="http://en.wikipedia.org/wiki/WordPress">WordPress [wikipedia]</a>).}
 
-    [code php {<div id="content" class="narrowcolumn">}]
+            {While I'm glad the software is free and has a large community of people working with it, I don't necessarily think it's the best option out there (even given what little I know at this point)--and it's certainly not best for <i>everyone</i>.  So I think it's best to link to a better vetted overview which will lead people to understand their options in <a href="http://en.wikipedia.org/wiki/Comparison_of_content_management_systems">content management systems</a>.}
 
-    [{Then at the end of the file, before the line that says <code>&lt;?php get_header(); ?&gt;></code>, add the line:}]
+        ] [
+            group
 
-    [code php {<?php get_sidebar(); ?>}]
-  ]
+            {By default, article pages do not have the sidebar, which is silly in my opinion as you already have to make the article look good in a narrow column for the main page...so you might as well have the sidebar there to give readers additional information about the site.  To put the sidebar on single article view, change the part in <span class="filepath">wp-content / themes / default / single.php</span> so it says:}
 
-  [
-    [{WordPress gives your web pages ugly titles, with noise words like "Blog Archive"... rather than just the title of your articles.  It's <a href="http://impnerd.com/web-development/seo-tips-for-wordpress">bad for search engine optimization</a>, so you should change your <span class="filepath">wp-content / themes / default / header.php</span> so that instead of saying:}]
+            [code php {<div id="content" class="narrowcolumn">}]
 
-    [code php {
+            {Then at the end of the file, before the line that says <code>&lt;?php get_header(); ?&gt;></code>, add the line:}
+
+            [code php "<?php get_sidebar(); ?>"]
+
+        ] [
+            group
+
+            {WordPress gives your web pages ugly titles, with noise words like "Blog Archive"... rather than just the title of your articles.  It's <a href="http://impnerd.com/web-development/seo-tips-for-wordpress">bad for search engine optimization</a>, so you should change your <span class="filepath">wp-content / themes / default / header.php</span> so that instead of saying:}
+
+            [code php {
 <title><?php bloginfo('name'); ?> < ?php if ( is_single() ) { ?> » Blog Archive < ?php } ?> <?php wp_title(); ?></title>
 }]
 
-    ["it says:"]
+            "it says:"
 
-    [code php {
+            [code php {
 <title>< ?php if (is_home () ) { bloginfo('name'); echo ' - '; bloginfo('description'); }
 elseif ( is_category() ) { single_cat_title(); echo ' - ' ; bloginfo('name'); }
 elseif (is_single() ) { single_post_title();}
 elseif (is_page() ) { single_post_title();}
 else { wp_title(); } ?></title>
 }]
-  ]
-] ]
+
+        ]
+
+    ]]
 
 [heading "Manual Bugfixes"]
 
-[{The next set of problems I had to fix were related to bugs in WordPress, of which these all apply to the current version (2.3.1).  For whatever reason, they haven't been fixed in the default installation:}]
+{The next set of problems I had to fix were related to bugs in WordPress, of which these all apply to the current version (2.3.1).  For whatever reason, they haven't been fixed in the default installation:}
 
 [list [
-  [
-    [{When you write a "page" (such as this one about Site Technical Details) Wordpress is theoretically able to handle people leaving comments and discussion, just like on blog posts.  Yet the default theme ignores the checkbox saying you want to allow comments on pages, and <a href="http://wordpress.org/support/topic/115733">though some people seem to disagree that this is a bug</a>, I assure you that it is!  To work around this you have to edit your <span class="filepath">wp-content / themes / default / page.php</span>, and add the following line right before the end of the &lt;div&gt; whose id is "content":}]
 
-    [code php {<?php comments_template(); ?>}]
-  ]
+        [
+            group
 
-  [
-    [{If you write "pages" in wordpress, the way you get them in an ordering is to give them a priority number.  Initially all pages get a priority ("Page Order") of 0, and in theory pages at the same priority level are sorted alphabetically.  For whatever reason, it doesn't work this way and Page Order gets completely ignored.  You need to modify <span class="filepath">wp-content / themes / default / sidebar.php</span> on line 46 so it says:}]
+            {When you write a "page" (such as this one about Site Technical Details) Wordpress is theoretically able to handle people leaving comments and discussion, just like on blog posts.  Yet the default theme ignores the checkbox saying you want to allow comments on pages, and <a href="http://wordpress.org/support/topic/115733">though some people seem to disagree that this is a bug</a>, I assure you that it is!  To work around this you have to edit your <span class="filepath">wp-content / themes / default / page.php</span>, and add the following line right before the end of the &lt;div&gt; whose id is "content":}
 
-    [code php {
+            [code php "<?php comments_template(); ?>"]
+
+        ] [
+            group
+
+            {If you write "pages" in wordpress, the way you get them in an ordering is to give them a priority number.  Initially all pages get a priority ("Page Order") of 0, and in theory pages at the same priority level are sorted alphabetically.  For whatever reason, it doesn't work this way and Page Order gets completely ignored.  You need to modify <span class="filepath">wp-content / themes / default / sidebar.php</span> on line 46 so it says:}
+
+            [code php {
 <?php wp_list_pages('sort_column=menu_order&title_li=<h2>Pages</h2>' ); ?>
 }]
 
-    [{Furthermore, if you have done any "widgets" settings in your wordpress it will completely override <span class="filepath">sidebar.php</span>, and thus won't even use the modification above!  So you have to click the options button for the "Pages" widget in that case and make sure it is sorting by page order.}]
-  ]
+            {Furthermore, if you have done any "widgets" settings in your wordpress it will completely override <span class="filepath">sidebar.php</span>, and thus won't even use the modification above!  So you have to click the options button for the "Pages" widget in that case and make sure it is sorting by page order.}
 
-  [
-    [{The XHTML that WordPress generates is invalid when you try to <a href="http://trac.wordpress.org/ticket/4287">put multiple categories of links on your sidebar</a>.  (By default you have just one category, "Blogroll", but I wanted to use more.)  The simple fix is to edit your <span class="filepath">wp-includes / widgets.php</span> file to have this line of code inside the function <code>wp_widget_links()</code>, right before the call to <code>wp_list_bookmarks()</code>:}]
+        ] [
+            group
 
-    [code php {
+            {The XHTML that WordPress generates is invalid when you try to <a href="http://trac.wordpress.org/ticket/4287">put multiple categories of links on your sidebar</a>.  (By default you have just one category, "Blogroll", but I wanted to use more.)  The simple fix is to edit your <span class="filepath">wp-includes / widgets.php</span> file to have this line of code inside the function <code>wp_widget_links()</code>, right before the call to <code>wp_list_bookmarks()</code>:}
+
+            [code php {
 $before_widget = preg_replace('/id="[^^"]*"/','id="%id"', $before_widget);
 }]
-  ]
-] ]
+
+        ]
+
+    ]]
 
 [heading "Plug-ins"]
 
-[{I had heard a lot about WordPress's plugin architecture.  After looking at it, I'm not so sure I'd call it an architecture, it's really just some haphazard hooks.  You find that there are ordering problems and cases where plug-ins do not work together because they both try to override the same hook, or are run in the wrong order.  Plug ins modify the source of Wordpress when they install in ways that are irreversible.  Despite this insanity, you can at least see what's going on... so I don't feel so bad about installing this set:}]
+{I had heard a lot about WordPress's plugin architecture.  After looking at it, I'm not so sure I'd call it an architecture, it's really just some haphazard hooks.  You find that there are ordering problems and cases where plug-ins do not work together because they both try to override the same hook, or are run in the wrong order.  Plug ins modify the source of Wordpress when they install in ways that are irreversible.  Despite this insanity, you can at least see what's going on... so I don't feel so bad about installing this set:}
 
 [list [
-  [
-    [{The <a href="http://wordpress.org/extend/plugins/wp-cache/">wp-cache</a> plug in.  This is generally considered a necessity.  Without it, each time Wordpress is asked for a page it will generate all the HTML using a long sequence of PHP scripts, hitting the mysql database many times.}]
 
-    [{I had an unusual situation where wp-cache would not work at first, and it turned out to be due to the fact that I'd added the line:}]
+        [
+            group
 
-    [code php {define('WP_CACHE', true);}]
+            {The <a href="http://wordpress.org/extend/plugins/wp-cache/">wp-cache</a> plug in.  This is generally considered a necessity.  Without it, each time Wordpress is asked for a page it will generate all the HTML using a long sequence of PHP scripts, hitting the mysql database many times.}
 
-    [{to the end of the <span class="filepath">wp-config.php</span>..after the line that said:}]
+            {I had an unusual situation where wp-cache would not work at first, and it turned out to be due to the fact that I'd added the line:}
 
-    [code php {require_once(ABSPATH.'wp-settings.php');}]
+            [code php "define('WP_CACHE', true);"]
 
-    [{The instructions said to add the line manually to the file, but it didn't say <i>where</i>.  So I incorrectly assumed that the end of the file was as good a place as any.  Looking further showed that's not true, because there is code that wp-cache adds to <span class="filepath">wp-settings.php</span> that depends on the flag.  From reading the web I see a lot of cases where I suspect others are making the same mistake.}]
+            {to the end of the <span class="filepath">wp-config.php</span>..after the line that said:}
 
-    [note {If you're going to do any site configuration, such as of your styles or things like that... you'll be best to disable the cache plugin while you're doing so and then turn it back on when you're finished.  Otherwise a lot of your changes won't seem to have an effect, because the cache doesn't notice such modifications.  It only notices when you edit content through the site admin interface.}]
-  ]
+            [code php "require_once(ABSPATH.'wp-settings.php');"]
 
-  [
-    [{The very cool <a href="http://sw-guide.de/wordpress/plugins/link-indication/">Link Indication</a> plug in takes care of a lot of nice things... like automatically making external links open in new windows (rather than navigate people off the site where they forget to come back).  It also puts a lot of cute icons next to links, so you can see when they are zip files or go to wikipedia... a must-have!}]
+            {The instructions said to add the line manually to the file, but it didn't say <i>where</i>.  So I incorrectly assumed that the end of the file was as good a place as any.  Looking further showed that's not true, because there is code that wp-cache adds to <span class="filepath">wp-settings.php</span> that depends on the flag.  From reading the web I see a lot of cases where I suspect others are making the same mistake.}
 
-    [{Installing this plug in is a little more complicated than most.  You have to install the plug-in and you also need to unpack the icons.zip file into a subdirectory of <span class="filepath">wp-content / themes / default /</span> (he suggests the <span class="filepath">images /</span> directory, but I made a separate directory called <span class="filepath">link-indicator /</span> to keep from polluting the images directory).  Also, you have to pick one of the numbered images for external links, his CSS mentions a nonexistent filename.  I just went with the first, so my <span class="filepath">wp-content / themes / default / style.css</span> says:}]
+            [note {If you're going to do any site configuration, such as of your styles or things like that... you'll be best to disable the cache plugin while you're doing so and then turn it back on when you're finished.  Otherwise a lot of your changes won't seem to have an effect, because the cache doesn't notice such modifications.  It only notices when you edit content through the site admin interface.}]
 
-    [code css {
+        ] [
+            group
+
+            {The very cool <a href="http://sw-guide.de/wordpress/plugins/link-indication/">Link Indication</a> plug in takes care of a lot of nice things... like automatically making external links open in new windows (rather than navigate people off the site where they forget to come back).  It also puts a lot of cute icons next to links, so you can see when they are zip files or go to wikipedia... a must-have!}
+
+            {Installing this plug in is a little more complicated than most.  You have to install the plug-in and you also need to unpack the icons.zip file into a subdirectory of <span class="filepath">wp-content / themes / default /</span> (he suggests the <span class="filepath">images /</span> directory, but I made a separate directory called <span class="filepath">link-indicator /</span> to keep from polluting the images directory).  Also, you have to pick one of the numbered images for external links, his CSS mentions a nonexistent filename.  I just went with the first, so my <span class="filepath">wp-content / themes / default / style.css</span> says:}
+
+            [code css {
 /* For Link Indication plugin */
 a.liexternal { padding-right: 12px; background: url(link-indication/link-icon_external_01.gif) no-repeat right; }
 a.liwikipedia { padding-right: 14px; background: url(link-indication/link-icon_wikipedia.gif) no-repeat right; }
@@ -193,36 +223,42 @@ a.limailto { padding-right: 18px; background: url(link-indication/link-icon_mail
 a.lipdf { padding-right: 12px; background: url(link-indication/link-icon_pdf.png) no-repeat right;  }
 }]
 
-  ]
+        ] [
+            group
 
-  [
-    [{<a href="http://www.semiologic.com/software/marketing/google-analytics/">this one for Google Analytics</a>, which allows me to get some information on how many visits the site is getting.  The statistics are only updated once every 24 hours.  I haven't looked into the code to decide if this is a good plugin or not, but it does at least not track your own hits when you're logged in--and that's good because I probably visit my site more often than anyone else does!}]
+            {<a href="http://www.semiologic.com/software/marketing/google-analytics/">this one for Google Analytics</a>, which allows me to get some information on how many visits the site is getting.  The statistics are only updated once every 24 hours.  I haven't looked into the code to decide if this is a good plugin or not, but it does at least not track your own hits when you're logged in--and that's good because I probably visit my site more often than anyone else does!}
 
-    [{I wasn't getting a whole lot of traffic, but due to some of my pages being submitted to <a href="http://stumbleupon.com">StumbleUpon.com</a> I am getting a fairly large influx, however people do not tend to comment or explore the site.  I'm having to upgrade my bandwidth since I host several 2MB videos, and 500 views a day * 2MB per view goes to 1GB very quickly.  I don't mind--I'm happy to have the traffic--but I do wish more people would comment!  I know I didn't get the articles perfect, so at the very least I'd expect some criticism of my spelling or grammar.  :)}]
+            {I wasn't getting a whole lot of traffic, but due to some of my pages being submitted to <a href="http://stumbleupon.com">StumbleUpon.com</a> I am getting a fairly large influx, however people do not tend to comment or explore the site.  I'm having to upgrade my bandwidth since I host several 2MB videos, and 500 views a day * 2MB per view goes to 1GB very quickly.  I don't mind--I'm happy to have the traffic--but I do wish more people would comment!  I know I didn't get the articles perfect, so at the very least I'd expect some criticism of my spelling or grammar.  :)}
 
-    [{Here is a sample Google Analytics Graph snapshot, the number on the far right is 846 views:}]
+            {Here is a sample Google Analytics Graph snapshot, the number on the far right is 846 views:}
 
-    [{<img src="http://hostilefork.com/wp-content/uploads/2007/12/google_analytics_december.png" alt="Google Analytics for November and Early December" />}]
+            {<img src="http://hostilefork.com/wp-content/uploads/2007/12/google_analytics_december.png" alt="Google Analytics for November and Early December" />}
 
-    [{Thanks to everyone who's stopping by, and please... if you see something you like don't hesitate to give it a thumbs up or a digg if you think the content is worthy.  I'm working reasonably hard and I guarantee I'm never going to put up ads (I'd sooner take the site down) so it's a truly altruistic effort.}]
-  ]
+            {Thanks to everyone who's stopping by, and please... if you see something you like don't hesitate to give it a thumbs up or a digg if you think the content is worthy.  I'm working reasonably hard and I guarantee I'm never going to put up ads (I'd sooner take the site down) so it's a truly altruistic effort.}
 
-  [
-    [{The <a href="http://wordpress.org/extend/plugins/wp-syntax/">wp-syntax</a> plugin, which lets me put in syntax-highlighted code samples.  You can even tell it to number the lines, starting at a particular number, which is nice when excerpting bits from a file.  Kubrick is really too narrow a theme to support a good view of code, but, this is an interesting plugin to use.}]
+        ] [
+            group
+            
+            {The <a href="http://wordpress.org/extend/plugins/wp-syntax/">wp-syntax</a> plugin, which lets me put in syntax-highlighted code samples.  You can even tell it to number the lines, starting at a particular number, which is nice when excerpting bits from a file.  Kubrick is really too narrow a theme to support a good view of code, but, this is an interesting plugin to use.}
 
-    [{I installed the <a href="http://wiki.creativecommons.org/WpLicense" target="_blank">Creative Commons Licensing Plugin</a>.  It doesn't actually do much--I kind of wish it would let you pick different licenses for particular pages.  For the moment, I'm just going with a blanket site license which you can read about under <a href="http://hostilefork.com/legal/">the legal issues page</a>.}]
-  ]
-] ]
+            {I installed the <a href="http://wiki.creativecommons.org/WpLicense">Creative Commons Licensing Plugin</a>.  It doesn't actually do much--I kind of wish it would let you pick different licenses for particular pages.  For the moment, I'm just going with a blanket site license which you can read about under <a href="http://hostilefork.com/legal/">the legal issues page</a>.}
+
+        ]
+
+    ]]
 
 [heading "Turn off the Visual Editing, Now!"]
 
-[{Finally, I will mention something I should have said up front--if you're savvy at all about HTML, <b>TURN OFF THE VISUAL EDITING</b>.  It will break your pages.  Even if you are in the code view and ignoring the Visual Editor, it will do bad things to your XHTML so long as it is turned on at all.  This is maddening, because one would think editing in the code view would encourage WP not to mess with it:}]
+{Finally, I will mention something I should have said up front--if you're savvy at all about HTML, <b>TURN OFF THE VISUAL EDITING</b>.  It will break your pages.  Even if you are in the code view and ignoring the Visual Editor, it will do bad things to your XHTML so long as it is turned on at all.  This is maddening, because one would think editing in the code view would encourage WP not to mess with it:}
 
 [list [
-  [{Click the "Users" menu in the WP admin area to access your profile.}]
-  [{Once you are on the "Users" page scroll to the bottom of the page, and uncheck the “Use the visual editor" option.}]
-] ]
 
-[{After this is done, the only thing you have to worry about is that WordPress will still inject &lt;br&nbsp;/&gt; elements at every line break in the output.  So if you are entering delicate XHTML that would be confused by the appearance of a &lt;br&nbsp;/&gt;, don't hit enter in between lines inside that construct.}]
+        {Click the "Users" menu in the WP admin area to access your profile.}
 
-[{There are my tips so far.  I will try to keep this updated as I change technologies or make new findings.  I would like to thank my hosting provider: <a href="http://ericshalov.com">Eric Shalov</a>, for his server + administrative support.}]
+        {Once you are on the "Users" page scroll to the bottom of the page, and uncheck the "Use the visual editor" option.}
+
+    ]]
+
+{After this is done, the only thing you have to worry about is that WordPress will still inject &lt;br&nbsp;/&gt; elements at every line break in the output.  So if you are entering delicate XHTML that would be confused by the appearance of a &lt;br&nbsp;/&gt;, don't hit enter in between lines inside that construct.}
+
+{There are my tips so far.  I will try to keep this updated as I change technologies or make new findings.  I would like to thank my hosting provider: <a href="http://ericshalov.com">Eric Shalov</a>, for his server + administrative support.}

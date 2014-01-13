@@ -2,93 +2,98 @@ Draem [
     title: "MANYKEYS: My Open Source Roots"
     category: 'post
     tags: [humor open-source]
-
     slug: %manykeys-my-open-source-roots
     date: 16-Sep-2013/13:00
     old-url-prefix: %2013/09/16/
 ]
 
-[{When I was 15 I was trying to write video games.  I was dissatisfied that all the key reading routines I had access to from the Turbo C manuals only let you read one key at a time.  Even that one key couldn't handle being held down very well... there'd be a long pause after the first press before you'd start getting signals indicating the key was being effectively "pressed again".}]
+{When I was 15 I was trying to write video games.  I was dissatisfied that all the key reading routines I had access to from the Turbo C manuals only let you read one key at a time.  Even that one key couldn't handle being held down very well... there'd be a long pause after the first press before you'd start getting signals indicating the key was being effectively "pressed again".}
 
-[{Yet I knew it was possible to do better than this.  I'd seen games that would let two players use the same keyboard, each pressing a direction key and a key that led to a "firing" action.  At least four keys could be held down at a time, running smoothly.}]
+{Yet I knew it was possible to do better than this.  I'd seen games that would let two players use the same keyboard, each pressing a direction key and a key that led to a "firing" action.  At least four keys could be held down at a time, running smoothly.}
 
-[{Ever curious, I talked to some programmers about it.  From the information they gave me, I was able to write some code to do it, and a test program which revealed the limits of the particular keyboard I was using.  When I'd finished it, I uploaded it to a dial-up BBS (using my trusty 2400bps modem :-P) and released it to the public domain.}]
+{Ever curious, I talked to some programmers about it.  From the information they gave me, I was able to write some code to do it, and a test program which revealed the limits of the particular keyboard I was using.  When I'd finished it, I uploaded it to a dial-up BBS (using my trusty 2400bps modem :-P) and released it to the public domain.}
 
-[{The 5 1/4 floppy I had it on (as well as most all my other early programming projects) were lost to the sands of time.  Until a Google search on my name found it had made it onto a programming tools compilation CD somewhere, and that CD's contents had been put up on a public FTP site.  The only natural response was to put it up on GitHub:}]
+{The 5 1/4 floppy I had it on (as well as most all my other early programming projects) were lost to the sands of time.  Until a Google search on my name found it had made it onto a programming tools compilation CD somewhere, and that CD's contents had been put up on a public FTP site.  The only natural response was to put it up on GitHub:}
 
-[{<a href="https://github.com/hostilefork/teenage-coding/tree/master/MANYKEYS">https://github.com/hostilefork/teenage-coding/tree/master/MANYKEYS</a>}]
+https://github.com/hostilefork/teenage-coding/tree/master/MANYKEYS
 
-[{The code is not that interesting or relevant today.  Critiquing it given my modern knowledge is hardly useful; I don't need to teach myself how to write circa 1990 code in a better way.  More interesting is the original READ.ME I wrote to accompany the ZIP file... for comparing my writing style then against how I write more than two decades later.  It's not all that different!}]
+{The code is not that interesting or relevant today.  Critiquing it given my modern knowledge is hardly useful; I don't need to teach myself how to write circa 1990 code in a better way.  More interesting is the original READ.ME I wrote to accompany the ZIP file... for comparing my writing style then against how I write more than two decades later.  It's not all that different!}
 
-[{Also interesting to point out is that even when I was writing short C snippets as a teenager, I was zipping it up and sharing it for free.  <b>I can rightfully claim to have been involved in the open source movement for over two decades!</b>  Though I seemed to think that you could release library routines to the public domain and prevent people from selling those routines.  Public domain is a sticky legal term even today...and has given rise to more rigorous alternatives like the <a href="http://creativecommons.org/about/cc0">CC-ZERO</a> license.}]
+{Also interesting to point out is that even when I was writing short C snippets as a teenager, I was zipping it up and sharing it for free.  <b>I can rightfully claim to have been involved in the open source movement for over two decades!</b>  Though I seemed to think that you could release library routines to the public domain and prevent people from selling those routines.  Public domain is a sticky legal term even today...and has given rise to more rigorous alternatives like the <a href="http://creativecommons.org/about/cc0">CC-ZERO</a> license.}
 
-[{I've included a video of me showing a demo, and provided a formatted copy of the original READ.ME content... so now I can delete it off my disks (again!)  :-)}]
+{I've included a video of me showing a demo, and provided a formatted copy of the original READ.ME content... so now I can delete it off my disks (again!)  :-)}
 
 [youtube http://www.youtube.com/v/ZOBTj6x9cVg 420x240]
 
-[more]
+more
 
-[heading "Multiple key-getting routines"]
+[quote [
 
-["by Brian Dickens"]
+    [heading "Multiple key-getting routines"]
 
-[note {Released to the public domain. These routines may not be sold in any way shape or form.}]
+    "by Brian Dickens"
 
-["ManyKeys was designed for two main purposes."]
+    [note {Released to the public domain. These routines may not be sold in any way shape or form.}]
 
-[list [ 
-	[{To provide the capability of reading more than one key at once.}]
-	[{To remove BIOS'S slow keyboard repeat rate and let you sample the keyboard at your own speed.}]
-] ]
+    "ManyKeys was designed for two main purposes."
 
-[{Video games often need to read more than one key at once, whether it be needed to allow two players (or more) to share places on the keyboard, or to let a character walk and shoot at the same time.}]
+    [list [
 
-[{Also, BIOS is characteristically slow when getting/reading keys from the keyboard buffer.  A game which relies on BIOS calls cannot smoothly move the game characters around the screen, since it would take an hour to walk across the screen with the BIOS progression of getch(), move character, getch(), move character.}]
+            {To provide the capability of reading more than one key at once.}
 
-[{Often the keyboard buffer will overflow, causing terrible beeping noises and program interruptions.}]
+            {To remove BIOS'S slow keyboard repeat rate and let you sample the keyboard at your own speed.}
 
-["In summary, BIOS is excellent.  NOT."]
+        ]]
 
-[{ManyKeys gets right to the heart of the matter, and removes the BIOS keyboard interrupt altogether.  While buffered input is great for word processing, it's no good for games.  In your C code, when you insert the line:}]
+    {Video games often need to read more than one key at once, whether it be needed to allow two players (or more) to share places on the keyboard, or to let a character walk and shoot at the same time.}
 
-[code c "manykeyson();"]
+    {Also, BIOS is characteristically slow when getting/reading keys from the keyboard buffer.  A game which relies on BIOS calls cannot smoothly move the game characters around the screen, since it would take an hour to walk across the screen with the BIOS progression of getch(), move character, getch(), move character.}
 
-[{You are actually replacing the BIOS keyboard interrupt with a new and improved interrupt.  The BIOS interrupt is naturally saved, so that you can restore it later.  In fact, if you don't restore the BIOS interrupt sometime before your program ends, no other programs that rely on the BIOS for keystrokes will be able to run. (including DOS!)  So remember to turn ManyKeys off with the statement:}]
+    {Often the keyboard buffer will overflow, causing terrible beeping noises and program interruptions.}
 
-[code c "manykeysoff();"]
+    "In summary, BIOS is excellent.  NOT."
 
-[{In-between those statements, you have access to some very powerful key-reading commands.  One of the most important is the function "ispressed".  "ispressed" takes a key number as a parameter, and returns a 1 if that key is pressed, and a 0 if it is not.  For example:}]
+    {ManyKeys gets right to the heart of the matter, and removes the BIOS keyboard interrupt altogether.  While buffered input is great for word processing, it's no good for games.  In your C code, when you insert the line:}
 
-[code c {
-if( ispressed( 1 ) )
-    printf( "The escape key is pressed.\n" );
-}]
+    [code c "manykeyson();"]
 
-[{If escape (key 1) is pressed, this piece of code will print "The escape key is pressed."  If you've had experience using the BIOS method of key getting, you might be wondering why 1 is used and not 27.  The answer is that the BIOS uses a conversion table to convert raw keycodes into numbers that at least fit into the ASCII scheme of things.  Manykeys does very little conversion on the keypresses, giving mostly raw keycodes, which are loosely based on the key's location on the keyboard.  (The escape key is in the upper-left hand corner, so it is keycode 1, get it?)}]
+    {You are actually replacing the BIOS keyboard interrupt with a new and improved interrupt.  The BIOS interrupt is naturally saved, so that you can restore it later.  In fact, if you don't restore the BIOS interrupt sometime before your program ends, no other programs that rely on the BIOS for keystrokes will be able to run. (including DOS!)  So remember to turn ManyKeys off with the statement:}
 
-[{You also might be wondering exactly how you are going to know what key is what since this is obviously a really screwy numbering scheme.  Never fear, I have entered an enumerated type for all the keys on the keyboard (on my keyboard, at least).  So that instead of the above piece of code I could have written:}]
+    [code c "manykeysoff();"]
 
-[code c {
-if( ispressed( ESCAPE ) )
-    printf( "The escape key is pressed.\n" );
-}]
+    {In-between those statements, you have access to some very powerful key-reading commands.  One of the most important is the function "ispressed".  "ispressed" takes a key number as a parameter, and returns a 1 if that key is pressed, and a 0 if it is not.  For example:}
 
-[{If you don't know the name for a particular key, check in the <em>MANYKEYS.H</em> file.}]
+    [code c {
+    if( ispressed( 1 ) )
+        printf( "The escape key is pressed.\n" );
+    }]
 
-[{An interesting problem comes up when you WANT to interpret keys in a sort of buffered way.  For example, if you have a rather slow loop in a program, and you want to check to see if the Escape key was pressed signifying that the user wants to exit, the user might have released the key by the time you get to the "ispressed( ESCAPE )" check.  Even so, the user obviously wanted to quit.  That's why manykeys keeps track of the number of times a key has been pressed AS WELL as whether the key is currently being held down.}]
+    {If escape (key 1) is pressed, this piece of code will print "The escape key is pressed."  If you've had experience using the BIOS method of key getting, you might be wondering why 1 is used and not 27.  The answer is that the BIOS uses a conversion table to convert raw keycodes into numbers that at least fit into the ASCII scheme of things.  Manykeys does very little conversion on the keypresses, giving mostly raw keycodes, which are loosely based on the key's location on the keyboard.  (The escape key is in the upper-left hand corner, so it is keycode 1, get it?)}
 
-[{The two main routines used to deal with press counts are "presscount" and "checkcount".  "presscount" will return the number of times the key has been pressed and then clear the press count for that key.  "checkcount" will return the number of times the key has been pressed but WON'T clear the press count.  At the onset of the program, all the press counts are set to 0.  Press counts have a maximum value of 127, after which they will wrap back around to 0.}]
+    {You also might be wondering exactly how you are going to know what key is what since this is obviously a really screwy numbering scheme.  Never fear, I have entered an enumerated type for all the keys on the keyboard (on my keyboard, at least).  So that instead of the above piece of code I could have written:}
 
-[{Some other interesting routines are included, although anyone could easily write them themselves.  "clearallcounts" sets all the press counts to 0. "totalpressed" counts the number of keys that are currently being held down.  "firstcount" returns the code of the lowest order key with a presscount that isn't 0.  "firstpressed" returns the code of the lowest order key that is currently being held down.}]
+    [code c {
+    if( ispressed( ESCAPE ) )
+        printf( "The escape key is pressed.\n" );
+    }]
 
-[{There's one other nice routine included called "keyname".  "keyname" returns an ASCII string of the name of a particular key.  This is useful especially in configuration programs.  Try the program <em>KEYTEST.EXE</em> to see an example of how keyname is put to work.}]
+    {If you don't know the name for a particular key, check in the <em>MANYKEYS.H</em> file.}
 
-[heading "Special Note"]
+    {An interesting problem comes up when you WANT to interpret keys in a sort of buffered way.  For example, if you have a rather slow loop in a program, and you want to check to see if the Escape key was pressed signifying that the user wants to exit, the user might have released the key by the time you get to the "ispressed( ESCAPE )" check.  Even so, the user obviously wanted to quit.  That's why manykeys keeps track of the number of times a key has been pressed AS WELL as whether the key is currently being held down.}
 
-[{If you have an extended keyboard, there is a distinction between the arrow keys and the numeric keypad <em>UP/DOWN/LEFT/RIGHT</em>, as well as between the <em>HOME/END/PGUP/PGDN/INS/DEL/ENTER/+/-/*</em> etc.  If you don't, then the arrow keys will register as numeric keypad keys.}]
+    {The two main routines used to deal with press counts are "presscount" and "checkcount".  "presscount" will return the number of times the key has been pressed and then clear the press count for that key.  "checkcount" will return the number of times the key has been pressed but WON'T clear the press count.  At the onset of the program, all the press counts are set to 0.  Press counts have a maximum value of 127, after which they will wrap back around to 0.}
 
-[heading "Thanks To..."]
+    {Some other interesting routines are included, although anyone could easily write them themselves.  "clearallcounts" sets all the press counts to 0. "totalpressed" counts the number of keys that are currently being held down.  "firstcount" returns the code of the lowest order key with a presscount that isn't 0.  "firstpressed" returns the code of the lowest order key that is currently being held down.}
 
-["Richard Biffl for his advice and help."]
+    {There's one other nice routine included called "keyname".  "keyname" returns an ASCII string of the name of a particular key.  This is useful especially in configuration programs.  Try the program <em>KEYTEST.EXE</em> to see an example of how keyname is put to work.}
 
-["Until next time..."]
+    [heading "Special Note"]
+
+    {If you have an extended keyboard, there is a distinction between the arrow keys and the numeric keypad <em>UP/DOWN/LEFT/RIGHT</em>, as well as between the <em>HOME/END/PGUP/PGDN/INS/DEL/ENTER/+/-/*</em> etc.  If you don't, then the arrow keys will register as numeric keypad keys.}
+
+    [heading "Thanks To..."]
+
+    "Richard Biffl for his advice and help."
+
+    "Until next time..."
+]]

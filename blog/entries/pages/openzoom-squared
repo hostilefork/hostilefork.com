@@ -2,19 +2,18 @@ Draem [
     title: "OPENZOOM-SQUARED: Clickable Deep Zoom Grid"
     category: 'page
     tags: [misc]
-
     slug: %openzoom-squared
     date: 10-Sep-2010/21:16
 ]
 
-[{<b>OpenZoom Squared</b> is a fledgling experiment to enable the construction of large grid-based images from an existing body of files (possibly scraped from a remote website).  It then allows people to use deep zooming technology to peruse the grid and click on certain items to open new pages.}]
+{<b>OpenZoom Squared</b> is a fledgling experiment to enable the construction of large grid-based images from an existing body of files (possibly scraped from a remote website).  It then allows people to use deep zooming technology to peruse the grid and click on certain items to open new pages.}
 
-[{The source code has been published for an initial community review and just to get the ball rolling to see who might be interested:}]
+{The source code has been published for an initial community review and just to get the ball rolling to see who might be interested:}
 
-[{<a href="http://github.com/hostilefork/openzoom-squared/">http://github.com/hostilefork/openzoom-squared/</a>}]
+http://github.com/hostilefork/openzoom-squared/
 
-[{A first test I made was for the <a href="http://imaginationsquared.com">ImaginationSquared</a> art project, and an article/video was posted here on September 12, 2010:}]
+{A first test I made was for the <a href="http://imaginationsquared.com">ImaginationSquared</a> art project, and an article/video was posted here on September 12, 2010:}
 
-[{<a href="http://hostilefork.com/2010/09/12/imagination-squared-plus-openzoom/">http://hostilefork.com/2010/09/12/imagination-squared-plus-openzoom/</a>}]
+http://hostilefork.com/2010/09/12/imagination-squared-plus-openzoom/
 
-[{Watch this space for more information as the project develops.  It was a learning exercise for me but I'd like to see it get some practical use.  In fact, it may ultimately become an alternate interface to thumbnail-based systems like <a href="http://hostilefork.com/albumist/">Albumist</a>...}]
+{Watch this space for more information as the project develops.  It was a learning exercise for me but I'd like to see it get some practical use.  In fact, it may ultimately become an alternate interface to thumbnail-based systems like <a href="http://hostilefork.com/albumist/">Albumist</a>...}

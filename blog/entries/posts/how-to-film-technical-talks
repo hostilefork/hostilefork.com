@@ -2,69 +2,75 @@ Draem [
     title: "Notes on How to Film Technical Talks"
     category: 'post
     tags: [misc]
-
     slug: %how-to-film-technical-talks
     date: 9-Dec-2013/8:26
     old-url-prefix: %2013/12/09/
 ]
 
-[{A few people know that although I have an engineering degree, I've also been to film school.  So whenever the idea of recording a technical talk comes up... I have a lot to say.  I know how bad things will come out if there isn't some basic preparation done!}]
+{A few people know that although I have an engineering degree, I've also been to film school.  So whenever the idea of recording a technical talk comes up... I have a lot to say.  I know how bad things will come out if there isn't some basic preparation done!}
 
-[{There is a "right way" and a "wrong way" to film a technical talk.  One of the worst things you can do is set up a tripod on a consumer camcorder, turn off the lights, and point it at the speaker and a projection of their slides... in a room with white walls.  It will fail...and fail even harder if you are holding the camera handheld.}]
+{There is a "right way" and a "wrong way" to film a technical talk.  One of the worst things you can do is set up a tripod on a consumer camcorder, turn off the lights, and point it at the speaker and a projection of their slides... in a room with white walls.  It will fail...and fail even harder if you are holding the camera handheld.}
 
-[{All cameras require available light to capture an image sharply.  If you ever see a scene in a movie where it's night time, and the characters are talking such that you can see them, <i>it wasn't filmed in the dark</i>.  (Do a search on <a href="http://en.wikipedia.org/wiki/Day_for_night">Day for Night</a> for a survey of techniques.)  And it will invariably be difficult to read what is in the projected slides.}]
+{All cameras require available light to capture an image sharply.  If you ever see a scene in a movie where it's night time, and the characters are talking such that you can see them, <i>it wasn't filmed in the dark</i>.  (Do a search on <a href="http://en.wikipedia.org/wiki/Day_for_night">Day for Night</a> for a survey of techniques.)  And it will invariably be difficult to read what is in the projected slides.}
 
-[{One of the most successful examples of watchable technical talks on the Internet is those from the TED conference, and their watchability is based on very conscious choices.  I had some notes on how this kind of thing is done, so I thought I'd go ahead and put them up...}]
+{One of the most successful examples of watchable technical talks on the Internet is those from the TED conference, and their watchability is based on very conscious choices.  I had some notes on how this kind of thing is done, so I thought I'd go ahead and put them up...}
 
-[more]
+more
 
-[divider]
+divider
 
 [heading "Make sure the walls or backdrop absorb light"]
 
-[{If a room is going to be dark in general for projection and presentation, you're going to want to put light on the presenter.  When you shine the light on them, you want the presenter to be illuminated while the background doesn't glare back.  And you don't want the light to interfere with your audience's ability to see the projected slides.}]
+{If a room is going to be dark in general for projection and presentation, you're going to want to put light on the presenter.  When you shine the light on them, you want the presenter to be illuminated while the background doesn't glare back.  And you don't want the light to interfere with your audience's ability to see the projected slides.}
 
-[{TED builds the stage specifically this way, with black paint.  If you don't have free reign to paint the room, get a big backdrop cloth to hang behind the speaker.  When choosing how you're going to add distinguishing decorations on the podium or signs on the backdrop, consider how the speaker's head might block it... or other issues about how you'll be framing the shot.}]
+{TED builds the stage specifically this way, with black paint.  If you don't have free reign to paint the room, get a big backdrop cloth to hang behind the speaker.  When choosing how you're going to add distinguishing decorations on the podium or signs on the backdrop, consider how the speaker's head might block it... or other issues about how you'll be framing the shot.}
 
 [heading "Get some decent lighting"]
 
-[{Buying utility lights from Home Depot, or bringing torchieres from home, is better than nothing.  Though ideally you would have a lighting kit which offers more control.  Without enough light, even the fanciest camera will wind up with a grainy image.}]
+{Buying utility lights from Home Depot, or bringing torchieres from home, is better than nothing.  Though ideally you would have a lighting kit which offers more control.  Without enough light, even the fanciest camera will wind up with a grainy image.}
 
-[{If you call a lighting supply store, you can rent something like an ARRI Soft Bank kit (about $95/day), and you can look up what that includes.  You may alternatively (or additionally) want a Key Diagonal and Fill kit (about $85/day), which might have something like:}]
+{If you call a lighting supply store, you can rent something like an ARRI Soft Bank kit (about $95/day), and you can look up what that includes.  You may alternatively (or additionally) want a Key Diagonal and Fill kit (about $85/day), which might have something like:}
 
 [list [
-	[{levels}]
-	[{2 ellipsoidals}]
-	[{2 stands}]
-	[{2 extension cords}]
-	[{2 hand dimmers}]
-	[{baby stand and a small Fresnell}]
-] ]
+
+        "levels"
+
+        "2 ellipsoidals"
+
+        "2 stands"
+
+        "2 extension cords"
+
+        "2 hand dimmers"
+
+        "baby stand and a small Fresnell"
+
+    ]]
 
 [heading "Give the presenter a wireless microphone"]
 
-[{There are several affordable and not too shabby options for wireless microphones...for instance from <a href="http://www.amazon.com/gp/product/B00006I523/">Audio Technica</a> for $125.}]
+{There are several affordable and not too shabby options for wireless microphones...for instance from <a href="http://www.amazon.com/gp/product/B00006I523/">Audio Technica</a> for $125.}
 
-[{Note that wireless microphones can be subject to all kinds of interference from the environment, and if you're giving a technical talk you may be in a place with lots of cables and electrical noise.  You should do some testing in advance, and remember that which channel you're operating the microphone on can affect the noise you pick up.}]
+{Note that wireless microphones can be subject to all kinds of interference from the environment, and if you're giving a technical talk you may be in a place with lots of cables and electrical noise.  You should do some testing in advance, and remember that which channel you're operating the microphone on can affect the noise you pick up.}
 
-[{Your audio editor may appreciate it if you also put a wired microphone on the podium if that's where the speaker is spending most of their time... in case there's a problem with the feed from the wireless mic.}]
+{Your audio editor may appreciate it if you also put a wired microphone on the podium if that's where the speaker is spending most of their time... in case there's a problem with the feed from the wireless mic.}
 
 [heading "Ask your audience to not interrupt"]
 
-[{It's very tempting (especially among computer people who don't get out very much) to interrupt a speaker to offer corrections or comments during a filmed talk.  Inevitably, these interjections derail the speaker... are inaudible... and create problems for the editor.}]
+{It's very tempting (especially among computer people who don't get out very much) to interrupt a speaker to offer corrections or comments during a filmed talk.  Inevitably, these interjections derail the speaker... are inaudible... and create problems for the editor.}
 
-[{This is another area where TED finesses it by having an M.C. who collects questions from the audience, and then presents them at the end.  The M.C. has their own microphone and can be heard clearly by viewers.  Picking someone who speaks fluent English <i>(or whatever language your talk is being given in)</i> to ask the questions is also helpful.}]
+{This is another area where TED finesses it by having an M.C. who collects questions from the audience, and then presents them at the end.  The M.C. has their own microphone and can be heard clearly by viewers.  Picking someone who speaks fluent English <i>(or whatever language your talk is being given in)</i> to ask the questions is also helpful.}
 
-[{From experience I know this can be hard to enforce.  But without it the Q&amp;A basically has to be edited out... so try and get people to take it seriously!}]
+{From experience I know this can be hard to enforce.  But without it the Q&amp;A basically has to be edited out... so try and get people to take it seriously!}
 
 [heading {Tell presenters in advance what aspect ratio their slides should be in}]
 
-[{If you're going to be editing an HD video for the web in 16:9, and someone brings slides that are 4:3, you're going to have trouble intercutting them and getting something that looks good.  Today's standard for HD is 16:9... so it's worth asking people to design their PowerPoints or other slide decks to fit that.}]
+{If you're going to be editing an HD video for the web in 16:9, and someone brings slides that are 4:3, you're going to have trouble intercutting them and getting something that looks good.  Today's standard for HD is 16:9... so it's worth asking people to design their PowerPoints or other slide decks to fit that.}
 
 [heading {Get slide decks submitted in advance, project from one machine}]
 
-[{It's good to get the slide decks in advance so that people can review them, and make suggested corrections <i>before</i> the presentation instead of <i>during</i>.  But it's also good because it opens up the possibility of setting up a single computer which has been configured to do screen capture during the talk.}]
+{It's good to get the slide decks in advance so that people can review them, and make suggested corrections <i>before</i> the presentation instead of <i>during</i>.  But it's also good because it opens up the possibility of setting up a single computer which has been configured to do screen capture during the talk.}
 
-[{Your video editor will appreciate a correctly-timed version of the slide deck captured, to intercut with the talk.  Especially if the speaker has an animated or otherwise intensive set of animation clicks they're using.  Not having the clicks line up with the events is uncanny, and reproducing the timings of the slide changes after the fact is extremely frustrating.}]
+{Your video editor will appreciate a correctly-timed version of the slide deck captured, to intercut with the talk.  Especially if the speaker has an animated or otherwise intensive set of animation clicks they're using.  Not having the clicks line up with the events is uncanny, and reproducing the timings of the slide changes after the fact is extremely frustrating.}
 
-[{Use a bluetooth keyboard to allow the speaker to advance the slides on the machine connected to the projector.  But make sure you have long video cables, because if the projector has to be far away from the podium it actually may be further than a Bluetooth keyboard can reach... especially in a room with a lot of electrical interference!}]
+{Use a bluetooth keyboard to allow the speaker to advance the slides on the machine connected to the projector.  But make sure you have long video cables, because if the projector has to be far away from the podium it actually may be further than a Bluetooth keyboard can reach... especially in a room with a lot of electrical interference!}

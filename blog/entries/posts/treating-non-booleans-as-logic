@@ -2,13 +2,12 @@ Draem [
     title: "Treating Non-Boolean Types as Logic Values"
     category: 'post
     tags: [cplusplus]
-
     slug: %treating-non-booleans-as-logic
     date: 26-Oct-2009/22:29
     old-url-prefix: %2009/10/26/
 ]
 
-[{Historically, I have always disliked the idea of using boolean test operations on types that can take a number of values.  This deep-seated aesthetic grudge comes from cases like this:}]
+{Historically, I have always disliked the idea of using boolean test operations on types that can take a number of values.  This deep-seated aesthetic grudge comes from cases like this:}
 
 [code cplusplus {
 int x = 0;
@@ -16,9 +15,9 @@ if (not x)
    cout << "X is zero" << endl;
 }]
 
-[{I'm simply bothered by this.  Perhaps it's a cognitive thing where I just don't feel there's any "truth" to the idea that every non-zero integer is somehow "true" but zero is somehow "false".  It could just as easily be that negative numbers are false and non-negative numbers are true.  Or if you ask a mathematical purist, they might suggest that at a more foundational level it is primes that are true and non-primes are false!}]
+{I'm simply bothered by this.  Perhaps it's a cognitive thing where I just don't feel there's any "truth" to the idea that every non-zero integer is somehow "true" but zero is somehow "false".  It could just as easily be that negative numbers are false and non-negative numbers are true.  Or if you ask a mathematical purist, they might suggest that at a more foundational level it is primes that are true and non-primes are false!}
 
-[{My comfort zone is when I'm only testing for "truth" and "falsehood" those things that can only have the values true and false.  If I could, I would enforce this.  So in the example above I would always write something more like:}]
+{My comfort zone is when I'm only testing for "truth" and "falsehood" those things that can only have the values true and false.  If I could, I would enforce this.  So in the example above I would always write something more like:}
 
 [code cplusplus {
 int x = 0;
@@ -26,9 +25,9 @@ if (x == 0)
    cout << "X is zero" << endl;
 }]
 
-[{That particular example is not very controversial, and I think most programmers would agree with me that's a better way to test against a literal zero.  It's just better code for capturing the intention.}]
+{That particular example is not very controversial, and I think most programmers would agree with me that's a better way to test against a literal zero.  It's just better code for capturing the intention.}
 
-[{Yet I have historically considered that a logical extension of "zero is not false" is the premise that "null pointers are not false".  And that belief <i>is</i> contrary to practice:}]
+{Yet I have historically considered that a logical extension of "zero is not false" is the premise that "null pointers are not false".  And that belief <i>is</i> contrary to practice:}
 
 [code cplusplus {
 shared_ptr< foo > fooPointer;
@@ -36,7 +35,7 @@ if (not fooPointer)
    cout << "fooPointer is null" << endl;
 }]
 
-[{In fact, look what a mouthful you get if you insist on comparing against null literally:}]
+{In fact, look what a mouthful you get if you insist on comparing against null literally:}
 
 [code cplusplus {
 shared_ptr< foo > fooPointer;
@@ -44,7 +43,7 @@ if (fooPointer.get() == nullptr)
    cout << "fooPointer is null" << endl;
 }]
 
-[{In the past I have tried to work around this by creating inline template wrappers like "isNull()" so that I could stick to my guns and avoid flattening pointers into booleans.  It doesn't cost any more in the runtime, so I figured what's the harm?}]
+{In the past I have tried to work around this by creating inline template wrappers like "isNull()" so that I could stick to my guns and avoid flattening pointers into booleans.  It doesn't cost any more in the runtime, so I figured what's the harm?}
 
 [code cplusplus {
 template< class T > inline bool isNull(shared_ptr< T > ptr) {
@@ -52,6 +51,6 @@ template< class T > inline bool isNull(shared_ptr< T > ptr) {
 }
 }]
 
-[{Yet I've decided this is a lost cause and too much of a speed bump in sharing my code with other C++ programmers.  They've accepted the notion that null pointers are false and non-null pointers are true, and you use boolean logic to test this--not some other operator.  It's not worth it to pick this particular fight.}]
+{Yet I've decided this is a lost cause and too much of a speed bump in sharing my code with other C++ programmers.  They've accepted the notion that null pointers are false and non-null pointers are true, and you use boolean logic to test this--not some other operator.  It's not worth it to pick this particular fight.}
 
-[{I'm not happy about it.  But I now accept this <i>for pointers only</i>.  And I'm going to use "not" instead of "!"... it's part of the language and a lot more readable.}]
+{I'm not happy about it.  But I now accept this <i>for pointers only</i>.  And I'm going to use "not" instead of "!"... it's part of the language and a lot more readable.}

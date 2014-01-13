@@ -2,62 +2,61 @@ Draem [
     title: "Takeaways from the Extjs Licensing Fiasco"
     category: 'post
     tags: [extjs gpl philosophy]
-
     slug: %extjs-licensing-fiasco
     date: 15-Jun-2009/20:26
     old-url-prefix: %2009/06/15/
 ]
 
-[{Now and again, I look at the searches that bring people to hostilefork.com  For some period of time, the largest search phrase bringing people here is <em>"extjs fork"</em>.  Sadly, they aren't looking for the articles I wrote in 2007.  Instead...it turns out there was a <a href="http://www.alittlemadness.com/2008/04/24/ext-discovers-step-2-of-the-slashdot-business-model/">huge backlash against the Extjs project</a> surrounding a change of the license from LGPL to GPL.}]
+{Now and again, I look at the searches that bring people to hostilefork.com  For some period of time, the largest search phrase bringing people here is <em>"extjs fork"</em>.  Sadly, they aren't looking for the articles I wrote in 2007.  Instead...it turns out there was a <a href="http://www.alittlemadness.com/2008/04/24/ext-discovers-step-2-of-the-slashdot-business-model/">huge backlash against the Extjs project</a> surrounding a change of the license from LGPL to GPL.}
 
-[{People have been up in arms and threatening to fork the codebase, and independently develop it under the previous contract.  (To the best of my knowledge, the only place such a forked codebase has been posted is <a href="http://sourceforge.net/projects/openext/">OpenEXT</a>.  But with very few commits and the most recent patch being applied in <a href="http://sourceforge.net/tracker/index.php?func=detail%26aid=2167257%26group_id=225970%26atid=1066116">October of 2008</a> it is not too promising.)}]
+{People have been up in arms and threatening to fork the codebase, and independently develop it under the previous contract.  (To the best of my knowledge, the only place such a forked codebase has been posted is <a href="http://sourceforge.net/projects/openext/">OpenEXT</a>.  But with very few commits and the most recent patch being applied in <a href="http://sourceforge.net/tracker/index.php?func=detail%26aid=2167257%26group_id=225970%26atid=1066116">October of 2008</a> it is not too promising.)}
 
-[{Since people are finding my blog because of this question, I'll take a stab at addressing the issue and offer my thoughts.  I think they made a mistake in doing this change the way they did.  Extjs should revert the current 2.0 repository to LGPL--applying the GPL to only 3.0 and beyond--so anyone using v2 who needs LGPL can use all the bugfixes that body of code has.}]
+{Since people are finding my blog because of this question, I'll take a stab at addressing the issue and offer my thoughts.  I think they made a mistake in doing this change the way they did.  Extjs should revert the current 2.0 repository to LGPL--applying the GPL to only 3.0 and beyond--so anyone using v2 who needs LGPL can use all the bugfixes that body of code has.}
 
-["I'll explain in more detail."]
+"I'll explain in more detail."
 
-[more]
+more
 
 [heading "Minor Update, Major Change."]
 
-[{It's always bothered me how somewhat minor updates to software can be subtle carriers of major changes that are not beneficial to the user.  Take the case of a Creative Labs music player that had an FM antennae in it and the ability to record music.  The natural combination of these features was to let you record things you were listening to on the radio, and that feature was included.  But a firmware "update" <a href="http://arstechnica.com/gadgets/news/2006/10/8006.ars">took that away</a>.}]
+{It's always bothered me how somewhat minor updates to software can be subtle carriers of major changes that are not beneficial to the user.  Take the case of a Creative Labs music player that had an FM antennae in it and the ability to record music.  The natural combination of these features was to let you record things you were listening to on the radio, and that feature was included.  But a firmware "update" <a href="http://arstechnica.com/gadgets/news/2006/10/8006.ars">took that away</a>.}
 
-[{For starters, it's troubling that they tried to be sneaky about it.  Rather than giving adequate notice so people could think about whether they wanted to "update"... it was quietly slipped in under the guise of the healthy maintenance of your player's firmware.}]
+{For starters, it's troubling that they tried to be sneaky about it.  Rather than giving adequate notice so people could think about whether they wanted to "update"... it was quietly slipped in under the guise of the healthy maintenance of your player's firmware.}
 
-[{But even if they're aboveboard about it, is this <i>really</i> a viable choice?  Imagine a crashing bug is found in the music player, and the update is only in the firmware revisions after the FM radio has been disabled.  Do you live with the bug...or accept the crippleware that comes along with the legitimate patch?}]
+{But even if they're aboveboard about it, is this <i>really</i> a viable choice?  Imagine a crashing bug is found in the music player, and the update is only in the firmware revisions after the FM radio has been disabled.  Do you live with the bug...or accept the crippleware that comes along with the legitimate patch?}
 
-[{All of this is precisely the reason that Richard Stallman and the good people at the FSF have been trying to fight for public education on <a href="http://www.gnu.org/philosophy/shouldbefree.html">Why Software Should Be Free</a>: free to inspect, free to modify, and free to share with anyone who needs it.  Lousy choices made by companies like Creative due to flawed rationale should not strip us of our ability to shape the technology that we use as we see fit. }]
+{All of this is precisely the reason that Richard Stallman and the good people at the FSF have been trying to fight for public education on <a href="http://www.gnu.org/philosophy/shouldbefree.html">Why Software Should Be Free</a>: free to inspect, free to modify, and free to share with anyone who needs it.  Lousy choices made by companies like Creative due to flawed rationale should not strip us of our ability to shape the technology that we use as we see fit. }
 
-[{Extjs did a sneaky thing by making a major change in a minor version update.  Yet ironically, this change which they are being skewered over is a switch to the most modern of the Free Software Foundation's licenses: The GPL version 3!  How can the open source community be up in arms against a framework that is free to inspect, free to modify, and free to distribute--especially when they are trying to push people to <a href="http://www.gnu.org/licenses/why-not-lgpl.html">use GPL instead of the LGPL</a>?}]
+{Extjs did a sneaky thing by making a major change in a minor version update.  Yet ironically, this change which they are being skewered over is a switch to the most modern of the Free Software Foundation's licenses: The GPL version 3!  How can the open source community be up in arms against a framework that is free to inspect, free to modify, and free to distribute--especially when they are trying to push people to <a href="http://www.gnu.org/licenses/why-not-lgpl.html">use GPL instead of the LGPL</a>?}
 
 [heading "Honoring One's Contracts"]
 
-[{Here's the biggest beef: People with closed-source solutions worked hard to persuade their employers that it's "ok" to use an open source solution (precisely because the parent company *won't* catch the GPL virus).  These people feel like they were duped.}]
+{Here's the biggest beef: People with closed-source solutions worked hard to persuade their employers that it's "ok" to use an open source solution (precisely because the parent company *won't* catch the GPL virus).  These people feel like they were duped.}
 
-[{We come back to the irony.  The licensing change that was slip-streamed into Extjs which caught them off guard is precisely analogous to the kinds of changes they might be impose on their <i>users</i> if it weren't for the GPL.  Watching people argue about who-stabbed-who-in-the-back is a bit like seeing a debate on the Pirate's Code of Honor!}]
+{We come back to the irony.  The licensing change that was slip-streamed into Extjs which caught them off guard is precisely analogous to the kinds of changes they might be impose on their <i>users</i> if it weren't for the GPL.  Watching people argue about who-stabbed-who-in-the-back is a bit like seeing a debate on the Pirate's Code of Honor!}
 
-[{So once again...why aren't GPL enthusiasts happy about the change?}]
+{So once again...why aren't GPL enthusiasts happy about the change?}
 
 [heading {"The Money, Not the Community"}]
 
-[{Jack Slocum talks about money.  His rationales for why one course vs. another is pursued involves mentioning how many kids he has to feed, or what it takes to pay developers.  Regardless of the emphasis by Stallman that it's okay to sell software if the "freedoms" are preserved... I think there's a bias against those who do this so openly.}]
+{Jack Slocum talks about money.  His rationales for why one course vs. another is pursued involves mentioning how many kids he has to feed, or what it takes to pay developers.  Regardless of the emphasis by Stallman that it's okay to sell software if the "freedoms" are preserved... I think there's a bias against those who do this so openly.}
 
-[{If Extjs had been changed to just the GPLv3 with no "dual-license" commercial exemption, and if the rhetoric revolved around "freedom"...it might be a different story.  As it stands, Jack hasn't won friends among either the free software radicals or those who see open source as a pragmatic solution for their closed-source businesses.}]
+{If Extjs had been changed to just the GPLv3 with no "dual-license" commercial exemption, and if the rhetoric revolved around "freedom"...it might be a different story.  As it stands, Jack hasn't won friends among either the free software radicals or those who see open source as a pragmatic solution for their closed-source businesses.}
 
-[{There are some random murmurs from the interwebs that since most Javascript libraries are released under more liberal licenses, the GPLv3 choice turns Extjs into a "black hole" since code can't be copied or borrowed from it unless that code is also GPL.  If it were any license but the GPL we were talking about, I'd be concerned about this...but c'mon.  It's the GPL!!!  It was designed to be a black hole, and I think it's time to fall in and see what's on the other side.  }]
+{There are some random murmurs from the interwebs that since most Javascript libraries are released under more liberal licenses, the GPLv3 choice turns Extjs into a "black hole" since code can't be copied or borrowed from it unless that code is also GPL.  If it were any license but the GPL we were talking about, I'd be concerned about this...but c'mon.  It's the GPL!!!  It was designed to be a black hole, and I think it's time to fall in and see what's on the other side.  }
 
 [heading "What Should Have Happened"]
 
-[{Extjs has a roadmap.  The licensing change should have been on the roadmap, and it should have been in a major version (like 3.0).  Those who wanted to go with Jack's "Quid-Pro-Quo" vision and be in his camp could do so.  A Version 2 LGPL fork would have the ability to gain some weight.  Perhaps when people were contemplating major changes to 3.0, they would elect to go with the fork and leave Jack's branch to languish.}]
+{Extjs has a roadmap.  The licensing change should have been on the roadmap, and it should have been in a major version (like 3.0).  Those who wanted to go with Jack's "Quid-Pro-Quo" vision and be in his camp could do so.  A Version 2 LGPL fork would have the ability to gain some weight.  Perhaps when people were contemplating major changes to 3.0, they would elect to go with the fork and leave Jack's branch to languish.}
 
-[{As it stands, people were left with the Creative Zen firmware option: stop getting bugfixes in your 2.0 code or take the new license.  Not good!}]
+{As it stands, people were left with the Creative Zen firmware option: stop getting bugfixes in your 2.0 code or take the new license.  Not good!}
 
-[{Extjs's name is mud right now in the open source community--and epithets like "Jack Slocumbucket" were used the last time I mentioned Extjs in a chat group.  If this really is a simple misunderstanding and a matter of some reactionary thinking on both sides, that's a shame.  There seems no reason why Extjs couldn't go with a dual license and be loved as much as Trolltech, if they were doing it right.}]
+{Extjs's name is mud right now in the open source community--and epithets like "Jack Slocumbucket" were used the last time I mentioned Extjs in a chat group.  If this really is a simple misunderstanding and a matter of some reactionary thinking on both sides, that's a shame.  There seems no reason why Extjs couldn't go with a dual license and be loved as much as Trolltech, if they were doing it right.}
 
 [heading "What can happen now?"]
 
-[{Though damage has been done here, it might not be too late to repair.  I feel that if the licensing switch that was made in the 2.0 branch had been merely the point of announcing that licensing would be changing in 3.0, then that would have been adequate notice.}]
+{Though damage has been done here, it might not be too late to repair.  I feel that if the licensing switch that was made in the 2.0 branch had been merely the point of announcing that licensing would be changing in 3.0, then that would have been adequate notice.}
 
-[{If Jack goes back and re-converts the 2.0 branch commits into LGPL (or BSD/MIT).  I think that would be a sign of good faith.  Control of the 2.0 repository could be opened up to FSF-types to ensure that it was not being unnaturally stunted, or bugs weren't being patched as they should.  Extjs would have the right to ensure 3.0 API changes and components were not being pasted in wholesale.}]
+{If Jack goes back and re-converts the 2.0 branch commits into LGPL (or BSD/MIT).  I think that would be a sign of good faith.  Control of the 2.0 repository could be opened up to FSF-types to ensure that it was not being unnaturally stunted, or bugs weren't being patched as they should.  Extjs would have the right to ensure 3.0 API changes and components were not being pasted in wholesale.}
 
-[{This would make it clear that it was not a matter of strong-arming the community based on the static capital ("the code")...rather a belief that Extjs have the right personnel and vision to steward the value of a product that relies upon its community.  How about it?}]
+{This would make it clear that it was not a matter of strong-arming the community based on the static capital ("the code")...rather a belief that Extjs have the right personnel and vision to steward the value of a product that relies upon its community.  How about it?}

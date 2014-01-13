@@ -2,16 +2,15 @@ Draem [
     title: "NSTATE: Packed Arrays for Tristates (and more)"
     category: 'page
     tags: [misc]
-
     slug: %nstate
     date: 5-Mar-2009/21:03
 ]
 
-[center {<img src="http://hostilefork.com/wp-content/uploads/2009/03/nstatelogo.png" alt="The Nstate Library Logo" title="nstatelogo" width="400" height="160" class="alignnone size-full wp-image-103" />}]
+[center {<img src="http://hostilefork.com/wp-content/uploads/2009/03/nstatelogo.png" alt="The Nstate Library Logo" width="400" height="160" class="alignnone size-full wp-image-103" />}]
 
-[{Modern compilers generally implement boolean values using types with much larger ranges than just 0 and 1 (such as bytes, or 32-bit integers).  Frugal programmers have historically used "packing" techniques to take several independent booleans and address them individually as bits inside larger types.  (For some well-known examples of this, STL has <a href="http://www.cplusplus.com/reference/stl/bitset/"><code>std::bitset</code></a> and the boost library has <a href="http://www.boost.org/doc/libs/1_38_0/libs/dynamic_bitset/dynamic_bitset.html"><code>boost::dynamic_bitset</code></a>.)}]
+{Modern compilers generally implement boolean values using types with much larger ranges than just 0 and 1 (such as bytes, or 32-bit integers).  Frugal programmers have historically used "packing" techniques to take several independent booleans and address them individually as bits inside larger types.  (For some well-known examples of this, STL has <a href="http://www.cplusplus.com/reference/stl/bitset/"><code>std::bitset</code></a> and the boost library has <a href="http://www.boost.org/doc/libs/1_38_0/libs/dynamic_bitset/dynamic_bitset.html"><code>boost::dynamic_bitset</code></a>.)}
 
-[{Nstate is a relatively simple library for C++ which provides analogously dense packing for arrays of values known to range from [0..radix-1].  It was implemented to support the <a href="http://hostilefork.com/nocycle/">Nocycle project</a>, but can be applied in general contexts like any other array:}]
+{Nstate is a relatively simple library for C++ which provides analogously dense packing for arrays of values known to range from [0..radix-1].  It was implemented to support the <a href="http://hostilefork.com/nocycle/">Nocycle project</a>, but can be applied in general contexts like any other array:}
 
 [code cplusplus {
 #include <cstdlib> // for rand()
@@ -38,40 +37,46 @@ int main(int argc, char * const argv[]) {
 }
 }]
 
-[{Yet under the hood, all 20 tristate values occupy only a single 32-bit value.  Conventional approaches with a vector of <code>unsigned char</code> would take five times as much storage.  More common packing strategies which put these tristates into 2-bit values would only be able to fit 16 tristates into 32 bits.  Though reading and writing from an <code>NstateArray</code> involves a little overhead, the space savings can be significant in certain applications.}]
+{Yet under the hood, all 20 tristate values occupy only a single 32-bit value.  Conventional approaches with a vector of <code>unsigned char</code> would take five times as much storage.  More common packing strategies which put these tristates into 2-bit values would only be able to fit 16 tristates into 32 bits.  Though reading and writing from an <code>NstateArray</code> involves a little overhead, the space savings can be significant in certain applications.}
 
-[{The code for Nstate is currently hosted in a project on GitHub, and I welcome input or improvements to the library.  It is released under the <a href="http://en.wikipedia.org/wiki/Boost_Software_License">Boost Software License</a>, which permits liberal inclusion in both open source or commercial software.}]
+{The code for Nstate is currently hosted in a project on GitHub, and I welcome input or improvements to the library.  It is released under the <a href="http://en.wikipedia.org/wiki/Boost_Software_License">Boost Software License</a>, which permits liberal inclusion in both open source or commercial software.}
 
-[{<a href="http://github.com/hostilefork/nocycle/blob/master/Nstate.hpp">Nstate.hpp on GitHub</a>}]
+[http://github.com/hostilefork/nocycle/blob/master/Nstate.hpp {Nstate.hpp on GitHub}]
 
 [heading "Background"]
 
-[{I was trying to figure out how to efficiently store an array of tristates in a memory block.  I knew I could use two-bits-per tristate, but a tristate needs slightly less than two bits to be represented.  To understand the theoretical limit of how much memory this could save, one has to use logarithms:}]
+{I was trying to figure out how to efficiently store an array of tristates in a memory block.  I knew I could use two-bits-per tristate, but a tristate needs slightly less than two bits to be represented.  To understand the theoretical limit of how much memory this could save, one has to use logarithms:}
 
 [list [
-  [{bits for N tristates / bits for 2*N bits}]
-  [{= ceil(log<sub>2</sub>(3^^N)) / (2*N)   /* definition */}]
-  [{&asymp; N log<sub>2</sub>(3) / (2*N)   /* power rule */}]
-  [{= log<sub>2</sub>(3) / 2   /* cancellation */}]
-  [{&asymp; 79%   /* calculator */}]
-] ]
 
-[{Though introducing code complexity to save 20% of memory might not be of much importance usually, the problem I was looking at was using 2<sup>16</sup> * 2<sup>16</sup> tristates... which at 2-bits per would be 512MB.  Saving a fifth of that is nice, and could even be essential on hardware based on a single 512MB chip that needed some room for code as well as data!}]
+        "bits for N tristates / bits for 2*N bits"
 
-[{Theory aside, it's a bit tricky to address 2<sup>16</sup> * 2<sup>16</sup> tristates sequentially in a 405MB buffer.  Current computers aren't geared toward interpreting multi-megabyte series of bits as a giant holistic number that it can easily divide by powers of 3 and give back the remainder.  The only serious discussion I could find about this was in the <a href="http://discuss.joelonsoftware.com/default.asp?joel.3.205331.14">Joel on Software Forum</a>, where such compactness was discouraged due to the excuse that "memory is cheap".}]
+        {= ceil(log<sub>2</sub>(3^^N)) / (2*N)   /* definition */}
 
-[{However, <a href="http://codemines.blogspot.com/">Mark Bessey</a> provided a solution in the thread that packed 20 tristates into a common 4-byte unsigned number.  This still wasted <i>some</i> available states, but how much worse would it be than the theoretical limit?  It breaks down to:}]
+        {&asymp; N log<sub>2</sub>(3) / (2*N)   /* power rule */}
 
-["    (16/20) * 512MB = 409.6MB"]
+        "= log<sub>2</sub>(3) / 2   /* cancellation */"
 
-[{So with the theoretical limit at 405MB or so, I was wasting 4-5MB beyond what's "possible".  Yet this compromise made the performance tractable, so I decided to go with it.  It seemed like a case ripe for generalization, so rather than solve the problem just for tristates I went ahead and did it for "nstates".}]
+        "&asymp; 79%   /* calculator */"
+
+    ]]
+
+{Though introducing code complexity to save 20% of memory might not be of much importance usually, the problem I was looking at was using 2<sup>16</sup> * 2<sup>16</sup> tristates... which at 2-bits per would be 512MB.  Saving a fifth of that is nice, and could even be essential on hardware based on a single 512MB chip that needed some room for code as well as data!}
+
+{Theory aside, it's a bit tricky to address 2<sup>16</sup> * 2<sup>16</sup> tristates sequentially in a 405MB buffer.  Current computers aren't geared toward interpreting multi-megabyte series of bits as a giant holistic number that it can easily divide by powers of 3 and give back the remainder.  The only serious discussion I could find about this was in the <a href="http://discuss.joelonsoftware.com/default.asp?joel.3.205331.14">Joel on Software Forum</a>, where such compactness was discouraged due to the excuse that "memory is cheap".}
+
+{However, <a href="http://codemines.blogspot.com/">Mark Bessey</a> provided a solution in the thread that packed 20 tristates into a common 4-byte unsigned number.  This still wasted <i>some</i> available states, but how much worse would it be than the theoretical limit?  It breaks down to:}
+
+"    (16/20) * 512MB = 409.6MB"
+
+{So with the theoretical limit at 405MB or so, I was wasting 4-5MB beyond what's "possible".  Yet this compromise made the performance tractable, so I decided to go with it.  It seemed like a case ripe for generalization, so rather than solve the problem just for tristates I went ahead and did it for "nstates".}
 
 [heading "Implementation Notes"]
 
-[{Having not had the occasion to write my own C++ array before, I used the <code>boost::dynamic_bitset</code> as my model for getting ordinary-looking array accesses working.}]
+{Having not had the occasion to write my own C++ array before, I used the <code>boost::dynamic_bitset</code> as my model for getting ordinary-looking array accesses working.}
 
-[{Initially I had hoped that each <code>NstateArray</code> template instantiation would have a static power table member shared among all instances with that radix, however a number of wrenches got thrown into that plan.  So I ended up building a global power table map, which instances cache--that isn't a particularly great solution.  I considered using dynamic allocation of an array and mapping to that so that each array instance would be storing a pointer--faster to access, and cheaper to copy than a <code>std::vector</code>.  But due to reference counting issues I thought I'd put the code out for peer review to see if an even better compiler-independent solution was out there...}]
+{Initially I had hoped that each <code>NstateArray</code> template instantiation would have a static power table member shared among all instances with that radix, however a number of wrenches got thrown into that plan.  So I ended up building a global power table map, which instances cache--that isn't a particularly great solution.  I considered using dynamic allocation of an array and mapping to that so that each array instance would be storing a pointer--faster to access, and cheaper to copy than a <code>std::vector</code>.  But due to reference counting issues I thought I'd put the code out for peer review to see if an even better compiler-independent solution was out there...}
 
-[{There was a lot of code that I might have liked to have put into the implementation file instead of the header file.  Various things stood in the way of this--essentially, when you write templated classes a lot of things need to be left in the header file.}]
+{There was a lot of code that I might have liked to have put into the implementation file instead of the header file.  Various things stood in the way of this--essentially, when you write templated classes a lot of things need to be left in the header file.}
 
-[{It would be nice to see this beefed up and improved by anyone who thought it was worth doing so.  Iterators could be useful (or, <a href="http://www.boostcon.com/news/2009/Feb/08/iterators-must-go">maybe not</a>?!!)  Yet because I'm the only one using this right now (that I know of) I've not spent a whole lot of time on trying to make it suit anyone else's applications for it.  Let me know if you have an idea... I'm happy to look at incorporating your comments!}]
+{It would be nice to see this beefed up and improved by anyone who thought it was worth doing so.  Iterators could be useful (or, <a href="http://www.boostcon.com/news/2009/Feb/08/iterators-must-go">maybe not</a>?!!)  Yet because I'm the only one using this right now (that I know of) I've not spent a whole lot of time on trying to make it suit anyone else's applications for it.  Let me know if you have an idea... I'm happy to look at incorporating your comments!}

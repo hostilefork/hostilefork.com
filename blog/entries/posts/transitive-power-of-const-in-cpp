@@ -2,15 +2,14 @@ Draem [
     title: "The transitive power of C++'s const keyword"
     category: 'post
     tags: [cplusplus]
-
     slug: %transitive-power-of-const-in-cpp
     date: 10-Feb-2005/16:33
     old-url-prefix: %2005/02/10/
 ]
 
-[{In my view, one of the most underused aspects of C++ is the idea of <code>const</code> methods and pointers. Like the <code>private</code> and <code>protected</code> keywords, they place a certain form of access control on an object.  But unlike <code>private</code> and <code>protected</code>, they carry this element of control deeply through the call graph.}]
+{In my view, one of the most underused aspects of C++ is the idea of <code>const</code> methods and pointers. Like the <code>private</code> and <code>protected</code> keywords, they place a certain form of access control on an object.  But unlike <code>private</code> and <code>protected</code>, they carry this element of control deeply through the call graph.}
 
-[{Imagine that you are designing an architecture where you have base classes A and B. Objects derived from B are not supposed to be able to access the <code>BCannotTrigger()</code> method of A objects...however they must be able to use the <code>BCanTrigger()</code> method. Objects derived from A need access to both <code>BCannotTrigger()</code> and <code>BCanTrigger()</code>:}]
+{Imagine that you are designing an architecture where you have base classes A and B. Objects derived from B are not supposed to be able to access the <code>BCannotTrigger()</code> method of A objects...however they must be able to use the <code>BCanTrigger()</code> method. Objects derived from A need access to both <code>BCannotTrigger()</code> and <code>BCanTrigger()</code>:}
 
 [code cplusplus {
 class A
@@ -35,7 +34,7 @@ class B
    };
 }]
 
-[{This looks good on first inspection, but it offers a rather "shallow" protection.  Imagine a class derived from A:}]
+{This looks good on first inspection, but it offers a rather "shallow" protection.  Imagine a class derived from A:}
 
 [code cplusplus {
 class SubclassOfA : public A
@@ -51,17 +50,17 @@ class SubclassOfA : public A
   }
 }]
 
-[{Unwittingly, the programmer has given B a back door into A.  If you think it should be obvious that they were making a mistake, bear in mind that I gave these methods ridiculous names to make a point--in reality they'll be named based on what they do, rather than who can call them.  Secondly, this call could be much deeper inside a subroutine...so even if there was fair warning that this was not supposed to happen, someone could lose track.}]
+{Unwittingly, the programmer has given B a back door into A.  If you think it should be obvious that they were making a mistake, bear in mind that I gave these methods ridiculous names to make a point--in reality they'll be named based on what they do, rather than who can call them.  Secondly, this call could be much deeper inside a subroutine...so even if there was fair warning that this was not supposed to happen, someone could lose track.}
 
-[{I am frequently interested in stopping these "deep" transitive violations of access privileges, as opposed to the "shallow" questions of direct calls.  Breaking it into more classes with more <code>private</code> and <code>protected</code> bits won't help--crossing the method call boundary will throw away the crucial context information.  It's possible to put in run-time checks which catch this sort of violation, but C++ offers us one oddly-shaped tool for attacking this at compile-time: <u>the <code>const</code> modifier</u>!}]
+{I am frequently interested in stopping these "deep" transitive violations of access privileges, as opposed to the "shallow" questions of direct calls.  Breaking it into more classes with more <code>private</code> and <code>protected</code> bits won't help--crossing the method call boundary will throw away the crucial context information.  It's possible to put in run-time checks which catch this sort of violation, but C++ offers us one oddly-shaped tool for attacking this at compile-time: <u>the <code>const</code> modifier</u>!}
 
-[{Most people know <code>const</code> can be used to declare constant values in C++:}]
+{Most people know <code>const</code> can be used to declare constant values in C++:}
 
 [code cplusplus {
 const float pi = 3.14; // three digit approximation will suffice
 }]
 
-[{But when you start putting the keyword on methods, there's a neat check the compiler does.  A client holding a <code>const</code> pointer can't call any methods for that class that aren't marked with <code>const</code>.  This applies transitively, because the body of a method marked with <code>const</code> can't call methods on itself that aren't also marked with <code>const</code>.  Let's take a look at how this <i>might</i> be a way of solving the situation described above:}]
+{But when you start putting the keyword on methods, there's a neat check the compiler does.  A client holding a <code>const</code> pointer can't call any methods for that class that aren't marked with <code>const</code>.  This applies transitively, because the body of a method marked with <code>const</code> can't call methods on itself that aren't also marked with <code>const</code>.  Let's take a look at how this <i>might</i> be a way of solving the situation described above:}
 
 [code cplusplus {
 class A
@@ -81,12 +80,12 @@ class B
    };
 }]
 
-[{Suddenly, we are protected from the implementation of <code>BCanTrigger()</code> <i>ever</i> accidentally using <code>BCannotTrigger()</code>.  It doesn't matter how convoluted the call graph gets--the pointer that B has is fundamentally incapable of ever being the kind of pointer that can be used to generate a downstream call to <code>BCannotTrigger()</code>!  Plus, the <code>const</code> property can be applied to each individual variable and parameter in your program, so you can completely control the granularity of these privileges.}]
+{Suddenly, we are protected from the implementation of <code>BCanTrigger()</code> <i>ever</i> accidentally using <code>BCannotTrigger()</code>.  It doesn't matter how convoluted the call graph gets--the pointer that B has is fundamentally incapable of ever being the kind of pointer that can be used to generate a downstream call to <code>BCannotTrigger()</code>!  Plus, the <code>const</code> property can be applied to each individual variable and parameter in your program, so you can completely control the granularity of these privileges.}
 
-[{Yet I said it was an "oddly-shaped" tool.  Contractually we <u>must</u> recognize that C++ programmers expect that <code>const</code> objects don't change "essential state" in-between method calls.  This idea is semi-useful for optimization and documentation, yet it's nowhere near as powerful as the compile-time contract validation demonstrated above--which most developers don't think about.  That's why so many of them think <code>const</code> wastes time and don't use it--they just haven't seen what it can really do!}]
+{Yet I said it was an "oddly-shaped" tool.  Contractually we <u>must</u> recognize that C++ programmers expect that <code>const</code> objects don't change "essential state" in-between method calls.  This idea is semi-useful for optimization and documentation, yet it's nowhere near as powerful as the compile-time contract validation demonstrated above--which most developers don't think about.  That's why so many of them think <code>const</code> wastes time and don't use it--they just haven't seen what it can really do!}
 
-[{If we wanted to be sneaky, we could make all our member variables <code>volatile</code>.  Then we could use <code>const</code> and non-<code>const</code> to represent a completely arbitrary "object mode bit"--checked and enforced in the transitive call graph by the compiler.  I've been tempted to do this and throw the whole notion of "const is for constantness" out the window...but that would be a bad practice given the understandings already established in the C++ community.  So don't do that!}]
+{If we wanted to be sneaky, we could make all our member variables <code>volatile</code>.  Then we could use <code>const</code> and non-<code>const</code> to represent a completely arbitrary "object mode bit"--checked and enforced in the transitive call graph by the compiler.  I've been tempted to do this and throw the whole notion of "const is for constantness" out the window...but that would be a bad practice given the understandings already established in the C++ community.  So don't do that!}
 
-[{However, when you create a Widget, consider making a strong and interesting choice about what a <code>const</code> or non-<code>const</code> Widget might conceptually represent.  Think big: a <code>const</code> TextFile object could have read-only access, while a non-<code>const</code> one could have read/write-access.  Examples like this are unconventional but not far-fetched, and your architecture can really start enforcing deep contracts at compile time (without the explosion of parallel code and client hassle that happens with separate ReadOnlyTextFile and ReadWriteTextFile objects).}]
+{However, when you create a Widget, consider making a strong and interesting choice about what a <code>const</code> or non-<code>const</code> Widget might conceptually represent.  Think big: a <code>const</code> TextFile object could have read-only access, while a non-<code>const</code> one could have read/write-access.  Examples like this are unconventional but not far-fetched, and your architecture can really start enforcing deep contracts at compile time (without the explosion of parallel code and client hassle that happens with separate ReadOnlyTextFile and ReadWriteTextFile objects).}
 
-[{With a little cleverness and a little luck, you might get much more mileage out of <code>const</code> than you ever expected!}]
+{With a little cleverness and a little luck, you might get much more mileage out of <code>const</code> than you ever expected!}

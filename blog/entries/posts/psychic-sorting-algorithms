@@ -1,22 +1,21 @@
 Draem [
-    title: {&quot;Psychic&quot; Sorting Algorithms}
+    title: "&quot;Psychic&quot; Sorting Algorithms"
     category: 'post
     tags: [cplusplus sorting math]
-
     slug: %psychic-sorting-algorithms
     date: 28-Sep-2013/14:28
     old-url-prefix: %2013/09/28/
 ]
 
-[{I was trying to explain to someone why some sorting algorithms are faster than others.  While there are many factors in the speed of a sort, we often talk about the number of comparisons needed.  So the angle of attack I chose was to try and explain how organizing the data in certain ways allows you to avoid ever having to compare certain pairings of items because you effectively already know the result.  What I said is that this was all a direct or indirect outcome of the <a href="https://en.wikipedia.org/wiki/Transitive_relation">Transitive Property</a>.}]
+{I was trying to explain to someone why some sorting algorithms are faster than others.  While there are many factors in the speed of a sort, we often talk about the number of comparisons needed.  So the angle of attack I chose was to try and explain how organizing the data in certain ways allows you to avoid ever having to compare certain pairings of items because you effectively already know the result.  What I said is that this was all a direct or indirect outcome of the <a href="https://en.wikipedia.org/wiki/Transitive_relation">Transitive Property</a>.}
 
-[{The transitive property is this thing we learn about in early math education.  It doesn't come up so often in conversation, but in computer science the transitive property provides the reason that we can sort a set of items without having to compare each pair.  Getting one's head around the details of exactly how various algorithms do this--and what the limits are--turned out to be tougher than I thought.  So I wrote a little bit about it.}]
+{The transitive property is this thing we learn about in early math education.  It doesn't come up so often in conversation, but in computer science the transitive property provides the reason that we can sort a set of items without having to compare each pair.  Getting one's head around the details of exactly how various algorithms do this--and what the limits are--turned out to be tougher than I thought.  So I wrote a little bit about it.}
 
-[more]
+more
 
-[divider]
+divider
 
-[{Let's imagine you tell me that you like Apples more than Bananas, and you like Bananas more than Carrots.  It would be a waste of a time for people to ask you if you liked Apples better than Carrots.  Because as long as you don't consider any two fruits equal, and unless you've got some cognitive dissonance going on, we already know your answer:}]
+{Let's imagine you tell me that you like Apples more than Bananas, and you like Bananas more than Carrots.  It would be a waste of a time for people to ask you if you liked Apples better than Carrots.  Because as long as you don't consider any two fruits equal, and unless you've got some cognitive dissonance going on, we already know your answer:}
 
 [text {
 Apples > Bananas
@@ -27,9 +26,9 @@ Bananas > Carrots
 Apples > Carrots
 }]
 
-[{So if you could only be asked two foods at once, then assuming you don't have "cognitive dissonance" and all your answers are logically consistent...then how many pairs of foods would you have to be asked about before the full ordering was given?  Is two enough?}]
+{So if you could only be asked two foods at once, then assuming you don't have "cognitive dissonance" and all your answers are logically consistent...then how many pairs of foods would you have to be asked about before the full ordering was given?  Is two enough?}
 
-[{Well, let's look at all the possibilites for how you might have answered the two questions:}]
+{Well, let's look at all the possibilites for how you might have answered the two questions:}
 
 [text {
   (I) Apples > Bananas
@@ -45,7 +44,7 @@ Apples > Carrots
       Bananas < Carrots
 }]
 
-[{There are four different ways you could have answered these two questions.  However, we know from the mathematical law of permutations that there are <i>six</i> different orderings of three items, which we can calculate by using the factorial 3*2*1.  Which did we leave out?}]
+{There are four different ways you could have answered these two questions.  However, we know from the mathematical law of permutations that there are <i>six</i> different orderings of three items, which we can calculate by using the factorial 3*2*1.  Which did we leave out?}
 
 [text {
 1. Apples > Bananas > Carrots
@@ -56,7 +55,7 @@ Apples > Carrots
 6. Carrots > Bananas > Apples
 }]
 
-["We see that:"]
+"We see that:"
 
 [text {
   (I) implies (1)
@@ -65,8 +64,8 @@ Apples > Carrots
  (IV) implies (6)
 }]
 
-[{It might be more illustrative to rewrite the Q & A so the signs are lining up in
-a consistent way:}]
+{It might be more illustrative to rewrite the Q & A so the signs are lining up in
+a consistent way:}
 
 [text {
   (I) Apples > Bananas
@@ -82,7 +81,7 @@ a consistent way:}]
       Carrots > Bananas
 }]
 
-[{We picked Bananas to be the item we are trying to get the "transitive benefit" from.  It is the thing that appears in both comparisons.  The two cases where we don't get that full benefit are the ones that don't have Bananas on a different side of the comparison, so it isn't the "bridge".  We know the transitive property in forms like:}]
+{We picked Bananas to be the item we are trying to get the "transitive benefit" from.  It is the thing that appears in both comparisons.  The two cases where we don't get that full benefit are the ones that don't have Bananas on a different side of the comparison, so it isn't the "bridge".  We know the transitive property in forms like:}
 
 [text {
 "if A > B and B > C, then A > C"
@@ -90,7 +89,7 @@ a consistent way:}]
 "if A < B and B < C, then A < C"
 }]
 
-["But no one ever mentions the converses:"]
+"But no one ever mentions the converses:"
 
 [text {
 "if A > B and C > B, then either A > C or A < C"
@@ -98,13 +97,13 @@ a consistent way:}]
 "if A < B and C < B, then either A > C or A < C"
 }]
 
-[{In other words, we could only use the relationship of A to B and C to B to learn anything about the relationship between A and C in *half* the outcomes.  In the other half, we learned nothing and are left to compare them directly.}]
+{In other words, we could only use the relationship of A to B and C to B to learn anything about the relationship between A and C in *half* the outcomes.  In the other half, we learned nothing and are left to compare them directly.}
 
-[{So if we were lucky, and used bananas as the bridge in our two questions, and Bananas happen to be right in the middle of the set...then just two questions was enough to sort it.  But 4 times out of 6 Bananas are *not* in the middle, and we're going to need a third question comparing Apples and Carrots to finish the sort.}]
+{So if we were lucky, and used bananas as the bridge in our two questions, and Bananas happen to be right in the middle of the set...then just two questions was enough to sort it.  But 4 times out of 6 Bananas are *not* in the middle, and we're going to need a third question comparing Apples and Carrots to finish the sort.}
 
-[{A psychic sorting algorithm would have started by picking whatever element is in the middle of the set.  If it knew you had scenarios (3) or (5) it would have asked "Do you like Bananas or Apples better?" and then "Do you like Carrots or Apples better?"  If it knew you had scenarios (2) or (4) it would have asked "Do you like Bananas or Carrots better?" and then "Do you like Carrots or Apples better?"}]
+{A psychic sorting algorithm would have started by picking whatever element is in the middle of the set.  If it knew you had scenarios (3) or (5) it would have asked "Do you like Bananas or Apples better?" and then "Do you like Carrots or Apples better?"  If it knew you had scenarios (2) or (4) it would have asked "Do you like Bananas or Carrots better?" and then "Do you like Carrots or Apples better?"}
 
-[{Psychic sorting algorithms can be very fast indeed!  If you have a list of N items, it is theoretically possible to sort it with only N-1 comparisons:}]
+{Psychic sorting algorithms can be very fast indeed!  If you have a list of N items, it is theoretically possible to sort it with only N-1 comparisons:}
 
 [text {
 Apples
@@ -126,9 +125,9 @@ Q: "Do you like Dates or Eggplant better?"
 A: "Dates."
 }]
 
-[{Transitive property for the win!  Only four questions and that's the only configuration of those five items that could possibly apply.  Sort is done.}]
+{Transitive property for the win!  Only four questions and that's the only configuration of those five items that could possibly apply.  Sort is done.}
 
-["But if we tried to use those questions on:"]
+"But if we tried to use those questions on:"
 
 [text {
 Bananas
@@ -150,9 +149,9 @@ Q: "Do you like Dates or Eggplant better?"
 A: "Dates."
 }]
 
-[{The three relationships we didn't learn about after the above line of questioning are how Apples relate to Carrots, how Carrots relate to Eggplant, or how Bananas relate to Dates.  It's easy to see how three more questions could sort that out, impossible to imagine how just one could do it.  If we break our brain a little we might be able to conceive of a scenario where two questions *might* give us a full order if we are lucky.}]
+{The three relationships we didn't learn about after the above line of questioning are how Apples relate to Carrots, how Carrots relate to Eggplant, or how Bananas relate to Dates.  It's easy to see how three more questions could sort that out, impossible to imagine how just one could do it.  If we break our brain a little we might be able to conceive of a scenario where two questions *might* give us a full order if we are lucky.}
 
-[{The scenario where we're going to get maximum transitive power is going to be one where an existing element bridges us, and we luck out with the bridged answer.  Let's try and deduce the Banana-Date relationship by lucking out with the other questions.}]
+{The scenario where we're going to get maximum transitive power is going to be one where an existing element bridges us, and we luck out with the bridged answer.  Let's try and deduce the Banana-Date relationship by lucking out with the other questions.}
 
 [text {
 Q: "Do you like Apples or Carrots better?"
@@ -183,13 +182,13 @@ A: "Bananas" [B > D]
     cannot combine with existing knowledge that B > A
 }]
 
-[{In this case, we'd only be getting transitive leverage if we asked the Banana vs. Date question...and we learn something about the relationships between Bananas and Eggplant.  Could that finding give us a tricky next question that allowed us to deduce the C to A and C to E relationship?  I don't see one.}]
+{In this case, we'd only be getting transitive leverage if we asked the Banana vs. Date question...and we learn something about the relationships between Bananas and Eggplant.  Could that finding give us a tricky next question that allowed us to deduce the C to A and C to E relationship?  I don't see one.}
 
-[{In any case, how many comparisons might you have to do in a pathological sorting case of five elements and still have a lower bound for a correct sorting algorithm?  I'll tell you that it's a published number you can look up, and it is 7:}]
+{In any case, how many comparisons might you have to do in a pathological sorting case of five elements and still have a lower bound for a correct sorting algorithm?  I'll tell you that it's a published number you can look up, and it is 7:}
 
-[{<a href="http://oeis.org/A036604">OIES A036604 - Sorting numbers: minimal number of comparisons needed to sort n elements.</a>}]
+[http://oeis.org/A036604 {OIES A036604 - Sorting numbers: minimal number of comparisons needed to sort n elements.}]
 
-[{As I dug deeper I found this question isn't as simple to know the answer to as I might have thought.  The table only goes up to proving that 15 elements minimally sorts with 42 comparisons.  I wondered how close a heavily peer-optimized sorting algorithm would come to these numbers on some random data, and wrote this little C++ program to test it:}]
+{As I dug deeper I found this question isn't as simple to know the answer to as I might have thought.  The table only goes up to proving that 15 elements minimally sorts with 42 comparisons.  I wondered how close a heavily peer-optimized sorting algorithm would come to these numbers on some random data, and wrote this little C++ program to test it:}
 
 [code cplusplus {
 #include <ctime>
@@ -236,7 +235,7 @@ int main() {
 }
 }]
 
-[{The resulting table shows that the comparisons drift farther and farther from the minimum as the number of elements increases:}]
+{The resulting table shows that the comparisons drift farther and farther from the minimum as the number of elements increases:}
 
 [code txt {
 For  1 items:  0 compares (minimum is  0)
@@ -256,8 +255,8 @@ For 14 items: 52 compares (minimum is 38)
 For 15 items: 71 compares (minimum is 42)
 }]
 
-[{The input data was not chosen to be pathological.  Yet still, it appears to quickly drift farther from the minimum as the number of elements increase.}]
+{The input data was not chosen to be pathological.  Yet still, it appears to quickly drift farther from the minimum as the number of elements increase.}
 
-[{Would it be possible to design a sort that never exceeded the minimum number of comparisons?  Yes, although given that the minimum number was only calculated to 15 items in a math paper... it would probably be quite computationally intensive to generate such a sorter.  It would be worthwhile only if comparisons were enormously costly relative to the rest of the operations in the system.}]
+{Would it be possible to design a sort that never exceeded the minimum number of comparisons?  Yes, although given that the minimum number was only calculated to 15 items in a math paper... it would probably be quite computationally intensive to generate such a sorter.  It would be worthwhile only if comparisons were enormously costly relative to the rest of the operations in the system.}
 
-[{One case where it <i>might</i> be worthwhile to seek a minimum would be when sorting slow/costly human decisions.  (Though presumably about things more important than preferences of fruits and vegetables!)}]
+{One case where it <i>might</i> be worthwhile to seek a minimum would be when sorting slow/costly human decisions.  (Though presumably about things more important than preferences of fruits and vegetables!)}

@@ -2,13 +2,12 @@ Draem [
     title: {Cleaner API Design Using Ignorable &quot;Hints&quot;}
     category: 'post
     tags: [api cplusplus hints]
-
     slug: %cleaner-apis-using-ignorable-hints
     date: 12-Aug-2005/19:51
     old-url-prefix: %2005/08/12/
 ]
 
-[{Sometimes API authors expose additional entry points to their code which exist only because of performance.  For instance, look at why <code>MakeManyWidgets()</code> exists in the sample below:}]
+{Sometimes API authors expose additional entry points to their code which exist only because of performance.  For instance, look at why <code>MakeManyWidgets()</code> exists in the sample below:}
 
 [code cplusplus {
 class WidgetFactory
@@ -47,11 +46,11 @@ public:
    };
 }]
 
-[{The extra routine was added as a mere performance convenience, since making N widgets has identical semantics to simply N successive calls to <code>MakeAWidget()</code>.  This is presumably safer than publishing the private routines for starting and stopping processes so it's safe to make widgets--not only might that be an implementation detail we don't want to expose, it could be deemed too serious a problem if the client improperly matches up stop/start calls.}]
+{The extra routine was added as a mere performance convenience, since making N widgets has identical semantics to simply N successive calls to <code>MakeAWidget()</code>.  This is presumably safer than publishing the private routines for starting and stopping processes so it's safe to make widgets--not only might that be an implementation detail we don't want to expose, it could be deemed too serious a problem if the client improperly matches up stop/start calls.}
 
-[{I've seen this pattern countless times, and never liked it.  Routines like <code>MakeManyWidgets()</code> lead the clients of your API to start disrupting the control flow in their programs to try and get a performance payoff that may turn out to be irrelevant in the future.  It also gives the misleading impression that there might be a semantic significance to creating a set of widgets as a batch, and will make source code written to the API a lot harder to absorb.}]
+{I've seen this pattern countless times, and never liked it.  Routines like <code>MakeManyWidgets()</code> lead the clients of your API to start disrupting the control flow in their programs to try and get a performance payoff that may turn out to be irrelevant in the future.  It also gives the misleading impression that there might be a semantic significance to creating a set of widgets as a batch, and will make source code written to the API a lot harder to absorb.}
 
-[{If I face a situation like this, I completely decouple the performance "hint" from the routines that do the work.  As a rule, I also make sure that if the hint gives blatantly incorrect information, the worst that can happen is that your program is a bit slower than it would have been without the hint.  To give an example of how this might work, look at <code>HINT_MakingManyWidgets()</code> below:}]
+{If I face a situation like this, I completely decouple the performance "hint" from the routines that do the work.  As a rule, I also make sure that if the hint gives blatantly incorrect information, the worst that can happen is that your program is a bit slower than it would have been without the hint.  To give an example of how this might work, look at <code>HINT_MakingManyWidgets()</code> below:}
 
 [code cplusplus {
 class WidgetFactory
@@ -96,6 +95,6 @@ public:
    };
 }]
 
-[{This way, developers aren't encouraged to complicate their code up front.  No one will use these HINT_ functions unless they need to--only those clients who are dissatisfied with performance will bother.  You can add as many as you like, adapted specifically to suit the real use cases of important clients.  And if you ever want to stop supporting a hint you merely make the function have no effect.}]
+{This way, developers aren't encouraged to complicate their code up front.  No one will use these HINT_ functions unless they need to--only those clients who are dissatisfied with performance will bother.  You can add as many as you like, adapted specifically to suit the real use cases of important clients.  And if you ever want to stop supporting a hint you merely make the function have no effect.}
 
-[{The worst you'll do to your clients is slow them down, and your API and code using it will be purer and more elegant!}]
+{The worst you'll do to your clients is slow them down, and your API and code using it will be purer and more elegant!}

@@ -2,19 +2,18 @@ Draem [
     title: "In Defense of Hungarian Notation (with caveats)"
     category: 'post
     tags: [formatting philosophy cplusplus]
-
     slug: %defense-of-hungarian-notation
     date: 24-Sep-2005/22:24
     old-url-prefix: %2005/09/24/
 ]
 
-[{Anyone who has programmed directly to the Windows API knows about the existence of <a href="http://en.wikipedia.org/wiki/Hungarian_notation">Hungarian Notation</a>.  It is a way of making the name of a variable or procedure flow automatically from its data type.  Like other conventions that have been rejected by the general programming community, it would be foolish to use it today on any public API or code example.  Despite this, I do still borrow from some of the "spirit" of the notation when I code.}]
+{Anyone who has programmed directly to the Windows API knows about the existence of <a href="http://en.wikipedia.org/wiki/Hungarian_notation">Hungarian Notation</a>.  It is a way of making the name of a variable or procedure flow automatically from its data type.  Like other conventions that have been rejected by the general programming community, it would be foolish to use it today on any public API or code example.  Despite this, I do still borrow from some of the "spirit" of the notation when I code.}
 
-["I'd like to explain why."]
+"I'd like to explain why."
 
-[{Some critics (and adherents) of Hungarian Notation think its goal is to encode useful type information into names.  The truth is, coming up with useful names is not the point.  It is much more about avoiding the encoding of <em>useless</em> information!}]
+{Some critics (and adherents) of Hungarian Notation think its goal is to encode useful type information into names.  The truth is, coming up with useful names is not the point.  It is much more about avoiding the encoding of <em>useless</em> information!}
 
-[{Names--like indentation, spacing, and comments--do not affect the executable code.  For instance, look at this code:}]
+{Names--like indentation, spacing, and comments--do not affect the executable code.  For instance, look at this code:}
 
 [code cplusplus {
 void DestroyTheWindow(HWND TheWindowIWillDestroy)
@@ -29,7 +28,7 @@ void DestroyTheWindow(HWND TheWindowIWillDestroy)
    }
 }]
 
-[{No matter how nice the prose, that programmer spent their finite allocation of time on earth unwisely.  Given the 30 seconds (at least!) it took them to write that comment, I'd rather they had written:}]
+{No matter how nice the prose, that programmer spent their finite allocation of time on earth unwisely.  Given the 30 seconds (at least!) it took them to write that comment, I'd rather they had written:}
 
 [code cplusplus {
 void DestroyWindow(HWND hwnd)
@@ -39,7 +38,7 @@ void DestroyWindow(HWND hwnd)
    }
 }]
 
-[{...or even better, invested that time in creating subclasses of <code>HWND</code> (like <code>HWND_TOPLEVEL</code> and <code>HWND_CHILD</code>) so that the error could be caught at compile-time:}]
+{...or even better, invested that time in creating subclasses of <code>HWND</code> (like <code>HWND_TOPLEVEL</code> and <code>HWND_CHILD</code>) so that the error could be caught at compile-time:}
 
 [code cplusplus {
 void DestroyToplevel(HWND_TOPLEVEL hwnd)
@@ -48,11 +47,11 @@ void DestroyToplevel(HWND_TOPLEVEL hwnd)
    }
 }]
 
-[{Even if <code>HWND_TOPLEVEL</code> and <code>HWND_CHILD</code> are merely typedefs for <code>HWND</code>, I think this is better documentation than a comment in the long run.  It conveys all the same information and can easily grow into a compiler-checked solution, if you were to upgrade the definitions from typedefs into distinct classes.}]
+{Even if <code>HWND_TOPLEVEL</code> and <code>HWND_CHILD</code> are merely typedefs for <code>HWND</code>, I think this is better documentation than a comment in the long run.  It conveys all the same information and can easily grow into a compiler-checked solution, if you were to upgrade the definitions from typedefs into distinct classes.}
 
-[{Before anyone revokes my programming license, I'm not saying people shouldn't comment.  Yet a programmer only has twenty-four hours in a day (disregarding sleep, of course)... and therefore any time invested in comments is energy that was not put into fixing the code so that comment wasn't necessary.  Naming is the same way--a creative name is something a user will not be able to appreciate in terms of runtime features.}]
+{Before anyone revokes my programming license, I'm not saying people shouldn't comment.  Yet a programmer only has twenty-four hours in a day (disregarding sleep, of course)... and therefore any time invested in comments is energy that was not put into fixing the code so that comment wasn't necessary.  Naming is the same way--a creative name is something a user will not be able to appreciate in terms of runtime features.}
 
-[{So to bring our discussion back to the core of Hungarian Notation's value for your programming mind, let's look at the situation of someone naming a function parameter:}]
+{So to bring our discussion back to the core of Hungarian Notation's value for your programming mind, let's look at the situation of someone naming a function parameter:}
 
 [code cplusplus {
 void DestroyWindow(HWND /*[name goes here]*/)
@@ -61,9 +60,9 @@ void DestroyWindow(HWND /*[name goes here]*/)
    }
 }]
 
-[{I could sit around all day debating whether to call it <code>Input</code> or <code>ToBeDestroyedWindow</code> or <code>TheWindowIWillDestroy</code> or cryptically <code>x</code>.  Yet what this variable represents is obvious from the context--after all, it is the sole parameter to a routine called <code>DestroyWindow</code>.  It's the window to destroy (Duh!)}]
+{I could sit around all day debating whether to call it <code>Input</code> or <code>ToBeDestroyedWindow</code> or <code>TheWindowIWillDestroy</code> or cryptically <code>x</code>.  Yet what this variable represents is obvious from the context--after all, it is the sole parameter to a routine called <code>DestroyWindow</code>.  It's the window to destroy (Duh!)}
 
-[{One way of avoiding a meaningless name would be to give the variable some unique number:}]
+{One way of avoiding a meaningless name would be to give the variable some unique number:}
 
 [code cplusplus {
 void DestroyWindow(HWND noname1231 /* hope this is unique! */)
@@ -72,9 +71,9 @@ void DestroyWindow(HWND noname1231 /* hope this is unique! */)
    }
 }]
 
-[{In the future, our integrated development environments might be able to manage such numeric identities for declarations "behind the scenes".  This would be a lot like how databases invisibly manage table relationships through primary keys.  But so long as we're directly modifying textual code, humans can't really match up these numbers while reading.  So this is a bad idea.}]
+{In the future, our integrated development environments might be able to manage such numeric identities for declarations "behind the scenes".  This would be a lot like how databases invisibly manage table relationships through primary keys.  But so long as we're directly modifying textual code, humans can't really match up these numbers while reading.  So this is a bad idea.}
 
-[{But what if you made all your type names in capital letters?  Then you could turn the type into lowercase letters to produce an available symbol:}]
+{But what if you made all your type names in capital letters?  Then you could turn the type into lowercase letters to produce an available symbol:}
 
 [code cplusplus {
 void DestroyWindow(HWND hwnd)
@@ -83,42 +82,42 @@ void DestroyWindow(HWND hwnd)
    }
 }]
 
-[{Assuming that turning your type into lowercase doesn't produce a language keyword, then you'll always get a legal identifier.  Moreover, the name isn't completely useless: anywhere you see a reference to this "nameless" variable you know at least one thing about it: <i>its type</i>.}]
+{Assuming that turning your type into lowercase doesn't produce a language keyword, then you'll always get a legal identifier.  Moreover, the name isn't completely useless: anywhere you see a reference to this "nameless" variable you know at least one thing about it: <i>its type</i>.}
 
-[{Naturally, this method of producing a unique symbol breaks down once you have more than one variable of a specific type in a scope:}]
+{Naturally, this method of producing a unique symbol breaks down once you have more than one variable of a specific type in a scope:}
 
 [code cplusplus {
 HWND hwnd; // topmost window in the Z order
 HWND hwnd; // parent window (**ERROR, NAME ALREADY USED**)
 }]
 
-[{Yet if there's more than one variable of the same type in a scope, that means that context alone is <em>by definition</em> insufficient to explain your variable's purpose.  Hungarian Notation prescribes adding a disambiguating mixed-case phrase to the end of the name.  It is especially efficient, because the disambiguation always tacks onto the end of names--which is easy to add and remove in the editor if you ever run up against a collision:}]
+{Yet if there's more than one variable of the same type in a scope, that means that context alone is <em>by definition</em> insufficient to explain your variable's purpose.  Hungarian Notation prescribes adding a disambiguating mixed-case phrase to the end of the name.  It is especially efficient, because the disambiguation always tacks onto the end of names--which is easy to add and remove in the editor if you ever run up against a collision:}
 
 [code cplusplus {
 HWND hwndTopmostInZOrder;
 HWND hwndParent;
 }]
 
-[{This only works if you create lots of new types.  If you have an integer value, and you prefix a variable with the letter "i", context is probably not sufficient to know what the variable is for.  So that raises the question: why are you using an integer and not a higher level abstraction like "line number" (<code>LINE</code>), "count of employees" (<code>CEMP</code>), or a "stack depth counter" (<code>SDC</code>)?}]
+{This only works if you create lots of new types.  If you have an integer value, and you prefix a variable with the letter "i", context is probably not sufficient to know what the variable is for.  So that raises the question: why are you using an integer and not a higher level abstraction like "line number" (<code>LINE</code>), "count of employees" (<code>CEMP</code>), or a "stack depth counter" (<code>SDC</code>)?}
 
-[{If the Y2K problem taught us anything, it's that you should be very liberal in creating new types which capture your ideas--even if it's just a measly preprocessor macro.  Compare:}]
+{If the Y2K problem taught us anything, it's that you should be very liberal in creating new types which capture your ideas--even if it's just a measly preprocessor macro.  Compare:}
 
 [code cplusplus "BYTE todays_date_in_MM_DD_YY[3];"]
 
-["with:"]
+"with:"
 
 [code cplusplus {
 typedef BYTE[3] DATE;
 DATE date;
 }]
 
-[{Even though the implementations are isomorphic, the second pattern is far better. There is no automatic way to find all the dates in the first example...you have to do manual inspection of all the names of BYTE arrays to figure out which are dates and which are not.  This is why I don't hesitate to create new types while I program, even wrappers for basic types like <code>int</code> or <code>long</code>.  Once you've done that, you can feel good about variable declarations like <code>LINE lineFirst;</code> or <code>CEMP cempHiredLastMonth;</code> or just <code>SDC sdc;</code>.}]
+{Even though the implementations are isomorphic, the second pattern is far better. There is no automatic way to find all the dates in the first example...you have to do manual inspection of all the names of BYTE arrays to figure out which are dates and which are not.  This is why I don't hesitate to create new types while I program, even wrappers for basic types like <code>int</code> or <code>long</code>.  Once you've done that, you can feel good about variable declarations like <code>LINE lineFirst;</code> or <code>CEMP cempHiredLastMonth;</code> or just <code>SDC sdc;</code>.}
 
-[{If you aren't making tons of types, and just sticking "i" or "l" in front of everything, forget about Hungarian.  It will be useless, and makes what Linus Torvalds says absolutely true:}]
+{If you aren't making tons of types, and just sticking "i" or "l" in front of everything, forget about Hungarian.  It will be useless, and makes what Linus Torvalds says absolutely true:}
 
-[quote {"Encoding the type of a function into the name (so-called Hungarian notation) is brain damaged - the compiler knows the types anyway and can check those, and it only confuses the programmer."}]
+[quote {Encoding the type of a function into the name (so-called Hungarian notation) is brain damaged - the compiler knows the types anyway and can check those, and it only confuses the programmer.}]
 
-[{I'm not surprised Hungarian Notation has a terrible reputation, because I've never seen published code that used it right.  Microsoft even screwed it up in their most public APIs!  Just look at the definition for window procedures:}]
+{I'm not surprised Hungarian Notation has a terrible reputation, because I've never seen published code that used it right.  Microsoft even screwed it up in their most public APIs!  Just look at the definition for window procedures:}
 
 [code cplusplus {
 long FAR PASCAL WndProc(
@@ -128,7 +127,7 @@ long FAR PASCAL WndProc(
    LONG lParam);
 }]
 
-[{The only part they did right is the <code>HWND</code>.  The rest is a complete mess.  A more genuine attempt would probably look like:}]
+{The only part they did right is the <code>HWND</code>.  The rest is a complete mess.  A more genuine attempt would probably look like:}
 
 [code cplusplus {
 typedef UINT WPARAM;
@@ -143,11 +142,11 @@ LRESULT FAR PASCAL LresultWndproc(
    LPARAM lparam);
 }]
 
-[{Some very reasonable people suggest that since so few programmers have grasped the "true" spirit of Hungarian Notation, something must be inherently confusing about it.  Therefore nearly everyone should avoid it.}]
+{Some very reasonable people suggest that since so few programmers have grasped the "true" spirit of Hungarian Notation, something must be inherently confusing about it.  Therefore nearly everyone should avoid it.}
 
-["I mostly agree."]
+"I mostly agree."
 
-[{Yet I dislike being forced to give a meaningless name to something which is obvious from its context.  That's why I came up with a compromise that I sometimes use.  I simply make a mental association of a shorthand for each data type that I'm using (such as "WND" for <code>System.Window</code>) without changing the definition.  This means code starts to look like:}]
+{Yet I dislike being forced to give a meaningless name to something which is obvious from its context.  That's why I came up with a compromise that I sometimes use.  I simply make a mental association of a shorthand for each data type that I'm using (such as "WND" for <code>System.Window</code>) without changing the definition.  This means code starts to look like:}
 
 [code java {
 void DestroyWindow(System.Window wnd)
@@ -162,9 +161,9 @@ void DestroyWindow(System.Window wnd)
    }
 }]
 
-[{This gives me what I desire, and avoids the taboo of data types that are in all capital letters.  (I don't know why, but people have reserved all caps for naming constants.  It's a convention that never made sense to me--mixed case constants are more readable.  Oh well.)}]
+{This gives me what I desire, and avoids the taboo of data types that are in all capital letters.  (I don't know why, but people have reserved all caps for naming constants.  It's a convention that never made sense to me--mixed case constants are more readable.  Oh well.)}
 
-[{One quirk I have adopted is to use "is" as the prefix for booleans.  I still think it's in the spirit of Hungarian, and <code>boolean isTheUserOnline</code> reads a bit better than <code>boolean boolUserOnline</code>.  Here's another example demonstrating my naming technique:}]
+{One quirk I have adopted is to use "is" as the prefix for booleans.  I still think it's in the spirit of Hungarian, and <code>boolean isTheUserOnline</code> reads a bit better than <code>boolean boolUserOnline</code>.  Here's another example demonstrating my naming technique:}
 
 [code cplusplus {
 void KickUserOffline(UserObject userKick, UserObject userAdministrator)

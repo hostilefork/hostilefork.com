@@ -2,41 +2,42 @@ Draem [
     title: "Finding the Three Fastest Laptops"
     category: 'post
     tags: [puzzles]
-
     slug: %finding-the-three-fastest-laptops
     date: 16-Apr-2008/23:25
     old-url-prefix: %2008/04/16/
 ]
 
-[{<i>I somehow tripped across this problem on something called <a href="http://blinkdagger.com/games/monday-math-madness-4-the-tradition-continues">"Monday Math Madness #4"</a>.  They mentioned a Rubik's Cube as a prize, and since some of the stickers are coming off of mine I decided to go ahead and work out the solution.  My answer was right, but there were many correct answers so I was not chosen to win the cube... or the Amazon gift certificate.  Alas.</i>}]
+{<i>I somehow tripped across this problem on something called <a href="http://blinkdagger.com/games/monday-math-madness-4-the-tradition-continues">"Monday Math Madness #4"</a>.  They mentioned a Rubik's Cube as a prize, and since some of the stickers are coming off of mine I decided to go ahead and work out the solution.  My answer was right, but there were many correct answers so I was not chosen to win the cube... or the Amazon gift certificate.  Alas.</i>}
 
 [quote [
-	[Daniel: {Hey Quan, we just received a shipment of 25 Macbook Pros from Apple Inc.}]
 
-	[Quan: {WOWIE PAZOWIE! What are we going to do with 25 Macbook Pros?}]
+        [Daniel: {Hey Quan, we just received a shipment of 25 Macbook Pros from Apple Inc.}]
 
-	[Daniel: {Let’s keep 3 of them for personal use and give the other 22 away to the winner of this contest.}]
+        [Quan: {WOWIE PAZOWIE! What are we going to do with 25 Macbook Pros?}]
 
-	[Quan: {Okay. But personally, I think the winner would rather prefer a 10 dollar GC to amazon.}]
+        [Daniel: {Let’s keep 3 of them for personal use and give the other 22 away to the winner of this contest.}]
 
-	[Daniel: {You’re probably right. In that case, we’ll just take a sledgehammer and smash the other 22 laptops to oblivion. Anyhow, since all Macbook Pros are not created equally, let’s determine which 3 Macbook Pros are the fastest. Those are the one’s that we’ll keep.}]
+        [Quan: {Okay. But personally, I think the winner would rather prefer a 10 dollar GC to amazon.}]
 
-	[Quan: {Good idea. We can go to the computer lab and run a simple test.}]
+        [Daniel: {You’re probably right. In that case, we’ll just take a sledgehammer and smash the other 22 laptops to oblivion. Anyhow, since all Macbook Pros are not created equally, let’s determine which 3 Macbook Pros are the fastest. Those are the one’s that we’ll keep.}]
 
-	[Daniel: {Right. We can hook them up to the blinkdagger station and have each laptop process a special algorithm that I developed in MATLAB.}]
+        [Quan: {Good idea. We can go to the computer lab and run a simple test.}]
 
-	[Quan: {But we can only hook up 5 Macbook Pros at one time. And the station only ranks the 5 laptops from 1 (fastest) to 5 (slowest). It doesn’t give us any other information. This could potentially take forever!}]
+        [Daniel: {Right. We can hook them up to the blinkdagger station and have each laptop process a special algorithm that I developed in MATLAB.}]
 
-	[Daniel: {Don’t worry Quan. The optimal strategy will only take ______ iterations.}]
-] ]
+        [Quan: {But we can only hook up 5 Macbook Pros at one time. And the station only ranks the 5 laptops from 1 (fastest) to 5 (slowest). It doesn’t give us any other information. This could potentially take forever!}]
 
-[{So here was the phrasing of my solution:}]
+        [Daniel: {Don’t worry Quan. The optimal strategy will only take ______ iterations.}]
 
-[{First test all laptop groups w/no overlap (5 iterations).  Label each computer with its performance rank order in the test.}]
+    ]]
 
-[{Remembering which group it came from, test the fastest laptops from each group (marked 1) against each other.  This will be the sixth iteration.  Label each computer in the group whose laptop won this test "A", the group whose laptop came in second place "B", etc.}]
+"So here was the phrasing of my solution:"
 
-[{So each computer should now have a letter and a number.  These equations show us what we know so far about their relative speeds:}]
+{First test all laptop groups w/no overlap (5 iterations).  Label each computer with its performance rank order in the test.}
+
+{Remembering which group it came from, test the fastest laptops from each group (marked 1) against each other.  This will be the sixth iteration.  Label each computer in the group whose laptop won this test "A", the group whose laptop came in second place "B", etc.}
+
+{So each computer should now have a letter and a number.  These equations show us what we know so far about their relative speeds:}
 
 [text {A1 < A2 < A3 < A4 < A5
 B1 < B2 < B3 < B4 < B5
@@ -46,7 +47,7 @@ E1 < E2 < E3 < E4 < E5
     ...and...
 A1 < B1 < C1 < D1 < E1}]
 
-[{We are only looking for 3 laptops.  Thus we can exclude all computers labeled D and E as well as those labeled 4 and 5, because there are always three computers guaranteed to be faster than them.  So this reduces our consideration to:}]
+{We are only looking for 3 laptops.  Thus we can exclude all computers labeled D and E as well as those labeled 4 and 5, because there are always three computers guaranteed to be faster than them.  So this reduces our consideration to:}
 
 [text {A1 < A2 < A3
 B1 < B2 < B3
@@ -54,7 +55,7 @@ C1 < C2 < C3
     ...and...
 A1 < B1 < C1}]
 
-[{By similar logic, we know that B3, C2, and C3 are not in the running...e.g. we cannot choose B3 because the transitive property tells us that B2, B1, and A1 are faster.  Narrowing the field to potential winners for the top 3 places we now have:}]
+{By similar logic, we know that B3, C2, and C3 are not in the running...e.g. we cannot choose B3 because the transitive property tells us that B2, B1, and A1 are faster.  Narrowing the field to potential winners for the top 3 places we now have:}
 
 [text {A1 < A2 < A3
 B1 < B2
@@ -62,6 +63,6 @@ C1
     ...and...
 A1 < B1 < C1}]
 
-[{It is certain that A1 will be chosen, because it is the fastest of the fast.  That leaves only 5 candidates for second and third place.  So test them all together for the seventh and final iteration [A2, A3, B1, B2, C1]. Take the two top winners from this test along with A1 and you are done.}]
+{It is certain that A1 will be chosen, because it is the fastest of the fast.  That leaves only 5 candidates for second and third place.  So test them all together for the seventh and final iteration [A2, A3, B1, B2, C1]. Take the two top winners from this test along with A1 and you are done.}
 
-["That is 7 iterations."]
+"That is 7 iterations."

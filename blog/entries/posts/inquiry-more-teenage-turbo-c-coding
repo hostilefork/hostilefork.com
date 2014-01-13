@@ -2,64 +2,67 @@ Draem [
     title: "Inquiry /E and /G - More Teenage Turbo C Coding"
     category: 'post
     tags: [cplusplus education humor]
-
     slug: %inquiry-more-teenage-turbo-c-coding
     date: 27-Sep-2013/20:13
     old-url-prefix: %2013/09/27/
 ]
 
-[{I previously wrote about finding some <a href="http://hostilefork.com/2013/09/16/manykeys-my-open-source-roots/">old public domain routines</a> I'd written, lost, and found via Google on some compilation CD on the Internet.  Processing that bit of history inspired me to document the only <i>really old</i> program I still have of mine, which somehow survived the media purges in the intervening decades.}]
+{I previously wrote about finding some <a href="http://hostilefork.com/2013/09/16/manykeys-my-open-source-roots/">old public domain routines</a> I'd written, lost, and found via Google on some compilation CD on the Internet.  Processing that bit of history inspired me to document the only <i>really old</i> program I still have of mine, which somehow survived the media purges in the intervening decades.}
 
-[{It's called "Inquiry", and it was an instructional software program for DOS.  Here's a video of me explaining what it's about...}]
+{It's called "Inquiry", and it was an instructional software program for DOS.  Here's a video of me explaining what it's about...}
 
 [youtube http://www.youtube.com/v/qLrzk_eK3Gs 420x240]
 
-[more]
+more
 
-[{Inquiry started life as a project for the Spanish Honor Society in High School... where we were required to do some kind of Spanish-related thing as a condition of membership.  Since I was interested in computers, I chose to make a quiz program that made it easy to enter vocabulary and other questions that used accented letters and upside-down punctuation.  (Back in those days, there was usually no way to enter these characters in a typical DOS program!)}]
+{Inquiry started life as a project for the Spanish Honor Society in High School... where we were required to do some kind of Spanish-related thing as a condition of membership.  Since I was interested in computers, I chose to make a quiz program that made it easy to enter vocabulary and other questions that used accented letters and upside-down punctuation.  (Back in those days, there was usually no way to enter these characters in a typical DOS program!)}
 
-[{I'd just discovered some libraries on BBSes like the TechnoJock toolkit and Flexlist, and was picking up some new ideas.  I was getting the hang of how to use generic data structures, learning the difference between writing to screen memory directly and going through BIOS, and a lot of other things that you don't find out from the Turbo C manuals.}]
+{I'd just discovered some libraries on BBSes like the TechnoJock toolkit and Flexlist, and was picking up some new ideas.  I was getting the hang of how to use generic data structures, learning the difference between writing to screen memory directly and going through BIOS, and a lot of other things that you don't find out from the Turbo C manuals.}
 
 [note {Hey, there's <a href="http://www.technojock.com/toolkit/">an empty WordPress blog about TechnoJock toolkit</a> even today... I should go leave a message!  The Flexlist fellow doesn't seem to have a web presence these days, but <a href="http://www.amazon.com/FlexList-II-ANSI-C-PSW/dp/B001P36HLW">he did write a book about it</a>, apparently.}]
 
-[{I wrote the quiz program... and it worked.  It impressed the Spanish teacher mostly because you could hit ALT-a to get an <b>&aacute;</b> or ALT-q to get <b>&iquest;</b>, etc.  I made some sample quizzes and left some copies with the foreign language department.  But I doubt anyone touched it after I left.}]
+{I wrote the quiz program... and it worked.  It impressed the Spanish teacher mostly because you could hit ALT-a to get an <b>&aacute;</b> or ALT-q to get <b>&iquest;</b>, etc.  I made some sample quizzes and left some copies with the foreign language department.  But I doubt anyone touched it after I left.}
 
-[{So once I got my honor society credit, Inquiry could have ended.  But one of my father's colleagues in the Physiology department at George Washington University Medical Center wanted to have some kind of quiz program for his students on the library computers.  Since I was a kid and would work for cheap over the summer--I was able to get a job adapting the program to have graphics.}]
+{So once I got my honor society credit, Inquiry could have ended.  But one of my father's colleagues in the Physiology department at George Washington University Medical Center wanted to have some kind of quiz program for his students on the library computers.  Since I was a kid and would work for cheap over the summer--I was able to get a job adapting the program to have graphics.}
 
-[{The video card on my computer (and most common for computers at the time, such as those in the medical school library) was <a href="https://en.wikipedia.org/wiki/Enhanced_Graphics_Adapter">EGA</a>...and the smattering of "cutting-edge" VGA displays were compatible.  EGA provided a maximum resolution of 640x350, with each pixel any of a whopping **16 colors**.  <i>(Not only that, but those 16 colors could be chosen from a palette of 64 possibilities!!!)</i>  I shelled out some of my meager kid savings to buy commercial libraries that could display <a href="https://en.wikipedia.org/wiki/PCX">PCX files</a>.  (PCX was a more common format at the time than those of the program I preferred to use to draw in, <a href="https://en.wikipedia.org/wiki/Deluxe_Paint">Deluxe Paint II</a>, but it was possible to convert to them.)}]
+{The video card on my computer (and most common for computers at the time, such as those in the medical school library) was <a href="https://en.wikipedia.org/wiki/Enhanced_Graphics_Adapter">EGA</a>...and the smattering of "cutting-edge" VGA displays were compatible.  EGA provided a maximum resolution of 640x350, with each pixel any of a whopping **16 colors**.  <i>(Not only that, but those 16 colors could be chosen from a palette of 64 possibilities!!!)</i>  I shelled out some of my meager kid savings to buy commercial libraries that could display <a href="https://en.wikipedia.org/wiki/PCX">PCX files</a>.  (PCX was a more common format at the time than those of the program I preferred to use to draw in, <a href="https://en.wikipedia.org/wiki/Deluxe_Paint">Deluxe Paint II</a>, but it was possible to convert to them.)}
 
-[{The new program (which I called "Inquiry/G" for Graphics) didn't wind up being all that much more complicated than the text mode version.  What I really spent the most time on during the summer was drawing digital versions of the pictures that the physiology department wanted to accompany their database.  They were able to type the notes, questions, and answers into Inquiry/E (the database editor)... but didn't have anyone on staff to make EGA versions.}]
+{The new program (which I called "Inquiry/G" for Graphics) didn't wind up being all that much more complicated than the text mode version.  What I really spent the most time on during the summer was drawing digital versions of the pictures that the physiology department wanted to accompany their database.  They were able to type the notes, questions, and answers into Inquiry/E (the database editor)... but didn't have anyone on staff to make EGA versions.}
 
-[{By modern standards the pictures are pretty silly.  But when you consider they were made by a 17-year-old non-artist programmer in 1993 who was drawing with a mouse...they're not so bad.  (Except for the shadowing on the type, which makes a lot of the small print unreadable):}]
+{By modern standards the pictures are pretty silly.  But when you consider they were made by a 17-year-old non-artist programmer in 1993 who was drawing with a mouse...they're not so bad.  (Except for the shadowing on the type, which makes a lot of the small print unreadable):}
 
 [center {<img src="http://hostilefork.com/media/blog/inquiry-more-teenage-turbo-c-coding/regional-lung-differences-high.png" alt="Regional Lung Ventilation Differences (High)" />}]
 
 [center {<img src="http://hostilefork.com/media/blog/inquiry-more-teenage-turbo-c-coding/conduction-velocity-sensory-nerve.png" alt="Conduction Velocity in a Sensory Nerve" />}]
 
-[{Once again, I've put the source on GitHub to chortle over:}]
+{Once again, I've put the source on GitHub to chortle over:}
 
-[{<a href="https://github.com/hostilefork/teenage-coding/tree/master/INQUIRY">https://github.com/hostilefork/teenage-coding/tree/master/INQUIRY</a>}]
+https://github.com/hostilefork/teenage-coding/tree/master/INQUIRY
 
-[{I simply cringe reading it.  On the first line of executing code it does an unsafe copy of the executable path <a href="https://github.com/hostilefork/teenage-coding/blob/a753c97abac79d2ae56c8303d08ae3a5b4ce4962/INQUIRY/INQG/INQG.CPP#L67">from argv[0] into an 80 character buffer</a>... :-(}]
+{I simply cringe reading it.  On the first line of executing code it does an unsafe copy of the executable path <a href="https://github.com/hostilefork/teenage-coding/blob/a753c97abac79d2ae56c8303d08ae3a5b4ce4962/INQUIRY/INQG/INQG.CPP#L67">from argv[0] into an 80 character buffer</a>... :-(}
 
-[{If there were a way to reach back across time and slap some sense into myself, I would.  But we all start somewhere, right?}]
+{If there were a way to reach back across time and slap some sense into myself, I would.  But we all start somewhere, right?}
 
-[{This is one of the great things about the more connected world of today with things like StackOverflow.  Those in the know can correct things in your code samples even when it wasn't what your question was about, and you can also browse and learn rapidly from what others are doing.  And for all those of you who are still writing code like this: Please, please stop.}]
+{This is one of the great things about the more connected world of today with things like StackOverflow.  Those in the know can correct things in your code samples even when it wasn't what your question was about, and you can also browse and learn rapidly from what others are doing.  And for all those of you who are still writing code like this: Please, please stop.}
 
 [update {As an amusing epilogue, I also found a text file outlining a vision for the follow-up to Inquiry... the less-friendly named "Inquisition".  Though I was just 17, I clearly had a bright future in the software industry.  Despite my youth, I already knew how to make outlandish promises for features in a next version that would never be written!!!}]
 
 [quote [
-	[{"Inquiry's run-time version is distributed freely for use with public educational databases.  The database editor can be used to create new databases, and is not free.  A license to sell Inquiry bundles can be purchased, with encryption keys to keep others from editing/tampering with commercial databases.}]
 
-	[{Inquisition is the successor to the Inquiry/E and Inquiry/G products, and is poised to make a huge cut into the CAI market.  Among differentiating features between Inquiry and Inquisition are:}]
+        {Inquiry's run-time version is distributed freely for use with public educational databases.  The database editor can be used to create new databases, and is not free.  A license to sell Inquiry bundles can be purchased, with encryption keys to keep others from editing/tampering with commercial databases.}
 
-	[list [
-		[{More video modes.  Inquisition will be capable of running in text modes like the original Inquiry (for use on networks, bulletin boards, and other terminal based systems), and support graphics dithering and scaling to fit any graphics mode: CGA/EGA/VGA/SVGA are all supported.  Databases may be kept in their original format, or they may be specifically compressed/expanded in order to run faster on their new host system.}]
+        {Inquisition is the successor to the Inquiry/E and Inquiry/G products, and is poised to make a huge cut into the CAI market.  Among differentiating features between Inquiry and Inquisition are:}
 
-		[{More animation and graphics possibilities.  Because Inquisition windows are resizable and can be relocated, the "half-screen" limitation no longer applies.  If the full screen needs to be a graphic, then it can be.}]
+        [list [
 
-		[{Additional options may be added to formulate printed tests from databases, or import data from WordPerfect documents or GIF files.}]
-	] ]
-] ]
+                {More video modes.  Inquisition will be capable of running in text modes like the original Inquiry (for use on networks, bulletin boards, and other terminal based systems), and support graphics dithering and scaling to fit any graphics mode: CGA/EGA/VGA/SVGA are all supported.  Databases may be kept in their original format, or they may be specifically compressed/expanded in order to run faster on their new host system.}
 
-[{Whoa, importing GIFs, seriously?  Now *that's* high-tech!  :-P}]
+                {More animation and graphics possibilities.  Because Inquisition windows are resizable and can be relocated, the "half-screen" limitation no longer applies.  If the full screen needs to be a graphic, then it can be.}
+
+                {Additional options may be added to formulate printed tests from databases, or import data from WordPerfect documents or GIF files.}
+
+            ]]
+
+    ]]
+
+{Whoa, importing GIFs, seriously?  Now *that's* high-tech!  :-P}

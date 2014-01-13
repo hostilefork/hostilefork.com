@@ -2,23 +2,22 @@ Draem [
     title: "One User Event, One (or Zero) Error Messages"
     category: 'post
     tags: [ideas]
-
     slug: %one-user-event-one-error-message
     date: 30-Dec-2007/23:37
     old-url-prefix: %2007/12/30/
 ]
 
-[{In a previous post, I laid out why a command processor should have a whole-system (or "holistic") philosophy to ensure that <a href="http://hostilefork.com/2007/11/25/undo-single-user-event/">Undo/Redo Actions are Tied to a Single User Event</a>.  Please see that first, because in this entry I'm going to describe a closely related idea:}]
+{In a previous post, I laid out why a command processor should have a whole-system (or "holistic") philosophy to ensure that <a href="http://hostilefork.com/2007/11/25/undo-single-user-event/">Undo/Redo Actions are Tied to a Single User Event</a>.  Please see that first, because in this entry I'm going to describe a closely related idea:}
 
-[quote {<b>For each command a user runs, they should get at <u>most</u> one error report.</b>}]
+[quote {For each command a user runs, they should get at <b>most</b> one error report.}]
 
-[{To be able to enforce this rule, you need to prevent arbitrary pieces of your application from communicating with the user through calls to <code>MessageBox</code> (or similar functions).  Commands must be sandboxed in such a way that they run silently.  The only way of communicating any "dissatisfaction" should be by bubbling up an error message to the outermost invocation of the command processor.}]
+{To be able to enforce this rule, you need to prevent arbitrary pieces of your application from communicating with the user through calls to <code>MessageBox</code> (or similar functions).  Commands must be sandboxed in such a way that they run silently.  The only way of communicating any "dissatisfaction" should be by bubbling up an error message to the outermost invocation of the command processor.}
 
-[{A question arises: If the user is to only receive one error message for a composite action, how can this single message possibly convey the full depth of what went wrong?  The answer is that this single error must be able to box up the chain of causes into some kind of object.}]
+{A question arises: If the user is to only receive one error message for a composite action, how can this single message possibly convey the full depth of what went wrong?  The answer is that this single error must be able to box up the chain of causes into some kind of object.}
 
-[{The result could possibly be so descriptive that it takes pages to report.  Yet the issue is not about the <i>amount</i> of error data; that can be mitigated with a good exploratory interface.  It is rather that the error presentation must be confined to the moment when the command is completely done with its failure, and ready to return control to the user.}]
+{The result could possibly be so descriptive that it takes pages to report.  Yet the issue is not about the <i>amount</i> of error data; that can be mitigated with a good exploratory interface.  It is rather that the error presentation must be confined to the moment when the command is completely done with its failure, and ready to return control to the user.}
 
-[{Conventional error handling in a program that lacks a "systematic" approach like what I am describing might look a little bit like this:}]
+{Conventional error handling in a program that lacks a "systematic" approach like what I am describing might look a little bit like this:}
 
 [code cplusplus {
 bool DoImportantThing() {
@@ -49,13 +48,15 @@ void TopLevelFunction() {
 }
 }]
 
-[{Using this methodology in your program means that the user might see multiple error message dialogs, when they ran what they considered to be only a single command.  That's the exact situation I'm suggesting to avoid.  <i>(Note: I know my argument is not "new" per se.  Yet the majority of systems don't follow the rule.  So it must not be understood, or at least ignored, by some.  Maybe my way of saying it will break through to *someone*!  :-/)</i>}]
+{Using this methodology in your program means that the user might see multiple error message dialogs, when they ran what they considered to be only a single command.  That's the exact situation I'm suggesting to avoid.}
 
-[{When advocating a sane undo/redo architecture, I said you needed distinct user actions <i>(as measured by the their concept of "one thing I did")</i> to be bracketed by some form of <code>BeginUndoGroup()</code> and <code>EndUndoGroup()</code> calls.  Then I pointed out that while nesting these in some sort of transaction group may seem technologically feasible, it violates the very premise we are discussing.  By definition these calls should <i>never</i> nest, because that would suggest the user took an undoable action <i>while they were taking an undoable action</i>!}]
+[note {I know my argument is not "new" per se.  Yet the majority of systems don't follow the rule.  So it must not be understood, or at least ignored, by some.  Maybe my way of saying it will break through to *someone*! :-/}]
 
-[{I'll now propose the corresponding pattern that gives us the "at most one error message per action" we want.  It's simply that the <code>EndUndoGroup()</code> takes a parameter: an error object.  This error object represents the complete description of any errors which might have happened in this user triggered event, and it is <code>EndUndoGroup()</code>'s job to present that error to the user.  }]
+{When advocating a sane undo/redo architecture, I said you needed distinct user actions <i>(as measured by the their concept of "one thing I did")</i> to be bracketed by some form of <code>BeginUndoGroup()</code> and <code>EndUndoGroup()</code> calls.  Then I pointed out that while nesting these in some sort of transaction group may seem technologically feasible, it violates the very premise we are discussing.  By definition these calls should <i>never</i> nest, because that would suggest the user took an undoable action <i>while they were taking an undoable action</i>!}
 
-[{Let us look at a simple implementation of this, in pseudocode I don't feel like testing at the moment.  :-)}]
+{I'll now propose the corresponding pattern that gives us the "at most one error message per action" we want.  It's simply that the <code>EndUndoGroup()</code> takes a parameter: an error object.  This error object represents the complete description of any errors which might have happened in this user triggered event, and it is <code>EndUndoGroup()</code>'s job to present that error to the user.  }
+
+{Let us look at a simple implementation of this, in pseudocode I don't feel like testing at the moment.  :-)}
 
 [code cplusplus {
 class Error : public std::string {
@@ -88,7 +89,7 @@ void EndUndoGroup(Error e) {
 }
 }]
 
-[{Now let's look at how we might rewrite the example above:}]
+{Now let's look at how we might rewrite the example above:}
 
 [code cplusplus {
 Error DoImportantThing() {
@@ -128,4 +129,4 @@ void OnKeyPressed(Key k) {
 }
 }]
 
-[{This is very rough, but hopefully it gets the point across.  I'll improve it if this article gets any attention.  :-)  Main thrust is that if you design your command processing in this way, it will present an easy and consistent interface for your users.  But not doing it is a recipe for problems and bad UI...}]
+{This is very rough, but hopefully it gets the point across.  I'll improve it if this article gets any attention.  :-)  Main thrust is that if you design your command processing in this way, it will present an easy and consistent interface for your users.  But not doing it is a recipe for problems and bad UI...}

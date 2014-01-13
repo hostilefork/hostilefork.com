@@ -2,15 +2,14 @@ Draem [
     title: "The Essential Noisy Debug Hook for Qt"
     category: 'post
     tags: [cplusplus qt]
-
     slug: %the-essential-noisy-debug-hook-for-qt
     date: 2-Oct-2012/22:52
     old-url-prefix: %2012/10/02/
 ]
 
-[{If you're using Qt, you might find that it can often be rather quiet about important and common programming errors.  For instance: by default, it considers the inability to connect a signal and a slot--due perhaps to a typographic error--to be a warning worth only quietly pushing into your debug output window.  It's easy to miss, especially if you (or libraries you call) have a lot of monitoring information turned on!}]
+{If you're using Qt, you might find that it can often be rather quiet about important and common programming errors.  For instance: by default, it considers the inability to connect a signal and a slot--due perhaps to a typographic error--to be a warning worth only quietly pushing into your debug output window.  It's easy to miss, especially if you (or libraries you call) have a lot of monitoring information turned on!}
 
-[{I'm the sort who immediately <a href="http://stackoverflow.com/questions/5088460/flags-to-enable-thorough-and-verbose-g-warnings/9862800#9862800">bumps up every warning level in the compiler to turn them into errors</a>.  In a similar vein, I've found it useful to throw the following code into the <b>main.cpp</b> of any Qt GUI app I am writing.  <i>(Thanks to commenter <a href="http://hostilefork.com/2012/10/02/the-essential-noisy-debug-hook-for-qt/#comment-1315">kkoehne</a> for feedback!)</i>}]
+{I'm the sort who immediately <a href="http://stackoverflow.com/questions/5088460/flags-to-enable-thorough-and-verbose-g-warnings/9862800#9862800">bumps up every warning level in the compiler to turn them into errors</a>.  In a similar vein, I've found it useful to throw the following code into the <b>main.cpp</b> of any Qt GUI app I am writing.  <i>(Thanks to commenter <a href="http://hostilefork.com/2012/10/02/the-essential-noisy-debug-hook-for-qt/#comment-1315">kkoehne</a> for feedback!)</i>}
 
 [code cplusplus {
 #ifdef QT_DEBUG
@@ -99,7 +98,7 @@ void noisyFailureMsgHandler(QtMsgType type, const char * msgAsCstring) {
 #endif
 }]
 
-[{Then in the <code>main()</code> function, after the <code>QApplication</code> is initialized...I'll say:}]
+{Then in the <code>main()</code> function, after the <code>QApplication</code> is initialized...I'll say:}
 
 [code cplusplus {
 #ifdef QT_DEBUG
@@ -113,4 +112,4 @@ void noisyFailureMsgHandler(QtMsgType type, const char * msgAsCstring) {
 #endif
 }]
 
-[{By re-prioritizing the default error levels to something more reasonable and being "noisier" when a serious problem is happening during debugging, it has been a huge time saver.  Try it and let me know what you think!}]
+{By re-prioritizing the default error levels to something more reasonable and being "noisier" when a serious problem is happening during debugging, it has been a huge time saver.  Try it and let me know what you think!}

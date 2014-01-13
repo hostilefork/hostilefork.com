@@ -2,29 +2,30 @@ Draem [
     title: "Modern C++... or Modern Art?"
     category: 'post
     tags: [cplusplus]
-
     slug: %modern-cpp-or-modern-art
     date: 31-Mar-2009/0:41
     old-url-prefix: %2009/03/31/
 ]
 
-[{In the preface to his book <a href="http://erdani.org/book/main.html">Modern C++</a>, Andrei Alexandrescu paints a vision of what programming <i>should</i> be like:}]
+{In the preface to his book <a href="http://erdani.org/book/main.html">Modern C++</a>, Andrei Alexandrescu paints a vision of what programming <i>should</i> be like:}
 
 [quote [
-    [{Imagine the following scenario. You come from a design meeting with a couple of printed diagrams, scribbled with your annotations. Okay, the event type passed between these objects is not char anymore; it's int.  You change one line of code. The smart pointers to Widget are too slow; they should go unchecked. You change one line of code. The object factory needs to support the new Gadget class just added by another department. You change one line of code.}]
 
-    [{You have changed the design. Compile. Link. Done.}]
-] ]
+        {Imagine the following scenario. You come from a design meeting with a couple of printed diagrams, scribbled with your annotations. Okay, the event type passed between these objects is not char anymore; it's int.  You change one line of code. The smart pointers to Widget are too slow; they should go unchecked. You change one line of code. The object factory needs to support the new Gadget class just added by another department. You change one line of code.}
 
-[{This is a very nice theory.  But as C++ programming has remained relevant only among a small (yet important) "fringe" of developers, they have been flexing the standards toward an uncompromising pursuit of this vision.  The results are somewhat extreme and not generally easy to work with.}]
+        "You have changed the design. Compile. Link. Done."
 
-[{In this article I will talk briefly about the what is happening and what I think of the aesthetics.}]
+    ]]
 
-[more]
+{This is a very nice theory.  But as C++ programming has remained relevant only among a small (yet important) "fringe" of developers, they have been flexing the standards toward an uncompromising pursuit of this vision.  The results are somewhat extreme and not generally easy to work with.}
 
-[heading {One change in decision, one change in code}]
+{In this article I will talk briefly about the what is happening and what I think of the aesthetics.}
 
-[{Sometimes it seems that C++ libraries are pathologically complex for no good reason, when it is actually related to the pursuit of the goal Andrei describes.  Simpler solutions simply wouldn't work for them.  For instance, look at the old way of doing <a href="http://tigcc.ticalc.org/doc/limits.html">numeric limits</a>:}]
+more
+
+[heading "One change in decision, one change in code"]
+
+{Sometimes it seems that C++ libraries are pathologically complex for no good reason, when it is actually related to the pursuit of the goal Andrei describes.  Simpler solutions simply wouldn't work for them.  For instance, look at the old way of doing <a href="http://tigcc.ticalc.org/doc/limits.html">numeric limits</a>:}
 
 [code cplusplus {// CHAR_BIT - Length of a char variable in bits.
 // CHAR_MAX - Maximal value which can be stored in a char variable.
@@ -51,7 +52,7 @@ for (
 }
 }]
 
-[{What's wrong with that?  Well, in a scenario like Andrei was discussing, let's say you want to change from <code>char</code> to <code>int</code>.  But you have to change <b>THREE</b> places: the type, the min, and the max:}]
+{What's wrong with that?  Well, in a scenario like Andrei was discussing, let's say you want to change from <code>char</code> to <code>int</code>.  But you have to change <b>THREE</b> places: the type, the min, and the max:}
 
 [code cplusplus {
 for (
@@ -63,7 +64,7 @@ for (
 }
 }]
 
-[{Here it is easy to see the 3 changes you need to make.  This is only because they are all on one line and the word "INT" hints us of the relationship--in a bigger codebase it is easier to slip up and not touch all the impacted sites.  What would tighten this up would be a typedef that captured our decision to use a certain type... and functions <code>type_max()</code> and <code>type_min()</code>:}]
+{Here it is easy to see the 3 changes you need to make.  This is only because they are all on one line and the word "INT" hints us of the relationship--in a bigger codebase it is easier to slip up and not touch all the impacted sites.  What would tighten this up would be a typedef that captured our decision to use a certain type... and functions <code>type_max()</code> and <code>type_min()</code>:}
 
 [code cplusplus {
 typedef int index_type;
@@ -76,7 +77,7 @@ for (
 }
 }]
 
-[{You now have the expressive power you need to change the code in <b>ONE</b> place.  To see this, let's change to <code>unsigned</code>:}]
+{You now have the expressive power you need to change the code in <b>ONE</b> place.  To see this, let's change to <code>unsigned</code>:}
 
 [code cplusplus {
 typedef unsigned /*1*/ index_type;
@@ -89,13 +90,13 @@ for (
 }
 }]
 
-[{(Notice that the return type varies--if the type you are testing is "int" then the return type should be an int, and if it's a "char" it should be char, etc.)}]
+{You can observe that the return type varies--if the type you are testing is "int" then the return type should be an int, and if it's a "char" it should be char, etc.}
 
-[{Yet there's no way to write the functions <code>type_min()</code> and <code>type_max()</code> in "old-school" C++!  Both of these functions require parameters that are <i>data types</i> instead of <i>values of a particular type</i>.  Many interpreted languages support <a href="http://en.wikipedia.org/wiki/Reflection_%28computer_science%29">"reflection"</a> and can inspect and operate on types at run-time, but that's just not how C++ works.}]
+{Yet there's no way to write the functions <code>type_min()</code> and <code>type_max()</code> in "old-school" C++!  Both of these functions require parameters that are <i>data types</i> instead of <i>values of a particular type</i>.  Many interpreted languages support <a href="http://en.wikipedia.org/wiki/Reflection_%28computer_science%29">"reflection"</a> and can inspect and operate on types at run-time, but that's just not how C++ works.}
 
 [note {Technically speaking, you can enable <a href="http://publib.boulder.ibm.com/infocenter/iadthelp/v7r0/index.jsp?topic=/com.ibm.etools.iseries.pgmgd.doc/cpprog612.htm">run-time-type-information (RTTI)</a> and the <a href="http://en.wikipedia.org/wiki/Typeid">typeid keyword</a>.  But this doesn't work with native types like <code>int</code> or <code>char</code>, and a lot of people--including Bjarne Stroustrup--don't like RTTI.  They would say this is precisely the kind of situation where people might use it when they actually want something else entirely.}]
 
-[{Yet in "modern" C++ we have templates at our service!  They look a little weird because the arguments to the templated code (what I'll call "Tparams") are in their own separate list from the conventional function arguments ("Fparams").  You can offer template parameters on specific functions or on a whole class, such as:}]
+{Yet in "modern" C++ we have templates at our service!  They look a little weird because the arguments to the templated code (what I'll call "Tparams") are in their own separate list from the conventional function arguments ("Fparams").  You can offer template parameters on specific functions or on a whole class, such as:}
 
 [code cplusplus {
 // Template arguments ("Tparam"s) appear in angle brackets <>
@@ -113,7 +114,7 @@ object<
 );
 }]
 
-[{When the standard C++ library implemented something functionally equivalent to <code>type_min()</code> and <code>type_max()</code> they did it using a templated class called <a href="http://www.unc.edu/depts/case/pgi/pgC%2B%2B_lib/stdlibcr/num_5679.htm">numeric_limits</a>:}]
+{When the standard C++ library implemented something functionally equivalent to <code>type_min()</code> and <code>type_max()</code> they did it using a templated class called <a href="http://www.unc.edu/depts/case/pgi/pgC%2B%2B_lib/stdlibcr/num_5679.htm">numeric_limits</a>:}
 
 [code cplusplus {
 typedef char index_type;
@@ -126,39 +127,41 @@ for (
 }
 }]
 
-[{The result is now a legal program, and one that brings us into harmony with what Alexandrescu was suggesting.  Changing only the <code>index_type</code> will adjust the limits accordingly.  Neat!}]
+{The result is now a legal program, and one that brings us into harmony with what Alexandrescu was suggesting.  Changing only the <code>index_type</code> will adjust the limits accordingly.  Neat!}
 
 [heading "Beauty vs. Pathology"]
 
-[{This "portrait of reform" is a very typical one in C++ library design.  Whether you love or hate the look of the resulting code, it is undeniably more robust in the face of future changes!  }]
+{This "portrait of reform" is a very typical one in C++ library design.  Whether you love or hate the look of the resulting code, it is undeniably more robust in the face of future changes!  }
 
-[{What has happened is that implicit relationships have been made explicit to the compiler.  In the original C-style program, the choice of a <code>char</code> type and the choice to use <code>CHAR_MAX</code> in a loop could have been seen as completely independent.  Using <code>std::numeric_limits&lt;char&gt;.max()</code> binds the two inextricably together.}]
+{What has happened is that implicit relationships have been made explicit to the compiler.  In the original C-style program, the choice of a <code>char</code> type and the choice to use <code>CHAR_MAX</code> in a loop could have been seen as completely independent.  Using <code>std::numeric_limits&lt;char&gt;.max()</code> binds the two inextricably together.}
 
-[{This should appeal to the same sensibility that leads programmers to declare symbolic constants in a single location, as opposed to repeating the values each time they use them.  And although it's rather  helpful in managing basic churn in one's own code, it is <i>indispensible</i> when composing together class libraries that were written by different authors.  The interactions can be very subtle.}]
+{This should appeal to the same sensibility that leads programmers to declare symbolic constants in a single location, as opposed to repeating the values each time they use them.  And although it's rather  helpful in managing basic churn in one's own code, it is <i>indispensible</i> when composing together class libraries that were written by different authors.  The interactions can be very subtle.}
 
-[{Yet at the bottom line, it is a lot more keystrokes to enter.  It also requires a depth of understanding of the C++ language.  <a href="http://www.lcscanada.com/jaf">Jeremy Friesner</a> aptly captured the darker side of the tradeoff:}]
+{Yet at the bottom line, it is a lot more keystrokes to enter.  It also requires a depth of understanding of the C++ language.  <a href="http://www.lcscanada.com/jaf">Jeremy Friesner</a> aptly captured the darker side of the tradeoff:}
 
 [quote [
-    [{The drawback is as the declarations get more intricate, fewer and fewer people can understand what the code is for, or how it works.  Often the symptom of that is that the code is overlooked or ignored... e.g. you spend a month designing your super-duper templates header, and then two weeks after you leave the project, your replacement added his own header which looks like this:}]
 
-    [code cplusplus {
+        {The drawback is as the declarations get more intricate, fewer and fewer people can understand what the code is for, or how it works.  Often the symptom of that is that the code is overlooked or ignored... e.g. you spend a month designing your super-duper templates header, and then two weeks after you leave the project, your replacement added his own header which looks like this:}
+
+        [code cplusplus {
 // CHAR_MAX - Maximal value which can be stored in a char variable.
 #define CHAR_MAX std::numeric_limits<char>::max()
 // CHAR_MIN - Minimal value which can be stored in a char variable.
 #define CHAR_MIN std::numeric_limits<char>::min()
 [...]}]
 
-    ["Doh!"]
-] ]
+        "Doh!"
 
-[{Making matters worse is that once one thinks they understand some of the more abstruse mechanics of C++ libraries, they're still changing their minds.  Best practices keep changing, and Alexandrescu himself gave a talk at BoostCon suggesting that <a href="http://www.boostcon.com/site-media/var/sphene/sphwiki/attachment/2009/05/08/iterators-must-go.pdf">"STL iterators must go</a>!}]
+    ]]
+
+{Making matters worse is that once one thinks they understand some of the more abstruse mechanics of C++ libraries, they're still changing their minds.  Best practices keep changing, and Alexandrescu himself gave a talk at BoostCon suggesting that <a href="http://www.boostcon.com/site-media/var/sphene/sphwiki/attachment/2009/05/08/iterators-must-go.pdf">"STL iterators must go</a>!}
 
 [heading "Is managed complexity an illusion?"]
 
-[{These days I'm leaning even more heavily toward saying that we have to dispose of complexity in our systems whenever we can.  Otherwise we spin out of control under the *illusion* of "managed complexity".}]
+{These days I'm leaning even more heavily toward saying that we have to dispose of complexity in our systems whenever we can.  Otherwise we spin out of control under the *illusion* of "managed complexity".}
 
-[{I think <code>numeric_limits</code> is a good example of where there's another avenue of exploration.  Instead of building ever-increasing mechanics for dealing with sizes of different numeric types, you could invest in removing that concern entirely.  Why not make the platform super-efficient at dealing with <a href="http://en.wikipedia.org/wiki/Arbitrary_precision_arithmetic">arbitrary precision arithmetic</a>, and stop using native types?}]
+{I think <code>numeric_limits</code> is a good example of where there's another avenue of exploration.  Instead of building ever-increasing mechanics for dealing with sizes of different numeric types, you could invest in removing that concern entirely.  Why not make the platform super-efficient at dealing with <a href="http://en.wikipedia.org/wiki/Arbitrary_precision_arithmetic">arbitrary precision arithmetic</a>, and stop using native types?}
 
-[{Of course, C++ is not a candidate for that particular change.  I'm just trying to make the point that it is possible to look at it from another perspective.  It's like the saying goes:}]
+{Of course, C++ is not a candidate for that particular change.  I'm just trying to make the point that it is possible to look at it from another perspective.  It's like the saying goes:}
 
 [quote {The most reliable parts of a system--the ones that never break down and that you don't need to replace--are the ones that aren't there.}]

@@ -2,22 +2,21 @@ Draem [
     title: ".Trashes, .fseventsd, and .Spotlight-V100"
     category: 'post
     tags: [misc]
-
     slug: %trashes-fseventsd-and-spotlight-v100
     date: 2-Dec-2009/17:51
     old-url-prefix: %2009/12/02/
 ]
 
-[{Merely plugging a removable drive into a mac (when it has write access) makes OS/X think it can take the liberty to write a lot of hidden garbage onto that disk.  If you want to stop this from happening, you have to put some special files on that disk <i>before you plug it in</i>.}]
+{Merely plugging a removable drive into a mac (when it has write access) makes OS/X think it can take the liberty to write a lot of hidden garbage onto that disk.  If you want to stop this from happening, you have to put some special files on that disk <i>before you plug it in</i>.}
 
-[{To stop OS/X from doing Spotlight indexing, you need a file called <span class="filepath">.metadata_never_index</span> in the root directory of the removable drive.}]
+{To stop OS/X from doing Spotlight indexing, you need a file called <span class="filepath">.metadata_never_index</span> in the root directory of the removable drive.}
 
-[{To stop OS/X from making a .Trashes directory, you need to make your own file that *isn't* a directory and call it <span class="filepath">.Trashes</span>}]
+{To stop OS/X from making a .Trashes directory, you need to make your own file that *isn't* a directory and call it <span class="filepath">.Trashes</span>}
 
-[{To keep it from doing logging of filesystem events on the drive, you need to make a directory called <span class="filepath">.fseventsd</span> and inside that folder put a single file named <span class="filepath">no_log</span>}]
+{To keep it from doing logging of filesystem events on the drive, you need to make a directory called <span class="filepath">.fseventsd</span> and inside that folder put a single file named <span class="filepath">no_log</span>}
 
-[{The contents of these files don't matter, so you can make them empty files using <a href="http://en.wikipedia.org/wiki/Touch_(Unix)">touch</a>.  Even better, you could make it a text file with a link to this post, so that you (or someone else) wandering across the files will know what they're for.}]
+{The contents of these files don't matter, so you can make them empty files using <a href="http://en.wikipedia.org/wiki/Touch_(Unix)">touch</a>.  Even better, you could make it a text file with a link to this post, so that you (or someone else) wandering across the files will know what they're for.}
 
-[{Apple's choice to do this is incredibly self-serving and shameful.  At bare minimum, hidden files and features like these should be off by default for any non-mac-only filesystem formats.  They should only be enabled when the user has been made aware of them.}]
+{Apple's choice to do this is incredibly self-serving and shameful.  At bare minimum, hidden files and features like these should be off by default for any non-mac-only filesystem formats.  They should only be enabled when the user has been made aware of them.}
 
 [update {One alternative to the method I described here from 2009 is to use a small GPL'd program for Mac called <a href="http://www011.upp.so-net.ne.jp/decafish/EjectForWindows/EjectForWindowsE.html">"Eject for Windows"</a> ...which should probably be called "Eject <i>To</i> Windows".  It still lets the Mac put the files on the drive, but scrubs them off at eject time.  Thanks for the pointer, <a href="http://hostilefork.com/2009/12/02/trashes-fseventsd-and-spotlight-v100/#comment-1302">André</a>!}]
