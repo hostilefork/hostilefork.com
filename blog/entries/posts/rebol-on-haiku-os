@@ -1,6 +1,5 @@
 Draem [
     title: {Initial Build of Rebol for the Haiku Operating System}
-    category: 'post
     tags: [haiku rebol virtualization]
     slug: %rebol-on-haiku-os
     date: 28-Dec-2012/14:43

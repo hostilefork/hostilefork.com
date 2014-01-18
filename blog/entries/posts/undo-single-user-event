@@ -1,6 +1,5 @@
 Draem [
     title: "Tying Undo/Redo Actions to a Single User Event"
-    category: 'post
     tags: [redo undo philosophy]
     slug: %undo-single-user-event
     date: 25-Nov-2007/17:35

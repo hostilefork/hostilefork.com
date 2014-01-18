@@ -1,6 +1,5 @@
 Draem [
     title: "When should one use const_cast, anyway?"
-    category: 'post
     tags: [c++]
     slug: %when-should-one-use-const-cast-anyway
     date: 12-Jun-2010/23:35

@@ -1,6 +1,5 @@
 Draem [
     title: "Sums of numbers that add to X"
-    category: 'post
     tags: [algorithms c++ puzzles]
     slug: %summing-numbers-puzzle
     date: 10-Oct-2004/17:45

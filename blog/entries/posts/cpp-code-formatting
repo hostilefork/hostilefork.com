@@ -1,7 +1,6 @@
 Draem [
     title: "Some C++ Code Formatting Thoughts"
-    category: 'post
-    tags: [c++]
+    tags: [c++ formatting]
     slug: %cpp-code-formatting
     date: 1-Jan-2005/16:25
     old-url-prefix: %2005/01/01/

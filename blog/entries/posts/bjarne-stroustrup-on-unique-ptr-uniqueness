@@ -1,6 +1,5 @@
 Draem [
     title: "Bjarne Stroustrup on the Uniqueness of unique_ptr"
-    category: 'post
     tags: [c++ iostreams]
     slug: %bjarne-stroustrup-on-unique-ptr-uniqueness
     date: 30-Sep-2012/22:27

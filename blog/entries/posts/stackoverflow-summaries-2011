@@ -1,7 +1,6 @@
 Draem [
     title: "StackOverflow Summaries and Opinions 2011"
-    category: 'post
-    tags: [stackoverflow philosophy c++]
+    tags: [stackexchange philosophy c++]
     slug: %stackoverflow-summaries-2011
     date: 18-Jan-2012/4:44
     old-url-prefix: %2012/01/18/

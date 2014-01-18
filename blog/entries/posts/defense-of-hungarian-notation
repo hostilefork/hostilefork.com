@@ -1,6 +1,5 @@
 Draem [
     title: "In Defense of Hungarian Notation (with caveats)"
-    category: 'post
     tags: [formatting philosophy c++]
     slug: %defense-of-hungarian-notation
     date: 24-Sep-2005/22:24

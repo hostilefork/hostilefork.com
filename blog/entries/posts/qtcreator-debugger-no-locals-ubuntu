@@ -1,6 +1,5 @@
 Draem [
     title: {QtCreator 2.8.1 Not Debugging Locals in Ubuntu 13.10}
-    category: 'post
     tags: [debugging qt qt-creator c++]
     slug: %qtcreator-debugger-no-locals-ubuntu
     date: 20-Oct-2013/16:59

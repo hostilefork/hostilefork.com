@@ -1,7 +1,6 @@
 Draem [
     title: "When Sockets Attack: DNS & DHCP"
-    category: 'post
-    tags: [ip networking tcp ajax]
+    tags: [networking tcp]
     slug: %when-sockets-attack
     date: 20-Feb-2008/22:15
     old-url-prefix: %2008/02/20/

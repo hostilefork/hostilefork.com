@@ -1,6 +1,5 @@
 Draem [
     title: {Sharing a Host's Directory Into Virtualbox Using NFS}
-    category: 'post
     tags: [networking nfs virtualization]
     slug: %sharing-nfs-into-virtualbox
     date: 14-Apr-2013/7:08

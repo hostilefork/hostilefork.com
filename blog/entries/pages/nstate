@@ -1,7 +1,6 @@
 Draem [
     title: "NSTATE: Packed Arrays for Tristates (and more)"
-    category: 'page
-    tags: [misc]
+    tags: [c++]
     slug: %nstate
     date: 5-Mar-2009/21:03
 ]

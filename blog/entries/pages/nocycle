@@ -1,7 +1,6 @@
 Draem [
     title: "NOCYCLE: Compact C++ Directed Acyclic Graph"
-    category: 'page
-    tags: [misc]
+    tags: [c++ graph-theory]
     slug: %nocycle
     date: 10-Mar-2009/3:33
 ]

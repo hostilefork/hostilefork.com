@@ -1,6 +1,5 @@
 Draem [
     title: "An Enumerated Type For Rebol2"
-    category: 'post
     tags: [rebol]
     slug: %enumerated-type-for-rebol2
     date: 13-Jun-2009/16:16

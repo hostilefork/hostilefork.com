@@ -1,7 +1,6 @@
 Draem [
     title: "Why Rebol, Red, and the Parse dialect are Cool"
-    category: 'post
-    tags: [parse rebol red philosophy]
+    tags: [parsing rebol red philosophy]
     slug: %why-rebol-red-parse-cool
     date: 5-Dec-2013/0:32
     old-url-prefix: %2013/12/05/
