@@ -6,21 +6,21 @@ Draem [
     date: 13-Nov-2009/18:52
 ]
 
-[center {<img src="http://hostilefork.com/media/rubol/rubol-logo-400x160.png" alt="The Rubol logo" width="400" height="160" class="alignnone size-full wp-image-103" />}]
+[image http://hostilefork.com/media/rubol/rubol-logo-400x160.png 400x160 "The Rubol logo"]
 
 [note {This is a vision statement for a pre-pre-pre-alpha project.  I'm trying to illustrate what I'm doing, but please do not circulate widely yet, the code samples are currently in flux.  That said... anyone who is interested in the current state of the project is welcome to contribute and help make it better.}]
 
 {Ruby is an interesting language with some handy features.  But it's missing something... the ability to operate on its own source.  Rubol has adapted many of Ruby's constructs so that they fit into a uniform JSON-like format which can be dynamically inspected, loaded, saved, and executed.  It has source code as a first-class object in the runtime!}
 
-{<b>Rubol is not Ruby</b>, nor is it an attempt to build a Ruby implementation.  It merely draws strong inspiration from the convenient programming patterns of <i>collections</i> and <i>yield</i> combined with <i>code blocks</i>.}
+{**Rubol is not Ruby**, nor is it an attempt to build a Ruby implementation.  It merely draws strong inspiration from the convenient programming patterns of *collections* and *yield* combined with *code blocks*.}
 
 {As in Ruby, a single line of Rubol can pack a powerful punch!!!}
 
 [heading "First, a source code comparison..."]
 
-{Let's start by looking at this sample Ruby code from <a href="http://www.fincher.org/tips/Languages/Ruby/">fincher.org</a>:}
+{Let's start by looking at this sample Ruby code from [fincher.org](http://www.fincher.org/tips/Languages/Ruby/):}
 
-[code txt {primes = [1,3,5,7,11,13];
+[text {primes = [1,3,5,7,11,13];
  
 # using "inject" to sum.  We pass in "0" as the initial value
 sum = primes.inject(0){|cumulative,prime| cumulative+prime}
@@ -73,13 +73,13 @@ p hash
 ; ^^^^-- this outputs {"1"=>1, "3"=>3, "5"=>5, "7"=>7, "11"=>11, "13"=>13}
 }]
 
-{It's a little <i>different</i>, but parallels the original pretty well.  Spaces separate items without need for commas (which, we, know, from, English, is, good, for, readability).  All of the lists for things like parameters and code blocks have been unified to use brackets.  When notions of assignment are being used, there's a colon instead of an equals sign.}
+{It's a little *different*, but parallels the original pretty well.  Spaces separate items without need for commas (which, we, know, from, English, is, good, for, readability).  All of the lists for things like parameters and code blocks have been unified to use brackets.  When notions of assignment are being used, there's a colon instead of an equals sign.}
 
 {Explaining why these decisions are important is kind of a long story.  So let's skip that and instead see it do something cool.  After that, you might be more likely to care about those details (or at least believe they might be something other than arbitrary)  :P}
 
 [heading "Reflecting the Source"]
 
-{You've seen a short example of Rubol doing a little of what people love about Ruby.  But now let's look at one of the many things it can do <i>which Ruby cannot</i>:}
+{You've seen a short example of Rubol doing a little of what people love about Ruby.  But now let's look at one of the many things it can do *which Ruby cannot*:}
 
 [code rebol {
 ; Store the first summation part of the previous program into a variable
@@ -119,7 +119,7 @@ puts
 sum
 }]
 
-{The codeBit is not a string, but the magical function <code>mold</code> can convert it into one.  What's so magical about it is that there is another function called <code>load</code> which is able to turn those strings back into executable code at runtime.  It's fully dynamic!}
+{The codeBit is not a string, but the magical function `mold` can convert it into one.  What's so magical about it is that there is another function called `load` which is able to turn those strings back into executable code at runtime.  It's fully dynamic!}
 
 {Rubol's rearrangement from Ruby isn't just a whim.  It's to bring a JSON-like uniformity to the code, precisely to support features like mold and load.  While it can be confusing initially, the simplicity isn't just good for the interpreter.  It helps the human reader once they've "been converted".}
 
@@ -146,7 +146,7 @@ puts collect firstBlock [[value] value * 2]
 
 {You're probably thinking this is too good to be true, and there has to be a catch.}
 
-{There isn't and there is.  I said that Rubol wasn't a language because it is merely a small set of extensions to a language called <a href="http://en.wikipedia.org/wiki/Rebol">Rebol</a>.}
+{There isn't and there is.  I said that Rubol wasn't a language because it is merely a small set of extensions to a language called [Rebol](http://en.wikipedia.org/wiki/Rebol).}
 
 {I didn't make Rubol to try and clone Ruby.  What I wanted to do was to show that Rebol programmers are already enjoying a lot of what Ruby developers really love about the language... and a whole lot more.  The native syntax and operators is different, and consists of some puzzling words (like mold and rejoin).  But the Rubol abstractions push those issues a little further out.}
 
@@ -158,7 +158,7 @@ puts collect firstBlock [[value] value * 2]
 
 {Right now, the Rebol interpreter kernel is "free as in beer" but not "free as in freedom".  No complete open source implementation of exists at this point in time.  But the company behind Rebol has released a large portion of the common library under the MIT license.}
 
-{There are possibilities forward for an open Rebol initiative, and I am trying to rally both Rebol Technologies Inc. and the open source community to solve the issue in a way that brings productive results and not flamewars.  So visit <a href="http://freebol.org">Freebol.org</a> for that manifesto.}
+{There are possibilities forward for an open Rebol initiative, and I am trying to rally both Rebol Technologies Inc. and the open source community to solve the issue in a way that brings productive results and not flamewars.  So visit [Freebol.org](http://freebol.org) for that manifesto.}
 
 [heading "More Examples"]
 

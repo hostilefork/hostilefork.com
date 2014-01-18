@@ -7,11 +7,11 @@ Draem [
     old-url-prefix: %2010/09/12/
 ]
 
-{There is a community driven art project in Jacksonville Florida, called <a href="http://imaginationsquared.com">Imagination Squared</a>.  The idea was to have hundreds of members of the local artist community each contribute a small square that they'd decorated.  The squares were all a standardized size, and they were all tiled together in an art installation.}
+{There is a community driven art project in Jacksonville Florida, called [Imagination Squared](http://imaginationsquared.com).  The idea was to have hundreds of members of the local artist community each contribute a small square that they'd decorated.  The squares were all a standardized size, and they were all tiled together in an art installation.}
 
-{Curious as to what people had sent in, I looked through the site.  The art page had hundreds of 100x100 pixel thumbnails, and you had to click on individual ones to get to a larger-resolution 300x300 picture.  This struck me as an obvious application for the Microsoft Research PhotoSynth/SeaDragon zooming that was infamously <a href="http://www.ted.com/talks/blaise_aguera_y_arcas_demos_photosynth.html">demonstrated at the TED conference</a> by Blaise Aguera y Arcas.}
+{Curious as to what people had sent in, I looked through the site.  The art page had hundreds of 100x100 pixel thumbnails, and you had to click on individual ones to get to a larger-resolution 300x300 picture.  This struck me as an obvious application for the Microsoft Research PhotoSynth/SeaDragon zooming that was infamously [demonstrated at the TED conference](http://www.ted.com/talks/blaise_aguera_y_arcas_demos_photosynth.html) by Blaise Aguera y Arcas.}
 
-{I wondered how the Free Software folks had been faring in creating an open-source variant of SeaDragon.  Doing some searching I was pleased to find the <a href="http://openzoom.org/">OpenZoom</a> project.  You can see they have a number of cool examples, and I thought the ImaginationSquared project would be an example that would interest a lot of people (the hundreds who contributed squares, at least!)}
+{I wondered how the Free Software folks had been faring in creating an open-source variant of SeaDragon.  Doing some searching I was pleased to find the [OpenZoom](http://openzoom.org/) project.  You can see they have a number of cool examples, and I thought the ImaginationSquared project would be an example that would interest a lot of people (the hundreds who contributed squares, at least!)}
 
 {So here's the promo video for what I just released the source code to this morning:}
 
@@ -29,17 +29,17 @@ more
 
 {Using ActionScript was pretty much a given, as all the OpenZoom player code that runs in a browser uses it.  But why use Ruby?}
 
-{I've been meaning to write some actual code in Ruby.  I was casually familiar with the language's ideas by looking at small tutorials, but I'd never written anything in it that used any libraries.  So installing "gems" or use a library like RMagick was beyond my experience level (basically, I'd never looked at any examples that needed a <code>require</code> statement).}
+{I've been meaning to write some actual code in Ruby.  I was casually familiar with the language's ideas by looking at small tutorials, but I'd never written anything in it that used any libraries.  So installing "gems" or use a library like RMagick was beyond my experience level (basically, I'd never looked at any examples that needed a `require` statement).}
 
 "The task pulled in a few areas:"
 
 [list [
 
-        {<b>Downloading web content</b> - I wanted to get the HTML for the existing grid of images, and use that to get the URLs of the larger images.  Then I wanted to get those images via HTTP.  This required some basic functionality you can get provided by Ruby's <a href="http://ruby-doc.org/stdlib/libdoc/net/http/rdoc/classes/Net/HTTP.html">built-in network functionality</a>  (files using this will say <code>require "net/http"</code>)}
+        {**Downloading web content** - I wanted to get the HTML for the existing grid of images, and use that to get the URLs of the larger images.  Then I wanted to get those images via HTTP.  This required some basic functionality you can get provided by Ruby's [built-in network functionality](http://ruby-doc.org/stdlib/libdoc/net/http/rdoc/classes/Net/HTTP.html)  (files using this will say `require "net/http"`)}
 
-        {<b>DOM parsing and querying</b> - I could have extracted the information I wanted with string processing of the HTML file, but wanted to see Ruby's answer to the DOM.  There doesn't seem to be one built-in to the language, but rather (at least) three prominent ones: REXML, Hpricot, libxml-ruby.  I chose <a href="http://hpricot.com/">hpricot</a> because it was jQuery-like and it seemed like it might be more tolerant of HTML that wasn't XML-compatible.}
+        {**DOM parsing and querying** - I could have extracted the information I wanted with string processing of the HTML file, but wanted to see Ruby's answer to the DOM.  There doesn't seem to be one built-in to the language, but rather (at least) three prominent ones: REXML, Hpricot, libxml-ruby.  I chose [hpricot](http://hpricot.com/) because it was jQuery-like and it seemed like it might be more tolerant of HTML that wasn't XML-compatible.}
 
-        {<b>Large image generation</b> - I didn't know if the <a href="http://rmagick.rubyforge.org/install-faq.html">RMagick</a> library would be very happy about the size of the image I was planning on making.  But I figured I'd give it a try.  As it turned out, I did have to tweak the virtual memory settings on my virtual machine, but I had it working in virtually no time.  :)}
+        {**Large image generation** - I didn't know if the [RMagick](http://rmagick.rubyforge.org/install-faq.html) library would be very happy about the size of the image I was planning on making.  But I figured I'd give it a try.  As it turned out, I did have to tweak the virtual memory settings on my virtual machine, but I had it working in virtually no time.  :)}
 
     ]]
 
@@ -53,15 +53,15 @@ http://github.com/hostilefork/openzoom-squared/blob/master/generator/Imagination
 
 {I liked the lack of need for semicolons--code just looks cleaner.  But I'm even more extreme than that because I don't like commas in lists.  You're always running up against that question in code generation as to whether you're on the last item or not--especially when you're generating code.  Putting commas at the ends of lists too is not the answer because if, we, had, to, put, commas, between, every, word, in, English, it, would, get, ugly, right,?}
 
-{The block/yield style of programming is quite nice, though that's the part I already knew about (and assumed was the main draw over, say, JavaScript).  I worked on adding similar features to Rebol and got pretty far with my <a href="http://hostilefork.com/rubol/">Rubol</a> project.  It would be interesting to check it out now that I've written a Ruby program of my own.}
+{The block/yield style of programming is quite nice, though that's the part I already knew about (and assumed was the main draw over, say, JavaScript).  I worked on adding similar features to Rebol and got pretty far with my [Rubol](http://hostilefork.com/rubol/) project.  It would be interesting to check it out now that I've written a Ruby program of my own.}
 
 {My hopes got up for a moment when I found out about "Ruby Symbols".  You can convert from a string to a symbol or a symbol to a string, but you can't modify a symbol directly using string operations... and symbols may be used as keys in hashes/etc. which are unique from their string equivalents.  But they're an efficiency trick as opposed to any foundation for symbolic programming.}
 
 [note {It seemed that searching Google often found outdated information, or not-very-good advice.  What I determined was that the more "noob" your question is, the more likely you are to find documentation from earlier versions or garbage from bloggers who don't know what they're talking about.  This made me feel that for basics of a language it's better to start looking on a wiki-like site like StackOverflow.}]
 
-{Something I liked was that Ruby <a href="http://stackoverflow.com/questions/612189/why-are-exclamation-marks-used-in-ruby-methods">has borrowed Scheme's naming convention</a> for <code>?</code> and <code>!</code>.}
+{Something I liked was that Ruby [has borrowed Scheme's naming convention](http://stackoverflow.com/questions/612189/why-are-exclamation-marks-used-in-ruby-methods) for `?` and `!`.}
 
-{Ruby does something that Rebol does, which is to have the return value of a code block come from the last expression that gets evaluated.  I find myself with the same wish that I could explicitly call that out with something like a "return" when there's a case that the evaluated value is important and you expect it to be used.  So I put comments on such lines.  But perhaps what I should be doing is ending all code blocks that don't have significant return values with a <code>nil</code> or <code>none</code>?}
+{Ruby does something that Rebol does, which is to have the return value of a code block come from the last expression that gets evaluated.  I find myself with the same wish that I could explicitly call that out with something like a "return" when there's a case that the evaluated value is important and you expect it to be used.  So I put comments on such lines.  But perhaps what I should be doing is ending all code blocks that don't have significant return values with a `nil` or `none`?}
 
 [heading "Overall OpenZoom SDK Impressions"]
 

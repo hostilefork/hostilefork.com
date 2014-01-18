@@ -7,11 +7,11 @@ Draem [
     old-url-prefix: %2009/06/13/
 ]
 
-{I've uploaded a script (<a href="http://www.rebol.org/view-script.r?script=enum.r">enum.r</a>) to rebol.org, which implements enumerated types.  Although I typically prefer catching these things at compile-time instead of run-time, I'm pretty pleased with how it works.  Especially cool is that I could add a powerful version of this language feature in only about 60 lines of code!!}
+{I've uploaded a script ([enum.r](http://www.rebol.org/view-script.r?script=enum.r)) to rebol.org, which implements enumerated types.  Although I typically prefer catching these things at compile-time instead of run-time, I'm pretty pleased with how it works.  Especially cool is that I could add a powerful version of this language feature in only about 60 lines of code!!}
 
 [note {That figure doesn't include the comments and the regression tests.  I included those in the script, but they are not necessary to use the enum itself.}]
 
-{I called it "powerful" because it does more than just ensure assignments to objects use legal possibilities.  Here's a demo to show it off, and bear in mind that <i>there's no native support for enumerations in Rebol</i>:}
+{I called it "powerful" because it does more than just ensure assignments to objects use legal possibilities.  Here's a demo to show it off, and bear in mind that *there's no native support for enumerations in Rebol*:}
 
 [code rebol {
 >> fruit: make-enum-type [apple orange banana mango]
@@ -50,9 +50,9 @@ Draem [
      [ apple orange banana mango ]
 }]
 
-{The syntax isn't necessarily <i>ideal</i>, but that's a *lot* of features for 60 lines of code!}
+{The syntax isn't necessarily *ideal*, but that's a *lot* of features for 60 lines of code!}
 
-{It makes me reconsider the tradeoffs when compared with gigantic compilers.  Although <a href="http://en.wikipedia.org/wiki/Static_code_analysis">static analysis tools</a> are necessary for huge codebases, the Rebol approach might be able to reduce the amount of code to a manageable size.  Perhaps then, one can verify it is correct by <i>actually reading it</i>.  :)}
+{It makes me reconsider the tradeoffs when compared with gigantic compilers.  Although [static analysis tools](http://en.wikipedia.org/wiki/Static_code_analysis) are necessary for huge codebases, the Rebol approach might be able to reduce the amount of code to a manageable size.  Perhaps then, one can verify it is correct by *actually reading it*.  :)}
 
 more
 
@@ -60,11 +60,11 @@ more
 
 {My first introduction to Rebol was in 2007.  Someone had used it to write an installation script for a software package, and I was trying to run that script.  It had gone into a loop--I'd push a "Next" button, yet wind up back at an earlier step.  Since I'd been meaning to learn Rebol anyway, I decided to dig in and figure out what the deal was.}
 
-{After an hour or two of coming up to speed on the codebase and Rebol, I found the culprit.  A routine that was reading state out of CGI variables had left a carriage return in the step name.  A switch statement thus didn't match <code>step3^^/</code> to the <code>step3</code> case... so some important code related to moving the process forward was skipped.}
+{After an hour or two of coming up to speed on the codebase and Rebol, I found the culprit.  A routine that was reading state out of CGI variables had left a carriage return in the step name.  A switch statement thus didn't match `step3^^/` to the `step3` case... so some important code related to moving the process forward was skipped.}
 
-{This classic bug is the exact reason I tend to be frustrated with today's casual interpreted languages.  They lack features like <a href="http://en.wikipedia.org/wiki/Type_safety">type safety</a>.  By contrast, C++ catches similar errors before a single line of code starts running:}
+{This classic bug is the exact reason I tend to be frustrated with today's casual interpreted languages.  They lack features like [type safety](http://en.wikipedia.org/wiki/Type_safety).  By contrast, C++ catches similar errors before a single line of code starts running:}
 
-[code cplusplus {
+[code cpp {
 enum fruit { apple, orange, banana, mango};
 enum step { firstStep, secondStep, thirdStep};
 
@@ -80,6 +80,6 @@ int main() {
 
 {Rather than blame Rebol for the problem, I decided to look into whether the language had a "right answer".  It didn't seem to, but people on the AltME bulletin board helped me work through what might be possible.  I made a first draft implementation, and started doing some improvements.  Was about half of the way done before I got busy with something that was higher priority.}
 
-{While going through some old files, I found the script and decided to finish it so that someone else might actually find it useful.  I completed the half-done speed improvements, added more checks for the <code>/default</code> refinement, and made some meaningful error messages.  So here it is... better late than never, right?}
+{While going through some old files, I found the script and decided to finish it so that someone else might actually find it useful.  I completed the half-done speed improvements, added more checks for the `/default` refinement, and made some meaningful error messages.  So here it is... better late than never, right?}
 
 {It's my belief that if people were to use this enum in their existing Rebol codebases then it would help catch many classes of bug.  (Such as the one which initiated this project.)}

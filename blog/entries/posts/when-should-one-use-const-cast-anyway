@@ -1,35 +1,35 @@
 Draem [
     title: "When should one use const_cast, anyway?"
     category: 'post
-    tags: [cplusplus]
+    tags: [c++]
     slug: %when-should-one-use-const-cast-anyway
     date: 12-Jun-2010/23:35
     old-url-prefix: %2010/06/12/
 ]
 
-{I saw a question on StackOverflow asking about why one would use <code>const_cast</code>.  Because I've thought about that question lately I glossed over that they were asking specifically about applications of <a href="http://stackoverflow.com/questions/3030382/what-is-the-purpose-of-the-const-cast-on-a-volatile/">casting away volatile</a>...which I didn't even know you could use <code>const_cast</code> to do!}
+{I saw a question on StackOverflow asking about why one would use `const_cast`.  Because I've thought about that question lately I glossed over that they were asking specifically about applications of [casting away volatile](http://stackoverflow.com/questions/3030382/what-is-the-purpose-of-the-const-cast-on-a-volatile/)...which I didn't even know you could use `const_cast` to do!}
 
-{So I learned something.  But I thought the answer I wrote to why you would use <code>const_cast</code> at all was pretty decent, so I was going to leave it there.  But then I decided it was too off topic so I'd move it here.}
+{So I learned something.  But I thought the answer I wrote to why you would use `const_cast` at all was pretty decent, so I was going to leave it there.  But then I decided it was too off topic so I'd move it here.}
 
-{The most <i>common</i> use of <code>const_cast</code> I've seen (with <code>const</code>) is this scenario:}
+{The most *common* use of `const_cast` I've seen (with `const`) is this scenario:}
 
 [list [
 
-        {You're calling a library that has something like a <code>printFoo(Foo* fooPointer)</code> function, which clearly requires a non-const Foo.}
+        {You're calling a library that has something like a `printFoo(Foo* fooPointer)` function, which clearly requires a non-const Foo.}
 
         {There's good reason to be "sure" this function doesn't modify the Foo, but you're unable to change the prototype or the source to express that knowledge for some reason.}
 
-        {Your code has made an effort to only use <code>Foo*</code> in contexts where writability is needed and <code>const Foo*</code> in all other contexts.}
+        {Your code has made an effort to only use `Foo*` in contexts where writability is needed and `const Foo*` in all other contexts.}
 
     ]]
 
-{...that means that as a stopgap measure, you'll have to <code>const_cast</code> in order to cross this divide and call the routine.}
+{...that means that as a stopgap measure, you'll have to `const_cast` in order to cross this divide and call the routine.}
 
-{OTOH, the most <i>legitimate</i> use I know of is in subsystems that own objects in a non-const sense, yet have cases where they hand back const pointers to callers.  The subsystem natively has more privileges on those objects, so if a caller passes one of those const pointers back it can "upgrade" the privileges.  }
+{OTOH, the most *legitimate* use I know of is in subsystems that own objects in a non-const sense, yet have cases where they hand back const pointers to callers.  The subsystem natively has more privileges on those objects, so if a caller passes one of those const pointers back it can "upgrade" the privileges.  }
 
-{Sure, the subsystem could store a useless map from non-const pointers to const ones...but <code>const_cast</code> is more time and space efficient:}
+{Sure, the subsystem could store a useless map from non-const pointers to const ones...but `const_cast` is more time and space efficient:}
 
-[code cplusplus {
+[code cpp {
 const SubsystemObject* Subsystem::getReadOnlyObjectById(int id) {
      SubsystemObject* subsystemObject = getObjectCore(id);
 

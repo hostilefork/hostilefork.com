@@ -7,27 +7,29 @@ Draem [
     old-url-prefix: %2007/11/06/
 ]
 
-{Firefox 2 on the Mac has an unfortunate bug (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=187435">#187435</a>) which makes the scroll bars on lower regions "bleed through" and overwrite the areas above them.  On traditional web pages that aren't doing much tricky stuff, it will be only a minor visual nuisance.  But it seriously impacts sites that are pushing the envelope of what HTML layout can do--like <a href="http://greghoustondesign.com/demos/mocha/" target="blank">Mocha</a> or the <a href="http://extjs.com/deploy/dev/examples/desktop/desktop.html">Extjs Web Desktop Demonstration</a>:}
+{Firefox 2 on the Mac has an unfortunate bug ([#187435](https://bugzilla.mozilla.org/show_bug.cgi?id=187435)) which makes the scroll bars on lower regions "bleed through" and overwrite the areas above them.  On traditional web pages that aren't doing much tricky stuff, it will be only a minor visual nuisance.  But it seriously impacts sites that are pushing the envelope of what HTML layout can do--like [Mocha](http://greghoustondesign.com/demos/mocha/) or the [Extjs Web Desktop Demonstration](http://extjs.com/deploy/dev/examples/desktop/desktop.html):}
 
-[center {<a href="http://hostilefork.com/wp-content/uploads/2007/10/extjs_firefox_scrollbar_bug.png"><img src="http://hostilefork.com/wp-content/uploads/2007/10/extjs_firefox_scrollbar_bug.png" alt="extjs_firefox_scrollbar_bug" height="250" width="400" /></a>}]
+[image http://hostilefork.com/wp-content/uploads/2007/10/extjs_firefox_scrollbar_bug.png 640x400 {Firefox 2 Scrollbar Bug on Mac}]
 
-{<a href="http://hostilefork.com/2007/11/06/workaround-firefox-scrollbar-bug-on-mac/#comment-42">Phil Crosby has suggested</a> that on the server side, it's possible to adapt one's code using the <code>overflow:auto</code> attribute.  He also suggests it can be tricky to implement:}
+{[Phil Crosby has suggested](http://hostilefork.com/2007/11/06/workaround-firefox-scrollbar-bug-on-mac/#comment-42) that on the server side, it's possible to adapt one's code using the `overflow:auto` attribute.  He also suggests it can be tricky to implement:}
 
-[quote {Working with overflow:auto on elements can be a pain, since your height and width need to be precise, and different browsers need different amounts of margins to prevent triggering the scrollbars. The scrollbar problem was a good chunk of the UI dev work on <a href="http://jjot.com">jjot.com</a>.}]
+[quote {Working with overflow:auto on elements can be a pain, since your height and width need to be precise, and different browsers need different amounts of margins to prevent triggering the scrollbars. The scrollbar problem was a good chunk of the UI dev work on [jjot.com](http://jjot.com).}]
 
-{So sometimes this method won't be right for you, and a client-side fix for Firefox 2.0 would help.  I have a workaround that patches the Firefox browser using a theme.  All you have to do is download this file and drag it into the themes list you get when you go to the <b>Tools->Add Ons</b> menu:}
+{So sometimes this method won't be right for you, and a client-side fix for Firefox 2.0 would help.  I have a workaround that patches the Firefox browser using a theme.  All you have to do is download this file and drag it into the themes list you get when you go to the **Tools->Add Ons** menu:}
 
-[center {<a href="http://hostilefork.com/projects/aqua_scrollfix/aqua_scrollfix_together-1.0-fx.jar"><img src="http://hostilefork.com/wp-content/uploads/2007/11/download_arrow_icon.png" alt="download_arrow_icon" />&nbsp;<img src="http://hostilefork.com/wp-content/uploads/2007/11/aqua_scrollfix_together_icon.png" alt="aqua_scrollfix_together_icon" />&nbsp;download <b>aqua_scrollfix_together-1.0-fx.jar</b></a>}]
+[button http://hostilefork.com/wp-content/uploads/2007/11/aqua_scrollfix_together_icon.png 32x32 {download aqua_scrollfix_together-1.0-fx.jar} http://hostilefork.com/projects/aqua_scrollfix/aqua_scrollfix_together-1.0-fx.jar]
 
 {When installation is complete, go back to the menu and and click "Use Theme".}
 
 [note [
-    {If you have your Appearance palette set with scroll buttons to be "Top and Bottom" style instead of "Together", then you'll want to download this instead:}
 
-    [center {<a href="http://hostilefork.com/projects/aqua_scrollfix/aqua_scrollfix_topbottom-1.0-fx.jar"><img src="http://hostilefork.com/wp-content/uploads/2007/11/download_arrow_icon.png" alt="download_arrow_icon" />&nbsp;<img src="http://hostilefork.com/wp-content/uploads/2007/11/aqua_scrollfix_topbottom_icon.png" alt="aqua_scrollfix_topbottom_icon" />&nbsp;download <b>aqua_scrollfix_topbottom-1.0-fx.jar</b></a>}]
-]]
+        {If you have your Appearance palette set with scroll buttons to be "Top and Bottom" style instead of "Together", then you'll want to download this instead:}
 
-{A smattering of other themes you can find on the web will also incidentally work around the problem, but these two are intended for those Mac users who <i>don't actually want to change the appearance of the browser</i>.  They're exactly the code for default Firefox in every aspect but scrollbars.  The only caveats are:}
+        [button http://hostilefork.com/wp-content/uploads/2007/11/aqua_scrollfix_topbottom_icon.png 32x32 "download aqua_scrollfix_topbottom-1.0-fx.jar" http://hostilefork.com/projects/aqua_scrollfix/aqua_scrollfix_topbottom-1.0-fx.jar]
+
+    ]]
+
+{A smattering of other themes you can find on the web will also incidentally work around the problem, but these two are intended for those Mac users who *don't actually want to change the appearance of the browser*.  They're exactly the code for default Firefox in every aspect but scrollbars.  The only caveats are:}
 
 [list [
 
@@ -41,11 +43,11 @@ Draem [
 
 {Firefox has the default behavior of delegating the drawing of scroll bars to the operating system.  The bug in question arises from a miscommunication about rendering priority.  So if you provide enough information in the skin that it can draw scroll bars on its own and not call the OS, the problem just goes away.}
 
-{Implementing skinned scroll bars requires you to provide bitmaps that serve as the pieces of the scroll bar control.  To give you an idea what these pieces look like, let's examine some of the ones from the <a href="https://addons.mozilla.org/en-US/firefox/addon/3174">MacFox II Aqua</a> theme by Kelly Cunningham, which uses graphics made by Alex W.  If you bothered to rename the .jar file to a .zip and unzip it, here's some of what you'd find in the <span class="filepath">global / scrollbar /</span> directory:}
+{Implementing skinned scroll bars requires you to provide bitmaps that serve as the pieces of the scroll bar control.  To give you an idea what these pieces look like, let's examine some of the ones from the [MacFox II Aqua](https://addons.mozilla.org/en-US/firefox/addon/3174) theme by Kelly Cunningham, which uses graphics made by Alex W.  If you bothered to rename the .jar file to a .zip and unzip it, here's some of what you'd find in the **global / scrollbar /** directory:}
 
-[center {<a href="http://hostilefork.com/wp-content/uploads/2007/11/macfox_scrollbar_parts.png"><img src="http://hostilefork.com/wp-content/uploads/2007/11/macfox_scrollbar_parts.png" alt="extjs_firefox_scrollbar_bug" height="250" width="400" /></a>}]
+[image http://hostilefork.com/wp-content/uploads/2007/11/macfox_scrollbar_parts.png 640x400 "MacFox scrollbar parts"]
 
-{One must take special care because on Mac OS/X, the description of how these parts integrate is in the theme file <span class="filepath">global / nativescrollbars.css</span>.  For all other platforms it is in <span class="filepath">global / xulscrollbars.css</span>.  If you aren't going to have different behavior on different platforms, then you can set the contents of both those files into a 1-line shortcut that references a central <span class="filepath">global / scrollbar.css</span> file:}
+{One must take special care because on Mac OS/X, the description of how these parts integrate is in the theme file **global / nativescrollbars.css**.  For all other platforms it is in **global / xulscrollbars.css**.  If you aren't going to have different behavior on different platforms, then you can set the contents of both those files into a 1-line shortcut that references a central **global / scrollbar.css** file:}
 
 [code css {
 @import url("chrome://global/skin/scrollbars.css");
@@ -53,9 +55,9 @@ Draem [
 
 {MacFox II doesn't do this, because it delegates to the OS if you're on a Mac.  This means it still has the bug.  So I changed it to always draw the scroll bars, which quickly exposed another problem: the position of the buttons was being assumed to be "Together" on the same side of the thumb, while the graphics were drawn for being on the "Top and Bottom".  (This is something you can set in the Appearance palette of the System Preferences.)}
 
-{To unmangle the scroll buttons, I used a tip from an article about <a href="http://cheeaun.phoenity.com/weblog/2004/08/scrollbar-tweaks.html">scrollbar tweaks</a> to position them the way the MacFox theme had expected.  Yet I now realized I would need to make two variations--one for each possible user preference.  Since I couldn't find an existing theme with graphics and logic for the modern OS/X curved buttons "Together", that meant making my own.}
+{To unmangle the scroll buttons, I used a tip from an article about [scrollbar tweaks](http://cheeaun.phoenity.com/weblog/2004/08/scrollbar-tweaks.html) to position them the way the MacFox theme had expected.  Yet I now realized I would need to make two variations--one for each possible user preference.  Since I couldn't find an existing theme with graphics and logic for the modern OS/X curved buttons "Together", that meant making my own.}
 
-{I was unfamiliar with CSS, so the files were hard to edit at first.  Especially since almost all the themes I looked at contained patterns like this one (from MacFox's <span class="filepath">global / scrollbars.css</span>):}
+{I was unfamiliar with CSS, so the files were hard to edit at first.  Especially since almost all the themes I looked at contained patterns like this one (from MacFox's **global / scrollbars.css**):}
 
 [code css {scrollbarbutton[type="increment"] {
     position: absolute;
@@ -79,25 +81,25 @@ scrollbar[orient="vertical"] > scrollbarbutton[type="increment"] {
 
 [list [
 
-        {Rule #1: All scrollbarbuttons you might find in the universe that <i>increment</i> the property to which they are attached--regardless of context--should be painted with the icon <em>right_cut.png</em> using the following attributes.}
+        {Rule #1: All scrollbarbuttons you might find in the universe that *increment* the property to which they are attached--regardless of context--should be painted with the icon **right_cut.png** using the following attributes.}
 
-        {Rule #2: Oh...wait...!!  There's one context where that's not the case.  Override it if it's a scrollbarbutton that increments and happens to be enclosed in the context of a <i>vertical scrollbar</i>, and use <em>down_cut.png</em> with these other attributes.}
+        {Rule #2: Oh...wait...!!  There's one context where that's not the case.  Override it if it's a scrollbarbutton that increments and happens to be enclosed in the context of a *vertical scrollbar*, and use **down_cut.png** with these other attributes.}
 
     ]]
 
 {This is--in my view--an abuse of the inheritance mechanism.  If you don't remember to override all the characteristics you added to scrollbarbutton that gave it universal "horizontalness", those attributes will get inherited by the vertical case, causing unexpected defaults to appear as you modify lines of code.  It's much better to have two narrow rules that apply explicitly to horizontal and vertical scrollbar contexts.  (This is especially true because there are other places in Firefox that scrollbarbutton might appear and need to be handled differently.)}
 
-{After fixing general problems of that type, I was able to more clearly determine what each line did.  Eventually I discovered the <code>position: absolute</code> characteristic was not affecting position, but was indicating that those parts should be drawn in a higher Z-order than the relative pieces.  The usages of negative <code>margin</code> values was to make sure they overlapped a little bit, to allow for what I call the "nestling" of the thumb into the buttons.}
+{After fixing general problems of that type, I was able to more clearly determine what each line did.  Eventually I discovered the `position: absolute` characteristic was not affecting position, but was indicating that those parts should be drawn in a higher Z-order than the relative pieces.  The usages of negative `margin` values was to make sure they overlapped a little bit, to allow for what I call the "nestling" of the thumb into the buttons.}
 
-{I had to be a little tricky with the graphics to implement the curved gutter at the edge of the scroll bar region.  This involved putting a bit of empty space at the end of the thumb so that it would hit the edge prematurely, leaving the gutter showing.  I mixed in some bitmaps from screen captures in a way that didn't look <i>too</i> horrible--but my goal was only to do approximately as good a job as MacFox had done with the buttons "Top and Bottom".  If a better pixel artist wants to take this on and improve it, that would be great.}
+{I had to be a little tricky with the graphics to implement the curved gutter at the edge of the scroll bar region.  This involved putting a bit of empty space at the end of the thumb so that it would hit the edge prematurely, leaving the gutter showing.  I mixed in some bitmaps from screen captures in a way that didn't look *too* horrible--but my goal was only to do approximately as good a job as MacFox had done with the buttons "Top and Bottom".  If a better pixel artist wants to take this on and improve it, that would be great.}
 
 {So there is the story.  Beyond just addressing the problem I started out with, I think the source is reworked enough to be a nice place to start for anyone who is going to try theming scroll bars on their own.  To assist with that, you can download the source to the scrollbar CSS files here:}
 
 [list [
 
-        {<span class="filepath">aqua_scrollfix_together-1.0-fx.jar / global / scrollbars.css</span> : <a href="http://hostilefork.com/wp-content/uploads/2007/11/aqua_scrollfix_together-scrollbars.css">view CSS</a>}
+        {**aqua_scrollfix_together-1.0-fx.jar / global / scrollbars.css** : [view CSS](http://hostilefork.com/wp-content/uploads/2007/11/aqua_scrollfix_together-scrollbars.css)}
 
-        {<span class="filepath">aqua_scrollfix_topbottom-1.0-fx.jar / global / scrollbars.css</span> : <a href="http://hostilefork.com/wp-content/uploads/2007/11/aqua_scrollfix_topbottom-scrollbars.css">view CSS</a>}
+        {**aqua_scrollfix_topbottom-1.0-fx.jar / global / scrollbars.css** : [view CSS](http://hostilefork.com/wp-content/uploads/2007/11/aqua_scrollfix_topbottom-scrollbars.css)}
 
     ]]
 

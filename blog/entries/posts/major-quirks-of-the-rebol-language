@@ -7,15 +7,15 @@ Draem [
     old-url-prefix: %2008/09/10/
 ]
 
-{This is the third of several articles I'm going to write about the Rebol programming language.  To learn more about it, you can visit <a href="http://rebol.com">rebol.com</a>.  But my hope is to demystify some of its strengths and weaknesses in a way that their website currently does not, so if you read what I write first then it might help.  :)}
+{This is the third of several articles I'm going to write about the Rebol programming language.  To learn more about it, you can visit [rebol.com](http://rebol.com).  But my hope is to demystify some of its strengths and weaknesses in a way that their website currently does not, so if you read what I write first then it might help.  :)}
 
-[update {Rebol version 3 is now <a href="https://github.com/rebol/r3">open source under the Apache 2.0 license</a>, so all those disclaimers I used to have in my Rebol articles about not getting attached to a proprietary language are no longer applicable!  Use it without hesitation!!!}]
+[update {Rebol version 3 is now [open source under the Apache 2.0 license](https://github.com/rebol/r3), so all those disclaimers I used to have in my Rebol articles about not getting attached to a proprietary language are no longer applicable!  Use it without hesitation!!!}]
 
 {We know from the English language that humans are a bit lazy when it comes to expression.  We're always dropping syllables off of words if we use them often, or taking difficult combinations of letters and turning them into something easier to pronounce.  Yet of course, this means we live in an environment ripe for ambiguity:}
 
-[center {<a href="http://flickr.com/photos/13232244@N00/2447068255"><img src="http://hostilefork.com/wp-content/uploads/2008/09/avoidboringpeople-300x159.jpg" alt="Ambiguity in a Sentence, diagram from Deena Oodles" width="300" height="159" class="alignnone size-medium wp-image-86" /></a>}]
+[image http://hostilefork.com/media/blog/major-quirks-of-the-rebol-language/avoid-boring-people.jpg 400x212 "Avoid Boring People"]
 
-[note {Image via <a href="http://flickr.com/photos/deenaburgergood/">Deena Hyatt</a>}]
+[note {Image via [Deena Hyatt](http://flickr.com/photos/deenaburgergood/)}]
 
 {By contrast, computer languages typically make programmers be redundantly clear in their notations.  You're always dealing with syntax... putting in parentheses before a list of arguments to a function, putting a close parentheses to say when you're done.  There are semicolons in many languages to tell the computer when you finished a line.}
 
@@ -29,7 +29,7 @@ more
 
 [heading "Whitespace matters in Rebol, a lot"]
 
-{I mentioned that Rebol programs are basically words separated by spaces.  The text "hand book" and "handbook" have unique meanings in English.  When not inside a quoted string, spaces indicate full stops between most all tokens.  So there is a difference between <code>1 + 2</code>, <code>1+ 2</code>, and <code>1+2</code> in Rebol:}
+{I mentioned that Rebol programs are basically words separated by spaces.  The text "hand book" and "handbook" have unique meanings in English.  When not inside a quoted string, spaces indicate full stops between most all tokens.  So there is a difference between `1 + 2`, `1+ 2`, and `1+2` in Rebol:}
 
 [code rebol {>> 1 + 2
 ==3
@@ -42,21 +42,21 @@ more
 ** Syntax Error: Invalid integer -- 1+2
 ** Near: (line 1) 1+2}]
 
-{The first is a series of three items... and has the effect you probably meant.  The second as a series of two items (<code>1+</code> and <code>2</code>).  The final we might hypothetically think of as a single token called <code>1+2</code>.  Now...as perverse as this sounds...you can give each of these cases different meanings.  Please don't panic as I show you how to make <code>1+</code> an alias for the <code>print</code> command.}
+{The first is a series of three items... and has the effect you probably meant.  The second as a series of two items (`1+` and `2`).  The final we might hypothetically think of as a single token called `1+2`.  Now...as perverse as this sounds...you can give each of these cases different meanings.  Please don't panic as I show you how to make `1+` an alias for the `print` command.}
 
-[note {We have to use an API to build such a program, because if we went through the default parser with a token like <code>1+</code> we'd get a syntax error.  Yet this has nothing to do with Rebol's runtime, which is quite agnostic about names.}]
+[note {We have to use an API to build such a program, because if we went through the default parser with a token like `1+` we'd get a syntax error.  Yet this has nothing to do with Rebol's runtime, which is quite agnostic about names.}]
 
 "First let's make our crazy program:"
 
 [code rebol {>> crazy_program: reduce [(to-word "1+") "Hello world"]
 == [1+ "Hello world"]}]
 
-{The first symbol in this series isn't a string, it's what Rebol calls a <code>word!</code>.  Now we will make the <code>word!</code> an alias for <code>print</code>.  Once again we have to write it in an odd way to keep the parser from choking:}
+{The first symbol in this series isn't a string, it's what Rebol calls a `word!`.  Now we will make the `word!` an alias for `print`.  Once again we have to write it in an odd way to keep the parser from choking:}
 
 [code rebol {>> crazy_assignment: append reduce [(to-set-word "1+")] [:print]
 == [1+: :print]}]
 
-{Now that we've got our new definition for <code>1+</code> and our crazy program that uses it, we can run the evaluator on them to see our totally loony result:}
+{Now that we've got our new definition for `1+` and our crazy program that uses it, we can run the evaluator on them to see our totally loony result:}
 
 [code rebol {>> do crazy_assignment
 >> do crazy_program
@@ -102,7 +102,7 @@ more
 ]
 == print}]
 
-{This particular issue only happens if you are running at the command line--not if you are running a script from a file.  But generally, Rebol programmers abide by the convention of not entering newlines in a statement unless there is an open brace.  So the <code>either</code> function (which is equivalent to an If-Then-Else, and hence takes three arguments) would generally be written as:}
+{This particular issue only happens if you are running at the command line--not if you are running a script from a file.  But generally, Rebol programmers abide by the convention of not entering newlines in a statement unless there is an open brace.  So the `either` function (which is equivalent to an If-Then-Else, and hence takes three arguments) would generally be written as:}
 
 [code rebol {
 >> rebol-is-very...interesting?: true
@@ -159,7 +159,7 @@ Signs point to yes
 ["AB" "AB" "AB"]
 }]
 
-{This is because in the first example, there are 3 different "A" strings declared in the source code.  In the second, there is only one "A" string...referred to three times.  If you <i>actually</i> want three copies, you have to duplicate that source-level string by using the <code>copy</code> command:}
+{This is because in the first example, there are 3 different "A" strings declared in the source code.  In the second, there is only one "A" string...referred to three times.  If you *actually* want three copies, you have to duplicate that source-level string by using the `copy` command:}
 
 [code rebol {
 >> myBlock: []
@@ -174,7 +174,7 @@ Signs point to yes
 ["AB" "A" "A"]
 }]
 
-{This won't shock C programmers too much.  They're used to having to make copies of literal strings if they intend to modify them <i>at all</i>.  But it's a bit surprising when compared with other common interpreted languages, and a source of frequent misunderstandings.  Especially since it applies not only to string literals, but also to block literals:}
+{This won't shock C programmers too much.  They're used to having to make copies of literal strings if they intend to modify them *at all*.  But it's a bit surprising when compared with other common interpreted languages, and a source of frequent misunderstandings.  Especially since it applies not only to string literals, but also to block literals:}
 
 [code rebol {
 >> myBlock: []
@@ -189,7 +189,7 @@ Signs point to yes
 [[A B] [A B] [A B]]
 }]
 
-[note {People typically wish <code>append [A B] [C D]</code> to produce <code>[A B C D]</code> and not <code>[A B [C D]]</code>.  Yet the latter is the more "natural" definition of appending in a programming sense--so there is special code which makes the more common option the default.  Above, you see that I am using the <code>/only</code> refinement...which in this case can be roughly interpreted as "only do the <i>raw</i> append, don't run the extra code which protects you from the uncommon case of nested blocks".}]
+[note {People typically wish `append [A B] [C D]` to produce `[A B C D]` and not `[A B [C D]]`.  Yet the latter is the more "natural" definition of appending in a programming sense--so there is special code which makes the more common option the default.  Above, you see that I am using the `/only` refinement...which in this case can be roughly interpreted as "only do the *raw* append, don't run the extra code which protects you from the uncommon case of nested blocks".}]
 
 {Rebol has erred on the side of efficiency by avoiding copies in cases where they might not be needed.  This only applies to series literals--not numbers or dates, so you don't have to worry about copying those!}
 
@@ -212,7 +212,7 @@ Goodbye
 
 [list [
 
-        {<code>print</code> took its one argument, and once it was fulfilled, it knew it could run...so it did, and printed "Goodbye"}
+        {`print` took its one argument, and once it was fulfilled, it knew it could run...so it did, and printed "Goodbye"}
 
         {Next in the left-to-right evaluation was "cruel", and it was just a string constant with no side effects so it vanished into the void}
 
@@ -222,7 +222,7 @@ Goodbye
 
 "In C++ this would have been:"
 
-[code cplusplus {std::string MysteriousPrint(
+[code cpp {std::string MysteriousPrint(
    std::string printMe, 
    std::string ignoreMe,
    std::string returnMe)
@@ -280,14 +280,14 @@ MysteriousPrint("Goodbye", "cruel", "world");}]
 == ()
 }]
 
-{This means every time you use parentheses to disambiguate your code, you are making the program bigger and slower to evaluate.  Also, there are some pieces of Rebol that use parentheses for things other than precedence.  (For instance, the <code>compose</code> function will search a block for parenthesized expressions and evaluate them, leaving any code that isn't in parentheses intact as literal code.)}
+{This means every time you use parentheses to disambiguate your code, you are making the program bigger and slower to evaluate.  Also, there are some pieces of Rebol that use parentheses for things other than precedence.  (For instance, the `compose` function will search a block for parenthesized expressions and evaluate them, leaving any code that isn't in parentheses intact as literal code.)}
 
 {So if you show a Rebol developer any code with parentheses, they'll encourage you to take as many of them out as you can.  That's going to grate on some people who build formal systems and don't want to be "taking out parentheses in order to Rebolize the code".}
 
 [heading {You're kidding.  How can I code under these conditions?}]
 
-{I really think that to understand why one might use a language with these properties you have to take a serious look at what makes us use English.  Why do we like writing a bunch of words in a line and then ending it with a period, instead of something more "formal"?  I'm not sure, but I do suspect that if English required you to call out the noun phrases or subclauses in a sentence, then <code>&lt;&lt; [ ( people ) | would probably ( use ) &gt;&gt; | { something , else } ]</code>.}
+{I really think that to understand why one might use a language with these properties you have to take a serious look at what makes us use English.  Why do we like writing a bunch of words in a line and then ending it with a period, instead of something more "formal"?  I'm not sure, but I do suspect that if English required you to call out the noun phrases or subclauses in a sentence, then `<< [ ( people ) | would probably ( use ) >> | { something , else } ]`.}
 
-{Every language makes you think differently.  In fact, one of my favorite free C++ books online is titled <a href="http://www.mindview.net/Books/TICPP/ThinkingInCPP2e.html">Thinking in C++</a>.  Yet Rebol tries to not stray <i>too</i> far from our natural instincts for language just to appease a computer's thirst for formalism.  Instead it encourages fluidity, and fulfills the confusing promise of "no reserved keywords"... as in English, everything can be overridden or given new meaning. }
+{Every language makes you think differently.  In fact, one of my favorite free C++ books online is titled [Thinking in C++](http://www.mindview.net/Books/TICPP/ThinkingInCPP2e.html).  Yet Rebol tries to not stray *too* far from our natural instincts for language just to appease a computer's thirst for formalism.  Instead it encourages fluidity, and fulfills the confusing promise of "no reserved keywords"... as in English, everything can be overridden or given new meaning. }
 
-{It takes some getting used to, certainly.  There is no need to look further into the language if you could not (under any circumstances) work this way.  But if you think that you'd be willing to accept these ideas <i>if</i> there was a payoff like the one I described in <a href="http://hostilefork.com/2008/09/08/is-rebol-actually-a-revolution/">Is Rebol Actually a Revolution</a>... then you should check out my next articles!}
+{It takes some getting used to, certainly.  There is no need to look further into the language if you could not (under any circumstances) work this way.  But if you think that you'd be willing to accept these ideas *if* there was a payoff like the one I described in [Is Rebol Actually a Revolution](http://hostilefork.com/2008/09/08/is-rebol-actually-a-revolution/)... then you should check out my next articles!}

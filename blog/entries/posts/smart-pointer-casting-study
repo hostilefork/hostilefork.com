@@ -1,19 +1,19 @@
 Draem [
     title: "Smart Pointer Casting Study"
     category: 'post
-    tags: [cplusplus]
+    tags: [c++]
     slug: %smart-pointer-casting-study
     date: 10-Jul-2009/19:44
     old-url-prefix: %2009/07/10/
 ]
 
-{If you're using public inheritance in C++, the compiler will implicitly "upcast" from a Derived class pointer to a Base class pointer.  So I thought a <code>std::auto_ptr</code> to a Derived class would have a similar implicit upcast.  It does...but only for assignment and construction!}
+{If you're using public inheritance in C++, the compiler will implicitly "upcast" from a Derived class pointer to a Base class pointer.  So I thought a `std::auto_ptr` to a Derived class would have a similar implicit upcast.  It does...but only for assignment and construction!}
 
-[http://github.com/hostilefork/smartptr-cast-study/blob/master/auto_ptr_cast.cpp {auto_ptr_cast.cpp}]
+[http://github.com/hostilefork/smartptr-cast-study/blob/master/auto_ptr_cast.cpp "auto_ptr_cast.cpp"]
 
-{The example shows that if you try to pass an <code>auto_ptr&lt;Derived&gt;</code> to a function that takes an <code>auto_ptr&lt;Base&gt;</code>, it fails to convert due to an ambiguity.  You must put an explicit <code>static_cast&lt;&nbsp;auto_ptr&lt;Base&gt;&nbsp;&gt;</code> at the calling site.}
+{The example shows that if you try to pass an `auto_ptr<Derived>` to a function that takes an `auto_ptr<Base>`, it fails to convert due to an ambiguity.  You must put an explicit `static_cast<&nbsp;auto_ptr<Base>&nbsp;>` at the calling site.}
 
-{This "minor" problem led me down an investigation of the state of <code>auto_ptr</code> and its alternative, <code>unique_ptr</code>.  I sought the wisdom of friends and people on the Freenode IRC.  Wound up even building a newer version of gcc than came with the latest Kubuntu distribution!  Though my findings are not the most <i>exciting</i> subject for a blog, I thought writing them up might help someone.}
+{This "minor" problem led me down an investigation of the state of `auto_ptr` and its alternative, `unique_ptr`.  I sought the wisdom of friends and people on the Freenode IRC.  Wound up even building a newer version of gcc than came with the latest Kubuntu distribution!  Though my findings are not the most *exciting* subject for a blog, I thought writing them up might help someone.}
 
 "So I have good news, and bad news..."
 
@@ -22,43 +22,48 @@ more
 [heading "Bad News First"]
 
 [list [
-    {<b>Unfortunately</b> -- This appears to be caused by a problem in the C++ spec, and is not likely to ever be changed since <code>std::auto_ptr</code> is deprecated.  (It's hard to imagine the ambiguity is the result of an oversight, but no one's offered a reason for it yet.)}
 
-    [
-        group
+        {**Unfortunately** -- This appears to be caused by a problem in the C++ spec, and is not likely to ever be changed since `std::auto_ptr` is deprecated.  (It's hard to imagine the ambiguity is the result of an oversight, but no one's offered a reason for it yet.)}
 
-        {<b>Fortunately</b> -- the new approved owned pointer class <code>std::unique_ptr</code> handles these implicit casts *and* is a must-have upgrade for reasons that are more important!}
+        [
 
-        [http://github.com/hostilefork/smartptr-cast-study/blob/master/unique_ptr_cast.cpp {unique_ptr_cast.cpp}]
+            group
 
-        [note {For a skeptic's point of view, see what Bartosz Milewski <a href="http://bartoszmilewski.wordpress.com/2009/05/21/unique_ptr-how-unique-is-it/">has to say</a> about unique_ptr.}]
-    ]
+            {**Fortunately** -- the new approved owned pointer class `std::unique_ptr` handles these implicit casts *and* is a must-have upgrade for reasons that are more important!}
 
+            [http://github.com/hostilefork/smartptr-cast-study/blob/master/unique_ptr_cast.cpp "unique_ptr_cast.cpp"]
 
-    {<b>Unfortunately</b> -- <code>unique_ptr</code> can't be implemented properly unless you have a version of the C++ compiler that supports <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2006/n2027.html">rvalue references</a>.}
+            [note {For a skeptic's point of view, see what Bartosz Milewski [has to say](http://bartoszmilewski.wordpress.com/2009/05/21/unique_ptr-how-unique-is-it/) about unique_ptr.}]
 
-    {<b>Fortunately</b> -- rvalue references were added to gcc version 4.3, which is deployed fairly widely in today's linux distributions.  (Try running <code>g++ --version</code> to see what you have...)}
+        ]
 
-    {<b>Unfortunately</b> -- Just because you have a compiler that is able to compile the <code>unique_ptr</code> class doesn't mean you actually have unique_ptr in the standard library.  (You need gcc 4.4 or later to get <code>std::unique_ptr</code> when you <code>#include &lt;memory&gt;</code>, AND you have to compile your program with the "-std=gnu++0x" command line option.)}
+        {**Unfortunately** -- `unique_ptr` can't be implemented properly unless you have a version of the C++ compiler that supports [rvalue references](http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2006/n2027.html).}
 
-    {<b>Fortunately</b> -- The boost interprocess library includes <code>boost::interprocess::unique_ptr</code> that you can use with older compilers.}
+        {**Fortunately** -- rvalue references were added to gcc version 4.3, which is deployed fairly widely in today's linux distributions.  (Try running `g++ --version` to see what you have...)}
 
-    [
-        group
+        {**Unfortunately** -- Just because you have a compiler that is able to compile the `unique_ptr` class doesn't mean you actually have unique_ptr in the standard library.  (You need gcc 4.4 or later to get `std::unique_ptr` when you `#include <memory>`, AND you have to compile your program with the "-std=gnu++0x" command line option.)}
 
-        {<b>Unfortunately</b> -- It's <a href="http://stackoverflow.com/questions/438444/passing-object-ownership-in-c/438487">hard to pin down</a> what subset of unique_ptr's functionality it implements, and it doesn't seem to support any kind of casting (implicit -or- explicit).}
+        {**Fortunately** -- The boost interprocess library includes `boost::interprocess::unique_ptr` that you can use with older compilers.}
 
-        [http://github.com/hostilefork/smartptr-cast-study/blob/master/auto_ptr_cast.cpp {boost_unique_ptr_cast.cpp}]
-    ]
+        [
 
-    {<b>Fortunately</b> -- It's not that hard to build g++ 4.4 yourself if your distribution came with an earlier version...with some help from the interwebs.}
-]]
+            group
+
+            {**Unfortunately** -- It's [hard to pin down](http://stackoverflow.com/questions/438444/passing-object-ownership-in-c/438487) what subset of unique_ptr's functionality it implements, and it doesn't seem to support any kind of casting (implicit -or- explicit).}
+
+            [http://github.com/hostilefork/smartptr-cast-study/blob/master/auto_ptr_cast.cpp "boost_unique_ptr_cast.cpp"]
+
+        ]
+
+        {**Fortunately** -- It's not that hard to build g++ 4.4 yourself if your distribution came with an earlier version...with some help from the interwebs.}
+
+    ]]
 
 [heading {"Didn't they teach you to shared_ptr in Kindergarten?"}]
 
-{These days most programmers have come to the consensus that there's a design flaw in <code>auto_ptr</code>.  It uses the assignment operator to transfer ownership, while in almost every other programming context we assume that assignment makes an equivalent copy:}
+{These days most programmers have come to the consensus that there's a design flaw in `auto_ptr`.  It uses the assignment operator to transfer ownership, while in almost every other programming context we assume that assignment makes an equivalent copy:}
 
-[code cplusplus {
+[code cpp {
 void Function(TypeX variableOfTypeX) {
 
     TypeX anotherVariableOfTypeX;
@@ -74,13 +79,13 @@ void Function(TypeX variableOfTypeX) {
 }
 }]
 
-{After assigning one <code>auto_ptr</code> to another, you don't get a copy.  Instead the source of the assign becomes NULL, while the target acquires the pointer.  So the above psuedocode doesn't work.}
+{After assigning one `auto_ptr` to another, you don't get a copy.  Instead the source of the assign becomes NULL, while the target acquires the pointer.  So the above psuedocode doesn't work.}
 
-{This isn't a problem if you are writing code that is explicitly aware that it's working with <code>auto_ptr</code> types.  But C++ seeks to empower the creation of generic objects, and it's a bummer if you have to have entirely different collection classes for managing owned pointers vs. regular pointers.  <code>unique_ptr</code> patches the semantic inconsistency by forcing you to indicate moves explicitly in your code.}
+{This isn't a problem if you are writing code that is explicitly aware that it's working with `auto_ptr` types.  But C++ seeks to empower the creation of generic objects, and it's a bummer if you have to have entirely different collection classes for managing owned pointers vs. regular pointers.  `unique_ptr` patches the semantic inconsistency by forcing you to indicate moves explicitly in your code.}
 
-{Yet rather than doing a knee-jerk upgrade from <code>auto_ptr</code> to <code>unique_ptr</code>, you might be better off using <code>shared_ptr</code>.  Let's study a pretty good case I saw this week in the Qt Toolkit:}
+{Yet rather than doing a knee-jerk upgrade from `auto_ptr` to `unique_ptr`, you might be better off using `shared_ptr`.  Let's study a pretty good case I saw this week in the Qt Toolkit:}
 
-[code cplusplus {
+[code cpp {
 class QCoreApplication : (...) {
 ...
 public:
@@ -93,9 +98,9 @@ void postEvent(QObject* receiver, QEvent* event);
 };
 }]
 
-{Someone who thinks about design by contract might observe that the comment is doing nothing to let the compiler enforce the rule.  Using <code>unique_ptr</code> can render the comment unnecessary:}
+{Someone who thinks about design by contract might observe that the comment is doing nothing to let the compiler enforce the rule.  Using `unique_ptr` can render the comment unnecessary:}
 
-[code cplusplus {
+[code cpp {
 class QCoreApplication : (...) {
 ...
 public:
@@ -104,13 +109,13 @@ void postEvent(QObject* receiver, unique_ptr<QEvent>&& event);
 };
 }]
 
-{Now the implicit contract is that you aren't storing any pointers to that <code>QEvent</code> after the call.  You've passed the one remaining reference you had...and you're sure that no one else is holding onto one either.  The compiler chips in some checking and enforcement, which is a much better state of affairs.}
+{Now the implicit contract is that you aren't storing any pointers to that `QEvent` after the call.  You've passed the one remaining reference you had...and you're sure that no one else is holding onto one either.  The compiler chips in some checking and enforcement, which is a much better state of affairs.}
 
-{BUT it can be better to simplify the contract, instead of attempting to enforce it verbatim with the type system.  If <code>postEvent()</code> took a <code>shared_ptr</code>, then it would free up the caller to post the same event multiple times.  Or the code posting the event could just hang onto it, e.g. for logging purposes.}
+{BUT it can be better to simplify the contract, instead of attempting to enforce it verbatim with the type system.  If `postEvent()` took a `shared_ptr`, then it would free up the caller to post the same event multiple times.  Or the code posting the event could just hang onto it, e.g. for logging purposes.}
 
-{What makes this a good candidate for <code>shared_ptr</code> is that <code>postEvent()</code> doesn't change the expectations someone with a pointer to a QEvent might have had for what they can do with that pointer.  It might be different with something that can be used only once, like digital cash:}
+{What makes this a good candidate for `shared_ptr` is that `postEvent()` doesn't change the expectations someone with a pointer to a QEvent might have had for what they can do with that pointer.  It might be different with something that can be used only once, like digital cash:}
 
-[code cplusplus {
+[code cpp {
 class ZOnlineStore {
 ...
 public:
@@ -119,21 +124,21 @@ void purchaseItem(ZInventoryItem item, unique_ptr<ZDigitalCash> cash);
 };
 }]
 
-{It's not a perfect example, because a real system would need to be much more complex and transactional.  I'm only suggesting that your problem should have some <i>semantic uniqueness</i> in its character.  Otherwise, it's probably just going to add complexity to use the type system for helping follow the "hot potato" that a <code>unique_ptr</code> represents.}
+{It's not a perfect example, because a real system would need to be much more complex and transactional.  I'm only suggesting that your problem should have some *semantic uniqueness* in its character.  Otherwise, it's probably just going to add complexity to use the type system for helping follow the "hot potato" that a `unique_ptr` represents.}
 
-[note {If you can achieve your smart pointer goals with <code>shared_ptr</code> semantics, notice that those are included in gcc 4.3 and also can handle the implicit upcast: <a href="http://github.com/hostilefork/smartptr-cast-study/blob/master/shared_ptr_cast.cpp">shared_ptr_cast.cpp}]
+[note {If you can achieve your smart pointer goals with `shared_ptr` semantics, notice that those are included in gcc 4.3 and also can handle the implicit upcast: [shared_ptr_cast.cpp](http://github.com/hostilefork/smartptr-cast-study/blob/master/shared_ptr_cast.cpp)}]
 
 [heading "auto_ptr to unique_ptr Transitional"]
 
-{Moving away from <code>auto_ptr</code> should be something everyone aims for.  But if you hit this upcast ambiguity and are always casting to the same base type, perhaps you could consider a forward-looking macro like this:}
+{Moving away from `auto_ptr` should be something everyone aims for.  But if you hit this upcast ambiguity and are always casting to the same base type, perhaps you could consider a forward-looking macro like this:}
 
-[code cplusplus {
+[code cpp {
 // Base Class Move placeholder "BMOVE"
 // Use this at call sites when a std::auto_ptr<Base> is expected
 #define BMOVE(dptr) (static_cast< std::auto_ptr<Base> >(dptr))
 }]
 
-{This way, you could search and replace with move() when you switch to <code>std::unique_ptr</code>.  Another alternative if you can't leap to a newer version of gcc is boost's <a href="http://www.boost.org/doc/libs/1_39_0/libs/ptr_container/doc/ptr_container.html">pointer container library</a>.}
+{This way, you could search and replace with move() when you switch to `std::unique_ptr`.  Another alternative if you can't leap to a newer version of gcc is boost's [pointer container library](http://www.boost.org/doc/libs/1_39_0/libs/ptr_container/doc/ptr_container.html).}
 
 [heading "Notes on Building GCC Yourself"]
 
@@ -143,18 +148,18 @@ void purchaseItem(ZInventoryItem item, unique_ptr<ZDigitalCash> cash);
 
         {If you're short on memory, it might help you to kill X-Windows and your display manager during the build.  How to do this varies from installation to installation, but I did it by logging into a virtual console (via Alt-F1) and killing the process for the display manager (called kdm).  YMMV}
 
-        {If you only want a C++ compiler, you can speed the process and eliminate problems by telling configure <code>--enable-languages='c++'</code>}
+        {If you only want a C++ compiler, you can speed the process and eliminate problems by telling configure `--enable-languages='c++'`}
 
-        {If you get some warnings about not being able to find 32 bit stubs, try setting the CFLAGS environment variable to <code>-m64</code>}
+        {If you get some warnings about not being able to find 32 bit stubs, try setting the CFLAGS environment variable to `-m64`}
 
-        {If there's some message about problems with libc, then you might have to tell configure also to <code>--disable-multilib</code>}
+        {If there's some message about problems with libc, then you might have to tell configure also to `--disable-multilib`}
 
     ]]
 
-{When you're all done with the build, do "which g++" and make sure that your current compiler version is in /usr/bin.  That means the default <code>make install</code> will put your new version in /usr/local/bin.  To get your personal profile to prefer the compiler in /usr/local, edit your .bashrc file and add:}
+{When you're all done with the build, do "which g++" and make sure that your current compiler version is in /usr/bin.  That means the default `make install` will put your new version in /usr/local/bin.  To get your personal profile to prefer the compiler in /usr/local, edit your .bashrc file and add:}
 
 [code bash {
 export PATH="/usr/local/bin:$PATH"
 }]
 
-{People on the Freenode IRC channel #gcc were very helpful.  And if you have a test case that you want to try in a newer compiler before you go through all of this, try out the <a href="http://www.xs4all.nl/~weegen/eelis/geordi/">geordi</a> bot.  It's very useful!}
+{People on the Freenode IRC channel #gcc were very helpful.  And if you have a test case that you want to try in a newer compiler before you go through all of this, try out the [geordi](http://www.xs4all.nl/~weegen/eelis/geordi/) bot.  It's very useful!}

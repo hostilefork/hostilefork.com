@@ -7,11 +7,11 @@ Draem [
     old-url-prefix: %2010/03/14/
 ]
 
-{After ignoring StackOverflow for a while, I decided to check up on it a bit lately.  Someone asked <a href="http://stackoverflow.com/questions/2442966/c-c-function-definitions-without-assembly/">a question</a> that's one of those kind of fundamental curiosity issues that I enjoy explaining.  He said:}
+{After ignoring StackOverflow for a while, I decided to check up on it a bit lately.  Someone asked [a question](http://stackoverflow.com/questions/2442966/c-c-function-definitions-without-assembly/) that's one of those kind of fundamental curiosity issues that I enjoy explaining.  He said:}
 
 [quote {I always thought that functions like printf() are in the last step defined using inline assembly. That deep into stdio.h is buried some asm code that actually tells CPU what to do. Something like in dos, first mov beginning of the string to some memory location or register and than call some int. But since x64 version of Visual Studio doesn't support inline assembler at all, it made me think that there are really no assembler-defined functions in C/C++. So, please, how is for example printf() defined in C/C++ without using assembler code? What actually executes the right software interrupt?}]
 
-{Obviously the answer is going to depend on the implementation.  Yet I thought that with the open-sourced GNU C Library, it would be pretty straightforward to show how most of it is in C but it bottoms out at <code>syscall</code>.  But it really was quite a maze to connect all the dots without doing any hand-waving!  So I found that my explanation just kept growing until it was so long that a blog entry was a more fitting format.}
+{Obviously the answer is going to depend on the implementation.  Yet I thought that with the open-sourced GNU C Library, it would be pretty straightforward to show how most of it is in C but it bottoms out at `syscall`.  But it really was quite a maze to connect all the dots without doing any hand-waving!  So I found that my explanation just kept growing until it was so long that a blog entry was a more fitting format.}
 
 {So read on, fearless explorers, as we dig into the complicated answer to a seemingly simple question...}
 
@@ -19,13 +19,13 @@ more
 
 [heading "First Steps"]
 
-{We'll of course start with the prototype for <code>printf</code>, which is defined in the file <a href="http://sourceware.org/git/?p=glibc.git;a=blob;f=libio/stdio.h;h=85542b1cfdbd50941d288dde8e22e678b10b1333;hb=HEAD">libc/libio/stdio.h</a>}
+{We'll of course start with the prototype for `printf`, which is defined in the file [libc/libio/stdio.h](http://sourceware.org/git/?p=glibc.git;a=blob;f=libio/stdio.h;h=85542b1cfdbd50941d288dde8e22e678b10b1333;hb=HEAD)}
 
 [code C {
 extern int printf (__const char *__restrict __format, ...);
 }]
 
-{You won't find the source code for a function called <code>printf</code>, however.  Instead, in the file <a href="http://sourceware.org/git/?p=glibc.git;a=blob;f=stdio-common/printf.c;h=4c8f3a2a0c38ab27a2eed4d2ff3b804980aa8f9f;hb=HEAD">/libc/stdio-common/printf.c</a> you'll find a little bit of code associated with a function called <code>__printf</code>:}
+{You won't find the source code for a function called `printf`, however.  Instead, in the file [/libc/stdio-common/printf.c](http://sourceware.org/git/?p=glibc.git;a=blob;f=stdio-common/printf.c;h=4c8f3a2a0c38ab27a2eed4d2ff3b804980aa8f9f;hb=HEAD) you'll find a little bit of code associated with a function called `__printf`:}
 
 [code C {
 int __printf (const char *format, ...)
@@ -41,15 +41,15 @@ int __printf (const char *format, ...)
 }
 }]
 
-{A macro in the same file sets up an association so that this function is defined as an alias for the non-underscored <code>printf</code>:}
+{A macro in the same file sets up an association so that this function is defined as an alias for the non-underscored `printf`:}
 
 [code C "ldbl_strong_alias (__printf, printf);"]
 
-{It makes sense that <code>printf</code> would be a thin layer that calls <code>vfprintf</code> with <code>stdout</code>.  Indeed, the meat of the formatting work is done in <code>vfprintf</code>, which you'll find in <a href="http://sourceware.org/git/?p=glibc.git;a=blob;f=stdio-common/vprintf.c;h=5c9cac494a6db796a8263401f98964ae4b6a63a2;hb=HEAD">libc/stdio-common/vfprintf.c</a>.  It's quite a lengthy function, but you can see that it's still all in C!}
+{It makes sense that `printf` would be a thin layer that calls `vfprintf` with `stdout`.  Indeed, the meat of the formatting work is done in `vfprintf`, which you'll find in [libc/stdio-common/vfprintf.c](http://sourceware.org/git/?p=glibc.git;a=blob;f=stdio-common/vprintf.c;h=5c9cac494a6db796a8263401f98964ae4b6a63a2;hb=HEAD).  It's quite a lengthy function, but you can see that it's still all in C!}
 
 [heading "Deeper Down the Rabbit Hole..."]
 
-{<code>vfprintf</code> mysteriously calls <code>outchar</code> and <code>outstring</code>, which are weird macros defined in the same file:}
+{`vfprintf` mysteriously calls `outchar` and `outstring`, which are weird macros defined in the same file:}
 
 [code C {
 #define outchar(Ch) \
@@ -66,11 +66,11 @@ int __printf (const char *format, ...)
    while (0)
 }]
 
-{Sidestepping the question of why it's so weird, we see that it's dependent on the enigmatic <code>PUTC</code>, also in the same file:}
+{Sidestepping the question of why it's so weird, we see that it's dependent on the enigmatic `PUTC`, also in the same file:}
 
 [code C "#define PUTC(C, F) IO_putwc_unlocked (C, F)"]
 
-{When you get to the definition of <code>IO_putwc_unlocked</code> in <a href="http://sourceware.org/git/?p=glibc.git;a=blob;f=libio/libio.h;h=3c9f2bd3e847429dcb14eb37d3b8369998bd19ee;hb=HEAD">libc/libio/libio.h</a>, you might start thinking that you no longer care how <code>printf</code> works:}
+{When you get to the definition of `IO_putwc_unlocked` in [libc/libio/libio.h](http://sourceware.org/git/?p=glibc.git;a=blob;f=libio/libio.h;h=3c9f2bd3e847429dcb14eb37d3b8369998bd19ee;hb=HEAD), you might start thinking that you no longer care how `printf` works:}
 
 [code C {
 #define _IO_putwc_unlocked(_wch, _fp) \
@@ -80,11 +80,11 @@ int __printf (const char *format, ...)
         : (_IO_wint_t) (*(_fp)->_wide_data->_IO_write_ptr++ = (_wch)))
 }]
 
-{But despite being a little hard to read, it's just doing buffered output.  If there's enough room in the file pointer's buffer, then it will just stick the character into it...but if not, it calls <code>__woverflow</code>.  Since the only option when you've run out of buffer is to flush to the screen (or whatever device your file pointer represents), we can hope to find the magic incantation there.}
+{But despite being a little hard to read, it's just doing buffered output.  If there's enough room in the file pointer's buffer, then it will just stick the character into it...but if not, it calls `__woverflow`.  Since the only option when you've run out of buffer is to flush to the screen (or whatever device your file pointer represents), we can hope to find the magic incantation there.}
 
 [heading "Vtables in C?"]
 
-{If you guessed that we're going to hop through another frustrating level of indirection, you'd be right.  Look in <a href="http://sourceware.org/git/?p=glibc.git;a=blob;f=libio/wgenops.c;h=e2adedd6d4d07c9f66b870de644d6c3d84848063;hb=HEADp">libc/libio/wgenops.c</a> and you'll find the definition of <code>__woverflow</code>:}
+{If you guessed that we're going to hop through another frustrating level of indirection, you'd be right.  Look in [libc/libio/wgenops.c](http://sourceware.org/git/?p=glibc.git;a=blob;f=libio/wgenops.c;h=e2adedd6d4d07c9f66b870de644d6c3d84848063;hb=HEADp) and you'll find the definition of `__woverflow`:}
 
 [code C {
 wint_t 
@@ -98,7 +98,7 @@ __woverflow (f, wch)
 }
 }]
 
-{Basically, file pointers are implemented in the GNU standard library as objects.  They have data members but also function members which you can call with variations of the <code>JUMP</code> macro.  In the file <a href="http://sourceware.org/git/?p=glibc.git;a=blob;f=libio/libioP.h;h=854f049291c945b6ec2c552daefe901f23f95a4b;hb=HEAD">libc/libio/libioP.h</a> you'll find a little documentation of this technique:}
+{Basically, file pointers are implemented in the GNU standard library as objects.  They have data members but also function members which you can call with variations of the `JUMP` macro.  In the file [libc/libio/libioP.h](http://sourceware.org/git/?p=glibc.git;a=blob;f=libio/libioP.h;h=854f049291c945b6ec2c552daefe901f23f95a4b;hb=HEAD) you'll find a little documentation of this technique:}
 
 [code C {
 /* THE JUMPTABLE FUNCTIONS.
@@ -123,13 +123,13 @@ __woverflow (f, wch)
  */
 }]
 
-{So when we find <code>IO_OVERFLOW</code> in <a href="http://sourceware.org/git/?p=glibc.git;a=blob;f=libio/genops.c;h=481fbc52b0c0f7f0d4cabaa6676c48f92b84a093;hb=HEAD">libc/libio/genops.c</a>, we find it's a macro which calls a "1-parameter" <code>__overflow</code> method on the file pointer:}
+{So when we find `IO_OVERFLOW` in [libc/libio/genops.c](http://sourceware.org/git/?p=glibc.git;a=blob;f=libio/genops.c;h=481fbc52b0c0f7f0d4cabaa6676c48f92b84a093;hb=HEAD), we find it's a macro which calls a "1-parameter" `__overflow` method on the file pointer:}
 
 [code C {
 #define IO_OVERFLOW(FP, CH) JUMP1 (__overflow, FP, CH)
 }]
 
-{The jump tables for the various file pointer types are in <a href="http://sourceware.org/git/?p=glibc.git;a=blob;f=libio/fileops.c;h=4698953f7ae1d37b4e0911bf2e28cc72d7a1519e;hb=HEAD">libc/libio/fileops.c</a>}
+{The jump tables for the various file pointer types are in [libc/libio/fileops.c](http://sourceware.org/git/?p=glibc.git;a=blob;f=libio/fileops.c;h=4698953f7ae1d37b4e0911bf2e28cc72d7a1519e;hb=HEAD)}
 
 [code C {
 const struct _IO_jump_t _IO_file_jumps =
@@ -158,13 +158,13 @@ const struct _IO_jump_t _IO_file_jumps =
 libc_hidden_data_def (_IO_file_jumps)
 }]
 
-{There's also a #define which equates <code>_IO_new_file_overflow</code> with <code>_IO_file_overflow</code>, and the former is defined in the same source file.}
+{There's also a #define which equates `_IO_new_file_overflow` with `_IO_file_overflow`, and the former is defined in the same source file.}
 
-[note {<code>INTUSE</code> is just a macro which marks functions that are for internal use, it doesn't mean anything like "this function uses an interrupt")}]
+[note {`INTUSE` is just a macro which marks functions that are for internal use, it doesn't mean anything like "this function uses an interrupt")}]
 
 [heading "Are we there yet?!"]
 
-{The source code for <code>_IO_new_file_overflow</code> does a bunch more buffer manipulation, but it does call <code>_IO_do_flush</code>:}
+{The source code for `_IO_new_file_overflow` does a bunch more buffer manipulation, but it does call `_IO_do_flush`:}
 
 [code C {
 #define _IO_do_flush(_f) \
@@ -172,7 +172,7 @@ libc_hidden_data_def (_IO_file_jumps)
         (_f)->_IO_write_ptr-(_f)->_IO_write_base)
 }]
 
-{We're now at a point where <code>_IO_do_write</code> is probably where the rubber actually meets the road: an <i>unbuffered</i>, <i>actual</i>, <i>direct</i> write to an I/O device.  At least we can hope!  It is mapped by a macro to <code>_IO_new_do_write</code> and we have this:}
+{We're now at a point where `_IO_do_write` is probably where the rubber actually meets the road: an *unbuffered*, *actual*, *direct* write to an I/O device.  At least we can hope!  It is mapped by a macro to `_IO_new_do_write` and we have this:}
 
 [code C {
 static
@@ -211,7 +211,7 @@ new_do_write (fp, data, to_do)
 }
 }]
 
-{Sadly we're stuck again... <code>_IO_SYSWRITE</code> is doing the work:}
+{Sadly we're stuck again... `_IO_SYSWRITE` is doing the work:}
 
 [code C {
 /* The 'syswrite' hook is used to write data from an existing buffer
@@ -223,7 +223,7 @@ typedef _IO_ssize_t (*_IO_write_t) (_IO_FILE *, const void *, _IO_ssize_t);
 #define _IO_WSYSWRITE(FP, DATA, LEN) WJUMP2 (__write, FP, DATA, LEN)
 }]
 
-{So inside of the <code>do_write</code> we call the <code>write</code> method on the file pointer.  We know from our jump table above that is mapped to <code>_IO_new_file_write</code>, so what's that do?}
+{So inside of the `do_write` we call the `write` method on the file pointer.  We know from our jump table above that is mapped to `_IO_new_file_write`, so what's that do?}
 
 [code C {
 _IO_ssize_t
@@ -254,7 +254,7 @@ _IO_new_file_write (f, data, n)
 }
 }]
 
-{Now it just calls <code>write</code>!  Well where is the implementation for that?  You'll find <code>write</code> in <a href="http://sourceware.org/git/?p=glibc.git;a=blob;f=posix/unistd.h;h=f8b84e3cb35643264a4bfa42b8714c46976cf77c;hb=HEAD">libc/posix/unistd.h</a>:}
+{Now it just calls `write`!  Well where is the implementation for that?  You'll find `write` in [libc/posix/unistd.h](http://sourceware.org/git/?p=glibc.git;a=blob;f=posix/unistd.h;h=f8b84e3cb35643264a4bfa42b8714c46976cf77c;hb=HEAD):}
 
 [code C {
 /* Write N bytes of BUF to FD.  Return the number written, or -1.
@@ -264,44 +264,44 @@ _IO_new_file_write (f, data, n)
 extern ssize_t write (int __fd, __const void *__buf, size_t __n) __wur;
 }]
 
-[note {<code>__wur</code> is a macro for <code>__attribute__ ((__warn_unused_result__))</code>}]
+[note {`__wur` is a macro for `__attribute__ ((__warn_unused_result__))`}]
 
 [heading "Functions Generated From a Table"]
 
-{That's only a prototype for <code>write</code>.  You won't find a write.c file for Linux in the GNU standard library.  Instead, you'll find platform-specific methods of connecting to the OS write function in various ways, all in the <a href="http://sourceware.org/git/?p=glibc.git;a=tree;f=sysdeps;h=f1c8a1febcebabaf9f7b1529c7ca7c5a85ba98de;hb=HEAD">libc/sysdeps/</a> directory.}
+{That's only a prototype for `write`.  You won't find a write.c file for Linux in the GNU standard library.  Instead, you'll find platform-specific methods of connecting to the OS write function in various ways, all in the [libc/sysdeps/](http://sourceware.org/git/?p=glibc.git;a=tree;f=sysdeps;h=f1c8a1febcebabaf9f7b1529c7ca7c5a85ba98de;hb=HEAD) directory.}
 
-{We'll keep following along with how Linux does it.  There is a file called <a href="http://sourceware.org/git/?p=glibc.git;a=blob;f=sysdeps/unix/syscalls.list;h=04ed63c4d75451b978fd9488e102fe0d058b0295;hb=HEAD">sysdeps/unix/syscalls.list</a> which is used to generate the <code>write</code> function automatically.  The relevant data from the table is:}
+{We'll keep following along with how Linux does it.  There is a file called [sysdeps/unix/syscalls.list](http://sourceware.org/git/?p=glibc.git;a=blob;f=sysdeps/unix/syscalls.list;h=04ed63c4d75451b978fd9488e102fe0d058b0295;hb=HEAD) which is used to generate the `write` function automatically.  The relevant data from the table is:}
 
 [list [
 
-        "<b>File name:</b> write"
+        "**File name:** write"
 
-        {<b>Caller:</b> "-" <i>(i.e. Not Applicable)</i>}
+        {**Caller:** "-" *(i.e. Not Applicable)*}
 
-        "<b>Syscall name:</b> write"
+        "**Syscall name:** write"
 
-        "<b>Args:</b> Ci:ibn"
+        "**Args:** Ci:ibn"
 
-        "<b>Strong name:</b> __libc_write"
+        "**Strong name:** __libc_write"
 
-        "<b>Weak names: </b> __write, write"
+        "**Weak names: ** __write, write"
 
     ]]
 
-{Not all that mysterious, except for the <em>Ci:ibn</em>.  The C means "cancellable".  The colon separates the return type from the argument types, and if you want a deeper explanation of what they mean then you can see the comment in the shell script which generates the code, <a href="http://sourceware.org/git/?p=glibc.git;a=blob;f=sysdeps/unix/make-syscalls.sh;h=a8b8a262a7cd20ee9fd4618ddc94120d283a813e;hb=HEAD">libc/sysdeps/unix/make-syscalls.sh</a>.}
+{Not all that mysterious, except for the **Ci:ibn**.  The C means "cancellable".  The colon separates the return type from the argument types, and if you want a deeper explanation of what they mean then you can see the comment in the shell script which generates the code, [libc/sysdeps/unix/make-syscalls.sh](http://sourceware.org/git/?p=glibc.git;a=blob;f=sysdeps/unix/make-syscalls.sh;h=a8b8a262a7cd20ee9fd4618ddc94120d283a813e;hb=HEAD).}
 
-{So now we're expecting to be able to link against a function called <code>__libc_write</code> which is generated by this shell script.  But what's being generated?  Some C code which implements write via a macro called <code>SYS_ify</code>, which you'll find in <a href="http://sourceware.org/git/?p=glibc.git;a=blob;f=sysdeps/unix/sysdep.h;h=11e5317dfffdffd9ebc5ca2091d701b99be98b31;hb=HEAD">sysdeps/unix/sysdep.h</a>}
+{So now we're expecting to be able to link against a function called `__libc_write` which is generated by this shell script.  But what's being generated?  Some C code which implements write via a macro called `SYS_ify`, which you'll find in [sysdeps/unix/sysdep.h](http://sourceware.org/git/?p=glibc.git;a=blob;f=sysdeps/unix/sysdep.h;h=11e5317dfffdffd9ebc5ca2091d701b99be98b31;hb=HEAD)}
 
 [code C {
 #define SYS_ify(syscall_name) __NR_##syscall_name
 }]
 
-{Ah, good old token-pasting :P.  So basically, the implementation of this <code>__libc_write</code> becomes nothing more than a proxy invocation of the <code>syscall</code> function with a parameter named <code>__NR_write</code>, and the other arguments.}
+{Ah, good old token-pasting :P.  So basically, the implementation of this `__libc_write` becomes nothing more than a proxy invocation of the `syscall` function with a parameter named `__NR_write`, and the other arguments.}
 
 [heading "Where The Sidewalk Ends..."]
 
-{I know this has been a fascinating journey, but now we're at the end of GNU libc.  That number <code>__NR_write</code> is defined by Linux.  For 32-bit X86 architectures it will get you to <a href="http://lxr.linux.no/linux+v2.6.33/arch/x86/include/asm/unistd_32.h#L12">linux/arch/x86/include/asm/unistd_32.h</a>:}
+{I know this has been a fascinating journey, but now we're at the end of GNU libc.  That number `__NR_write` is defined by Linux.  For 32-bit X86 architectures it will get you to [linux/arch/x86/include/asm/unistd_32.h](http://lxr.linux.no/linux+v2.6.33/arch/x86/include/asm/unistd_32.h#L12):}
 
 [code C "#define __NR_write 4"]
 
-{The only thing left to look at, then, is the implementation of <code>syscall</code>.  Which I may do at some point, but for now I'll just point you over to some references for <a href="http://www.ibm.com/developerworks/linux/library/l-system-calls/#N100FB">how to add a system call to Linux</a>.}
+{The only thing left to look at, then, is the implementation of `syscall`.  Which I may do at some point, but for now I'll just point you over to some references for [how to add a system call to Linux](http://www.ibm.com/developerworks/linux/library/l-system-calls/#N100FB).}

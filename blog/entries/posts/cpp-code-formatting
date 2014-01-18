@@ -1,13 +1,13 @@
 Draem [
     title: "Some C++ Code Formatting Thoughts"
     category: 'post
-    tags: [cplusplus]
+    tags: [c++]
     slug: %cpp-code-formatting
     date: 1-Jan-2005/16:25
     old-url-prefix: %2005/01/01/
 ]
 
-{There's a great page on Wikipedia where people are gathering together information about <a href="http://en.wikipedia.org/wiki/Programming_style">programming style</a>  But here are some notes on formatting that I put together a few years ago, which shares a few of my ideas.}
+{There's a great page on Wikipedia where people are gathering together information about [programming style](http://en.wikipedia.org/wiki/Programming_style)  But here are some notes on formatting that I put together a few years ago, which shares a few of my ideas.}
 
 [heading "Overview"]
 
@@ -17,9 +17,9 @@ Draem [
 
 [heading "Indentation"]
 
-{Wikipedia has a great survey of <a href="http://en.wikipedia.org/wiki/Indent_style">indentation styles</a>.  My own indentation favorite for a long time was the Whitesmith's style (though I didn't know it was called that):}
+{Wikipedia has a great survey of [indentation styles](http://en.wikipedia.org/wiki/Indent_style).  My own indentation favorite for a long time was the Whitesmith's style (though I didn't know it was called that):}
 
-[code cplusplus {
+[code cpp {
 void SomeFunction()
    {
    if (condition)
@@ -36,7 +36,7 @@ void SomeFunction()
 
 {I still like it the best, and it's what I use if I'm starting something from scratch for myself.  If I could go back in time and convince everyone to use it...I might.  But though I do think there's a reasonable case for it visually, there are rationales that sometimes transcend the visual.  Such is the case when GNU developers format their code like this:}
 
-[code cplusplus {
+[code cpp {
 void SomeFunction()
 {
   if (condition)
@@ -47,11 +47,11 @@ void SomeFunction()
 }
 }]
 
-{Which isn't even consistent--the indentation rule for the function is asymmetric to the indentation for the block inside the <code>if</code> statement.  Yet many important GNU developers use Emacs, where parentheses and braces in the first column are called "defun"s (for <i><b>def</b>ine <b>fun</b>ction</i>) and are used for automatic navigation, and other forms of processing.  If you develop on GNU source and try to do it any other way, they will reformat your changes.}
+{Which isn't even consistent--the indentation rule for the function is asymmetric to the indentation for the block inside the `if` statement.  Yet many important GNU developers use Emacs, where parentheses and braces in the first column are called "defun"s (for ***def**ine **fun**ction*) and are used for automatic navigation, and other forms of processing.  If you develop on GNU source and try to do it any other way, they will reformat your changes.}
 
 {Whatever style I'm using, I prefer braces to have their own lines in order to call out the importance of a scope.  The addition or removal of a scope is an important programming act in C++ because they trigger destructors.  As an added benefit of having braces on their own line, you can prevent a spurious difference on the condition line if you change between the above and:}
 
-[code cplusplus {
+[code cpp {
 void SomeFunction()
    {
    if (condition)
@@ -65,7 +65,7 @@ void SomeFunction()
 
 {Generally speaking, I don't like to treat source code as "two-dimensional"...where the programmer is concerned with the absolute location of code on the screen. This means that I don't use padding--either with spaces or tabs--to specifically align variable declarations in columns. For example, I would not write:}
 
-[code cplusplus {
+[code cpp {
 void SomeFunction()
    {
    int               IntegerVariable;
@@ -78,11 +78,11 @@ void SomeFunction()
 {There's obviously a lot of maintenance involved: each time you add or remove a variable you have to manually update the spacing.  As with most questionable-value formatting decisions, I suggest keeping it simple and low-maintenance...shifting my effort towards the code itself.  Readability can be helped in a much less labor-intensive fashion by merely using a proportional font (instead of a fixed-width font like Courier):}
 
 {
-&nbsp;&nbsp;&nbsp;void <b>SomeFunction</b>()<br />
+&nbsp;&nbsp;&nbsp;void **SomeFunction**()<br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int <b>IntegerVariable</b>;<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;float <b>FloatVariable</b>;<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LPDIRECT3DDEVICE8 <b>lpd3d</b>;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int **IntegerVariable**;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;float **FloatVariable**;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LPDIRECT3DDEVICE8 **lpd3d**;<br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...<br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
 }
@@ -91,13 +91,13 @@ void SomeFunction()
 
 {Of course, that only works if you use genuine "tab" characters instead of spaces (it surprises me that not everyone does, but apparently there are some holdouts).  It frees you from having to force your programming team to use any particular number of spaces for indentation, they can just choose a way to view tabs in their editor.  Indenting and outdenting takes only one keypress instead of N (where N is your tab width).}
 
-{So if you are indenting with spaces, <u>stop that</u>!!}
+{So if you are indenting with spaces, **stop that**!!}
 
 [heading "Line breaks"]
 
 {I put line breaks in a few specific places which could grow into a long list of what are essentially statements. Member initialization is the case that comes to mind:}
 
-[code cplusplus {
+[code cpp {
 SomeClass::SomeClass(float initial_value, char* name) :
    BaseClass (universal_constant * Sine(initial_value)),
    member_name (MakeSafeString(name))
@@ -116,19 +116,19 @@ SomeClass::SomeClass(float initial_value, char* name) :
 
         {No spaces between function calls and their parameters}
 
-        {...e.g. <code>Foo(a)</code> and not <code>Foo (a)</code>}
+        "...e.g. `Foo(a)` and not `Foo (a)`"
 
         "A space between keywords and their parameters"
 
-        {...e.g. <code>if (a)</code> and not <code>if(a)</code>}
+        "...e.g. `if (a)` and not `if(a)`"
 
         "Spaces between constructors and their parenthesis"
 
-        {...e.g. <code>new FOO (a)</code> and not <code>new FOO(a)</code>}
+        "...e.g. `new FOO (a)` and not `new FOO(a)`"
 
         "Spaces between formal and actual parameters"
 
-        {...e.g. <code>void Foo(int a, int b)</code> and not <code>void Foo(int a,int b)</code>}
+        {...e.g. `void Foo(int a, int b)` and not `void Foo(int a,int b)`}
 
     ]]
 
@@ -140,7 +140,7 @@ SomeClass::SomeClass(float initial_value, char* name) :
 
 {If I'm programming on my own projects, then in order to distinguish between comments of specific functions/classes and documentation of function/class groups, I use the following convention:}
 
-[code cplusplus {
+[code cpp {
 // function group comment, applies until next group comment.
 // e.g., the following are Brian's Math Library Functions  
 

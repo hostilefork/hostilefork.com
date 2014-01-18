@@ -7,27 +7,25 @@ Draem [
     old-url-prefix: %2010/01/08/
 ]
 
-[update {I've uploaded a preliminary proof-of-concept Rebmu implementation to GitHub.  See <a href="http://hostilefork.com/rebmu/">http://hostilefork.com/rebmu/</a> for details.}]
+[update {I've uploaded a preliminary proof-of-concept Rebmu implementation to GitHub.  See [http://hostilefork.com/rebmu/](http://hostilefork.com/rebmu/) for details.}]
 
-divider
-
-{StackOverflow has a tag for so-called <a href="http://stackoverflow.com/questions/tagged/code-golf">"Code Golf"</a>, which has the goal of attempting to perform a programming task with a program that has a minimum number of ASCII characters.}
+{StackOverflow has a tag for so-called ["Code Golf"](http://stackoverflow.com/questions/tagged/code-golf), which has the goal of attempting to perform a programming task with a program that has a minimum number of ASCII characters.}
 
 "There are several loopholes:"
 
 [list [
 
-        {You can obviously define a language which specifically performs only the one task, and uses a single-character program to do it (e.g. if the task is to print "Hello World", you can make a fictitious language in which the single character program <em>h</em> will do it)}
+        {You can obviously define a language which specifically performs only the one task, and uses a single-character program to do it (e.g. if the task is to print "Hello World", you can make a fictitious language in which the single character program **h** will do it)}
 
         {You can compress your program into a form where it is no longer the sort of thing a human can reasonably read or write (e.g. the hexadecimal representation of assembled machine code)}
 
     ]]
 
-{But a <i>real</i> Code Golf language needs to be Turing complete.  Furthermore, I feel that you should be able to give an arbitrary challenge to a programmer they could write a working program without machine assistance.  It should also be feasible to make minor adjustments to the program's behavior without using some kind of tool.  My opinion is that in this respect, Rebol has potential to be <i>the most impressive language for Code Golf ever created</i>.}
+{But a *real* Code Golf language needs to be Turing complete.  Furthermore, I feel that you should be able to give an arbitrary challenge to a programmer they could write a working program without machine assistance.  It should also be feasible to make minor adjustments to the program's behavior without using some kind of tool.  My opinion is that in this respect, Rebol has potential to be *the most impressive language for Code Golf ever created*.}
 
-{However, Rebol has striven for a verbose English-like wording scheme.  So out of the box, its ability to compete is hampered against less ideal languages that have been purposefully shortened for this purpose (like <a href="http://www.golfscript.com/golfscript/">GolfScript</a>)  Yet I began to wonder if the language could be configured in a trivial way that preserved its basic character (so it still passed the language parser) but that made it more terse.  }
+{However, Rebol has striven for a verbose English-like wording scheme.  So out of the box, its ability to compete is hampered against less ideal languages that have been purposefully shortened for this purpose (like [GolfScript](http://www.golfscript.com/golfscript/))  Yet I began to wonder if the language could be configured in a trivial way that preserved its basic character (so it still passed the language parser) but that made it more terse.  }
 
-{I've decided to call my idea <b>"Rebmu"</b> (REB&mu;) the <i>Microsocopic</i> Rebol Dialect for solving code golf challenges!  You can find a proof-of-concept source file on GitHub which has some documentation, but this post goes into some detail as well...}
+{I've decided to call my idea **"Rebmu"** (REB&mu;) the *Microsocopic* Rebol Dialect for solving code golf challenges!  You can find a proof-of-concept source file on GitHub which has some documentation, but this post goes into some detail as well...}
 
 http://github.com/hostilefork/Rebmu/blob/master/rebmu.reb
 
@@ -42,7 +40,7 @@ more
 == [s: ["a"] append first s "b"]
 }]
 
-{The Rebol parser automatically breaks the input up into <code>s: ["a"] appendFIRSTs "b"</code>.  So the unmusher's job is merely to look at all the word! instances in a block of code and break them up before running.  As a further aspect, Rebmu assumes that you aren't using words with numbers in the name (in source), so you can do some good whitespace optimization:}
+{The Rebol parser automatically breaks the input up into `s: ["a"] appendFIRSTs "b"`.  So the unmusher's job is merely to look at all the word! instances in a block of code and break them up before running.  As a further aspect, Rebmu assumes that you aren't using words with numbers in the name (in source), so you can do some good whitespace optimization:}
 
 [code rebol {
 >> unmush [appendS10]
@@ -56,7 +54,7 @@ more
 == [a b c d e/f g/h]
 }]
 
-{The simplest rule would be to assume <code>aBcDe/fG/h</code> is the same as <code>aBcDe/Fg/H</code> and <code>AbCdE/Fg/H</code>.  But we see here that the start of each path element (including the start of any isolated word) offers us an opportunity to introduce 1 bit of meaning.  Only one interpretation I can think of has enough payoff to be worth it:}
+{The simplest rule would be to assume `aBcDe/fG/h` is the same as `aBcDe/Fg/H` and `AbCdE/Fg/H`.  But we see here that the start of each path element (including the start of any isolated word) offers us an opportunity to introduce 1 bit of meaning.  Only one interpretation I can think of has enough payoff to be worth it:}
 
 [code rebol {
 >> unmush [aBcDe/fG/h]
@@ -69,7 +67,7 @@ more
 == [a b c d e/f: g/h:]
 }]
 
-{If you're groaning with <i>"oh NO he di-uhn!"</i> all I can say is that code golf is a mean game.  :)  But once you get used to it, this isn't actually all that hard to read.  If you don't like it, don't start your runs with capitals!}
+{If you're groaning with *"oh NO he di-uhn!"* all I can say is that code golf is a mean game.  :)  But once you get used to it, this isn't actually all that hard to read.  If you don't like it, don't start your runs with capitals!}
 
 [heading "Double Letters for Natives and Mezzanines"]
 
@@ -77,29 +75,29 @@ more
 
 [list [
 
-        "<b>AP</b> append"
+        "**AP** append"
 
-        "<b>AO</b> append/only"
+        "**AO** append/only"
 
-        "<b>RA</b> repend (reduce-append)"
+        "**RA** repend (reduce-append)"
 
-        "<b>RE</b> replace"
+        "**RE** replace"
 
-        "<b>RT</b> return"
+        "**RT** return"
 
-        "<b>RP</b> repeat"
+        "**RP** repeat"
 
-        "<b>RM</b> remove"
+        "**RM** remove"
 
-        "<b>RL</b> remold"
+        "**RL** remold"
 
-        "<b>TS</b> to string!"
+        "**TS** to string!"
 
-        "<b>OB</b> object"
+        "**OB** object"
 
-        "<b>CY</b> copy"
+        "**CY** copy"
 
-        "<b>CP</b> copy/part"
+        "**CP** copy/part"
 
     ]]
 
@@ -125,23 +123,23 @@ either c [print "hello"] [print "goodbye"]
 
 [list [
 
-        "<b>n, j, k</b> integer values of 0"
+        "**n, j, k** integer values of 0"
 
-        {<b>s, t, m</b> copies of the empty string (text, message)}
+        {**s, t, m** copies of the empty string (text, message)}
 
-        "<b>x, y, z</b> float values of 0"
+        "**x, y, z** float values of 0"
 
-        "<b>b, g, l</b> an empty block (group, list)"
+        "**b, g, l** an empty block (group, list)"
 
-        "<b>i</b> synonym for IF (ifMU)"
+        "**i** synonym for IF (ifMU)"
 
-        "<b>e</b> synonym for EI (eitherMU)"
+        "**e** synonym for EI (eitherMU)"
 
-        "<b>c</b> synonym for CY (copy)"
+        "**c** synonym for CY (copy)"
 
-        "<b>f</b> synonym for FN (functMU)"
+        "**f** synonym for FN (functMU)"
 
-        "<b>w</b> synonym for WH (whileMU)"
+        "**w** synonym for WH (whileMU)"
 
     ]]
 
@@ -149,11 +147,11 @@ either c [print "hello"] [print "goodbye"]
 
 [heading "Declare Synonym And Invoke Operator"]
 
-{A fast synonym operator would be useful, so if you know you're going to call <code>func FOO[x] [probe x]</code> a lot of times you could say something like Z*FOO.  This means the first time you use a function you could also define a shorthand, e.g. Z*FOO"Hello" would both make Z equivalent to foo as well as call it with the parameter "Hello".  Going to think about this.}
+{A fast synonym operator would be useful, so if you know you're going to call `func FOO[x] [probe x]` a lot of times you could say something like Z*FOO.  This means the first time you use a function you could also define a shorthand, e.g. Z*FOO"Hello" would both make Z equivalent to foo as well as call it with the parameter "Hello".  Going to think about this.}
 
 [heading "An Example: Roman Numerals"]
 
-{I got the dialect hobbling along well enough to run an example I coded to answer StackOverflow's code golf of <a href="http://stackoverflow.com/questions/1839079/can-this-roman-number-to-integer-converter-code-be-shorter">Converting Roman Numerals to Integers</a>.  The shortest Ruby code given on StackOverflow is 53 characters:}
+{I got the dialect hobbling along well enough to run an example I coded to answer StackOverflow's code golf of [Converting Roman Numerals to Integers](http://stackoverflow.com/questions/1839079/can-this-roman-number-to-integer-converter-code-be-shorter).  The shortest Ruby code given on StackOverflow is 53 characters:}
 
 [code ruby {
 n=1;$.+=n/2-n%n=10**(494254%C/9)%4999while C=getc;p$.

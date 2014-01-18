@@ -1,13 +1,13 @@
 Draem [
     title: "&quot;Psychic&quot; Sorting Algorithms"
     category: 'post
-    tags: [cplusplus sorting math]
+    tags: [c++ sorting math]
     slug: %psychic-sorting-algorithms
     date: 28-Sep-2013/14:28
     old-url-prefix: %2013/09/28/
 ]
 
-{I was trying to explain to someone why some sorting algorithms are faster than others.  While there are many factors in the speed of a sort, we often talk about the number of comparisons needed.  So the angle of attack I chose was to try and explain how organizing the data in certain ways allows you to avoid ever having to compare certain pairings of items because you effectively already know the result.  What I said is that this was all a direct or indirect outcome of the <a href="https://en.wikipedia.org/wiki/Transitive_relation">Transitive Property</a>.}
+{I was trying to explain to someone why some sorting algorithms are faster than others.  While there are many factors in the speed of a sort, we often talk about the number of comparisons needed.  So the angle of attack I chose was to try and explain how organizing the data in certain ways allows you to avoid ever having to compare certain pairings of items because you effectively already know the result.  What I said is that this was all a direct or indirect outcome of the [Transitive Property](https://en.wikipedia.org/wiki/Transitive_relation).}
 
 {The transitive property is this thing we learn about in early math education.  It doesn't come up so often in conversation, but in computer science the transitive property provides the reason that we can sort a set of items without having to compare each pair.  Getting one's head around the details of exactly how various algorithms do this--and what the limits are--turned out to be tougher than I thought.  So I wrote a little bit about it.}
 
@@ -44,7 +44,7 @@ Apples > Carrots
       Bananas < Carrots
 }]
 
-{There are four different ways you could have answered these two questions.  However, we know from the mathematical law of permutations that there are <i>six</i> different orderings of three items, which we can calculate by using the factorial 3*2*1.  Which did we leave out?}
+{There are four different ways you could have answered these two questions.  However, we know from the mathematical law of permutations that there are *six* different orderings of three items, which we can calculate by using the factorial 3*2*1.  Which did we leave out?}
 
 [text {
 1. Apples > Bananas > Carrots
@@ -190,7 +190,7 @@ A: "Bananas" [B > D]
 
 {As I dug deeper I found this question isn't as simple to know the answer to as I might have thought.  The table only goes up to proving that 15 elements minimally sorts with 42 comparisons.  I wondered how close a heavily peer-optimized sorting algorithm would come to these numbers on some random data, and wrote this little C++ program to test it:}
 
-[code cplusplus {
+[code cpp {
 #include <ctime>
 #include <vector>
 #include <iostream>
@@ -237,7 +237,7 @@ int main() {
 
 {The resulting table shows that the comparisons drift farther and farther from the minimum as the number of elements increases:}
 
-[code txt {
+[text {
 For  1 items:  0 compares (minimum is  0)
 For  2 items:  1 compares (minimum is  1)
 For  3 items:  4 compares (minimum is  3)
@@ -259,4 +259,4 @@ For 15 items: 71 compares (minimum is 42)
 
 {Would it be possible to design a sort that never exceeded the minimum number of comparisons?  Yes, although given that the minimum number was only calculated to 15 items in a math paper... it would probably be quite computationally intensive to generate such a sorter.  It would be worthwhile only if comparisons were enormously costly relative to the rest of the operations in the system.}
 
-{One case where it <i>might</i> be worthwhile to seek a minimum would be when sorting slow/costly human decisions.  (Though presumably about things more important than preferences of fruits and vegetables!)}
+{One case where it *might* be worthwhile to seek a minimum would be when sorting slow/costly human decisions.  (Though presumably about things more important than preferences of fruits and vegetables!)}

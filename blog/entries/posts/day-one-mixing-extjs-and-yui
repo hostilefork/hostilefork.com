@@ -7,17 +7,17 @@ Draem [
     old-url-prefix: %2007/10/30/
 ]
 
-[note {Most visitors to this page seem to be searching to find out why Firebug with the break all errors option detects an exception on <code>obj.type</code>.  If that's why you're here, see the end of the article for edits that fix this problem.}]
+[note {Most visitors to this page seem to be searching to find out why Firebug with the break all errors option detects an exception on `obj.type`.  If that's why you're here, see the end of the article for edits that fix this problem.}]
 
-{I have seen the occasional attempt to build full windowing environments inside of a browser, and been only semi-impressed.  After all, we do have mature remote desktop solutions like <a href="http://en.wikipedia.org/wiki/Virtual_Network_Computing">VNC</a>.  Why deal with the nightmare of browser inconsistencies when you can just set up a virtual machine of your choice, program to whatever hardened widget API you like, and let users control its screen through a terminal??}
+{I have seen the occasional attempt to build full windowing environments inside of a browser, and been only semi-impressed.  After all, we do have mature remote desktop solutions like [VNC](http://en.wikipedia.org/wiki/Virtual_Network_Computing).  Why deal with the nightmare of browser inconsistencies when you can just set up a virtual machine of your choice, program to whatever hardened widget API you like, and let users control its screen through a terminal??}
 
-{(That makes sense to me, and it will only make more sense as virtualization expands.  For more on my thoughts, see the article <a href="http://hostilefork.com/2007/11/03/virtualization-and-the-integrated-circuit/">"Virtualization and the Integrated Circuit"</a>)}
+{(That makes sense to me, and it will only make more sense as virtualization expands.  For more on my thoughts, see the article ["Virtualization and the Integrated Circuit"](http://hostilefork.com/2007/11/03/virtualization-and-the-integrated-circuit/))}
 
-{Putting this bias aside, I was somewhat inspired today by the <a href="http://extjs.com/deploy/dev/examples/desktop/desktop.html">Extjs Web Desktop Demonstration</a>.  Reading about the history of Extjs, I saw that it was conceived as an extension to the <a href="http://en.wikipedia.org/wiki/Yahoo%21_UI_Library">Yahoo User Interface Library</a>.  In fact, it could run on top of it and use its event model somehow.  To test this claim, I got the idea to integrate the <a href="http://developer.yahoo.com/yui/examples/dragdrop/dd-groups.html">Yui Drag and Drop Groups Demo</a> into the Extjs Web Desktop:}
+{Putting this bias aside, I was somewhat inspired today by the [Extjs Web Desktop Demonstration](http://extjs.com/deploy/dev/examples/desktop/desktop.html).  Reading about the history of Extjs, I saw that it was conceived as an extension to the [Yahoo User Interface Library](http://en.wikipedia.org/wiki/Yahoo%21_UI_Library).  In fact, it could run on top of it and use its event model somehow.  To test this claim, I got the idea to integrate the [Yui Drag and Drop Groups Demo](http://developer.yahoo.com/yui/examples/dragdrop/dd-groups.html) into the Extjs Web Desktop:}
 
-[center {<a href="http://hostilefork.com/wp-content/uploads/2007/10/extjs_yui_combination.png"><img src="http://hostilefork.com/wp-content/uploads/2007/10/extjs_yui_combination.png" alt="extjs_yui_combination" height="250" width="400" /></a>}]
+[image http://hostilefork.com/wp-content/uploads/2007/10/extjs_yui_combination.png 640x400 {Combining YUI and ExtJs}]
 
-{Despite my general ignorance from being on day one of meeting both of these frameworks, it sort of worked first try.  I simply took the global variables out of the drag and drop demo page (<code>slots</code>, <code>players</code>, <code>Event</code>, <code>DDM</code>) and made them members of the created window object.  I then substituted the HTML of the drag and drop space:}
+{Despite my general ignorance from being on day one of meeting both of these frameworks, it sort of worked first try.  I simply took the global variables out of the drag and drop demo page (`slots`, `players`, `Event`, `DDM`) and made them members of the created window object.  I then substituted the HTML of the drag and drop space:}
 
 [code html {
 <div id="workarea">..blahblah...</div>
@@ -27,7 +27,7 @@ Draem [
 
 [code html "<p>something useful would be in here</p>"]
 
-{The drag and drop worked as expected.  But I use Firebug with the "Break on all Errors" option.  And after gluing these two things together, clicking in the Extjs grid window causes a temporary halt in YUI's <span class="filepath">connection-debug.js</span> on line 240.  It's a little snip of code in <code>_hasSubmitListener</code> enclosed within a try/catch block, like so:}
+{The drag and drop worked as expected.  But I use Firebug with the "Break on all Errors" option.  And after gluing these two things together, clicking in the Extjs grid window causes a temporary halt in YUI's **connection-debug.js** on line 240.  It's a little snip of code in `_hasSubmitListener` enclosed within a try/catch block, like so:}
 
 [code javascript {
 /* line 237 */
@@ -40,14 +40,14 @@ try
 }
 catch(e) {}}]
 
-{What's happening is that <code>obj</code> is <code>div.x-grid3-cell-inner</code>, which is an entity used by Extjs inside its grid.  Yui somehow gets ahold of the click (how?), and finds the <code>.type</code> is undefined.  This leads to an exception when <code>toLowerCase()</code> is called.  Looking at the snippet I was puzzled... is the exception handling intentionally glossing over cases where the type isn't defined?  If that is the case, it would be much better to use a direct comparison with "undefined":}
+{What's happening is that `obj` is `div.x-grid3-cell-inner`, which is an entity used by Extjs inside its grid.  Yui somehow gets ahold of the click (how?), and finds the `.type` is undefined.  This leads to an exception when `toLowerCase()` is called.  Looking at the snippet I was puzzled... is the exception handling intentionally glossing over cases where the type isn't defined?  If that is the case, it would be much better to use a direct comparison with "undefined":}
 
 [code javascript {if (obj.type != undefined)
    if (obj.type.toLowerCase() == 'submit') ...}]
 
-{If this situation <em>isn't</em> supposed to happen, then the dereference of obj.type should be outside the try/catch block so that people who aren't using Firebug with "Break on all Errors" will know they have a problem.}
+{If this situation **isn't** supposed to happen, then the dereference of obj.type should be outside the try/catch block so that people who aren't using Firebug with "Break on all Errors" will know they have a problem.}
 
-{I <a href="http://tech.groups.yahoo.com/group/ydn-javascript/message/20157">posted about this to the YUI forum</a>, and Thomas Sha (who <a href="http://bsdtalk.blogspot.com/2006/04/bsdtalk033-interview-with-thomas-sha.html">works in the Yahoo platforms department</a>) agreed that my change would be a good way to deal with it, at least <a href="http://tech.groups.yahoo.com/group/ydn-javascript/message/20210">until YUI 2.4.0</a> is released.  So I made the following changes to <span class="filepath">yui / build / connection / connection-debug.js</span> and <span class="filepath">yui / build / connection / connection.js</span> :}
+{I [posted about this to the YUI forum](http://tech.groups.yahoo.com/group/ydn-javascript/message/20157), and Thomas Sha (who [works in the Yahoo platforms department](http://bsdtalk.blogspot.com/2006/04/bsdtalk033-interview-with-thomas-sha.html)) agreed that my change would be a good way to deal with it, at least [until YUI 2.4.0](http://tech.groups.yahoo.com/group/ydn-javascript/message/20210) is released.  So I made the following changes to **yui / build / connection / connection-debug.js** and **yui / build / connection / connection.js** :}
 
 [code javascript {
 /* line 237 */
@@ -61,7 +61,7 @@ try
    catch(e){}*/
 }]
 
-{In <span class="filepath">yui / build / connection-min.js</span>, you should just replace the string:}
+{In **yui / build / connection-min.js**, you should just replace the string:}
 
 [code javascript {try{var S=YAHOO.util.Event.getTarget(q);if(S.type.toLowerCase()=="submit"){YAHOO.util.Connect._submitElementValue=encodeURIComponent(S.name)+"="+encodeURIComponent(S.value);}}catch(q){}}]
 
@@ -69,8 +69,8 @@ try
 
 [code javascript {/*try{*/var S=YAHOO.util.Event.getTarget(q);if((S.type!=undefined)&&(S.type.toLowerCase()=="submit")){YAHOO.util.Connect._submitElementValue=encodeURIComponent(S.name)+"="+encodeURIComponent(S.value);}/*}catch(q){}*/}]
 
-{That seemed to take care of it, and the system no longer generates spurious breaks in Firebug.  I had a working demo.  Though there were issues with the scroll bars bleeding through the windows in Firefox on Mac, but that's due to <a href="http://extjs.com/forum/showthread.php?t=5192">a Firefox bug</a>:}
+{That seemed to take care of it, and the system no longer generates spurious breaks in Firebug.  I had a working demo.  Though there were issues with the scroll bars bleeding through the windows in Firefox on Mac, but that's due to [a Firefox bug](http://extjs.com/forum/showthread.php?t=5192):}
 
-[center {<a href="http://hostilefork.com/wp-content/uploads/2007/10/extjs_firefox_scrollbar_bug.png"><img src="http://hostilefork.com/wp-content/uploads/2007/10/extjs_firefox_scrollbar_bug.png" alt="extjs_firefox_scrollbar_bug" height="250" width="400" /></a>}]
+[image http://hostilefork.com/wp-content/uploads/2007/10/extjs_firefox_scrollbar_bug.png 640x400 {ExtJs Firefox Scrollbar Bug}]
 
-{I'm sympathetic to the nastiness of the quirk but I feel like this is what such frameworks must have workarounds for--as they exist precisely to help us not worry about all the bugs in commonly deployed browsers.  I managed to <a href="http://hostilefork.com/2007/11/06/workaround-firefox-scrollbar-bug-on-mac/">work around it using theming</a>--which might give Firefox OS/X users some peace of mind.)}
+{I'm sympathetic to the nastiness of the quirk but I feel like this is what such frameworks must have workarounds for--as they exist precisely to help us not worry about all the bugs in commonly deployed browsers.  I managed to [work around it using theming](http://hostilefork.com/2007/11/06/workaround-firefox-scrollbar-bug-on-mac/)--which might give Firefox OS/X users some peace of mind.)}

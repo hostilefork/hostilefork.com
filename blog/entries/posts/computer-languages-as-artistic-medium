@@ -9,11 +9,11 @@ Draem [
 
 {Not many people have the ability to look at the few fundamental elements of a system (such as constructs of a new computer language) and extrapolate the long-term implications of their use.  But rather than jump in and tackle the difficult question of understanding the expressive power and limits of computation, I'll start by talking about a simpler problem.  Don't panic: it involves crayons and coloring!}
 
-{This example is going to seem pretty easy on the surface, and you may be familiar with it already.  It involves trying to find a way to color in maps so that no areas which share a border are going to be the same color.  Here's an example of a simple coloring with 5 crayons, and then finding a method for doing it with only 4 <i>(taken from Wikipedia's <a href="http://en.wikipedia.org/wiki/Four_color_theorem">article on the subject</a>)</i>:}
+{This example is going to seem pretty easy on the surface, and you may be familiar with it already.  It involves trying to find a way to color in maps so that no areas which share a border are going to be the same color.  Here's an example of a simple coloring with 5 crayons, and then finding a method for doing it with only 4 *(taken from Wikipedia's [article on the subject](http://en.wikipedia.org/wiki/Four_color_theorem))*:}
 
-[center {<a href='http://hostilefork.com/wp-content/uploads/2008/04/fourcolor_wikipedia.png'><img src='http://hostilefork.com/wp-content/uploads/2008/04/fourcolor_wikipedia.png' alt='Wikipedia four-color theorem diagram' /></a>}]
+[image http://hostilefork.com/wp-content/uploads/2008/04/fourcolor_wikipedia.png 400x230 "Wikipedia four-color theorem diagram"]
 
-{Without prior knowledge, the average Joe can only guess at how many crayons he'd need to reliably fill in any map he is given.  Just by trying a few cases, he might get an intuition that a small box of different colors will do the trick.  But if Joe knew the Devil was going to be presenting him with an arbitrary map and getting his soul if he couldn't color it properly, he'd probably buy Crayola's biggest box...<a href="http://www.colourlovers.com/blog/2008/04/22/all-120-crayon-names-color-codes-and-fun-facts">120 colors</a>!  (Plus, because he doesn't know for sure that even THAT would be enough, he'd also probably try to round up the <a href="http://www.crayola.com/colorcensus/history/chronology.cfm">discontinued colors</a> off of eBay!)}
+{Without prior knowledge, the average Joe can only guess at how many crayons he'd need to reliably fill in any map he is given.  Just by trying a few cases, he might get an intuition that a small box of different colors will do the trick.  But if Joe knew the Devil was going to be presenting him with an arbitrary map and getting his soul if he couldn't color it properly, he'd probably buy Crayola's biggest box...[120 colors](http://www.colourlovers.com/blog/2008/04/22/all-120-crayon-names-color-codes-and-fun-facts)!  (Plus, because he doesn't know for sure that even THAT would be enough, he'd also probably try to round up the [discontinued colors](http://www.crayola.com/colorcensus/history/chronology.cfm) off of eBay!)}
 
 {Yet there is salvation from this kind of paranoia.  Early formalisms of the map-coloring-problem from mathematicians comforted us with proof that it *never* took more than 5 different colors...and that 3 will certainly not always be enough.  After considerable debate and experimentation over the years, we ultimately found that we only need four unique colors for any map the Devil--or anyone else--makes.}
 
@@ -37,7 +37,7 @@ more
 
     ]]
 
-{These are the kinds of great conundrums that preoccupied early computer scientists.  Smart guys like Turing and Church came up with pretty deep answers.   These folks were busy defining mathematical abstractions of computers and "computer languages" that were extraordinary simple, but could do anything that any other generic computer could do.  I think <a href="http://hostilefork.com/2005/06/20/turings-thesis-in-his-own-words/">Turing's own words</a> on this subject are surprisingly easy for the layman (and better than many textbook rehashes).}
+{These are the kinds of great conundrums that preoccupied early computer scientists.  Smart guys like Turing and Church came up with pretty deep answers.   These folks were busy defining mathematical abstractions of computers and "computer languages" that were extraordinary simple, but could do anything that any other generic computer could do.  I think [Turing's own words](http://hostilefork.com/2005/06/20/turings-thesis-in-his-own-words/) on this subject are surprisingly easy for the layman (and better than many textbook rehashes).}
 
 {But trying to program in a Turing Machine would be somewhat analogous to facing the Devil's Map-Coloring Challenge with 4 crayons that had been put through a Cuisinart!  You can have complete confidence that your bag of gray-looking dust will let you color in areas just as you could with four whole crayons.  But you'll have to spend an unreasonable amount of time sifting the particles and sorting it into piles with your hands, then rubbing it into the shapes with your fingers.  On top of that difficulty, you might find that Beelzebub picked a map that's really hard to color with just 4--sometimes the 4-color solution takes a lot of time to find!}
 
@@ -45,7 +45,7 @@ more
 
 [heading "Now, a more slippery issue..."]
 
-{In the previous sections I discussed somewhat mathematically precise questions.  But what if the challenge was a bit more abstract?  Let's say the Devil was going to ask you to produce a <i>work with actual artistic merit</i> for any given thing he might ask you to draw--be that a landscape, or a space battle, or a unicorn.  How many crayons would you need to make sure you could meet his challenge?}
+{In the previous sections I discussed somewhat mathematically precise questions.  But what if the challenge was a bit more abstract?  Let's say the Devil was going to ask you to produce a *work with actual artistic merit* for any given thing he might ask you to draw--be that a landscape, or a space battle, or a unicorn.  How many crayons would you need to make sure you could meet his challenge?}
 
 {I don't think there'd be much controversy among artists in saying that this has very little to do with how many colors you are given.  Subtle differences arise in works by those who had green crayons vs. those who only had blue and yellow in their set.  But it's still "crayon art", and most critics believe that that anyone with talent should use something different (like oil paint).}
 
@@ -57,7 +57,7 @@ more
 
 {Lisp and C++ are considered different mediums by most everyone.  A programmer needs to use a different state of mind to program in them entirely, and that gives rise to different program types.  Yet C++ and Java are very similar in their overall nature with only a few strategic decisions made to differentiate the languages.}
 
-{What does it mean for a language to be a truly new medium, as opposed to a variation on a theme?  That's rather debatable.  A language I have been looking at lately is called <a href="http://rebol.com/what-rebol.html">Rebol</a>, and its advocates believe it to be a unique new medium.  This is despite the fact that on first glance, it is an incredibly small box of crayons with a special color or two added, and lots of "ugly" colors taken out.}
+{What does it mean for a language to be a truly new medium, as opposed to a variation on a theme?  That's rather debatable.  A language I have been looking at lately is called [Rebol](http://rebol.com/what-rebol.html), and its advocates believe it to be a unique new medium.  This is despite the fact that on first glance, it is an incredibly small box of crayons with a special color or two added, and lots of "ugly" colors taken out.}
 
 {Yet to them it's also not like any other language that already exists.  So if it were a product being introduced at Toys R Us, it wouldn't be a LEGO set with square plug-knobs instead of round ones....nor would it be finger paint that was merely a little stickier or a little easier to clean up.  Beyond it's new-ness, its champions say it also has the property of good-ness: a hopeful new way to build fun art.}
 
@@ -65,7 +65,7 @@ more
 
 [heading "Addendum: note on inspiration for this article"]
 
-{The phrasing in this article was motivated by a quote from a <a href="http://www.rebol.org/cgi-bin/cgiwrap/rebol/ml-display-message.r?m=rmlDXCQ">post written by Joel Neely</a>, in which he wrote:}
+{The phrasing in this article was motivated by a quote from a [post written by Joel Neely](http://www.rebol.org/cgi-bin/cgiwrap/rebol/ml-display-message.r?m=rmlDXCQ), in which he wrote:}
 
 [quote [
 
@@ -73,7 +73,7 @@ more
 
         "C is a set of tinkertoys."
 
-        {Java is an Erector Set <i>(IIRC similar to Meccano in Europe?)</i> with all kinds of braces, motors, girders, nuts, and bolts.}
+        {Java is an Erector Set *(IIRC similar to Meccano in Europe?)* with all kinds of braces, motors, girders, nuts, and bolts.}
 
         "Perl is a Swiss-army chainsaw."
 

@@ -7,15 +7,16 @@ Draem [
     old-url-prefix: %2008/09/08/
 ]
 
-{This is the second of several articles I'm going to write about the Rebol programming language.  To learn more about it, you can visit <a href="http://rebol.com">rebol.com</a>.  But my hope is to demystify some of its strengths and weaknesses in a way that their website currently does not, so if you read what I write first then it might help.  :)}
+{This is the second of several articles I'm going to write about the Rebol programming language.  To learn more about it, you can visit [rebol.com](http://rebol.com).  But my hope is to demystify some of its strengths and weaknesses in a way that their website currently does not, so if you read what I write first then it might help.  :)}
 
-[update {Rebol version 3 is now <a href="https://github.com/rebol/r3">open source under the Apache 2.0 license</a>, so all those disclaimers I used to have in my Rebol articles about not getting attached to a proprietary language are no longer applicable!  Use it without hesitation!!!}]
+[update {Rebol version 3 is now [open source under the Apache 2.0 license](https://github.com/rebol/r3), so all those disclaimers I used to have in my Rebol articles about not getting attached to a proprietary language are no longer applicable!  Use it without hesitation!!!}]
 
-{Rebol's advocates tout the language as a "rebellion against software complexity".  But what does that actually <i>mean</i>?  Ruby and Python advocates ask how it differs from other modern interpreted languages.  What they'll get back usually boils down to "the interpreters for every other language, plus their libraries, plus the source code you feed into them, are too many bytes for what the end result achieves."}
+{Rebol's advocates tout the language as a "rebellion against software complexity".  But what does that actually *mean*?  Ruby and Python advocates ask how it differs from other modern interpreted languages.  What they'll get back usually boils down to "the interpreters for every other language, plus their libraries, plus the source code you feed into them, are too many bytes for what the end result achieves."}
 
-{I do poke a bit of fun of their obsession with size, by comparing it to Saturday Night Live's <a href="http://snltranscripts.jt.org/92/92aelvis.phtml">"Tiny Elvis"</a>.  In the sketch, Nicholas Cage is shown dressed as a miniature Elvis who points to common household items and remarks about how "huge" they are:}
+{I do poke a bit of fun of their obsession with size, by comparing it to Saturday Night Live's ["Tiny Elvis"](http://snltranscripts.jt.org/92/92aelvis.phtml).  In the sketch, Nicholas Cage is shown dressed as a miniature Elvis who points to common household items and remarks about how "huge" they are:}
 
-[center {<img src="http://hostilefork.com/wp-content/uploads/2008/09/92aelvis2.jpg" alt="Tiny Elvis Leaning on a Table Lamp" width="150" height="113" />&nbsp;&nbsp;<img src="http://hostilefork.com/wp-content/uploads/2008/09/92aelvis1.jpg" alt="Tiny Elvis and his Normal-Size Buddies" width="150" height="113" />}]
+[image http://hostilefork.com/wp-content/uploads/2008/09/92aelvis2.jpg 150x113 "Tiny Elvis Leaning on a Table Lamp"]
+[image http://hostilefork.com/wp-content/uploads/2008/09/92aelvis1.jpg 150x113 "Tiny Elvis and his Normal-Size Buddies"]
 
 [quote [
 
@@ -31,7 +32,7 @@ Draem [
 
         [Tiny-Elvis: {Well, I'm just saying it's a big salt shaker, that's all.}]
 
-        [Red: ("laughing") {There he goes again! That's why <i>he's</i> the Tiny E.}]
+        [Red: ("laughing") "There he goes again! That's why *he's* the Tiny E."]
 
     ]]
 
@@ -39,9 +40,9 @@ Draem [
 
 [quote [
 
-        [Tiny-Rebol: {Whoa now.  Look at that Firewire drive, 750 Gigabytes!  I run in 750 <i>Kilo</i>bytes.  What would *I* ever do with all those bytes?}]
+        [Tiny-Rebol: {Whoa now.  Look at that Firewire drive, 750 Gigabytes!  I run in 750 *Kilo*bytes.  What would *I* ever do with all those bytes?}]
 
-        [Red: ("laughing") {There he goes again! That's why <i>he's</i> the Tiny R.}]
+        [Red: ("laughing") "There he goes again! That's why *he's* the Tiny R."]
 
     ]]
 
@@ -53,39 +54,39 @@ more
 
 [heading "Zen and the Art of Software Maintenance"]
 
-{In the book <i>Zen and the Art of Motorcycle Maintenance</i>, Robert Pirsig waxed philosophical on what he called "Quality".  It was the abstract notion of good vs. bad that one's mind develops after a period of deep immersion in a subject.  His specific relationship with Quality that he outlines in the book comes from repairing motorcycles, and then traveling the country on the very motorcycle he maintained.}
+{In the book *Zen and the Art of Motorcycle Maintenance*, Robert Pirsig waxed philosophical on what he called "Quality".  It was the abstract notion of good vs. bad that one's mind develops after a period of deep immersion in a subject.  His specific relationship with Quality that he outlines in the book comes from repairing motorcycles, and then traveling the country on the very motorcycle he maintained.}
 
-{Most people don't maintain their own car.  So if you look under the hood, odds are you'll see a tangled unfathomable set of hoses, cables, and mysterious blobs.  They're all mashed together and some dull grayish ugly color, like this 2000 Toyota Tacoma:}
+{Most people don't maintain their own car.  So if you look under the hood, odds are you'll see a tangled unfathomable set of hoses, cables, and mysterious blobs.  They're all mashed together and some dull grayish ugly color, like this [2000 Toyota Tacoma](http://www.parksoffroad.com/miscinstalls/welderreview/mobi/mobimain.htm):}
 
-[center {<a href="http://www.parksoffroad.com/miscinstalls/welderreview/mobi/mobimain.htm"><img src="http://hostilefork.com/wp-content/uploads/2008/09/dscf3379-300x225.jpg" alt="2000 Toyota Tacoma" width="300" height="225" /></a>}]
+[image http://hostilefork.com/media/blog/is-rebol-actually-a-revolution/under-toyota-tacoma-hood.jpg 432x324 {Toyota Tacoma Under the Hood}]
 
 {I'd never really thought about that being a problem until a fellow software developer took me to a classic car show.  There, I saw amazing work on engines, artistically done and laid out so you could really see the parts.  They used high quality materials and color coding that facilitated understanding and repair.  Just to give you an example of what I'm talking about, look at the winner of "Best Engine Compartment" in the Skippack Village, PA Car Show:}
 
-[center {<a href='http://www.flickr.com/photos/breath_less56/1683233176/'><img src="http://hostilefork.com/wp-content/uploads/2008/09/1683233176_bf4f38e4e9-300x225.jpg" alt="Best Engine Compartment... Skippack Village, Pa. Car Show" width="300" height="225" /></a>}]
+[image http://hostilefork.com/media/blog/is-rebol-actually-a-revolution/skippack-best-engine-compartment.jpg 639x479 {Best Engine Compartment... Skippack Village, Pa. Car Show}]
 
 {We don't manufacture most cars like this for "practical" reasons:}
 
 [list [
 
-        {<b>financial</b>: Fancy metals costs a lot.  Using black hoses everywhere is cheaper than using red and blue ones.}
+        {**financial**: Fancy metals costs a lot.  Using black hoses everywhere is cheaper than using red and blue ones.}
 
-        {<b>space</b>: It's tough to make a good hands-on and serviceable engine fit under the hood (as above).  You have to contort it, which makes it harder to access.}
+        {**space**: It's tough to make a good hands-on and serviceable engine fit under the hood (as above).  You have to contort it, which makes it harder to access.}
 
-        {<b>environmental</b>: Engines have had to be designed with compromises in order to increase their fuel efficiency and reduce their emissions, and these add to the complexity of the system.}
+        {**environmental**: Engines have had to be designed with compromises in order to increase their fuel efficiency and reduce their emissions, and these add to the complexity of the system.}
 
-        {<b>educational</b>: Most people don't care to learn about cars, so useful parts like pressure or temperature gauges that are visible on the engine are left out--replaced by a single SERVICE light on the dash.}
+        {**educational**: Most people don't care to learn about cars, so useful parts like pressure or temperature gauges that are visible on the engine are left out--replaced by a single SERVICE light on the dash.}
 
     ]]
 
-{Notice that these constraints don't have a lot to do with the spirit of cars or driving.  They come from living in a "real world", where there are things more important than cars to worry about.  Engines have become victims of our inability to insulate their design from <i>non-engine-related worries</i>.}
+{Notice that these constraints don't have a lot to do with the spirit of cars or driving.  They come from living in a "real world", where there are things more important than cars to worry about.  Engines have become victims of our inability to insulate their design from *non-engine-related worries*.}
 
-{Yet programming does not have to be like the "real world".  Our software parts are practically free, our space for connecting them is hyper-dimensional.  The environment is a perfect recycler of bits--from pixels to music and back again.  <i>So why the $(&amp;%^^ do the software programs we work with have so much more in common with the Tacoma engine than the Skippack car?!?</i>}
+{Yet programming does not have to be like the "real world".  Our software parts are practically free, our space for connecting them is hyper-dimensional.  The environment is a perfect recycler of bits--from pixels to music and back again.  *So why the $(&%^^ do the software programs we work with have so much more in common with the Tacoma engine than the Skippack car?!?*}
 
 [heading {"Who cares, it's just a car... and it's just a computer."}]
 
 {There are a lot of people who don't care about programming.  I'm actually somewhat sympathetic to that.  Despite the example I just gave, the engine in my car is usually not on my mind--I drive a '97 Toyota Camry, and it "just works".  Most people think computers should be appliances, and effectively invisible ones.  You'll get no argument from me!}
 
-{What keeps pulling me back to programming is that "real world" technology <i>isn't doing what I want</i>.  Software is actually contributing to that problem in ways...we seem to be so mired in it that it's derailed everything else.  As the famous IBM commercial with Avery Brooks goes, where he says we don't need flying cars because we have software...}
+{What keeps pulling me back to programming is that "real world" technology *isn't doing what I want*.  Software is actually contributing to that problem in ways...we seem to be so mired in it that it's derailed everything else.  As the famous IBM commercial with Avery Brooks goes, where he says we don't need flying cars because we have software...}
 
 [quote [
 
@@ -97,7 +98,7 @@ more
 
     ]]
 
-{Except rather than dismiss it, I feel the need to dig in and find out what the hold-up is.  Every time, I feel like the biggest factor is humanity's myopia about architecture.  People are so eager to see a profit after a small demonstration that they allow a shaky infrastructure to permeate... if it works "well enough".  They almost never prioritize <i>refinement of that which exists</i> on par with <i>going to the next step</i>.}
+{Except rather than dismiss it, I feel the need to dig in and find out what the hold-up is.  Every time, I feel like the biggest factor is humanity's myopia about architecture.  People are so eager to see a profit after a small demonstration that they allow a shaky infrastructure to permeate... if it works "well enough".  They almost never prioritize *refinement of that which exists* on par with *going to the next step*.}
 
 {Here's a joke about that, and it might be funnier to me if it weren't such a frighteningly accurate reflection of our situation:}
 
@@ -135,9 +136,9 @@ more
 
 {By backtracking a bit and reorganizing what we're doing, we might have a chance at achieving a future that looks more like a Utopian version of our current lives.  Rebol is very much a retrospective rebuild, so its applications look very retro just as the "good" engine example may look like a blast from the past.The interfaces are generally rectangular, brightly colored, and look like something you'd expect to find on a late 80s cash register:}
 
-[center {<a href="http://www.rebol.com/reblets.html"><img src="http://hostilefork.com/wp-content/uploads/2008/09/taskmaster320-300x238.jpg" alt="TaskMaster, a Sample Rebol Task Management Application" width="300" height="238" /></a>}]
+[image http://hostilefork.com/media/blog/is-rebol-actually-a-revolution/rebol-view-taskmaster.jpg 320x254 {A Rebol/View Task Management Application}]
 
-{This turns a lot of people off, thinking it's some odd reinvention of Tcl/Tk.  Yet even if the experience of using the application isn't new or novel in the slightest, what's under the hood <i>is</i> a novelty.}
+{This turns a lot of people off, thinking it's some odd reinvention of Tcl/Tk.  Yet even if the experience of using the application isn't new or novel in the slightest, what's under the hood *is* a novelty.}
 
 {It's like if someone had decided to install giant pollution-sucking vacuums in our cities--and figured out how to make all materials free by recycling garbage into fuel.  We'd be able to go forth and build engines for cars, once again within the natural constraints of what an engine and a car needs to worry about.  Rebol is being developed in this spirit.}
 

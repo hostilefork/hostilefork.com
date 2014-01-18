@@ -11,23 +11,25 @@ Draem [
 
 {It hadn't really crossed my mind until I looked up hard drive replacement for iMacs on the Internet that this process involves being a bit of a daredevil.  I thought that it was only Apple's modern practices of making computers you couldn't upgrade...but to upgrade or replace even a 2007 iMac drive you have to pull the glass off the front and use Torx screwdrivers and all that.}
 
-{<i>(I was also surprised to find that it used 3.5" form factor SATA drives...whlie most SSDs worth buying are in the 2.5 form factor.  So you have to use an expansion bracket, etc.)</i>}
+{*(I was also surprised to find that it used 3.5" form factor SATA drives...whlie most SSDs worth buying are in the 2.5 form factor.  So you have to use an expansion bracket, etc.)*}
 
 http://octomac.com/tech/iMacHD/iMacHDUpgrade.html
 
-{But luckily I am a daredevil.  And thanks to YouTube, I could watch videos of the procedure ahead of time so I felt pretty comfortable about it.  I wanted to put Mountain Lion on it, but to get that to install from the store required running Snow Leopard or later.  So I made a Lion install disk from another computer using the <a href="http://www.macworld.com/article/1161069/make_a_bootable_lion_installer.html">InstallESD.dmg method</a>.  Then I'd buy the OS upgrade online after the fresh install.}
+{But luckily I am a daredevil.  And thanks to YouTube, I could watch videos of the procedure ahead of time so I felt pretty comfortable about it.  I wanted to put Mountain Lion on it, but to get that to install from the store required running Snow Leopard or later.  So I made a Lion install disk from another computer using the [InstallESD.dmg method](http://www.macworld.com/article/1161069/make_a_bootable_lion_installer.html).  Then I'd buy the OS upgrade online after the fresh install.}
 
-"Everything <i>seemed</i> to go great:"
+"Everything *seemed* to go great:"
 
 [list [
-	{<a href="http://www.amazon.com/gp/product/B002BH3Z8E/">the expansion bracket I picked</a> fit great, no problems.}
 
-	{<a href="http://www.amazon.com/gp/product/B003XS9DY0/">the heavyweight suction cup I got</a> was heavier duty than required to extract the screen glass from the front.  But seems a handy thing to have for pulling out car dents anyway, so I was glad to have a nice one.}
+        {[the expansion bracket I picked](http://www.amazon.com/gp/product/B002BH3Z8E/) fit great, no problems.}
 
-	{I didn't have any compressed air left, but rather than buying some I found a <a href="http://www.amazon.com/gp/product/B00017LSPI/">cute reusable air-puffing gadget</a>  Nice for making good dry puffs of air, and will never run out!}
-]]
+        {[the heavyweight suction cup I got](http://www.amazon.com/gp/product/B003XS9DY0/) was heavier duty than required to extract the screen glass from the front.  But seems a handy thing to have for pulling out car dents anyway, so I was glad to have a nice one.}
 
-{Stuck it mostly back together.  But before actually putting the chassis back on and doing the glass and everything, I thought I would sit the machine upright and give it a test run.  Happily, it made the boot-up noise and went along loading the lion installer from disc.  The screen was fine; I had configured the machine to <a href="http://www.tech-recipes.com/rx/723/mac-os-x-monitor-messages-during-boot/">Monitor Messages During Boot</a> in the firmware.}
+        {I didn't have any compressed air left, but rather than buying some I found a [cute reusable air-puffing gadget](http://www.amazon.com/gp/product/B00017LSPI/)  Nice for making good dry puffs of air, and will never run out!}
+
+    ]]
+
+{Stuck it mostly back together.  But before actually putting the chassis back on and doing the glass and everything, I thought I would sit the machine upright and give it a test run.  Happily, it made the boot-up noise and went along loading the lion installer from disc.  The screen was fine; I had configured the machine to [Monitor Messages During Boot](http://www.tech-recipes.com/rx/723/mac-os-x-monitor-messages-during-boot/) in the firmware.}
 
 {Happy that it was crunching along loading the installer and it was okay, I wandered away for a second to grab a celebratory drink.  But then I heard it make the booting sound again from the other room.  Wait...what was that noise for?}
 

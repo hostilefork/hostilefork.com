@@ -7,7 +7,7 @@ Draem [
     old-url-prefix: %2009/11/22/
 ]
 
-{Ubuntu has a nice install screen that lets you press F4 for <i>Modes</i> or F6 for <i>Other Options</i>.  If you have an older laptop, you may find that you can't boot unless you turn on "Safe Graphics" or check "acpi=off".}
+{Ubuntu has a nice install screen that lets you press F4 for *Modes* or F6 for *Other Options*.  If you have an older laptop, you may find that you can't boot unless you turn on "Safe Graphics" or check "acpi=off".}
 
 [note {In my case, the failure I was experiencing on boot was accompanied by horrible graphic corruption on the LCD.  This made me think I'd need safe graphics mode, but that had no effect.  It turned out the acpi=off was the setting I needed to get through the boot.  YMMV.}]
 
@@ -25,7 +25,7 @@ more
 
 [note {As of now, there are two versions of GRUB and apparently they are very different.  If you aren't using GRUB 2 then all the following may be different.}]
 
-{To ensure you always get a GRUB menu, once you get into Ubuntu edit <span class="filepath">/etc/default/grub</span>.  You should see some lines in there like:}
+{To ensure you always get a GRUB menu, once you get into Ubuntu edit **/etc/default/grub**.  You should see some lines in there like:}
 
 [code {
 GRUB_DEFAULT=0
@@ -34,7 +34,7 @@ GRUB_HIDDEN_TIMEOUT_QUIET=true
 GRUB_TIMEOUT="10"
 }]
 
-{Comment out the line that says <em>GRUB_HIDDEN_TIMEOUT</em>.}
+{Comment out the line that says **GRUB_HIDDEN_TIMEOUT**.}
 
 [code {
 GRUB_DEFAULT=0
@@ -43,11 +43,11 @@ GRUB_HIDDEN_TIMEOUT_QUIET=true
 GRUB_TIMEOUT="10"
 }]
 
-{Now run the command update-grub with administrator privileges (e.g. <em>sudo update-grub</em>).  This should give you a chance to see the menu.  You can change the timing if you think 10 seconds is too much.}
+{Now run the command update-grub with administrator privileges (e.g. **sudo update-grub**).  This should give you a chance to see the menu.  You can change the timing if you think 10 seconds is too much.}
 
 [heading "Temporarily Booting With Options"]
 
-{One way or another you should now be able to get to a GRUB menu.  You can pick an image to boot, or click "e" to edit.  Here's what I got on this Laptop when I chose to edit the settings for <i>Ubuntu, Linux 2.6.31-14-generic</i>.}
+{One way or another you should now be able to get to a GRUB menu.  You can pick an image to boot, or click "e" to edit.  Here's what I got on this Laptop when I chose to edit the settings for *Ubuntu, Linux 2.6.31-14-generic*.}
 
 [code {
 recordfail=1
@@ -67,9 +67,9 @@ linux /boot/vmlinuz-2.6.31-14-generic root=UUID=9e483753-19de-4dc7-8\7fe-9119eb6
 initrd /boot/initrd.img-2.6.31-14-generic
 }]
 
-{So the trick here is that if you want <code>acpi=off</code>, you put it where I say <code>YOUR OPTIONS HERE</code>.  Once you're done making the change, you can type Ctrl-X to boot.}
+{So the trick here is that if you want `acpi=off`, you put it where I say `YOUR OPTIONS HERE`.  Once you're done making the change, you can type Ctrl-X to boot.}
 
-{Safe Graphics mode seems to correspond to <code>vga=771</code>.  You can read more about all the different options at your disposal in a <a href="https://help.ubuntu.com/community/BootOptions"> guide from the Ubuntu Help Community</a>.}
+{Safe Graphics mode seems to correspond to `vga=771`.  You can read more about all the different options at your disposal in a [ guide from the Ubuntu Help Community](https://help.ubuntu.com/community/BootOptions).}
 
 [heading "Permanently Booting with Options"]
 
@@ -77,9 +77,9 @@ initrd /boot/initrd.img-2.6.31-14-generic
 
 "Nope!!!  That's not the way it works!"
 
-{If it <i>were</i> the way it worked, you would just go edit the file <span class="filepath">/boot/grub/grub.cfg</span>.  Yet convention has established this as a generated file, and each time you run <em>update-grub</em> it will be overwritten.  So you don't want to edit it directly!}
+{If it *were* the way it worked, you would just go edit the file **/boot/grub/grub.cfg**.  Yet convention has established this as a generated file, and each time you run **update-grub** it will be overwritten.  So you don't want to edit it directly!}
 
-{What you need to do is venture into the directory <span style="filepath">/etc/grub.d</span>.  That's where the scripts which generate <span style="filepath">grub.cfg</span> live, and you should see files like:}
+{What you need to do is venture into the directory **/etc/grub.d**.  That's where the scripts which generate **grub.cfg** live, and you should see files like:}
 
 [list [
 
@@ -97,7 +97,7 @@ initrd /boot/initrd.img-2.6.31-14-generic
 
     ]]
 
-{These are shell scripts, and the two digit numbers in the filename indicate the order in which the scripts are run.  The least invasive way to add your own custom menu option is to edit the file <span class="filepath">40_custom</span> by putting the literal text of the menu option in:}
+{These are shell scripts, and the two digit numbers in the filename indicate the order in which the scripts are run.  The least invasive way to add your own custom menu option is to edit the file **40_custom** by putting the literal text of the menu option in:}
 
 [code {#!/bin/sh
 exec tail -n +3 $0
@@ -112,13 +112,13 @@ menuentry "Your Menu Entry Name Here" {
 }
 }]
 
-{The text inside the menuentry is the same as what you saw when you clicked "e" to edit the GRUB boot instructions.  But don't copy it by hand or use the information I provided for <em>[THE REST OF THE STUFF]</em>.  Grab your own settings out of the relevant menu item in <span class="filepath">/boot/grub/grub.cfg</span>.  When you are done, run <em>update-grub</em> with root privileges.}
+{The text inside the menuentry is the same as what you saw when you clicked "e" to edit the GRUB boot instructions.  But don't copy it by hand or use the information I provided for **[THE REST OF THE STUFF]**.  Grab your own settings out of the relevant menu item in **/boot/grub/grub.cfg**.  When you are done, run **update-grub** with root privileges.}
 
-{If you want to be an Edgier Eft and edit the script which generates the default boot menu options, you can edit <span class="filepath">10_linux</span> and find the line:}
+{If you want to be an Edgier Eft and edit the script which generates the default boot menu options, you can edit **10_linux** and find the line:}
 
 [code {linux ${rel_dirname}/${basename} root=${linux_root_device_thisversion} ro $2 >>YOUR OPTIONS HERE<<}]
 
-{That will inject the options into the default boot entries, rather than creating a new custom menu item.  Once again you'll have to run <em>update-grub</em>.}
+{That will inject the options into the default boot entries, rather than creating a new custom menu item.  Once again you'll have to run **update-grub**.}
 
 [heading "That's it!"]
 

@@ -6,9 +6,9 @@ Draem [
     date: 9-Jan-2010/1:55
 ]
 
-[center {<img src="http://hostilefork.com/media/rebmu/rebmu-logo-400x160.png" alt="The Rebmu logo" width="400" height="160" class="alignnone size-full wp-image-103" />}]
+[image http://hostilefork.com/media/rebmu/rebmu-logo-400x160.png 400x160 "The Rebmu logo"]
 
-{<a href="http://stackoverflow.com/questions/tagged/code-golf">Code Golf</a> is the recreational pursuit of solving programming problems in as few characters of ASCII source code as possible.  <b>Rebmu</b> is a language tailored to winning such challenges (hopefully!)--with several twists.  One is that it specifically emphasizes the ability for humans to <i>read</i>, <i>absorb</i> and <i>maintain</i> the source code without assistive tools, despite their compression.}
+{[Code Golf](http://stackoverflow.com/questions/tagged/code-golf) is the recreational pursuit of solving programming problems in as few characters of ASCII source code as possible.  **Rebmu** is a language tailored to winning such challenges (hopefully!)--with several twists.  One is that it specifically emphasizes the ability for humans to *read*, *absorb* and *maintain* the source code without assistive tools, despite their compression.}
 
 {Here is the "long way" to express a Rebmu program which reads a string of Roman Numerals from the input console, and then converts it into a decimal equivalent:}
 
@@ -24,7 +24,7 @@ fe c s [
 k + j
 }]
 
-{When the shorthands above are mapped into the commands they represent, this reads very naturally.  <code>r s</code> means "read in the string s".  <code>fe c s</code> says "foreach character c in the string s, do the following code block".  <code>uz j</code> means "unless j is zero, do the following codeblock".  It's straightforward, but there's more here than meets the eye in terms of the type system etc.  I'll get to that in a moment, but...}
+{When the shorthands above are mapped into the commands they represent, this reads very naturally.  `r s` means "read in the string s".  `fe c s` says "foreach character c in the string s, do the following code block".  `uz j` means "unless j is zero, do the following codeblock".  It's straightforward, but there's more here than meets the eye in terms of the type system etc.  I'll get to that in a moment, but...}
 
 {...to put the language on the map for Code Golf, I threw in a gimmick.  Since Rebmu isn't case-sensitive in terms of its identifier lookup, it lets you use the alternation of upper and lower case characters to separate words.  The process is called "mushing"--and though purely optional it can empirically save about 40% on the character count:}
 
@@ -32,9 +32,9 @@ k + j
 rSfeCs[Nse[x10i1v5l50c100d500m1000]twCizJ[JnCN]a+ELjN[alSBnJ N0]'jJn]k+j
 }]
 
-{Separations are in character runs (<code>ABCdefGHIjkl</code>) instead of using an uppercase character to indicate each break (<code>AbcDefGhiJkl</code>).  This is so that the special choice of when to capitalize the letters of the first word in a group can indicate whether it represents an assignment or not.  So <code>ABCdef</code> gives you <code>abc: def</code> (an assignment of def to abc) while <code>abcDEF</code> gives you <code>abc def</code> (two separate words, abc and def).}
+{Separations are in character runs (`ABCdefGHIjkl`) instead of using an uppercase character to indicate each break (`AbcDefGhiJkl`).  This is so that the special choice of when to capitalize the letters of the first word in a group can indicate whether it represents an assignment or not.  So `ABCdef` gives you `abc: def` (an assignment of def to abc) while `abcDEF` gives you `abc def` (two separate words, abc and def).}
 
-{Trying to read it for the first time is a little bit like stumbling over Pig Latin before you know the trick.  But once your brain "gets it", the transformation is pretty transparent.  Well, at least compared to other character count reduction methods...like converting to base-64!  (That may sound outrageous, but people actually submit "winning" entries that are all hexadecimal-encoded machine code... <a href="http://stackoverflow.com/questions/1376077/code-golf-the-wave">I'm not kidding</a>.)}
+{Trying to read it for the first time is a little bit like stumbling over Pig Latin before you know the trick.  But once your brain "gets it", the transformation is pretty transparent.  Well, at least compared to other character count reduction methods...like converting to base-64!  (That may sound outrageous, but people actually submit "winning" entries that are all hexadecimal-encoded machine code... [I'm not kidding](http://stackoverflow.com/questions/1376077/code-golf-the-wave).)}
 
 [heading "It's Real!"]
 
@@ -42,13 +42,13 @@ rSfeCs[Nse[x10i1v5l50c100d500m1000]twCizJ[JnCN]a+ELjN[alSBnJ N0]'jJn]k+j
 
 http://github.com/hostilefork/rebmu/
 
-{...and you'll require the Apache 2 open-sourced Rebol interpreter <i>(which itself is less than half a megabyte uncompressed and runs on many platforms... including Windows, Linux, OS/X, Haiku, ARM...)</i>:}
+{...and you'll require the Apache 2 open-sourced Rebol interpreter *(which itself is less than half a megabyte uncompressed and runs on many platforms... including Windows, Linux, OS/X, Haiku, ARM...)*:}
 
 http://rebolsource.net
 
-{To get it up and running, the easiest thing is to probably come talk with us in the <a href="http://rebolsource.net/go/chat-faq">[Rebol and Red] chat room</a>.  But the basic step is to either enlist with <a href="http://help.github.com/">git</a> or just download <a href="http://github.com/hostilefork/rebmu/zipball/master">the latest ZIP file of the project</a>.  Navigate to the directory and run Rebol.  Then try the following:}
+{To get it up and running, the easiest thing is to probably come talk with us in the [[Rebol and Red] chat room](http://rebolsource.net/go/chat-faq).  But the basic step is to either enlist with [git](http://help.github.com/) or just download [the latest ZIP file of the project](http://github.com/hostilefork/rebmu/zipball/master).  Navigate to the directory and run Rebol.  Then try the following:}
 
-[code txt {
+[code rebol {
 >> do %rebmu.r
 Script: "Rebmu Dialect" (10-Jan-2010)
 Script: "The Mu Rebol Library" (none)
@@ -66,29 +66,33 @@ Input String: MCCCXXXVII
 {I've been solving old StackOverflow code golf challenges in Rebmu, to test and refine the design:}
 
 [list [
-	[http://stackoverflow.com/questions/2527477/code-golf-connecting-the-dots/3066878#3066878 {Connecting the Dots}]
 
-	[http://stackoverflow.com/questions/3034331/code-golf-rotating-maze/3060396#3060396 {Rotating Maze}]
+        [http://stackoverflow.com/questions/2527477/code-golf-connecting-the-dots/3066878#3066878 "Connecting the Dots"]
 
-	[http://stackoverflow.com/questions/2261681/code-golf-scrabble-able/3088746#3088746 {Scrabbleable}]
-]]
+        [http://stackoverflow.com/questions/3034331/code-golf-rotating-maze/3060396#3060396 "Rotating Maze"]
+
+        [http://stackoverflow.com/questions/2261681/code-golf-scrabble-able/3088746#3088746 "Scrabbleable"]
+
+    ]]
 
 [heading "The Punch Line"]
 
-{What makes Rebmu somewhat mind-blowing is that it is actually not an independent language in its own right, but rather what is known as a <a href="http://en.wikibooks.org/wiki/REBOL_Programming/Language_Features/Dialects">"dialect" of something called Rebol</a>.  I didn't have complete freedom to define the syntax, so Rebmu is trickily dodging the cases which would generate invalid tokens (<code>A1 B</code> is legal Rebol, but <code>A 1B</code> will give you an "invalid integer" during the parse).}
+{What makes Rebmu somewhat mind-blowing is that it is actually not an independent language in its own right, but rather what is known as a ["dialect" of something called Rebol](http://en.wikibooks.org/wiki/REBOL_Programming/Language_Features/Dialects).  I didn't have complete freedom to define the syntax, so Rebmu is trickily dodging the cases which would generate invalid tokens (`A1 B` is legal Rebol, but `A 1B` will give you an "invalid integer" during the parse).}
 
 {Because of this sleight of hand, you can slip in and out of using the abbreviated form.  That makes a wide range of functions and alternate coding styles available, as with the date arithmetic injected into this example:}
- 
-[http://stackoverflow.com/questions/1683857/code-golf-hourglass/3110684#3110684 {Hourglass}]
 
-{So unlike other golfing-specific languages like <a href="http://www.golfscript.com/golfscript/">GolfScript</a>, Rebmu can speak internet protocols, handle Unicode, and draw GUIs.  And the interpreter is shockingly small--delegating most all parsing issues to Rebol (which is shockingly small itself).  Yet it preserves as much of the original language's character as possible, so that knowledge transfers easily.}
+[http://stackoverflow.com/questions/1683857/code-golf-hourglass/3110684#3110684 "Hourglass"]
 
-{The design is stabilizing, but still in flux as I look at what balances readability with what's commonly useful to abbreviate in the problems I'm looking at.  That does introduce the risk that I might subconsciously tailor the system to narrowly solve <i>only</i> those problems succinctly.  Yet just like in real golf, a proper game of code golf is not played in one hole and then a winner declared.  The true test of Rebmu's chutzpah will be when it is used to play several games <i>with no modifications to the language during that tournament</i>.}
+{So unlike other golfing-specific languages like [GolfScript](http://www.golfscript.com/golfscript/), Rebmu can speak internet protocols, handle Unicode, and draw GUIs.  And the interpreter is shockingly small--delegating most all parsing issues to Rebol (which is shockingly small itself).  Yet it preserves as much of the original language's character as possible, so that knowledge transfers easily.}
+
+{The design is stabilizing, but still in flux as I look at what balances readability with what's commonly useful to abbreviate in the problems I'm looking at.  That does introduce the risk that I might subconsciously tailor the system to narrowly solve *only* those problems succinctly.  Yet just like in real golf, a proper game of code golf is not played in one hole and then a winner declared.  The true test of Rebmu's chutzpah will be when it is used to play several games *with no modifications to the language during that tournament*.}
 
 [heading "History"]
 
-{I scribbled down some notes the night I thought of it, on 8-Jan-2010 in a blog post <a href="http://hostilefork.com/2010/01/08/modest-proposal-for-code-golf-in-rebol/">modest-proposal-for-code-golf-in-rebol</a>.  At that point it was only an idea with no implementation, but two days later I made the first version (capable of running the "mushed" Roman numeral example).  Since then it has evolved into an implementation which others could reasonably start using.}
+{I scribbled down some notes the night I thought of it, on 8-Jan-2010 in a blog post [modest-proposal-for-code-golf-in-rebol](http://hostilefork.com/2010/01/08/modest-proposal-for-code-golf-in-rebol/).  At that point it was only an idea with no implementation, but two days later I made the first version (capable of running the "mushed" Roman numeral example).  Since then it has evolved into an implementation which others could reasonably start using.}
 
-{<b>YOU CAN HELP!</b> If Code Golf is an interesting game to you, or Rebol an interesting language (or both) then I invite your collaboration!}
+[heading "You can help!"]
 
-[note {If you believe Code Golf is of dubious benefit, I know where you're coming from.  But I think the key is that practicing problem solving of any kind under constraints leads one to stretch into new ways of thinking.  Some other opinions on this matter are in <a href="http://stackoverflow.com/questions/1652800/does-codegolf-make-a-better-programmer-or-is-it-even-useful">this StackOverflow question</a>}]
+{If Code Golf is an interesting game to you, or Rebol an interesting language (or both) then I invite your collaboration!}
+
+[note {If you believe Code Golf is of dubious benefit, I know where you're coming from.  But I think the key is that practicing problem solving of any kind under constraints leads one to stretch into new ways of thinking.  Some other opinions on this matter are in [this StackOverflow question](http://stackoverflow.com/questions/1652800/does-codegolf-make-a-better-programmer-or-is-it-even-useful)}]

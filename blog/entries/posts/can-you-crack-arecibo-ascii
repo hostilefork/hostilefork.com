@@ -7,15 +7,15 @@ Draem [
     old-url-prefix: %2008/10/20/
 ]
 
-[update {A fuller development of the Arecibo Ascii code is now available at <a href="http://hostilefork.com/uscii/">http://hostilefork.com/uscii/</a>}]
+[update {A fuller development of the Arecibo Ascii code is now available at [http://hostilefork.com/uscii/](http://hostilefork.com/uscii/)}]
 
 {Every programmer who knows English is aware of the ASCII code, which declares that 65 means "A" and 66 means "B", etc.  Yet there is nothing intrinsically "A-like" about the number 65 (binary: 1000001), nor anything B-like about the number 66 (binary: 1000010).  To see that, just imagine living in the 1800s and this fell from the sky on a piece of paper:}
 
 [text "1000001100001010000101000001"]
 
-{Even if you knew it was supposed to represent text, I think it would be impossible to read that as "ABBA" with any degree of confidence.  You might be able to get a clue that 7-bit sections were significant <i>if</i> you had a large body of data and realized they were always multiples of seven in length, but any single signal like this would not be enough.  You'd be in an especially bad position if you didn't know anything about alphabetical order (which isn't a strict prerequisite of being able to read or write English successfully)!}
+{Even if you knew it was supposed to represent text, I think it would be impossible to read that as "ABBA" with any degree of confidence.  You might be able to get a clue that 7-bit sections were significant *if* you had a large body of data and realized they were always multiples of seven in length, but any single signal like this would not be enough.  You'd be in an especially bad position if you didn't know anything about alphabetical order (which isn't a strict prerequisite of being able to read or write English successfully)!}
 
-{To address this, I created something called "Arecibo ASCII".  It's named after the infamous <a href="http://en.wikipedia.org/wiki/Arecibo_message">Arecibo message</a>--a binary sequence transmitted into space that tried to explain some things about humanity.  The goal was to make as few assumptions about the receiving aliens as possible...only that they had an understanding of physics and math (and obviously, the ability to detect electromagnetic waves).}
+{To address this, I created something called "Arecibo ASCII".  It's named after the infamous [Arecibo message](http://en.wikipedia.org/wiki/Arecibo_message)--a binary sequence transmitted into space that tried to explain some things about humanity.  The goal was to make as few assumptions about the receiving aliens as possible...only that they had an understanding of physics and math (and obviously, the ability to detect electromagnetic waves).}
 
 {When Carl Sagan and Frank Drake composed the message, they took it to Richard Feynman without explaining to him what it was.  They figured if Feynman couldn't decode it--given his upper hand of already knowing Earth science--then the aliens wouldn't have a chance!  Luckily, Feynman got pretty much all of it.}
 
@@ -31,9 +31,9 @@ more
 
 {The Arecibo message was transmitted as a straight sequence of binary digits.  When you laid it out in a two-dimensional grid, you got a picture (the color is for instructional purposes only, it was effectively a 2-color bitmap):}
 
-[center {<img src="http://hostilefork.com/wp-content/uploads/2008/10/200px-arecibo_message.png" alt="Arecibo Message" width="200" height="599" class="aligncenter size-full wp-image-95" />}]
+[image http://hostilefork.com/wp-content/uploads/2008/10/200px-arecibo_message.png 200x599 "Arecibo Message"]
 
-{The signal was chosen to be 1679 bits long, and this number was chosen for a reason.  It is a <a href="http://en.wikipedia.org/wiki/Semiprime">semiprime</a>...meaning it is a product of two primes (23 and 73).  Thus, if you got the idea in your head to decode the bits as an image, there are only two natural ways of forming a rectangle.  One as a series of 73 rows with 23 bits per row, or as a series of 23 rows with 73 bits per row.}
+{The signal was chosen to be 1679 bits long, and this number was chosen for a reason.  It is a [semiprime](http://en.wikipedia.org/wiki/Semiprime)...meaning it is a product of two primes (23 and 73).  Thus, if you got the idea in your head to decode the bits as an image, there are only two natural ways of forming a rectangle.  One as a series of 73 rows with 23 bits per row, or as a series of 23 rows with 73 bits per row.}
 
 {I decided that Arecibo ASCII would use semiprimes as well.  There's a magic number "35" hinted at in the bit pattern of my sample message, because every 36th bit is a zero.  Also, it is prefixed and postfixed by unary expressions of the number 35.  (There's no upper limit on how many you can tack on--arguably the more certain you want to hint at the "magic" of 35 in the message, the more you would want to add.  But to meet the specification, a string merely needs one at the head and one at the end.)}
 
@@ -204,7 +204,7 @@ more
 
 {Bear in mind though it may seem like "just a 5x7 font", the important bit is that everyone writing documents use the *same* values.  The Arecibo ASCII "A" equates to the decimal value 15,621,226,033 and looks like this:}
 
-[code cplusplus {01110
+[code cpp {01110
 10001
 10001
 10001
@@ -214,7 +214,7 @@ more
 
 {I've argued that this number is much more "A-like" than 65.  Yet I'll point out that it isn't more A-like than similar patterns, like the one produced by 15,621,670,449:}
 
-[code cplusplus {01110
+[code cpp {01110
 10001
 10001
 11111
@@ -222,17 +222,17 @@ more
 10001
 10001}]
 
-{It's barely significant whether the cross bar of the A is on the 4th row or on the 5th row.  Yet what makes this <i>not</i> a font is the agreement on a standard--just as with ordinary ASCII everyone needs to agree to use the same numbers!  Then you can use those numbers to index into a properly stroked font.  These bitmaps are a hidden cache of meaning and not meant to be drawn in ordinary circumstances!}
+{It's barely significant whether the cross bar of the A is on the 4th row or on the 5th row.  Yet what makes this *not* a font is the agreement on a standard--just as with ordinary ASCII everyone needs to agree to use the same numbers!  Then you can use those numbers to index into a properly stroked font.  These bitmaps are a hidden cache of meaning and not meant to be drawn in ordinary circumstances!}
 
-[note {I've also got a plan for "Arecibo UNICODE", that would use a larger pair of primes to represent more detail in the glyphs, such as adequately capturing Chinese characters.  Once again the intent would not be to draw these bitmaps to the user--they'd be too pixelated.  Yet it's interesting to note that you *could* fall back upon the bitmap on a machine that was missing that font.  That way, you'd get something better than the notorious "&lt;?&gt;" that pops up when your system doesn't understand a character today...}]
+[note {I've also got a plan for "Arecibo UNICODE", that would use a larger pair of primes to represent more detail in the glyphs, such as adequately capturing Chinese characters.  Once again the intent would not be to draw these bitmaps to the user--they'd be too pixelated.  Yet it's interesting to note that you *could* fall back upon the bitmap on a machine that was missing that font.  That way, you'd get something better than the notorious "<?>" that pops up when your system doesn't understand a character today...}]
 
 [heading "What's it good for?"]
 
-{Whether you imagine such a thing could ever be <i>useful</i>...hopefully you at least think it's <i>interesting</i>.  Especially if mathematicians who know English letters can consistently figure out short messages from a bare bitstream.  A better test would be to avoid using the word "Arecibo" (so as to not give any hint that semiprimes and bitmaps play a part).}
+{Whether you imagine such a thing could ever be *useful*...hopefully you at least think it's *interesting*.  Especially if mathematicians who know English letters can consistently figure out short messages from a bare bitstream.  A better test would be to avoid using the word "Arecibo" (so as to not give any hint that semiprimes and bitmaps play a part).}
 
-{What first got me thinking about USCII was the rise of "literal URLs".  Search engines prefer the URL to contain a description of what the link is about, such as how this article is called <em>http://hostilefork.com/2008/10/20/can-you-crack-arecibo-ascii</em>.  Yet my time as a database programmer had led me to think it was almost always better to use abstract numbers in URLs.  So I was confused on whether to embrace this new trend or not.}
+{What first got me thinking about USCII was the rise of "literal URLs".  Search engines prefer the URL to contain a description of what the link is about, such as how this article is called **http://hostilefork.com/2008/10/20/can-you-crack-arecibo-ascii**.  Yet my time as a database programmer had led me to think it was almost always better to use abstract numbers in URLs.  So I was confused on whether to embrace this new trend or not.}
 
-{I started to see how using a purely abstract number is a double-edged sword.  On the one hand, you've lost the fluidity to make changes--if the URL for this article had been <em>http://hostilefork.com/2008/10/20/96/</em> then I can fix typos without breaking links (what if I'd spelled "arecibo" wrong and wanted to fix it?)  On the other hand, imagine that someone hacks my server and puts up some kind of spam that has nothing to do with ASCII at all.  In a system which isn't under centralized control, making linkages more "literal" helps protect us from from thinking the person who made the inbound link was purposefully trying to spam us.}
+{I started to see how using a purely abstract number is a double-edged sword.  On the one hand, you've lost the fluidity to make changes--if the URL for this article had been **http://hostilefork.com/2008/10/20/96/** then I can fix typos without breaking links (what if I'd spelled "arecibo" wrong and wanted to fix it?)  On the other hand, imagine that someone hacks my server and puts up some kind of spam that has nothing to do with ASCII at all.  In a system which isn't under centralized control, making linkages more "literal" helps protect us from from thinking the person who made the inbound link was purposefully trying to spam us.}
 
 {This led me to ponder how "pure" the character codes themselves are.  Right now we do rely heavily on tables to interpret numbers.  If you get [89 69 83] then what do you do if one table says:}
 
@@ -246,4 +246,4 @@ more
 
 [heading "Acknowledgements"]
 
-{I took the 5x7 font data from the <a href="http://www.noritake-itron.com/Softview/fontspic.htm">Font Code for PIC CPU Assemblers</a>.  (Still, I'll reiterate that it's best to not think of Arecibo ASCII as a "font".  Rather, it is a canonization of a font such that its <i>numeric representation</i> becomes a <i>standard for information interchange</i>.)}
+{I took the 5x7 font data from the [Font Code for PIC CPU Assemblers](http://www.noritake-itron.com/Softview/fontspic.htm).  (Still, I'll reiterate that it's best to not think of Arecibo ASCII as a "font".  Rather, it is a canonization of a font such that its *numeric representation* becomes a *standard for information interchange*.)}

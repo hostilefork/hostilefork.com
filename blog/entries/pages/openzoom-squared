@@ -6,14 +6,14 @@ Draem [
     date: 10-Sep-2010/21:16
 ]
 
-{<b>OpenZoom Squared</b> is a fledgling experiment to enable the construction of large grid-based images from an existing body of files (possibly scraped from a remote website).  It then allows people to use deep zooming technology to peruse the grid and click on certain items to open new pages.}
+{**OpenZoom Squared** is a fledgling experiment to enable the construction of large grid-based images from an existing body of files (possibly scraped from a remote website).  It then allows people to use deep zooming technology to peruse the grid and click on certain items to open new pages.}
 
 {The source code has been published for an initial community review and just to get the ball rolling to see who might be interested:}
 
 http://github.com/hostilefork/openzoom-squared/
 
-{A first test I made was for the <a href="http://imaginationsquared.com">ImaginationSquared</a> art project, and an article/video was posted here on September 12, 2010:}
+{A first test I made was for the [ImaginationSquared](http://imaginationsquared.com) art project, and an article/video was posted here on September 12, 2010:}
 
 http://hostilefork.com/2010/09/12/imagination-squared-plus-openzoom/
 
-{Watch this space for more information as the project develops.  It was a learning exercise for me but I'd like to see it get some practical use.  In fact, it may ultimately become an alternate interface to thumbnail-based systems like <a href="http://hostilefork.com/albumist/">Albumist</a>...}
+{Watch this space for more information as the project develops.  It was a learning exercise for me but I'd like to see it get some practical use.  In fact, it may ultimately become an alternate interface to thumbnail-based systems like [Albumist](http://hostilefork.com/albumist/)...}

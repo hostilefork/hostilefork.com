@@ -6,27 +6,27 @@ Draem [
     date: 18-Aug-2008/15:21
 ]
 
-{Albumist is a discography program which gets its contents dynamically using APIs provided by <a href="http://freebase.com">Freebase</a>.   Users are one click away from adding cover art, editing the lyrics, or making corrections to information about the album and its tracks.}
+{Albumist is a discography program which gets its contents dynamically using APIs provided by [Freebase](http://freebase.com).   Users are one click away from adding cover art, editing the lyrics, or making corrections to information about the album and its tracks.}
 
-{The prolific band <i>The Legendary Pink Dots</i> is currently using it on their music page, which is a good place to go see a demo and listen to some tunes while you use it:}
+{The prolific band *The Legendary Pink Dots* is currently using it on their music page, which is a good place to go see a demo and listen to some tunes while you use it:}
 
 http://legendarypinkdots.org/music
 
-[center {<a href="http://legendarypinkdots.org/music"><img src="http://hostilefork.com/wp-content/uploads/2009/03/albumist-300x189.png" alt="Sample Discography" width="300" height="189" class="alignnone size-medium wp-image-108" /></a>}]
+[image http://hostilefork.com/wp-content/uploads/2009/03/albumist-300x189.png 300x189 "Sample Discography"]
 
 {With Albumist, bands and their fans can keep control of the management of their discographies without writing any database code...and leverage the power of Freebase's powerful editor for managing corrections and updates.  They can control the advertising, and choose their own links for selling albums directly.}
 
-{Hopefully more bands will be interested in helping develop this, so I've released Albumist under the <a href="http://creativecommons.org/licenses/by/3.0/">Creative Commons Attribution License 3.0</a> -- which is the same license Freebase uses for its data.  You can download it from GitHub:}
+{Hopefully more bands will be interested in helping develop this, so I've released Albumist under the [Creative Commons Attribution License 3.0](http://creativecommons.org/licenses/by/3.0/) -- which is the same license Freebase uses for its data.  You can download it from GitHub:}
 
 http://github.com/hostilefork/albumist/tree/master
 
 {To comply with the license terms, please make sure there's a reasonably visible link to this page (http://hostilefork.com/albumist) and Freebase (http://freebase.com).  That way, people who are interested can learn more and help improve the projects.  The script puts the links in for you by default--but if what I did breaks the visual continuity of your site then please adapt it to a prettier way.}
 
-[note {Creative Commons is not generally seen as a legally-enforceable license for software.  But since Albumist is something to be used by bands, I think the intent is best conveyed using a CC license due to their <a href="http://creativecommons.org/about/what-is-cc">clear explanations</a>.  That's more worth learning than the details of <a href="http://en.wikipedia.org/wiki/BSD_licenses#UC_Berkeley_advertising_clause">4-clause vs. 3-clause BSD</a> or trying to gain publicity for the obscure <a href="http://www.opensource.org/licenses/cpal_1.0">CPAL</a>!}]
+[note {Creative Commons is not generally seen as a legally-enforceable license for software.  But since Albumist is something to be used by bands, I think the intent is best conveyed using a CC license due to their [clear explanations](http://creativecommons.org/about/what-is-cc).  That's more worth learning than the details of [4-clause vs. 3-clause BSD](http://en.wikipedia.org/wiki/BSD_licenses#UC_Berkeley_advertising_clause) or trying to gain publicity for the obscure [CPAL](http://www.opensource.org/licenses/cpal_1.0)!}]
 
 [heading "It's simple to use!"]
 
-{To use Albumist is easy, and it was designed to not have requirements that would make it hard to fit in systems like Joomla! or Wordpress.  Its only dependency is the <a href="http://mootools.net/">MooTools 1.11</a> JavaScript library.  If you have that loaded in your page, then all you need to do is put the code into a directory where your page can find it.  Then, place a <code>div</code> at the part in your file where you'd like the album grid to go.  Finally, make a call to the Albumist Display API:}
+{To use Albumist is easy, and it was designed to not have requirements that would make it hard to fit in systems like Joomla! or Wordpress.  Its only dependency is the [MooTools 1.11](http://mootools.net/) JavaScript library.  If you have that loaded in your page, then all you need to do is put the code into a directory where your page can find it.  Then, place a `div` at the part in your file where you'd like the album grid to go.  Finally, make a call to the Albumist Display API:}
 
 [code html {
 <div id="discography"></div>
@@ -41,7 +41,7 @@ Albumist.displayByBandName(
 
 {That's the most basic usage, which gives you the default layout.  To use the advanced features--like specifying prices, how many rows and columns, or the size of the cover art--is a little more complicated.  Rather than try to explain all the options here, the best way to learn about it is to read the latest up-to-date HTML sample file that is in the Git repository, that makes it all clear:}
 
-[http://github.com/hostilefork/albumist/tree/master%2Falbumist.html?raw=true {albumist.html sample code}]
+[http://github.com/hostilefork/albumist/tree/master/albumist.html?raw=true "albumist.html sample code"]
 
 {It is not intended to be an online store.  Yet your web page can give Albumist prices for any of the music you want to sell directly, using your links.  This means that even though it's driven by a public database, the band has the say on the official channel of sale...with a "buy now" link that takes visitors to the method of purchase that they prefer.}
 
@@ -57,7 +57,7 @@ Albumist.displayByBandName(
 
 {Although it is possible that Freebase may go out of business someday and stop offering their services (or charge for them), the data is free.  Thus someone else could step in and take their place.}
 
-[note {At one time this project also connected to <a href="http://lyricwiki.org">LyricWiki</a>, but they have disabled the lyric-fetching API for copyright reasons.  This is especially lame in light of the existence of artists who are on independent labels and are willing to creative-commons license their lyrics.}]
+[note {At one time this project also connected to [LyricWiki](http://lyricwiki.org), but they have disabled the lyric-fetching API for copyright reasons.  This is especially lame in light of the existence of artists who are on independent labels and are willing to creative-commons license their lyrics.}]
 
 [heading "Implementation Details"]
 
@@ -65,19 +65,19 @@ Albumist.displayByBandName(
 
 [list [
 
-        [http://mootools.net/ {The Mootools Toolkit}]
+        [http://mootools.net/ "The Mootools Toolkit"]
 
-        [http://www.json.org/json.js {Douglas Crockford's JSON Helper}]
+        [http://www.json.org/json.js "Douglas Crockford's JSON Helper"]
 
-        [http://www.freebase.com/view/guid/9202a8c04000641f800000000544e139#fig-albumlist2 {Freebase's Album Query sample code}]
+        [http://www.freebase.com/view/guid/9202a8c04000641f800000000544e139#fig-albumlist2 "Freebase's Album Query sample code"]
 
-        [http://www.e-magine.ro/web-dev-and-design/36/moodalbox/ {MOOdalBox Modal Dialog Box}]
+        [http://www.e-magine.ro/web-dev-and-design/36/moodalbox/ "MOOdalBox Modal Dialog Box"]
 
-        [http://talk-on-tech.blogspot.com/2008/07/access-to-lyricwikiorgs-rest-api-with.html {Talk On Tech's LyricsWiki sample}]
+        [http://talk-on-tech.blogspot.com/2008/07/access-to-lyricwikiorgs-rest-api-with.html "Talk On Tech's LyricsWiki sample"]
 
-        [http://bytes.com/forum/thread498334.html {Steven Chalmers ScrollFreeze}]
+        [http://bytes.com/forum/thread498334.html "Steven Chalmers ScrollFreeze"]
 
-        [http://pr0digy.com/sandbox/mootools/slide-effect/ {prodigy.com's Mootools Slide Effect}]
+        [http://pr0digy.com/sandbox/mootools/slide-effect/ "prodigy.com's Mootools Slide Effect"]
 
         {...and other snippets from around the 'net that I retained links to in the code itself.}
 
@@ -91,13 +91,13 @@ Albumist.displayByBandName(
 
         {Internet Explorer isn't currently working, though it did at one point.  I'm unsure what happened, and the debugging tools are very poor for IE.}
 
-        {I really wanted the UI to do automatic currency conversion using the latest exchange rates, but didn't get around to it.  This <a href="http://www.ecb.int/stats/eurofxref/eurofxref-daily.xml">XML data source</a> looked promising for implementing it...}
+        {I really wanted the UI to do automatic currency conversion using the latest exchange rates, but didn't get around to it.  This [XML data source](http://www.ecb.int/stats/eurofxref/eurofxref-daily.xml) looked promising for implementing it...}
 
         {There has to be more thought given to how to make the design work well with a non-white background.}
 
         {The current CSS is poorly done and could use a complete makeover, with proper semantics and layout for when an album window is opened.}
 
-        {I'd like to have next/previous album buttons down next to the "Close" button, the way it is done in <a href="http://reghellin.com/milkbox/">Milkbox</a>.}
+        {I'd like to have next/previous album buttons down next to the "Close" button, the way it is done in [Milkbox](http://reghellin.com/milkbox/).}
 
         {A strategy for dealing with different versions of mootools is needed.  I'd like to use a compatible subset or have some way of detecting the version so it can still be kept as a single codebase.}
 

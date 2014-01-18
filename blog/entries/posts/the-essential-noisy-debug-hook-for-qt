@@ -1,7 +1,7 @@
 Draem [
     title: "The Essential Noisy Debug Hook for Qt"
     category: 'post
-    tags: [cplusplus qt]
+    tags: [c++ qt]
     slug: %the-essential-noisy-debug-hook-for-qt
     date: 2-Oct-2012/22:52
     old-url-prefix: %2012/10/02/
@@ -9,9 +9,9 @@ Draem [
 
 {If you're using Qt, you might find that it can often be rather quiet about important and common programming errors.  For instance: by default, it considers the inability to connect a signal and a slot--due perhaps to a typographic error--to be a warning worth only quietly pushing into your debug output window.  It's easy to miss, especially if you (or libraries you call) have a lot of monitoring information turned on!}
 
-{I'm the sort who immediately <a href="http://stackoverflow.com/questions/5088460/flags-to-enable-thorough-and-verbose-g-warnings/9862800#9862800">bumps up every warning level in the compiler to turn them into errors</a>.  In a similar vein, I've found it useful to throw the following code into the <b>main.cpp</b> of any Qt GUI app I am writing.  <i>(Thanks to commenter <a href="http://hostilefork.com/2012/10/02/the-essential-noisy-debug-hook-for-qt/#comment-1315">kkoehne</a> for feedback!)</i>}
+{I'm the sort who immediately [bumps up every warning level in the compiler to turn them into errors](http://stackoverflow.com/questions/5088460/flags-to-enable-thorough-and-verbose-g-warnings/9862800#9862800).  In a similar vein, I've found it useful to throw the following code into the **main.cpp** of any Qt GUI app I am writing.  *(Thanks to commenter [kkoehne](http://hostilefork.com/2012/10/02/the-essential-noisy-debug-hook-for-qt/#comment-1315) for feedback!)*}
 
-[code cplusplus {
+[code cpp {
 #ifdef QT_DEBUG
 
 #include <QMessageBox>
@@ -98,9 +98,9 @@ void noisyFailureMsgHandler(QtMsgType type, const char * msgAsCstring) {
 #endif
 }]
 
-{Then in the <code>main()</code> function, after the <code>QApplication</code> is initialized...I'll say:}
+{Then in the `main()` function, after the `QApplication` is initialized...I'll say:}
 
-[code cplusplus {
+[code cpp {
 #ifdef QT_DEBUG
     // Because our "noisy" message handler uses the GUI subsystem for message
     // boxes, we can't install it until after the QApplication is constructed.  But it

@@ -23,9 +23,9 @@ Draem [
 
     ]]
 
-{A constraint was that the ranges would not be allowed to overlap, and the question was what would be the best UI for this task.  Rather than just draw a picture in response, I open-sourced a working online implementation of something I called <b>jquery-numband</b>:}
+{A constraint was that the ranges would not be allowed to overlap, and the question was what would be the best UI for this task.  Rather than just draw a picture in response, I open-sourced a working online implementation of something I called **jquery-numband**:}
 
-[center {<img src="http://hostilefork.com/media/jquery-numband/numband-20-40-80.png" width="400" height="313" alt="Jquery Numband Screenshot">}]
+[image http://hostilefork.com/media/jquery-numband/numband-20-40-80.png 400x313 "Jquery Numband Screenshot"]
 
 {Though it's only a prototype, it offers an efficient angle on this question which starts with a freeform input box.  You can paste any text into that box and it will only pay attention to the numeric values (which need not be integers).  These numbers are sorted, it will throw out the duplicates, and generate the appropriate non-overlapping bands for you.}
 
@@ -41,7 +41,7 @@ http://hostilefork.com/shared/jquery-numband/
 
 {Programmers are clever because they find ways to keep the system from getting into a bad state.  If the spec asks for non-overlapping bands you don't want the user accidentally winding up with a dozen identical bands.  It's also desirable to stop nonsense like ranges from (0.2 .. Banana).  The ability of software to constrain this is a big part of user interface.}
 
-{<i>However</i> this can lead programmers into a blind spot when looking at this kind of a problem.  They make the only elements on the screen ones that correspond to some piece in the final target data structure.  UI buttons aren't allowed to break the "programming rules" of that underlying data, so they become tantamount to an exposure of the API for operating on it.  The result leads to a modal interface that handcuffs the user.}
+{*However* this can lead programmers into a blind spot when looking at this kind of a problem.  They make the only elements on the screen ones that correspond to some piece in the final target data structure.  UI buttons aren't allowed to break the "programming rules" of that underlying data, so they become tantamount to an exposure of the API for operating on it.  The result leads to a modal interface that handcuffs the user.}
 
 {I avoided that trap by bringing in a freeform text box and a range history, while still keeping the user's eyes on the final data structure.  The result let me exploit a lot more of what computers bring to the table, such as sorting the numbers and quickly filtering through information that might even come from a copy/paste.}
 

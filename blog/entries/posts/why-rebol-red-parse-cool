@@ -21,30 +21,30 @@ http://www.red-lang.org/2013/11/041-introducing-parse.html
 
     ]]
 
-[note {Also exciting is that the Tower of Hanoi logo--designed by me and rendered by <a href="http://phoob.blogspot.com/">Petr Stefek</a>--has made it finally to the homepage, Twitter page, and Wikipedia page.}]
+[note {Also exciting is that the Tower of Hanoi logo--designed by me and rendered by [Petr Stefek](http://phoob.blogspot.com/)--has made it finally to the homepage, Twitter page, and Wikipedia page.}]
 
-{I thought I'd use this occasion to make another post about why people should give these languages a look.  Other <a href="http://chat.stackoverflow.com/rooms/291/rebol-and-red">[Rebol and Red]</a> fanatics tend to approach this question with some very diverse approaches, but I'm converging on my own take.  There's a little bit of the blind-men-and-the-elephant aspect to it, where everyone grabs a different part and tries to say "that's what it's like".  But I'll do my best, in my own words...}
+{I thought I'd use this occasion to make another post about why people should give these languages a look.  Other [[Rebol and Red]](http://chat.stackoverflow.com/rooms/291/rebol-and-red) fanatics tend to approach this question with some very diverse approaches, but I'm converging on my own take.  There's a little bit of the blind-men-and-the-elephant aspect to it, where everyone grabs a different part and tries to say "that's what it's like".  But I'll do my best, in my own words...}
 
 more
 
-divider
+[heading {Exploiting the Lexical Space}]
 
-{A lot of languages focus on keywords, and the idea that a symbol means "one thing".  They're based on simple parsers and models that will tell you something like <i>"slash always means divide"</i>.  This means that if you type something like a URL into them:}
+{A lot of languages focus on keywords, and the idea that a symbol means "one thing".  They're based on simple parsers and models that will tell you something like *"slash always means divide"*.  This means that if you type something like a URL into them:}
 
 [text "http://hostilefork.com/"]
 
-{It will react to you by saying something like <i>"cannot divide http: by /hostilefork.com"</i> (or give another less coherent error).  The use of boilerplate delimiters, and forcing everything into strings, suggests that perhaps lexical space is being wasted and producing something parallel to a <a href="http://en.wikipedia.org/wiki/Turing_tarpit">Turing Tarpit</a>... where anything is possible, but nothing is easy or clear.}
+{It will react to you by saying something like *"cannot divide http: by /hostilefork.com"* (or give another less coherent error).  The use of boilerplate delimiters, and forcing everything into strings, suggests that perhaps lexical space is being wasted and producing something parallel to a [Turing Tarpit](http://en.wikipedia.org/wiki/Turing_tarpit)... where anything is possible, but nothing is easy or clear.}
 
-{The lack of consistency between languages on this part is another thorn.  Consider how JavaScript can almost express CSS...but then gets confused on things like <b>background-color</b> being an attempt at subtraction.  So even though keys in objects don't usually require quotes, you find yourself adding them "just to be safe".  This is especially true if you're doing some kind of meta-coding (like making a JSON library).}
+{The lack of consistency between languages on this part is another thorn.  Consider how JavaScript can almost express CSS...but then gets confused on things like **background-color** being an attempt at subtraction.  So even though keys in objects don't usually require quotes, you find yourself adding them "just to be safe".  This is especially true if you're doing some kind of meta-coding (like making a JSON library).}
 
-{Rebol embraces the notion of <i>"words separated by spaces"</i>.  So if I want the first 34 characters of my website, I can just write:}
+{Rebol embraces the notion of *"words separated by spaces"*.  So if I want the first 34 characters of my website, I can just write:}
 
 [code rebol {
 >> copy/part to string! read http://hostilefork.com 34
 == {<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0}
 }]
 
-{That's because a URL! is recognized as anything of the form <code>foo://blahblahblah</code>.  And that's actually used as an extension method for "scheme handlers" which is a nifty subject in its own right.  If I really wanted to invoke a divide operation I would need to write something like <code>foo: / /blahblahblah</code>.  That's a legitimate sequence of tokens in Rebol, actually... and though it will give you a runtime error by default if you try to execute it, it could be given legitimate meaning within some specific context.}
+{That's because a URL! is recognized as anything of the form `foo://blahblahblah`.  And that's actually used as an extension method for "scheme handlers" which is a nifty subject in its own right.  If I really wanted to invoke a divide operation I would need to write something like `foo: / /blahblahblah`.  That's a legitimate sequence of tokens in Rebol, actually... and though it will give you a runtime error by default if you try to execute it, it could be given legitimate meaning within some specific context.}
 
 {There are other things built in, like dates and times:}
 
@@ -72,7 +72,11 @@ divider
 == #{ADFBCADE}
 }]
 
-{All of its types such as these become tinker-toys for language construction via what is called "dialects".  There's no fixed meaning; the context provides it.  You can see this in PARSE, for instance:}
+{All of its types such as these become tinker-toys for language construction via what is called "dialects".  There's no fixed meaning; the context provides it.} 
+
+[heading {The PARSE Dialect}]
+
+{One of the dialects that Rebol comes "in the box" with Rebol is called PARSE.  You can see that elements like words, numbers, and strings can be put together in a new way without causing a syntax error:}
 
 [code rebol {
 >> parse "aaaabbbcccc" [
@@ -86,7 +90,7 @@ divider
 
 {PARSE is Rebol and Red's answer to RegEx, and it's quite fascinating.  Its first parameter is the data to parse, and the second is a block of rules.  The parse position starts at the beginning, and then rules are matched which move the parse position.  When the rules stop matching, the parse ends, and the operation returns true if the parse position is at the end of the input.}
 
-{In this case our rule says <i>"some (non-zero) number of A, followed by between 2 and 3 B, followed by any (zero included) number of C"</i>.  That is how the system reads that rule.  When designing your own dialects you have the freedom to make things up like this, and Rebol provides the foundation to let you do it.  There's a lot more bricks in the box than Lisp has!}
+{In this case our rule says *"some (non-zero) number of A, followed by between 2 and 3 B, followed by any (zero included) number of C"*.  That is how the system reads that rule.  When designing your own dialects you have the freedom to make things up like this, and Rebol provides the foundation to let you do it.  There's a lot more bricks in the box than Lisp has!}
 
 {For instance, Rebol has multiple "series" types.  Square brackets are the most common, but parentheses are used to make *another* kind of series.  Slashes make series that are called "paths".  By default Rebol has meanings for what these things do (e.g. parentheses are used for precedence).  But the PARSE dialect chooses to have parentheses mean "code to run if the preceding match rule runs":}
 
@@ -141,7 +145,7 @@ found a B
 == true
 }]
 
-{But even more impressively, it can work on the <i>symbolic structure of code itself</i>.  While Rebol and Red are both like Lisp in being <a href="http://en.wikipedia.org/wiki/Homoiconicity">homoiconic</a>, when you see something like PARSE applied on code itself... you know you're looking at something very cool.}
+{But even more impressively, it can work on the *symbolic structure of code itself*.  While Rebol and Red are both like Lisp in being [homoiconic](http://en.wikipedia.org/wiki/Homoiconicity), when you see something like PARSE applied on code itself... you know you're looking at something very cool.}
 
 {For instance, here we might use PARSE and INTO to descend into a code structure to find all words followed by strings, and add them to a result block:}
 
@@ -181,17 +185,19 @@ parse code [
 ]
 }]
 
-{Believe it or not, that will give you a result block of your code reading <code>[print {Hello} print {Rebol and Red} print {World}]</code>.  If you wanted to, you could then execute that result by invoking the evaluator with <code>do result</code>.  So as much as they disguise themselves as looking like an unusual-but-typical scripting languages, Rebol and Red are anything but typical.}
+{Believe it or not, that will give you a result block of your code reading `[print {Hello} print {Rebol and Red} print {World}]`.  If you wanted to, you could then execute that result by invoking the evaluator with `do result`.  So as much as they disguise themselves as looking like an unusual-but-typical scripting languages, Rebol and Red are anything but typical.}
 
-{For a programmer who hasn't experienced a system like Lisp, there's going to be one level of "OMG" realization.  But even jaded language surveyors (who have seen paradigms come and go) should find something to appreciate in the way the design has evolved.  And for those who cast their lot with heavyweight meta-programming and aspect-oriented systems like <a href="http://en.wikipedia.org/wiki/JetBrains_MPS">JetBrains MPS</a> or <a href="http://martinfowler.com/bliki/IntentionalSoftware.html">Intentional Programming</a>, the under-1MB size of the zero-install cross-platform executables should offer some amount of "OMG".}
+{For a programmer who hasn't experienced a system like Lisp, there's going to be one level of "OMG" realization.  But even jaded language surveyors (who have seen paradigms come and go) should find something to appreciate in the way the design has evolved.  And for those who cast their lot with heavyweight meta-programming and aspect-oriented systems like [JetBrains MPS](http://en.wikipedia.org/wiki/JetBrains_MPS) or [Intentional Programming](http://martinfowler.com/bliki/IntentionalSoftware.html), the under-1MB size of the zero-install cross-platform executables should offer some amount of "OMG".}
 
 http://rebolsource.net/
 
 http://www.red-lang.org/p/download.html
 
+[heading {The Expressive Power of Abstraction}]
+
 {Indeed, the malleable nature of the system opens a lot of doors for meta-programming.  Picking an example of something you can't do in most languages, you can store function prototypes in variables and mutate them:}
 
-[code txt {
+[code rebol {
 ;-- ordinary function declaration
 foo: function [x [integer!] y [string!]] [
     print x
@@ -222,7 +228,9 @@ bar 2 "hello"                    ;-- prints 2, olleh
 
 {Red is paving the way to using Rebol methodologies in device drivers and other performance critical code.  It compiles code which can be compiled ahead of time, then JIT compiles what it can't do that with, and interprets whatever's left over that neither approach could handle.  So it's fast and drawing a lot of attention, especially with a rather impressive rate of development accomplishments.}
 
-{To wrap up: Rebol and Red code can be fantastically readable, and very fun.  PARSE is a great showcase for what dialecting can do--now implemented in both systems.  And it's amazing to see how much comes in the package with no installation dependencies (not even compressed!)}
+[heading {Wrapping Up...}]
+
+{In summary, Rebol and Red code can be fantastically readable, and very fun.  PARSE is a great showcase for what dialecting can do--now implemented in both systems.  And it's amazing to see how much comes in the package with no installation dependencies (not even compressed!)}
 
 {Please do come chat with us in the StackOverflow chat room if any of this strikes you as interesting:}
 
