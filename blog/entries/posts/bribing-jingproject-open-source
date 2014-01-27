@@ -14,7 +14,7 @@ Draem [
 
 {Yet I almost never got started using Jing.  I'd almost bought Snapz Pro for $65 to do the same demos and screenshots, which I would have published in Quicktime.  It was a near miss at using an inappropriate tool for the task and spending a not-insignificant amount of money on it.   Of course, the people who make Snapz almost certainly *do* know about Jing...yet don't make an effort to educate you about it.}
 
-{Don't get me wrong at all--by our current standards in software, Snapz Pro is a great product.  Yet I'm sure a lot of people who buy Snapz would be better suited by a tool like Jing.  What I want to believe in my heart of hearts is that if money weren't part of the picture, dialogue between the creators of these two excellent Mac products could create a whole greater than the sum of its parts... free for all.  (I've written before about [bribing developers to make their work free](http://hostilefork.com/2007/10/20/bribing-developers-to-make-their-work-free/).)}
+{Don't get me wrong at all--by our current standards in software, Snapz Pro is a great product.  Yet I'm sure a lot of people who buy Snapz would be better suited by a tool like Jing.  What I want to believe in my heart of hearts is that if money weren't part of the picture, dialogue between the creators of these two excellent Mac products could create a whole greater than the sum of its parts... free for all.  (I've written before about [bribing developers to make their work free](http://blog.hostilefork.com/bribing-developers-free-software/).)}
 
 {Then I noticed that Jing was openly soliciting feedback comments [on their weblog](http://web.archive.org/web/20071215133648/http://blog.jingproject.com/2007/11/welcome_to_the_jing_project_ph.html#trackback), where the world could read it.  They end a blog post with:}
 
@@ -22,19 +22,23 @@ Draem [
 
 {Hey--they asked for a rant, and that's what I do best!  So I decided to share some of my recent Jing videos that I made for my site, told them about a couple of Snapz Pro features I'd like to see added, and I threw in a little bit about the Hostile Fork mission:}
 
+[update 27-Jan-2014 {Links corrected to reflect a site restructuring.}]
+
 [quote [
 
         {Hi Jing project...!  I have started using Jing on a daily basis to demonstrate some of my ideas, and it's a great communication tool that I encourage others to use:}
 
-        {http://hostilefork.com/2007/11/25/lost-focus-placeholder/}
+        http://blog.hostilefork.com/lost-focus-placeholder/
 
-        {http://hostilefork.com/2007/11/25/undo-single-user-event/}
+        http://blog.hostilefork.com/undo-single-user-event/
 
         {Before Jing, I tried [Snapz Pro](http://www.ambrosiasw.com/utilities/snapzprox/)--which is a nice OS/X tool that I almost bought.  But my bias for free software and specific target of a flash-based web player made Jing a better choice.  Still there are a lot of features in Snapz Pro which you could implement.}
 
         {For instance, I often wish to type in a fixed size for the capture rectangle and then position the rectangle by dragging it to the right place.  That is important.  Also, I like to be able to send screen captures directly to the clipboard sometimes.}
 
-        {Yet the biggest thing that I'd like to see is for Jing to become an open source project.  That would open a lot of doors to using GPL libraries for things like image and movie encodings (PNG only is a bit limiting...)  Although I know you might not be planning to give away Jing free forever, you could have a pledge drive through Fundable **(2013 Update: I would now suggest the more popular and well-known [KickStarter](http://www.kickstarter.com/))** where rather than buying copies of the program, the Jing userbase would buy the source?}
+        {Yet the biggest thing that I'd like to see is for Jing to become an open source project.  That would open a lot of doors to using GPL libraries for things like image and movie encodings (PNG only is a bit limiting...)  Although I know you might not be planning to give away Jing free forever, you could have a pledge drive through Fundable, where rather than buying copies of the program, the Jing userbase would buy the source?}
+
+        [update 27-Jan-2014 {I would now suggest the more popular and well-known [KickStarter](http://www.kickstarter.com/)}]
 
         {This is what happened with [The Blender Foundation](http://en.wikipedia.org/wiki/Blender_Foundation), and I would consider it personally satisfying to see great tools like Jing doing the same thing.  What do you think?}
 
@@ -42,7 +46,7 @@ Draem [
 
 {The comment was not immediately published on the site, rather it was put into a moderation queue.  That meant I got this screen:}
 
-[image http://hostilefork.com/wp-content/uploads/2007/12/jing_comment_approval_small.png 400x190 "Jing site telling me my comment is awaiting approval."]
+[image http://hostilefork.com/wp-content/uploads/2007/12/jing_comment_approval_small.png 400x190 {Jing site telling me my comment is awaiting approval.}]
 
 {I waited until the next day and looked to see if it had been approved.  Although I didn't receive any email or feedback saying my comment had been rejected, I got a clue that it was being shelved and not going to be approved.  That clue was the appearance of another comment that had a later timestamp--which showed that someone was reading the queue and approving comments...they just hadn't approved *mine*.}
 
@@ -68,9 +72,9 @@ Draem [
 
         {Hi Jing project...! I have started using Jing on a daily basis to demonstrate some of my ideas, and it's a great communication tool that I am evangelizing to others:}
 
-        {http://hostilefork.com/2007/11/25/lost-focus-placeholder/}
+        http://blog.hostilefork.com/lost-focus-placeholder/
 
-        {http://hostilefork.com/2007/11/25/undo-single-user-event/}
+        http://blog.hostilefork.com/undo-single-user-event/
 
         {Before Jing, I tried Snapz Pro—which is a nice OS/X tool that I almost bought. But my bias for free software and specific target of a flash-based web player made Jing a better choice. Still there are a lot of features in Snapz Pro which you could implement.}
 

@@ -6,7 +6,7 @@ Draem [
     old-url-prefix: %2013/12/15/
 ]
 
-{In my post about [switching over to VirtualBox from VMWare](http://hostilefork.com/2011/06/17/virtual-machines-and-the-very-genuine-windows-dis-advantage/), I talked about the importance of paring down one's dependence on proprietary software.  That's especially true of software that is antagonistic to what *should* be its purpose: to serve your needs and make your life better.  This is why I keep pushing the envelope such that an increasing amount of my time is spent working in Linux-based virtual machines.}
+{In my post about [switching over to VirtualBox from VMWare](http://blog.hostilefork.com/virtual-machines-genuine-windows/), I talked about the importance of paring down one's dependence on proprietary software.  That's especially true of software that is antagonistic to what *should* be its purpose: to serve your needs and make your life better.  This is why I keep pushing the envelope such that an increasing amount of my time is spent working in Linux-based virtual machines.}
 
 {But I also mentioned that I am guilty, guilty, guilty.  I still use the OS/X or Windows included with computers I buy as the "host" operating system.  That's because running Linux will make the people at the Apple store throw up their hands--if a line of pixels in your display goes bad, they'll probably try and tell you it's your fault.  Booting from Linux instantly turns you into a second-class citizen in the eyes of almost any other vendor for driver and software support, which is a bummer if you use your machine for anything interesting (like Graphics/Audio/Video production).}
 

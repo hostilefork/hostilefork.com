@@ -1,0 +1,9 @@
+Draem/Comment [
+    slug: %qt-essential-noisy-debug-hook
+    author: "Hostile Fork"
+    date: 14-Nov-2012/23:03
+    old-url: http://hostilefork.com/2012/10/02/qt-essential-noisy-debug-hook/#comment-1322
+]
+
+[{@kkoehne Indeed, thanks!  Oddly enough I'd done this in my <a href="http://hostilefork.com/hoist/" rel="nofollow" class="liinternal">Hoist</a> library, so I was actually using an abstraction other than <code>QMessageBox</code> which handled that case.  I just forgot to mention it in the initial post!
+I've updated with an alternative that will abort on any non-debug-spew information in a worker thread, so you know what's going on!  Seems better than sweeping it under the rug, but that's how I feel about compiler warnings too...}]

@@ -22,4 +22,4 @@ If you want to know what the license terms are in legalese, click through to the
 
 * If you derive from this work, then you must pass on the the terms of this license to those who wish to use any part you've added. You might recognize this as being kind of like the viral nature of the GPL; once you've used part of my work then this license has to apply to what you've made too.
 
-I do not particularly encourage people to copy my material onto other sites if they don't have a good reason. I merely know that unreasonable people will ignore licensing altogether (e.g. [Scraper Sites](http://en.wikipedia.org/wiki/Scraper_site)) and I wish to express openness toward decent people who have interesting ideas for what to do with the content.
+I do not particularly encourage people to copy my material onto other sites if they don't have a good reason. I merely know that unreasonable people will ignore licensing altogether, like [Scraper Sites](http://en.wikipedia.org/wiki/Scraper_site).  I wish to express openness toward decent people who have interesting ideas for what to do with the content.

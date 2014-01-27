@@ -6,7 +6,7 @@ Draem/Comment [
 ]
 
 [{Hi there... thanks for the comment!  Your comparison to the eco-scientist is good, mind if I quote it in an article here?
-REBOL's rejection of the multi-markup madness is a very good thing.  I was working on a JavaScript program and trying to do CSS attributes a couple days ago, when I hit the issue that if you're going to express something like "margin-right" you can't use hyphens, and float is a reserved word.  So to translate:}]
+Rebol's rejection of the multi-markup madness is a very good thing.  I was working on a JavaScript program and trying to do CSS attributes a couple days ago, when I hit the issue that if you're going to express something like "margin-right" you can't use hyphens, and float is a reserved word.  So to translate:}]
 
 [{<div class="wp_syntax"><div class="code"><pre class="css"><span style="color: #6666ff;">.style</span> <span style="color: #66cc66;">&#123;</span><span style="color: #000000; font-weight: bold;">float</span><span style="color: #66cc66;">:</span> <span style="color: #000000; font-weight: bold;">left</span><span style="color: #66cc66;">;</span> <span style="color: #000000; font-weight: bold;">margin-right</span><span style="color: #66cc66;">:</span> <span style="color: #933;">80px</span><span style="color: #66cc66;">;</span> <span style="color: #66cc66;">&#125;</span></pre></div></div>}]
 

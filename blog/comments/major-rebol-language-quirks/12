@@ -1,0 +1,10 @@
+Draem/Comment [
+    slug: %major-rebol-language-quirks
+    author: "Kaj"
+    date: 14-Sep-2008/13:55
+    old-url: http://hostilefork.com/2008/09/10/major-rebol-language-quirks/#comment-668
+]
+
+[{You still have to shed a bit more of your old conceptions. :-) Standard libraries are usually not a good fit for a Rebol implementation. The Boost libraries and others are probably too big to be worth it, and the Boehm garbage collector was not designed for the fast-changing allocation of small amounts of memory that dynamic languages and Rebol in particular do. It's also difficult to port to various platforms.
+There is no reason that the Rebol mezzanine functions couldn't be implemented independently just like the native C interpreter itself. As long as it isn't taking copyrighted Rebol Technologies code, there's nothing RT can do about that. The language at a conceptual level is a form of expression and not patentable. Actually, RT is releasing quite a bit of code under the BSD license or even as public domain, so it can be shared.
+There have been a series of alternative Rebol implementations over the years, but ORCA is farthest along and the only usable one. The name does have to change someday, though.}]

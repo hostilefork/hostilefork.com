@@ -29,11 +29,18 @@ Draem [
 
 {It's released under the [GNU Affero General Public License, Version 3](http://en.wikipedia.org/wiki/Affero_General_Public_License) and you can browse it on GitHub:}
 
-http://github.com/hostilefork/blackhighlighter/tree/master
+https://github.com/hostilefork/blackhighlighter/tree/master
 
-{The biggest workhorses here are the Javascript files accompanying the tabbed page for writing letters ([write.js](http://github.com/hostilefork/blackhighlighter/blob/master/django-blackhighlighter/media/write.js)) and for reading+verifying+revealing letters ([read.js](http://github.com/hostilefork/blackhighlighter/blob/master/django-blackhighlighter/media/read.js)).  What you'd think of as the HTML is in the [/templates/](http://github.com/hostilefork/blackhighlighter/tree/master/django-blackhighlighter/templates) directory.  For those familiar with django, the Python code should match your intuition (with [models.py](http://github.com/hostilefork/blackhighlighter/blob/master/django-blackhighlighter/models.py) and [views.py](http://github.com/hostilefork/blackhighlighter/blob/master/django-blackhighlighter/views.py)).}
+{The biggest workhorses here are the Javascript files accompanying the tabbed page for writing letters and reading/revealing letters:}
 
-{An important aspect in the separation of the code is that the protected parts of your text are *never sent over the network in an unencrypted form*.  This way you don't have to trust the person running the server not to read or reveal the protected parts--they don't have them!  Yet the system is in its infancy, so if you're a cryptography expert then please chime in with any ideas.  (Here's what I got so far from [sci.crypt](http://groups.google.de/group/sci.crypt/browse_thread/thread/51826b8dd1b198cf).)}
+[list [
+	{[write.js](https://github.com/hostilefork/blackhighlighter/blob/master/django-blackhighlighter/media/write.js)}
+	{[read.js](https://github.com/hostilefork/blackhighlighter/blob/master/django-blackhighlighter/media/read.js)}
+]]
+
+{What you'd think of as the HTML is in the [/templates/](https://github.com/hostilefork/blackhighlighter/tree/master/django-blackhighlighter/templates) directory.  For those familiar with django, the Python code should match your intuition, with [models.py](https://github.com/hostilefork/blackhighlighter/blob/master/django-blackhighlighter/models.py) and [views.py](https://github.com/hostilefork/blackhighlighter/blob/master/django-blackhighlighter/views.py).}
+
+{An important aspect in the separation of the code is that the protected parts of your text are *never sent over the network in an unencrypted form*.  This way you don't have to trust the person running the server not to read or reveal the protected parts--they don't have them!  Yet the system is in its infancy, so if you're a cryptography expert then please chime in with any ideas.  Here's what I got so far from [sci.crypt](http://groups.google.de/group/sci.crypt/browse_thread/thread/51826b8dd1b198cf).}
 
 {There is also protection in the protocol to prevent the server from lying about the contents of the message or the commitment hashes.  The URL itself contains a hash of the canonized commitment JSON.  This way, even if you don't have a certificate you can verify that what's on the server is what it should be.  You *only need the URL itself* to verify that the contents are correct!  This is a step up from using a random ID for each blackhighlighter text.}
 

@@ -76,9 +76,9 @@ DigitSum(value^^^^3)
 
 [text "value > 36 + 27 * log(value)"]
 
-{Wolfram Alpha is here to help with this:}
+"Wolfram Alpha is here to help with this:"
 
-[http://www.wolframalpha.com/input/?i=%2836+%2B+27+*+log%28x%29%29+-+x+from+1+to+100%26a=*FunClash.log-_*Log10.Log- {Wolfram Alpha Query}]
+[http://www.wolframalpha.com/input/?i=%2836+++27+*+log%28x%29%29+-+x+from+1+to+100&a=*FunClash.log-_*Log10.Log- "Wolfram Alpha Query"]
 
 {We just look for where the crossover is in this plot:}
 

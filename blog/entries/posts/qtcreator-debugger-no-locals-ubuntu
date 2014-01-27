@@ -42,13 +42,13 @@ more
 
 [list [
 
-        {Make sure ncurses-dev is installed (**sudo apt-get install ncurses-dev**).  Commentator [Daniele](http://hostilefork.com/2013/10/20/qtcreator-debugger-no-locals-ubuntu/#comment-1478) points out another dependency that I already had installed, but you might not: **sudo apt-get install python-dev**}
+        {Make sure ncurses-dev is installed (**sudo apt-get install ncurses-dev**).  Commentator [Daniele](http://blog.hostilefork.com/qtcreator-debugger-no-locals-ubuntu/#comment-1216082783) points out another dependency that I already had installed, but you might not: **sudo apt-get install python-dev**}
 
         [group
 
             {To get the GDB sources, you can either extract the latest GDB version from [ftp://sourceware.org/pub/gdb/releases/](ftp://sourceware.org/pub/gdb/releases/) (at the time of this writing that would be **gdb-7.6.1.tar.gz**.}
 
-            [note {Commentator [Rico Chet](http://hostilefork.com/2013/10/20/qtcreator-debugger-no-locals-ubuntu/#comment-1484) reported that getting the ability to see the callstack into Qt itself required using **apt-get install source gdb** to get the source instead.  I did not have this problem, but if you do then you may want to try his method.  It required additional dependencies for me: `sudo apt-get install dpkg-dev` and `sudo apt-get install texinfo`.  Then I had to set the MAKEINFO environment variable prior to configuring with `export MAKEINFO=makeinfo`.  Also note that if you use the **apt-get** approach for the source, it will put that source in your current directory.  You do not need to use **sudo**... and if you do, it will make root the owner and complicate the build process.)}]
+            [note {Commentator [Rico Chet](http://blog.hostilefork.com/qtcreator-debugger-no-locals-ubuntu/#comment-1216082850) reported that getting the ability to see the callstack into Qt itself required using **apt-get install source gdb** to get the source instead.  I did not have this problem, but if you do then you may want to try his method.  It required additional dependencies for me: `sudo apt-get install dpkg-dev` and `sudo apt-get install texinfo`.  Then I had to set the MAKEINFO environment variable prior to configuring with `export MAKEINFO=makeinfo`.  Also note that if you use the **apt-get** approach for the source, it will put that source in your current directory.  You do not need to use **sudo**... and if you do, it will make root the owner and complicate the build process.)}]
 
         ]
 
@@ -56,7 +56,7 @@ more
 
     ]]
 
-[note {If you happen to be building for ARM, commentator [Juha](http://hostilefork.com/2013/10/20/qtcreator-debugger-no-locals-ubuntu/#comment-1476) points out that you can add `–target=arm-fsl-linux-gnueabi` to the **configure** command line and get an ARM version of GDB.}]
+[note {If you happen to be building for ARM, commentator [Juha](http://blog.hostilefork.com/qtcreator-debugger-no-locals-ubuntu/#comment-1216082996) points out that you can add `–target=arm-fsl-linux-gnueabi` to the **configure** command line and get an ARM version of GDB.}]
 
 {Once you've got the build, do a sanity check on the version by running **/usr/local/gdb-python2/bin/gdb** and testing with **python print sys.version**.  *(If you try to run gdb from the directory, remember to invoke it with **./gdb** or else you'll get the default installation)*  If you didn't get an embedded Python 2.x, don't bother continuing until you figure out why not.}
 
@@ -66,7 +66,7 @@ more
 
 {Though it would seem that there are settings dialogs for making QtCreator use a different GDB than the one in **/usr/bin/gdb** (in *Tools->Options->Build & Run->Kits*), that wouldn't work for me.}
 
-[update {Commentator [Simon](http://hostilefork.com/2013/10/20/qtcreator-debugger-no-locals-ubuntu/#comment-1480) reports that the feature of setting the debugger in Qt Creator worked in 2.8.1, if he ran **aptitude purge gdb**.  Commentator [Matthias](http://hostilefork.com/2013/10/20/qtcreator-debugger-no-locals-ubuntu/#comment-1486) said it just worked for him.  Commentator [Vlad](http://hostilefork.com/2013/10/20/qtcreator-debugger-no-locals-ubuntu/#comment-1477) reports that there is a different setting in the beta of Qt Creator 3.0, under (Tools > Options > Build & Run > Debuggers, for this path which overrides it correctly.  He says it works.  So if you're even more bleeding edge than I am, you might try that.)}]
+[update {Commentator [Simon](http://blog.hostilefork.com/qtcreator-debugger-no-locals-ubuntu/#comment-1216083041) reports that the feature of setting the debugger in Qt Creator worked in 2.8.1, if he ran **aptitude purge gdb**.  Commentator [Matthias](http://blog.hostilefork.com/qtcreator-debugger-no-locals-ubuntu/#comment-1216082875) said it just worked for him.  Commentator [Vlad](http://blog.hostilefork.com/qtcreator-debugger-no-locals-ubuntu/#comment-1216083007) reports that there is a different setting in the beta of Qt Creator 3.0, under (Tools > Options > Build & Run > Debuggers, for this path which overrides it correctly.  He says it works.  So if you're even more bleeding edge than I am, you might try that.)}]
 
 {So YMMV.  But I couldn't override the GDB setting in the automatic "Kit".  If I added a new kit and poked a debugger path into the slot where it seems you can set it... it seems to be ignored and just runs the old one anyway.  It didn't matter what kit I would "Make Default".}
 

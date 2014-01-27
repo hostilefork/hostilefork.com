@@ -44,7 +44,7 @@ Draem [
 
 {Since USCII is a general methodology, there can be *many* standards--the only requirement is that the bit length be a product of primes.  You could have a 31x31 USCII which establishes codes for all the characters in Chinese.  Or a 7x11 USCII that has all the characters you need for Dutch...as well as a standard set of Emoticons!}
 
-{USCII codes have additional interesting properties, some of which I laid out in [a blog post from last year](http://hostilefork.com/2008/10/20/can-you-crack-arecibo-ascii/).}
+{USCII codes have additional interesting properties, some of which I laid out in [a blog post from last year](http://blog.hostilefork.com/can-you-crack-arecibo-ascii/).}
 
 [heading "Arecibo ASCII"]
 

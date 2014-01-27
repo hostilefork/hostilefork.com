@@ -35,7 +35,7 @@ Draem [
 
 ]
 
-{Further highlighting the difference in philosophy from `QFuture`, Thinker-Qt's analogous object is called a "Present".  Rather than having to wait for each item in a list of results to become available, a client thread can use the `Thinker::Present` interface to make a read-only snapshot of the calculation state *at any moment*.  This snapshot is very cheap if no write happens during the snapshot lifetime (due to [copy-on-write](http://en.wikipedia.org/wiki/Copy-on-write)).  If a write does occur, it is the background thread that pays for the copy time.}
+{Further highlighting the difference in philosophy from `QFuture`, Thinker-Qt's analogous object is called a "Present".  Rather than having to wait for each item in a list of results to become available, a client thread can use the `Thinker::Present` interface to make a read-only snapshot of the calculation state *at any moment*.  This snapshot is very cheap if no write happens during the snapshot lifetime, due to [copy-on-write](http://en.wikipedia.org/wiki/Copy-on-write).  If a write does occur, it is the background thread that pays for the copy time.}
 
 {Clients can throttle the maximum frequency at which automatically-generated notification signals will be emitted, without impeding the calculations themselves.  This contrasts with QtConcurrent's concept of throttling, which is done with [QFutureWatcher::setPendingResultsLimit](http://qt-project.org/doc/qt-5/qfuturewatcher.html#setPendingResultsLimit).}
 
@@ -47,7 +47,7 @@ Draem [
 
 {For those who prefer a bullet-point overview before reading the Mandelbrot modifications, slides are available at the following link:}
 
-[http://docs.google.com/present/view?id=dkjh9v7_12gxsn7bch {View the presentation}]
+[http://docs.google.com/present/view?id=dkjh9v7_12gxsn7bch "View the presentation"]
 
 {Or if you prefer diving even deeper into the source of the library itself, you can skip straight to [browsing the repository](http://gitorious.org/thinker-qt/thinker-qt/trees/master) on gitorious.org.  The underlying technique leverages `QSharedDataPointer` quite a bit, so be sure to [read up on that](http://qt-project.org/doc/qt-5/qshareddatapointer.html#details) if you aren't already familiar with it.  Note that some of the component classes that make the approach "different"--like `SignalThrottler` and the `Snapshottable` interface--could be reused in other libraries.}
 

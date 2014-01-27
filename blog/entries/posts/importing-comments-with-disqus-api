@@ -1,0 +1,160 @@
+Draem [
+    title: "Importing Comments With the Disqus API"
+    tags: [disqus rebol]
+    slug: %importing-comments-with-disqus-api
+    date: 20-Jan-2014/6:52
+]
+
+{When I migrated my blog away from WordPress, the version I was using was *seven years old*.  Before you judge me too harshly, I was busy and a blog just wasn't a super high priority.  Besides, I got into using StackOverflow for my programming fix...and they have fake internet points!}
+
+[html {<div class="picture"><a href="http://stackoverflow.com/users/211160/hostilefork">
+<img src="http://stackoverflow.com/users/flair/211160.png" width="208" height="58" alt="profile for HostileFork at Stack Overflow, Q&A for professional and enthusiast programmers" title="profile for HostileFork at Stack Overflow, Q&A for professional and enthusiast programmers">
+</a></div>}]
+
+[quote
+
+    [
+
+        {It was a gamble: would people really take time out of their busy lives to answer other people’s questions, for nothing more than fake internet points and bragging rights?}
+
+        {**It turns out people will do anything for fake Internet Points**}
+
+    ] [
+
+        http://blog.stackoverflow.com/2013/09/five-years-ago-stack-overflow-launched-then-a-miracle-occurred/ "StackOverflow Blog, 16-Sep-2013"
+
+    ]
+
+]
+
+{Adding to my reasons for not keeping "with the times" was that once I got under the hood of WordPress, I felt I'd been tricked.  Given that it was my first (non-static HTML) website, PHP was just three letters to me...I didn't know if it was good or bad, it just was what people made web pages with.  It turned out that [I really didn't like it](http://me.veekun.com/blog/2012/04/09/php-a-fractal-of-bad-design/).}
+
+{Whatever I used to jump out of WordPress, I wanted it to be a paradigm shift.  But I couldn't find anything that fit my "style".  Then recently I found [Jekyll](http://jekyllrb.com/), which threw out the idea of maintaining a database--instead letting you keep your content in GitHub and building your site statically.  Rather than use Jekyll, I considered its popularity to be a sign that similar methods were on the rise, and designed my own page builder called ["Draem"](https://github.com/hostilefork/draem).  It's a work in progress, but I can meta-program my blog entries with source-to-source transformation...so it's easy to improve.}
+
+{Of course, a static site will need some kind of page-embeddable service to do comments.  I won't go over the services I considered, except to say that I really liked the direction that **moot.it** was taking (see [their Manifesto](https://moot.it/manifesto/) for why I thought so).  I was especially drawn to their choice of using MarkDown instead of just raw HTML commenting.  But they only offered two ways of identifying yourself to the system: Facebook and a moot.it login.  Had they been open source I'd have bit the bullet and added OpenID to it or something.  But they're not, and that--along with their small size and slower pace--made me feel that as long as I was going to be selling my soul, I should sell it to a larger player who is 99% likely to be in business next year.}
+
+{So I went with Disqus.  They seemed "too big to fail" *(cough)* and had [an API](http://disqus.com/api/docs/).  Additionally they have a dashboard option to [export all your comments](http://help.disqus.com/customer/portal/articles/1104797-importing-exporting) as XML, or import them with an [XML format based on WordPress eXtended RSS](http://help.disqus.com/customer/portal/articles/472150).  So getting in and out seemed easy enough, for a programmer.}
+
+"But I didn't use the XML import because:"
+
+[list [
+
+        {My WordPress was too old to give me that format, and I didn't want to go through the upgrade pains on a 7 year old installation just so I could get the comments out.}
+
+        {I was changing all the URLs anyway to be "prettier", so it was going to be work to munge the XML.}
+
+        {I'd promised everyone who'd ever commented on the blog that I wouldn't "do anything evil" with their email address, and giving it to a third party like Disqus without their approval counts as evil in my book; more munging.}
+
+        {As a software engineer, I believe that XML is a [blight upon my craft](http://www.rebol.com/article/0108.html).}
+
+    ]]
+
+{Besides, I'd been drawn to Disqus because of the API.  Using the API for the comment import would give me a chance to learn how it worked.  All I needed to get my scraped comments in would be to find a way to post anonymously to a thread identified by the new URL, passing in an author name and message text.}
+
+{Was it "easy"?  Well, "easy if you know how", but it took some digging--and I'm not the only one who found it puzzling.  But my pain is your gain: I'm going to give you the best information you can find on the subject (as of January 2014).  With code, even!  *(And if you have a PayPal account handy, maybe some tech support.  :-P)*}
+
+[heading "Disqus Architectural Basics"]
+
+{If you're putting comment threads onto your page, Disqus is one of those services that gives you a little bit of JavaScript that will dynamically insert an IFRAME into your web page, so that the content in that area is coming from `http://disqus.com/embed/[whatever]`.  So remember that: every time you use an IFRAME, someone else is injecting whatever they like in that space.  Some people suggest that Google can't index Disqus comments because they're not part of the static content, but we know someone is the "Disqus guy" at Google who has figured that out.  Besides--do you want people finding your page because of the keywords in the comments, or the content?  (I'll take content.)}
+
+[note {You may ask why not to drive comment display by doing an Ajax-like call to their API getting the list of posts, and having a bit of JavaScript that renders the JSON result yourself.  The answer is because the API is throttled to 1000 requests an hour unless you pay them.  If your whole site only gets 16 page views in a minute you might be able to live with that.  If you feel like paying them you can get that limit raised.}]
+
+{The identification of a thread in Disqus is by a large-ish integer.  This is an internal number in their system that has nothing to do with your web pages, so there is a mapping from what is known as a [disqus_identifier](http://help.disqus.com/customer/portal/articles/472098-javascript-configuration-variables) to the thread ID.  If you embed the Disqus JavaScript on your page, the identifier will default to the page URL on which the embedding is taking place.  You could override this if--for instance--you wanted two different URLs on your website to share a common commenting thread.  There is also a "title" associated with each thread, and that unsurprisingly defaults to the page title.}
+
+{You'll see all the threads that exist in your forum's database in the administration console, and you can edit their titles as well as the URL with which they are associated.  Merely visiting a page with an embedding doesn't bring a thread into existence; a post has to be made first.  However, once a post is made that thread and its ID will exist *forever*...even if all the comments are deleted from it.  You simply can't permanently delete a comment in Disqus, you can only "mark it deleted".}
+
+{This is a controversial thing in web services.  It's one thing to be giving someone like Gmail your information (probably a bad idea in the first place), and quite another one to lose the control to say "I deleted it, and I want that *really* deleted off my service provider's disks".  Even if they offer the feature, you never really know (of course) if they have a backup somewhere.}
+
+[note [
+
+        {I will point out that the Internet has been a [better keeper of my records](http://blog.hostilefork.com/manykeys-my-open-source-roots/) than I have.  Good or bad?  Hard to know...}
+
+        {See also what Viktor Mayer-Schönberger has to say about his book *"Delete: The Virtue of Forgetting in the Digital Age"*:}
+
+        [youtube https://www.youtube.com/watch?v=GRmoX7MbLp0 560x315]
+
+    ]]
+
+{In any case, for comments on a public blog, retention isn't a privacy issue.  A control issue, sure, but comments on a public web page are public record.  Yet it becomes irritating if you're experimenting with the API and creating a bunch of test threads and posts that are going to clutter your history forever.}
+
+{So if you're going to start playing with the Disqus API like I did, make a separate forum--a "sandbox"--to do your testing in!  Otherwise you're going to get a lot of junk that you will be unable to get rid of.  And don't start importing comments into your "real" Disqus database until you're happy with the URL layout of your site.  [You can move them](http://blog.disqus.com/post/731924950/thread-migration-tool) even though you can't delete them, but it will add extra work.}
+
+[heading "The API Demystified"]
+
+{Disqus lets you register apps and get API keys for them.  There's a page on the app configuration (under [http://disqus.com/api/applications/](http://disqus.com/api/applications/) if you are logged in) which offers you several things if you scroll down:}
+
+[list [
+
+        {**API Key** e.g. T5hiSiS7AfakE1KEyBu9tGIVINgi7TasANeX1amPLEo4fwHATTheYL4oO5KLIke1}
+
+        {**API Secret** e.g. T5hiSiS7FakeA1LSoBu9tGIVINgi7TasANeX1amPLEo4fwHATTheYL4oO5KLIke1}
+
+        {**Access Token** e.g. 61a9gai5na914fak8ek4ey4233d84876}
+
+    ]]
+
+{Now what are these, exactly?  The first two are really only for doing OAuth as far as I can tell.  So don't be misled and bother trying to pass the *API Key* or *API Secret* into Disqus API calls as the `api_key`, [it just does not work](http://spirytoos.blogspot.com/2013/12/not-so-easy-posting-as-guest-via-disqus.html).  As far as I can tell, the *real* api_key they want can only be found by watching the network traffic the Disqus widget uses to post comments.  Go to one of your pages with Disqus embedded, enable network request tracing, post a comment and look for `http://disqus.com/api/3.0/posts/create.json`.  In the form data you will see an `api_key`, snap that up.  It's the one that works; the "API Key" above won't.}
+
+[note {Some API operations say that they require you to be "logged in as a moderator".  To be more specific, they mean *"when you make the API request, the request's HTTP header needs to include a cookie proving that you went through the login protocol"*.  If you're someone who loves installing OAuth libraries and going through that tapdance, then good for you.  But if you're a cheater like me, you can just log in with your browser...then use debugging tools in Chrome or FireBug to snatch the cookie sent whenever you talk to disqus.com while logged in.}]
+
+{The "Access Token" is useful, because some API calls (such as posting a comment) offer the option of proving you're you.  So if you don't want to post as a guest, but want to have your avatar and identity show up, you pass this parameter as `access_token`.}
+
+[heading "Posting a Comment With Rebol"]
+
+{This is only just being submitted to the Rebol community to review, and there will certainly be changes coming.  I'm done with my comment import, so as of this precise minute, there are exactly *zero* clients of the code.  So we have no reason not to enhance the API.}
+
+{But even as it is, it's relatively simple.  You just have to get a copy of [Rebol 3](http://rebolsource.net) *(Zero install, half megabyte, cross-platform swiss-army-knife.)*  Then get a copy of [disqus.reb](https://raw2.github.com/hostilefork/rebol-disqus/master/disqus.reb) from GitHub.  Writing a script to do a guest post is this easy:}
+
+[code rebol {Rebol []
+
+do/args %disqus.reb [
+    forum: {forumname}
+    api_key: {T5hiSiS7AfakE1KEyBu9tGIVINgi7TasANeX1amPLEo4fwHATTheYL4oO5KLIke1}
+    cookie: {disqus_unique=blahblahblah; user_segment=blahblahblah; ...very long...}
+]
+
+disqus/post-comment/guest/timestamp/create
+
+    http://whatever.myblog.com/the/url/to/post/to.html
+
+    {Very non-authenticated comment...
+
+With paragraph breaks and maybe some <b>HTML</b>...
+
+...goes here}
+
+    {Cool Guest Name}
+
+    coolguest@example.com
+
+    none ;-- Disqus has an API slot for author_url but it's not shown
+
+    26-Jan-2014/6:37:48
+}]
+
+{If you wanted to post as yourself, find that Access Token from your API app and do it like this:}
+
+[code rebol {Rebol []
+
+do/args %disqus.reb [
+    forum: {forumname}
+    api_key: {T5hiSiS7AfakE1KEyBu9tGIVINgi7TasANeX1amPLEo4fwHATTheYL4oO5KLIke1}
+    cookie: {disqus_unique=blahblahblah; user_segment=blahblahblah; ...very long...}
+]
+
+disqus/post-comment/authenticated/timestamp/create
+
+    http://whatever.myblog.com/the/url/to/post/to.html
+
+    {Very authenticated comment...
+
+With paragraph breaks and maybe some <b>HTML</b>...
+
+...goes here}
+
+    {61a9gai5na914fak8ek4ey4233d84876}
+
+    26-Jan-2014/6:37:48
+}]
+
+{To post as another user you'd presumably have to get their access token or cookie, and I haven't had the opportunity to do that yet.  But this is likely to mature.  I just wanted to put it out there to share what I'd found.}

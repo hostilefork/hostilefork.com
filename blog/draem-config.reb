@@ -7,10 +7,12 @@ draem/set-config object compose [
 	site-tagline: {Not actually *hostile* (just a bit irate.)}
 
 	site-intro: {
-		<img src="https://www.gravatar.com/avatar/4718212e95d7adea8c412379e7f542e9?s=128&d=identicon&r=PG" alt="The Fork" />
-		<p>Currently blog.hostilefork.com is a scrape and rewrite of content that was previously on <a href="">hostilefork.com</a>. <i>Your patience is appreciated while the transition away from WordPress is underway.</i></a>
+		<img src="http://i.stack.imgur.com/VWHTU.png" alt="The Fork" />
+		<p>Currently blog.hostilefork.com is a scrape and rewrite of content that was previously on <a href="">hostilefork.com</a>. <i>Your patience is appreciated while the transition from WordPress is underway.</i></a>
 		<hr />
-		<p>In addition to the master list below, you can browse the entries by <a href="{% url draems.views.tag_list %}">tag</a>.  Two early experimental features I've added are browsing by <a href="{% url draems.views.character_list %}">character</a> or with a <a href="{% url draems.views.timeline %}">timeline</a>.  I appreciate your feedback or suggestions, so do not hesitate to contact me!</p>
+		<p>The project pages are getting new homes too.  So go check out <a href="http://blackhighlighter.org">BlackHighlighter</a>, <a href="http://albumist.org">Albumist</a>, <a href="http://uscii.hostilefork.com">USCII</a>, <a href="http://thinker-qt.hostilefork.com">Thinker-Qt</a>, <a href="http://hostilefork.com/rebmu/">Rebmu</a>, <a href="http://hostilefork.com/rubol/">Rubol</a>, <a href="http://blog.hostilefork.com/imagination-squared-plus-openzoom/">OpenZoom-Squared</a>, and many more to be added as the pages here get put together better.</p>
+		<hr />
+		<p>In addition to the master list below, you can browse the entries by <a href="{% url draems.views.tag_list %}">tag</a>.  There is some preliminary support for navigating the entries with the left and right arrow keys, and all the comments from the old site have been imported into Disqus.  I appreciate your feedback or suggestions, so do not hesitate to contact me!</p>		
 	}
 
 	site-footer: {
@@ -18,6 +20,7 @@ draem/set-config object compose [
 	}
 
 	site-toplevel-slugs: [
+		%homepage
 		%about
 		%albumist
 		%blackhighlighter
@@ -26,10 +29,8 @@ draem/set-config object compose [
 		%legal
 		%nocycle
 		%nstate
-		%openzoom-squared
 		%rebmu
 		%rubol
-		%site-technical-details
 		%thinker-qt
 		%uscii
 	]
@@ -46,23 +47,26 @@ draem/set-config object compose [
 	;-- as well.  Or decide I don't care if they break, as no one but
 	;-- them link to it.
 
-	file-from-header: function [header [object!]] [
-		either find site-toplevel-slugs header/slug [
-			rejoin [%page/ header/slug]
-		] [
-			rejoin [%post/ header/slug]
-		]
-	]
-
 	;-- Required url-from-header hook
 	url-from-header: function [header [object!]] [
-		rejoin [site-url (file-from-header header)]
+		either find site-toplevel-slugs header/slug [
+			rejoin [site-url %page/ header/slug %/]
+		] [
+			rejoin [site-url header/slug %/]
+		]
 	]
 
 	entries-dir: (rejoin [system/options/path %entries/])
 	templates-dir: (rejoin [system/options/path %templates/])
 
+	;-- Even though I don't want the URL to have a path before the slug
+	;-- on blog posts, I'd rather have them in their own directory on
+	;-- the backend in the templates directory.
 	file-for-template: function [header [object!]] [
-		rejoin [templates-dir (file-from-header header) ".html"]
+		either find site-toplevel-slugs header/slug [
+			rejoin [templates-dir %page/ header/slug ".html"]
+		] [
+			rejoin [templates-dir %post/ header/slug ".html"]
+		]
 	]
 ]

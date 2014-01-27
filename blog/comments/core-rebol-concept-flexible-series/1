@@ -1,0 +1,14 @@
+Draem/Comment [
+    slug: %core-rebol-concept-flexible-series
+    author: "Hostile Fork"
+    date: 6-Sep-2008/16:33
+    old-url: http://hostilefork.com/2008/09/05/core-rebol-concept-flexible-series/#comment-654
+]
+
+[{Hi there!  Always glad to find someone reading this blog!  :) 
+I updated the article a little since last night and added some more information....and a picture.   I've made a few better arguments, and did a little digging on LISP and contrasting it more accurately (see the section "Turtles All The Way Down").  While I was at it, I tried to say what I meant about the C++ iterators a little more clearly.  So if you have time to re-skim you might find it got better!
+Truthfully, I speak Bjarne's moon language pretty well too.  But I still remember before I used STL and how alien it seemed.  Everyone I knew avoided it, so I figured I would too.  (Though today when I meet people who don't accept modern C++ I beg them to look at <a href="http://www.research.att.com/~bs/papers.html" rel="nofollow" target="_blank" class="liexternal">Guide To Learning C++ as a New Language</a>.)
+Bjarne has said "As I have often said, I consider not shipping a larger standard library my biggest mistake."  And the STL really did come onto the scene until late in the game.  C++ started being known to the public by its current name in 1993, and had made it out of academia and labs to reach the mass market as Turbo C++ in 1991.  The earliest version of the STL that was public that people could start trying for themselves was in 1994, but you had to download it off the Internet.
+1997 saw the first version of Microsoft Visual C++ shipping the STL in the box, even while most of its documentation was still pushing their own <a href="http://msdn.microsoft.com/en-us/library/942860sh(VS.80).aspx" rel="nofollow" target="_blank" class="liexternal">MFC Collection Classes</a> on developers.  Today the same factionalization continues even in more open projects.  Just look at the <a href="http://doc.trolltech.com/4.3/containers.html#container-classes" rel="nofollow" target="_blank" class="liexternal">Qt Collection Classes</a>, or <a href="http://docs.wxwidgets.org/2.8.6/wx_wxstring.html" rel="nofollow" target="_blank" class="liexternal">the wxWidgets string type</a>...Mozilla <a href="http://developer.mozilla.org/en/XPCOM_string_guide" rel="nofollow" target="_blank" class="liexternal">doesn't use any of these in its internal code</a>, and it's one of the most prominent C++ programs!!!  Everyone can't be an idiot, so there must be something fundamental here.
+On its native classes, Rebol does just about all the C++ iterators do and more, without needing an iterator class that's distinct from the object being iterated.  It's interesting to see the LISP ideas meshed so artfully with the best aspects of C++ iteration.  Not that Rebol doesn't have crazy maddening things in it, but I'll write about those in the next article.  :) 
+Thanks for commenting!}]

@@ -58,7 +58,7 @@ http://stackoverflow.com/questions/7545804/modeless-parentless-wxdialog-still-al
 
 [heading "Swabbing Decks on the Battleship"]
 
-{In my attempts to foster more Qt advocacy, I'd try and delve into questions asked by students or new programmers.  I would have personally appreciated such help if channels like StackOverflow had existed when I was learning to program.  All *I* had was a Commodore 64 in a dim basement, with one book on BASIC and one on machine language, and no Internet.  (To quote William Kamkwamba, who built a windmill basically on his own in rural Malawi when he was 14: ["Where was this Google all this time?"](http://hackaday.com/2009/10/08/william-kamkwamba-talks-windmills-with-jon-stewart/))}
+{In my attempts to foster more Qt advocacy, I'd try and delve into questions asked by students or new programmers.  I would have personally appreciated such help if channels like StackOverflow had existed when I was learning to program.  All *I* had was a Commodore 64 in a dim basement, with one book on BASIC and one on machine language, and no Internet.  To quote William Kamkwamba, who built a windmill basically on his own in rural Malawi when he was 14: ["Where was this Google all this time?"](http://hackaday.com/2009/10/08/william-kamkwamba-talks-windmills-with-jon-stewart/)}
 
 {What I found rather striking about this fellow's question was how much manual labor he had done.  He was trying to use the Qt Designer tool to build the interface for a variant of the Battleship board game (that he called "Star Admiral") and had built this interface:}
 

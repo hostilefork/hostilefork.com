@@ -1,0 +1,8 @@
+Draem/Comment [
+    slug: %where-printf-rubber-meets-road
+    author: "Jay"
+    date: 15-May-2010/4:17
+    old-url: http://hostilefork.com/2010/03/14/where-printf-rubber-meets-road/#comment-1107
+]
+
+[{Matt: where in the question do you see 'in the standard library'?  Yes, it is needlessly complicated by choosing one of the most rococo libc implementations around, a BSD libc or uclibc might be more enlightening, rather than serving to demonstrate the author's ability to understand the horrible GNU libc code.}]

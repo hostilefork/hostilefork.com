@@ -61,9 +61,12 @@ more
 {But the people who our new circular unit would help most would be those trying to learn from scratch.  So people asked me if the formulas one encounters early on for circles were getting easier or harder.  The formula for circumference of a circle looked "simpler" after the change, but the formula for its area looked "more complicated":}
 
 [list [
-    {Circumference: **2πr** vs **⊙r**}
-    {Area: **πr^^2** vs **1/2 ⊙r^^2**}
-]]
+
+        "Circumference: **2πr** vs **⊙r**"
+
+        "Area: **πr^^2** vs **1/2 ⊙r^^2**"
+
+    ]]
 
 {This was the most frequent question I've gotten.  But my response was essentially the same as Michael's.  Namely the appearance of the "1/2" may be masked out by a haphazardly doubled constant *in this case*.  Yet there are many other relationships that come from integrals and derivatives that don't involve any foundational constants.}
 

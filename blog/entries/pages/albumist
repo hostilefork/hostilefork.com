@@ -1,6 +1,6 @@
 Draem [
     title: {ALBUMIST: Freebase-Powered Discography for Your Site}
-    tags: [misc]
+    tags: [javascript]
     slug: %albumist
     date: 18-Aug-2008/15:21
 ]
@@ -17,7 +17,7 @@ http://legendarypinkdots.org/music
 
 {Hopefully more bands will be interested in helping develop this, so I've released Albumist under the [Creative Commons Attribution License 3.0](http://creativecommons.org/licenses/by/3.0/) -- which is the same license Freebase uses for its data.  You can download it from GitHub:}
 
-http://github.com/hostilefork/albumist/tree/master
+https://github.com/hostilefork/albumist/tree/master
 
 {To comply with the license terms, please make sure there's a reasonably visible link to this page (http://hostilefork.com/albumist) and Freebase (http://freebase.com).  That way, people who are interested can learn more and help improve the projects.  The script puts the links in for you by default--but if what I did breaks the visual continuity of your site then please adapt it to a prettier way.}
 
@@ -40,7 +40,7 @@ Albumist.displayByBandName(
 
 {That's the most basic usage, which gives you the default layout.  To use the advanced features--like specifying prices, how many rows and columns, or the size of the cover art--is a little more complicated.  Rather than try to explain all the options here, the best way to learn about it is to read the latest up-to-date HTML sample file that is in the Git repository, that makes it all clear:}
 
-[http://github.com/hostilefork/albumist/tree/master/albumist.html?raw=true "albumist.html sample code"]
+[https://github.com/hostilefork/albumist/tree/master/albumist.html?raw=true "albumist.html sample code"]
 
 {It is not intended to be an online store.  Yet your web page can give Albumist prices for any of the music you want to sell directly, using your links.  This means that even though it's driven by a public database, the band has the say on the official channel of sale...with a "buy now" link that takes visitors to the method of purchase that they prefer.}
 

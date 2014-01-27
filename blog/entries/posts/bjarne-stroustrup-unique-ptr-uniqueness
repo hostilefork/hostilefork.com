@@ -1,0 +1,43 @@
+Draem [
+    title: "Bjarne Stroustrup on the Uniqueness of unique_ptr"
+    tags: [c++ iostreams]
+    slug: %bjarne-stroustrup-unique-ptr-uniqueness
+    date: 30-Sep-2012/22:27
+    old-url-prefix: %2012/09/30/
+]
+
+{I helped organize a [talk from Dr. Bjarne Stroustrup](http://www.meetup.com/The-Austin-C-C-Meetup-Group/events/77907002/) in Austin on September 19, 2012.  It was a presentation he's apparently given in some form or another elsewhere, but I had not seen the slides before.}
+
+{Much of it wasn't new material for me.  I am already familiar with the tenets of "Modern C++", but he introduced them lucidly for people unfamiliar with concepts like `shared_pointer` or `unique_ptr`.  I'd also seen his article about type-safety in SI units from IEEE Spectrum.}
+
+[note {What **did** surprise me was a graph of an experiment he did with the performance of vector vs. list.  It also challenged many people's assumptions about at what size a list would crossover to being faster.  The task would seem to benefit substantially from being able to do arbitrary insertions quickly.  But it looks like the three most important things in performance are starting to mirror the three most important things in real-estate: Locality, Locality, Locality!  :-P}]
+
+{We didn't record the talk.  It would have been some effort to arrange with the venue, and he told us in advance it would be similar to talks he's given elsewhere that were online.  Yet I should have had the prescience to record the Q&A!}
+
+{In any case, I did manage to ask him about an issue that had been on my mind for a while:}
+
+[quote {Do you personally feel that it's good practice to use `unique_ptr` as a way of following the "hot potato" of deletion responsibility on an object, while extracting the raw pointer and passing it into other code?  Or should `unique_ptr` live up to its name and always be truly "unique"...the only handle to the pointed-to-object in the system?}]
+
+{In the past, I've not really been able to get a consistent view from people on this.  So I figured there wasn't a much better person to ask for an authoritative answer!}
+
+{He had more moments of pause in answering this than the other questions.  He prefaced by saying that he didn't really think there was enough experience with the issue to really establish what "good" and "bad" practice was going to be in the matter.  But he said he could offer his *"current opinion"*.}
+
+{That opinion was that it was fine IF the holder of the `unique_ptr` could guarantee that all of the routines that were passed the extracted pointers were finished *before* the `unique_ptr` was moved to be under the control of someone else.}
+
+{So that's "from the horse's mouth" as of September 19, 2012.  Off the top of my head, I do remember a couple of other questions...}
+
+more
+
+"Someone asked, essentially:"
+
+[quote {In terms of abstraction, has C++ really made significant progress...considering low-level concerns like number of bits and endianness are still a concern for C++ programmers even today?  Other languages like Java don't subject people to this, and have cross platform GUI - eliminating this kind of concern seems to have not been a priority for the C++11 standards committee.}]
+
+{He said what you would probably expect.  That people have different hardware they want to optimize on, and don't necessarily want the abstraction to get in the way.  He pointed out the difference in terms of page count in the Java language specification vs. the C++11 spec.  *(I looked this up, it's 649 vs. 1338, so basically a little less than half the size.)*}
+
+{Someone asked him about whether the Standards Process was working or just getting in the way, since it took 8 years to get C++11 after the C++03 spec.  He thought it was working for the most part, and there were a lot of smart people involved despite there not being much money in it.  But he had high hopes that new processes would make the next spec "C++17", and not "C++24".}
+
+{When asked if there was any particular open-source codebase that represented his idea of what represented "good C++", he seemed to think that a lot of public codebases were not using the methodologies that he would suggest.  But he did name a couple of projects that I did not recognize.}
+
+{One other thing someone asked him was what his favorite text editor was to use when editing C++.  He said that these days when he had to work with a system he'd just kind of use whatever was there.  But historically, his favorite one was something called [Sam](http://en.wikipedia.org/wiki/Sam_(text_editor)).}
+
+{That's about all I can remember off the top of my head, and if I've misrepresented any of his answers I apologize.  But I'm taking his word on the unique_ptr answer, and so this is how I will be treating it!}

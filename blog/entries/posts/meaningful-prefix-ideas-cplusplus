@@ -6,9 +6,9 @@ Draem [
     old-url-prefix: %2009/11/14/
 ]
 
-{In the article [In Defense of Hungarian Notation (with caveats)](http://hostilefork.com/2005/09/24/defense-of-hungarian-notation/) I talked about why that convention was not inherently bad.  In fact, if one isn't using it *blatantly incorrectly*--the way the Win32 API does--it can be rather nice.  It's a way of avoiding meaningless or arbitrary pieces of a variable's name which could be supplied from context alone.}
+{In the article [In Defense of Hungarian Notation (with caveats)](http://blog.hostilefork.com/defense-of-hungarian-notation/) I talked about why that convention was not inherently bad.  In fact, if one isn't using it *blatantly incorrectly*--the way the Win32 API does--it can be rather nice.  It's a way of avoiding meaningless or arbitrary pieces of a variable's name which could be supplied from context alone.}
 
-{However, I concluded that article by saying that modern IDEs and languages call for different conventions.  While I've become a bit interested in the literacy of [Rebol](http://hostilefork.com/2008/09/10/major-quirks-of-the-rebol-language/) code, I still use other languages.  In C++ specifically, I've become curious about what naming conventions are "good".}
+{However, I concluded that article by saying that modern IDEs and languages call for different conventions.  While I've become a bit interested in the literacy of [Rebol](http://blog.hostilefork.com/major-rebol-language-quirks/) code, I still use other languages.  In C++ specifically, I've become curious about what naming conventions are "good".}
 
 {Despite my penchant for [Rebmu](http://hostilefork.com/rebmu/), in real programming I'm not concerned with brevity in the "fewest characters of source code" sense. Brief names are a case of *"penny-wise, pound-foolish"*--the stronger form of brevity to capture essential patterns so there's less code overall.  Sometimes a long and descriptive name can help point out smoking guns. Think about a routine that returns a pointer which can either be written as `GetEmployee` and `GetEmployeeMaybeNull`.  Depending on your tastes, you might think "MaybeNull" is a verbose suffix, but what will cost you more in the long run: 9 characters or the lack of awareness of the actual function's behavior?}
 

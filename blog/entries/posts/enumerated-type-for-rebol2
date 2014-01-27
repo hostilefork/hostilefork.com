@@ -6,7 +6,7 @@ Draem [
     old-url-prefix: %2009/06/13/
 ]
 
-{I've uploaded a script ([enum.r](http://www.rebol.org/view-script.r?script=enum.r)) to rebol.org, which implements enumerated types.  Although I typically prefer catching these things at compile-time instead of run-time, I'm pretty pleased with how it works.  Especially cool is that I could add a powerful version of this language feature in only about 60 lines of code!!}
+{I've uploaded a script called [enum.r](http://www.rebol.org/view-script.r?script=enum.r) to rebol.org, which implements enumerated types.  Although I typically prefer catching these things at compile-time instead of run-time, I'm pretty pleased with how it works.  Especially cool is that I could add a powerful version of this language feature in only about 60 lines of code!!}
 
 [note {That figure doesn't include the comments and the regression tests.  I included those in the script, but they are not necessary to use the enum itself.}]
 

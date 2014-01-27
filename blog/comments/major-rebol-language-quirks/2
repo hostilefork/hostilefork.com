@@ -1,0 +1,11 @@
+Draem/Comment [
+    slug: %major-rebol-language-quirks
+    author: "Gregg Irwin"
+    date: 11-Sep-2008/14:57
+    old-url: http://hostilefork.com/2008/09/10/major-rebol-language-quirks/#comment-660
+]
+
+[{"I’d argue Rebol is more defined by its runtime than its syntax. So whether you like the Rebol parser is only semi-relevant."
+What you call the Rebol parser there is really Rebol's console behavior. If you aren't working in the console, the parser will be happy with FIRST on a line by itself. It's the way the console converts lines to blocks for evaluation that causes the problem.
+Of course, it can bite you if you paste code into the console as well.
+Nice Rebol articles so far!}]

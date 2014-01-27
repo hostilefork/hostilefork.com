@@ -7,8 +7,8 @@ Draem/Comment [
 
 [{Hi Fork,
 Glad I found your recent post about your implementation of enum.r.
-In fact as I recently began to learn more deeply about existing programming languages concepts, since I want to be able in the long run to write my own programming language to help newcomers to program in a high level pseudo-code language and I would like to use REBOL as my first experimental tool to support my learning in this domain - because it seems to have some advantages to me - but also some caveats.
-During the last week-end I found that the Caml Programming language supports the feature of being able to define new user-defined data types, and especially there is an example about how to simply define an enumerated type like the one you just implemented in REBOL- since this feature is not natively supported by the language.
+In fact as I recently began to learn more deeply about existing programming languages concepts, since I want to be able in the long run to write my own programming language to help newcomers to program in a high level pseudo-code language and I would like to use Rebol as my first experimental tool to support my learning in this domain - because it seems to have some advantages to me - but also some caveats.
+During the last week-end I found that the Caml Programming language supports the feature of being able to define new user-defined data types, and especially there is an example about how to simply define an enumerated type like the one you just implemented in Rebol- since this feature is not natively supported by the language.
 So I would like to thank you for your effort and let you know that it will be at least useful to me before someone else finds it in the library.
 To promote its use by others, I suggest you leave some entry in the Mailing list too.
 When I'l be ready to experiment with your enum.r I'll let you know too about my feelings - but sure it will help to implement some of my work from now.

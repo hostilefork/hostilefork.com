@@ -6,7 +6,7 @@ Draem [
     old-url-prefix: %2012/12/28/
 ]
 
-{For those not in the know: [Haiku OS](http://en.wikipedia.org/wiki/Haiku_(operating_system)) is a binary-compatible open source reimplementation of the "Be" operating system.  As with the Amiga community, Haiku users are driven partially by nostalgia...but also by an aesthetic of "small is beautiful".  As with the Amiga community's anger that history took a detour by endorsing the PC architecture, the Haiku community probably in large part feels that Apple missed the boat by going with a traditional architecture of OS/X rather than buying Be.}
+{For those not in the know: [Haiku OS](http://en.wikipedia.org/wiki/Haiku_(operating_system) is a binary-compatible open source reimplementation of the "Be" operating system.  As with the Amiga community, Haiku users are driven partially by nostalgia...but also by an aesthetic of "small is beautiful".  As with the Amiga community's anger that history took a detour by endorsing the PC architecture, the Haiku community probably in large part feels that Apple missed the boat by going with a traditional architecture of OS/X rather than buying Be.}
 
 {Anyway kids, I hear it was a holiday or something.  Instead of LumpOfCoal.exe I bring you a Rebol binary that runs on Haiku.  *(Well, I didn't address terminal issues like cursor keys doing a proper command history or whatever...I just got it started as a basic POSIX build, looking at little details that despite their littleness can be a bit of a block.)*  You can download it from the community builds site at rebolsource:}
 

@@ -1,9 +1,0 @@
-Draem/Comment [
-    slug: %the-essential-noisy-debug-hook-for-qt
-    author: "David Stone"
-    date: 15-Nov-2012/20:36
-    old-url: http://hostilefork.com/2012/10/02/the-essential-noisy-debug-hook-for-qt/#comment-1323
-]
-
-[{A better stackoverflow post to link to about warnings is probably this one: <a href="http://stackoverflow.com/questions/5088460/flags-to-enable-thorough-and-verbose-g-warnings/9862800#9862800" rel="nofollow" target="_blank" class="liexternal">http://stackoverflow.com/questions/5088460/flags-to-enable-thorough-and-verbose-g-warnings/9862800#9862800</a>
-Of course, I may be biased because that is my post, but I used the page you linked as a starting point. I then went through the gcc documentation, removed warnings that were implied by other warnings and added anything that was missing. I then removed a few "bad warnings" and documented why I did so.}]

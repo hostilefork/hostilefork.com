@@ -1,6 +1,6 @@
 Draem [
     title: "Imagination Squared (Plus OpenZoom)"
-    tags: [actionscript openzoom ruby]
+    tags: [actionscript openzoom ruby zui]
     slug: %imagination-squared-plus-openzoom
     date: 12-Sep-2010/12:26
     old-url-prefix: %2010/09/12/
@@ -18,7 +18,7 @@ Draem [
 
 {Though I'm not going to host the player on hostilefork.com, I pushed the source code out to GitHub today for both the generator (written in Ruby) and the viewer (written in ActionScript 3).  I'm also happy to provide built versions of the data and component to individuals who want them:}
 
-http://github.com/hostilefork/openzoom-squared
+https://github.com/hostilefork/openzoom-squared
 
 {Neither of those two are languages I've used before.  So I'll use the rest of this blog entry to talk about my thoughts on that.}
 
@@ -48,7 +48,7 @@ more
 
 {Ruby seems reasonably clean, and appeals to my sensibilities more than Python does.  It wasn't too painful to set up and get work done, though what I was writing wasn't precisely rocket science, and I paused any further refinement of it once it produced the files I wanted:}
 
-http://github.com/hostilefork/openzoom-squared/blob/master/generator/ImaginationGenerator.rb
+https://github.com/hostilefork/openzoom-squared/blob/master/generator/ImaginationGenerator.rb
 
 {I liked the lack of need for semicolons--code just looks cleaner.  But I'm even more extreme than that because I don't like commas in lists.  You're always running up against that question in code generation as to whether you're on the last item or not--especially when you're generating code.  Putting commas at the ends of lists too is not the answer because if, we, had, to, put, commas, between, every, word, in, English, it, would, get, ugly, right,?}
 

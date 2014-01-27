@@ -10,7 +10,7 @@ Draem [
 
 [code cpp {
 class WidgetFactory
-   {
+{
 private:
    // a really, really slow routine
    void StopProcessesSoItsSafeToMakeWidgets();
@@ -19,30 +19,28 @@ private:
    void RestartProcesses();
 
 public:
-   Widget* MakeAWidget()
-      {
+   Widget* MakeAWidget() {
       StopProcessesSoItsSafeToMakeWidgets();
       Widget* w = new Widget();
       RestartProcesses();
       return w;
-      }
+   }
 
-   std::vector<Widget*> MakeManyWidgets(int HowMany)
-      {
+   std::vector<Widget*> MakeManyWidgets(int HowMany) {
       std::vector<Widget*> ret;
       StopProcessesSoItsSafeToMakeWidgets();
-      for (int temp = 0; temp < HowMany; temp++)
+      for (int temp = 0; temp < HowMany; temp++) {
           ret.push_back(new Widget());
+      }
       RestartProcesses();
       return ret;
-      }
+   }
 
-   void DoSomethingElse()
-      {
+   void DoSomethingElse() {
       assert(ProcessesRunning());
       return;
-      }
-   };
+   }
+};
 }]
 
 {The extra routine was added as a mere performance convenience, since making N widgets has identical semantics to simply N successive calls to `MakeAWidget()`.  This is presumably safer than publishing the private routines for starting and stopping processes so it's safe to make widgets--not only might that be an implementation detail we don't want to expose, it could be deemed too serious a problem if the client improperly matches up stop/start calls.}
@@ -53,7 +51,7 @@ public:
 
 [code cpp {
 class WidgetFactory
-   {
+{
 private:
    mutable int widgets_hint;
 
@@ -65,33 +63,31 @@ private:
    void RestartProcesses();
 
 public:
-   void HINT_MakingManyWidgets(int HowMany) const
-      {
+   void HINT_MakingManyWidgets(int HowMany) const {
       widgets_hint += HowMany;
+   }
+
+   Widget* MakeAWidget() {
+      if (ProcessesRunning()) {
+         StopProcessesSoItsSafeToMakeWidgets();
       }
 
-   Widget* MakeAWidget()
-      {
-      if (ProcessesRunning())
-         StopProcessesSoItsSafeToMakeWidgets();
       Widget* w = new Widget();
-      if (widgets_hint > 0)
-         {
+      if (widgets_hint > 0) {
          widgets_hint--;
          RestartProcesses();
-         }
-      return w;
       }
 
-   void DoSomethingElse()
-      {
-      if (!ProcessesRunning())
-         {
+      return w;
+   }
+
+   void DoSomethingElse() {
+      if (!ProcessesRunning()) {
          widgets_hint = 0;
          RestartProcesses();
-         }
       }
-   };
+   }
+};
 }]
 
 {This way, developers aren't encouraged to complicate their code up front.  No one will use these HINT_ functions unless they need to--only those clients who are dissatisfied with performance will bother.  You can add as many as you like, adapted specifically to suit the real use cases of important clients.  And if you ever want to stop supporting a hint you merely make the function have no effect.}

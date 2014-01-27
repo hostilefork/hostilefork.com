@@ -20,7 +20,7 @@ Draem [
 
 {As a student back in 1996, I came up with a way you can design a digital graphic equalizer so the algorithm will (nearly) exactly output the original signal when sliders are flat, *even after running your audio through a barrage of filtering mathematics*.  Practically speaking, you would want to bypass the equalizer in that case for performance reasons.  Yet there is an alluring elegance to an approach which *would* converge upon the original signal if you applied it with flat levels... and it strongly suggests you'd have overall less distortion when the sliders weren't at zero.  (This turns out to be true!)}
 
-{I employ only two digital filters: a specially matched highpass and lowpass.  Recursively applying these filters on downsampled versions of the data creates the exact logarithmic bands that are found in graphic equalizers.  The process additionally leads to a phenomenon known as ["perfect reconstruction"](http://ccrma.stanford.edu/~jos/sasp/Perfect_Reconstruction_Filter_Banks.html).  I explain the details below.}
+{I employ only two digital filters: a specially matched highpass and lowpass.  Recursively applying these filters on downsampled versions of the data creates the exact logarithmic bands that are found in graphic equalizers.  The process additionally leads to a phenomenon known as ["perfect reconstruction"](https://ccrma.stanford.edu/~jos/sasp/Perfect_Reconstruction_Filter_Banks.html).  I explain the details below.}
 
 more
 
@@ -78,7 +78,7 @@ more
 
 {Instead of using interpolation, I used an alternate method to to downsample, filter, and then upsample again.  Two levels of recursion are shown, and the time domain representations of each graphic equalizer band are shown as the partial results (band 1 and band 2).  If this procedure is applied, then these arrays merely need to be weighted and then added together to produce the output signal:}
 
-[image http://hostilefork.com/wp-content/uploads/2007/12/downsampling_implementation.png 400x219 "A visualization of the downsampling graphic equalizer implementation"]
+[image http://hostilefork.com/wp-content/uploads/2007/12/downsampling_implementation.png 400x219 {A visualization of the downsampling graphic equalizer implementation}]
 
 {It may appear that a lot of calculation is being performed to produce these equalization bands.  However, the parallelism and logarithmic decrease of the array widths being operated upon makes it so that each level really only corresponds to the application of a low pass and a high pass filter to an array the size of the original data.  Also, the "odd/even split" steps and the "interleave" steps can actually done in-place--and require no processing time.}
 
@@ -94,7 +94,7 @@ more
 
 {Looking at the arrangement of sliders you can see kind of a "graph", whose X-axis is the frequency you want to modify and whose Y-axis is whether you are amplifying that range or cutting it out.  This is how it gets the name "graphic equalizer".  Because of that troublesome word "graphic", while researching for this article I found that a lot of people confuse this with the dancing animated bars while you play music.  Those are called [spectrum analyzers](http://en.wikipedia.org/wiki/Spectrum_analyzer), and if you're geeky you can [buy a shirt with one on it](http://www.bigpockets.co.uk/product.php?lang=%26product=E-NET012):}
 
-[image http://hostilefork.com/wp-content/uploads/2007/12/spectrum_analyzer_shirt.gif 341x300 "A spectrum analyzer shirt (not a graphic equalizer shirt!)"]
+[image http://hostilefork.com/wp-content/uploads/2007/12/spectrum_analyzer_shirt.gif 341x300 {A spectrum analyzer shirt (not a graphic equalizer shirt!)}]
 
 {Spectrum analyzers are related to graphic equalizers, because they show you what frequencies are currently playing in your music.  Bars closer to the left represent how much bass is playing, and bars closer to the right correspond to the treble.  So if you were playing a flute, you would expect to see the bars jump in the range that corresponds to the flute.  However, a spectrum analyzer doesn't let you change how much flute you hear... it just displays it.}
 

@@ -40,7 +40,7 @@ int main(int argc, char * const argv[]) {
 
 {The code for Nstate is currently hosted in a project on GitHub, and I welcome input or improvements to the library.  It is released under the [Boost Software License](http://en.wikipedia.org/wiki/Boost_Software_License), which permits liberal inclusion in both open source or commercial software.}
 
-[http://github.com/hostilefork/nocycle/blob/master/Nstate.hpp "Nstate.hpp on GitHub"]
+[https://github.com/hostilefork/nocycle/blob/master/Nstate.hpp "Nstate.hpp on GitHub"]
 
 [heading "Background"]
 
@@ -51,23 +51,35 @@ int main(int argc, char * const argv[]) {
         "`(bits for N tristates) / (bits for 2 * N bits)`"
 
         [group
-          {= `ceil(log<sub>2</sub>(3^^N)) / (2 * N)`}
-          [note {by definition}]
+
+            "= `ceil(log<sub>2</sub>(3^^N)) / (2 * N)`"
+
+            [note "by definition"]
+
         ]
 
         [group
-          {&asymp; `N log<sub>2</sub>(3) / (2 * N)`}
-          [note {power rule}]
+
+            "&asymp; `N log<sub>2</sub>(3) / (2 * N)`"
+
+            [note "power rule"]
+
         ]
 
         [group
-          "= `log<sub>2</sub>(3) / 2`"
-          [note {cancellation}]
+
+            "= `log<sub>2</sub>(3) / 2`"
+
+            [note "cancellation"]
+
         ]
 
         [group
-          "`&asymp; 79%`"
-          [note {calculator}]
+
+            "`&asymp; 79%`"
+
+            [note "calculator"]
+
         ]
 
     ]]

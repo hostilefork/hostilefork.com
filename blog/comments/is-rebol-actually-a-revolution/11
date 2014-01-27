@@ -11,6 +11,6 @@ But the font was not my design, it came from the PIC CPU:
 <a href="http://www.noritake-itron.com/Softview/fontspic.htm" rel="nofollow" target="_blank" class="liexternal">http://www.noritake-itron.com/Softview/fontspic.htm</a>
 I'm assuming they had a reason for putting the crossbar where they did.  In context it may help differentiate the A... I don't know (?)  It's certainly not the most questionable choice in the standard so far.
 What I did do is I made an updated check in so that all the printable characters are now easy to edit in the source:
-<a href="http://github.com/hostilefork/uscii/blob/master/specifications/uscii-5x7-english-c0.rebol" rel="nofollow" target="_blank" class="liexternal">http://github.com/hostilefork/uscii/blob/master/specifications/uscii-5&#215;7-english-c0.rebol</a>
+<a href="http://github.com/hostilefork/uscii/blob/master/specifications/uscii-5x7-english-c0.Rebol" rel="nofollow" target="_blank" class="liexternal">http://github.com/hostilefork/uscii/blob/master/specifications/uscii-5&#215;7-english-c0.Rebol</a>
 So if the idea entertains you enough to want to get involved in helping nail down the symbols for a "formal" release...I'll check the pull requests.  :) 
 Thanks for the interest, in any case!}]

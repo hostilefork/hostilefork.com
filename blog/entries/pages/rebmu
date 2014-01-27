@@ -39,13 +39,13 @@ rSfeCs[Nse[x10i1v5l50c100d500m1000]twCizJ[JnCN]a+ELjN[alSBnJ N0]'jJn]k+j
 
 {The language is real and can be run on almost any platform.  The source is published on GitHub:}
 
-http://github.com/hostilefork/rebmu/
+https://github.com/hostilefork/rebmu/
 
 {...and you'll require the Apache 2 open-sourced Rebol interpreter *(which itself is less than half a megabyte uncompressed and runs on many platforms... including Windows, Linux, OS/X, Haiku, ARM...)*:}
 
 http://rebolsource.net
 
-{To get it up and running, the easiest thing is to probably come talk with us in the [[Rebol and Red] chat room](http://rebolsource.net/go/chat-faq).  But the basic step is to either enlist with [git](http://help.github.com/) or just download [the latest ZIP file of the project](http://github.com/hostilefork/rebmu/zipball/master).  Navigate to the directory and run Rebol.  Then try the following:}
+{To get it up and running, the easiest thing is to probably come talk with us in the [[Rebol and Red] chat room](http://rebolsource.net/go/chat-faq).  But the basic step is to either enlist with [git](https://help.github.com/) or just download [the latest ZIP file of the project](https://github.com/hostilefork/rebmu/zipball/master).  Navigate to the directory and run Rebol.  Then try the following:}
 
 [code rebol {
 >> do %rebmu.r
@@ -88,7 +88,7 @@ Input String: MCCCXXXVII
 
 [heading "History"]
 
-{I scribbled down some notes the night I thought of it, on 8-Jan-2010 in a blog post [modest-proposal-for-code-golf-in-rebol](http://hostilefork.com/2010/01/08/modest-proposal-for-code-golf-in-rebol/).  At that point it was only an idea with no implementation, but two days later I made the first version (capable of running the "mushed" Roman numeral example).  Since then it has evolved into an implementation which others could reasonably start using.}
+{I scribbled down some notes the night I thought of it, on 8-Jan-2010 in a blog post [modest-rebol-code-golf-proposal](http://blog.hostilefork.com/modest-rebol-code-golf-proposal/).  At that point it was only an idea with no implementation, but two days later I made the first version (capable of running the "mushed" Roman numeral example).  Since then it has evolved into an implementation which others could reasonably start using.}
 
 [heading "You can help!"]
 

@@ -1,0 +1,9 @@
+Draem/Comment [
+    slug: %core-rebol-concept-flexible-series
+    author: "Gregg Irwin"
+    date: 12-Sep-2008/11:26
+    old-url: http://hostilefork.com/2008/09/05/core-rebol-concept-flexible-series/#comment-664
+]
+
+[{Someone noticed that you're using an older version of Rebol. In newer versions, FORALL remembers the series position, and returns the result of the last body evaluation. The behavior when break/return was used in the body was also considered during its rewrite.
+Because many Rebol functions are written in Rebol themselves (they're called mezzanines, while funcs written in C are called natives), it's easy to change them to work how you want. That may make them incompatible with the standard versions, which is a problem, and getting a new version accepted as standard isn't easy. An enormous amount of effort goes into the design and evaluation of even simple functions. On the plus side, the community loves to see new ideas and talk about the best way to do things.}]

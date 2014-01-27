@@ -6,7 +6,7 @@ Draem [
     old-url-prefix: %2012/06/26/
 ]
 
-{Having a remote desktop is pretty cool, although it can be a bit of a pain to set up.  Especially if you're dealing with multiple platforms.  So I was pleased to find a free (for non-commercial use) turnkey solution called [TeamViewer](http://teamviewer.com).  You don't even have to install the client or the host software...it runs straight out of the package, so administrative privileges aren't required.}
+{Having a remote desktop is pretty cool, although it can be a bit of a pain to set up.  Especially if you're dealing with multiple platforms.  So I was pleased to find a free (for non-commercial use) turnkey solution called [TeamViewer](http://www.teamviewer.com/en/index.aspx).  You don't even have to install the client or the host software...it runs straight out of the package, so administrative privileges aren't required.}
 
 {In a matter of minutes I was controlling my quad-core i7 server from my little netbook.  It wasn't blazingly fast even though the data is only carried on the local WiFi network, and I doubt their protocol is all that efficient under the hood.  But for free I was happy.}
 

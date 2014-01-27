@@ -1,6 +1,6 @@
 Draem [
     title: {Sharing a Host's Directory Into Virtualbox Using NFS}
-    tags: [networking nfs virtualization]
+    tags: [networking nfs virtualbox virtualization]
     slug: %sharing-nfs-into-virtualbox
     date: 14-Apr-2013/7:08
     old-url-prefix: %2013/04/14/
@@ -22,11 +22,11 @@ Draem [
 
     ]]
 
-{Before I mentioned how I had [moved from VMWare to VirtualBox](http://hostilefork.com/2011/06/17/virtual-machines-and-the-very-genuine-windows-dis-advantage/), so that more of the stack I use would be open source.  Besides the "Genuine Windows" VM re-activation annoyance I mention (due to a perceived hardware change), everything seemed to go fine after that.}
+{Before I mentioned how I had [moved from VMWare to VirtualBox](http://blog.hostilefork.com/virtual-machines-genuine-windows/), so that more of the stack I use would be open source.  Besides the "Genuine Windows" VM re-activation annoyance I mention (due to a perceived hardware change), everything seemed to go fine after that.}
 
 {A couple months later I hit a snag.  In my configuration I wanted to keep certain project directories on the host...and be able to read and write those directories in the guest.  I expected to be able to use the "Shared Folders" feature, which does exactly this.  It's built into VirtualBox:}
 
-[image http://hostilefork.com/media/blog/sharing-a-host-directory-with-virtualbox-using-nfs/shared-folders.png 428x284 "Shared Folders Feature in VirtualBox"]
+[image http://hostilefork.com/media/blog/sharing-nfs-into-virtualbox/shared-folders.png 428x284 "Shared Folders Feature in VirtualBox"]
 
 "But eventually I ran into a problem..."
 

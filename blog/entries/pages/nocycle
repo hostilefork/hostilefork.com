@@ -7,13 +7,13 @@ Draem [
 
 [image http://hostilefork.com/wp-content/uploads/2009/03/nocyclelogo.png 400x160 "The Nocycle Logo"]
 
-{Nocycle is an open source library that started with a desire to make a data structure that could store a [directed acyclic graph](http://en.wikipedia.org/wiki/Directed_acyclic_graph) in a somewhat minimized adjacency matrix format.  It can work with over 2<sup>16</sup> vertices.  This is beyond what can be achieved on 32-bit architectures with the Boost Graph Library `adjacency_matrix` ([[1]](http://www.boost.org/doc/libs/1_38_0/libs/graph/doc/adjacency_matrix.html))...which in my tests on gcc 4.0.1 stopped working after around 12,000 vertices.}
+{Nocycle is an open source library that started with a desire to make a data structure that could store a [directed acyclic graph](http://en.wikipedia.org/wiki/Directed_acyclic_graph) in a somewhat minimized adjacency matrix format.  It can work with over 2<sup>16</sup> vertices.  This is beyond what can be achieved on 32-bit architectures with the Boost Graph Library [adjacency_matrix](http://www.boost.org/doc/libs/1_38_0/libs/graph/doc/adjacency_matrix.html)...which in my tests on gcc 4.0.1 stopped working after around 12,000 vertices.}
 
 {As an additional thought experiment, I decided to try getting the DAG to keep a cached sidestructure of its own [transitive closure](http://en.wikipedia.org/wiki/Transitive_closure#Graph_Theory).  Though this goal has been achieved, more clever methods will be needed to make it palatable for use on large graphs where edge insertions and removals are frequent.  So by default, caching is disabled and Nocycle uses a depth-first-search when reachability needs to be calculated (such as to prevent inserting a link that would cause a cycle).}
 
 {Though really only an exercise at this point, I didn't see why I shouldn't put this out for others to use or peer-review.  So the code is released under the [Boost Software License](http://en.wikipedia.org/wiki/Boost_Software_License).  This permits liberal inclusion in both open source or commercial software, and I welcome comments or improvements.  You can download it from GitHub, or just browse the source:}
 
-http://github.com/hostilefork/nocycle/tree/master
+https://github.com/hostilefork/nocycle/tree/master
 
 [note {The current choice of [public inheritance vs. private inheritance vs. composition](http://www.parashift.com/c++-faq-lite/private-inheritance.html) is driven completely by expedience.  What role virtual methods will play needs to solidify, as well as what the best directions would be to build a storage class compatible with the boost templates.}]
 

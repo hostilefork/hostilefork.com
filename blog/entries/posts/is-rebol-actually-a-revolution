@@ -15,6 +15,7 @@ Draem [
 {I do poke a bit of fun of their obsession with size, by comparing it to Saturday Night Live's ["Tiny Elvis"](http://snltranscripts.jt.org/92/92aelvis.phtml).  In the sketch, Nicholas Cage is shown dressed as a miniature Elvis who points to common household items and remarks about how "huge" they are:}
 
 [image http://hostilefork.com/wp-content/uploads/2008/09/92aelvis2.jpg 150x113 "Tiny Elvis Leaning on a Table Lamp"]
+
 [image http://hostilefork.com/wp-content/uploads/2008/09/92aelvis1.jpg 150x113 "Tiny Elvis and his Normal-Size Buddies"]
 
 [quote [
@@ -57,7 +58,7 @@ more
 
 {Most people don't maintain their own car.  So if you look under the hood, odds are you'll see a tangled unfathomable set of hoses, cables, and mysterious blobs.  They're all mashed together and some dull grayish ugly color, like this [2000 Toyota Tacoma](http://www.parksoffroad.com/miscinstalls/welderreview/mobi/mobimain.htm):}
 
-[image http://hostilefork.com/media/blog/is-rebol-actually-a-revolution/under-toyota-tacoma-hood.jpg 432x324 {Toyota Tacoma Under the Hood}]
+[image http://hostilefork.com/media/blog/is-rebol-actually-a-revolution/under-toyota-tacoma-hood.jpg 432x324 "Toyota Tacoma Under the Hood"]
 
 {I'd never really thought about that being a problem until a fellow software developer took me to a classic car show.  There, I saw amazing work on engines, artistically done and laid out so you could really see the parts.  They used high quality materials and color coding that facilitated understanding and repair.  Just to give you an example of what I'm talking about, look at the winner of "Best Engine Compartment" in the Skippack Village, PA Car Show:}
 
@@ -135,7 +136,7 @@ more
 
 {By backtracking a bit and reorganizing what we're doing, we might have a chance at achieving a future that looks more like a Utopian version of our current lives.  Rebol is very much a retrospective rebuild, so its applications look very retro just as the "good" engine example may look like a blast from the past.The interfaces are generally rectangular, brightly colored, and look like something you'd expect to find on a late 80s cash register:}
 
-[image http://hostilefork.com/media/blog/is-rebol-actually-a-revolution/rebol-view-taskmaster.jpg 320x254 {A Rebol/View Task Management Application}]
+[image http://hostilefork.com/media/blog/is-rebol-actually-a-revolution/rebol-view-taskmaster.jpg 320x254 "A Rebol/View Task Management Application"]
 
 {This turns a lot of people off, thinking it's some odd reinvention of Tcl/Tk.  Yet even if the experience of using the application isn't new or novel in the slightest, what's under the hood *is* a novelty.}
 

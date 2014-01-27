@@ -1,0 +1,63 @@
+Draem/Comment [
+    slug: %where-printf-rubber-meets-road
+    author: "Max"
+    date: 26-Mar-2010/17:15
+    old-url: http://hostilefork.com/2010/03/14/where-printf-rubber-meets-road/#comment-1054
+]
+
+[{Hi! Very interesting! I need to read closer few things but here the code I was doing just before finding your article :
+#include 
+void affiche_file(FILE *file) ^{}]
+
+[{  printf("_IO_read_ptr;  : %x\n", file->_IO_read_ptr);}]
+
+[{  printf("_IO_read_end;  : %x\n", file->_IO_read_end);}]
+
+[{  printf("_IO_read_base; : %x\n", file->_IO_read_base);}]
+
+[{  printf("_IO_write_base; : %x\n", file->_IO_write_base);}]
+
+[{  printf("_IO_write_ptr;  : %x\n", file->_IO_write_ptr);}]
+
+[{  printf("_IO_write_end;  : %x\n", file->_IO_write_end);}]
+
+[{  printf("_IO_buf_base;   : %x\n", file->_IO_buf_base );}]
+
+[{  printf("_IO_buf_end;  : %x\n", file->_IO_buf_end);}]
+
+[{  printf("_IO_save_base;  : %x\n", file->_IO_save_base);}]
+
+[{  printf("_IO_backup_base; : %x\n", file->_IO_backup_base);}]
+
+[{  printf("_IO_save_end; : %x\n", file->_IO_save_end);}]
+
+["}^/int main() {^/^^-FILE *mystream;"]
+
+[{^^-mystream = fdopen(1, "w");
+^^-affiche_file(mystream);
+^^-fprintf(mystream, "bla");
+^^-affiche_file(mystream);
+^^-return 0;}]
+
+["}^/And in return I have :^/_IO_read_ptr;  : b78e9000"]
+
+["_IO_read_end;  : b78e9000"]
+
+["_IO_read_base; : b78e9000"]
+
+["_IO_write_base; : b78e9000"]
+
+["_IO_write_ptr;  : b78e9003"]
+
+["_IO_write_end;  : b78e9000"]
+
+["_IO_buf_base;   : b78e9000"]
+
+["_IO_buf_end;  : b78e9400"]
+
+["_IO_save_base;  : 0"]
+
+["_IO_backup_base; : 0"]
+
+[{_IO_save_end; : 0
+Do you have more information of the meaning of those fields ? Any good links ? In particular on how the buffer works ?}]

@@ -1,0 +1,12 @@
+Draem/Comment [
+    slug: %where-printf-rubber-meets-road
+    author: "LDM"
+    date: 14-May-2010/9:55
+    old-url: http://hostilefork.com/2010/03/14/where-printf-rubber-meets-road/#comment-1101
+]
+
+[{Ahh, Nuclear...
+If only it was that simple.  Your computer doesn't run assembly: Assembly gets translated to Machine code.  Some C compilers (very rare though) may even skip over assembly and go straight to machine code.
+The thing is, most modern processors don't even run machine code:  it is translated into processor microcode, which (usually) actually executes on the processor.  Granted, the microcode translation is usually done ON the processor itself.
+So the answer really depends on what level of the system you're looking at, and how far down the rabbit hole you want to go.  He stopped at the C libraries: printf is not inline assembly in the C libraries: the assembly is in the Kernel (at least under linux).   As a library implementer, you don't have to know assembly to program printf().  You go one step further, and say that to implement the functionality at the kernel level, you need to know assembly.  I'm going one step further and saying in order to get your assembly to run on the processor you have to know machine code, and to implement the assembly on the processor you have to understand microcode.
+In the end, it gets converted into electrons running around little electrical paths... you could say in the end to implement printf() you have to know physics ;-)}]

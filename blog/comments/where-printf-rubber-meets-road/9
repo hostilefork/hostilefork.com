@@ -1,0 +1,10 @@
+Draem/Comment [
+    slug: %where-printf-rubber-meets-road
+    author: "Ryan O'Neill"
+    date: 14-May-2010/6:40
+    old-url: http://hostilefork.com/2010/03/14/where-printf-rubber-meets-road/#comment-1094
+]
+
+[{I wonder why anyone would be interested in maintaining that source, seems like a nightmare project. I couldn't read your whole explanation, it got way too deep too quickly (not suggesting it's your fault, the code is just too snakey).
+Reminds me of Visual Studio 2010 which is supposed to have 1.5 million source files (not lines of code, files) and takes 16 hours to build unsigned (or 61 for a release build).
+Never having worked on source of this scale I can't comprehend how people manage to stay motivated and keep it bug free.}]
