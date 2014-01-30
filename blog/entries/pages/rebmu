@@ -45,7 +45,7 @@ https://github.com/hostilefork/rebmu/
 
 http://rebolsource.net
 
-{To get it up and running, the easiest thing is to probably come talk with us in the [[Rebol and Red] chat room](http://rebolsource.net/go/chat-faq).  But the basic step is to either enlist with [git](https://help.github.com/) or just download [the latest ZIP file of the project](https://github.com/hostilefork/rebmu/zipball/master).  Navigate to the directory and run Rebol.  Then try the following:}
+{To get it up and running, the easiest thing is to probably come talk with us in the [Rebol and Red chat room](http://rebolsource.net/go/chat-faq).  But the basic step is to either enlist with [git](https://help.github.com/) or just download [the latest ZIP file of the project](https://github.com/hostilefork/rebmu/zipball/master).  Navigate to the directory and run Rebol.  Then try the following:}
 
 [code rebol {
 >> do %rebmu.r

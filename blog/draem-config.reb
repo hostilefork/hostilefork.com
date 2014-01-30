@@ -16,7 +16,7 @@ draem/set-config object compose [
 	}
 
 	site-footer: {
-	<div style="text-align: center;"><p>Please subscribe to the <img src="/media/feed-icon-14x14.png" alt="Feed Icon" /> <a href="http://hostilefork.com/feed/">Atom 1.0 Feed</a> or use <img src="/media/feedburner-icon-14x14.png" alt="Feedburner Icon" /> <a href="http://feeds.feedburner.com/realityhandbook">Feedburner</a> to receive updates as they are posted!!</p></div>
+	<div style="text-align: center;"><p>Please subscribe to the <img src="http://hostilefork.com/media/feed-icon-14x14.png" alt="Feed Icon" /> <a href="http://blog.hostilefork.com/feed/">Atom 1.0 Feed</a> or use <img src="http://blog.hostilefork.com/media/feedburner-icon-14x14.png" alt="Feedburner Icon" /> <a href="http://feeds.feedburner.com/hostilefork">Feedburner</a> to receive updates as they are posted!!</p></div>
 	}
 
 	site-toplevel-slugs: [
@@ -33,6 +33,7 @@ draem/set-config object compose [
 		%rubol
 		%thinker-qt
 		%uscii
+		%jquery-numband
 	]
 
 	entries-dir: (rejoin [system/options/path %entries/])

@@ -161,4 +161,4 @@ void purchaseItem(ZInventoryItem item, unique_ptr<ZDigitalCash> cash);
 export PATH="/usr/local/bin:$PATH"
 }]
 
-{People on the Freenode IRC channel #gcc were very helpful.  And if you have a test case that you want to try in a newer compiler before you go through all of this, try out the [geordi](http://www.xs4all.nl/~weegen/eelis/geordi/) bot.  It's very useful!}
+{People on the Freenode IRC channel #gcc were very helpful.  And if you have a test case that you want to try in a newer compiler before you go through all of this, try out the [geordi](http://www.eelis.net/geordi/) bot.  It's very useful!}

@@ -1,2 +1,4 @@
 blog/templates/*
+apache/includes/pages/build/*
+apache/includes/renames/build/*
 !.gitignore

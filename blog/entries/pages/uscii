@@ -7,7 +7,7 @@ Draem [
 
 [image http://hostilefork.com/shared/uscii/uscii_logo_400x160.png 400x160 "The USCII Standard for Information Interchange"]
 
-[update 26-Jul-2009 {Try out the new online [Encoder](http://hostilefork.com/demos/uscii-5x7-english-c0/encode.html) and [Decoder](http://hostilefork.com/demos/uscii-5x7-english-c0/decode.html) for USCII-5x7-ENGLISH-C0!}]
+[update 26-Jul-2009 {Try out the new online [Encoder](http://uscii.hostilefork.com/encode/) and [Decoder](http://uscii.hostilefork.com/decode/) for USCII-5x7-ENGLISH-C0!}]
 
 {USCII ("you-ski") stands for *Universal Semiotic Coding for Information Interchange*. It is a system for embedding pictures *inside* the coded numbers agreed upon to represent symbols and signals.  I was inspired to create it by the famous [Arecibo Message](http://en.wikipedia.org/wiki/Arecibo_message), which attempted to convey humanity's physics knowledge without assuming a cultural context other than math.  }
 
@@ -50,7 +50,7 @@ Draem [
 
 {I've developed a *draft* specification of USCII variation "5x7-ENGLISH-C0".  This uses 35 bits per character, and includes printable characters as well as the ["C0 control codes"](http://en.wikipedia.org/wiki/C0_and_C1_control_codes).  You can read the script that generates it, which contains comments on why I picked the bit patterns:}
 
-[http://github.com/hostilefork/uscii/blob/master/specifications/uscii-5x7-english-c0.rebol "specifications/uscii-5x7-english-c0.rebol"]
+[https://github.com/hostilefork/uscii/blob/master/uscii-5x7-english-c0.reb "uscii-5x7-english-c0.reb"]
 
 {I've informally named this variant "Arecibo Ascii".  That's because it is possible to losslessly convert a stream of conventional ASCII characters into USCII-5x7-ENGLISH-C0 (and back again).  It's still a work in progress, but here's the table as it currently stands:}
 

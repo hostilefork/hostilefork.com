@@ -18,7 +18,7 @@ more
 
 {I'd just discovered some libraries on BBSes like the TechnoJock toolkit and Flexlist, and was picking up some new ideas.  I was getting the hang of how to use generic data structures, learning the difference between writing to screen memory directly and going through BIOS, and a lot of other things that you don't find out from the Turbo C manuals.}
 
-[note {Hey, there's [an empty WordPress blog about TechnoJock toolkit](http://www.technojock.com/toolkit/) even today... I should go leave a message!  The Flexlist fellow doesn't seem to have a web presence these days, but [he did write a book about it](http://www.amazon.com/FlexList-II-ANSI-C-PSW/dp/B001P36HLW), apparently.}]
+[note {I found an empty WordPress blog about TechnoJock toolkit, that went down a couple of months later.  The Flexlist fellow doesn't seem to have a web presence these days, but [he did write a book about it](http://www.amazon.com/FlexList-II-ANSI-C-PSW/dp/B001P36HLW), apparently.}]
 
 {I wrote the quiz program... and it worked.  It impressed the Spanish teacher mostly because you could hit ALT-a to get an **&aacute;** or ALT-q to get **&iquest;**, etc.  I made some sample quizzes and left some copies with the foreign language department.  But I doubt anyone touched it after I left.}
 
