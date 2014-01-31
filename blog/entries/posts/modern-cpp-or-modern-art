@@ -8,13 +8,13 @@ Draem [
 
 {In the preface to his book [Modern C++](http://erdani.org/book/main.html), Andrei Alexandrescu paints a vision of what programming *should* be like:}
 
-[quote [
+[quote
 
-        {Imagine the following scenario. You come from a design meeting with a couple of printed diagrams, scribbled with your annotations. Okay, the event type passed between these objects is not char anymore; it's int.  You change one line of code. The smart pointers to Widget are too slow; they should go unchecked. You change one line of code. The object factory needs to support the new Gadget class just added by another department. You change one line of code.}
+    {Imagine the following scenario. You come from a design meeting with a couple of printed diagrams, scribbled with your annotations. Okay, the event type passed between these objects is not char anymore; it's int.  You change one line of code. The smart pointers to Widget are too slow; they should go unchecked. You change one line of code. The object factory needs to support the new Gadget class just added by another department. You change one line of code.}
 
-        "You have changed the design. Compile. Link. Done."
+    "You have changed the design. Compile. Link. Done."
 
-    ]]
+]
 
 {This is a very nice theory.  But as C++ programming has remained relevant only among a small (yet important) "fringe" of developers, they have been flexing the standards toward an uncompromising pursuit of this vision.  The results are somewhat extreme and not generally easy to work with.}
 
@@ -138,20 +138,20 @@ for (
 
 {Yet at the bottom line, it is a lot more keystrokes to enter.  It also requires a depth of understanding of the C++ language.  [Jeremy Friesner](http://www.lcscanada.com/jaf) aptly captured the darker side of the tradeoff:}
 
-[quote [
+[quote
 
-        {The drawback is as the declarations get more intricate, fewer and fewer people can understand what the code is for, or how it works.  Often the symptom of that is that the code is overlooked or ignored... e.g. you spend a month designing your super-duper templates header, and then two weeks after you leave the project, your replacement added his own header which looks like this:}
+    {The drawback is as the declarations get more intricate, fewer and fewer people can understand what the code is for, or how it works.  Often the symptom of that is that the code is overlooked or ignored... e.g. you spend a month designing your super-duper templates header, and then two weeks after you leave the project, your replacement added his own header which looks like this:}
 
-        [code cpp {
+    [code cpp {
 // CHAR_MAX - Maximal value which can be stored in a char variable.
 #define CHAR_MAX std::numeric_limits<char>::max()
 // CHAR_MIN - Minimal value which can be stored in a char variable.
 #define CHAR_MIN std::numeric_limits<char>::min()
 [...]}]
 
-        "Doh!"
+    "Doh!"
 
-    ]]
+]
 
 {Making matters worse is that once one thinks they understand some of the more abstruse mechanics of C++ libraries, they're still changing their minds.  Best practices keep changing, and Alexandrescu himself gave a talk at BoostCon suggesting that ["STL iterators must go](http://www.boostcon.com/site-media/var/sphene/sphwiki/attachment/2009/05/08/iterators-must-go.pdf)!}
 

@@ -26,15 +26,15 @@ more
 
 {The following questions are not going to boggle the mind of an experienced computer scientist, but they are things that not everyone thinks to ask:}
 
-[list [
+[list
 
-        {Does one need to pack a language with, say, multiplication built-in... or should you just add a number to itself repeatedly in a loop?}
+    {Does one need to pack a language with, say, multiplication built-in... or should you just add a number to itself repeatedly in a loop?}
 
-        {If you discover don't actually *need* multiplication, then doesn't that make the need for addition and loops seem suspicious?}
+    {If you discover don't actually *need* multiplication, then doesn't that make the need for addition and loops seem suspicious?}
 
-        {Is there anything that computers could never solve efficiently? (Or if that ever happens, is it just the case of the programmer just "missing a crayon" that the language designer accidentally forgot to put in his backpack?)}
+    {Is there anything that computers could never solve efficiently? (Or if that ever happens, is it just the case of the programmer just "missing a crayon" that the language designer accidentally forgot to put in his backpack?)}
 
-    ]]
+]
 
 {These are the kinds of great conundrums that preoccupied early computer scientists.  Smart guys like Turing and Church came up with pretty deep answers.   These folks were busy defining mathematical abstractions of computers and "computer languages" that were extraordinary simple, but could do anything that any other generic computer could do.  I think [Turing's own words](http://hostilefork.com/turing-thesis-laymans-terms/) on this subject are surprisingly easy for the layman (and better than many textbook rehashes).}
 
@@ -64,24 +64,25 @@ more
 
 [heading "Addendum: note on inspiration for this article"]
 
-{The phrasing in this article was motivated by a quote from a [post written by Joel Neely](http://www.rebol.org/cgi-bin/cgiwrap/rebol/ml-display-message.r?m=rmlDXCQ), in which he wrote:}
+{The phrasing in this article was motivated by a quote I read:}
 
-[quote [
+[quote
 
-        [list [
+    [list [
 
-                "COBOL is alphabet blocks."
+            "COBOL is alphabet blocks."
 
-                "C is a set of tinkertoys."
+            "C is a set of tinkertoys."
 
-                {Java is an Erector Set *(with all kinds of braces, motors, girders, nuts, and bolts)*}
+            {Java is an Erector Set *(with all kinds of braces, motors, girders, nuts, and bolts)*}
 
-                "Perl is a Swiss-army chainsaw."
+            "Perl is a Swiss-army chainsaw."
 
-                "Rebol is modeling clay."
+            "Rebol is modeling clay."
 
-            ]]
+        ]]
 
-        {...learn to use each one according to its own nature.}
+    {...learn to use each one according to its own nature.}
 
-    ]]
+    /source [http://www.rebol.org/cgi-bin/cgiwrap/rebol/ml-display-message.r?m=rmlDXCQ {Joel Neely}]
+]

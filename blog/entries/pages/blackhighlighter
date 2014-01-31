@@ -33,10 +33,13 @@ https://github.com/hostilefork/blackhighlighter/tree/master
 
 {The biggest workhorses here are the Javascript files accompanying the tabbed page for writing letters and reading/revealing letters:}
 
-[list [
-	{[write.js](https://github.com/hostilefork/blackhighlighter/blob/master/django-blackhighlighter/media/write.js)}
-	{[read.js](https://github.com/hostilefork/blackhighlighter/blob/master/django-blackhighlighter/media/read.js)}
-]]
+[list
+
+    {[write.js](https://github.com/hostilefork/blackhighlighter/blob/master/django-blackhighlighter/media/write.js)}
+
+    {[read.js](https://github.com/hostilefork/blackhighlighter/blob/master/django-blackhighlighter/media/read.js)}
+
+]
 
 {What you'd think of as the HTML is in the [/templates/](https://github.com/hostilefork/blackhighlighter/tree/master/django-blackhighlighter/templates) directory.  For those familiar with django, the Python code should match your intuition, with [models.py](https://github.com/hostilefork/blackhighlighter/blob/master/django-blackhighlighter/models.py) and [views.py](https://github.com/hostilefork/blackhighlighter/blob/master/django-blackhighlighter/views.py).}
 

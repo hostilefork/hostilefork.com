@@ -18,15 +18,15 @@ Draem [
 
 {To understand why this happens, you have to know a little bit about how a typical undo manager works.  Most applications simply have a list of objects representing recent commands that have been executed.  These "Command" objects usually have the following methods:}
 
-[list [
+[list
 
-        {**"Run"** (or "Do"): to execute the command initially, while storing enough information inside the command object that it may revert the effect}
+    {**"Run"** (or "Do"): to execute the command initially, while storing enough information inside the command object that it may revert the effect}
 
-        {**"Undo"**: remove the changes the command made by using the stored information (assuming the relevant application state is in the precise condition after the command was finished)}
+    {**"Undo"**: remove the changes the command made by using the stored information (assuming the relevant application state is in the precise condition after the command was finished)}
 
-        {**"Redo"**: bring back the effects of the command using the stored information (assuming the relevant application state is in the precise condition as when the command was initially run)}
+    {**"Redo"**: bring back the effects of the command using the stored information (assuming the relevant application state is in the precise condition as when the command was initially run)}
 
-    ]]
+]
 
 {It might seem that "Run" and "Redo" are redundant, but they actually perform different functions.  Just imagine a command that inserts the current time into your word processing document.  If someone runs this at 4:00 and then undoes it at 5:00, they expect a redo moments later to restore the "4:00" they just undid...not inject "5:01"!  The undo and redo methods merely playback the action data that was stored during the command--*by design*.}
 
@@ -91,17 +91,17 @@ commandProcessor.EndUndoGroup();
 
 {Yet exposing an API like this from your command processor will not protect against the bug in any general sense.  What *will* solve the general problem is if you only permit a few spots in the main UI loop to access `BeginUndoGroup()` and `EndUndoGroup()`.  Those special places are the points where the user triggered an event that they consider "conceptually atomic".  Some good examples of these privileged moments are:}
 
-[list [
+[list
 
-        "a key press or running an accelerator key"
+    "a key press or running an accelerator key"
 
-        "the selection of a menu item"
+    "the selection of a menu item"
 
-        "the pushing of a toolbar button"
+    "the pushing of a toolbar button"
 
-        {the release of the mouse after a dragging operation}
+    {the release of the mouse after a dragging operation}
 
-    ]]
+]
 
 {Obviously each individual mouse movement shouldn't generate an undo group--in a paint program you wouldn't want to have to undo each pixel from a brush stroke!  Yet simply calling `BeginUndoGroup()` when the mouse goes down and then `EndUndoGroup()` when the mouse goes up isn't the ideal solution.  The problem is better solved by not allowing the mouse action to submit a command to the command processor until the mouse button is released.  Until that time, the program just accumulates state from the mouse's movement that will ultimately be used by the command's `Run()` method.}
 

@@ -271,21 +271,21 @@ extern ssize_t write (int __fd, __const void *__buf, size_t __n) __wur;
 
 {We'll keep following along with how Linux does it.  There is a file called [sysdeps/unix/syscalls.list](http://sourceware.org/git/?p=glibc.git;a=blob;f=sysdeps/unix/syscalls.list;h=04ed63c4d75451b978fd9488e102fe0d058b0295;hb=HEAD) which is used to generate the `write` function automatically.  The relevant data from the table is:}
 
-[list [
+[list
 
-        "**File name:** write"
+    "**File name:** write"
 
-        {**Caller:** "-" *(i.e. Not Applicable)*}
+    {**Caller:** "-" *(i.e. Not Applicable)*}
 
-        "**Syscall name:** write"
+    "**Syscall name:** write"
 
-        "**Args:** Ci:ibn"
+    "**Args:** Ci:ibn"
 
-        "**Strong name:** __libc_write"
+    "**Strong name:** __libc_write"
 
-        "**Weak names: ** __write, write"
+    "**Weak names: ** __write, write"
 
-    ]]
+]
 
 {Not all that mysterious, except for the **Ci:ibn**.  The C means "cancellable".  The colon separates the return type from the argument types, and if you want a deeper explanation of what they mean then you can see the comment in the shell script which generates the code, [libc/sysdeps/unix/make-syscalls.sh](http://sourceware.org/git/?p=glibc.git;a=blob;f=sysdeps/unix/make-syscalls.sh;h=a8b8a262a7cd20ee9fd4618ddc94120d283a813e;hb=HEAD).}
 

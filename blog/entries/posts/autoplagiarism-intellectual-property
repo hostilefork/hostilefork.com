@@ -10,7 +10,11 @@ Draem [
 
 [heading "AUTOPLAGIARISM"]
 
-[quote {"All intellectual property rights are just licenses granted by society because it was thought, rightly or wrongly, that society as a whole would benefit by granting them. But in any particular situation, we have to ask: are we really better off granting such license? What kind of act are we licensing a person to do?} {Richard Stallman, [Free Software Foundation's GNU manifesto](http://www.gnu.org/gnu/manifesto.html)}]
+[quote
+	{"All intellectual property rights are just licenses granted by society because it was thought, rightly or wrongly, that society as a whole would benefit by granting them. But in any particular situation, we have to ask: are we really better off granting such license? What kind of act are we licensing a person to do?}
+
+	/source {Richard Stallman, [Free Software Foundation's GNU manifesto](http://www.gnu.org/gnu/manifesto.html)}
+]
 
 more
 

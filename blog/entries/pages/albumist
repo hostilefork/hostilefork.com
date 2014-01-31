@@ -62,44 +62,44 @@ Albumist.displayByBandName(
 
 {I'm not a guru in JavaScript or browser quirks.  The code is the result of mooshing together several small JavaScript-based pieces by other authors:}
 
-[list [
+[list
 
-        [http://mootools.net/ "The Mootools Toolkit"]
+    [http://mootools.net/ "The Mootools Toolkit"]
 
-        [http://www.json.org/json.js "Douglas Crockford's JSON Helper"]
+    [http://www.json.org/json.js "Douglas Crockford's JSON Helper"]
 
-        [http://www.freebase.com/view/guid/9202a8c04000641f800000000544e139#fig-albumlist2 "Freebase's Album Query sample code"]
+    [http://www.freebase.com/view/guid/9202a8c04000641f800000000544e139#fig-albumlist2 "Freebase's Album Query sample code"]
 
-        [http://www.e-magine.ro/web-dev-and-design/36/moodalbox/ "MOOdalBox Modal Dialog Box"]
+    [http://www.e-magine.ro/web-dev-and-design/36/moodalbox/ "MOOdalBox Modal Dialog Box"]
 
-        [http://talk-on-tech.blogspot.com/2008/07/access-to-lyricwikiorgs-rest-api-with.html "Talk On Tech's LyricsWiki sample"]
+    [http://talk-on-tech.blogspot.com/2008/07/access-to-lyricwikiorgs-rest-api-with.html "Talk On Tech's LyricsWiki sample"]
 
-        [http://bytes.com/forum/thread498334.html "Steven Chalmers ScrollFreeze"]
+    [http://bytes.com/forum/thread498334.html "Steven Chalmers ScrollFreeze"]
 
-        [http://pr0digy.com/sandbox/mootools/slide-effect/ "prodigy.com's Mootools Slide Effect"]
+    [http://pr0digy.com/sandbox/mootools/slide-effect/ "prodigy.com's Mootools Slide Effect"]
 
-        {...and other snippets from around the 'net that I retained links to in the code itself.}
+    {...and other snippets from around the 'net that I retained links to in the code itself.}
 
-    ]]
+]
 
 [heading "Let's improve Albumist!"]
 
 {Any ideas are welcome!  Bugfixes or improvements would be great.  Some ideas:}
 
-[list [
+[list
 
-        {Internet Explorer isn't currently working, though it did at one point.  I'm unsure what happened, and the debugging tools are very poor for IE.}
+    {Internet Explorer isn't currently working, though it did at one point.  I'm unsure what happened, and the debugging tools are very poor for IE.}
 
-        {I really wanted the UI to do automatic currency conversion using the latest exchange rates, but didn't get around to it.  This [XML data source](http://www.ecb.int/stats/eurofxref/eurofxref-daily.xml) looked promising for implementing it...}
+    {I really wanted the UI to do automatic currency conversion using the latest exchange rates, but didn't get around to it.  This [XML data source](http://www.ecb.int/stats/eurofxref/eurofxref-daily.xml) looked promising for implementing it...}
 
-        {There has to be more thought given to how to make the design work well with a non-white background.}
+    {There has to be more thought given to how to make the design work well with a non-white background.}
 
-        {The current CSS is poorly done and could use a complete makeover, with proper semantics and layout for when an album window is opened.}
+    {The current CSS is poorly done and could use a complete makeover, with proper semantics and layout for when an album window is opened.}
 
-        {I'd like to have next/previous album buttons down next to the "Close" button, the way it is done in [Milkbox](http://reghellin.com/milkbox/).}
+    {I'd like to have next/previous album buttons down next to the "Close" button, the way it is done in [Milkbox](http://reghellin.com/milkbox/).}
 
-        {A strategy for dealing with different versions of mootools is needed.  I'd like to use a compatible subset or have some way of detecting the version so it can still be kept as a single codebase.}
+    {A strategy for dealing with different versions of mootools is needed.  I'd like to use a compatible subset or have some way of detecting the version so it can still be kept as a single codebase.}
 
-    ]]
+]
 
 {Leave a comment or shoot me an email if you want to get involved...!}

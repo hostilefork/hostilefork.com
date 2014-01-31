@@ -13,13 +13,9 @@ Draem [
 
 [quote
 
-    [
+    {It was a gamble: would people really take time out of their busy lives to answer other people’s questions, for nothing more than fake internet points and bragging rights?}
 
-        {It was a gamble: would people really take time out of their busy lives to answer other people’s questions, for nothing more than fake internet points and bragging rights?}
-
-        {**It turns out people will do anything for fake Internet Points**}
-
-    ] [
+    {**It turns out people will do anything for fake Internet Points**} /source [
 
         http://blog.stackoverflow.com/2013/09/five-years-ago-stack-overflow-launched-then-a-miracle-occurred/ "StackOverflow Blog, 16-Sep-2013"
 
@@ -37,17 +33,17 @@ Draem [
 
 "But I didn't use the XML import because:"
 
-[list [
+[list
 
-        {My WordPress was too old to give me that format, and I didn't want to go through the upgrade pains on a 7 year old installation just so I could get the comments out.}
+    {My WordPress was too old to give me that format, and I didn't want to go through the upgrade pains on a 7 year old installation just so I could get the comments out.}
 
-        {I was changing all the URLs anyway to be "prettier", so it was going to be work to munge the XML.}
+    {I was changing all the URLs anyway to be "prettier", so it was going to be work to munge the XML.}
 
-        {I'd promised everyone who'd ever commented on the blog that I wouldn't "do anything evil" with their email address, and giving it to a third party like Disqus without their approval counts as evil in my book; more munging.}
+    {I'd promised everyone who'd ever commented on the blog that I wouldn't "do anything evil" with their email address, and giving it to a third party like Disqus without their approval counts as evil in my book; more munging.}
 
-        {As a software engineer, I believe that XML is a [blight upon my craft](http://www.rebol.com/article/0108.html).}
+    {As a software engineer, I believe that XML is a [blight upon my craft](http://www.rebol.com/article/0108.html).}
 
-    ]]
+]
 
 {Besides, I'd been drawn to Disqus because of the API.  Using the API for the comment import would give me a chance to learn how it worked.  All I needed to get my scraped comments in would be to find a way to post anonymously to a thread identified by the new URL, passing in an author name and message text.}
 
@@ -65,15 +61,15 @@ Draem [
 
 {This is a controversial thing in web services.  It's one thing to be giving someone like Gmail your information (probably a bad idea in the first place), and quite another one to lose the control to say "I deleted it, and I want that *really* deleted off my service provider's disks".  Even if they offer the feature, you never really know (of course) if they have a backup somewhere.}
 
-[note [
+[note
 
-        {I will point out that the Internet has been a [better keeper of my records](http://blog.hostilefork.com/manykeys-my-open-source-roots/) than I have.  Good or bad?  Hard to know...}
+    {I will point out that the Internet has been a [better keeper of my records](http://blog.hostilefork.com/manykeys-my-open-source-roots/) than I have.  Good or bad?  Hard to know...}
 
-        {See also what Viktor Mayer-Schönberger has to say about his book *"Delete: The Virtue of Forgetting in the Digital Age"*:}
+    {See also what Viktor Mayer-Schönberger has to say about his book *"Delete: The Virtue of Forgetting in the Digital Age"*:}
 
-        [youtube https://www.youtube.com/watch?v=GRmoX7MbLp0 560x315]
+    [youtube https://www.youtube.com/watch?v=GRmoX7MbLp0 560x315]
 
-    ]]
+]
 
 {In any case, for comments on a public blog, retention isn't a privacy issue.  A control issue, sure, but comments on a public web page are public record.  Yet it becomes irritating if you're experimenting with the API and creating a bunch of test threads and posts that are going to clutter your history forever.}
 
@@ -83,15 +79,15 @@ Draem [
 
 {Disqus lets you register apps and get API keys for them.  There's a page on the app configuration (under [http://disqus.com/api/applications/](http://disqus.com/api/applications/) if you are logged in) which offers you several things if you scroll down:}
 
-[list [
+[list
 
-        {**API Key** e.g. T5hiSiS7AfakE1KEyBu9tGIVINgi7TasANeX1amPLEo4fwHATTheYL4oO5KLIke1}
+    {**API Key** e.g. T5hiSiS7AfakE1KEyBu9tGIVINgi7TasANeX1amPLEo4fwHATTheYL4oO5KLIke1}
 
-        {**API Secret** e.g. T5hiSiS7FakeA1LSoBu9tGIVINgi7TasANeX1amPLEo4fwHATTheYL4oO5KLIke1}
+    {**API Secret** e.g. T5hiSiS7FakeA1LSoBu9tGIVINgi7TasANeX1amPLEo4fwHATTheYL4oO5KLIke1}
 
-        {**Access Token** e.g. 61a9gai5na914fak8ek4ey4233d84876}
+    {**Access Token** e.g. 61a9gai5na914fak8ek4ey4233d84876}
 
-    ]]
+]
 
 {Now what are these, exactly?  The first two are really only for doing OAuth as far as I can tell.  So don't be misled and bother trying to pass the *API Key* or *API Secret* into Disqus API calls as the `api_key`, [it just does not work](http://spirytoos.blogspot.com/2013/12/not-so-easy-posting-as-guest-via-disqus.html).  As far as I can tell, the *real* api_key they want can only be found by watching the network traffic the Disqus widget uses to post comments.  Go to one of your pages with Disqus embedded, enable network request tracing, post a comment and look for `http://disqus.com/api/3.0/posts/create.json`.  In the form data you will see an `api_key`, snap that up.  It's the one that works; the "API Key" above won't.}
 

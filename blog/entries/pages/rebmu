@@ -64,15 +64,15 @@ Input String: MCCCXXXVII
 
 {I've been solving old StackOverflow code golf challenges in Rebmu, to test and refine the design:}
 
-[list [
+[list
 
-        [http://stackoverflow.com/questions/2527477/code-golf-connecting-the-dots/3066878#3066878 "Connecting the Dots"]
+    [http://stackoverflow.com/questions/2527477/code-golf-connecting-the-dots/3066878#3066878 "Connecting the Dots"]
 
-        [http://stackoverflow.com/questions/3034331/code-golf-rotating-maze/3060396#3060396 "Rotating Maze"]
+    [http://stackoverflow.com/questions/3034331/code-golf-rotating-maze/3060396#3060396 "Rotating Maze"]
 
-        [http://stackoverflow.com/questions/2261681/code-golf-scrabble-able/3088746#3088746 "Scrabbleable"]
+    [http://stackoverflow.com/questions/2261681/code-golf-scrabble-able/3088746#3088746 "Scrabbleable"]
 
-    ]]
+]
 
 [heading "The Punch Line"]
 

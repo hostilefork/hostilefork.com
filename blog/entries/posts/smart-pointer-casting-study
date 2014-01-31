@@ -20,43 +20,39 @@ more
 
 [heading "Bad News First"]
 
-[list [
+[list
 
-        {**Unfortunately** -- This appears to be caused by a problem in the C++ spec, and is not likely to ever be changed since `std::auto_ptr` is deprecated.  (It's hard to imagine the ambiguity is the result of an oversight, but no one's offered a reason for it yet.)}
+    {**Unfortunately** -- This appears to be caused by a problem in the C++ spec, and is not likely to ever be changed since `std::auto_ptr` is deprecated.  (It's hard to imagine the ambiguity is the result of an oversight, but no one's offered a reason for it yet.)}
 
-        [
+    [
 
-            group
+        {**Fortunately** -- the new approved owned pointer class `std::unique_ptr` handles these implicit casts *and* is a must-have upgrade for reasons that are more important!}
 
-            {**Fortunately** -- the new approved owned pointer class `std::unique_ptr` handles these implicit casts *and* is a must-have upgrade for reasons that are more important!}
+        [http://github.com/hostilefork/smartptr-cast-study/blob/master/unique_ptr_cast.cpp "unique_ptr_cast.cpp"]
 
-            [http://github.com/hostilefork/smartptr-cast-study/blob/master/unique_ptr_cast.cpp "unique_ptr_cast.cpp"]
+        [note {For a skeptic's point of view, see what Bartosz Milewski [has to say](http://bartoszmilewski.wordpress.com/2009/05/21/unique_ptr-how-unique-is-it/) about unique_ptr.}]
 
-            [note {For a skeptic's point of view, see what Bartosz Milewski [has to say](http://bartoszmilewski.wordpress.com/2009/05/21/unique_ptr-how-unique-is-it/) about unique_ptr.}]
+    ]
 
-        ]
+    {**Unfortunately** -- `unique_ptr` can't be implemented properly unless you have a version of the C++ compiler that supports [rvalue references](http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2006/n2027.html).}
 
-        {**Unfortunately** -- `unique_ptr` can't be implemented properly unless you have a version of the C++ compiler that supports [rvalue references](http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2006/n2027.html).}
+    {**Fortunately** -- rvalue references were added to gcc version 4.3, which is deployed fairly widely in today's linux distributions.  (Try running `g++ --version` to see what you have...)}
 
-        {**Fortunately** -- rvalue references were added to gcc version 4.3, which is deployed fairly widely in today's linux distributions.  (Try running `g++ --version` to see what you have...)}
+    {**Unfortunately** -- Just because you have a compiler that is able to compile the `unique_ptr` class doesn't mean you actually have unique_ptr in the standard library.  (You need gcc 4.4 or later to get `std::unique_ptr` when you `#include <memory>`, AND you have to compile your program with the "-std=gnu++0x" command line option.)}
 
-        {**Unfortunately** -- Just because you have a compiler that is able to compile the `unique_ptr` class doesn't mean you actually have unique_ptr in the standard library.  (You need gcc 4.4 or later to get `std::unique_ptr` when you `#include <memory>`, AND you have to compile your program with the "-std=gnu++0x" command line option.)}
+    {**Fortunately** -- The boost interprocess library includes `boost::interprocess::unique_ptr` that you can use with older compilers.}
 
-        {**Fortunately** -- The boost interprocess library includes `boost::interprocess::unique_ptr` that you can use with older compilers.}
+    [
 
-        [
+        {**Unfortunately** -- It's [hard to pin down](http://stackoverflow.com/questions/438444/passing-object-ownership-in-c/438487) what subset of unique_ptr's functionality it implements, and it doesn't seem to support any kind of casting (implicit -or- explicit).}
 
-            group
+        [http://github.com/hostilefork/smartptr-cast-study/blob/master/auto_ptr_cast.cpp "boost_unique_ptr_cast.cpp"]
 
-            {**Unfortunately** -- It's [hard to pin down](http://stackoverflow.com/questions/438444/passing-object-ownership-in-c/438487) what subset of unique_ptr's functionality it implements, and it doesn't seem to support any kind of casting (implicit -or- explicit).}
+    ]
 
-            [http://github.com/hostilefork/smartptr-cast-study/blob/master/auto_ptr_cast.cpp "boost_unique_ptr_cast.cpp"]
+    {**Fortunately** -- It's not that hard to build g++ 4.4 yourself if your distribution came with an earlier version...with some help from the interwebs.}
 
-        ]
-
-        {**Fortunately** -- It's not that hard to build g++ 4.4 yourself if your distribution came with an earlier version...with some help from the interwebs.}
-
-    ]]
+]
 
 [heading {"Didn't they teach you to shared_ptr in Kindergarten?"}]
 
@@ -143,17 +139,17 @@ void purchaseItem(ZInventoryItem item, unique_ptr<ZDigitalCash> cash);
 
 {I managed to get gcc 4.4 to build inside a virtual machine running 64-bit kubuntu 9.04 with 512MB of allocated memory.  The suggestion I got was to do this in my home directory.  A few notes:}
 
-[list [
+[list
 
-        {If you're short on memory, it might help you to kill X-Windows and your display manager during the build.  How to do this varies from installation to installation, but I did it by logging into a virtual console (via Alt-F1) and killing the process for the display manager (called kdm).  YMMV}
+    {If you're short on memory, it might help you to kill X-Windows and your display manager during the build.  How to do this varies from installation to installation, but I did it by logging into a virtual console (via Alt-F1) and killing the process for the display manager (called kdm).  YMMV}
 
-        {If you only want a C++ compiler, you can speed the process and eliminate problems by telling configure `--enable-languages='c++'`}
+    {If you only want a C++ compiler, you can speed the process and eliminate problems by telling configure `--enable-languages='c++'`}
 
-        {If you get some warnings about not being able to find 32 bit stubs, try setting the CFLAGS environment variable to `-m64`}
+    {If you get some warnings about not being able to find 32 bit stubs, try setting the CFLAGS environment variable to `-m64`}
 
-        {If there's some message about problems with libc, then you might have to tell configure also to `--disable-multilib`}
+    {If there's some message about problems with libc, then you might have to tell configure also to `--disable-multilib`}
 
-    ]]
+]
 
 {When you're all done with the build, do "which g++" and make sure that your current compiler version is in /usr/bin.  That means the default `make install` will put your new version in /usr/local/bin.  To get your personal profile to prefer the compiler in /usr/local, edit your .bashrc file and add:}
 

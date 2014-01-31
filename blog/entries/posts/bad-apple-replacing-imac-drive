@@ -18,15 +18,15 @@ http://octomac.com/tech/iMacHD/iMacHDUpgrade.html
 
 "Everything *seemed* to go great:"
 
-[list [
+[list
 
-        {[the expansion bracket I picked](http://www.amazon.com/gp/product/B002BH3Z8E/) fit great, no problems.}
+    {[the expansion bracket I picked](http://www.amazon.com/gp/product/B002BH3Z8E/) fit great, no problems.}
 
-        {[the heavyweight suction cup I got](http://www.amazon.com/gp/product/B003XS9DY0/) was heavier duty than required to extract the screen glass from the front.  But seems a handy thing to have for pulling out car dents anyway, so I was glad to have a nice one.}
+    {[the heavyweight suction cup I got](http://www.amazon.com/gp/product/B003XS9DY0/) was heavier duty than required to extract the screen glass from the front.  But seems a handy thing to have for pulling out car dents anyway, so I was glad to have a nice one.}
 
-        {I didn't have any compressed air left, but rather than buying some I found a [cute reusable air-puffing gadget](http://www.amazon.com/gp/product/B00017LSPI/)  Nice for making good dry puffs of air, and will never run out!}
+    {I didn't have any compressed air left, but rather than buying some I found a [cute reusable air-puffing gadget](http://www.amazon.com/gp/product/B00017LSPI/)  Nice for making good dry puffs of air, and will never run out!}
 
-    ]]
+]
 
 {Stuck it mostly back together.  But before actually putting the chassis back on and doing the glass and everything, I thought I would sit the machine upright and give it a test run.  Happily, it made the boot-up noise and went along loading the lion installer from disc.  The screen was fine; I had configured the machine to [Monitor Messages During Boot](http://www.tech-recipes.com/rx/723/mac-os-x-monitor-messages-during-boot/) in the firmware.}
 

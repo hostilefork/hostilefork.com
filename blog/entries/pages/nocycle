@@ -83,15 +83,15 @@ https://github.com/hostilefork/nocycle/tree/master
 
 {Where before we needed six bits, we now have three tristates (T[z]), each of which can hold one of these possibilities:}
 
-[list [
+[list
 
-        "**s0**: no connection"
+    "**s0**: no connection"
 
-        {**s1**: lower numbered vertex points to higher numbered vertex}
+    {**s1**: lower numbered vertex points to higher numbered vertex}
 
-        {**s2**: higher numbered vertex points to lower numbered vertex}
+    {**s2**: higher numbered vertex points to lower numbered vertex}
 
-    ]]
+]
 
 {This representation saves us from accommodating states where vertices both point to each other.  Generally speaking, you'll need half as many tristates as you'd need bits...and a tristate needs slightly less than two bits to be represented.  It's an approximately 20% space savings, and you can see the [Nstate library](http://hostilefork.com/nstate/) for some generalized helper classes that I wrote to make this transparent to the graph code layer.}
 
@@ -167,15 +167,15 @@ https://github.com/hostilefork/nocycle/tree/master
 
 [image http://upload.wikimedia.org/wikipedia/commons/0/08/Directed_acyclic_graph.png 260x231 "Directed Acyclic Graph Sample from Wikipedia"]
 
-[list [
+[list
 
-        {"Can Vertex 7 Reach Vertex 10?" *Yes: by going via Vertex 11*}
+    {"Can Vertex 7 Reach Vertex 10?" *Yes: by going via Vertex 11*}
 
-        {"Can Vertex 9 Reach Vertex 8?" *No: arrow points the wrong way*}
+    {"Can Vertex 9 Reach Vertex 8?" *No: arrow points the wrong way*}
 
-        {"Can Vertex 3 Reach Vertex 5?" *No: no path connects them*}
+    {"Can Vertex 3 Reach Vertex 5?" *No: no path connects them*}
 
-    ]]
+]
 
 {Answering this question is particularly useful for determining if it is safe to insert an edge into the graph without creating cycles.  To see this is the case, imagine making an edge pointing from Vertex 2 to Vertex 7 in the graph above.  This would create the cycle 2&rarr;7&rarr;11&rarr;2...but it would have been avoidable if you had realized that 7 "canreach" 2 prior to making that link!
  

@@ -80,21 +80,21 @@ initrd /boot/initrd.img-2.6.31-14-generic
 
 {What you need to do is venture into the directory **/etc/grub.d**.  That's where the scripts which generate **grub.cfg** live, and you should see files like:}
 
-[list [
+[list
 
-        "00_header"
+    "00_header"
 
-        "05_debian_theme"
+    "05_debian_theme"
 
-        "10_linux"
+    "10_linux"
 
-        "20_memtest86+"
+    "20_memtest86+"
 
-        "30_os-prober"
+    "30_os-prober"
 
-        "40_custom"
+    "40_custom"
 
-    ]]
+]
 
 {These are shell scripts, and the two digit numbers in the filename indicate the order in which the scripts are run.  The least invasive way to add your own custom menu option is to edit the file **40_custom** by putting the literal text of the menu option in:}
 

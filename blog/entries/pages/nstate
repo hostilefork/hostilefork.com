@@ -46,43 +46,43 @@ int main(int argc, char * const argv[]) {
 
 {I was trying to figure out how to efficiently store an array of tristates in a memory block.  I knew I could use two-bits-per tristate, but a tristate needs slightly less than two bits to be represented.  To understand the theoretical limit of how much memory this could save, one has to use logarithms:}
 
-[list [
+[list
 
-        "`(bits for N tristates) / (bits for 2 * N bits)`"
+    "`(bits for N tristates) / (bits for 2 * N bits)`"
 
-        [group
+    [
 
-            "= `ceil(log<sub>2</sub>(3^^N)) / (2 * N)`"
+        "= `ceil(log<sub>2</sub>(3^^N)) / (2 * N)`"
 
-            [note "by definition"]
+        [note "by definition"]
 
-        ]
+    ]
 
-        [group
+    [
 
-            "&asymp; `N log<sub>2</sub>(3) / (2 * N)`"
+        "&asymp; `N log<sub>2</sub>(3) / (2 * N)`"
 
-            [note "power rule"]
+        [note "power rule"]
 
-        ]
+    ]
 
-        [group
+    [
 
-            "= `log<sub>2</sub>(3) / 2`"
+        "= `log<sub>2</sub>(3) / 2`"
 
-            [note "cancellation"]
+        [note "cancellation"]
 
-        ]
+    ]
 
-        [group
+    [
 
-            "`&asymp; 79%`"
+        "`&asymp; 79%`"
 
-            [note "calculator"]
+        [note "calculator"]
 
-        ]
+    ]
 
-    ]]
+]
 
 {Though introducing code complexity to save 20% of memory might not be of much importance usually, the problem I was looking at was using 2<sup>16</sup> * 2<sup>16</sup> tristates... which at 2-bits per would be 512MB.  Saving a fifth of that is nice, and could even be essential on hardware based on a single 512MB chip that needed some room for code as well as data!}
 

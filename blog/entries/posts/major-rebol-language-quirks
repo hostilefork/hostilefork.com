@@ -210,15 +210,15 @@ Goodbye
 
 "Let's break down what happened here:"
 
-[list [
+[list
 
-        {`print` took its one argument, and once it was fulfilled, it knew it could run...so it did, and printed "Goodbye"}
+    {`print` took its one argument, and once it was fulfilled, it knew it could run...so it did, and printed "Goodbye"}
 
-        {Next in the left-to-right evaluation was "cruel", and it was just a string constant with no side effects so it vanished into the void}
+    {Next in the left-to-right evaluation was "cruel", and it was just a string constant with no side effects so it vanished into the void}
 
-        {Chugging merrily along, the interpreter saw "world" also evaluated to a string, but had the peculiar property that it was the last item in the series... so the overall expression has the value "world".}
+    {Chugging merrily along, the interpreter saw "world" also evaluated to a string, but had the peculiar property that it was the last item in the series... so the overall expression has the value "world".}
 
-    ]]
+]
 
 "In C++ this would have been:"
 

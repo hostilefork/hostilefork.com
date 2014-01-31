@@ -30,15 +30,15 @@ Draem [
 
 {On Windows and other platforms, the Drag&Drop methods are precise analogues to the mouse messages we are familiar with:}
 
-[list [
+[list
 
-        "`DragStart()` = `MouseDown()`"
+    "`DragStart()` = `MouseDown()`"
 
-        "`DragOver()` = `MouseMove()`"
+    "`DragOver()` = `MouseMove()`"
 
-        "`Drop()` = `MouseUp()`"
+    "`Drop()` = `MouseUp()`"
 
-    ]]
+]
 
 more
 

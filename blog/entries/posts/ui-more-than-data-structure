@@ -10,17 +10,17 @@ Draem [
 
 {A real-world example might be how percentages are turned into letter grades, such as 97-100 for an A+ and 94-96 for an A... and so on.  But the mock-up data used in the provided example was:}
 
-[list [
+[list
 
-        "Less than 20 &rarr; Default"
+    "Less than 20 &rarr; Default"
 
-        "20 .. 40 &rarr; blah"
+    "20 .. 40 &rarr; blah"
 
-        "40 .. 80 &rarr; next"
+    "40 .. 80 &rarr; next"
 
-        "More than 80 &rarr; something"
+    "More than 80 &rarr; something"
 
-    ]]
+]
 
 {A constraint was that the ranges would not be allowed to overlap, and the question was what would be the best UI for this task.  Rather than just draw a picture in response, I open-sourced a working online implementation of something I called **jquery-numband**:}
 

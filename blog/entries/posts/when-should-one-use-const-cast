@@ -12,15 +12,15 @@ Draem [
 
 {The most *common* use of `const_cast` I've seen (with `const`) is this scenario:}
 
-[list [
+[list
 
-        {You're calling a library that has something like a `printFoo(Foo* fooPointer)` function, which clearly requires a non-const Foo.}
+    {You're calling a library that has something like a `printFoo(Foo* fooPointer)` function, which clearly requires a non-const Foo.}
 
-        {There's good reason to be "sure" this function doesn't modify the Foo, but you're unable to change the prototype or the source to express that knowledge for some reason.}
+    {There's good reason to be "sure" this function doesn't modify the Foo, but you're unable to change the prototype or the source to express that knowledge for some reason.}
 
-        {Your code has made an effort to only use `Foo*` in contexts where writability is needed and `const Foo*` in all other contexts.}
+    {Your code has made an effort to only use `Foo*` in contexts where writability is needed and `const Foo*` in all other contexts.}
 
-    ]]
+]
 
 {...that means that as a stopgap measure, you'll have to `const_cast` in order to cross this divide and call the routine.}
 

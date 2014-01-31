@@ -18,33 +18,33 @@ Draem [
 
 [image http://hostilefork.com/wp-content/uploads/2008/09/92aelvis1.jpg 150x113 "Tiny Elvis and his Normal-Size Buddies"]
 
-[quote [
+[quote
 
-        [Tiny-Elvis: {Hey, man.. look at that salt shaker, man. That is huge! Man, I'll never be able to use all that salt, man. That is way too much!}]
+    [Tiny-Elvis: {Hey, man.. look at that salt shaker, man. That is huge! Man, I'll never be able to use all that salt, man. That is way too much!}]
 
-        [Red: "Yeah, that's a big salt shaker, Elvis!"]
+    [Red: "Yeah, that's a big salt shaker, Elvis!"]
 
-        [Tiny-Elvis: "Sure is huge, man."]
+    [Tiny-Elvis: "Sure is huge, man."]
 
-        [Sonny: "That's hilarious, Elvis!"]
+    [Sonny: "That's hilarious, Elvis!"]
 
-        [Red: "Score another one for the Tiny E!"]
+    [Red: "Score another one for the Tiny E!"]
 
-        [Tiny-Elvis: {Well, I'm just saying it's a big salt shaker, that's all.}]
+    [Tiny-Elvis: {Well, I'm just saying it's a big salt shaker, that's all.}]
 
-        [Red: ("laughing") "There he goes again! That's why *he's* the Tiny E."]
+    [Red: <laughing> "There he goes again! That's why *he's* the Tiny E."]
 
-    ]]
+]
 
 {I've envisioned Rebol's architect Carl Sassenrath miniaturized at a modern workstation.  He'd be bemoaning the misapplication of the hardware, as "Tiny Rebol":}
 
-[quote [
+[quote
 
-        [Tiny-Rebol: {Whoa now.  Look at that Firewire drive, 750 Gigabytes!  I run in 750 *Kilo*bytes.  What would *I* ever do with all those bytes?}]
+    [Tiny-Rebol: {Whoa now.  Look at that Firewire drive, 750 Gigabytes!  I run in 750 *Kilo*bytes.  What would *I* ever do with all those bytes?}]
 
-        [Red: ("laughing") "There he goes again! That's why *he's* the Tiny R."]
+    [Red: <laughing> "There he goes again! That's why *he's* the Tiny R."]
 
-    ]]
+]
 
 {Despite my friendly kidding,  I agree that size can be a good barometer of when complexity has been managed well.  It's not the only indicator and shouldn't be taken to extremes--such as by giving variables short (but unclear) names.  Yet if a very small system can do what you'd think a much larger one would be needed for, it bears a closer look.}
 
@@ -66,17 +66,17 @@ more
 
 {We don't manufacture most cars like this for "practical" reasons:}
 
-[list [
+[list
 
-        {**financial**: Fancy metals costs a lot.  Using black hoses everywhere is cheaper than using red and blue ones.}
+    {**financial**: Fancy metals costs a lot.  Using black hoses everywhere is cheaper than using red and blue ones.}
 
-        {**space**: It's tough to make a good hands-on and serviceable engine fit under the hood (as above).  You have to contort it, which makes it harder to access.}
+    {**space**: It's tough to make a good hands-on and serviceable engine fit under the hood (as above).  You have to contort it, which makes it harder to access.}
 
-        {**environmental**: Engines have had to be designed with compromises in order to increase their fuel efficiency and reduce their emissions, and these add to the complexity of the system.}
+    {**environmental**: Engines have had to be designed with compromises in order to increase their fuel efficiency and reduce their emissions, and these add to the complexity of the system.}
 
-        {**educational**: Most people don't care to learn about cars, so useful parts like pressure or temperature gauges that are visible on the engine are left out--replaced by a single SERVICE light on the dash.}
+    {**educational**: Most people don't care to learn about cars, so useful parts like pressure or temperature gauges that are visible on the engine are left out--replaced by a single SERVICE light on the dash.}
 
-    ]]
+]
 
 {Notice that these constraints don't have a lot to do with the spirit of cars or driving.  They come from living in a "real world", where there are things more important than cars to worry about.  Engines have become victims of our inability to insulate their design from *non-engine-related worries*.}
 
@@ -88,43 +88,43 @@ more
 
 {What keeps pulling me back to programming is that "real world" technology *isn't doing what I want*.  Software is actually contributing to that problem in ways...we seem to be so mired in it that it's derailed everything else.  As the famous IBM commercial with Avery Brooks goes, where he says we don't need flying cars because we have software...}
 
-[quote [
+[quote
 
-        {Where are the flying cars?!  I was promised FLYING CARS!!!}
+    {Where are the flying cars?!  I was promised FLYING CARS!!!}
 
-        [youtube http://www.youtube.com/v/vzm6pvHPSGo 425x344]
+    [youtube http://www.youtube.com/v/vzm6pvHPSGo 425x344]
 
-        "I don't see any flying cars!  Why?!  Why?!  Why!"
+    "I don't see any flying cars!  Why?!  Why?!  Why!"
 
-    ]]
+]
 
 {Except rather than dismiss it, I feel the need to dig in and find out what the hold-up is.  Every time, I feel like the biggest factor is humanity's myopia about architecture.  People are so eager to see a profit after a small demonstration that they allow a shaky infrastructure to permeate... if it works "well enough".  They almost never prioritize *refinement of that which exists* on par with *going to the next step*.}
 
 {Here's a joke about that, and it might be funnier to me if it weren't such a frighteningly accurate reflection of our situation:}
 
-[quote [
+[quote
 
-        {There was once a COBOL programmer in the mid to late 1990s named Jack. After years of being taken for granted and treated as a technological dinosaur by all the UNIX programmers and Client/Server programmers and website developers, Jack was finally getting some respect. He'd become a private consultant specializing in Year 2000 conversions. He was working short-term assignments for prestige companies, traveling all over the world on different assignments. He was working 70 and 80 and even 90 hour weeks, but it was worth it.}
+    {There was once a COBOL programmer in the mid to late 1990s named Jack. After years of being taken for granted and treated as a technological dinosaur by all the UNIX programmers and Client/Server programmers and website developers, Jack was finally getting some respect. He'd become a private consultant specializing in Year 2000 conversions. He was working short-term assignments for prestige companies, traveling all over the world on different assignments. He was working 70 and 80 and even 90 hour weeks, but it was worth it.}
 
-        {Several years of this relentless, mind-numbing work had taken its toll on Jack. He had problems sleeping and began having anxiety dreams about the Year 2000. It had reached a point where even the thought of the year 2000 made him nearly violent. He must have suffered some sort of breakdown, because all he could think about was how he could avoid the year 2000 and all that came with it.}
+    {Several years of this relentless, mind-numbing work had taken its toll on Jack. He had problems sleeping and began having anxiety dreams about the Year 2000. It had reached a point where even the thought of the year 2000 made him nearly violent. He must have suffered some sort of breakdown, because all he could think about was how he could avoid the year 2000 and all that came with it.}
 
-        {Jack decided to contact a company that specialized in cryogenics. He made a deal to have himself frozen until March 15th, 2000. This was very expensive process and totally automated. He was thrilled. The next thing he would know is he'd wake up in the year 2000; after the New Year celebrations and computer debacles; after the leap day. Nothing else to worry about except getting on with his life.}
+    {Jack decided to contact a company that specialized in cryogenics. He made a deal to have himself frozen until March 15th, 2000. This was very expensive process and totally automated. He was thrilled. The next thing he would know is he'd wake up in the year 2000; after the New Year celebrations and computer debacles; after the leap day. Nothing else to worry about except getting on with his life.}
 
-        {He was put into his cryogenic receptacle, the technicians set the revive date, he was given injections to slow his heartbeat to a bare minimum, and that was that.}
+    {He was put into his cryogenic receptacle, the technicians set the revive date, he was given injections to slow his heartbeat to a bare minimum, and that was that.}
 
-        {The next thing that Jack saw was an enormous and very modern room filled with excited people. They were all shouting "I can't believe it!" and "It's a miracle" and "He's alive!" There were cameras (unlike any he'd ever seen) and equipment that looked like it came out of a science fiction movie.}
+    {The next thing that Jack saw was an enormous and very modern room filled with excited people. They were all shouting "I can't believe it!" and "It's a miracle" and "He's alive!" There were cameras (unlike any he'd ever seen) and equipment that looked like it came out of a science fiction movie.}
 
-        {Someone who was obviously a spokesperson for the group stepped forward. Jack couldn't contain his enthusiasm. "It is over?" he asked. "Is 2000 already here? Are all the millennial parties and promotions and crises all over and done with?"}
+    {Someone who was obviously a spokesperson for the group stepped forward. Jack couldn't contain his enthusiasm. "It is over?" he asked. "Is 2000 already here? Are all the millennial parties and promotions and crises all over and done with?"}
 
-        {The spokesman explained that there had been a problem with the programming of the timer on Jack's cryogenic receptacle, it hadn't been year 2000 compliant. It was actually eight thousand years later, not the year 2000. But the spokesman told Jack that he shouldn't get excited; someone important wanted to speak to him.}
+    {The spokesman explained that there had been a problem with the programming of the timer on Jack's cryogenic receptacle, it hadn't been year 2000 compliant. It was actually eight thousand years later, not the year 2000. But the spokesman told Jack that he shouldn't get excited; someone important wanted to speak to him.}
 
-        {Suddenly a wall-sized projection screen displayed the image of a man that looked very much like Bill Gates. This man was Prime Minister of Earth. He told Jack not to be upset. That this was a wonderful time to be alive. That there was world peace and no more starvation. That the space program had been reinstated and there were colonies on the moon and on Mars. That technology had advanced to such a degree that everyone had virtual reality interfaces which allowed them to contact anyone else on the planet, or to watch any entertainment, or to hear any music recorded anywhere.}
+    {Suddenly a wall-sized projection screen displayed the image of a man that looked very much like Bill Gates. This man was Prime Minister of Earth. He told Jack not to be upset. That this was a wonderful time to be alive. That there was world peace and no more starvation. That the space program had been reinstated and there were colonies on the moon and on Mars. That technology had advanced to such a degree that everyone had virtual reality interfaces which allowed them to contact anyone else on the planet, or to watch any entertainment, or to hear any music recorded anywhere.}
 
-        {"That sounds terrific," said Jack. "But I'm curious. Why is everybody so interested in me?"}
+    {"That sounds terrific," said Jack. "But I'm curious. Why is everybody so interested in me?"}
 
-        {"Well," said the Prime Minister. "The year 10000 is just around the corner, and it says in your files that you know COBOL."}
+    {"Well," said the Prime Minister. "The year 10000 is just around the corner, and it says in your files that you know COBOL."}
 
-    ]]
+]
 
 {Rather than creating a new foundation for a lasting technical Utopia, we are building a world where our technologies are as brittle as our biological roots.  Our systems--real and virtual--are all vulnerable to mysterious cancers and viruses beyond any reasonable control.}
 

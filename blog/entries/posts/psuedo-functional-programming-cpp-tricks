@@ -77,22 +77,22 @@ class Region
 
 {On the surface this looks good, but it can be undermined (unintentionally or otherwise) in several ways. For instance, the Region object could poke a `this` pointer into the Action it returns, thus giving the Action access to its state to the later call to `Action::Run()`. However, as long as we require (by convention) that Region::AllocateAction() produce an isomorphic object on each invocation, the caller can:}
 
-[list [
+[list
 
-        "Construct an object region1 of type Region"
+    "Construct an object region1 of type Region"
 
-        {Call region1::AllocateAction() to produce an object action of type Action}
+    {Call region1::AllocateAction() to produce an object action of type Action}
 
-        {Construct a new object region2 of type Region (same constructor as step 1)}
+    {Construct a new object region2 of type Region (same constructor as step 1)}
 
-        "make the Enter() and Exit() calls on region2"
+    "make the Enter() and Exit() calls on region2"
 
-        {optional: make a few spurious Enter() and Exit() calls on region1}
+    {optional: make a few spurious Enter() and Exit() calls on region1}
 
-        "Destroy region1"
+    "Destroy region1"
 
-        {Call action::Run(inside) where inside indicates whether we are inside region2}
+    {Call action::Run(inside) where inside indicates whether we are inside region2}
 
-    ]]
+]
 
 {This obviously hampers the ability of Region developers to build a coupling between the Region object and the Action object it hands you.  It's not exactly functional programming, and of course a programmer could subvert any hard-coded strategy you might come up with (it's even better if you do something more random).  Yet it should catch most major violations of the model, and alert a programmer who is simply unaware of the dependency that they were doing something wrong.}

@@ -13,13 +13,13 @@ Draem [
 
 {For instance, instead of ASCII's encoding of 65 for "A" and 66 for "B"...we might consider using the number 15621226033 for "A" and 16400753439 for "B".  To see the bitmaps, you must first convert these values into binary:}
 
-[list [
+[list
 
-        {15621226033 (base 10) = 01110100011000110001111111000110001 (base 2)}
+    {15621226033 (base 10) = 01110100011000110001111111000110001 (base 2)}
 
-        {16400753439 (base 10) = 11110100011000111110100011000111110 (base 2)}
+    {16400753439 (base 10) = 11110100011000111110100011000111110 (base 2)}
 
-    ]]
+]
 
 {When transmitted in a medium which hints at the significance of a 35-bit pattern, the [semiprime](http://en.wikipedia.org/wiki/Semiprime) nature of 35 suggests decomposing it into the factors 7 and 5.  Interpreting these bits as a 5x7 rectangle produces a picture--which happens to be a picture of *the letter which the code is representing*!  For 01110100011000110001111111000110001, you would get:}
 

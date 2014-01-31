@@ -12,21 +12,20 @@ http://www.red-lang.org/2013/11/041-introducing-parse.html
 
 {It's an exciting development as the language grows closer to being a serious alternative to Rebol.  As Nenad Rakocevic puts it:}
 
-[quote [
+[quote
 
-        {One of the greatest features of the Rebol language has always been its parsing engine, simply called Parse. It is an amazing piece of design from Carl Sassenrath, that spared all Rebol users for the last 15 years, from the pain of having to use the famously unmaintainable regexps. Now, Parse is also available to Red users, in an enhanced version!}
+    {One of the greatest features of the Rebol language has always been its parsing engine, simply called Parse. It is an amazing piece of design from Carl Sassenrath, that spared all Rebol users for the last 15 years, from the pain of having to use the famously unmaintainable regexps. Now, Parse is also available to Red users, in an enhanced version!}
 
-        {So, in short, what is Parse? It is an embedded DSL (we call them "dialects" in the Rebol world) for parsing input series using grammar rules. The Parse dialect is an enhanced member of the TDPL family. Parse's common usages are for checking, validating, extracting, modifying input data or even implementing embedded and external DSLs.}
+    {So, in short, what is Parse? It is an embedded DSL (we call them "dialects" in the Rebol world) for parsing input series using grammar rules. The Parse dialect is an enhanced member of the TDPL family. Parse's common usages are for checking, validating, extracting, modifying input data or even implementing embedded and external DSLs.}
+]
 
-    ]]
+[note
 
-[note [
+    {Also exciting is that the Tower of Hanoi logo--designed by me and rendered by [Petr Stefek](http://phoob.blogspot.com/)--has made it finally to the homepage, Twitter page, and Wikipedia page.  If you have some Meta-StackOverflow reputation, please vote for us in the open source recruiting advertising contest:}
 
-        {Also exciting is that the Tower of Hanoi logo--designed by me and rendered by [Petr Stefek](http://phoob.blogspot.com/)--has made it finally to the homepage, Twitter page, and Wikipedia page.  If you have some Meta-StackOverflow reputation, please vote for us in the open source recruiting advertising contest:}
+    [button http://i.stack.imgur.com/4iHfk.png 220x250 {Red Language StackOverflow Sidebar Ad Contest Entry} http://meta.stackoverflow.com/questions/210389/open-source-advertising-sidebar-1h-2014/215898#215898]
 
-        [button http://i.stack.imgur.com/4iHfk.png 220x250 {Red Language StackOverflow Sidebar Ad Contest Entry} http://meta.stackoverflow.com/questions/210389/open-source-advertising-sidebar-1h-2014/215898#215898]
-
-    ]]
+]
 
 {I thought I'd use this occasion to make another post about why people should give these languages a look.  Other [Rebol and Red](http://chat.stackoverflow.com/rooms/291/rebol-and-red) fanatics tend to approach this question with some very diverse approaches, but I'm converging on my own take.  There's a little bit of the blind-men-and-the-elephant aspect to it, where everyone grabs a different part and tries to say "that's what it's like".  But I'll do my best, in my own words...}
 

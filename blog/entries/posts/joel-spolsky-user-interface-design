@@ -42,15 +42,15 @@ more
 
 {Joel mentioned a case I hadn't thought much about, but is clever (or ironic, depending on how you look at it).  The "trash can" feature in the Mac OS was added so that as long as you had extra hard drive space, you didn't delete a file immediately...you got to keep it around in case the deletion was an accident and you needed it back.  Yet they made a choice to physically draw a non-empty trash can as looking as if it were heaped with garbage.}
 
-[note [
+[note
 
-        {There's a $12.50 utility called ["Bin-It"](http://www.fastforwardsw.com/binit/) which takes the physicality a bit further and even shows a gradual accumulation of trash proportional to how much data is in it:}
+    {There's a $12.50 utility called ["Bin-It"](http://www.fastforwardsw.com/binit/) which takes the physicality a bit further and even shows a gradual accumulation of trash proportional to how much data is in it:}
 
-        [image http://hostilefork.com/wp-content/uploads/2009/02/bin_it_trash.jpg 488x153 "Bin-It Variably Full trash can"]
+    [image http://hostilefork.com/wp-content/uploads/2009/02/bin_it_trash.jpg 488x153 "Bin-It Variably Full trash can"]
 
-        "...which takes the physicality even further!)"
+    "...which takes the physicality even further!)"
 
-    ]]
+]
 
 {Regardless of whether they need the disk space back or not, many people compulsively empty the trash each time they delete a file.  It just bothers them to have "trash" around--as if it would start to smell if they left it too long!  Users of this type are getting no advantage by having a trash can instead of instant deletions--their deleted files are gone for ever.  Plus they now have some additional work of clicks to empty...instead of just one drag and drop!}
 

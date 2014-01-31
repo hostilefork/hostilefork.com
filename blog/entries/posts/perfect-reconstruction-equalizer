@@ -28,35 +28,29 @@ more
 
 {There are many different ways you might choose to implement a graphic equalizer.  Here's a brief survey of methods I'm aware of:}
 
-[list [
+[list
 
-        [
+    [
 
-            group
+        {**Frequency Sampling**: A graphic equalizer can be seen as a simple digital filter which is redesigned each time the equalization settings change.  When looked at this way, the obvious method for creating a graphic equalizer is to incorporate a filter design routine into your digital device, and change the desired frequency response H<sub>d</sub>(&omega;) according to the equalization levels.  Since frequency sampling design is as simple as an [inverse discrete fourier transform (IDFT)](http://en.wikipedia.org/wiki/Discrete_Fourier_transform) of the desired filter curve, it is entirely possible to implement this on inexpensive hardware.}
 
-            {**Frequency Sampling**: A graphic equalizer can be seen as a simple digital filter which is redesigned each time the equalization settings change.  When looked at this way, the obvious method for creating a graphic equalizer is to incorporate a filter design routine into your digital device, and change the desired frequency response H<sub>d</sub>(&omega;) according to the equalization levels.  Since frequency sampling design is as simple as an [inverse discrete fourier transform (IDFT)](http://en.wikipedia.org/wiki/Discrete_Fourier_transform) of the desired filter curve, it is entirely possible to implement this on inexpensive hardware.}
+        {The advantage to this approach is that it is relatively easy to understand and implement.  Only one filter is required at any given time, so it uses memory effectively.  Unfortunately, since a complex filter design algorithm is not feasible on inexpensive hardware, there will undoubtedly be ripple and [Gibbs phenomena](http://en.wikipedia.org/wiki/Gibbs_phenomenon) from the IDFT.  Reducing this ripple will require filters of somewhat extreme length.  More importantly, because the low frequency bands have so few points relative to the high frequency bands, the response in these regions will always be relatively poorer.}
 
-            {The advantage to this approach is that it is relatively easy to understand and implement.  Only one filter is required at any given time, so it uses memory effectively.  Unfortunately, since a complex filter design algorithm is not feasible on inexpensive hardware, there will undoubtedly be ripple and [Gibbs phenomena](http://en.wikipedia.org/wiki/Gibbs_phenomenon) from the IDFT.  Reducing this ripple will require filters of somewhat extreme length.  More importantly, because the low frequency bands have so few points relative to the high frequency bands, the response in these regions will always be relatively poorer.}
+    ] [
 
-        ] [
+        {**Filter Banks**: Equalization using filter banks means that you would design a high quality band-pass filter for each frequency range, then run the data through each filter in parallel and take the weighted sum of the outputs to form your final signal.  The weights used in the sum would be derived from the equalization settings.  This method is directly related to analog graphic equalizers, where a potentiometer is used to change the contribution of a different band-pass filter for each band.}
 
-            group
+        {This approach could quite possibly achieve a better response than the frequency sampling technique.  Because the band-pass filters are designed in advance, they could be made using a more sophisticated algorithm than the IDFT.  Also, no run-time filter redesign process is needed, thus simplifying the DSP routine.  However, since all the filters would still be the same length, the fundamental problem would remain of the low frequency bands being more poorly filtered than the high frequency bands.  In addition, if you are going to have N levels of equalization, this technique will need to apply N filters and hence need N times the number of mathematical operations that the single-filter frequency sampling technique required!}
 
-            {**Filter Banks**: Equalization using filter banks means that you would design a high quality band-pass filter for each frequency range, then run the data through each filter in parallel and take the weighted sum of the outputs to form your final signal.  The weights used in the sum would be derived from the equalization settings.  This method is directly related to analog graphic equalizers, where a potentiometer is used to change the contribution of a different band-pass filter for each band.}
+    ] [
 
-            {This approach could quite possibly achieve a better response than the frequency sampling technique.  Because the band-pass filters are designed in advance, they could be made using a more sophisticated algorithm than the IDFT.  Also, no run-time filter redesign process is needed, thus simplifying the DSP routine.  However, since all the filters would still be the same length, the fundamental problem would remain of the low frequency bands being more poorly filtered than the high frequency bands.  In addition, if you are going to have N levels of equalization, this technique will need to apply N filters and hence need N times the number of mathematical operations that the single-filter frequency sampling technique required!}
+        {**Algorithmic Modification**: Rather than applying several different filters to the data and then constructing a weighted sum from the outputs, it may be possible to determine the relationship between an equalization slider value and the impulse response of the filter to be designed.  This way, whenever a user modifies an equalization level, the impulse response of the filter can be affected in a predetermined way for that modification.  One can imagine the impulse response starting out as a unit impulse when the equalization levels are flat, and adjustments to the equalization levels causing the filter’s impulse response to undergo mathematical corrections.}
 
-        ] [
+        {This approach could achieve much the same result as the filter bank example, except that it would only generate a single filter (as in the frequency sampling case). Additionally, the frequency response could be perfectly flat if all the equalization levels were flat.  The biggest disadvantage of this approach is the complexity involved in figuring out if such an algorithm exists, and if so...exactly what it is.}
 
-            group
+    ]
 
-            {**Algorithmic Modification**: Rather than applying several different filters to the data and then constructing a weighted sum from the outputs, it may be possible to determine the relationship between an equalization slider value and the impulse response of the filter to be designed.  This way, whenever a user modifies an equalization level, the impulse response of the filter can be affected in a predetermined way for that modification.  One can imagine the impulse response starting out as a unit impulse when the equalization levels are flat, and adjustments to the equalization levels causing the filter’s impulse response to undergo mathematical corrections.}
-
-            {This approach could achieve much the same result as the filter bank example, except that it would only generate a single filter (as in the frequency sampling case). Additionally, the frequency response could be perfectly flat if all the equalization levels were flat.  The biggest disadvantage of this approach is the complexity involved in figuring out if such an algorithm exists, and if so...exactly what it is.}
-
-        ]
-
-    ]]
+]
 
 [heading "My Downsampling Approach to Graphic Equalization"]
 

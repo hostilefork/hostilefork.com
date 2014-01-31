@@ -40,21 +40,21 @@ more
 
 [note "I did this on Kubuntu 13.10"]
 
-[list [
+[list
 
-        {Make sure ncurses-dev is installed (**sudo apt-get install ncurses-dev**).  Commentator [Daniele](http://blog.hostilefork.com/qtcreator-debugger-no-locals-ubuntu/#comment-1216082783) points out another dependency that I already had installed, but you might not: **sudo apt-get install python-dev**}
+    {Make sure ncurses-dev is installed (**sudo apt-get install ncurses-dev**).  Commentator [Daniele](http://blog.hostilefork.com/qtcreator-debugger-no-locals-ubuntu/#comment-1216082783) points out another dependency that I already had installed, but you might not: **sudo apt-get install python-dev**}
 
-        [group
+    [
 
-            {To get the GDB sources, you can either extract the latest GDB version from [ftp://sourceware.org/pub/gdb/releases/](ftp://sourceware.org/pub/gdb/releases/) (at the time of this writing that would be **gdb-7.6.1.tar.gz**.}
+        {To get the GDB sources, you can either extract the latest GDB version from [ftp://sourceware.org/pub/gdb/releases/](ftp://sourceware.org/pub/gdb/releases/) (at the time of this writing that would be **gdb-7.6.1.tar.gz**.}
 
-            [note {Commentator [Rico Chet](http://blog.hostilefork.com/qtcreator-debugger-no-locals-ubuntu/#comment-1216082850) reported that getting the ability to see the callstack into Qt itself required using **apt-get install source gdb** to get the source instead.  I did not have this problem, but if you do then you may want to try his method.  It required additional dependencies for me: `sudo apt-get install dpkg-dev` and `sudo apt-get install texinfo`.  Then I had to set the MAKEINFO environment variable prior to configuring with `export MAKEINFO=makeinfo`.  Also note that if you use the **apt-get** approach for the source, it will put that source in your current directory.  You do not need to use **sudo**... and if you do, it will make root the owner and complicate the build process.)}]
+        [note {Commentator [Rico Chet](http://blog.hostilefork.com/qtcreator-debugger-no-locals-ubuntu/#comment-1216082850) reported that getting the ability to see the callstack into Qt itself required using **apt-get install source gdb** to get the source instead.  I did not have this problem, but if you do then you may want to try his method.  It required additional dependencies for me: `sudo apt-get install dpkg-dev` and `sudo apt-get install texinfo`.  Then I had to set the MAKEINFO environment variable prior to configuring with `export MAKEINFO=makeinfo`.  Also note that if you use the **apt-get** approach for the source, it will put that source in your current directory.  You do not need to use **sudo**... and if you do, it will make root the owner and complicate the build process.)}]
 
-        ]
+    ]
 
-        {In the directory extracted, you're going to either run `./configure --prefix /usr/local/gdb-python2 --with-python` if you downloaded the .tar.gz, or `./configure -with-separate-debug-dir=/usr/lib/debug --prefix /usr/local/gdb-python2` if you used the **apt-get** approach to get the source.  Follow this by `make` and `sudo make install` *(You can specify another --prefix option if you want it installed somewhere else)*}
+    {In the directory extracted, you're going to either run `./configure --prefix /usr/local/gdb-python2 --with-python` if you downloaded the .tar.gz, or `./configure -with-separate-debug-dir=/usr/lib/debug --prefix /usr/local/gdb-python2` if you used the **apt-get** approach to get the source.  Follow this by `make` and `sudo make install` *(You can specify another --prefix option if you want it installed somewhere else)*}
 
-    ]]
+]
 
 [note {If you happen to be building for ARM, commentator [Juha](http://blog.hostilefork.com/qtcreator-debugger-no-locals-ubuntu/#comment-1216082996) points out that you can add `–target=arm-fsl-linux-gnueabi` to the **configure** command line and get an ARM version of GDB.}]
 

@@ -8,19 +8,29 @@ Draem [
 
 [note {This article is a written summary of a talk I gave at [BarCamp LA #4](http://barcamp.org/w/page/400948/BarCampLA-4), with some bugfixes.}]
 
-[update 27-Jan-2014 [{My presentation used a bunch of graphics I swiped from Google Images, since I was in a hurry.  I'd like to extend apologies/credit to my sources (or the sources for those sources).  But I can't link to them because they all went missing, and I don't like getting search penalties for having my own pages in bad shape with dead links.  Still, the original links were:}
+[update 27-Jan-2014 {My presentation used a bunch of graphics I swiped from Google Images, since I was in a hurry.  I'd like to extend apologies/credit to my sources (or the sources for those sources).  But I can't link to them because they all went missing, and I don't like getting search penalties for having my own pages in bad shape with dead links.  Still, the original links were:}
 
-  [list [
-    {highway barrier - `http://images.jupiterimages.com/common/detail/40/05/23410540.jpg`}
-    {rc circuit - `http://www.physics.byu.edu/faculty/berrondo/su442/ac.pdf`}
-    {resistor - `http://www.dragonmodz.net/images/resistor.gif`}
-    {capacitor - `http://www.hkcapacitor.com/product/TS02_Metallized_Polyester_Film_Capacitor.gif`}
-    {microcontroller - `http://www.intertexelectronics.com/images/-MC68701S.jpg`}
-    {grandparents - `http://dclips.fundraw.com/zobo500dir/grampa_39_n_gramma_celso_02.jpg`}
-    {moore's law - `http://www.developers.net/storyImages/062404/inteldemystifying1.jpg`}
-    {hanz/franz - `http://blogimg.com/docisin/hans_franz.jpg`}
-  ]]
-]]
+    [list [
+
+            {highway barrier - `http://images.jupiterimages.com/common/detail/40/05/23410540.jpg`}
+
+            {rc circuit - `http://www.physics.byu.edu/faculty/berrondo/su442/ac.pdf`}
+
+            {resistor - `http://www.dragonmodz.net/images/resistor.gif`}
+
+            {capacitor - `http://www.hkcapacitor.com/product/TS02_Metallized_Polyester_Film_Capacitor.gif`}
+
+            {microcontroller - `http://www.intertexelectronics.com/images/-MC68701S.jpg`}
+
+            {grandparents - `http://dclips.fundraw.com/zobo500dir/grampa_39_n_gramma_celso_02.jpg`}
+
+            {moore's law - `http://www.developers.net/storyImages/062404/inteldemystifying1.jpg`}
+
+            {hanz/franz - `http://blogimg.com/docisin/hans_franz.jpg`}
+
+        ]]
+
+]
 
 [http://docs.google.com/TeamPresent?docid=dkjh9v7_0ct8qd9&skipauth=true "View the talk slides"]
 

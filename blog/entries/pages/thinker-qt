@@ -9,15 +9,15 @@ Draem [
 
 {**Thinker-Qt** is a LGPL C++ library designed for implementing background calculations that fit the following scenario:}
 
-[list [
+[list
 
-        {The calculations may be paused, resumed, or canceled... but client threads won't exert influence on the result *values* once a request has been set in motion}
+    {The calculations may be paused, resumed, or canceled... but client threads won't exert influence on the result *values* once a request has been set in motion}
 
-        {Client threads are interested in the incremental results of this calculation (but don't want to receive updates any faster than a certain frequency)}
+    {Client threads are interested in the incremental results of this calculation (but don't want to receive updates any faster than a certain frequency)}
 
-        {A future refinement of the calculation value is *always* preferable to getting the previous incremental result}
+    {A future refinement of the calculation value is *always* preferable to getting the previous incremental result}
 
-    ]]
+]
 
 {This came up in a project I was working on, but one doesn't have to look very far to find other examples.  In fact, most Qt developers got their first introduction to `QThread` from the [Mandelbrot sample](http://qt-project.org/doc/qt-5/qtcore-mandelbrot-example.html)--where the relationship between the GUI and fractal math match this pattern.  Using Thinker-Qt avoids direct use of `QMutex` and `QWaitCondition`...or `qRegisterMetaType` to proxy types over a custom signal!}
 
@@ -31,7 +31,7 @@ Draem [
 
     {...the QFuture returned by QtConcurrent::run() does not support canceling, pausing, or progress reporting. The QFuture returned can only be used to query for the running/finished status and the return value...}
 
-    [http://qt-project.org/doc/qt-4.8/qtconcurrentrun.html#run "Qt Concurrent documentation"]
+    /source [http://qt-project.org/doc/qt-4.8/qtconcurrentrun.html#run "Qt Concurrent documentation"]
 
 ]
 

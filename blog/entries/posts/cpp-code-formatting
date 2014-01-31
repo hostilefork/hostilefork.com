@@ -111,25 +111,25 @@ SomeClass::SomeClass(float initial_value, char* name) :
 
 {A few rules I employ about spacing, since applying consistency is generally nice:}
 
-[list [
+[list
 
-        {No spaces between function calls and their parameters}
+    {No spaces between function calls and their parameters}
 
-        "...e.g. `Foo(a)` and not `Foo (a)`"
+    "...e.g. `Foo(a)` and not `Foo (a)`"
 
-        "A space between keywords and their parameters"
+    "A space between keywords and their parameters"
 
-        "...e.g. `if (a)` and not `if(a)`"
+    "...e.g. `if (a)` and not `if(a)`"
 
-        "Spaces between constructors and their parenthesis"
+    "Spaces between constructors and their parenthesis"
 
-        "...e.g. `new FOO (a)` and not `new FOO(a)`"
+    "...e.g. `new FOO (a)` and not `new FOO(a)`"
 
-        "Spaces between formal and actual parameters"
+    "Spaces between formal and actual parameters"
 
-        {...e.g. `void Foo(int a, int b)` and not `void Foo(int a,int b)`}
+    {...e.g. `void Foo(int a, int b)` and not `void Foo(int a,int b)`}
 
-    ]]
+]
 
 {Not too important, but since spacing doesn't matter, it is nice to go ahead and use it to help visually cue the differences between these different constructs.}
 

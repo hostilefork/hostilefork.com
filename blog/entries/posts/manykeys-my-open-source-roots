@@ -26,74 +26,74 @@ https://github.com/hostilefork/teenage-coding/tree/master/MANYKEYS
 
 more
 
-[quote [
+[quote
 
-        [heading "Multiple key-getting routines"]
+    [heading "Multiple key-getting routines"]
 
-        "by Brian Dickens"
+    "by Brian Dickens"
 
-        [note {Released to the public domain. These routines may not be sold in any way shape or form.}]
+    [note {Released to the public domain. These routines may not be sold in any way shape or form.}]
 
-        "ManyKeys was designed for two main purposes."
+    "ManyKeys was designed for two main purposes."
 
-        [list [
+    [list [
 
-                {To provide the capability of reading more than one key at once.}
+            {To provide the capability of reading more than one key at once.}
 
-                {To remove BIOS'S slow keyboard repeat rate and let you sample the keyboard at your own speed.}
+            {To remove BIOS'S slow keyboard repeat rate and let you sample the keyboard at your own speed.}
 
-            ]]
+        ]]
 
-        {Video games often need to read more than one key at once, whether it be needed to allow two players (or more) to share places on the keyboard, or to let a character walk and shoot at the same time.}
+    {Video games often need to read more than one key at once, whether it be needed to allow two players (or more) to share places on the keyboard, or to let a character walk and shoot at the same time.}
 
-        {Also, BIOS is characteristically slow when getting/reading keys from the keyboard buffer.  A game which relies on BIOS calls cannot smoothly move the game characters around the screen, since it would take an hour to walk across the screen with the BIOS progression of getch(), move character, getch(), move character.}
+    {Also, BIOS is characteristically slow when getting/reading keys from the keyboard buffer.  A game which relies on BIOS calls cannot smoothly move the game characters around the screen, since it would take an hour to walk across the screen with the BIOS progression of getch(), move character, getch(), move character.}
 
-        {Often the keyboard buffer will overflow, causing terrible beeping noises and program interruptions.}
+    {Often the keyboard buffer will overflow, causing terrible beeping noises and program interruptions.}
 
-        "In summary, BIOS is excellent.  NOT."
+    "In summary, BIOS is excellent.  NOT."
 
-        {ManyKeys gets right to the heart of the matter, and removes the BIOS keyboard interrupt altogether.  While buffered input is great for word processing, it's no good for games.  In your C code, when you insert the line:}
+    {ManyKeys gets right to the heart of the matter, and removes the BIOS keyboard interrupt altogether.  While buffered input is great for word processing, it's no good for games.  In your C code, when you insert the line:}
 
-        [code c "manykeyson();"]
+    [code c "manykeyson();"]
 
-        {You are actually replacing the BIOS keyboard interrupt with a new and improved interrupt.  The BIOS interrupt is naturally saved, so that you can restore it later.  In fact, if you don't restore the BIOS interrupt sometime before your program ends, no other programs that rely on the BIOS for keystrokes will be able to run. (including DOS!)  So remember to turn ManyKeys off with the statement:}
+    {You are actually replacing the BIOS keyboard interrupt with a new and improved interrupt.  The BIOS interrupt is naturally saved, so that you can restore it later.  In fact, if you don't restore the BIOS interrupt sometime before your program ends, no other programs that rely on the BIOS for keystrokes will be able to run. (including DOS!)  So remember to turn ManyKeys off with the statement:}
 
-        [code c "manykeysoff();"]
+    [code c "manykeysoff();"]
 
-        {In-between those statements, you have access to some very powerful key-reading commands.  One of the most important is the function "ispressed".  "ispressed" takes a key number as a parameter, and returns a 1 if that key is pressed, and a 0 if it is not.  For example:}
+    {In-between those statements, you have access to some very powerful key-reading commands.  One of the most important is the function "ispressed".  "ispressed" takes a key number as a parameter, and returns a 1 if that key is pressed, and a 0 if it is not.  For example:}
 
-        [code c {
+    [code c {
     if( ispressed( 1 ) )
         printf( "The escape key is pressed.\n" );
     }]
 
-        {If escape (key 1) is pressed, this piece of code will print "The escape key is pressed."  If you've had experience using the BIOS method of key getting, you might be wondering why 1 is used and not 27.  The answer is that the BIOS uses a conversion table to convert raw keycodes into numbers that at least fit into the ASCII scheme of things.  Manykeys does very little conversion on the keypresses, giving mostly raw keycodes, which are loosely based on the key's location on the keyboard.  (The escape key is in the upper-left hand corner, so it is keycode 1, get it?)}
+    {If escape (key 1) is pressed, this piece of code will print "The escape key is pressed."  If you've had experience using the BIOS method of key getting, you might be wondering why 1 is used and not 27.  The answer is that the BIOS uses a conversion table to convert raw keycodes into numbers that at least fit into the ASCII scheme of things.  Manykeys does very little conversion on the keypresses, giving mostly raw keycodes, which are loosely based on the key's location on the keyboard.  (The escape key is in the upper-left hand corner, so it is keycode 1, get it?)}
 
-        {You also might be wondering exactly how you are going to know what key is what since this is obviously a really screwy numbering scheme.  Never fear, I have entered an enumerated type for all the keys on the keyboard (on my keyboard, at least).  So that instead of the above piece of code I could have written:}
+    {You also might be wondering exactly how you are going to know what key is what since this is obviously a really screwy numbering scheme.  Never fear, I have entered an enumerated type for all the keys on the keyboard (on my keyboard, at least).  So that instead of the above piece of code I could have written:}
 
-        [code c {
+    [code c {
     if( ispressed( ESCAPE ) )
         printf( "The escape key is pressed.\n" );
     }]
 
-        {If you don't know the name for a particular key, check in the **MANYKEYS.H** file.}
+    {If you don't know the name for a particular key, check in the **MANYKEYS.H** file.}
 
-        {An interesting problem comes up when you WANT to interpret keys in a sort of buffered way.  For example, if you have a rather slow loop in a program, and you want to check to see if the Escape key was pressed signifying that the user wants to exit, the user might have released the key by the time you get to the "ispressed( ESCAPE )" check.  Even so, the user obviously wanted to quit.  That's why manykeys keeps track of the number of times a key has been pressed AS WELL as whether the key is currently being held down.}
+    {An interesting problem comes up when you WANT to interpret keys in a sort of buffered way.  For example, if you have a rather slow loop in a program, and you want to check to see if the Escape key was pressed signifying that the user wants to exit, the user might have released the key by the time you get to the "ispressed( ESCAPE )" check.  Even so, the user obviously wanted to quit.  That's why manykeys keeps track of the number of times a key has been pressed AS WELL as whether the key is currently being held down.}
 
-        {The two main routines used to deal with press counts are "presscount" and "checkcount".  "presscount" will return the number of times the key has been pressed and then clear the press count for that key.  "checkcount" will return the number of times the key has been pressed but WON'T clear the press count.  At the onset of the program, all the press counts are set to 0.  Press counts have a maximum value of 127, after which they will wrap back around to 0.}
+    {The two main routines used to deal with press counts are "presscount" and "checkcount".  "presscount" will return the number of times the key has been pressed and then clear the press count for that key.  "checkcount" will return the number of times the key has been pressed but WON'T clear the press count.  At the onset of the program, all the press counts are set to 0.  Press counts have a maximum value of 127, after which they will wrap back around to 0.}
 
-        {Some other interesting routines are included, although anyone could easily write them themselves.  "clearallcounts" sets all the press counts to 0. "totalpressed" counts the number of keys that are currently being held down.  "firstcount" returns the code of the lowest order key with a presscount that isn't 0.  "firstpressed" returns the code of the lowest order key that is currently being held down.}
+    {Some other interesting routines are included, although anyone could easily write them themselves.  "clearallcounts" sets all the press counts to 0. "totalpressed" counts the number of keys that are currently being held down.  "firstcount" returns the code of the lowest order key with a presscount that isn't 0.  "firstpressed" returns the code of the lowest order key that is currently being held down.}
 
-        {There's one other nice routine included called "keyname".  "keyname" returns an ASCII string of the name of a particular key.  This is useful especially in configuration programs.  Try the program **KEYTEST.EXE** to see an example of how keyname is put to work.}
+    {There's one other nice routine included called "keyname".  "keyname" returns an ASCII string of the name of a particular key.  This is useful especially in configuration programs.  Try the program **KEYTEST.EXE** to see an example of how keyname is put to work.}
 
-        [heading "Special Note"]
+    [heading "Special Note"]
 
-        {If you have an extended keyboard, there is a distinction between the arrow keys and the numeric keypad **UP/DOWN/LEFT/RIGHT**, as well as between the **HOME/END/PGUP/PGDN/INS/DEL/ENTER/+/-/*** etc.  If you don't, then the arrow keys will register as numeric keypad keys.}
+    {If you have an extended keyboard, there is a distinction between the arrow keys and the numeric keypad **UP/DOWN/LEFT/RIGHT**, as well as between the **HOME/END/PGUP/PGDN/INS/DEL/ENTER/+/-/*** etc.  If you don't, then the arrow keys will register as numeric keypad keys.}
 
-        [heading "Thanks To..."]
+    [heading "Thanks To..."]
 
-        "Richard Biffl for his advice and help."
+    "Richard Biffl for his advice and help."
 
-        "Until next time..."
+    "Until next time..."
 
-    ]]
+]

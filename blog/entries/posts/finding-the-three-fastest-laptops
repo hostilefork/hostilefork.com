@@ -8,27 +8,27 @@ Draem [
 
 {*I somehow tripped across this problem on something called ["Monday Math Madness #4"](http://blinkdagger.com/games/monday-math-madness-4-the-tradition-continues).  They mentioned a Rubik's Cube as a prize, and since some of the stickers are coming off of mine I decided to go ahead and work out the solution.  My answer was right, but there were many correct answers so I was not chosen to win the cube... or the Amazon gift certificate.  Alas.*}
 
-[quote [
+[quote
 
-        [Daniel: {Hey Quan, we just received a shipment of 25 Macbook Pros from Apple Inc.}]
+    [Daniel: {Hey Quan, we just received a shipment of 25 Macbook Pros from Apple Inc.}]
 
-        [Quan: {WOWIE PAZOWIE! What are we going to do with 25 Macbook Pros?}]
+    [Quan: {WOWIE PAZOWIE! What are we going to do with 25 Macbook Pros?}]
 
-        [Daniel: {Let’s keep 3 of them for personal use and give the other 22 away to the winner of this contest.}]
+    [Daniel: {Let’s keep 3 of them for personal use and give the other 22 away to the winner of this contest.}]
 
-        [Quan: {Okay. But personally, I think the winner would rather prefer a 10 dollar GC to amazon.}]
+    [Quan: {Okay. But personally, I think the winner would rather prefer a 10 dollar GC to amazon.}]
 
-        [Daniel: {You’re probably right. In that case, we’ll just take a sledgehammer and smash the other 22 laptops to oblivion. Anyhow, since all Macbook Pros are not created equally, let’s determine which 3 Macbook Pros are the fastest. Those are the one’s that we’ll keep.}]
+    [Daniel: {You’re probably right. In that case, we’ll just take a sledgehammer and smash the other 22 laptops to oblivion. Anyhow, since all Macbook Pros are not created equally, let’s determine which 3 Macbook Pros are the fastest. Those are the one’s that we’ll keep.}]
 
-        [Quan: {Good idea. We can go to the computer lab and run a simple test.}]
+    [Quan: {Good idea. We can go to the computer lab and run a simple test.}]
 
-        [Daniel: {Right. We can hook them up to the blinkdagger station and have each laptop process a special algorithm that I developed in MATLAB.}]
+    [Daniel: {Right. We can hook them up to the blinkdagger station and have each laptop process a special algorithm that I developed in MATLAB.}]
 
-        [Quan: {But we can only hook up 5 Macbook Pros at one time. And the station only ranks the 5 laptops from 1 (fastest) to 5 (slowest). It doesn’t give us any other information. This could potentially take forever!}]
+    [Quan: {But we can only hook up 5 Macbook Pros at one time. And the station only ranks the 5 laptops from 1 (fastest) to 5 (slowest). It doesn’t give us any other information. This could potentially take forever!}]
 
-        [Daniel: {Don’t worry Quan. The optimal strategy will only take ______ iterations.}]
+    [Daniel: {Don’t worry Quan. The optimal strategy will only take ______ iterations.}]
 
-    ]]
+]
 
 "So here was the phrasing of my solution:"
 

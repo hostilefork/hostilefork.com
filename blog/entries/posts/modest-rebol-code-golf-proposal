@@ -12,13 +12,13 @@ Draem [
 
 "There are several loopholes:"
 
-[list [
+[list
 
-        {You can obviously define a language which specifically performs only the one task, and uses a single-character program to do it (e.g. if the task is to print "Hello World", you can make a fictitious language in which the single character program **h** will do it)}
+    {You can obviously define a language which specifically performs only the one task, and uses a single-character program to do it (e.g. if the task is to print "Hello World", you can make a fictitious language in which the single character program **h** will do it)}
 
-        {You can compress your program into a form where it is no longer the sort of thing a human can reasonably read or write (e.g. the hexadecimal representation of assembled machine code)}
+    {You can compress your program into a form where it is no longer the sort of thing a human can reasonably read or write (e.g. the hexadecimal representation of assembled machine code)}
 
-    ]]
+]
 
 {But a *real* Code Golf language needs to be Turing complete.  Furthermore, I feel that you should be able to give an arbitrary challenge to a programmer they could write a working program without machine assistance.  It should also be feasible to make minor adjustments to the program's behavior without using some kind of tool.  My opinion is that in this respect, Rebol has potential to be *the most impressive language for Code Golf ever created*.}
 
@@ -72,33 +72,33 @@ more
 
 {I propose that standard functions and mezzanines likely to be useful in Code Golf be aliased to two-letter codes, along with the most common refined versions.  The first letter should always match the first letter of the operation's name in Rebol, while the second can be random if sensible alternatives have been exhausted.  Some examples:}
 
-[list [
+[list
 
-        "**AP** append"
+    "**AP** append"
 
-        "**AO** append/only"
+    "**AO** append/only"
 
-        "**RA** repend (reduce-append)"
+    "**RA** repend (reduce-append)"
 
-        "**RE** replace"
+    "**RE** replace"
 
-        "**RT** return"
+    "**RT** return"
 
-        "**RP** repeat"
+    "**RP** repeat"
 
-        "**RM** remove"
+    "**RM** remove"
 
-        "**RL** remold"
+    "**RL** remold"
 
-        "**TS** to string!"
+    "**TS** to string!"
 
-        "**OB** object"
+    "**OB** object"
 
-        "**CY** copy"
+    "**CY** copy"
 
-        "**CP** copy/part"
+    "**CP** copy/part"
 
-    ]]
+]
 
 {In order to implement refinement shorthands, these need to be mapped not to the functions directly but to a translation stub which has single letter abbreviations for the refinements.  These stubs could also do additional work on any types that Rebol doesn't define.  For instance lit-words passed as function spec blocks:}
 
@@ -120,27 +120,27 @@ either c [print "hello"] [print "goodbye"]
 
 {Generally speaking, single letters should be reserved for any variables or operations that might be used more than once in your program.  But there's no harm in defining all the single letter variables to hold some default values when the Rebmu interpreter starts.  Some ideas:}
 
-[list [
+[list
 
-        "**n, j, k** integer values of 0"
+    "**n, j, k** integer values of 0"
 
-        {**s, t, m** copies of the empty string (text, message)}
+    {**s, t, m** copies of the empty string (text, message)}
 
-        "**x, y, z** float values of 0"
+    "**x, y, z** float values of 0"
 
-        "**b, g, l** an empty block (group, list)"
+    "**b, g, l** an empty block (group, list)"
 
-        "**i** synonym for IF (ifMU)"
+    "**i** synonym for IF (ifMU)"
 
-        "**e** synonym for EI (eitherMU)"
+    "**e** synonym for EI (eitherMU)"
 
-        "**c** synonym for CY (copy)"
+    "**c** synonym for CY (copy)"
 
-        "**f** synonym for FN (functMU)"
+    "**f** synonym for FN (functMU)"
 
-        "**w** synonym for WH (whileMU)"
+    "**w** synonym for WH (whileMU)"
 
-    ]]
+]
 
 {Input and output are important things to consider, and Rebol isn't necessarily tuned by default to meet the Code Golf expectations.  So maybe (P)rint and (R)ead are good to specially define.}
 

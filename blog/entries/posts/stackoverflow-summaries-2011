@@ -46,13 +46,13 @@ http://stackoverflow.com/questions/7545804/modeless-parentless-wxdialog-still-al
 
 {I didn't actually *want* to install wxWidgets and Gnome to answer the question.  But my first educated guess from browsing the online source repositories didn't work.  When I did trace through the code it was every bit as depressing as I'd expected.  I did solve the problem, which got the response:}
 
-[quote [
+[quote
 
-        {Good Lord... I did not expect anyone to go to that level of effort for something this trivial. I'd mark this as accepted for the effort even if it didn't work, but I'm happy to report that it does -- you've nailed it. :-D Thank you!}
+    {Good Lord... I did not expect anyone to go to that level of effort for something this trivial. I'd mark this as accepted for the effort even if it didn't work, but I'm happy to report that it does -- you've nailed it. :-D Thank you!}
 
-        {That change also fixed another problem I had, where the modeless parentless dialogs would always appear in the center of the screen. I hadn't had a chance to look for the cause of that yet, now I don't have to. :-D Let me know if you're ever in the Toronto area, I owe you a beverage of your choice.}
+    {That change also fixed another problem I had, where the modeless parentless dialogs would always appear in the center of the screen. I hadn't had a chance to look for the cause of that yet, now I don't have to. :-D Let me know if you're ever in the Toronto area, I owe you a beverage of your choice.}
 
-    ]]
+]
 
 {Don't know if I'll ever be in Toronto, but if I do...I'm ordering the [unicorn tears](http://www.thepostgame.com/blog/clip-board/201201/hilarious-homemade-doritos-ad-delights-web).}
 

@@ -161,13 +161,13 @@ template<typename _CharT, typename _Traits, typename _Alloc>
 
 {It's not a very good idea to use abstractions we don't really understand.  This was recently [echoed by the architect of Rebol](http://www.rebol.com/cgi-bin/blog.r?view=0411), Carl Sassenrath:}
 
-[quote [
+[quote
 
-        {"When we separate ourselves from the systems that work on our behalf by adding layers and layers of complexity, we are ultimately doomed to fail. This applies to all domains, from insurance companies to medical systems to space vehicles to entire governments.}
+    {"When we separate ourselves from the systems that work on our behalf by adding layers and layers of complexity, we are ultimately doomed to fail. This applies to all domains, from insurance companies to medical systems to space vehicles to entire governments.}
 
-        {The reason is quite clear. We (as humans) exist within a narrow band of comprehension and intuition. Once our systems grow too complex, we as humans no longer possess our essential 'gut intuition' nor any idea at all how our monster system will react to unforeseen situations.}
+    {The reason is quite clear. We (as humans) exist within a narrow band of comprehension and intuition. Once our systems grow too complex, we as humans no longer possess our essential 'gut intuition' nor any idea at all how our monster system will react to unforeseen situations.}
 
-    ]]
+]
 
 {This is why many programmers stick with low-level solutions, like C string management.  Although `char*` and `strcpy` are abstractions in their own right, they are made to seem "fundamental".  Coding with them directly may make a program more brittle...but the developers *feel more in-control* to adapt the software.}
 

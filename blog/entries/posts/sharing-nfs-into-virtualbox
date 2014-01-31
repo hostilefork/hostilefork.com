@@ -6,21 +6,21 @@ Draem [
     old-url-prefix: %2013/04/14/
 ]
 
-[update [
+[update
 
-        {A reader has pointed out that the specific problem that I was trying to address is actually solvable using another workaround.  Due to bugs in VirtualBox shared folders handling symlinks, they were actually [disabled on purpose](https://www.virtualbox.org/ticket/10085#comment:12)...and no check box was provided in the UI to turn them back on.  But if you're a "risk taker" and have read the issues and don't think they affect you, you can use VBoxManage to enable it on a case by case basis...for particular shares in a particular VM.}
+    {A reader has pointed out that the specific problem that I was trying to address is actually solvable using another workaround.  Due to bugs in VirtualBox shared folders handling symlinks, they were actually [disabled on purpose](https://www.virtualbox.org/ticket/10085#comment:12)...and no check box was provided in the UI to turn them back on.  But if you're a "risk taker" and have read the issues and don't think they affect you, you can use VBoxManage to enable it on a case by case basis...for particular shares in a particular VM.}
 
-        {So if you go to the directory where your virtual machine lives, and the VM name is VM_NAME with your share named SHARE_NAME, you just need to type:}
+    {So if you go to the directory where your virtual machine lives, and the VM name is VM_NAME with your share named SHARE_NAME, you just need to type:}
 
-        [code {VBoxManage setextradata VM_NAME VBoxInternal2/SharedFoldersEnableSymlinksCreate/SHARE_NAME 1}]
+    [code {VBoxManage setextradata VM_NAME VBoxInternal2/SharedFoldersEnableSymlinksCreate/SHARE_NAME 1}]
 
-        {That turns shared links back on, for that VM and that share.  And if you don't know how to mount VirtualBox shares from within the client in read/write, in my case you have to specify your user id as MY_ID in the following way:}
+    {That turns shared links back on, for that VM and that share.  And if you don't know how to mount VirtualBox shares from within the client in read/write, in my case you have to specify your user id as MY_ID in the following way:}
 
-        [code {sudo mount -t vboxsf -o uid=MY_ID,rw share /path/to/share}]
+    [code {sudo mount -t vboxsf -o uid=MY_ID,rw share /path/to/share}]
 
-        {In my basic tests, this seems to work.  If anyone has insights into what the actual dangers to doing this are, please add a comment.)}
+    {In my basic tests, this seems to work.  If anyone has insights into what the actual dangers to doing this are, please add a comment.)}
 
-    ]]
+]
 
 {Before I mentioned how I had [moved from VMWare to VirtualBox](http://blog.hostilefork.com/virtual-machines-genuine-windows/), so that more of the stack I use would be open source.  Besides the "Genuine Windows" VM re-activation annoyance I mention (due to a perceived hardware change), everything seemed to go fine after that.}
 

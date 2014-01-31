@@ -8,29 +8,29 @@ Draem [
 
 "I saw the following coding problem:"
 
-[quote [
+[quote
 
-        {Write a function that takes 4 integers as input and returns an integer.  The four input values will each range from 1-10, and the function should calculate the number of combinations of input that add to 15 and return that number of combinations.}
+    {Write a function that takes 4 integers as input and returns an integer.  The four input values will each range from 1-10, and the function should calculate the number of combinations of input that add to 15 and return that number of combinations.}
 
-        {For example, if the four input values were labeled A-D and had the values A=5, B=5, C=5 and D=10 there would be 4 combinations adding to 15.}
+    {For example, if the four input values were labeled A-D and had the values A=5, B=5, C=5 and D=10 there would be 4 combinations adding to 15.}
 
-        [list [
+    [list [
 
-                "A+D = 15"
+            "A+D = 15"
 
-                "B+D = 15"
+            "B+D = 15"
 
-                "C+D = 15"
+            "C+D = 15"
 
-                "A+B+C = 15"
+            "A+B+C = 15"
 
-            ]]
+        ]]
 
-        "So the desired output would be: 4"
+    "So the desired output would be: 4"
 
-        {Please describe how you would modify your solution to accept N input values (instead of just four).}
+    {Please describe how you would modify your solution to accept N input values (instead of just four).}
 
-    ]]
+]
 
 {My first try turned out to be slower than a solution from an experienced C++ programmer who'd leveraged the C++ standard library algorithms.  Here's how he did it:}
 
@@ -119,17 +119,17 @@ int FillKnapsack (int const * arr, int size, int sum)
 
 {Not to be outdone, I started wondering if there was a way to do it even faster.  Since the values in the array are bounded, I decided to immediately transform the input into a histogram telling how many of each number appeared.  Then I would do a brute force march through all the histograms that were "recipes" adding to the target sum, and add the appropriate number of sums for each match.  So in the sample case:}
 
-[list [
+[list
 
-        "A = 5"
+    "A = 5"
 
-        "B = 5"
+    "B = 5"
 
-        "C = 5"
+    "C = 5"
 
-        "D = 10"
+    "D = 10"
 
-    ]]
+]
 
 "I'd quickly transform it to mean:"
 

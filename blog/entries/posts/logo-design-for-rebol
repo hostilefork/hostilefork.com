@@ -6,29 +6,31 @@ Draem [
     old-url-prefix: %2013/01/11/
 ]
 
-[note [
+[note
 
-        {If you want to come join the planning for Rebol's identity, much of the conversation is happening publicly, in the [StackOverflow chat room:}
+    {If you want to come join the planning for Rebol's identity, much of the conversation is happening publicly, in the [StackOverflow chat room:}
 
-        [http://chat.stackoverflow.com/rooms/291/ "[Rebol and Red] chat room"]
+    [http://chat.stackoverflow.com/rooms/291/ "[Rebol and Red] chat room"]
 
-        {It's a place for conversations about the languages of all kinds, and there's even a RebolBot that can evaluate expressions!}
+    {It's a place for conversations about the languages of all kinds, and there's even a RebolBot that can evaluate expressions!}
 
-    ]]
+]
 
-{After decades of pondering and implementation, the Rebol programming language [quietly went open source](http://www.rebol.com/cgi-bin/blog.r?view=0519) on December 12th, 2012 (12-12-12).  The language's chief designer, Carl Sassenrath (of AmigaOS fame), [had this to say](http://www.rebol.com/article/0519.html):}
+{After decades of pondering and implementation, the Rebol programming language [quietly went open source](http://www.rebol.com/cgi-bin/blog.r?view=0519) on December 12th, 2012 (12-12-12).  The language's chief designer, who was one of the designers of AmigaOS, had this to say:}
 
-[quote [
+[quote
 
-        {You probably thought the source release would never happen? Am I right?}
+    {You probably thought the source release would never happen? Am I right?}
 
-        {Well, it's [there now in github](https://github.com/rebol/r3). This is preliminary. Once I know some of you have built it successfully, I'll make a more public announcement and add a tarball for download from rebol.com.}
+    {Well, it's [there now in github](https://github.com/rebol/r3). This is preliminary. Once I know some of you have built it successfully, I'll make a more public announcement and add a tarball for download from rebol.com.}
 
-        {I'll check in here for several minutes every night to respond to any questions.}
+    {I'll check in here for several minutes every night to respond to any questions.}
 
-        {Let's see what happens... Who will be the first to port it to Android?}
+    {Let's see what happens... Who will be the first to port it to Android?}
 
-    ]]
+    /source [http://www.rebol.com/article/0519.html {Carl Sassenrath (blog)}]
+
+]
 
 {Within 8 days, German developers at [Saphirion](http://www.saphirion.com/) had made an experimental Android port.  I myself made the minor patch to get Rebol building on [HaikuOS](https://github.com/rebol/r3/commit/45a37e3678aefaef42ab86eabe62ab25f8b2b99a).  Instructions then came down the line for building on [Raspberry Pi, Beagleboard, and Pandaboard](http://www.rebol.com/article/0526.html).}
 
@@ -102,9 +104,12 @@ more
 
 {My own opinion is that it is a motif...and such a flexible one that it can even be rendered textually as **[o]**.  A web designer or business card designer should be able to have a field day with variants on this.  I've been waiting three years for a challenge, and my arguments have been laid out...but at some point we have to move forward!  I feel that moment is now.}
 
-"Carl once said:"
+[quote 
 
-[quote {A friend of mine says it's like the movie "Matrix" where you are offered either the red pill or the blue pill. Most programmers stick with the blue pill. The folks who take the Rebol red pill wake up and can never go back. I've had companies call me to complain that a few of their programmers started using Rebol and are now "ruined" because they refuse to go back. Rebol is a highly disruptive technology.}]
+    {A friend of mine says it's like the movie "Matrix" where you are offered either the red pill or the blue pill. Most programmers stick with the blue pill. The folks who take the Rebol red pill wake up and can never go back. I've had companies call me to complain that a few of their programmers started using Rebol and are now "ruined" because they refuse to go back. Rebol is a highly disruptive technology.}
+
+    /source [http://www.osnews.com/story/199 {Carl Sassenrath, 2001 interview}]
+]
 
 {The real red pill is *intention*.  And if you use a language like PHP that is an actual [Fractal of Bad Design](http://me.veekun.com/blog/2012/04/09/php-a-fractal-of-bad-design/), then you will indeed be taking a very literal blue pill:}
 

@@ -59,15 +59,15 @@ round-trip min/avg/max/stddev = 80.797/83.633/85.093/2.005 ms
 
 {Well, there were, and you run into them rather often...such as these [private network ranges](http://en.wikipedia.org/wiki/Private_network):}
 
-[list [
+[list
 
-        "10.0.0.0 -- 10.255.255.255"
+    "10.0.0.0 -- 10.255.255.255"
 
-        "172.16.0.0 -- 172.31.255.255"
+    "172.16.0.0 -- 172.31.255.255"
 
-        "192.168.0.0 -- 192.168.255.255"
+    "192.168.0.0 -- 192.168.255.255"
 
-    ]]
+]
 
 {So let's say you were Google and you own thousands of machines, but the only address you have registered through ARIN is 72.14.207.99.  You can use that address as a bridge for connecting to the broader Internet, while your corporate machines all have private addresses to talk to each other.  It's kind of like when people inside a company are using extension #s off of a main line instead of having their own full telephone number.  All traffic intended to come in and out of the global internet will go through the main number and then be forwarded to the right local address.}
 
@@ -122,20 +122,20 @@ telnet: Unable to connect to remote host}]
 
 {I'd like to thank Peter Sichel from the Apple Network Programming mailing list, who was very helpful while I was dealing with the DHCP porting issue.  He makes a product called [IpNetRouter](http://www.sustworks.com/site/prod_ipr_overview.html) for OS/X.  Here's our conversation thread:}
 
-[list [
+[list
 
-        [http://lists.apple.com/archives/macnetworkprog/2008/Jan/msg00077.html "msg #1"]
+    [http://lists.apple.com/archives/macnetworkprog/2008/Jan/msg00077.html "msg #1"]
 
-        [http://lists.apple.com/archives/macnetworkprog/2008/Jan/msg00080.html "msg #2"]
+    [http://lists.apple.com/archives/macnetworkprog/2008/Jan/msg00080.html "msg #2"]
 
-        [http://lists.apple.com/archives/macnetworkprog/2008/Jan/msg00083.html "msg #3"]
+    [http://lists.apple.com/archives/macnetworkprog/2008/Jan/msg00083.html "msg #3"]
 
-        [http://lists.apple.com/archives/macnetworkprog/2008/Jan/msg00085.html "msg #4"]
+    [http://lists.apple.com/archives/macnetworkprog/2008/Jan/msg00085.html "msg #4"]
 
-        [http://lists.apple.com/archives/macnetworkprog/2008/Feb/msg00000.html "msg #5"]
+    [http://lists.apple.com/archives/macnetworkprog/2008/Feb/msg00000.html "msg #5"]
 
-        [http://lists.apple.com/archives/macnetworkprog/2008/Feb/msg00001.html "msg #6"]
+    [http://lists.apple.com/archives/macnetworkprog/2008/Feb/msg00001.html "msg #6"]
 
-        [http://lists.apple.com/archives/macnetworkprog/2008/Feb/msg00017.html "msg #7"]
+    [http://lists.apple.com/archives/macnetworkprog/2008/Feb/msg00017.html "msg #7"]
 
-    ]]
+]

@@ -129,35 +129,35 @@ pick "Hello world" 2
 
 {This is a powerful concept, especially because there are 13 fundamental types in Rebol that have this behavior.  Here they are:}
 
-[list [
+[list
 
-        "`block!` &rarr; Blocks of values"
+    "`block!` &rarr; Blocks of values"
 
-        {`paren!` &rarr; Blocks of values enclosed in parentheses}
+    {`paren!` &rarr; Blocks of values enclosed in parentheses}
 
-        "`path!` &rarr; Paths of values"
+    "`path!` &rarr; Paths of values"
 
-        "`list!` &rarr; Linked lists"
+    "`list!` &rarr; Linked lists"
 
-        "`hash!` &rarr; Associative arrays"
+    "`hash!` &rarr; Associative arrays"
 
-        "`string!` &rarr; Character strings"
+    "`string!` &rarr; Character strings"
 
-        "`binary!` &rarr; Byte strings"
+    "`binary!` &rarr; Byte strings"
 
-        "`tag!` &rarr; HTML and XML tags"
+    "`tag!` &rarr; HTML and XML tags"
 
-        "`file!` &rarr; File names"
+    "`file!` &rarr; File names"
 
-        "`url!` &rarr; Internet uniform resource locators"
+    "`url!` &rarr; Internet uniform resource locators"
 
-        "`email!` &rarr; Email names"
+    "`email!` &rarr; Email names"
 
-        "`image!` &rarr; Image data"
+    "`image!` &rarr; Image data"
 
-        "`issue!` &rarr; Sequence codes"
+    "`issue!` &rarr; Sequence codes"
 
-    ]]
+]
 
 [heading "Rebol has Safe Iterators Built In"]
 
