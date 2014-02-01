@@ -1,0 +1,222 @@
+Draem [
+    title: "Boost.Graph: Not as Crazy as you Think"
+    tags: [c++ boost graph]
+    slug: %boost-graph-templates-not-crazy
+    date: 1-May-2009/16:16
+]
+
+[note 31-Jan-2014 {I found this old unfinished article from 2009, sitting in a drafts folder on an email account.  It was a good start at explaining the logic behind the Boost.Graph library, but it isn't finished.  It needs more research and certainly I'd like to get back to it... but since it's not completely useless I'll post it anyway.  Take it with a grain of salt}]
+
+{There are a lot of people who are skeptical of highly-generic C++ libraries based on templates.  Even in 2009, I've met people who are programming using ANSI C and avoiding the Standard Template Library altogether...even for strings.}
+
+{It seems a number of old-school programmers who tried using early C++ compilers were burned badly--especially when they tried to use templates.  They then decided that for all of its warts, C programming was still the lingua-franca of high performance cross-platform programming.}
+
+[note {The father of C++ has eloquently demonstrated why the methodology of C isn't faster; and if it is faster, it's probably only because it's buggy and doesn't do everything it needs to.  You can read his interesting breakdown at [Learning C++ as a New Language](http://www.stroustrup.com/new_learning.pdf).}]
+
+{Despite being won over by the arguments, when I tried to use the [Boost Graph Library](http://www.boost.org/doc/libs/release/libs/graph/) for the first time, the design struck me as kind of bonkers.  Doing simple things did not seem very simple.  It wasn't clear how many people actually used it, as support was tough to get since most people appeared to be just as confused as I was.}
+
+{But after a little bit of tinkering and research, I got a reasonable grip on how to use it.  And once I did, it didn't seem too nuts.  Let me scratch down a few notes here, in case they might help someone.}
+
+[heading {Philosophy of the Standard Template Library}]
+
+{In the STL, the collection classes are parameterized with the type of object you want to store.  You don't have to derive your objects from some base class that holds the pointers and data structure overhead required for that kind of collection; it's the collection's job to manage what it needs *outside of your object*.}
+
+{So let's say you want a dynamic array of cities, you might declare it as a vector:}
+
+[code c++ {
+struct City {
+   std::string name;
+   unsigned population;
+};
+
+std::vector<City> cities;
+}]
+
+{Once you have a collection, you can iterate through it.  Vector is a case where you can loop through using a zero-based integer that goes up through the size of the collection...so you can use it very much as you would an array in C:}
+
+[code c++ {
+for (size_t index = 0; index < cities.size(); index++) {
+   cout << "City name is " << cities[index].name
+      << " with population " << cities[index].population
+      << std::endl;
+}
+}]
+
+{Of course, this is possible because the templated vector class uses operator-overloading to let you write the "nice" notation of `cities[5]`.  Although there still is a method call syntax of `cities.at(5)`, which has slightly different properties *(which are not worth going into here)*.}
+
+{As most C++ programmers know, to iterate like this is "poor form".  Although the vector data type can quickly look up `cities[index]`, there are other containers which aren't optimized for that kind of access.  Some may not expose an access by integer at all.}
+
+{So a first step toward writing code that should continue working fast and effectively even if you changed to another container type, you can use "iterators":}
+
+[code c++ {
+for (std::vector::iterator iter = cities.begin(); iter != cities.end(); iter++) {
+   cout << "City name is " << (*iter).name
+      << " with population " << (*iter).population
+      << std::endl;
+}
+}]
+
+{More "Modern C++" programmers will take this further with algorithms like `for_each`, which take care of managing the iterator for you.  You pass these templated functions the beginning iteration point, the ending iteration point, and other options (like a function specifying how to handle each).  While for_each is fairly trivial compared to writing the for loop yourself, some of the others do more complex things.}
+
+{At the core of why all this works is that a collection class fundamentally is just a certain number of objects, of the same type, which you can iterate.}
+
+[heading {Enter the Boost Graph Library}]
+
+{Now imagine you're working on a program in which certain cities are connected by roads, and each road has a distance associated with it.}
+
+[code c++ {
+struct City {
+   std::string name;
+   unsigned population;
+};
+
+struct Road {
+   std::string name;
+   float miles;
+};
+}]
+
+{It sounds appealing to use a graph library someone else has already written...with fully-debugged traversal algorithms and other goodies.  You shouldn't need to make your classes derive from any base classes originating from the graph class, the container should do all the work behind the scenes--just like the STL.}
+
+[note {Quick terminology review from the mathematical concept of a [Graph](http://en.wikipedia.org/wiki/Graph_(mathematics)).  It's a set of "vertices" which have connections to other "vertices".  Each connection is called an "edge".  So resist the urge to call them "nodes" or "links" or anything of that nature.}]
+
+{So perhaps you were thinking you'd #include some boost headers and instantiate a template.  It would take the vertex type and the edge type, perhaps something like this:}
+
+[code c++ {
+boost::graph<City, Road> citiesAndRoads;
+}]
+
+{It's a pretty fair bit far away from that simple.  First of all, just as with the STL, there's a choice to be made about what kind of data structure you want.  A **std::list** and a **std::vector** may be functionally equivalent in storing N items, but they have different performance and memory usage characteristics.  C++ is about efficiency, so you can't punt the decision.}
+
+{Your choices are `adjacency_list`, `adjacency_matrix`, and `edge_list`.  But the decision doesn't stop there.  You have to go even further and specify *the data structures used internally by the data structure you picked*.  Here's the template parameters for the most flexible of boost's graph implementations... the [adjacency_list](http://www.boost.org/doc/libs/release/libs/graph/doc/adjacency_list.html):}
+
+[code c++ {
+boost::adjacency_list<OutEdgeList, VertexList, Directed,
+               VertexProperties, EdgeProperties,
+               GraphProperties, EdgeList>
+}]
+
+{We're up to a lot more than two things.  What *is* all that stuff?}
+
+[list
+    {OutEdgeList - The selector for the container used to represent the edge-list for each of the vertices. *(default: `vecS`)*}
+
+    {VertexList - The selector for the container used to represent the vertex-list of the graph.  *(default: `vecS`)*}
+
+    {Directed - A selector to choose whether the graph is directed, undirected, or directed with bidirectional edge access (access to both out-edges and in-edges). The options are `directedS`, `undirectedS`, and `bidirectionalS`.  *(default: `directedS`)*}
+
+    {VertexProperties - For specifying internal property storage. *(default: `no_property`)*}
+
+    {EdgeProperties - for specifying internal property storage. *(default: `no_property`)*}
+
+    {GraphProperties - for specifying property storage for the graph object. *(default: `no_property`)*}
+
+    {EdgeList - The selector for the container used to represent the edge-list for the graph. *(default: `listS`)*}
+]
+
+{When you are asked to tell `adjacency_matrix` what kind of implementation classes it should use internally, these are the selectors it knows about:}
+
+[list 
+    {`vecS` &rarr; `std::vector`}
+    {`listS` &rarr; `std::list`}
+    {`slistS` &rarr; `std::slist`}
+    {`setS` &rarr; `std::set`}
+    {`multisetS` &rarr; `std::multiset`}
+    {`hash_setS` &rarr; `std::hash_set`}
+]
+
+[note {You might ask why it uses with these weird "selectors" rather than just letting you pass in the type directly.  I've heard that some issues like this come from the fact that Boost.Graph makes extremely heavy use of advanced template features, and some compilers didn't make it possible to do what they wanted in other ways.  This could be one of those issues.}]
+
+{Furthermore, sometimes we want to model pairs of vertices in the graph as having a binary state of being "connected by an edge, or not connected".  That's called an "undirected" graph.   Other times we might want only a single connection to be possible, but give that connection a direction (directed).  Still other times we might want the graph to have the ability for node pairs have directed connections, but allow them to optionally connect both ways as well (bidirectional).  Choosing which type of graph not only affects data structure efficiency decisions, but can mean some graph algorithms are applicable or not applicable to that graph type.}
+
+{So before we got to specifiying our Vertex and Edge property classes, we have some other decisions to make.  Fancifully we'll say our roads-between-cities abstraction wants to be bidirectional...perhaps because they're one-way, but more likely because the mileage could be different both ways:}
+
+[code c++ {
+boost::adjacency_list<
+    vecS, vecS, bidirectionalS, City, Road
+> citiesAndRoads;
+}]
+
+[note
+    {You might wonder what the `GraphProperties` template parameter is for.  This is a way of letting you let the graph object carry a single instance of data with it.  Let's say your map of roads has a title and year it was made in.  You could create an aggregate:}
+
+    [code c++ {
+struct MapWithInfo {
+    boost::adjacency_list<
+        vecS, vecS, bidirectionalS, City, Road
+    > citiesAndRoads;
+
+    std::string title;
+    int year;
+}
+}]
+
+    {But Boost gives you the option to throw in a one-off instance of a class type that travels around with your graph.  So instead you can write:}
+
+[code c++ {
+struct MapProperties {
+    std::string title;
+    int year;
+}
+
+boost::adjacency_list<
+    vecS, vecS, bidirectionalS, City, Road, MapProperties
+> citiesAndRoadsMap;
+}]
+
+    {If you ever want to get at this one-off instance of data traveling around with your graph, you can do it like this:}
+
+    [code c++ {
+(boost::get(graph_properties, citiesAndRoadsMap))[citiesAndRoadsMap].year 
+}]
+
+    {You might be scratching your head about that.  The STL doesn't offer anything like that...there's no an extra cubby-hole inside of a `std::vector` to poke data into.  It might seem a frivolous feature, and it's certainly not well-documented enough to explain what good uses it has.  But it plugs in with some of their very [generic concepts](http://www.boost.org/doc/libs/1_43_0/libs/graph/doc/graph_concepts.html), which I'll be getting to in a second.}
+]
+
+[note
+    {The very last parameter isn't really explained either.  It's *"The selector for the container used to represent the edge-list for the graph."*  So parallel to the `VertexList`, there would be exactly one per graph, and would be a way of iterating all the edges without having to do some kind of traversal.}
+
+    {The Boost documentation is careful to point out:}
+
+    [quote "The choice of OutEdgeList and VertexList affects the time complexity of many of the graph operations and the space complexity of the graph object."]
+
+    {But as not much is said about the EdgeList, and it's stuck all the way on the end, I guess we are to assume you'd rarely want to override the default of this being a `std::list`.}
+]
+
+[heading {Adding Vertices and Edges}]
+
+{After you've added some vertices to your graph, each one can be identified by its zero-based integer index, just as if you'd put it into an array.}
+
+{Technically speaking, you aren't supposed to use numbers to refer to the edges directly.  There is an abstraction called a `vertex_descriptor`.  Unfortunately, the implementation is merely an unsigned integer...so you'll read a lot of confusing sample code on the web which incorrectly use numbers in places that call for `vertex_descriptor`.}
+
+{To correctly get a descriptor from an index, use the boost::vertex function.}
+
+[list
+    [
+        {`vertices_size_type num_vertices(const adjacency_matrix& g)`}
+        {Returns the number of vertices in the graph g.}
+    ] [
+        {`vertex_descriptor vertex(vertices_size_type n, const adjacency_matrix& g)`}
+        {Returns the nth vertex in the graph's vertex list.}
+    ]
+]
+
+{Being right comes at a price though, and you will probably find yourself in quite a mire of typedefs:}
+
+[code c++ {
+typedef boost::adjacency_list<
+    vecS, vecS, bidirectionalS, City, Road
+> CitiesAndRoadsType;
+
+boost::graph_traits<CitiesAndRoadsType>::vertex_descriptor CityVertex;
+
+CityVertex getCityVertex(CitiesAndRoadsType & citiesAndRoads, int n) {
+    return boost::vertex(n, citiesAndRoads);
+}
+}]
+
+{Moreover, a properly abstracted `vertex_descriptor` should not be abused and cast to an integer.  And there's no function in boost for going the other way.  So if you have a `vertex_descriptor` in your hand and wish to get a node index back from it, the *"right"* way is to put that node index into the properties of the vertex itself.}
+
+[heading {Property Maps}]
+
+{To be written... maybe by me, maybe in this lifetime?  Or maybe by you?  See [Legal Notices](http://hostilefork.com/legal/) for content licensing (CC-BY-NC-SA).}

@@ -61,6 +61,8 @@ more
 >> do crazy_program
 "Hello world"}]
 
+[update {This works in Rebol 2.  But the ability to use programmatic methods to create "weird words" starting with digits, or that have angle brackets or spaces in them, was removed in Rebol 3.  A final decision on prohibitions of this kind are still in the outstanding design issues pool.}]  
+
 {I bring this aspect up now to make the point that spaces matter in day-to-day Rebol programming... a lot.  One of the few places you don't really have to worry about them is near brackets and parentheses, so these three things are equivalent:}
 
 [code rebol {>> first [print "Hello world"]
@@ -119,12 +121,12 @@ more
 
 "This will print out:"
 
-[code rebol {
+[text {
 Is Rebol very interesting?
 Signs point to yes
 }]
 
-{Note the free usage of hyphens, periods, and question marks in tokens... something that you aren't allowed in other languages.}
+{Notice the free usage of hyphens, periods, and question marks in tokens... something that you aren't allowed in other languages.}
 
 [heading "Non-Scalar Literals Must Be Copied Manually"]
 
@@ -191,7 +193,7 @@ Signs point to yes
 
 [note {People typically wish `append [A B] [C D]` to produce `[A B C D]` and not `[A B [C D]]`.  Yet the latter is the more "natural" definition of appending in a programming sense--so there is special code which makes the more common option the default.  Above, you see that I am using the `/only` refinement...which in this case can be roughly interpreted as "only do the *raw* append, don't run the extra code which protects you from the uncommon case of nested blocks".}]
 
-{Rebol has erred on the side of efficiency by avoiding copies in cases where they might not be needed.  This only applies to series literals--not numbers or dates, so you don't have to worry about copying those!}
+{Rebol has erred on the side of efficiency by avoiding copies in cases where they might not be needed.  This only applies to Rebol Series (REBSER)--not Rebol Values (REBVAL) such as integers or dates, so you don't have to worry about copying those!}
 
 [heading "Highly permissive evaluator"]
 

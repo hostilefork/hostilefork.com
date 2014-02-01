@@ -135,7 +135,7 @@ SomeClass::SomeClass(float initial_value, char* name) :
 
 [heading "Comments"]
 
-{When comments are necessary, I use the "//" C++ comment format, generally avoiding the "/* */ " C style.  I reserve the C style for surgically removing randomly ranged blocks of code for test purposes (such as parameters in the middle of long argument lists).}
+{When comments are necessary, I use the `//` C++ comment format, generally avoiding the `/* */` C style.  I reserve the C style for surgically removing randomly ranged blocks of code for test purposes (such as parameters in the middle of long argument lists).}
 
 {If I'm programming on my own projects, then in order to distinguish between comments of specific functions/classes and documentation of function/class groups, I use the following convention:}
 
