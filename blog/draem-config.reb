@@ -90,4 +90,51 @@ draem/set-config object compose [
 			rejoin [templates-dir %post/ header/slug ".html"]
 		]
 	]
+
+	;-- Optional: CSS included on every page
+	css: [
+		%/media/google-code-prettify/prettify.css
+		%/media/google-code-prettify/reb4me-prettify.css
+	]
+
+	;-- Optional: JS included on every page
+	javascript: [
+		http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js
+
+		{
+/* http://stackoverflow.com/questions/1402698/binding-arrow-keys-in-js-jquery */
+$(document).keydown(function(e) {
+	switch(e.which) {
+		case 37: // left (up is 38) 
+			anchors = $("#prev > a");
+			if (anchors.length > 0) {
+				window.location.href = anchors.eq(0).attr('href');
+			}
+		break;
+
+	case 39: // right (down is 40)
+			anchors = $("#next > a");
+			if (anchors.length > 0) {
+				window.location.href = anchors.eq(0).attr('href');
+			}
+		break;
+
+	default: return; // exit this handler for other keys
+	}
+
+	e.preventDefault(); // prevent the default action (scroll / move caret)
+});
+		}
+
+		%/media/google-code-prettify/prettify.js
+		%/media/google-code-prettify/lang-rebol.js
+
+		{
+$(document).ready(
+	function(){
+		window.prettyPrint && prettyPrint()
+	}
+);
+		}
+	]
 ]

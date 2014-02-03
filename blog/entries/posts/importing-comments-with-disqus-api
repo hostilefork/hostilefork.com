@@ -8,17 +8,18 @@ Draem [
 {When I migrated my blog away from WordPress, the version I was using was *seven years old*.  Before you judge me too harshly, I was busy and a blog just wasn't a super high priority.  Besides, I got into using StackOverflow for my programming fix...and they have fake internet points!}
 
 [html {<div class="picture"><a href="http://stackoverflow.com/users/211160/hostilefork">
-<img src="http://stackoverflow.com/users/flair/211160.png" width="208" height="58" alt="profile for HostileFork at Stack Overflow, Q&A for professional and enthusiast programmers" title="profile for HostileFork at Stack Overflow, Q&A for professional and enthusiast programmers">
+<img src="http://stackoverflow.com/users/flair/211160.png" width="208" height="58" alt="profile for HostileFork at Stack Overflow, Q&amp;A for professional and enthusiast programmers" title="profile for HostileFork at Stack Overflow, Q&amp;A for professional and enthusiast programmers">
 </a></div>}]
 
 [quote
 
     {It was a gamble: would people really take time out of their busy lives to answer other people’s questions, for nothing more than fake internet points and bragging rights?}
 
-    {**It turns out people will do anything for fake Internet Points**} /source [
+    {**It turns out people will do anything for fake Internet Points**}
 
-        http://blog.stackoverflow.com/2013/09/five-years-ago-stack-overflow-launched-then-a-miracle-occurred/ "StackOverflow Blog, 16-Sep-2013"
-
+    /source [
+        http://blog.stackoverflow.com/2013/09/five-years-ago-stack-overflow-launched-then-a-miracle-occurred/
+        "StackOverflow Blog, 16-Sep-2013"
     ]
 
 ]
