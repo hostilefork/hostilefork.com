@@ -50,7 +50,7 @@ more
     {`2 * (3 + 4)` is 14}
 ]
 
-{Parentheses tell us what to do first, if there's any doubt.  So in the first case, we multiply the 2 by the 3 and then add 4.  In the bottom case, we add 3 and 4 first and then multiply by 2.  Computers languages can be designed to obey those conventions.}
+{Parentheses tell us what to do first, if there's any doubt.  So in the first case, we multiply the 2 by the 3 and then add 4.  In the bottom case, we add 3 and 4 first and then multiply by 2.  Computer languages can be designed to obey those conventions.}
 
 {Yet then we might ask: what is `(2 * (3) + 4)))`?  Is it gibberish?}
  

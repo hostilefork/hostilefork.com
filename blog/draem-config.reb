@@ -54,6 +54,8 @@ draem/set-config object compose [
 		%thinker-qt
 		%uscii
 		%jquery-numband
+		%flatworm
+		%titlewait
 	]
 
 	entries-dir: (rejoin [system/options/path %entries/])
@@ -71,7 +73,8 @@ draem/set-config object compose [
 	;-- Required url-from-header hook
 	url-from-header: function [header [object!]] [
 		either find site-toplevel-slugs header/slug [
-			rejoin [site-url %page/ header/slug %/]
+			;-- Should we go straight to the subdomains?
+			rejoin [site-url header/slug %/]
 		] [
 			rejoin [site-url header/slug %/]
 		]

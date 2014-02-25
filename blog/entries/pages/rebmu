@@ -66,11 +66,11 @@ Input String: MCCCXXXVII
 
 [list
 
-    [http://stackoverflow.com/questions/2527477/code-golf-connecting-the-dots/3066878#3066878 "Connecting the Dots"]
+    [http://stackoverflow.com/a/3066878/211160 "Connecting the Dots"]
 
-    [http://stackoverflow.com/questions/3034331/code-golf-rotating-maze/3060396#3060396 "Rotating Maze"]
+    [http://stackoverflow.com/a/3060396/211160 "Rotating Maze"]
 
-    [http://stackoverflow.com/questions/2261681/code-golf-scrabble-able/3088746#3088746 "Scrabbleable"]
+    [http://stackoverflow.com/a/3088746/211160 "Scrabbleable"]
 
 ]
 
@@ -80,7 +80,7 @@ Input String: MCCCXXXVII
 
 {Because of this sleight of hand, you can slip in and out of using the abbreviated form.  That makes a wide range of functions and alternate coding styles available, as with the date arithmetic injected into this example:}
 
-[http://stackoverflow.com/questions/1683857/code-golf-hourglass/3110684#3110684 "Hourglass"]
+[http://stackoverflow.com/a/3110684/211160 "Hourglass"]
 
 {So unlike other golfing-specific languages like [GolfScript](http://www.golfscript.com/golfscript/), Rebmu can speak internet protocols, handle Unicode, and draw GUIs.  And the interpreter is shockingly small--delegating most all parsing issues to Rebol (which is shockingly small itself).  Yet it preserves as much of the original language's character as possible, so that knowledge transfers easily.}
 

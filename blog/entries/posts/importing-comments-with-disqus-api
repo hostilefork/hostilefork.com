@@ -48,7 +48,7 @@ Draem [
 
 {Besides, I'd been drawn to Disqus because of the API.  Using the API for the comment import would give me a chance to learn how it worked.  All I needed to get my scraped comments in would be to find a way to post anonymously to a thread identified by the new URL, passing in an author name and message text.}
 
-{Was it "easy"?  Well, "easy if you know how", but it took some digging--and I'm not the only one who found it puzzling.  But my pain is your gain: I'm going to give you the best information you can find on the subject (as of January 2014).  With code, even!  *(And if you have a PayPal account handy, maybe some tech support.  :-P)*}
+{Was it "easy"?  Well, "easy if you know how", but it took some digging--and I'm not the only one who found it puzzling.  But my pain is your gain: I'm going to give you the best information you can find on the subject (as of January 2014).  With code, even!  *(And if you come talk with us in the [Rebol and Red StackOverflow Chat Room](http://chat.stackoverflow.com/rooms/291/rebol-and-red), maybe some tech support.  :-P)*}
 
 [heading "Disqus Architectural Basics"]
 

@@ -1,0 +1,149 @@
+Draem [
+	title: "TITLEWAIT: Non-invasive Test-Driven Signaling"
+	tags: [c++ testing]
+	slug: %titlewait
+	date: 20-Oct-2008/7:35
+]
+
+{TitleWait is a program automation and testing tool (currently just for Windows, tested on XP through Windows8).  It can be used to launch a program and then watches for optional conditions to close the program...most notably when the title of the window changes to match a regular expression.  It also provides graceful recovery and detection of crashes, and can take screen shapshots when detected conditions arise.}
+
+[heading {Overview Video}]
+
+[youtube https://www.youtube.com/watch?v=HzeJWVNDOUg 560x315]
+
+[heading {Git Repository}]
+
+{TitleWait's source is distributed under the [GPL license, version 3](https://www.gnu.org/copyleft/gpl.html)}
+
+https://github.com/hostilefork/titlewait/
+
+[heading {Binary Executable}]
+
+{Here is a build I made on 25-Feb-2014 using Microsoft Visual C++ Express 2010 (service pack 1).  It has worked for me on Windows XP up through Windows 8.}
+
+http://hostilefork.com/media/titlewait/titlewait-85acb67b7c.zip
+
+{The version it's built from is [commit 85acb67b7c](https://github.com/hostilefork/titlewait/commit/85acb67b7ce4a5df06338855d790dad919ff6285).}
+
+{As with the license for the source, this binary is distributed without warranties of any kind.  But if it does something weird, please [raise an issue on GitHub](https://github.com/hostilefork/titlewait/issues).}
+
+{If you just want to do a simple favor for me and see if it runs, try:}
+
+[text {titlewait --program="Notepad.exe" --timeout=1 --timeoutsnapshot="test.bmp"}]
+
+{It should show no output in the console, and only pop up Notepad for a second and shut it down.  Afterward, `test.bmp` should contain a screenshot of Notepad before it was closed.}
+
+[heading {Motivation}]
+
+{Many programs--even those with limited scriptability by the user--can have their window titles dynamically affected by the user content loaded.  One particularly relevant example is the ability to use JavaScript to change the title bar of all major web browsers (when their tab is in the foreground).  This can generate a signal, for instance that tests have run successfully without hitting an error:}
+
+[code html {
+<script type="text/javascript">
+	document.title = 'Tests Successful';
+</script>
+}]
+
+{You can then use TitleWait to watch for the appearance of this string as part of the title bar of any of your windows.  Browsers generally add their own text, but will always have the page title as a part of the title bar.  You can use regular expressions to define the condition}
+
+[text {titlewait --program="iexplore.exe" --regex=".*Tests Successful.*"}]
+
+{Thus, using no other interprocess communication methods, it's possible to use the title to "signal" this small program that a certain condition has been reached.  It will not terminate until that happens, unless you specify a timeout.  As an added bonus, TitleWait can take screen snapshots of the application's window or the whole screen in the case of a crash, timeout, or title match.  You can also set the position of the launched process's window on the screen.}
+
+[heading {Program Options}]
+
+{Options are given with two dashes, a word, and an equals sign.  So for instance **--verbose=1** or **--program="foo.exe"**.}
+
+{For all options that are strings, enclose them in quotes.  To embed quotes in those strings, use **\"**.}
+
+{For booleans, use on/true/yes/1 or off/false/no/0.  *This convention is from [boost::program_options](http://stackoverflow.com/tags/boost-program-options/info)*}
+
+{Tip: Long command line? Use ^^ to join lines in Windows}
+
+[list
+	[
+		{**`--help`**}
+		{Show this help information}
+	] [
+		{**`--program`**}
+		{Path to the program to run (required)}
+	] [
+		{**`--args`**}
+		{Arguments to the program}
+	] [
+		{**`--regex`**}
+		{The regular expression you want to search the title for}
+	] [
+	  	{**`--frequency`**}
+		{How often to check the regex on the title (in seconds, 1 is default)}
+	] [
+		{**`-regexsnapshot`**}
+		{Path to screen snapshot to take if expression matches title (.BMP)}
+	] [
+		{**`--closeonmatch`**}
+		{Send a window close message to the application if regex matches}
+	] [
+		{**`--searchall`**}
+		{Search windows of all processes for regex, not just those this spawns}
+	] [
+	 	{**`--timeout`**}
+		{Number of seconds the program run before closing it due to timeout}
+	] [
+	  	{**`--timeoutsnapshot`**}
+		{Path to screen snapshot to take if timeout period elapses (.BMP)}
+	] [
+		{**`--crashsnapshot`**}
+		{Path to screen snapshot to take if program crashes (.BMP)}
+	] [
+		{**`--defer`**}
+		{If the program is already running, wait on execution of new instance}
+	] [
+		{**`--x`**}
+		{X position to ask program window to move to}
+	] [
+		{**`--y`**}
+		{Y position to ask program window to move to}
+	] [
+		{**`--width`**}
+		{Requested width of program window}
+	] [
+		{**`--height`**}
+		{Requested height of program window}
+	] [
+		{**`--verbose`**}
+		{Verbose debugging mode}
+	]
+]
+
+[heading {Return Codes}]
+
+[list
+	{**0** => Success}
+
+	{**1** => Bug! Report to [https://github.com/hostilefork/titlewait/issues](https://github.com/hostilefork/titlewait/issues)}
+
+	{**2** => Invoked with bad command line arguments}
+
+	{**3** => No program to run was supplied with `--program`}
+
+	{**4** => A timeout was specified and program didn't exit before timeout}
+
+	{**5** => Attempt to close the window normally failed, had to terminate}
+
+	{**6** => The spawned process crashed}
+
+	{**7** => The spawned process closed itself before match or timeout}
+
+	{**8** => Running with `--defer` option and user canceled instead of waiting}
+]
+
+[heading {Remarks}]
+
+{When I came up with the idea of using the window title to signal a testing tool from JavaScript, I thought this would be pretty easy.  That was back in 2008, and I found that getting the precise behaviors I wanted were not as simple.  In trying to get a smooth experience, I wound up having to implement TitleWait as as a debugger (using the same APIs that programs like Visual Studio use) to get greater control over spawned processes.}
+
+{I'd be very interested to know if someone could reproduce these results using [AutoHotkey](http://en.wikipedia.org/wiki/AutoHotkey) (GPL) or [AutoIt](http://en.wikipedia.org/wiki/AutoIt) (free, closed), which I found out about a couple years laterlater.  Though I'd suspect they wouldn't handle some of these cases.}
+
+{What is tricky in particular is the graceful handling of dealing with programs that are implemented in terms of a launcher and child processes, such as many browsers today.  Being a debugger makes it easier to stay in the driver's seat and get notifications as processes and threads are started and stopped.  So even if you called a program that launched and returned to the shell immediately (like IEXPLORE.EXE), a script using TitleWait can hold up until the processes doing the real work have all actually exited.}
+
+{In any case, the source code was published in 2013 "in the hope that it might be useful".  GPLv3 license.}
+
+[note {I don't like programming to flat Win32 API any more than anyone else does, but it simplifies the dependency structures.  I can't count the number of dumb little utilities like this I've downloaded which have one simple function but then won't run because they're missing a DLL or something.}]
