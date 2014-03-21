@@ -115,8 +115,22 @@ outer:/path/to/share /home/alice/share nfs rw,user,noauto 0
 
 [heading "Changing the user ID in the Guest"]
 
-{As mentioned, NFS wants the user ID to match by default.  This is not actually that hard to do, and because it's been a while since I did this setup I don't remember if it's necessary or if the setting to accept all user IDs works (which would be fine for me).  I'll document it here later, but it basically consists of creating another administrative account on the Linux guest...logging out the account you want to use with NFS, logging in with the other account, using **usermod** to change the number to match the uid you get from running **id** on the host.}
+{As mentioned, NFS wants the user ID to match by default.  This is not actually that hard to do, and because it's been a while since I did this setup I don't remember if it's necessary or if the setting to accept all user IDs works (which would be fine for me).  If you need to change your user ID in the guest, here's what to do:}
 
-{One of the tricky things is that OS/X starts counting its uid values at 501.  If you change that, then modern Linux installations hide all uid values less than 1000 from the login screen.  There is a setting you can change in the login managers which let you show all values greater than 500, but then you find that there's a fake VirtualBox user account created that starts showing up because it's between 500 and 1000.  So you have to tell VirtualBox to set its user ID to 499 or something like that.}
+[list
+    {Create another administrative account on the Linux guest.}
+
+    {Restart the virtual machine and log in as the new administrator *(it may not be enough to just log out, as some user-related information is still locked after logging out)*}
+
+    {On the host, get the user ID tied to the files.  You can do this by running `id` at a command line on UNIXes.}
+
+    {In the guest, run **usermod -u [ID] [username]** to change the number to match, for the user account}
+
+    [
+        {Depending on the value of ID, you may need to change the minimum user ID that the login manager will show.  Check `/etc/login.defs` for instance, and see if UID_MIN is set to something larger than the number you used.  OS/X starts user IDs at 501 for instance, Linuxes at 1000...so you may find the number is set to 1000.}
+
+        [note {This may make undesirable "fake" users appear in your login screen, and if that bothers you then you will have to reset the user IDs of those}]
+    ]
+]
 
 {I'm trying to get this entry published, as it has sat around unfinished for quite some time.  So I'll just touch up the entry the next time I actually have to do this.  But feel free to comment in the meantime!}

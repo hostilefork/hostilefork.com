@@ -140,7 +140,7 @@ http://hostilefork.com/media/titlewait/titlewait-85acb67b7c.zip
 
 {When I came up with the idea of using the window title to signal a testing tool from JavaScript, I thought this would be pretty easy.  That was back in 2008, and I found that getting the precise behaviors I wanted were not as simple.  In trying to get a smooth experience, I wound up having to implement TitleWait as as a debugger (using the same APIs that programs like Visual Studio use) to get greater control over spawned processes.}
 
-{I'd be very interested to know if someone could reproduce these results using [AutoHotkey](http://en.wikipedia.org/wiki/AutoHotkey) (GPL) or [AutoIt](http://en.wikipedia.org/wiki/AutoIt) (free, closed), which I found out about a couple years laterlater.  Though I'd suspect they wouldn't handle some of these cases.}
+{I'd be very interested to know if someone could reproduce these results using [AutoHotkey](http://en.wikipedia.org/wiki/AutoHotkey) (GPL) or [AutoIt](http://en.wikipedia.org/wiki/AutoIt) (free, closed), which I found out about a couple years later.  Though I'd suspect they wouldn't handle some of these cases.}
 
 {What is tricky in particular is the graceful handling of dealing with programs that are implemented in terms of a launcher and child processes, such as many browsers today.  Being a debugger makes it easier to stay in the driver's seat and get notifications as processes and threads are started and stopped.  So even if you called a program that launched and returned to the shell immediately (like IEXPLORE.EXE), a script using TitleWait can hold up until the processes doing the real work have all actually exited.}
 

@@ -1,0 +1,46 @@
+Draem [
+    title: {Thoughts on Sharing Client and Server code with Node.JS}
+    tags: [node.js javascript]
+    slug: %sharing-code-client-server-nodejs
+    date: 16-Mar-2014/6:52
+]
+
+{When I undertook my first "big" web application in 2009, I did it in Django.  The project was fairly ambitious not just because it was a web application, but it was also my first foray into cryptographic protocols.  I was trying to design a system where the client and the server didn't necessarily trust each other.}
+
+[note {As an exercise for any programmer who hasn't delved into cryptography, I have a suggestion.  Pick an application you've written and look at a communication, then ask: *"What if this piece didn't trust that piece?"*  We often take a lot for granted, and seeing things in this new light really helps you appreciate how nuanced a cryptographic protocol can be.  I'd suggest reading through [Applied Cryptography](https://www.schneier.com/book-applied.html) if you haven't--I did before starting my project, and it was very accessible and an interesting read.}]
+
+{In any case, when you've got two pieces of a system that need to double-check each other, you wind up running the same computations twice.  And in this case, I had to write two copies of the code in different languages...once in JavaScript, and once in Python.  More generally, I was frustrated with having to flip mindsets between one language on the server and another in the browser.}
+
+{This led me to go around in a rant to people which sounded something like this:}
+
+[quote {Argh.  Python, JavaScript, Ruby...who cares!  They're all basically the same.  I probably like Ruby the most and JavaScript the least, but the essential differences are pretty slight.  Any perceived "betterness" is simply outweighed by the disadvantage of having to use more than one language.  Given that the browser isn't going to change, I'll bet you that in the end people are just going to start doing server-side JavaScript.}]
+
+{There were varying reactions to these rants.  Some people nodded in agreement.  Others argued that JavaScript was too lame to ever make inroads on the server.  But occasionally someone would say *"y'know, there are actually people who are doing exactly what you describe"*.  So they'd send me some server-side JavaScript page (and I'm sure Node.JS was one of them).  I'd look at the scrappy pages and go "yup, something like that"...but I never installed any of it.  I was more interested in being a prophet about what was going to happen than investing *even more heavily* into a language I didn't really like in the first place.}
+
+{But in 2012 I went to a virtualization conference hosted by VMWare.  I showed the demo of my Python-server-based system to one of the guys from [Cloud Foundry](http://en.wikipedia.org/wiki/Cloud_Foundry).  He thought the project was cool, but mentioned they didn't have Django support, and suggested I port it to Node.JS.  There were representatives from MongoDB there too, which was one of the facilities that came on Cloud Foundry.  It looked like it wouldn't be too hard to switch from Django/MySQL to Node/MongoDB for the server component, and things might simplify a bit.}
+
+{So I decided maybe the time had come to grit my teeth and embrace my prophecy.  The result is what is now published as [Blackhighlighter](http://blackhighlighter.hostilefork.com).}
+
+[heading {Well...I was half right}]
+
+{Node.JS has taken off in popularity, which shows that I was onto something.  Yet in my case I wanted to just share some simple routines between the browser and the server.  This turned out to *not be straightforward at all*, despite seeming like one of the most basic things you should be able to do.  In fact, there aren't that many people who really care about this.}
+
+{The "module system" in Node.JS is pretty reasonable.  It's managed by a tool called ["NPM"](https://www.npmjs.org/), and if your node program has dependencies you just put them into a [`package.json`](http://package.json.nodejitsu.com/) file with a version indicator you want.  You can use wildcards too, so asking for `0.10.*` will get you the latest release of subversion 10 of something.} 
+
+{But for those of you who don't know, the JavaScript world is a hornet's nest of oddities, workarounds, byzantine libraries, competing approaches, and weird and tiresome arguments.} 
+
+[image http://imgs.xkcd.com/comics/standards.png 500x283 "Now you have 15 problems..."]
+
+{The core of the problem is that when web browsers were released, they just lumped everything global into a single object, called **window**.  This resulted in some workarounds that are known as the "module pattern", and you can read it explained and what's considered ["best practices"](http://www.adequatelygood.com/JavaScript-Module-Pattern-In-Depth.html).  But when Node.JS was released, if you declare a file-global element, it isn't seen by other files in the project.}
+
+{In the browser, a global declaration implicitly becomes a member of the `window` object.  Node's parallel to `window` is `process` *(from which you can get things like environment variables, and lots of other things)*.  But a key difference is that an unqualified global declaration does *not* implicitly become a member of `process`; it is only available inside that module unless you explicitly stick it into an `exports` object.}
+
+[note {Not only aren't globals in one module not seen by default, there seems to be no way to work around it.  In digging a little into the V8 JavaScript engine source code and looking how functions were declared, I saw that a "function definition" doesn't get added to the currently context.  Instead, they're put into an "activation object" of the "execution context"; there doesn't appear to be any kind of back door in to let you see inside such things from another module, unless you're using some kind of debugger.}]
+
+[heading {Meet RequireJS and Browserify}]
+
+{Node.js comes with a loading function called "require" which synchronously loads script code from the local disk.  It has some amount of convention so you don't have to necessarily specify the full path to a module, and you also omit the ".js" extension.  If one is to take advantage of the ability to share code between client and server code with node.js, you need some kind of adapter.  The most thoroughly-considered adapter introduces an inclusive standard that means you write your modules in a way that isn't compatible with either require or the <script> method:}
+
+http://requirejs.org/docs/node.html#3
+
+[note {Entry to be completed, but the punch line is [here in this stackoverflow question](http://stackoverflow.com/q/22471822/211160)}]
