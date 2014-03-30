@@ -1,0 +1,21 @@
+Draem [
+    title: {A Rebol vs. Python Test}
+    tags: [rebol python]
+    date: 30-Mar-2014
+]
+
+{Some time ago, I wrote a Python script to extract data from HTML file and write it in JSON format.  Now I'm learning Rebol, so I tried to rewrite it. Here are the results of comparison between the two versions.}
+
+{**Code length** -- Python: 5261c / Rebol: 5005c. But 930 chars were lit strings, so regarding the code in the strict sense: Python: 4371c / Rebol: 4075c. Also, we must consider that Python code benefits of HTMLParser module and built-in decoding facility, while in Rebol I had to write 2 function. -- Therefore, Rebol seems more concise that Python.}
+
+{**Speed** -- I tested speed processing 52 files on Android phone.}
+
+{*Test 1* -- Processing the files all at once: Python: 12.2 +- 0.2 s / Rebol: 11.7 +- 0.1 s}
+
+{*Test 2* -- Processing the files one by one: Python: 44.9 s / Rebol: 15.4 s}
+
+{The startup times are: Python: 0.641 +-0.004 / Rebol: 0.073 +- 0.002 s}
+
+{The pure-running times are: Python: 11.56 +- 0.2 s / Rebol: 11.63 +- 0.1 s}
+
+{**Summary** -- Speed seems equivalent, but Rebol starts up much faster, very good in shell scripts }
