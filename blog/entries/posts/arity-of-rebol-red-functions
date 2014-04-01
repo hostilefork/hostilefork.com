@@ -2,7 +2,7 @@ Draem [
     title: {The Central Newbie Question about Rebol/Red}
     tags: [rebol red philosophy]
     slug: %arity-of-rebol-red-functions
-    date: 20-Mar-2014/6:52
+    date: 20-Mar-2014/06:52
 ]
 
 {As many people know, I tend to suggest people look at Rebol and Red.  I think these are some very interesting languages.  But of course, if they were perfect then the whole world would be using them instead of rewriting all our infrastructure in JavaScript, right?}

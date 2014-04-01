@@ -36,13 +36,13 @@ more
 
     "ManyKeys was designed for two main purposes."
 
-    [list [
+    [list
 
-            {To provide the capability of reading more than one key at once.}
+        {To provide the capability of reading more than one key at once.}
 
-            {To remove BIOS'S slow keyboard repeat rate and let you sample the keyboard at your own speed.}
+        {To remove BIOS'S slow keyboard repeat rate and let you sample the keyboard at your own speed.}
 
-        ]]
+    ]
 
     {Video games often need to read more than one key at once, whether it be needed to allow two players (or more) to share places on the keyboard, or to let a character walk and shoot at the same time.}
 

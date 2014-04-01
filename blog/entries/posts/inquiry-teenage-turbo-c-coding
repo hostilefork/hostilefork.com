@@ -52,15 +52,15 @@ https://github.com/hostilefork/teenage-coding/tree/master/INQUIRY
 
     {Inquisition is the successor to the Inquiry/E and Inquiry/G products, and is poised to make a huge cut into the CAI market.  Among differentiating features between Inquiry and Inquisition are:}
 
-    [list [
+    [list
 
-            {More video modes.  Inquisition will be capable of running in text modes like the original Inquiry (for use on networks, bulletin boards, and other terminal based systems), and support graphics dithering and scaling to fit any graphics mode: CGA/EGA/VGA/SVGA are all supported.  Databases may be kept in their original format, or they may be specifically compressed/expanded in order to run faster on their new host system.}
+        {More video modes.  Inquisition will be capable of running in text modes like the original Inquiry (for use on networks, bulletin boards, and other terminal based systems), and support graphics dithering and scaling to fit any graphics mode: CGA/EGA/VGA/SVGA are all supported.  Databases may be kept in their original format, or they may be specifically compressed/expanded in order to run faster on their new host system.}
 
-            {More animation and graphics possibilities.  Because Inquisition windows are resizable and can be relocated, the "half-screen" limitation no longer applies.  If the full screen needs to be a graphic, then it can be.}
+        {More animation and graphics possibilities.  Because Inquisition windows are resizable and can be relocated, the "half-screen" limitation no longer applies.  If the full screen needs to be a graphic, then it can be.}
 
-            {Additional options may be added to formulate printed tests from databases, or import data from WordPerfect documents or GIF files.}
+        {Additional options may be added to formulate printed tests from databases, or import data from WordPerfect documents or GIF files.}
 
-        ]]
+    ]
 
 ]
 
