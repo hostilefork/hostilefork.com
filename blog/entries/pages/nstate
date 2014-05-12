@@ -9,7 +9,7 @@ Draem [
 
 {Modern compilers generally implement boolean values using types with much larger ranges than just 0 and 1 (such as bytes, or 32-bit integers).  Frugal programmers have historically used "packing" techniques to take several independent booleans and address them individually as bits inside larger types.  (For some well-known examples of this, STL has [`std::bitset`](http://www.c++.com/reference/stl/bitset/) and the boost library has [`boost::dynamic_bitset`](http://www.boost.org/doc/libs/1_38_0/libs/dynamic_bitset/dynamic_bitset.html).)}
 
-{Nstate is a relatively simple library for C++ which provides analogously dense packing for arrays of values known to range from [0..radix-1].  It was implemented to support the [Nocycle project](http://hostilefork.com/nocycle/), but can be applied in general contexts like any other array:}
+{Nstate is a relatively simple library for C++ which provides analogously dense packing for arrays of values known to range from **0** to **radix - 1**.  It was implemented to support the [Nocycle project](http://hostilefork.com/nocycle/), but can be applied in general contexts like any other array:}
 
 [code cpp {
 #include <cstdlib> // for rand()

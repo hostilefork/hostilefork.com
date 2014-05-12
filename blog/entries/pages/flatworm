@@ -25,12 +25,20 @@ Draem [
 
 http://www.3proxy.ru/
 
-{It "just worked" and was easy enough to get my head around, as my knowledge of HTTP was not that detailed to begin with.  I slowly evolved it from C into using C++-isms.  Though I was not yet deeply knowledgable about C++ in 2008, and (for instance) was just starting to use `auto_ptr`, which is now deprecated.  Other oddities in there (for instance, I hadn't heard of boost::optional, but invented something similar called "knowable" to serve a similar purpose).}
+{The filtering design I made has some interesting nuances.  I doubt there's anything out there that attacks exactly the same problem in the same way.  But likely there's some combination of other methods in this space that are better for most purposes.}
 
-{If I were to tackle something like this again today, I would want to build it using [Boost.ASIO](http://www.boost.org/doc/libs/1_55_0/doc/html/boost_asio.html) or perhaps a different language paradigm altogether, like [Red](http://red-lang.org).  So I don't really suggest anyone use it, except possibly for educational purposes.  I'm just archiving it on GitHub to get it off my hard drive, and to accompany a video..}
-
-{The code has some pretty nuanced complexities to it, and I doubt there's anything out there that attacks quite the same problem.  However, if this topic interests you, then you will almost certainly want to look at the "Man In The Middle Proxy":}
+{I'll mention that if this topic interests you, then you will almost certainly want to look at the "Man In The Middle Proxy":}
 
 http://mitmproxy.org/
 
-[note {The Flatworm sketch I found on Google Images but could not determine the artist.  I hope they don't mind me borrowing it for something that is gratis software and non-commercial in nature.  If you drew it--or know who did--please let me know.!}]
+[heading {Source Code}]
+
+{The code is available on GitHub:}
+
+https://github.com/hostilefork/flatworm
+
+[note {The Flatworm sketch I found on Google Images but could not determine the artist.  I hope they don't mind me borrowing it for something that is gratis software, non-commercial in nature, and an inactive project.  If you drew it--or know who did--please let me know!}]
+
+{I started from 3Proxy as it "just worked", and was easy enough to get my head around.  My knowledge of HTTP was not very detailed when I started.  So I slowly evolved it from C into using C++-isms.  Though I was not yet deeply knowledgable about C++ in 2008, and (for instance) was just starting to use `auto_ptr`, which is now deprecated.  Other oddities in there (for instance, I hadn't heard of boost::optional, but invented something similar called "knowable").}
+
+{If I were to tackle something like this again today, I would want to build it using [Boost.ASIO](http://www.boost.org/doc/libs/1_55_0/doc/html/boost_asio.html) or perhaps a different language paradigm altogether, like [Red](http://red-lang.org).  So I don't really suggest anyone use it, except possibly for educational purposes.  I'm just archiving it on GitHub to get it off my hard drive, and to accompany a video..}

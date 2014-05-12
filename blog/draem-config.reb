@@ -8,11 +8,11 @@ draem/set-config object compose [
 
 	site-intro: {
 		<img src="http://i.stack.imgur.com/VWHTU.png" alt="The Fork" />
-		<p>Currently blog.hostilefork.com is a scrape and rewrite of content that was previously on <a href="">hostilefork.com</a>. <i>Your patience is appreciated while the transition from WordPress is underway.</i></a>
+		<p>Currently blog.hostilefork.com is a scrape and rewrite of content that was previously on the main page of hostilefork.com.  If the pages look a bit primitive, that's because it was created with a fledgling static site builder of my own design: <a href="https://github.com/hostilefork/draem">"Draem"</a>.  Rethinking all the URLs while keeping all the old ones forwarding has been enough of a task on its own, so please report anything you see broken.</a>
 		<hr />
-		<p>The project pages are getting new homes too.  So go check out <a href="http://blackhighlighter.org">BlackHighlighter</a>, <a href="http://albumist.org">Albumist</a>, <a href="http://uscii.hostilefork.com">USCII</a>, <a href="http://thinker-qt.hostilefork.com">Thinker-Qt</a>, <a href="http://hostilefork.com/rebmu/">Rebmu</a>, <a href="http://hostilefork.com/rubol/">Rubol</a>, <a href="http://blog.hostilefork.com/imagination-squared-plus-openzoom/">OpenZoom-Squared</a>, and many more to be added as the pages here get put together better.</p>
+		<p>The project pages are starting to get better summaries, logos, and videos.  For the moment, the portal page for that is what's being served on the homepage at <b><a href="http://hostilefork.com">hostilefork.com</a></b>.</p>
 		<hr />
-		<p>In addition to the master list below, you can browse the entries by <a href="{% url draems.views.tag_list %}">tag</a>.  There is some preliminary support for navigating the entries with the left and right arrow keys, and all the comments from the old site have been imported into Disqus.  I appreciate your feedback or suggestions, so do not hesitate to contact me!</p>		
+		<p>In addition to the master list of blog entries below, you can browse by <a href="{% url 'draems.views.tag_list' %}">tag</a>.  There is some preliminary support for navigating the entries with the left and right arrow keys, and all the comments from the old site have been imported into Disqus.  I appreciate your feedback or suggestions, so do not hesitate to contact me!</p>		
 	}
 
 	site-footer: {
@@ -41,8 +41,10 @@ draem/set-config object compose [
 
 	site-toplevel-slugs: [
 		%homepage
+		%projects
 		%about
 		%albumist
+		%copylight
 		%blackhighlighter
 		%hire-the-fork
 		%hoist

@@ -5,11 +5,7 @@ Draem [
     date: 26-Jun-2009/3:47
 ]
 
-[image http://hostilefork.com/shared/uscii/uscii_logo_400x160.png 400x160 "The USCII Standard for Information Interchange"]
-
-[update 26-Jul-2009 {Try out the new online [Encoder](http://uscii.hostilefork.com/encode/) and [Decoder](http://uscii.hostilefork.com/decode/) for USCII-5x7-ENGLISH-C0!}]
-
-{USCII ("you-ski") stands for *Universal Semiotic Coding for Information Interchange*. It is a system for embedding pictures *inside* the coded numbers agreed upon to represent symbols and signals.  I was inspired to create it by the famous [Arecibo Message](http://en.wikipedia.org/wiki/Arecibo_message), which attempted to convey humanity's physics knowledge without assuming a cultural context other than math.  }
+{USCII ("you-ski") stands for *Universal Semiotic Coding for Information Interchange*. It is a system for embedding pictures *inside* the numbers agreed upon to represent symbols and control codes.  I was inspired to create it by the famous [Arecibo Message](http://en.wikipedia.org/wiki/Arecibo_message), which attempted to convey humanity's physics knowledge without assuming a cultural context other than math.}
 
 {For instance, instead of ASCII's encoding of 65 for "A" and 66 for "B"...we might consider using the number 15621226033 for "A" and 16400753439 for "B".  To see the bitmaps, you must first convert these values into binary:}
 
@@ -21,30 +17,23 @@ Draem [
 
 ]
 
-{When transmitted in a medium which hints at the significance of a 35-bit pattern, the [semiprime](http://en.wikipedia.org/wiki/Semiprime) nature of 35 suggests decomposing it into the factors 7 and 5.  Interpreting these bits as a 5x7 rectangle produces a picture--which happens to be a picture of *the letter which the code is representing*!  For 01110100011000110001111111000110001, you would get:}
+{When transmitted in a medium which hints at the significance of a 35-bit pattern, the [semiprime](http://en.wikipedia.org/wiki/Semiprime) nature of 35 suggests decomposing it into the factors 7 and 5.  That produces (small) images of an A and a B.  Larger prime factor choices could be used to get more coverage in Unicode--such as a 23x23 font for Chinese.}
 
-[text {0 1 1 1 0
-1 0 0 0 1
-1 0 0 0 1
-1 0 0 0 1
-1 1 1 1 1
-1 0 0 0 1
-1 0 0 0 1
-}]
+[heading {Overview Video}]
 
-{Do you see the "A" drawn by the ones?  Now let's try putting a break at every fifth bit in 11110100011000111110100011000111110:}
+[youtube https://www.youtube.com/watch?v=agCwQ9mcvrQ 560x315]
 
-[text {1 1 1 1 0
-1 0 0 0 1
-1 0 0 0 1
-1 1 1 1 0
-1 0 0 0 1
-1 0 0 0 1
-1 1 1 1 0}]
+[heading {Live Demo}]
 
-{Since USCII is a general methodology, there can be *many* standards--the only requirement is that the bit length be a product of primes.  You could have a 31x31 USCII which establishes codes for all the characters in Chinese.  Or a 7x11 USCII that has all the characters you need for Dutch...as well as a standard set of Emoticons!}
+{There is an online encoder, as well as a decoder... *(currently only for the standard "USCII-5x7-ENGLISH-C0")*.  The encoder walks you through how the standard works.  So just try typing something in the input box and read the explanation there:}
 
-{USCII codes have additional interesting properties, some of which I laid out in [a blog post from last year](http://blog.hostilefork.com/can-you-crack-arecibo-ascii/).}
+[list
+	[http://uscii.hostilefork.com/encode/ "USCII Encoding Demo"]
+
+	[http://uscii.hostilefork.com/decode/ "USCII Decoding Demo"]
+]
+
+{The decoder is descriptive as well, and explains the steps.  But if you send a message to a friend who hasn't heard of USCII, I'd be interested to know how many quickly figure it out *without* using the decoder.  Any stories about that are welcome.}
 
 [heading "Arecibo ASCII"]
 
@@ -188,4 +177,22 @@ Draem [
 </tbody>
 </table>}]
 
+{It isn't enough just to pick the character values, however.  The Arecibo message was only sending one big bitmap; and a USCII string will consist of many characters.  Two 35-bit characters in sequence suddenly have a length of 70 bits, and the semiprime hint is gone.}
+
+{There are arguably a lot of ways to build a container format for USCII codes, but I picked a fairly general one, establishing what I call "meter" and "silence" enclosing the characters.  For a WxH bitmap size choice, the layout is this:}
+
+[list 
+	{**leading silence**: `H` repetitions of a sequence of `WxH + W` zero bits}
+	{**leading meter**: `W` repetitions of a sequence of `WxH` one bits, followed by `W` zero bits}
+	{**message**: each `WxH` character, individually followed by `W` zero bits}
+	{**trailing meter**: `H` repetitions of a sequence of `WxH` one bits, followed by `W` zero bits}
+	{**trailing silence**: `W` repetitions of a sequence of `WxH + W` one bits}
+]
+
+{It's something easier to see in the online encoder and decoder than by trying to grasp it abstractly.  But that's the formula.  It has the added bonus of producing multiples of 8 bits for all string lengths with W=5 and H=7, or W=23 and H=23.} 
+
 {The C0 codes are admittedly rather tricky.  Especially to depict things like "Data Link Escape" or "Device Control 1"!  It would be possible to use a larger bit size and get clearer images.  But I'd like to see how far the 35 bit standard can go in cueing people who aren't familiar with ASCII into what the bitmaps signify...}
+
+{Another thing I've increasingly been considering is that any meaningful and expressive picture will probably find its way into a symbolic font.  This means that if Arecibo ASCII is to extend into "USCII Unicode", any pictures chosen for control codes are probably on the table as literal pictures.  I'm not sure how to handle that problem.}
+
+{Again, ideas are welcome!}
