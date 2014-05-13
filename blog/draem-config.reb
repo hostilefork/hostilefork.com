@@ -11,7 +11,7 @@ draem/set-config object compose [
 
 	site-intro: {
 		<img src="http://i.stack.imgur.com/VWHTU.png" alt="The Fork" />
-		<p>Currently blog.hostilefork.com is a scrape and rewrite of content that was previously on the main page of hostilefork.com.  If the pages look a bit primitive, that's because it was created with a fledgling static site builder of my own design: <a href="https://github.com/hostilefork/draem">"Draem"</a>.  Rethinking all the URLs while keeping all the old ones forwarding has been enough of a task on its own, so please report anything you see broken.</a>
+		<p>Currently blog.hostilefork.com is a scrape and rewrite of content that was previously on the main page of hostilefork.com.  If the pages look a bit primitive, that's because it was created with a fledgling static site builder of my own design: <a href="https://github.com/hostilefork/draem">"Draem"</a>.  Rethinking all the URLs while keeping all the old ones forwarding has been enough of a task on its own, so please report anything you see broken.</p>
 		<hr />
 		<p>The project pages are starting to get better summaries, logos, and videos.  For the moment, the portal page for that is what's being served on the homepage at <b><a href="http://hostilefork.com">hostilefork.com</a></b>.</p>
 		<hr />
