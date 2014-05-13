@@ -5,6 +5,9 @@ draem/set-config object compose [
 	site-name: "Hostilefork.com Blog"
 	site-title: {HostileFork Blog}
 	site-tagline: {Not actually *hostile* (just a bit irate.)}
+	site-author: {HostileFork}
+
+	rss-tag: {blog.hostilefork.com}
 
 	site-intro: {
 		<img src="http://i.stack.imgur.com/VWHTU.png" alt="The Fork" />
