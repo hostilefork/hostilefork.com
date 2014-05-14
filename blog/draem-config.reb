@@ -9,19 +9,47 @@ draem/set-config object compose [
 
 	rss-tag: {blog.hostilefork.com}
 
-	site-intro: {
-		<img src="http://i.stack.imgur.com/VWHTU.png" alt="The Fork" />
-		<p>Currently blog.hostilefork.com is a scrape and rewrite of content that was previously on the main page of hostilefork.com.  If the pages look a bit primitive, that's because it was created with a fledgling static site builder of my own design: <a href="https://github.com/hostilefork/draem">"Draem"</a>.  Rethinking all the URLs while keeping all the old ones forwarding has been enough of a task on its own, so please report anything you see broken.</p>
-		<hr />
-		<p>The project pages are starting to get better summaries, logos, and videos.  For the moment, the portal page for that is what's being served on the homepage at <b><a href="http://hostilefork.com">hostilefork.com</a></b>.</p>
-		<hr />
-		<p>In addition to the master list of blog entries below, you can browse by <a href="{% url 'draems.views.tag_list' %}">tag</a>.  There is some preliminary support for navigating the entries with the left and right arrow keys, and all the comments from the old site have been imported into Disqus.  I appreciate your feedback or suggestions, so do not hesitate to contact me!</p>		
-	}
+	site-prologue: [
+		[html {<div style="text-align: right;"><p><img src="http://hostilefork.com/media/feed-icon-14x14.png" alt="Feed Icon" /> <a href="http://blog.hostilefork.com/feed/">Atom 1.0 Feed</a> available &nbsp; <i>(<a href="http://en.wikipedia.org/wiki/RSS">what's this?</a>)</i></p></div>}]
+	]
 
-	site-footer: {
-	<div style="text-align: center;"><p>Please subscribe to the <img src="http://hostilefork.com/media/feed-icon-14x14.png" alt="Feed Icon" /> <a href="http://blog.hostilefork.com/feed/">Atom 1.0 Feed</a> or use <img src="http://blog.hostilefork.com/media/feedburner-icon-14x14.png" alt="Feedburner Icon" /> <a href="http://feeds.feedburner.com/hostilefork">Feedburner</a> to receive updates as they are posted!!</p></div>
+	site-intro: [
+		[html {<img src="http://i.stack.imgur.com/VWHTU.png" alt="The Fork" />}]
 
-  	<div id="disqus_thread"></div>
+		{Currently blog.hostilefork.com is a scrape and rewrite of content
+		that was previously on the main page of hostilefork.com.  If the pages
+		look a bit primitive, that's because it was created with a fledgling
+		static site builder of my own design:
+		["Draem"](https://github.com/hostilefork/draem).  Rethinking all the
+		URLs while keeping all the old ones forwarding has been enough of a 
+		task on its own, so please report anything you see broken.}
+
+		divider
+
+		{The project pages are starting to get better summaries, logos,
+		and videos.  For the moment, the portal page for that is what's
+		being served on the homepage at
+		**[hostilefork.com](http://hostilefork.com)**.}
+
+		divider
+
+		[html {<p>In addition to the master list of blog entries below, you
+		can browse by <a href="{% url 'draems.views.tag_list' %}">tag</a>.
+		There is some preliminary support for navigating the entries with the
+		left and right arrow keys, and all the comments from the old site have
+		been imported into Disqus.  I appreciate your feedback or suggestions,
+		so do not hesitate to contact me!</p>}]
+	]
+
+	site-footer: [
+
+		[note {Currently I am experimenting with using Disqus for comments,
+		however it is configured that you don't have to log in or tie it to an
+		account.  Simply check the "I'd rather post as a guest" button
+		after clicking in the spot to type in a name.}]
+
+		[html {
+	<div id="disqus_thread"></div>
 	<script type="text/javascript">
 	/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
 	var disqus_shortname = 'hostilefork'; // required: replace example with your forum shortname
@@ -35,7 +63,26 @@ draem/set-config object compose [
 	</script>
 	<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 	<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-	}
+}]
+	]
+
+	; This is made long to work around the page width issue where we set a
+	; maximum-width but no minimum-width.  In order to make sure we are
+	; taking advantage of a natural device width a relatively long string
+	; here that will break is a fairly natural fit.
+	site-epilogue: [
+		[html {<div style="text-align: center;"><p>
+		Copyright (c) 2007-2014 hostilefork.com.</p>
+		<p>Project names and graphic
+		designs are All Rights Reserved, unless otherwise noted.  Software
+		codebases are governed by licenses included in their distributions.
+		Posts on <a href="http://blog.hostilefork.com">blog.hostilefork.com</a>
+		are licensed under the Creative Commons
+		<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">BY-NC-SA 4.0</a>
+		license, and may be excerpted or adapted under the terms of that license
+		for noncommercial purposes.</p></div>}
+		]
+	]
 
 	google-analytics: [
 		property: "hostilefork.com"
