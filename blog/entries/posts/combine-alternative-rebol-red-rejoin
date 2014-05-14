@@ -5,26 +5,9 @@ Draem [
     date: 13-May-2014/4:55:37-4:00
 ]
 
-{In my efforts to meddle in getting Rebol and Red to be more appealing to new users, I keep tripping across things that look *almost* right.  While they might have an inner logic to the fully indoctrinated, it seems that simple changes could correct the issue and keep new users from hitting the speedbump and running scared.  Sometimes it can be a big change, but it can also be as simple as a logo redesign or picking a new name for a function.}
+{The REJOIN primitive in Rebol and Red has never pleased me, and I've been trying to either change its functionality or adjust the name for a while.  Taking my ideas and incorporating some feedback from others, I've focused on something called COMBINE instead, and leaving REJOIN alone.}
 
-{Some argue the Rebol/Red malleability driven by the mysterious *"no keywords"* property makes this not the most important factor.  There's truth in that, but also a problem... as with [Humpty Dumpty](https://en.wikipedia.org/wiki/Humpty_Dumpty):}
-
-[quote 
-
-    [alice: {I don't know what you mean by 'glory'.}]
-
-    [humpty-dumpty: <smiling contemptuously> {Of course you don't—till I tell you. I meant 'there's a nice knock-down argument for you!'}]
-
-    [alice: {But 'glory' doesn't mean 'a nice knock-down argument'.}]
-
-    [humpty-dumpty: <scornfully> {When I use a word, it means just what I choose it to mean—neither more nor less.}]
-
-    [alice: {The question is, whether you can make words mean so many different things.}]
-
-    [humpty-dumpty: {The question is, which is to be master—that's all.}]
-]
-
-{I myself have always fallen firmly on the side of the importance of taking care of the issues that confuse new users very early on.  Among the patterns I've looked to stomp out in steering them toward is something called REJOIN.  To understand it, you first have to understand the concepts it was meant to encapsulate: *joining* and *reducing*.}
+{The effort has turned out so far to be fruitful, in my opinion.  Yet to understand why COMBINE is "good", and REJOIN is "bad" *(at least for many casual applications)*, you first have to understand what REJOIN **is**.  It was meant to encapsulate two operations: *joining* and *reducing*.}
 
 [heading "Joining"]
 
@@ -42,14 +25,14 @@ Draem [
 == "1020"
 }]
 
-{One might think that should be able to create a number by joining the digits, and not be surprised if it gave back the number 1020 instead of a string representation.  But it's reasonable to imagine that it doesn't.  Yet what would happen if you joined a value from the `<tag>` subclass of string with another with another tag?}
+{One might think that should be able to create a number by joining the digits, and not be surprised if it gave back the number 1020 instead of a string representation.  But it's reasonable to imagine that it doesn't.  Yet what would happen if you joined a value from the `<tag>` subclass of string with another tag?}
 
 [code rebol {
 >> join <span> </span>
 == <span</span>>
 }]
 
-{Er... ["WAT?"](https://www.destroyallsoftware.com/talks/wat) *(as the saying goes)*.  Or how about if you contemplate what should happen if you want to join a couple of blocks together:}
+{Er... ["WAT?"](https://www.destroyallsoftware.com/talks/wat) *(as the saying goes)*.  Or how about if you just want to join a couple of blocks together?}
 
 [code rebol {
 >> join [a b c] [d]      
@@ -58,7 +41,14 @@ Draem [
 ** Near: reduce :value part length only dup count
 }]
 
-{If you're familiar with the basic language operations like APPEND, you might also start wondering what the semantic difference between "joining" things and "appending" them is:}
+{Sure...it's true that `d` is being manipulated as a symbol and has no value.  But neither did `a`, `b`, or `c`.  APPEND seems quite capable of joining blocks containing arbitrary symbols:}
+
+[code rebol {
+>> append [a b c] [d]     
+== [a b c d]
+}]
+
+{That probably makes you wonder what the semantic difference between "joining" things and "appending" them is, anyway.  The words seem awfully similar.  For comparison:}
 
 [code rebol {
 >> append "foo" 10
@@ -69,12 +59,10 @@ Draem [
 
 >> append <span> </span>
 == <span</span>>
-
->> append [a b c] [d]     
-== [a b c d]
+]
 }]
 
-{It actually turns out that the behavior of JOIN is defined fairly plainly in terms of APPEND.  Despite their close relationship as functions that take two arguments and moosh things together, JOIN is designed for certain conveniences.}
+{It *actually* turns out that the behavior of JOIN is defined fairly plainly in terms of APPEND.  Yet despite their close relationship as functions that take two arguments and moosh things together, JOIN is designed for certain conveniences.}
 
 [list
     [
@@ -104,7 +92,7 @@ Draem [
 == [10 20 30]
 }]
 
-        {The modification distinction a shade of meaning that the words don't actually carry in English.  But now I've told you it's there--so you know.  While some definitions that come in the box are up for grabs, this one apparently isn't...you can call them whatever you like on your own system.}
+        {The modification distinction is a shade of meaning that the words don't actually carry in English.  But now I've told you it's there--so you know.  While some definitions that come in the box are up for grabs, this one apparently isn't...you can call them whatever you like on your own system.}
     ] [
 
         {**Second convenience**: *if you hand JOIN a value type as its first parameter that isn't a series type APPEND could understand, it will convert it to a human-readable string*.}
@@ -167,7 +155,7 @@ Draem [
 == ["Signs of Life!" "Signs of Life!" 10 20 70]
 }]
 
-{This ability to intermingle "live" and "dead" elements in a single block for processing contributes to nice behaviors in many Rebol primitives, such as `print`}
+{This ability to intermingle "live" and "dead" elements in a single block for processing is actually leveraged by many Rebol primitives, such as `print`}
 
 [code rebol {
 >> a: 10 b: 20
@@ -176,7 +164,7 @@ Draem [
 a is 10 and b is 20 sum is 30
 }]
 
-{When you start thinking of reducing as a service and know what it will touch (and what it won't) you can start building dialects with confidence.  The fact that JOIN reduces its second parameter is why you can do nice things like this:}
+{When you start thinking of reducing as a "service" and know what it will touch (and what it won't) you can start building dialects with confidence.  JOIN uses the service, but only on the second paramter.  That's why you can do nice things like this:}
 
 [code rebol {
 >> domain: http://blog.hostilefork.com
@@ -194,13 +182,15 @@ a is 10 and b is 20 sum is 30
 == http://blog.hostilefork.com/combine-alternative-rebol-red-rejoin/
 }]
 
-{So JOIN is a plausible reaction to how to make the lower-level APPEND more convenient.  But it leads us to something that's definitely more "WAT?"-worthy...}
+{A reasonable question would be that if implicit reduction is so convenient for the second argument, then why isn't it done to the first argument as well?  The reason is that since JOIN is essentially a convenience function layered over APPEND, it winds up being used in a similar situation.  The block as a first parameter represents "finalized" results, and you are only concerned about doing calculations on the new material being added to the tail.}
+
+{Hearing all this, you may be convinced that JOIN is a plausible reaction to how to make the lower-level APPEND more convenient.  Now you are ready to cast a critical eye on something that's definitely more "WAT?"-worthy...}
 
 [heading {"Rejoining" (?)}]
 
 {When I discovered `rejoin`, I did not know about the existence of `join`.  REJOIN seemed to be the go-to answer for how people would concatenate strings.  It seemed like a funny name (was there an `unjoin` somewhere?) and I didn't like it much.}
 
-{I understood that it took one block parameter, that it would reduce and join the components together to make a string.  It was a lot like what you could get out of `print`, except that `print` would throw in spaces between elements I often did not want.  I wound up writing a lot of `print rejoin [...]`, taking care of spaces manually so I could have control.}
+{I understood that it took one block parameter, that it would reduce and join the components together to make a string.  It was a lot like what you could get out of `print`, except that `print` would throw in spaces between elements I often did not want.  I wound up writing a lot of `print rejoin [...]`, taking care of spaces manually so I could have control.  You would need that control if you wanted to throw commas in after evaluations with no space:}
 
 [code rebol {
 >> print rejoin [
@@ -214,11 +204,13 @@ a is 10 and b is 20 sum is 30
 a is 10, and b is 20, sum is 30
 }]
 
-{Although it wound up being more verbose, to me it helped call out the patterns I needed and build abstractions.  `print` throwing in line feeds and spaces was good for debug output, but a lot of formatted output needs to be specific.}
+{I'd actually go to the level of using the full word `space` to refer to the character constant, instead of embedding it awkwardly into the surrounding strings.  At first it wound up being more verbose, but it drew attention to patterns.  Those patterns could be used to build clear abstractions, which usually wound up being not only briefer but more generally correct.}
 
-{In short, I used `rejoin` a lot and didn't understand why string concatenation had such a foreign name.  *(@DocKimbel has pointed out, ["rejoindre" is the word for join in French](http://en.wiktionary.org/wiki/rejoindre)...no wonder he isn't bothered by it.)*  To the extent that I knew a `join` existed it seemed useless.  How often would you want to join a list of irreducible values without reducing them first?  Not very often--you probably would have entered them joined to begin with.}
+{Thus `print` throwing in line feeds and spaces was good for debug output, but a lot of formatted output needs to be specific.  To the extent that I knew a `join` existed it seemed useless.  How often would you want to join a list of irreducible values without reducing them first?  Not very often--you probably would have entered them joined to begin with.  And that's why I used `print rejoin` a lot and didn't understand why string concatenation had such a foreign name.}
 
-{But `rejoin` is not a string concatenation function.  Like `join` it's kind of an "anything concatenation function", and inherits all of the WAT properties that come with that:}
+[note {@DocKimbel has pointed out, ["rejoindre" is the word for join in French](http://en.wiktionary.org/wiki/rejoindre).  That makes it less surprising that he isn't bothered by it.  :-/}]
+
+{But `rejoin` **is not a string concatenation function**.  Like `join` it's kind of an "anything concatenation function", and inherits all of the "WAT?" properties that come with that:}
 
 [code rebol {
 >> rejoin ["Hello" <span> "World" </span>]
@@ -234,14 +226,18 @@ a is 10, and b is 20, sum is 30
 == "12 34"
 }]
 
-{To make a long story short, what you get is a result that is strongly influenced by the first element in the block.  So if you want to force the result type, you can do that such as with:}
+{To make a long story short, what you get is a result that is strongly influenced by the first element in the block.  You are effectively getting a JOIN that reduces both of its parameters instead of just the second, but the first parameter is merely the result of the first evaluation in the block.}
+
+{This means that if you want to force the result type to get a more predictable result, you can do that by putting in an empty first element of your target type.  So if you want a string output regardless of the elements being joined, you could put a string literal at the head.  That could correct the wild output from the `rejoin` starting with a `<span>` tag above:}
 
 [code rebol {
 >> rejoin ["" <span> "Hello" </span> "World"]
 == "<span>Hello</span>World"
 }]
 
-{Whether you think this operation is highly useful or an aesthetic monstrosity, or has a good or bad name for what it does as related to `join`, there has been strong resistance to eliminating it or tinkering with the names.  For my own part, I will say that though I still dislike the name `rejoin`, I came to review my stance against `join`'s usefulness...and if one is useful they both probably are.}
+{Perhaps you think this operation is highly useful, or perhaps an aesthetic monstrosity.  Whether it has a good or bad name for what it does as related to `join`, there has been strong resistance to eliminating it or tinkering with the names.}
+
+{For my own part, I will say that though I still don't feel great about the names, I came to soften my anti-JOIN stance once I learned what it did.  But in the case of `rejoin`, there is a newly named primitive that can replace it in essentially every case I'd care about...}
 
 [heading "A New Hope: COMBINE"]
 
@@ -393,4 +389,6 @@ rejoin [
 
 {It's not confusing that it doesn't work.  What's confusing is why when it got `[[x] [x]]` back it didn't error during the combine by saying x isn't defined.  :-/}
 
-{Remember that this entry is [also in GitHub](https://github.com/hostilefork/hostilefork.com/blob/master/blog/entries/posts/combine-alternative-rebol-red-rejoin).}
+[heading {Suggestions?...}]
+
+{Visit the [CureCode issue #2142](http://curecode.org/rebol3/ticket.rsp?id=2142) to offer your thoughts, leave a comment here, or a pull request on Draem.  Also: remember that [this blog entry is in GitHub](https://github.com/hostilefork/hostilefork.com/blob/master/blog/entries/posts/combine-alternative-rebol-red-rejoin) as dialected Rebol.  So if you have suggested edits or ways of making this more clear, that's another place to look...or just be curious about how this site is being built.}
