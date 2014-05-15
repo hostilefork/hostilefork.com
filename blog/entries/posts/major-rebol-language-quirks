@@ -10,11 +10,9 @@ Draem [
 
 [update {Rebol version 3 is now [open source under the Apache 2.0 license](https://github.com/rebol/r3), so all those disclaimers I used to have in my Rebol articles about not getting attached to a proprietary language are no longer applicable!  Use it without hesitation!!!}]
 
-{We know from the English language that humans are a bit lazy when it comes to expression.  We're always dropping syllables off of words if we use them often, or taking difficult combinations of letters and turning them into something easier to pronounce.  Yet of course, this means we live in an environment ripe for ambiguity:}
+{We know from the English language that humans are a bit lazy when it comes to expression.  We're always dropping syllables off of words if we use them often, or taking difficult combinations of letters and turning them into something easier to pronounce.  Yet of course, this means we live in an environment ripe for ambiguity, as in this graphic by [Deena Hyatt](http://flickr.com/photos/deenaburgergood/):}
 
 [image http://hostilefork.com/media/blog/major-rebol-language-quirks/avoid-boring-people.jpg 400x212 "Avoid Boring People"]
-
-[note {Image via [Deena Hyatt](http://flickr.com/photos/deenaburgergood/)}]
 
 {By contrast, computer languages typically make programmers be redundantly clear in their notations.  You're always dealing with syntax... putting in parentheses before a list of arguments to a function, putting a close parentheses to say when you're done.  There are semicolons in many languages to tell the computer when you finished a line.}
 

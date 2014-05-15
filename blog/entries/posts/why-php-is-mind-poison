@@ -64,7 +64,7 @@ more
 
 {A language might accept questionable inputs and take you literally, instead of being geared toward catching common errors.  Or they might be very strict and reject useful and meaningful inputs, asking you to be more explicit just to be safe...because it thinks that what you tried to do is unlikely to be what you meant (even if it was).}
  
-{There are thousands of design decisions in languages and libraries.  What the "Fractal of Bad Design" essay was focusing on is that looking at each little one doesn't reveal anything particularly well thought-out.}
+{There are thousands of design decisions in languages and libraries.  What the "Fractal of Bad Design" essay was focusing on is that in the specific case of PHP, you see each of those thousands of decisions were made in an ad-hoc fashion.}
 
 [heading "More Humpty Dumpty"]
 
@@ -101,9 +101,31 @@ z = 1 + 2
 print z
 }]
 
-{That could still work and print out 30 *(or maybe it would print #30, if the language output was kept consistent with the notation it used internally!)*  But it's getting pretty confusing.}
+{That could still work and print out 30 *(or maybe it would print #30, if the language output was kept consistent with the notation it used internally!)*  But it's getting pretty confusing.  Yet there's nothing fundamentally impossible to do with one of these notations that you can't do with the other.}
 
-{Despite being confusing, there's nothing fundamentally impossible to do with one of these notations that you can't do with the other.}
+{Putting numbers on the left side of assignments and considering them names seems pretty nuts to me.  I can't name a language offhand that lets you do that.  But there are quite a few that start all variables with dollar signs.  PHP is one of those languages.}
+
+{It's not for the purposes of allowing you to name variables with numbers--they made that illegal.  More to distinguish variables and functions.  There's a tradeoff in putting variable names and function names in the same "name space", and can be technically debated.}
+
+[note 
+    {I personally find $-prefixing variables to be a serious legibility problem.  It's on par with if I labeled parts of speech in sentences.}
+
+    [list
+        {**Nouns** - begin with a `$` *(like a PHP variable)*}
+        {**Verbs** - no prefix *(like a PHP function)*}
+        {**Adjectives** - begin with a `#`}
+        {**Adverbs** - begin with a `@`}
+        {**Pronouns** - begin with a `%`}
+        {**Articles** - begin with a `*`}
+        {etc...}
+    ]
+
+    {`@How would $you like %it if $I wrote the rest of #this #enlightening $article using #such *a $convention?`}
+
+    {Truthfully, computer languages need to be punctuated and identify their "parts of speech" more than written languages do.  The requirement to be unambiguous tends toward this.  But in a language like PHP, you are typing variable names in *quite a lot*...and I find it "uglifies" even the smallest sections of expression.}
+
+    {That's my tastes, but a very surface point.  Not the bone I'm going to pick with PHP.  Compared to the rest, it's the kind of thing you can adapt to reasonably and accept.}
+]
 
 [heading "About Strings..."]
 
@@ -139,7 +161,7 @@ print "Mr. Rogers said "Be back later", turned, and left."
 print "Mr. Rogers said \"Be back later\", turned, and left."
 }]
 
-{I'll get to an actual "mind-poisoning" decision.  There are many languages out there that decided that too much escaping was annoying.  So they offered more than one way to indicate your strings.  For instance, you could use a single quote instead:}
+{Let's consider a line of thinking that I say leads up to "mind poison".  There are many languages out there that decided that too much escaping was annoying.  So they offered more than one way to indicate your strings.  For instance, you could use a single quote instead:}
  
 [text {
 print 'Hello'

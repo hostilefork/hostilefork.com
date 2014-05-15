@@ -10,25 +10,24 @@ Draem [
 
 [update 27-Jan-2014 {My presentation used a bunch of graphics I swiped from Google Images, since I was in a hurry.  I'd like to extend apologies/credit to my sources (or the sources for those sources).  But I can't link to them because they all went missing, and I don't like getting search penalties for having my own pages in bad shape with dead links.  Still, the original links were:}
 
-    [list [
+    [list
 
-            {highway barrier - `http://images.jupiterimages.com/common/detail/40/05/23410540.jpg`}
+        {highway barrier - `http://images.jupiterimages.com/common/detail/40/05/23410540.jpg`}
 
-            {rc circuit - `http://www.physics.byu.edu/faculty/berrondo/su442/ac.pdf`}
+        {rc circuit - `http://www.physics.byu.edu/faculty/berrondo/su442/ac.pdf`}
 
-            {resistor - `http://www.dragonmodz.net/images/resistor.gif`}
+        {resistor - `http://www.dragonmodz.net/images/resistor.gif`}
 
-            {capacitor - `http://www.hkcapacitor.com/product/TS02_Metallized_Polyester_Film_Capacitor.gif`}
+        {capacitor - `http://www.hkcapacitor.com/product/TS02_Metallized_Polyester_Film_Capacitor.gif`}
 
-            {microcontroller - `http://www.intertexelectronics.com/images/-MC68701S.jpg`}
+        {microcontroller - `http://www.intertexelectronics.com/images/-MC68701S.jpg`}
 
-            {grandparents - `http://dclips.fundraw.com/zobo500dir/grampa_39_n_gramma_celso_02.jpg`}
+        {grandparents - `http://dclips.fundraw.com/zobo500dir/grampa_39_n_gramma_celso_02.jpg`}
 
-            {moore's law - `http://www.developers.net/storyImages/062404/inteldemystifying1.jpg`}
+        {moore's law - `http://www.developers.net/storyImages/062404/inteldemystifying1.jpg`}
 
-            {hanz/franz - `http://blogimg.com/docisin/hans_franz.jpg`}
-
-        ]]
+        {hanz/franz - `http://blogimg.com/docisin/hans_franz.jpg`}
+    ]
 
 ]
 
