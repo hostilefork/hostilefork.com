@@ -63,7 +63,7 @@ https://github.com/onetom/rebol-red-sublime
 {For instance, to declare a function that takes a string and an integer:}
  
 [code rebol {
-foo: func [str [string!] value [integer!]] [
+foo: function [str [string!] value [integer!]] [
     print [{String is:} str]
     print [{Value is:} value]
 ]
@@ -79,7 +79,7 @@ body: [
     print [{Value is:} value]
 ]
 
-foo: func params body  
+foo: function params body  
 }]
 
 {The meta-programming can get weirder than that, to actually wind up defining a function that could have an integer parameter, but may be composed to be defined without mentioning it at all:}
@@ -87,7 +87,7 @@ foo: func params body
 [code rebol {
 takes-integer?: false
 
-foo: func compose [
+foo: function compose [
     str [string!]
     (either takes-integer? [value [integer!]] [])
 ] compose [

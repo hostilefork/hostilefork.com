@@ -173,7 +173,7 @@ template<typename _CharT, typename _Traits, typename _Alloc>
 
 {Of course, most languages being used these days offer strings as natives.  In fact, a lot of languages handle not only arbitrary-length strings but also [arbitrary-precision arithmetic](http://en.wikipedia.org/wiki/Arbitrary-precision_arithmetic).  (I don't see why most casual programmers should ever be using anything else!)}
 
-{Still, an arbitrary-length string doesn't help much if people on UNIX machines are still putting filenames in their code with "/forward/slashes" while Windows programmers are using "C:\\Back\\Slashes"!  One must use helper classes to clear up such a basic issue, that are analogues to [boost::filesystem](http://www.boost.org/doc/libs/1_39_0/libs/filesystem/doc/index.htm).  This brings us back to the abstraction uneasiness we had before.}
+{Still, an arbitrary-length string doesn't help much if people on UNIX machines are still putting filenames in their code with "/forward/slashes" while Windows programmers are using "C:\Back\Slashes"!  One must use helper classes to clear up such a basic issue, that are analogues to [boost::filesystem](http://www.boost.org/doc/libs/1_39_0/libs/filesystem/doc/index.htm).  This brings us back to the abstraction uneasiness we had before.}
 
 {So I think we have to take our cue from the benefits of building strings into the language.  We shouldn't be afraid to grow the "periodic table of types" in more directions to provide additional "atoms" that are indivisible.  It's not a bad thing if a language's bare metal aligns with the [essential complexity](http://en.wikipedia.org/wiki/Essential_complexity) of what people are actually writing code to do.}
 
@@ -184,17 +184,18 @@ template<typename _CharT, typename _Traits, typename _Alloc>
 [code rebol {
 >> do [
     what-user-typed: {rt99}
-        command: 'rt
-        parameters: [99]
+    command: 'rt
+    parameters: [99]
 
-        print rejoin [
-            {Assuming you meant: }
-            {'} command { } parameters {'} {,}
-            { not } what-user-typed
-        ]
+    print [
+        {Assuming you meant}
+        rejoin [{'} command space parameters {'}]
+        {and not}
+        rejoin [{'} what-user-typed {'}]
     ]
+  ]
 
-Assuming you meant: 'rt 99', not rt99
+Assuming you meant 'rt 99' and not 'rt99'
 }]
 
 {For those who think this is easy enough to do in Lisp, sure.  But since this article is about getting atomics that can gracefully handle arbitrary string sizes, please read the article where I show [Lisp does this wrong](http://blog.hostilefork.com/core-rebol-concept-flexible-series/).}
@@ -210,35 +211,31 @@ if (true) {print "hello"}
 {We're not only able to handle a command line of arbitrary length without crashing, but there's also all the infrastructure needed for commands with multiple parameters.  Turning this into a function, I'll demonstrate what I mean:}
 
 [code rebol {
-warn-user: func [
-    command
-    parameters
-    what-user-typed
-] [
-    print rejoin [
-        {Assuming you meant: }
-        {'} command { } parameters {'} {,}
-        { not } what-user-typed
+warn-user: function [command parameters what-user-typed] [
+    print [
+        {Assuming you meant} 
+        rejoin [{'} command space parameters {'}]
+        {and not}
+        rejoin [{'} what-user-typed {'}]
     ]
-
 ]
-
 }]
 
 {Let's show what it would look like for a command that takes 3 parameters (Logo's setorientation).  We'll time it, too:}
 
 [code rebol {
 >> do [
-         start: now/time/precise
-         warn-user 'setorientation [0 0 90] {setorientation0 0 90}
-         end: now/time/precise
-         print rejoin [
-             {It took } 
-             1000 * to-decimal (end - start)
-             { milliseconds to print that!}
-         ]
+     start: now/time/precise
+     warn-user 'setorientation [0 0 90] {setorientation0 0 90}
+     end: now/time/precise
+     print [
+         {It took} 
+         1000 * to-decimal (end - start)
+         {milliseconds to print that!}
+     ]
+   ]
 
-Assuming you meant: 'setorientation 0 0 90', not setorientation0 0 90
+Assuming you meant 'setorientation 0 0 90' and not 'setorientation0 0 90'
 It took 1.718 milliseconds to print that!
 }]
 

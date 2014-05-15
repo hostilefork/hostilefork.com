@@ -100,7 +100,7 @@ DigitSum(value^^^^3)
 ;    >> make-digit-block 123
 ;    == [1 2 3]
 
-make-digit-block: func [value [integer!] /local result] [
+make-digit-block: function [value [integer!]] [
     result: copy []
 
     foreach ch (to-string abs (value)) [
@@ -115,43 +115,39 @@ make-digit-block: func [value [integer!] /local result] [
 ;     >> interleave-block [a b c] 'FOO
 ;     == [a FOO b FOO c]
 
-interleave-block: func [block [block!] item /local pos] [
-    if (1 < length? block) [
-       pos: next block
-       while [not tail? pos] [
-            pos: next (insert pos item)
-       ]
-
+interleave-block: function [block [block!] item] [ 
+    pos: next block
+    while [not tail? pos] [
+        pos: next (insert pos item)
     ]
 
     return block
 ]
 
-; Now we loop from 1 to 88 and test each for
-; Dudeney-ness
+; Now we loop from 1 to 88 and test each for Dudeney-ness
 
 for value 1 88 1 [
     ; make an expression of cube as a product
-    threeValues: array/initial 3 value
-    cubeExpression: interleave-block threeValues '*
+    three-values: array/initial 3 value
+    cube-expression: interleave-block three-values '*
 
     ; evaluate the expression to show it off
     ; could have also used: (value ** 3)
-    cube: first (reduce cubeExpression)
+    cube: first (reduce cube-expression)
 
     ; express the digits of the cube as a sum
     digits: make-digit-block cube
-    sumExpression: interleave-block digits '+
+    sum-expression: interleave-block digits '+
 
     ; now evaluate that sum
-    sum: first (reduce sumExpression)
+    sum: first (reduce sum-expression)
 
     ; if we got the value back, it's a Dudeney!
-    if (sum == value) [
+    if (sum = value) [
         print mold compose [
-            (cube) = (cubeExpression)
+            (cube) = (cube-expression)
             and
-            (value) = (sumExpression)
+            (value) = (sum-expression)
         ]
     ]
 ]

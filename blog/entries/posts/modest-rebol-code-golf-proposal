@@ -146,7 +146,7 @@ either c [print "hello"] [print "goodbye"]
 
 [heading "Declare Synonym And Invoke Operator"]
 
-{A fast synonym operator would be useful, so if you know you're going to call `func FOO[x] [probe x]` a lot of times you could say something like Z*FOO.  This means the first time you use a function you could also define a shorthand, e.g. Z*FOO"Hello" would both make Z equivalent to foo as well as call it with the parameter "Hello".  Going to think about this.}
+{A fast synonym operator would be useful, so if you know you're going to call `function foo [x] [probe x]` a lot of times you could say something like Z*FOO.  This means the first time you use a function you could also define a shorthand, e.g. Z*FOO"Hello" would both make Z equivalent to foo as well as call it with the parameter "Hello".  Going to think about this.}
 
 [heading "An Example: Roman Numerals"]
 
