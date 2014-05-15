@@ -9,44 +9,29 @@ draem/set-config object compose [
 
 	rss-tag: {blog.hostilefork.com}
 
-	site-prologue: [
-		[html {<div style="text-align: right;"><p><img src="http://hostilefork.com/media/feed-icon-14x14.png" alt="Feed Icon" /> <a href="http://blog.hostilefork.com/feed/">Atom 1.0 Feed</a> available &nbsp; <i>(<a href="http://en.wikipedia.org/wiki/RSS">what's this?</a>)</i></p></div>}]
-	]
+	site-prologue-html: {<div style="text-align: right; margin-right: 8px;"><p><img src="http://hostilefork.com/media/feed-icon-14x14.png" alt="Feed Icon" /><a href="http://blog.hostilefork.com/feed/">RSS 1.0 XML Feed</a> available </p></div>}
 
 	site-intro: [
-		[html {<img src="http://i.stack.imgur.com/VWHTU.png" alt="The Fork" />}]
+		{An occasionally-updated collection of articles and notes.  Mostly about modern software engineering.  Main topics are C++11 and the Rebol and Red languages, along with general programming philosophy and puzzle-solving.}
 
-		{Currently blog.hostilefork.com is a scrape and rewrite of content
-		that was previously on the main page of hostilefork.com.  If the pages
-		look a bit primitive, that's because it was created with a fledgling
-		static site builder of my own design:
-		["Draem"](https://github.com/hostilefork/draem).  Rethinking all the
-		URLs while keeping all the old ones forwarding has been enough of a 
-		task on its own, so please report anything you see broken.}
+		[heading {Site Reorganization in Progress}]
 
-		divider
+		{As of mid-2014, blog.hostilefork.com is a scrape and rewrite of content that was previously on the main page of hostilefork.com.  The [new main page](http://hostilefork.com) is starting the path toward being a more formal list of projects *(as opposed to blogs/articles/rants)*.  All old links should be forwarding correctly--so please let me know if you find one that isn't.}
 
-		{The project pages are starting to get better summaries, logos,
-		and videos.  For the moment, the portal page for that is what's
-		being served on the homepage at
-		**[hostilefork.com](http://hostilefork.com)**.}
+		{In the transition from an ancient WordPress installation, I did something interesting.  After scraping the content, I encoded it into a [REN](https://github.com/humanistic/REN) *("REadable Notation")* format.  Then I made my own static site builder to generate the pages, called [Draem](https://github.com/hostilefork/draem), which has some very surprising properties...so you might check that out! The "source code" for this blog is available on GitHub as well:}
 
-		divider
+		https://github.com/hostilefork/hostilefork.com/tree/master/blog
 
-		[html {<p>In addition to the master list of blog entries below, you
-		can browse by <a href="{% url 'draems.views.tag_list' %}">tag</a>.
-		There is some preliminary support for navigating the entries with the
-		left and right arrow keys, and all the comments from the old site have
-		been imported into Disqus.  I appreciate your feedback or suggestions,
-		so do not hesitate to contact me!</p>}]
+		{I'll come up with a fancier index page than this.  But for now, the links here are enough for search engines (and me) to find the pages.  If you'd like, you can also [browse the site by tag](http://hostilefork.com/tag/).  There is some preliminary support for navigating the entries with the left and right arrow keys.}
+
+		{I appreciate your feedback or suggestions, so feel free to get in touch by comment or mail!  Contact information is available on the [Hire the Fork](http://hostilefork.com/hire-the-fork/) page.}
+
+		[heading {Master List of Entries}]
 	]
 
 	site-footer: [
 
-		[note {Currently I am experimenting with using Disqus for comments,
-		however it is configured that you don't have to log in or tie it to an
-		account.  Simply check the "I'd rather post as a guest" button
-		after clicking in the spot to type in a name.}]
+		{Currently I am [experimenting with using Disqus](http://blog.hostilefork.com/importing-comments-with-disqus-api/) for comments, however it is configured that you don't have to log in or tie it to an account.  Simply check the "I'd rather post as a guest" button that appears after you begin typing in a name.}
 
 		[html {
 	<div id="disqus_thread"></div>
@@ -66,23 +51,14 @@ draem/set-config object compose [
 }]
 	]
 
+	site-trailer-html: {<div style="text-align: right;"><span>Copyright (c) 2007-2014 hostilefork.com</span></div>}
+
 	; This is made long to work around the page width issue where we set a
 	; maximum-width but no minimum-width.  In order to make sure we are
 	; taking advantage of a natural device width a relatively long string
 	; here that will break is a fairly natural fit.
-	site-epilogue: [
-		[html {<div style="text-align: center;"><p>
-		Copyright (c) 2007-2014 hostilefork.com.</p>
-		<p>Project names and graphic
-		designs are All Rights Reserved, unless otherwise noted.  Software
-		codebases are governed by licenses included in their distributions.
-		Posts on <a href="http://blog.hostilefork.com">blog.hostilefork.com</a>
-		are licensed under the Creative Commons
-		<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">BY-NC-SA 4.0</a>
-		license, and may be excerpted or adapted under the terms of that license
-		for noncommercial purposes.</p></div>}
-		]
-	]
+	site-epilogue-html: {<div style="text-align: center;"><p>Project names and graphic designs are All Rights Reserved, unless otherwise noted.  Software codebases are governed by licenses included in their distributions.  Posts on <a href="http://blog.hostilefork.com">blog.hostilefork.com</a>
+		are licensed under the Creative Commons <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">BY-NC-SA 4.0</a> license, and may be excerpted or adapted under the terms of that license for noncommercial purposes.</p></div>}
 
 	google-analytics: [
 		property: "hostilefork.com"
@@ -150,6 +126,23 @@ draem/set-config object compose [
 	css: [
 		%/media/google-code-prettify/prettify.css
 		%/media/google-code-prettify/reb4me-prettify.css
+		{
+			#title h1 {
+				padding-right: 80px;
+			}
+
+			#title {
+    			min-height: 75px;
+    			background-image: url(http://hostilefork.com/media/peeking-fork-80x75.png);
+    			background-repeat: no-repeat;
+    			background-position: right bottom;
+			}
+
+			/* We suppress the characters div from dialogue */
+			#entry-characters {
+				display: none;
+			}
+		}
 	]
 
 	;-- Optional: JS included on every page
