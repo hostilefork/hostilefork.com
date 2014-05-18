@@ -44,8 +44,6 @@ Draem [
 
 	{[Going down the rabbit hole of GNU libc to explain printf's workings](http://stackoverflow.com/a/2444508/211160)}
 
-	{[Helping someone with an esoteric bug in GTK, which I don't use (or even like)](http://stackoverflow.com/questions/7545804/).  *(I actually wound up in Toronto not too long ago, and didn't think to collect my reward beer.)*}
-
 	{[Researching 001b in "exception in module kernel32.dll at 001b:7c812afb"](http://stackoverflow.com/a/7268649/211160)}
 
 	{[Tracking down a bug in bcrypt](http://stackoverflow.com/a/3003147/211160)}
@@ -55,14 +53,15 @@ Draem [
 	{[Explaining the behavior of a cellular automaton doing a sum](http://stackoverflow.com/a/2924443/211160)}
 
 	{[Adding behavior for middle mouse wheel handling to Smalltalk Squeak](http://stackoverflow.com/a/2082999/211160)}
+
+	{[Helping someone with an esoteric bug in GTK, which I don't use (or even like)](http://stackoverflow.com/questions/7545804/).}
+
+	[note {I actually wound up in Toronto not too long ago, and didn't think to collect my reward beer.}]
 ]
 
 {I believe that institutional knowledge is key.  And I've always been a very forthright and expressive technical writer *(even winning [an award from the Society for Technical Communication](http://blog.hostilefork.com/load-balancing-teenage-coding/) in high school)*.  My notes as I work are part of my daily deliverable.}
 
-
-[heading {Rates}]
-
-{I donate a *ridiculous* amount of my time to Open Source projects--and answering any old problem strangers have on the Internet.  So if you have a question or want some advice, send a rough description of the issue to **brian@hostilefork.com**.  I'll give some thoughts for free, at first.}
+{I donate a *ridiculous* amount of my time to Open Source projects--and answering any old problem strangers have on the Internet.  So if you have a question or want some advice, send a rough description of the issue to **brian@hostilefork.com**.  I'll give some thoughts for cheap-as-free.}
 
 {However, I need to eat...and I happen to like sushi.  That stuff isn't cheap!  Well, the good kind isn't.}
 
