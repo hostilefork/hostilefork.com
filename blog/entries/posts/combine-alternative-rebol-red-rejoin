@@ -164,7 +164,7 @@ Draem [
 a is 10 and b is 20 sum is 30
 }]
 
-{When you start thinking of reducing as a "service" and know what it will touch (and what it won't) you can start building dialects with confidence.  JOIN uses the service, but only on the second paramter.  That's why you can do nice things like this:}
+{When you start thinking of reducing as a "service" and know what it will touch (and what it won't) you can start building dialects with confidence.  JOIN uses the service, but only on the second parameter.  That's why you can do nice things like this:}
 
 [code rebol {
 >> domain: http://blog.hostilefork.com
@@ -257,14 +257,14 @@ a is 10, and b is 20, sum is 30
 == "abcghi"
 }]
 
-{Another frustration for me was the difference in how the outermost block of a `rejoin` behaved differently from an inner block:}
+{Another frustration for me was how the outermost block of a `rejoin` behaved differently from an inner block:}
 
 [code rebol {
 >> rejoin ["abc" "def" ["ghi" "jkl"] "mno" "pqr"]
 == "abcdefghi jklmnopqr"
 }]
 
-{Recalling above that my first reason for using `rejoin` was to get more control over the spacing, this creates the awkward need to request using no-space semantics when that's already the mindset I'm in:}
+{Remember that my first reason for using `rejoin` was to get more control over the spacing.  This behavior creates the awkward need to request using no-space semantics, when that's already the mindset I'm in:}
 
 [code rebol {
 >> rejoin ["abc" "def" rejoin ["ghi" "jkl"] "mno" "pqr"]
@@ -279,14 +279,14 @@ a is 10, and b is 20, sum is 30
 
 [note {As designed, this has the comfortable property that `combine [x y]` gets the same results as `combine [combine x combine y]`.}]
 
-{I also wanted protections against converting things like word results into strings:}
+{I also wanted protections against converting things like word results into strings, which rejoin happily does.  My own experiences had shown that getting into situations like this were usually mistakes:}
 
 [code rebol {
 >> rejoin ["abc" quote def "ghi"]
 == "abcdefghi"
 }]
 
-{If an evaluation bottomed out to something like a WORD!, SET-WORD! or LIT-WORD!...and you *really* meant that to happen and form it in the middle of your string, it could be controlled with an /ANY refinement or similar.  My own experiences had shown that getting into situations like this were usually mistakes.  It would also be theoretically possible to keep running the evaluator to see if the def word resolved (as with the blocks), but it seems better to just have it be an error.}
+{So COMBINE will error in this case.  If an evaluation bottomed out to something like a WORD!, SET-WORD! or LIT-WORD!...and you *really* meant that to happen and form it in the middle of your string, it could be controlled with an /ANY refinement or similar.  It's also be theoretically possible to keep running the evaluator to see if the def word resolved (as with the blocks), but it seems better to just have it be an error.}
 
 {A suggestion from @rgchris was to provide a /WITH refinement to put delimiters in-between the elements being combined.  In my sample I made it accept a string, a character, or a block that it would run combine on.  My reasoning for accepting the block is that I like to have ways to call more attention to spaces in strings:}
 
@@ -355,9 +355,9 @@ combine [
 ]
 }]
 
-{It's a new pattern to think about.  May not be for everyone, but in my programming style I like how it tightens up the indentation.  Data point.}
+{It's a new pattern to think about.  May not be for everyone, but in my programming style I like how it tightens up the indentation.}
 
-{Note the `rejoin` equivalent is a headache:}
+{We might observe that the `rejoin` equivalent--not even particularly bad in this case--is still a headache:}
 
 [code rebol {
 rejoin [

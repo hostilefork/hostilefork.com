@@ -1,0 +1,145 @@
+Draem [
+    title: {Coding on the Osborne One with BASIC FUN}
+    tags: [humor history]
+    slug: %osborne-one-basic-fun-history
+    date: 15-May-2014/15:39:48-4:00
+]
+
+{I've already put together a few historical notes from old papers and programs I've written.  But now I've thrown some graphics to the "teenage-coding" repository that predate being a teenager by quite a while...}
+
+{When I was 7 years old I was apparently taking notes on my opinions of my mad programming skillz.  I even declared myself to have written "some of the best programs in the family" *(although only one other family member even touched the computer)*.  Despite the boasting, I still encouraged others that it wasn't actually as hard as it might seem...}
+
+[button http://hostilefork.com/media/blog/osborne-one-basic-fun-history/greatest-games.png 400x387 "You Don't have to be a Genious to use a computer!" https://raw.github.com/hostilefork/teenage-coding/master/GREATEST/greatest-games.jpg]
+
+{Here's a transcription, errors included:}
+
+[text {
+GREATEST GAMES
+
+Well I started with Math1.Bas.  Then
+Math2.Bas.  Now I've discovered World war 4.
+It was 700 lines long and I wrote the
+program and Typed It in at the most 50
+minuts (<-- however you spell it).  My age is 7.
+I have written some of the best programs
+in the family when I first got the book
+Basic fun
+
+    I learned how to write programs without
+a book at first.  I got confused and didn't
+know what things like "For I=1 to 15
+For J=1 to 100 meant.  The computer I use is
+the OSBORNE ONE.  Most working computers
+like the atari computer have things like
+    Shift, Return, excape ect.
+    But Remember "You Don't have to be
+  a Genious to use a computer!"
+}]
+
+{My memory is naturally a bit fuzzy regarding the details.  I don't even remember writing this note.  *(I do, however, remember those legal-sized yellow notepads quite clearly.  It was the kind of scratch paper I had to do game designs on.)*}
+
+{But I do know 'basically' what I was talking about, pun intended.  So here's some information to help put the note into context.}
+
+[heading {Osborne One}]
+
+{The Osborne One was one of the first "allegedly-portable" or "luggable" computers.  The machine ran CP/M and had a 5-inch screen (13 cm), despite weighing a hefty 23.5 lbs (10.7 kg):}
+
+[button http://hostilefork.com/media/blog/osborne-one-basic-fun-history/osborne-1.jpg 400x400 "Osborne One 10.7 kg allegedly-portable computer" https://raw.github.com/hostilefork/teenage-coding/master/GREATEST/osborne-1.jpg]
+
+{My father was a molecular biologist doing academic research.  He wanted to use spreadsheets instead of a scientific calculator to get a handle on the data.  But the lab didn't have computers in the budget...so he bought one himself.}
+
+{I knew what video games were and wanted to know how to make them.  But at first the only things at my disposal were some sample BASIC programs that came with the interpreter.  That plus the insight of my father from one Fortran course he took in college (using punch cards) didn't help much.}
+
+{Pretty sure that the programs I refer to as `Math1.Bas` and `Math2.Bas` were just simple "do your homework for you" things I had made.  I could see from the samples how to process numbers and print the results, and how to read input.  The programs are lost, but I'm pretty sure this was the gist:}
+
+[text {
+WHAT DO YOU WANT TO DO?
+
+(A) ADD TWO NUMBERS
+(S) SUBTRACT TWO NUMBERS
+(M) MULTIPLY TWO NUMBERS
+(D) DIVIDE TWO NUMBERS
+(Q) QUIT
+
+> D
+
+WHAT IS THE FIRST NUMBER?
+
+> 20
+
+WHAT IS THE SECOND NUMBER?
+
+> 10
+
+THE ANSWER IS 2!
+
+WHAT DO YOU WANT TO DO?
+
+(A) ADD TWO NUMBERS
+(S) SUBTRACT TWO NUMBERS
+(M) MULTIPLY TWO NUMBERS
+(D) DIVIDE TWO NUMBERS
+(Q) QUIT
+
+> ...
+}]
+
+{My vague recollection is that Math1 was something that perhaps added and subtracted, and Math2 could also multiply and divide for you.  That may not be precisely it, but it couldn't have been much more complex than that!}
+
+[heading {BASIC FUN}]
+
+{In the note I mention my early confusion with concepts like iteration *(notably not needed for programs like `Math1.Bas` and `Math2.Bas`)*.  Then I talk about things becoming clear once I got "BASIC FUN".  It's a book whose cover I remember very clearly:}
+
+[button http://hostilefork.com/media/blog/osborne-one-basic-fun-history/basic-fun.jpg 300x438 "Cover of Basic Fun, my first programming book" https://raw.github.com/hostilefork/teenage-coding/master/GREATEST/basic-fun.jpg]
+
+{But beyond the cover, today I don't remember a whole lot about the writing.  The only program that made a *lasting* impression on me was a sample showing you how to draw a rocket ship that would "blast off".  The effect was created by drawing the rocket on the console one row at a time...and then continuing to print line feeds until the tail of the rocket had been cleared off the top of the screen.}
+
+[note {It's actually kind of a profound "illusion" to realize a rocket "blasting off" could be made with such an effect.  So perhaps not so surprising that's the only one I remembered.}]
+
+{I find the remark *"I've discovered World War 4... it was 700 lines long."* to be a hilarity on par with *"I beat the Internet...the end guy is hard."*  Presumably what I meant to say was that I'd designed and coded a game titled World War 4.}
+
+{While I have no clue what World War 4 was about, pretty much all the games I made in this era were nearly identical.  They were patterned after [Choose Your Own Adventure](http://en.wikipedia.org/wiki/Choose_Your_Own_Adventure) books, which were popular at the time.  But while those books tended toward wanting you to make decisions based on critical thinking, mine were very contrarian.  I'd punish the player for making the seemingly obvious choice, but a ridiculous choice would have some elaborate reason for why it was the right one.}
+
+[note {In psychological retrospect this probably explains a lot about my life choices!}]
+
+[heading {What's "normal" at Age 7?}]
+
+{As an adult, seeing things like me starting to spell "genius" with a "j"...then having a second thought and starting it with a "G" but finishing it off with "enious" has a kind of ironic humor.  But I think the note was trying to express a sincerity about how programming was interesting, and that which was once unknown can be known if only you have the right guidance.}
+
+[note {I still believe that.  My desire to put the right information into the hands of those who seek it drives me to pose as a (very) part-time [teacher for kids on StackOverflow](http://stackoverflow.com/a/8335365/211160).}]
+
+{My curiosity became piqued in terms of how atypical this kind of writing and thinking would be for a 7 year old (of that era).  I'm no expert on children, or what they are expected to do at what age.  I tried to do some research and found a few references, [this one from WebMD](http://www.webmd.com/children/features/when-should-kids-learn-read-write-math):}
+
+[quote
+
+	{**Ages 6-10: learning to read**}
+
+	{Kids learn to:}
+
+	[list 
+		{Read simple books by mid-first grade}
+		{Know about 100 common words, and understand that letters represent sounds, which form words}
+		{by mid-first grade enjoy a variety of types of stories and talk about characters, settings and events.}
+		{Remember the names and sounds of all letters and recognize upper and lowercase by second grade}
+		{Read independently and fluently by third grade}
+		{Sound out unfamiliar words when reading}
+	]
+]
+
+{If that's true, I'd have been far ahead of the norm by merely writing at that point (not even accounting for the programming).  So I'll forgive myself for not knowing how to spell words like "minutes" or "genius", and having some seemingly Random ideas About usage of capital Letters.}
+
+[note {While we take it for granted that there's an "e" in "minute", that's actually a bit counterintuitive...it's not "houre" or "seconde".  And given language patterns it almost seems like there *should* be an "ious" on "genious"...after all, how many English words a child might have noticed around them end in "ius"?  It is well known that children sort and rationalize language, see for instance [pidgins](http://en.wikipedia.org/wiki/Pidgin)}]
+
+[heading {Legacy}]
+
+{I gave the Osborne One away somewhere around 1998, as I wanted to reclaim the closet space.  It was in working condition, although it was certainly not "mint".  Today on eBay a working "non-collectible" unit goes for $150, and I certainly didn't have one of the first manufacturing runs or anything.}
+
+{What I do wish is that I'd gone through the disks to see if I could have found any of the Basic programs.  But AFAIK, none of the source code to the 'GREATEST GAMES' survive.  A loss to all mankind, who due to my oversight must resign their days to playing second-rate drivel like Portal 2. :-)}
+
+[quote
+	{I know not with what weapons World War III will be fought, but World War IV will be fought with sticks and stones...}
+
+	{...it will also be written in CP/M BASIC, 700 lines long, and last at most 50 minutes.}
+
+	/source {Albert Einstein and Brian Dickens}
+]

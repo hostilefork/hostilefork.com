@@ -9,10 +9,16 @@ draem/set-config object compose [
 
 	rss-tag: {blog.hostilefork.com}
 
-	site-prologue-html: {<div style="text-align: right; margin-right: 8px;"><p><img src="http://hostilefork.com/media/feed-icon-14x14.png" alt="Feed Icon" /><a href="http://blog.hostilefork.com/feed/">RSS 1.0 XML Feed</a> available </p></div>}
+	site-prologue-html: {<div style="text-align: right; margin-right: 8px;"><p><img src="http://hostilefork.com/media/feed-icon-14x14.png" alt="Feed Icon" />&nbsp;<a href="http://blog.hostilefork.com/feed/">RSS 1.0 XML Feed</a> available </p></div>}
 
 	site-intro: [
-		{An occasionally-updated collection of articles and notes.  Mostly about modern software engineering.  Main topics are C++11 and the Rebol and Red languages, along with general programming philosophy and puzzle-solving.}
+		{An occasionally-updated collection of articles and notes.  Mostly about modern software engineering.  Main topics are C++11 and the Rebol and Red languages, along with general programming philosophy and puzzle-solving.  Now and again, I throw a fit after dealing with some call-center or Internet fraud...and that seems to get the most hits.  *(We've all been there: ["I'm sorry, this won't get fixed until I talk to an engineer."](http://xkcd.com/806/)*)}
+
+		{My claims-to-fame can probably be counted on one or two hands (depending on how many fingers you have), but I designed the logos for both Rebol and Red.  Please [read up and learn](http://blog.hostilefork.com/why-rebol-red-parse-cool/) about these unusual philosophy-driven languages:}
+
+		[button http://i.stack.imgur.com/VIh6w.png 700x160 "[Rebol and Red] chat room" http://chat.stackoverflow.com/rooms/291/]
+
+		[note {I did not draw the "logotype" (REBOL) for Rebol, I just allude to it in the icon.  [More details here](http://blog.hostilefork.com/logo-design-for-rebol/).}]
 
 		[heading {Site Reorganization in Progress}]
 
@@ -84,6 +90,7 @@ draem/set-config object compose [
 		%jquery-numband
 		%flatworm
 		%titlewait
+		%draem
 	]
 
 	entries-dir: (rejoin [system/options/path %entries/])
@@ -124,8 +131,9 @@ draem/set-config object compose [
 
 	;-- Optional: CSS included on every page
 	css: [
-		%/media/google-code-prettify/prettify.css
-		%/media/google-code-prettify/reb4me-prettify.css
+		http://hostilefork.com/media/google-code-prettify/prettify.css
+		http://hostilefork.com/media/google-code-prettify/reb4me-prettify.css
+		http://hostilefork.com/media/default.css
 		{
 			#title h1 {
 				padding-right: 80px;
@@ -174,8 +182,8 @@ $(document).keydown(function(e) {
 });
 		}
 
-		%/media/google-code-prettify/prettify.js
-		%/media/google-code-prettify/lang-rebol.js
+		http://hostilefork.com/media/google-code-prettify/prettify.js
+		http://hostilefork.com/media/google-code-prettify/lang-rebol.js
 
 		{
 $(document).ready(
