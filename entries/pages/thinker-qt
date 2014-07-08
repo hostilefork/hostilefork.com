@@ -1,0 +1,292 @@
+Draem [
+    title: "THINKER-QT: Background Calculation for Qt 4.5+"
+    tags: [c++ qt parallelism]
+    slug: %thinker-qt
+    date: 16-Dec-2009/20:53
+]
+
+[image http://thinker-qt.hostilefork.com/media/thinker-qt-logo.png 640x360 "Thinker-Qt Logo"]
+
+{**Thinker-Qt** is a LGPL C++ library designed for implementing background calculations that fit the following scenario:}
+
+[list
+
+    {The calculations may be paused, resumed, or canceled... but client threads won't exert influence on the result *values* once a request has been set in motion}
+
+    {Client threads are interested in the incremental results of this calculation (but don't want to receive updates any faster than a certain frequency)}
+
+    {A future refinement of the calculation value is *always* preferable to getting the previous incremental result}
+
+]
+
+{This came up in a project I was working on, but one doesn't have to look very far to find other examples.  In fact, most Qt developers got their first introduction to `QThread` from the [Mandelbrot sample](http://qt-project.org/doc/qt-5/qtcore-mandelbrot-example.html)--where the relationship between the GUI and fractal math match this pattern.  Using Thinker-Qt avoids direct use of `QMutex` and `QWaitCondition`...or `qRegisterMetaType` to proxy types over a custom signal!}
+
+[heading "A Complement To QtConcurrent"]
+
+{If you use Qt and abstracting away thread primitives is up your alley, then you've probably already come across [QtConcurrent](http://qt-project.org/doc/qt-5/qtconcurrent.html).  Thinker-Qt builds on the `QThreadPool` and borrows QtConcurrent's interface standards whenever applicable.  }
+
+{But imagine trying to use code written in the style of Mandelbrot's `RenderThread::run()` with QtConcurrent.  Although there is support for the QRunnable interface, the library can't pause or cancel such objects:}
+
+[quote
+
+    {...the QFuture returned by QtConcurrent::run() does not support canceling, pausing, or progress reporting. The QFuture returned can only be used to query for the running/finished status and the return value...}
+
+    /source [http://qt-project.org/doc/qt-4.8/qtconcurrentrun.html#run "Qt Concurrent documentation"]
+
+]
+
+{Further highlighting the difference in philosophy from `QFuture`, Thinker-Qt's analogous object is called a "Present".  Rather than having to wait for each item in a list of results to become available, a client thread can use the `Thinker::Present` interface to make a read-only snapshot of the calculation state *at any moment*.  This snapshot is very cheap if no write happens during the snapshot lifetime, due to [copy-on-write](http://en.wikipedia.org/wiki/Copy-on-write).  If a write does occur, it is the background thread that pays for the copy time.}
+
+{Clients can throttle the maximum frequency at which automatically-generated notification signals will be emitted, without impeding the calculations themselves.  This contrasts with QtConcurrent's concept of throttling, which is done with [QFutureWatcher::setPendingResultsLimit](http://qt-project.org/doc/qt-5/qfuturewatcher.html#setPendingResultsLimit).}
+
+[heading "Library Documentation"]
+
+{Since Mandelbrot is so well known, I've adapted it to use Thinker-Qt.  You can see the [complete diffs on gitorious](http://gitorious.org/thinker-qt/thinker-qt/commit/458eb50b3163bca241916e93bd6a21dc598d6b6f), or keep reading this page for an explanatory narrative.}
+
+[note {Such a minimal example is good for studying the design of a new API without unnecessary distraction.  Just realize that the motivation is to eliminate thread synchronization bugs and other issues from *larger* bodies of code doing *many* such calculations.  That disclaimer aside, it is interesting to note that I was able to introduce the abstractions yet keep it the same number of lines, even being generous with spacing!}]
+
+{For those who prefer a bullet-point overview before reading the Mandelbrot modifications, slides are available at the following link:}
+
+[http://docs.google.com/present/view?id=dkjh9v7_12gxsn7bch "View the presentation"]
+
+{Or if you prefer diving even deeper into the source of the library itself, you can skip straight to [browsing the repository](http://gitorious.org/thinker-qt/thinker-qt/trees/master) on gitorious.org.  The underlying technique leverages `QSharedDataPointer` quite a bit, so be sure to [read up on that](http://qt-project.org/doc/qt-5/qshareddatapointer.html#details) if you aren't already familiar with it.  Note that some of the component classes that make the approach "different"--like `SignalThrottler` and the `Snapshottable` interface--could be reused in other libraries.}
+
+[note {**Peer Review Sought!** This project is very new at this point, and I welcome comments below (or on gitorious.org) about the code and the idea in general.  Please bear in mind that C++ cannot "enforce" the rules of the scenario... it can't even "enforce" that someone isn't using `const_cast` to modify a constant value!!!  Thinker-Qt tackles the problem how any design pattern does: by making interface tradeoffs to meet the goal while curbing as many potential sources of error as possible.  It might not be as clean as if one switched entirely to a "fringe" functional or parallel-programming language, but it does keep one coding closer to Qt!}]
+
+[heading "Thinker Objects"]
+
+{The `Thinker` template class is at the core of the library.  This is where you put the code for the background computation that you want on another thread.  It is parameterized with a type designed to hold the portion of its state that it wants to expose as *read-only* data to other threads.}
+
+{Here is Mandelbrot's RenderThread re-imagined as a "RenderThinker":}
+
+[code cpp {
+const int ColormapSize = 512;
+typedef uint Colormap[ColormapSize];
+
+class RenderThinker : public Thinker<RenderThinkerData>
+{
+    Q_OBJECT
+
+public:
+    RenderThinker(double centerX, double centerY, double scaleFactor,
+                QSize resultSize, const Colormap& colormap);
+
+protected:
+    /* virtual*/ void start();
+
+private:
+    double centerX;
+    double centerY;
+    double scaleFactor;
+    QSize resultSize;
+    const Colormap& colormap;
+};
+}]
+
+{An obvious difference is the absence of mutexes, wait conditions, and restart/abort booleans.  Despite being a template, it still inherits from QObject.  And although some of its data members are now located in the `RenderThinkerData`, there is private state as well.}
+
+[note {Since a new Thinker is allocated each time the calculation needs change, things you wish to compute once--like the Colormap--must be implemented statically or passed in as a parameter from something more persistent.}]
+
+{Without any signals or slots, you might wonder how the results of a computation get back to the main thread.  The answer is that the Thinker pokes data into the state object, and routines are provided for clients to read it out.  It's generally best to restrict the relationship to a one-way broadcast from Thinker to other threads.}
+
+{To reduce the chance of introducing signal and slot connections that could inadvertently influence the results of the calculation, the inheritance from QObject is `protected`.  Signals and slots should only be used for internal implementation, e.g. if the Thinker needs timer signals or if part of its background computation involves receiving Http request callbacks.  Exposing it as a QObject through a member function is your choice...but not recommended.}
+
+[heading "SnapshottableData"]
+
+{To pass data back to the GUI thread, Qt's Mandelbrot originally defined:}
+
+[code cpp {
+signal:
+    void renderedImage(const QImage &image, double scaleFactor);
+}]
+
+{In the Thinker worldview, we put those two pieces of data in the object `RenderThinkerData` that was passed to the Thinker template:}
+
+[code cpp {
+class RenderThinkerData : public SnapshottableData
+{
+private:
+    friend class RenderThinker;
+    QImage image;
+    double scaleFactor;
+
+public:
+    RenderThinkerData ()
+    { }
+
+    RenderThinkerData (const RenderThinkerData& other)
+        : image (other.image),
+        scaleFactor(other.scaleFactor)
+    { }
+
+    bool hasImage() const { return !image.isNull(); }
+
+    const QImage& getImage() const { return image; }
+
+    double getScaleFactor() const { return scaleFactor; }
+};
+}]
+
+{As with QSharedData, classes derived from `SnapshottableData` must have working copy constructors, so it's clearest if you declare them explicitly.  On the other hand, making the state object default-constructible is purely optional.  It does help though, because you won't have to explicitly pass in an example object to the Thinker's constructor!}
+
+[note {The need for a special base class instead of just using `QSharedData` is because there are no virtual methods in QSharedData.  SnapshottableData can be `dynamic_cast`, and that was important for my application.  But it's nothing but a virtual destructor added to QSharedData!!!}]
+
+{By having only the latest image referenced by the calculation state and sending a signal that it has been updated, Thinker-Qt uses memory more efficiently.  Imagine if in the original Mandelbrot, the GUI thread was busy or otherwise unable to draw images faster than the RenderThread was producing them.  This would mean there'd be a backlog of intermediate QImages held alive by their reference in the signal queue, when the most recent image is "the best" and hence the only one that is truly needed.}
+
+[heading "start()"]
+
+{The Thinker's equivalent of a thread's `run()` method is `start()`.  It is called only once, and is the only virtual method that is mandatory to implement.  (I'll introduce you to `resume()` later, but it's not needed for Mandelbrot.)}
+
+[note {The following routine only seems long because the fractal code in `RenderThread::run()` was long!  In fact, several lines longer!}]
+
+[code cpp {
+void RenderThinker::start()
+{
+        int halfWidth = resultSize.width() / 2;
+        int halfHeight = resultSize.height() / 2;
+        QImage image(resultSize, QImage::Format_RGB32);
+
+        const int NumPasses = 8;
+        int pass = 0;
+        while (pass < NumPasses) {
+            const int MaxIterations = (1 << (2 * pass + 6)) + 32;
+            const int Limit = 4;
+            bool allBlack = true;
+
+            for (int y = -halfHeight; y < halfHeight; ++y) {
+                if (isPauseRequested())
+                    return;
+
+                uint *scanLine =
+                        reinterpret_cast<uint *>(image.scanLine(y + halfHeight));
+                double ay = centerY + (y * scaleFactor);
+
+                for (int x = -halfWidth; x < halfWidth; ++x) {
+                    double ax = centerX + (x * scaleFactor);
+                    double a1 = ax;
+                    double b1 = ay;
+                    int numIterations = 0;
+
+                    do {
+                        ++numIterations;
+                        double a2 = (a1 * a1) - (b1 * b1) + ax;
+                        double b2 = (2 * a1 * b1) + ay;
+                        if ((a2 * a2) + (b2 * b2) > Limit)
+                            break;
+
+                        ++numIterations;
+                        a1 = (a2 * a2) - (b2 * b2) + ax;
+                        b1 = (2 * a2 * b2) + ay;
+                        if ((a1 * a1) + (b1 * b1) > Limit)
+                            break;
+                    } while (numIterations < MaxIterations);
+
+                    if (numIterations < MaxIterations) {
+                        *scanLine++ = colormap[numIterations % ColormapSize];
+                        allBlack = false;
+                    } else {
+                        *scanLine++ = qRgb(0, 0, 0);
+                    }
+                }
+            }
+
+            if (allBlack && pass == 0) {
+                pass = 4;
+            } else {
+                lockForWrite();
+                writable().image = image;
+                writable().scaleFactor = scaleFactor;
+                unlock();
+                ++pass;
+            }
+        }
+    emit done();
+}
+}]
+
+{The Thinker object is able to access members of its state object through the methods `readable()` and `writable()`.  No other object is allowed to write to the state, so you don't have to worry about guarding the read calls.  However, you must bracket calls to writable with `lockForWrite()` and `unlock()` (for reasons that will soon become clear).}
+
+[note {Fortunately this can be checked and asserted easily at runtime, and thus is less error prone than other synchronization cues.}]
+
+[heading "Thinker::Present and Thinker::PresentWatcher"]
+
+{To get a Thinker started, you must associate it with a `Thinker::Present`, which is returned by `ThinkerQt::run()`.  The lifetime of the Present corresponds to the lifetime of your interest in a Thinker making progress.  If you want to monitor the progress of a Thinker with signals then you need the analogue of QtConcurrent's QFutureWatcher... the Thinker::PresentWatcher!  Here's our new definitions in the MandelbrotWidget.h file:}
+
+[code cpp {
+    RenderThinker::PresentWatcher watcher;
+    void resetThinker(double centerX, double centerY, double scaleFactor,
+                QSize resultSize);
+}]
+
+{The `resetThinker` method runs each time a new calculation is triggered by a pan, zoom, or resize:}
+
+[code cpp {
+void MandelbrotWidget::resetThinker(double centerX, double centerY,
+                double scaleFactor, QSize resultSize)
+{
+    watcher.cancel();
+
+    RenderThinker* thinker = new RenderThinker(centerX, centerY,
+                scaleFactor, resultSize, colormap);
+    watcher.setPresent(ThinkerQt::run(thinker));
+}
+}]
+
+{A `written()` signal is queued to be emitted whenever the Thinker indicates the end of an atomic write by calling `unlock()`.  It is possible to make sure that you will not receive these signals beyond a certain rate...which we set to 400 milliseconds in the widget constructor:}
+
+[code cpp {
+    connect(&watcher, SIGNAL(written()), this, SLOT(updatePixmap()));
+    watcher.setThrottleTime(400);
+}]
+
+{The way throttling works is that the first signal you get will not be delayed at all.  But if any subsequent updates happen in the next 400ms window they will be coalesced into a single signal that happens after that 400ms time window has been cleared.}
+
+[note {I've found this technique provides acceptable results for many cases that would have required event queue manipulation otherwise.  It's available in a service class called `SignalThrottler` to use elsewhere.}]
+
+{Thinkers are doing their own thing on an independent thread, so they won't necessarily stop on a dime!  But when the last reference to a Present goes away there will be a *request* that the Thinker stop.  It's up to you to decide if you need to synchronously wait for a Thinker to react to a request to stop.  Applications like Mandelbrot do not require it (except when they are quitting, if they want to exit cleanly).}
+
+{If no data structure shared between the main thread and the Thinker is going to be modified, the manager will clean it up when it finishes.  This can reduce the latency of starting a new calculation.}
+
+[heading "Snapshots"]
+
+{As a Thinker is running, an independent thread can snapshot the calculation state at any time.  These snapshots use a [copy-on-write (COW)](http://en.wikipedia.org/wiki/Copy-on-write) strategy--so they cost almost nothing if the thinker doesn't modify its state during the lifetime of the snapshot.}
+
+[code cpp {
+void MandelbrotWidget::updatePixmap()
+{
+    if (!lastDragPos.isNull())
+        return;
+
+    RenderThinker::SnapshotPointer snap = watcher.createSnapshot();
+    if (snap->hasImage()) {
+        pixmap = QPixmap::fromImage(snap->getImage());
+        pixmapScale = snap->getScaleFactor();
+        snap.clear();
+        pixmapOffset = QPoint();
+        lastDragPos = QPoint();
+        update();
+    }
+}
+}]
+
+{The snapshot is guaranteed not to change during its lifetime.  It will not trigger a copy unless the Thinker makes a modification, at which time the Thinker thread will be forced to pay for the time and memory of a copy of the object.  For best results, release the snapshot as soon as you can--the example above calls `clear()` before `update()` to minimize the window of opportunity for the copy-on-write to hit.}
+
+[note {Regarding the const guarantee on the object, do remember this is C++.  If a const object contains pointers then what you get is a guarantee of the pointer not changing...not a guarantee that the thing pointed to isn't going to change.  So stick to value semantics in your state objects where possible!  If you're afraid of the cost of pass-by-value semantics, consider using implicit sharing for the types inside your state object.  That extends the copy-on-write semantics to the next level.}]
+
+[heading "pause(), resume(), and cancel()"]
+
+{To simplify the interface a Thinker has to deal with, it isn't asked to distinguish between when another thread makes a request to stop vs. a request to pause.  The `wasPauseRequested()` function call covers both cases.}
+
+{Thinkers fall into two classes: *resumable* and *non-resumable*.  If a thinker isn't resumable, then it is able to handle only cancel requests.   (Technically speaking you can pause it, but only if you then cancel.)}
+
+{Being resumable involves being able to return from your start() method, and later pick up from where you left off in resume().}
+
+[note {This needs more documentation on how to simplify this with coroutine libraries, etc.)}]
+
+[heading "Future Directions"]
+
+{Thinker-Qt is an experiment I wrote because I couldn't find anything that really fit my needs.  But I'm interested in any references people can find to related work.}
+
+{Any improvements that package the code in a more standard way, or fix the naming or conventions to be more natural to the Qt community are certainly welcome.  I only factored it into a "library" recently and there's a lot of tidying to do.}
+
+{Intel has developed an interesting C++ threading framework and called for ["Less focus on threads, more focus on tasks"](http://software.intel.com/en-us/blogs/2009/04/24/less-focus-on-threads-more-focus-on-tasks/).}

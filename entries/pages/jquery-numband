@@ -1,0 +1,16 @@
+Draem [
+    title: "jQuery Numband"
+    tags: [javascript jquery]
+    slug: %jquery-numband
+    date: 14-Dec-2007/14:10
+]
+
+[image http://jquery-numband.hostilefork.com/media/jquery-numband-logo.png 640x360 "jquery-numband Logo"]
+
+{Experimental interface for entering "numeric bands" in response to [this User Interface StackExchange question](http://ui.stackexchange.com/questions/2898/how-to-create-bands-of-number-ranges-for-a-field)}
+
+[heading {Online Demo}]
+
+{There's an online demo you can try out.  Bear in mind it was written in an evening, and was my first jQuery program.}
+
+http://jquery-numband.hostilefork.com/demo/

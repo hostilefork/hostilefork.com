@@ -1,4 +1,10 @@
-blog/templates/*
+!.gitignore
+templates/*
 apache/includes/pages/build/*
 apache/includes/renames/build/*
-!.gitignore
+media/copylight
+media/uscii
+media/jquery-numband
+media/google-code-prettify
+media/libs
+media/timeline

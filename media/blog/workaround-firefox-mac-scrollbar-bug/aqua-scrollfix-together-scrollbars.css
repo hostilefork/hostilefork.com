@@ -1,0 +1,282 @@
+/* ===== scrollbars.css =================================================
+  == Styles used by XUL scrollbar-related elements.
+  ======================================================================= */
+
+/*
+	File: aqua_scrollfix_together.jar/global/scrollbars.css
+	
+	for more information please see http://hostilefork.com/2007/11/06/workaround-firefox-scrollbar-bug-on-mac/
+	adapted from the work of other mac-like themes by Kelly Cunningham <kelly@webether.com> and Alex W. <lucx@shaw.ca>
+	
+*/
+
+/* ::::: boilerplate that you need to have ::::: */
+
+@namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
+@namespace html url("http://www.w3.org/1999/xhtml");
+scrollbar {
+	-moz-binding: url("chrome://global/content/bindings/scrollbar.xml#scrollbar");
+	cursor: default;
+}
+
+
+/* ::::: vertical scrollbar ::::: */
+
+	/* :: background :: */
+	
+	scrollbar[orient="vertical"]  {
+		padding: 0px !important;
+		margin: 0px !important;
+		background: url("chrome://global/skin/scrollbar/vertical-background.png") no-repeat;
+		background-position: top right; /* there is a little notch drawn on the top of the background that the thumb nestles into */
+		width: 15px;
+	}
+
+	/* :: thumb :: */
+	
+	thumb[orient="vertical"] {
+		min-height: 29px;
+		background:url("chrome://global/skin/scrollbar/vertical-thumb.png") no-repeat; /* transparent gap at top of this image accounts for background notch */
+	}
+	
+	thumb[orient="vertical"] > gripper {
+		-moz-box-flex: 1;
+		width: 15px;
+		background:url("chrome://global/skin/scrollbar/vertical-thumb-bottom.png") no-repeat;
+		background-position: bottom left; /* cap should overwrite the thumb's bottom edge*/
+	}
+
+	/* :: up arrow :: */
+	
+	scrollbar[orient="vertical"] > scrollbarbutton[type="decrement"] {
+		position: absolute; /* doesn't affect position, but causes to draw in front of z-order so that curved pieces "nestle" */
+		min-width: 15px;
+		min-height: 24px;
+		background: url("chrome://global/skin/scrollbar/up.png") no-repeat;
+		margin-top: -9px; /* encroach on the thumb's territory above to give visual effect of "nestling" */
+	}
+
+	scrollbar[orient="vertical"] > scrollbarbutton[type="decrement"]:hover:active {
+		background: url("chrome://global/skin/scrollbar/up-active.png") no-repeat;
+	}
+
+	/* :: down arrow :: */
+	
+	scrollbar[orient="vertical"] > scrollbarbutton[type="increment"] {
+		min-width: 15px;
+		min-height: 17px;
+		background: url("chrome://global/skin/scrollbar/down.png") no-repeat;
+	}
+
+	scrollbar[orient="vertical"] > scrollbarbutton[type="increment"]:hover:active {
+		background: url("chrome://global/skin/scrollbar/down-active.png") no-repeat;
+	}
+	
+	/* ::::: explicitly set to have buttons that are both together below the thumb ::::: */
+	
+	scrollbar[orient="vertical"] > scrollbarbutton[sbattr="scrollbar-up-top"] {
+		display: none !important;
+	}
+	
+	scrollbar[orient="vertical"] > scrollbarbutton[sbattr="scrollbar-up-bottom"] {
+		display: -moz-box !important;
+	}
+	
+	scrollbar[orient="vertical"] > scrollbarbutton[sbattr="scrollbar-down-top"] {
+		display: none !important;
+	}
+	
+	scrollbar[orient="vertical"] > scrollbarbutton[sbattr="scrollbar-down-bottom"] {
+		display: -moz-box !important;
+	}
+
+
+/* ::::: horizontal scrollbar ::::: */
+
+	/* :: background image :: */
+
+	scrollbar[orient="horizontal"]  {
+		padding: 0px !important;
+		margin: 0px !important;
+		background: url("chrome://global/skin/scrollbar/horizontal-background.png") no-repeat;
+		background-position: top left; /* there is a little notch drawn on the left of the background that the thumb nestles into */
+		height:15px;
+	}
+
+	/* :: thumb :: */
+	
+	thumb[orient="horizontal"] {
+		min-width: 29px;
+		background:url("chrome://global/skin/scrollbar/horizontal-thumb.png") no-repeat; /* transparent gap at left of this image accounts for background notch */
+	}
+	
+	thumb[orient="horizontal"] > gripper {
+		-moz-box-flex: 1;
+		height:15px;
+		background:url("chrome://global/skin/scrollbar/horizontal-thumb-right.png") no-repeat;
+		background-position: top right; /* cap should overwrite the thumb's right edge */
+	}
+
+	/* :: left arrow :: */
+	
+	scrollbar[orient="horizontal"] > scrollbarbutton[type="decrement"] {
+		position: absolute; /* doesn't affect position, but causes to draw in front of z-order so that curved pieces "nestle" */
+		min-width: 24px;
+		min-height: 15px;
+		margin-left: -9px; /* encroach on the thumb's territory to left to give visual effect of "nestling" */
+		background: url("chrome://global/skin/scrollbar/left.png") no-repeat;
+	}
+
+	scrollbar[orient="horizontal"] > scrollbarbutton[type="decrement"]:hover:active {
+		background: url("chrome://global/skin/scrollbar/left-active.png") no-repeat;
+	}
+
+	/* :: right arrow :: */
+	
+	scrollbar[orient="horizontal"] > scrollbarbutton[type="increment"] {
+		min-width: 17px;
+		min-height: 15px;
+		background: url("chrome://global/skin/scrollbar/right.png") no-repeat;
+	}
+
+	scrollbar[orient="horizontal"] > scrollbarbutton[type="increment"]:hover:active {
+		background: url("chrome://global/skin/scrollbar/right-active.png") no-repeat;
+	}
+	
+	/* ::::: explicitly set to have buttons that are both together to the right of the thumb ::::: */
+	
+	scrollbar[orient="horizontal"] > scrollbarbutton[sbattr="scrollbar-up-top"] {
+		display: none !important;
+	}
+	
+	scrollbar[orient="horizontal"] > scrollbarbutton[sbattr="scrollbar-up-bottom"] {
+		display: -moz-box !important;
+	}
+	
+	scrollbar[orient="horizontal"] > scrollbarbutton[sbattr="scrollbar-down-top"] {
+		display: none !important;
+	}
+	
+	scrollbar[orient="horizontal"] > scrollbarbutton[sbattr="scrollbar-down-bottom"] {
+		display: -moz-box !important;
+	}
+
+
+/* ::::: square at the corner of two scrollbars ::::: */
+
+scrollcorner {
+	background-color: #FFFFFF;
+}
+
+
+
+/* (NOTE: Beyond this point, the css comes from classic.jar/global/scrollbars.css) */
+
+
+/* :::::::::::::::::::::::::::::::::::::::::::::::::::::::: */
+/* ::::::::::::::::::::: MEDIA PRINT :::::::::::::::::::::: */
+/* :::::::::::::::::::::::::::::::::::::::::::::::::::::::: */
+@media print {
+  /* ::::: scrollbar ::::: */
+
+  html|div scrollbar {
+    -moz-appearance: scrollbartrack-horizontal;
+    -moz-binding: url("chrome://global/content/bindings/scrollbar.xml#scrollbar");
+    cursor: default;
+    background: url("chrome://global/skin/scrollbar/slider.gif") scrollbar;
+  }
+
+  html|div scrollbar[orient="vertical"] 
+  {
+     -moz-appearance: scrollbartrack-vertical;
+  }
+
+  /* ::::: borders for thumb and buttons ::::: */
+
+  html|div thumb,
+  html|div scrollbarbutton {
+    border: 2px solid;
+    -moz-border-top-colors: ThreeDLightShadow ThreeDHighlight;
+    -moz-border-right-colors: ThreeDDarkShadow ThreeDShadow;
+    -moz-border-bottom-colors: ThreeDDarkShadow ThreeDShadow;
+    -moz-border-left-colors: ThreeDLightShadow ThreeDHighlight;
+    background-color: -moz-Dialog;
+  }
+
+  /* ::::: thumb (horizontal) ::::: */
+
+  html|div thumb {
+    -moz-appearance: scrollbarthumb-vertical;
+    min-height: 8px;
+  }
+
+  html|div thumb[orient="horizontal"] {
+    -moz-appearance: scrollbarthumb-horizontal;
+    min-width: 8px;
+  }
+
+  html|div thumb > gripper {
+    -moz-appearance: scrollbargripper-vertical;
+  }
+
+  html|div thumb[orient="horizontal"] > gripper {
+    -moz-appearance: scrollbargripper-horizontal;
+  }
+
+  /* ::::: scrollbar button ::::: */
+
+  html|div scrollbarbutton {
+    background: -moz-Dialog no-repeat 0px 1px;
+    min-width: 16px;
+    min-height: 16px;
+  }
+
+  html|div scrollbarbutton:hover:active {
+    -moz-border-top-colors: ThreeDShadow -moz-Dialog;
+    -moz-border-right-colors: ThreeDShadow -moz-Dialog;
+    -moz-border-bottom-colors: ThreeDShadow -moz-Dialog;
+    -moz-border-left-colors: ThreeDShadow -moz-Dialog;
+    background-position: 1px 2px;
+  }
+
+  /* ..... increment .... */
+
+  html|div scrollbarbutton[type="increment"] {
+    -moz-appearance: scrollbarbutton-right;
+    background-image: url("chrome://global/skin/arrow/arrow-rit.gif")
+  }
+
+  html|div scrollbarbutton[type="increment"][disabled="true"] {
+    background-image: url("chrome://global/skin/arrow/arrow-rit-dis.gif")
+  }
+
+  html|div scrollbar[orient="vertical"] > scrollbarbutton[type="increment"] {
+    -moz-appearance: scrollbarbutton-down;
+    background-image: url("chrome://global/skin/arrow/arrow-dn.gif")
+  }
+
+  html|div scrollbar[orient="vertical"] > scrollbarbutton[type="increment"][disabled="true"] {
+    background-image: url("chrome://global/skin/arrow/arrow-dn-dis.gif")
+  }
+
+  /* ..... decrement .... */
+
+  html|div scrollbarbutton[type="decrement"] {
+    -moz-appearance: scrollbarbutton-left;
+     background-image: url("chrome://global/skin/arrow/arrow-lft.gif")
+  }
+
+  html|div scrollbarbutton[type="decrement"][disabled="true"] {
+     background-image: url("chrome://global/skin/arrow/arrow-lft-dis.gif")
+  }
+
+  html|div scrollbar[orient="vertical"] > scrollbarbutton[type="decrement"] {
+    -moz-appearance: scrollbarbutton-up;
+     background-image: url("chrome://global/skin/arrow/arrow-up.gif")
+  }
+
+  html|div scrollbar[orient="vertical"] > scrollbarbutton[type="decrement"][disabled="true"] {
+     background-image: url("chrome://global/skin/arrow/arrow-up-dis.gif")
+  }
+
+}
