@@ -391,4 +391,4 @@ rejoin [
 
 [heading {Suggestions?...}]
 
-{Visit the [CureCode issue #2142](http://curecode.org/rebol3/ticket.rsp?id=2142) to offer your thoughts, leave a comment here, or a pull request on Draem.  Also: remember that [this blog entry is in GitHub](https://github.com/hostilefork/hostilefork.com/blob/master/blog/entries/posts/combine-alternative-rebol-red-rejoin) as dialected Rebol.  So if you have suggested edits or ways of making this more clear, that's another place to look...or just be curious about how this site is being built.}
+{Visit the [CureCode issue #2142](http://curecode.org/rebol3/ticket.rsp?id=2142) to offer your thoughts, leave a comment here, or a pull request on Draem.  Also: remember that [this blog entry is in GitHub](https://github.com/hostilefork/hostilefork.com/blob/master/entries/posts/combine-alternative-rebol-red-rejoin) as dialected Rebol.  So if you have suggested edits or ways of making this more clear, that's another place to look...or just be curious about how this site is being built.}

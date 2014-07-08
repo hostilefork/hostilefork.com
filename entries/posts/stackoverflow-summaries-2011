@@ -34,7 +34,7 @@ http://stackoverflow.com/questions/6124995/what-good-is-the-nerfin-loop-operatio
 
 [heading "Free Beverage In Toronto"]
 
-{One issue I'm passionate about is the divergence that happened when Linux fragmented between systems built on GTK and Qt.  This fragmentation came largely from the fact that Richard Stallman (the "Father of the Free Software Movement") said that Qt...while technically good and *somewhat* free...simply [didn't have acceptable licensing terms](http://www.linuxtoday.com/news_story.php3?ltsn=2000-09-05-001-21-OP-LF-KE) for a library that would be used to build a Linux graphical desktop that he would endorse.}
+{One issue I'm passionate about is the divergence that happened when Linux fragmented between systems built on GTK and Qt.  This fragmentation came largely from the fact that Richard Stallman (the "Father of the Free Software Movement") said that Qt...while technically good and *somewhat* free...simply [didn't have acceptable licensing terms](http://www.linuxtoday.com/developer/2000090500121OPLFKE) for a library that would be used to build a Linux graphical desktop that he would endorse.}
 
 {For most people (including Stallman) the licensing issues have now been solved, more or less.  He called off the team of free software believers he'd encouraged to clone Qt in the project called "Harmony".  There's a bit of a push-and-pull right now since Nokia controls the main source repositories for the project, especially since a lot of their strategy has moved to Windows Phone and doesn't use Qt at all.  But there's no *legal* barrier keeping you or I from forking their work, if we find their stewardship to be unacceptable.}
 

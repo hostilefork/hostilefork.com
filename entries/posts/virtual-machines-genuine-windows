@@ -8,7 +8,7 @@ Draem [
 
 {Over the years I have come a long way toward a close philosophical alignment with the Free Software movement.  Yet I'll shamefully admit that my two computers are an iMac running OS/X and a Acer running Windows 7.  Of course, nearly all of my projects are undertaken in Linux virtual machines which I fire up in the host environment.  I just didn't want to cope with issues of finding drivers for the proprietary hardware of machines that were already "working".}
 
-{This week I took one more token step toward a free software stack, by migrating from proprietary-ol' VMWare over into open-source VirtualBox.  Although they use different virtual disk formats -- [VMDK vs. VDI](http://superuser.com/questions/5114/virtual-box-vmdk-vs-vdi) -- it is possible to convert between them using a free tool, just like this:}
+{This week I took one more token step toward a free software stack, by migrating from proprietary-ol' VMWare over into open-source VirtualBox.  Although they use different virtual disk formats -- [VMDK vs. VDI](http://superuser.com/questions/5114/is-there-any-performance-difference-between-the-vmdk-and-vdi-virtual-disk-format) -- it is possible to convert between them using a free tool, just like this:}
 
 [code {
 VBoxManage clonehd image.vmdk image.vdi --format VDI

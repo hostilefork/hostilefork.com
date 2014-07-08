@@ -64,7 +64,7 @@ more
 
 [note {Beyond naming and iconography, the source is Apache 2.0 so you can do pretty much what you want...as long as you don't call it Rebol without getting permission!}]
 
-{This is actually not so different from what open source projects typically encounter; a designer who offers their work to an open source project must sign rights over to the foundation controlling the code.  So whether you [drew the FireFox](http://thinsmek.com/a-history-of-the-firefox-icon-and-details-on-the-3-5-logo/) or perhaps won the competition for [Apache Flex](http://flex.apache.org/logo-contest.html), you hand over the rights.  You can derive something from the Firefox codebase but you can't *call* it Firefox or use the logo in a way they don't approve of...same for Chrome, Apache, Ruby-on-Rails, you name it...}
+{This is actually not so different from what open source projects typically encounter; a designer who offers their work to an open source project must sign rights over to the foundation controlling the code.  So whether you [drew the FireFox](https://blog.mozilla.org/creative/2013/06/27/a-new-firefox-logo-for-a-new-firefox-era/) or perhaps won the competition for [Apache Flex](https://blogs.apache.org/flex/entry/logo_contest_update), you hand over the rights.  You can derive something from the Firefox codebase but you can't *call* it Firefox or use the logo in a way they don't approve of...same for Chrome, Apache, Ruby-on-Rails, you name it...}
 
 {In this case the mark isn't going to a non-profit, but I'm totally okay with that given the direction things are taking now.}
 
@@ -111,7 +111,7 @@ more
     /source [http://www.osnews.com/story/199 {Carl Sassenrath, 2001 interview}]
 ]
 
-{The real red pill is *intention*.  And if you use a language like PHP that is an actual [Fractal of Bad Design](http://me.veekun.com/blog/2012/04/09/php-a-fractal-of-bad-design/), then you will indeed be taking a very literal blue pill:}
+{The real red pill is *intention*.  And if you use a language like PHP that is an actual [Fractal of Bad Design](http://eev.ee/blog/2012/04/09/php-a-fractal-of-bad-design/), then you will indeed be taking a very literal blue pill:}
 
 [image http://hostilefork.com/media/blog/logo-design-for-rebol/php-logo-blue-pill.png 300x159 "PHP's Uninspired Blue Pill-shaped Logo"]
 

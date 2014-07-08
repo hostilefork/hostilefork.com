@@ -10,7 +10,7 @@ Draem [
 
 {However, I concluded that article by saying that modern IDEs and languages call for different conventions.  While I've become a bit interested in the literacy of [Rebol](http://blog.hostilefork.com/major-rebol-language-quirks/) code, I still use other languages.  In C++ specifically, I've become curious about what naming conventions are "good".}
 
-{Despite my penchant for [Rebmu](http://hostilefork.com/rebmu/), in real programming I'm not concerned with brevity in the "fewest characters of source code" sense. Brief names are a case of *"penny-wise, pound-foolish"*--the stronger form of brevity to capture essential patterns so there's less code overall.  Sometimes a long and descriptive name can help point out smoking guns. Think about a routine that returns a pointer which can either be written as `GetEmployee` and `GetEmployeeMaybeNull`.  Depending on your tastes, you might think "MaybeNull" is a verbose suffix, but what will cost you more in the long run: 9 characters or the lack of awareness of the actual function's behavior?}
+{Despite my penchant for [Rebmu](http://rebmu.hostilefork.com/), in real programming I'm not concerned with brevity in the "fewest characters of source code" sense. Brief names are a case of *"penny-wise, pound-foolish"*--the stronger form of brevity to capture essential patterns so there's less code overall.  Sometimes a long and descriptive name can help point out smoking guns. Think about a routine that returns a pointer which can either be written as `GetEmployee` and `GetEmployeeMaybeNull`.  Depending on your tastes, you might think "MaybeNull" is a verbose suffix, but what will cost you more in the long run: 9 characters or the lack of awareness of the actual function's behavior?}
 
 {While naming is a broad general topic, in this article I'm just going to talk about some of my unusual uses of prefixes on method names.}
 
@@ -80,7 +80,7 @@ if (not didCloseDoor)
 
 [heading "hopefully"]
 
-{When I use hopefully at the beginning of a name, that means it's returning a boolean of whether that hope succeeded *and* it will be [taking a codeplace](http://hostilefork.com/hoist/) of where to indicate the problem happened.  In other words, it is the client who has the hope and is providing a token to hang it on.}
+{When I use hopefully at the beginning of a name, that means it's returning a boolean of whether that hope succeeded *and* it will be [taking a codeplace](http://hoist.hostilefork.com/) of where to indicate the problem happened.  In other words, it is the client who has the hope and is providing a token to hang it on.}
 
 {In this sense it is like a "maybe" on steroids.  The caller does not have to worry about providing a handler for the case that didn't succeed, but can do so in order to assist in debug overrides which may be injected after the fact.  (Presumably the override allowing the code to continue to run would not be added if the implications hadn't been thought out!)}
 

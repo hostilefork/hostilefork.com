@@ -6,7 +6,7 @@ Draem [
     old-url-prefix: %2010/01/08/
 ]
 
-[update {I've uploaded a preliminary proof-of-concept Rebmu implementation to GitHub.  See [http://hostilefork.com/rebmu/](http://hostilefork.com/rebmu/) for details.}]
+[update {I've uploaded a preliminary proof-of-concept Rebmu implementation to GitHub.  See [http://hostilefork.com/rebmu/](http://rebmu.hostilefork.com/) for details.}]
 
 {StackOverflow has a tag for so-called ["Code Golf"](http://stackoverflow.com/questions/tagged/code-golf), which has the goal of attempting to perform a programming task with a program that has a minimum number of ASCII characters.}
 

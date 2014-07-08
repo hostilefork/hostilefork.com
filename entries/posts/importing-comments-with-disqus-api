@@ -24,7 +24,7 @@ Draem [
 
 ]
 
-{Adding to my reasons for not keeping "with the times" was that once I got under the hood of WordPress, I felt I'd been tricked.  Given that it was my first (non-static HTML) website, PHP was just three letters to me...I didn't know if it was good or bad, it just was what people made web pages with.  It turned out that [I really didn't like it](http://me.veekun.com/blog/2012/04/09/php-a-fractal-of-bad-design/).}
+{Adding to my reasons for not keeping "with the times" was that once I got under the hood of WordPress, I felt I'd been tricked.  Given that it was my first (non-static HTML) website, PHP was just three letters to me...I didn't know if it was good or bad, it just was what people made web pages with.  It turned out that [I really didn't like it](http://eev.ee/blog/2012/04/09/php-a-fractal-of-bad-design/).}
 
 {Whatever I used to jump out of WordPress, I wanted it to be a paradigm shift.  But I couldn't find anything that fit my "style".  Then recently I found [Jekyll](http://jekyllrb.com/), which threw out the idea of maintaining a database--instead letting you keep your content in GitHub and building your site statically.  Rather than use Jekyll, I considered its popularity to be a sign that similar methods were on the rise, and designed my own page builder called ["Draem"](https://github.com/hostilefork/draem).  It's a work in progress, but I can meta-program my blog entries with source-to-source transformation...so it's easy to improve.}
 

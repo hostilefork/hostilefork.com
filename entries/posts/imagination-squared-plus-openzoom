@@ -8,7 +8,7 @@ Draem [
 
 {There is a community driven art project in Jacksonville Florida, called [Imagination Squared](http://imaginationsquared.com).  The idea was to have hundreds of members of the local artist community each contribute a small square that they'd decorated.  The squares were all a standardized size, and they were all tiled together in an art installation.}
 
-{Curious as to what people had sent in, I looked through the site.  The art page had hundreds of 100x100 pixel thumbnails, and you had to click on individual ones to get to a larger-resolution 300x300 picture.  This struck me as an obvious application for the Microsoft Research PhotoSynth/SeaDragon zooming that was infamously [demonstrated at the TED conference](http://www.ted.com/talks/blaise_aguera_y_arcas_demos_photosynth.html) by Blaise Aguera y Arcas.}
+{Curious as to what people had sent in, I looked through the site.  The art page had hundreds of 100x100 pixel thumbnails, and you had to click on individual ones to get to a larger-resolution 300x300 picture.  This struck me as an obvious application for the Microsoft Research PhotoSynth/SeaDragon zooming that was infamously [demonstrated at the TED conference](http://www.ted.com/talks/blaise_aguera_y_arcas_demos_photosynth) by Blaise Aguera y Arcas.}
 
 {I wondered how the Free Software folks had been faring in creating an open-source variant of SeaDragon.  Doing some searching I was pleased to find the [OpenZoom](http://openzoom.org/) project.  You can see they have a number of cool examples, and I thought the ImaginationSquared project would be an example that would interest a lot of people (the hundreds who contributed squares, at least!)}
 
@@ -34,9 +34,9 @@ more
 
 [list
 
-    {**Downloading web content** - I wanted to get the HTML for the existing grid of images, and use that to get the URLs of the larger images.  Then I wanted to get those images via HTTP.  This required some basic functionality you can get provided by Ruby's [built-in network functionality](http://ruby-doc.org/stdlib/libdoc/net/http/rdoc/classes/Net/HTTP.html)  (files using this will say `require "net/http"`)}
+    {**Downloading web content** - I wanted to get the HTML for the existing grid of images, and use that to get the URLs of the larger images.  Then I wanted to get those images via HTTP.  This required some basic functionality you can get provided by Ruby's [built-in network functionality](http://ruby-doc.org/stdlib-2.1.2/libdoc/net/http/rdoc/Net/HTTP.html)  (files using this will say `require "net/http"`)}
 
-    {**DOM parsing and querying** - I could have extracted the information I wanted with string processing of the HTML file, but wanted to see Ruby's answer to the DOM.  There doesn't seem to be one built-in to the language, but rather (at least) three prominent ones: REXML, Hpricot, libxml-ruby.  I chose [hpricot](http://hpricot.com/) because it was jQuery-like and it seemed like it might be more tolerant of HTML that wasn't XML-compatible.}
+    {**DOM parsing and querying** - I could have extracted the information I wanted with string processing of the HTML file, but wanted to see Ruby's answer to the DOM.  There doesn't seem to be one built-in to the language, but rather (at least) three prominent ones: REXML, Hpricot, libxml-ruby.  I chose [hpricot](http://www.hpricot.com) because it was jQuery-like and it seemed like it might be more tolerant of HTML that wasn't XML-compatible.}
 
     {**Large image generation** - I didn't know if the [RMagick](http://rmagick.rubyforge.org/install-faq.html) library would be very happy about the size of the image I was planning on making.  But I figured I'd give it a try.  As it turned out, I did have to tweak the virtual memory settings on my virtual machine, but I had it working in virtually no time.  :)}
 
@@ -52,7 +52,7 @@ https://github.com/hostilefork/openzoom-squared/blob/master/generator/Imaginatio
 
 {I liked the lack of need for semicolons--code just looks cleaner.  But I'm even more extreme than that because I don't like commas in lists.  You're always running up against that question in code generation as to whether you're on the last item or not--especially when you're generating code.  Putting commas at the ends of lists too is not the answer because if, we, had, to, put, commas, between, every, word, in, English, it, would, get, ugly, right,?}
 
-{The block/yield style of programming is quite nice, though that's the part I already knew about (and assumed was the main draw over, say, JavaScript).  I worked on adding similar features to Rebol and got pretty far with my [Rubol](http://hostilefork.com/rubol/) project.  It would be interesting to check it out now that I've written a Ruby program of my own.}
+{The block/yield style of programming is quite nice, though that's the part I already knew about (and assumed was the main draw over, say, JavaScript).  I worked on adding similar features to Rebol and got pretty far with my [Rubol](http://rubol.hostilefork.com/) project.  It would be interesting to check it out now that I've written a Ruby program of my own.}
 
 {My hopes got up for a moment when I found out about "Ruby Symbols".  You can convert from a string to a symbol or a symbol to a string, but you can't modify a symbol directly using string operations... and symbols may be used as keys in hashes/etc. which are unique from their string equivalents.  But they're an efficiency trick as opposed to any foundation for symbolic programming.}
 

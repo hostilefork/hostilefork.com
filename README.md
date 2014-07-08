@@ -1,6 +1,6 @@
 # HOSTILEFORK BLOG
 
-This is blog content, originally scraped from a version of WordPress that was written when dinosaurs roamed the Earth.  (Well, dinosaurs **still** roam the Earth -- and WordPress is still terrible.)  While writing my own system may not be the way I want to go long term, having the content maintained in easy file formats in GitHub is a way of avoiding any turnkey systems written in some [Fractal of Bad Design](http://me.veekun.com/blog/2012/04/09/php-a-fractal-of-bad-design/).
+This is blog content, originally scraped from a version of WordPress that was written when dinosaurs roamed the Earth.  (Well, dinosaurs **still** roam the Earth -- and WordPress is still terrible.)  While writing my own system may not be the way I want to go long term, having the content maintained in easy file formats in GitHub is a way of avoiding any turnkey systems written in some [Fractal of Bad Design](http://eev.ee/blog/2012/04/09/php-a-fractal-of-bad-design/).
 
 
 ## FRAMEWORK

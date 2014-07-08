@@ -25,7 +25,7 @@ Draem [
 
 {Node.JS has taken off in popularity, which shows that I was onto something.  Yet in my case I wanted to just share some simple routines between the browser and the server.  This turned out to *not be straightforward at all*, despite seeming like one of the most basic things you should be able to do.  In fact, there aren't that many people who really care about this.}
 
-{The "module system" in Node.JS is pretty reasonable.  It's managed by a tool called ["NPM"](https://www.npmjs.org/), and if your node program has dependencies you just put them into a [`package.json`](http://package.json.nodejitsu.com/) file with a version indicator you want.  You can use wildcards too, so asking for `0.10.*` will get you the latest release of subversion 10 of something.} 
+{The "module system" in Node.JS is pretty reasonable.  It's managed by a tool called ["NPM"](https://www.npmjs.org/), and if your node program has dependencies you just put them into a [`package.json`](http://browsenpm.org/package.json) file with a version indicator you want.  You can use wildcards too, so asking for `0.10.*` will get you the latest release of subversion 10 of something.} 
 
 {But for those of you who don't know, the JavaScript world is a hornet's nest of oddities, workarounds, byzantine libraries, competing approaches, and weird and tiresome arguments.} 
 

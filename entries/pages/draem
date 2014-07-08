@@ -13,7 +13,7 @@ Draem [
 
 {See [http://rebolsource.net](http://rebolsource.net)}
 
-{If you are the sort of person who just clicks "yes" to installing packages or DLLs without concern about size or dependencies, the biggest advantages of Draem will probably be off your radar.  But if you think these matters are worth considering, perhaps it's worth looking at to see how it works.  Rebol 3 was open sourced in December of 2012, and a compiled variant called [Red](http://red-lang.org) is under heavy development.}
+{If you are the sort of person who just clicks "yes" to installing packages or DLLs without concern about size or dependencies, the biggest advantages of Draem will probably be off your radar.  But if you think these matters are worth considering, perhaps it's worth looking at to see how it works.  Rebol 3 was open sourced in December of 2012, and a compiled variant called [Red](http://www.red-lang.org/) is under heavy development.}
 
 ; [heading {Overview Video}]
 

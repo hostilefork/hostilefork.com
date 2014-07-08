@@ -198,7 +198,7 @@ $before_widget = preg_replace('/id="[^^"]*"/','id="%id"', $before_widget);
 
     ] [
 
-        {The very cool [Link Indication](http://sw-guide.de/wordpress/plugins/link-indication-plugin/) plug in takes care of a lot of nice things... like automatically making external links open in new windows (rather than navigate people off the site where they forget to come back).  It also puts a lot of cute icons next to links, so you can see when they are zip files or go to wikipedia... a must-have!}
+        {The very cool [Link Indication](https://wordpress.org/plugins/link-indication/) plug in takes care of a lot of nice things... like automatically making external links open in new windows (rather than navigate people off the site where they forget to come back).  It also puts a lot of cute icons next to links, so you can see when they are zip files or go to wikipedia... a must-have!}
 
         {Installing this plug in is a little more complicated than most.  You have to install the plug-in and you also need to unpack the icons.zip file into a subdirectory of **wp-content / themes / default /** (he suggests the **images/** directory, but I made a separate directory called **link-indicator/** to keep from polluting the images directory).  Also, you have to pick one of the numbered images for external links, his CSS mentions a nonexistent filename.  I just went with the first, so my **wp-content / themes / default / style.css** says:}
 

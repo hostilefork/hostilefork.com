@@ -14,7 +14,7 @@ Draem [
 
 {Putting this bias aside, I was somewhat inspired today by the [Extjs Web Desktop Demonstration](http://extjs.com/deploy/dev/examples/desktop/desktop.html).  Reading about the history of Extjs, I saw that it was conceived as an extension to the [Yahoo User Interface Library](http://en.wikipedia.org/wiki/Yahoo%21_UI_Library).  In fact, it could run on top of it and use its event model somehow.  To test this claim, I got the idea to integrate the [Yui Drag and Drop Groups Demo](http://developer.yahoo.com/yui/examples/dragdrop/dd-groups.html) into the Extjs Web Desktop:}
 
-[image http://hostilefork.com/media/blog/day-one-mixing-exts-yui/extjs-yui-combination.png 640x400 "Combining YUI and ExtJs"]
+[image http://hostilefork.com/media/blog/day-one-mixing-extjs-yui/extjs-yui-combination.png 640x400 "Combining YUI and ExtJs"]
 
 {Despite my general ignorance from being on day one of meeting both of these frameworks, it sort of worked first try.  I simply took the global variables out of the drag and drop demo page (`slots`, `players`, `Event`, `DDM`) and made them members of the created window object.  I then substituted the HTML of the drag and drop space:}
 
@@ -70,6 +70,6 @@ try
 
 {That seemed to take care of it, and the system no longer generates spurious breaks in Firebug.  I had a working demo.  Though there were issues with the scroll bars bleeding through the windows in Firefox on Mac, but that's due to [a Firefox bug](http://extjs.com/forum/showthread.php?t=5192):}
 
-[image http://hostilefork.com/media/blog/day-one-mixing-exts-yui/extjs-firefox-scrollbar-bug.png 640x400 "ExtJs Firefox Scrollbar Bug"]
+[image http://hostilefork.com/media/blog/day-one-mixing-extjs-yui/extjs-firefox-scrollbar-bug.png 640x400 "ExtJs Firefox Scrollbar Bug"]
 
 {I'm sympathetic to the nastiness of the quirk but I feel like this is what such frameworks must have workarounds for--as they exist precisely to help us not worry about all the bugs in commonly deployed browsers.  I managed to [work around it using theming](http://blog.hostilefork.com/workaround-firefox-mac-scrollbar-bug/)--which might give Firefox OS/X users some peace of mind.)}

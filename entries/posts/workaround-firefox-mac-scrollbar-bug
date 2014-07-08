@@ -20,7 +20,7 @@ Draem [
 
 {So sometimes this method won't be right for you, and a client-side fix for Firefox 2.0 would help.  I have a workaround that patches the Firefox browser using a theme.  All you have to do is download this file and drag it into the themes list you get when you go to the **Tools->Add Ons** menu:}
 
-[button http://hostilefork.com/media/blog/workaround-firefox-mac-scrollbar-bug/aqua-scrollfix-together-icon.png 32x32 "download aqua_scrollfix_together-1.0-fx.jar" http://hostilefork.com/media/blog/workaround-firefox-mac-scrollbar-bug/aqua-scrollfix-together-1.0-fx.jar]
+[button http://hostilefork.com/media/blog/workaround-firefox-mac-scrollbar-bug/aqua-scrollfix-together-icon.png 32x32 "download aqua-scrollfix-together-1.0-fx.jar" http://hostilefork.com/media/blog/workaround-firefox-mac-scrollbar-bug/aqua-scrollfix-together-1.0-fx.jar]
 
 {When installation is complete, go back to the menu and and click "Use Theme".}
 
@@ -28,7 +28,7 @@ Draem [
 
     {If you have your Appearance palette set with scroll buttons to be "Top and Bottom" style instead of "Together", then you'll want to download this instead:}
 
-    [button http://hostilefork.com/media/blog/workaround-firefox-mac-scrollbar-bug/aqua_scrollfix_topbottom_icon.png 32x32 "download aqua_scrollfix_topbottom-1.0-fx.jar" http://hostilefork.com/media/blog/workaround-firefox-mac-scrollbar-bug/aqua-scrollfix-topbottom-1.0-fx.jar]
+    [button http://hostilefork.com/media/blog/workaround-firefox-mac-scrollbar-bug/aqua-scrollfix-topbottom-icon.png 32x32 "download aqua-scrollfix-topbottom-1.0-fx.jar" http://hostilefork.com/media/blog/workaround-firefox-mac-scrollbar-bug/aqua-scrollfix-topbottom-1.0-fx.jar]
 
 ]
 
@@ -100,9 +100,9 @@ scrollbar[orient="vertical"] > scrollbarbutton[type="increment"] {
 
 [list
 
-    {**aqua-scrollfix-together-1.0-fx.jar / global / scrollbars.css** : [view CSS](http://hostilefork.com/wp-content/uploads/2007/11/aqua-scrollfix-together-scrollbars.css)}
+    {**aqua-scrollfix-together-1.0-fx.jar / global / scrollbars.css** : [view CSS](http://hostilefork.com/media/blog/workaround-firefox-mac-scrollbar-bug/aqua-scrollfix-together-scrollbars.css)}
 
-    {**aqua-scrollfix-topbottom-1.0-fx.jar / global / scrollbars.css** : [view CSS](http://hostilefork.com/wp-content/uploads/2007/11/aqua-scrollfix-topbottom-scrollbars.css)}
+    {**aqua-scrollfix-topbottom-1.0-fx.jar / global / scrollbars.css** : [view CSS](http://hostilefork.com/media/blog/workaround-firefox-mac-scrollbar-bug/aqua-scrollfix-topbottom-scrollbars.css)}
 
 ]
 

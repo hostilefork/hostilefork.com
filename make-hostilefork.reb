@@ -62,7 +62,7 @@ draem/set-config object compose [
 
 		{In the transition from an ancient WordPress installation, I did something interesting.  After scraping the content, I encoded it into a [REN](https://github.com/humanistic/REN) *("REadable Notation")* format.  Then I made my own static site builder to generate the pages, called [Draem](http://draem.hostilefork.com), which has some very surprising properties...so you might check that out! The "source code" for this blog is available on GitHub as well:}
 
-		https://github.com/hostilefork/hostilefork.com/tree/master/blog
+		https://github.com/hostilefork/hostilefork.com/tree/master
 
 		{I'll come up with a fancier index page than this.  But for now, the links here are enough for search engines (and me) to find the pages.  If you'd like, you can also [browse the site by tag](http://hostilefork.com/tag/).  There is some preliminary support for navigating the entries with the left and right arrow keys.}
 

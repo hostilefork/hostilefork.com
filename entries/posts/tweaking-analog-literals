@@ -6,7 +6,7 @@ Draem [
     old-url-prefix: %2009/08/29/
 ]
 
-{Jeremy Friesner brought [this site about analog literals](http://www.xs4all.nl/~weegen/eelis/analogliterals.xhtml) to my attention.  It provides the long-needed ability to represent integer constants in C++ not as numbers (like 42) but rather as 1-D, 2-D, or 3-D shapes whose length, area, or volume correspond to the number's quantity.  So for instance:}
+{Jeremy Friesner brought [this site about analog literals](http://www.eelis.net/C++/analogliterals.xhtml) to my attention.  It provides the long-needed ability to represent integer constants in C++ not as numbers (like 42) but rather as 1-D, 2-D, or 3-D shapes whose length, area, or volume correspond to the number's quantity.  So for instance:}
 
 [code cpp {
 assert( ( o-------------o
@@ -29,7 +29,7 @@ assert( ( o-------------o
   o-------------o ).area * int(I-------------I) );
 }]
 
-{That's great!  As the inventor of [Arecibo ASCII](http://hostilefork.com/demos/uscii-5x7-english-c0/encode.html), I fully support this visual double-check with our intuitions about numbers!  What if aliens are trying to read our code, but don't know about our arbitrary choices of digits and numeric base??  This could bridge that important gap!  :P}
+{That's great!  As the inventor of [Arecibo ASCII](http://uscii.hostilefork.com/encode/), I fully support this visual double-check with our intuitions about numbers!  What if aliens are trying to read our code, but don't know about our arbitrary choices of digits and numeric base??  This could bridge that important gap!  :P}
 
 {But there's one nagging concern I have, which is that I don't think the 1-D numeric values are very intuitive.  Look at these examples from the site:}
 

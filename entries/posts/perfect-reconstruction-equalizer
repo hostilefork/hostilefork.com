@@ -82,7 +82,7 @@ more
 
     {A visitor who found this site on a search engine tried to reproduce it for a project, and asked me to break it down a bit further.  I warned him that this is old stuff from undergraduate EE that I am extremely rusty on.  Still I hacked up the "next step" depicting how it would look with more than 3 bands in your EQ.  Given how annoying the diagram becomes to draw at that point, it's unsurprising that I dodged more than 2 steps in the original paper.  :)}
 
-    [image http://hostilefork.com/media/blog/perfect-reconstruction-equalizer/downsampling-implementation.png 400x422 {Third Step In Recursive Process}]
+    [image http://hostilefork.com/media/blog/perfect-reconstruction-equalizer/step3dsp.png 400x422 {Third Step In Recursive Process}]
 
     {So imagine that if you have a low pass Remez filter that basically passes everything below 2kHz, and you want to pass everything below 1kHz instead.  To get an equivalent to a low pass 1kHz Remez filter, just use the 2kHz design on the even samples, the odd samples, and then interleave them back together in time.  *(Imagine a 4kHz Remez filter and dropping it to 1kHz by taking every 1st, 2nd, 3rd, and 4th sample... running the process... and then putting the samples back in their sequence post-filtering.)*}
 
