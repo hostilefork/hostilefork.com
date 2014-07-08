@@ -1,0 +1,249 @@
+Draem [
+    title: "Genesis of the Benzene Application Framework"
+    tags: [c++ history]
+    slug: %benzene-application-framework-genesis
+    date: 3-Jul-2014/12:39:38-4:00
+]
+
+{There are stories of other programmers who have *"that project"*.  I'm talking about the digital analogue of *"that thing under the tarp in the garage"*.  It's the thing you've invested enough time in that you resist just hauling it to the dump.  But every time you take the tarp off and try to pick up where you left off you wind up realizing you need to go to the hardware store for tools or paint, then after a small bit of tinkering some more important thing gets your attention...and back on the tarp goes for another year.}
+
+{For me, "that project" is something I called **Benzene**--and it's a C++ GUI Application Framework.  Over the course of a decade it evolved from a modest C-with-classes-style codebase *(written directly to the Win32 API)* into a grand experiment in concurrent programming of user interfaces, built on Qt5 and heavy use of C++11 features.}
+
+{I've committed to publishing it in some form.  Over time I'd published standalone GitHub repositories for what have become component pieces of the codebase as it grew:}
+
+[list
+    [http://thinker-qt.hostilefork.com {Thinker-Qt}]
+
+    [http://hoist.hostilefork.com {Hoist}]
+
+    [http://methyl.hostilefork.com {Methyl}]
+]
+
+{...and as of two days ago--in a move that's either a brave step forward or an admission of likely defeat--I put what I could salvage (in the latest pass) up as a [Benzene GitHub repository](https://github.com/hostilefork/benzene).  I must confess to not knowing if this particular time-sink is worth sinking any additional time into.  It may be that my interest in this has simply ended, relative to other things.}
+
+{But I'm trying to meet my "hard drive zero" goal of getting everything either tidied up and published or thrown out.  It might help to attempt to write a rebuttal to "why don't you just throw it out?"  So grab a drink and some popcorn, and you can follow along with the catharsis of why I'm dragging this thing from 2002 out now.}
+
+[heading {C++ Preconceptions from Prior to 2002}]
+
+{In the wake of the [September 11, 2001 attacks](https://en.wikipedia.org/wiki/September_11_attacks), I took about a year off to travel and reflect...and in that time I didn't do any programming to speak of.  But then I purchased a *"super fancy"* new Sony VAIO laptop, and decided to install Visual Studio 7.0 on it:}
+
+[image http://hostilefork.com/media/blog/benzene-application-framework-genesis/sony-vaio-pcg-gr370-700x700.jpg 350x350 "Sony VAIO PCG-GR370"]
+
+[note {That Sony VAIO PCG-GR370 outlasted every other laptop I've ever owned.  It was still working relatively well in 2011 when I gave it away to a friend.  The laptops one buys these days may be cheaper (unless they're made by Apple), but they seem to barely be able to last through the warranty period, *if that*.}]
+
+{Despite being a Linux/[Slackware](https://en.wikipedia.org/wiki/Slackware) evangelist in my late high school and early college years, I had spent 7 years programming almost exclusively on Windows.  *(Directly to the Win32 API, because of the belief that using the [Microsoft Foundation Classes](https://en.wikipedia.org/wiki/Microsoft_Foundation_Class_Library) was the surest way to make your program large, ugly, and slow.)*  My personal perception was that Linux on the desktop had become a divided and poorly-documented mess...and I didn't think much of KDE/Gnome/X11.  This steered me toward investigations into things like DirectX instead of what the free software community was doing.}
+
+{If you'd asked me if I knew C++ well, I'd have probably said yes at the time--yet my knowledge of the C++ language came mostly from the days of Turbo C++ and Borland C++ under DOS.  To be fair, none of the code that crossed my desk ever seemed very mysterious to me; with the exception of templates.  I considered them to be a fringe feature I didn't really need to know, beyond how to use collections that were written with them.  As another data point: I'd heard of things like "namespaces" but never actually seen one declared.}
+
+{My impression of classes like `vector` and `map` was that they were troublesome and *just plain ugly*.  Using `<` and `>` to templatize things was already bizarre enough.  I thought code like the MFC's [CMap::Lookup](http://msdn.microsoft.com/en-us/library/zshx6yzt.aspx) was fairly literate:}
+
+[code c++ {
+ValueType value;
+if (mapKeyToValue.Lookup(key, &value)) {
+    // .. do something with value ..
+}
+}]
+
+{By comparison, the Standard Template Library *(which had been formalized into the C++ Standard Library)* was ghoulish and required repetition and "extra" calls:}
+
+[code c++ {
+ValueType value;
+std::map<ValueType, KeyType>::iterator iter = mapKeyToValue.find(key);
+if (iter != mapKeyToValue.end()) {
+    value = iter.second;
+    // .. do something with value ..
+}
+}]
+
+{I really disliked the names, too--almost all of them.  Even the most basic method of `.push_back()` used a word I didn't think appropriate for an array of values *("pushing" is for stacks, the terminology of [`CVector::Add()`](http://msdn.microsoft.com/en-us/library/0h66ac4e.aspx) seemed more on the right track)*.  To this day I still pause a moment to remember if `.empty()` checks to see if a vector has no elements, or if it removes all the elements.  But no, that's `.clear()`.  My opinion was something like:}
+
+[quote {I may not be able to completely understand the merit (or lack of merit) behind MFC's template classes.  But the rest of MFC is pretty bad, so the standard library is in trouble if the MFC looks good by comparison!}]
+
+{Add onto all this that my first awkward experiences with the standard collections were from the *pre-standardization* days.  You had to [download and install the Standard Template Library yourself](https://en.wikipedia.org/wiki/Standard_Template_Library) from Hewlett Packard or wherever, and woe be unto you who got an error message while trying to build a tarball that used it.  But MFC had always come with the Microsoft compiler--with a printed-out class hierarchy chart you could hang on the wall, to boot!  :-)}
+
+[note {In the ensuing years--*of course*--I came to drink the C++ Standard Kool Aid.  But moreover, I understand why the libraries are being done the way they were.  So in addition to thinking `push_back` is just fine, I now get excited about the cool things C++ has that other languages simply can't...like `emplace_back`.  It's also important to point out that a lot has changed with the likes of `auto` and being able to do things like `for (x : collection) {...}`.  C++ really is not the same language that it was 10 years ago.}]
+
+[heading {The "Simple Ideas"}]
+
+{As I started up programming with my nice new laptop, it wasn't C++ I went to first.  I was taking a sign-language course at the time and curious about .NET, I decided to make a sign-language quizzing program in C#.  I'd bought a cheap sign-language multimedia CD-ROM, and managed to pick apart their database format to scrape all the words/diagrams/videos out.  They were in QuickTime format, and I found the easiest thing to do was generate pages and use an embedded Internet Explorer control.}
+
+{But the feeling I got from C# was that it seemed like "more of the same".  If anything, it was making the developer's life easier and creating yet-another-parallel API hierarchy.  There wasn't any answer about how to actually *make the software better*.  Using C# didn't stop a programmer from omitting a properly-functioning undo and redo feature.  It didn't automatically separate the GUI thread from a worker thread to keep an application responsive.  And the applications still looked the same.}
+
+{Meanwhile, games were continuing to impress.  I'd gotten a new "cutting edge" 3-D game for 2002 called [Dungeon Siege](https://en.wikipedia.org/wiki/Dungeon_Siege), and it ran very smoothly on my laptop.  In my reading about how modern graphics cards were working, I considered the frame rate the games were able to achieve.  They weren't even worrying about incrementality; the entire scene was painted every time, with the rendering done from the back to the front.  So I asked myself a question:}
+
+{**"Why aren't our Desktop productivity apps running at 30fps?"**}
+
+{As part of my "where's the beef" response to .NET and its new libraries, I also did some reading up on research like ["Achieving Usability through Software Architecture"](http://resources.sei.cmu.edu/library/asset-view.cfm?assetID=5605).  That paper in particular had a quote that saliently captured something I was looking to find the right way to express:}
+
+[quote
+    "Some facets of usability such as cancellation, undo, progress bars, and others require software architecture support. Because they reach so deeply into the architecture of a system, these facets must be built into the system from its inception rather than added after an initial system design and user interface has been achieved."
+
+    /source [http://resources.sei.cmu.edu/library/asset-view.cfm?assetID=5605 {Len Bass, et. al, March 2001}]
+]
+
+{My attention was caught by the intersection of these questions.  So I set out to write an [Application Framework](https://en.wikipedia.org/wiki/Application_framework) in C++ for GUI apps.  The expectation was that facilities like Undo/Redo and progress bars would be accounted for by the system; if you were using the framework you *couldn't omit those features* or make them work incorrectly.  And as I defined the interfaces, it was always under the assumption that you'd be painting the whole surface of the UI on every mouse move.}
+
+{Bit by bit I reasoned about what kinds of rules the software would have to follow in order to have what I considered to be *(for instance)* a "working" undo/redo model.  Some articles here on my blog were (eventually) inspired by wanting to articulate what these rules had to be, by looking at bad behaviors and showing alternatives.  You can see an example at [Tying Undo/Redo Actions to a Single User Event](http://blog.hostilefork.com/undo-single-user-event/)}
+
+[note {Listening to Haskell podcasts recently, I've noticed a sort of parallel with their 20+ year journey to "stick to their guns" about functional purity.  When enforced strictly, my rules didn't make it convenient to write applications.  But breaking the rules would lead to problems in the usability model--so I kept trying to find ways to get the desired effects within the constraints that I'd laid out.}]
+
+[heading {The "WFX Framework": circa 2002}]
+
+{Because I had to come up with a name for the directory I was developing in, I initially called the framework "WFX" for "Windows FrameworX."  I was certainly aware that AFX stood for "Application FrameworX" as MFC's pre-release name , and it wound up leaking into some API functions that became too late to change.  So we can only assume I picked it as a joke for a name I planned on changing later.}
+
+{The first thing I did when drawing up the framework was to define the scope of application.  It wasn't for writing video games; it really was for a GUI app in which you were manipulating documents where undo/redo made sense.  I picked three basic sample application types:}
+
+[list 
+    {A text editor, like one would use for editing syntax-highlighted source code.}
+
+    {A timeline editor where you could arrange and adjust the lengths of clip segments, with the horizonal axis representing time and the veritcal axis representing simultaneity.}
+
+    {A drawing program where every point in a drawing stroke needed to be recorded.}
+]
+
+{For the timeline editor, I had a little draft user interface I'd written in MFC for a music sequencer a few years prior.  So I adapted that.  The other two programs I started from scratch, and the sample app I spent the most time working on was the drawing program.}
+
+{While writing the code, I was of the opinion that the framework had to have complete control.  It would control the access to the document, and the status bar, and the message boxes.  The clients of the framework just provided rendering code that drew into offscreen buffers, that were then blitted onto the display.  I strictly enforced rules, such that all the handles to document data that a rendering routine could get its hand on would be read-only...one could only get a writable handle inside the document during command code, and only when that command had been cleared for invocation.}
+
+{Pursuant to the "complete control" aspect, the internal structure of the document was dictated to resemble an XML or HTML document-object-model tree.  It was only through knowing the document structure at this level that undo and redo could be implemented automatically, and given the trends in the world it was seeming that nearly anything could be expressed as a DOM.  I also liked the idea of being able to avoid serialization and use a [Memory Mapped File](http://blog.hostilefork.com/undo-single-user-event/)-based database...and was happy to find a very nice freeware library called [POST++](http://www.garret.ru/post/readme.htm) by [Konstantin Knizhnik](http://www.garret.ru/resume.html) that made it relatively easy to have C++ objects whose memory was backed by a MMF.}
+
+{I was familiar enough with multithreaded programming to know that I wanted to keep things simple...so I decided that my program would have two threads.  One would manage the GUI while the other would be a "worker" that would handle anything requiring access to the document data.  I knew I wanted to have some idle processing, so I hooked it so that idle processing would be done on the worker thread and then poll the GUI to see if a user event requested it to stop.  In the days of single-core processors, there wasn't a lot of incentive to distribute the work further than that!}
+
+{While my three simple programs were not much to look at, all three shared nice properties.  I obsessed over details of the ergonomics and tested every case I could think of.  For instance:}
+
+[list
+
+    {A progress dialog box would not be shown when a command was invoked unless a certain amount of time had passed without the command finishing.  Once a dialog box was shown, then even if the command finished it would be kept up for at least a minimum amount of time in order to prevent the interface from seeming like it "flickered".}
+
+    {If a user performed a command and a progress dialog did not come up, and there was an error, then the error would be reported in the status bar.  Should the same command be performed again and return the same error--it would be interpreted as the subtle error not having been noticed by the user, and it would be promoted to a message box to deliver it}
+
+    {When a mouse gesture was in mid-operation and an application lost focus for any reason, a "mouse placeholder" would be placed in the interface.  *(I made a video explaining this single feature which you can see in [Mouse Placeholders for when Programs Lose Focus](http://blog.hostilefork.com/lost-focus-placeholder/))*.}
+]
+
+{I was emboldened by the early promise of these programs, and I got very enthusiastic about the [C++ `const` feature](http://blog.hostilefork.com/transitive-power-of-cpp-const/).  I was using `const` parameterization of document nodes to indicate that they were read-only...while a non-const node could be passed to read/write or read-only contexts.  Doing so meant that I tricky potential holes were caught during compilation--because of how rigorously const-correctness was carried through the call graph.  So I was forced to rethink situations that almost always turned out the be the kinds of edge cases that ruined usability I had been complained about.}
+
+[note {This is basically only a first approximation of what pure functional programming can achieve, but in 2002 I wasn't coming from a place of believing that functional programming could build professional GUI software.  In 2014 it's looking to be at least *a bit* closer on the horizon--with some work being done in [Functional Reactive Programming](http://en.wikipedia.org/wiki/Functional_reactive_programming).}]
+
+{My new laptop had an unfortunate incident where I spilled a drink directly onto the keyboard.  It actually survived with only a couple of keys going bad, but I decided to send the drawing app to friends to test...and made a small webpage with screenshots, archived here:}
+
+http://blog.hostilefork.com/pixelcad-icon-editor-from-2002/
+
+[heading {New Platforms, New Name}]
+
+{Spending more time programming with the Internet as a source for information made me start thinking about open source software.  Since I was writing a book, I thought it would be important to build with something besides the Microsoft toolset, and it would be particularly good if the compiler I could teach with would be "free-as-in-freedom".  So I began looking at [Minimialist GNU for Windows](http://en.wikipedia.org/wiki/MinGW), for the first time.}
+
+{It turned out that there were a number of quirks to deal with (which presumably are in a better state now in 2014).  There were lots of missing Windows header files, and compiler complaints about things that Visual C++ didn't care about.  Some of the warnings were benign, but pointed to mistakes...and I came to believe that keeping the code buildable under more than one compiler was a good way to test conformance.}
+
+{Eventually I had two build environments and felt pretty good about it.  Then a lot of other things happened and the project was put aside until somewhere in 2004.  The motive for coming back to it was my next purchase of a laptop...one of the earliest 17" G4 Mac PowerBooks.}
+
+[note {I believed it was made out of Titanium at the time of purchase.  But when it scuffed and I saw it was aluminum I read up and found they'd switched the material--ostensibly because of Wi-Fi reception issues.  I felt deceived...and that machine turned out to be nothing but trouble, needing constant replacements of parts during the extended 3-year warranty I paid for, including the entire "logic board".  That's also way too big a laptop.}]
+
+{Though the basics of C++ were unchanged, OS/X GUI programming was very different.  So I started investigating cross-platform toolkits.  The first toolkit I found was wxWindows (these days known as [wxWidgets](http://en.wikipedia.org/wiki/WxWidgets)).  It mapped to the Win32 API fairly closely, so I thought it would be a good candidate.  I wouldn't have to change the client programs very much; most of the significant changes would be in my framework.}
+
+{It was only a few days of experimenting with wxWidgets before I became frustrated with the aesthetics of the resulting application.  I'd spent a lot of time honing the behaviors on the Win32 code to get it just right... and it seemed those behaviors were getting broken on Windows, and producing a very mediocre-seeming Mac application.  What I came to feel was that wxWindows had embraced a sort of "lowest common denominator" in the APIs, and everything was just getting worse by using it.}
+
+{So I threw out wxWidgets and decided to look into coding to the OS/X native API, which was called "Carbon".  I'd #ifdef the code in the framework well enough so that it would have good ergonomics on both Win32 and OS/X.  Perhaps finally annoyed by the meaninglessness of my temporary name WFX and its similarity to the WX in wxWindows, I decided to call my framework "Benzene"...because it was a molecule instead of an atom, higher-level than carbon... and a molecule I had a particular interest in for its unique stability due to its structure.  Here's a "logo" I'd made for it circa 2003 or maybe 2004:}
+
+[image http://hostilefork.com/media/blog/benzene-application-framework-genesis/benzene-logo-circa-2003.jpg 420x260 "Old Benzene Logo"]
+
+{It wasn't long into my forays with Carbon development that I discovered Apple was deprecating Carbon, and the native interface on OS/X was going to be "Cocoa"...which was Objective-C.  I read it was possible to link Objective-C and C++ into the same program in XCode, so I tried that out...and it worked, but it certainly pointed to a world of pain for trying to create a program that would run on both Windows and Mac.  As I read more and more forums about people trying to do cross-platform development, one piece of advice seemed to keep coming up: **"Use Qt."**}
+
+{As other life issues took the main stage, I took more time off of programming to go to film school.  But *once a programmer, always a programmer.*  I resolved that when I came back to it, I'd learn me some Qt and get the framework building on Windows, OS/X, and Linux.  Although my thoughts of coding a layer on top of OS/X Carbon were finished, the name "Benzene" had stuck.}
+
+[heading {Porting to Qt}]
+
+{It was probably sometime in 2008 that I dug up the framework to try my hand at porting it to Qt, this time under Linux.  Over the years I had gradually become more political about freedom of information--and become active in Wikipedia and going to events with "futurists".  Quotes like this one from Eben Moglen resonated with me:}
+
+[quote {The great moral question of the twenty-first century is this: if all knowing, all culture, all art, all useful information can be costlessly given to everyone at the same price that it is given to anyone; if everyone can have everything, anywhere, all the time, why is it ever moral to exclude anyone?}
+/source [http://video.google.com/videoplay?docid=-2263095526020953463 {Eben Moglen, video}]
+]
+
+{Unlike wxWidgets, Qt had an entirely different model from thinly wrapping Win32.  And the more I read about it, the more I felt that there was value to following it.  My hand-coded worker/GUI separation--where I was implementing the event queues all on my own--was easily replaced by leveraging `Qt::QueuedConnection` for inter-thread Signal/Slot calls.  They had implemented design philosophies I'd come up with... like the ability to make a new Window-derived instance *(in Qt, "QWidget-derived")* and just `.show()` it immediately.  Nearly every low-level mechanic had been finessed in Qt better than I had done, *and* the products could run on Windows/Mac/Linux.}
+
+{Though there were a lot of learning pains to use the system, I was impressed.  And a bit demoralized because this pretty much meant it would be a full rewrite.  But my basic architecture still stuck--Qt's Document/View and Undo/Redo models were not attacking the same problems.}
+
+{I was using KDE's KDevelop.  And the QMAKE of the time seemed unable to do "out-of-source" builds, so I had to learn CMake.  Getting into the rhythm of a new toolset and having everything work wasn't so easy as it is now with QtCreator!  There always seemed to be some kind of debugging problem, but fortunately I had [hoist](http://hoist.hostilefork.com) so I managed to get by.}
+
+{Being back in the programming game meant I bought `hostilefork.com`, and not too long after gave a talk at a conference about [some of my thoughts about virtualization](http://blog.hostilefork.com/virtualization-and-the-integrated-circuit/).  That led to me getting approached about doing some network programming in virtual environments, and I did a bit of contract programming and consulting on that.  Somewhere in there I got tangled up with Rebol and felt I'd really seen something *new*... like an engineering draftsman who [discovers oil paint](http://blog.hostilefork.com/computer-languages-as-artistic-medium/).}
+
+{But somewhere in my idle time, I did eventually manage to get Benzene running under Qt.  On Linux, the sample apps were working nearly as well as they had run under Win32 before.  But there were two other big changes on the horizon.}
+
+[heading "Concurrency and StackOverflow"]
+
+{The next time I picked up the framework again was when I had some time while on an extended visit to the Bay Area.  I'd met some people there whose commercial audio products were built with Qt, and so that got me talking about what I'd been doing...and feeling like I should dig it back out again.  My very first question on StackOverflow was related to an outstanding issue.  That was how to do the background processing in the Qt rewrite:}
+
+[http://stackoverflow.com/questions/1972888/ {Large number of simultaneous long-running operations in Qt (StackOverflow)}]
+
+{Though background processing hadn't really been a primary focus of what the framework was "for", I found myself starting to consider the opportunity that was beginning to take shape.  The consequence of my *"no writes to the document unless you are in a command"* rule was that the rendering routine always blended of the read-only state of the document with an object representing a pending command.}
+
+{So for instance--during a drawing stroke in a paint operation, successive commands that would apply the growing stroke would be created but the document would not be touched until the mouse button was released (without pressing escape first).  Though I'd adopted this design for another motive, there was an increasing amount of control over when data was read-only...and read-only data could be processed by an arbitrary number of threads.}
+
+{Using a sort of nautical names, I decided to create objects that would accumulate state from analyzing the document.  I called these "decks", as in the deck levels of a ship.  Whenever a mutation of the document would happen *(that I'd know about due to the [Observer pattern](https://en.wikipedia.org/wiki/Observer_pattern) on the tightly controlled document access)* I'd consider the the deck to be "flooded".  And just as with decks on a boat, there were "bulkheads" as barriers to invalidation to prevent it from spreading farther than it had to.}
+
+{Wacky terminology aside, it seemed to work.  I'd given each little cache of information its own thread, and the calculations went in parallel... working to advance the state of the display even while the mouse was pressed and in mid-operation.  I knew that the overall efficiency of a system would be compromised by creating a thread for each background calculation; but as I was trying to model a "futuristic" way of writing apps I thought this paralleled how programs like Google Chrome were being "wasteful" with a process per browser tab, plugin, and a separate process for the GUI.  It seemed over the long term that if you wanted a thread you should ask for one and let the OS figure it out.}
+
+{The feedback to my question led me to cave and work within the bounds of a thread pool, which created a number of headaches.  In order to break off dependency on the background processing portion a bit, I published [Thinker-Qt](http://thinker-qt.hostilefork.com/)...and applied it independently to the Mandelbrot multithreading example from Qt.}
+
+{Still things were looking pretty good.  I'd carefully tuned all the mouse handling--even internally to the apps--to be managed via the robust Drag & Drop facilities.  It was then I made what I consider to be a major tactical mistake:}
+
+{**I tried to build and test the Windows and Mac versions**.}
+
+{The mouse messages and window activations were completely scrambled.  The fit and finish of the windows did not look natural; the bevels were off.  The assertions in my tuning were over-aggressive and apparently just revealed how things worked in KDE.  Qt was simply not insulating one from the concerns of the platform at the level of granularity I wanted.}
+
+{In retrospect, the apps compiled and ran, and I could have just gone ahead and worked through demos and said *"It works well enough on Linux--so if you're motivated help me finalize the Windows and Mac versions."*  By then I was favoring free and open source systems anyway; what did I care what the program looked like on Windows and Mac, if it ran at all?  Use VirtualBox if you must!}
+
+{That's all hindsight.  But at that moment it was enough to put the tarp back on, as I was relocating and had other things to deal with.}
+
+[heading {Discovering Undefined Behavior}]
+
+{By around 2012 I was organizing the [Austin C++ Meetup](http://www.meetup.com/The-Austin-C-C-Meetup-Group/).  My growing interest in C++11 additions like RValue references led me to try and adapt boost::optional to support move-only types--an involved process I am still participating with now that it's getting an official spec, but [std::optional will not be finished in time for C++14](https://github.com/hostilefork/CopyMoveConstrainedOptional).}
+
+{Anyway, that led me down the path of more complex template metaprogramming...and reading or answering questions on StackOverflow.  So in conversation at the Meetup when we started talking about the idea of giving "Show and Tell" presentations, I'd inevitably bring up Benzene and *"how I should get back to it"*.}
+
+{As more of my work became web-based, I was struck by how widely accepted the W3C DOM structures had become.  Although XML was falling from favor, the structure that had inspired its success was thriving in the programming collective consciousness more than ever.  And I really believed my const-correct C++11 DOM-like structure had properties that made it *better*...so I got it in my head to break it off into its own peer-reviewed component.}
+
+{I'd named my DOM "Methyl", because of the tree-like way that Methyl structures look when they branch off of carbon chains in chemical diagrams.  And given the popularity of Breaking Bad *(which I ended up watching all of)*, why not mix Methyl and Benzene?  The project had remained largely unchanged in the Qt migration, and the POST++-based document-in-an-MMF model had only required minor adaptation to work on Linux and OS/X.  The tricky way I'd created a "fake" class hierarchy on top of the DOM, backed by an MMF, seemed to work...but I wanted to get a second opinion.}
+
+{And did I.  In the first StackOverflow post I made on the issue, I discovered the trick I was using triggered [Undefined Behavior](https://en.wikipedia.org/wiki/Undefined_behavior) by violating something I'd never heard of called the *[strict aliasing requirement](http://dbp-consulting.com/StrictAliasing.pdf)*.  The compilers had just been letting me get away with it.}
+
+[note {In the seemingly limitless universe of *"things you should know if you program in C++"* I'd call the Strict Aliasing Requirement an important thing to know about.  It might make a good interview question, actually.  So take a little time to read up on it now if you aren't familiar.  Also, note that projects like the Linux kernel actively violate the rule and use `-fno-strict-aliasing`...so it's not an absolute.}]
+
+{Given all my talk as a strong proponent and advocate of ["Modern C++"](http://blog.hostilefork.com/modern-cpp-or-modern-art/)...I certainly had to be on the right side of the standard.  So Methyl had to be redesigned--and that was that.  The MMF got tossed while I used a stub implementation for the data structure based on Qt's XML QDomElement...and it turned out to be a bigger project than I thought, and I would pick at it sporadically.}
+
+{As the ideas stabilized in mid-2013, I posted a simplified question about the design on the StackExchange CodeReview site:}
+
+[http://codereview.stackexchange.com/questions/33713/ {Proxy/Facade Implementation Concept in C++11, impedance matching DB with classes (Code Review StackExchange}]
+
+{Despite 13 upvotes, no one weighed in.  I placed bounty awards that deducted from my own reputation score twice, to no avail.  *(It was only two days prior to this writing that someone responded at all, though he didn't respond to the idea...just some issues on the code that actually don't have a whole lot of bearing on the project.)*}
+
+{But either way, I'd decided that there was no going back for Benzene.  The codebase was going to be all C++11, and the old undefined-behavior Methyl was dead.  So I went on an updating bonanza as I took code that was still creaking from my 2002 ideas and refreshed the names and methods to my post-Qt and C++11 thinking.}
+
+[heading {Dragged and Dropped}]
+
+{During my updating, I noticed the new [C++11 features in Qt5](http://blog.qt.digia.com/blog/2011/05/26/cpp0x-in-qt/).  I figured "so long as I'm rewriting everything else, why not make the jump?"  There were some minor pains here and there, but nothing too bad.  And having been burned by the OS/X and Windows build before, I was resolved to not worry about them at the outset--and just build and test for KDE, letting those come later.}
+
+{It all went smoothly enough...until I got to the Drag & Drop.  The redesign of Qt5 gutted the interface to the operating system in some fundamental ways that made things like Drag & Drop a "plugin".  You can find the one for X-windows in ['src/plugins/platforms/xcb/qxcbdrag.cpp'](https://qt.gitorious.org/qt/qtbase/source/da7e534df254b4b03c289d4286f887cd98059782%3asrc/plugins/platforms/xcb/qxcbdrag.cpp).}
+
+{This "plugin" system is what facilitates Qt's spread onto Android platforms, and is their concept for the future.  Unfortunately it meant that Qt under KDE had a new pump under the hood, making Qt5 just about as variant from Qt4 as Qt4 had been across platforms.  In fact, there was absolutely *no* way for me to get mouse behavior to work in Qt5 by using Drag & Drop internally.  I outline the problem here:}
+
+[http://stackoverflow.com/questions/19498385/ {Getting a mouse drop event in Qt 5 if mouse doesn't move before mouse release}]
+
+{If not already clear from the length of the story, I have repeatedly reached issues with this project where I think "okay, *screw this*".  But once again the folder survived.}
+
+[note {It's been suggested to me that my practice of keeping good backups has worked against me; hard drive crashes don't take anything out.  I might have benefitted if a crash had taken this thing out at some point!}]
+
+[heading {Crystallizing things}]
+
+{I've mentioned that 2014 was what I declared as the year of "hard drive zero"...that every scrap would be published or destroyed.  So I had to take a hard look at what it would take to publish or delete everything.  As I pared projects down and ground through them, all along I would look at the Benzene folder with dread.}
+
+{There was a clear fallacy in the idea that I--as an individual, in my spare time--was going to keep pace with the yearly (/monthly/daily) changes in development practices on all platforms.  And in doing so, make a framework that could "achieve usability through sotware architecture" as well as facilitate easy parallelism.  It was *not a winnable war*.}
+
+{My compromise was to go back and improve the screencasts on individual Benzene features.  I think there is merit, for instance, in my [Mouse Placeholders for when Programs Lose Focus](http://blog.hostilefork.com/lost-focus-placeholder/)...it's a cute little thing in its own right.  So I blogged about it, and considered it to free Benzene from having to live up to that--given that Qt was now making it *outright impossible* (at the moment).}
+
+{Since I was starting using Qt Creator now (instead of CMake and KDevelop), I used a QMake `.pro` file with the graphical Qt Designer to make the app layout.  Where before I had demanded total control from the top, my new knowledge suggested that Signals/Slots could be used to make a `benzene::Widget` that inherited from QWidget and provided certain features.  Then ordinary QWidgets could also be wired up and have a bridge to the engine.}
+
+{I called the new project "Crystal" as yet another Breaking Bad chemistry allusion (which I'd finished watching by then).  Crystal started out as a very skeletal variant of Benzene; a simple variant on a "Scribble" program that laid pixels down in as you dragged the mouse.  I used it to flesh out the Methyl interface.  Once I got it running I decided that it was now or never... and a very half-baked Methyl made it out the door and onto GitHub.}
+
+{A few weeks later I'd made "copypasta" out of Crystal, as it morphed to subsume more and more of Benzene.  The Benzene directory was renamed to "benzene scraps", and .cpp and .h files shrunk as I deleted code that I didn't think could be relevant to the published benzene.  A similarly half-baked GitHub repository was pushed out: Crystal had served its purpose and liquefied back into Benzene.}
+
+{That pretty much brings things up to the present.  I think the text editor app and timeline editor app are likely headed for the big Recycle Bin in the Sky.  But the question is whether I can get PixelCAD beaten into shape well enough to be usable again.  Stay tuned...}

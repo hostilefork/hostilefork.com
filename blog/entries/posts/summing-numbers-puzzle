@@ -14,17 +14,17 @@ Draem [
 
     {For example, if the four input values were labeled A-D and had the values A=5, B=5, C=5 and D=10 there would be 4 combinations adding to 15.}
 
-    [list [
+    [list
 
-            "A+D = 15"
+        "A+D = 15"
 
-            "B+D = 15"
+        "B+D = 15"
 
-            "C+D = 15"
+        "C+D = 15"
 
-            "A+B+C = 15"
+        "A+B+C = 15"
 
-        ]]
+    ]
 
     "So the desired output would be: 4"
 

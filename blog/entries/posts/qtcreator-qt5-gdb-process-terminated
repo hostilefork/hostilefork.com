@@ -1,0 +1,138 @@
+Draem [
+    title: "QtCreator 3.1 and Qt5: The GDB Process Terminated"
+    tags: [c++ qt]
+    slug: %qtcreator-qt5-gdb-process-terminated
+    date: 29-May-2014/14:07:28-4:00
+]
+
+{Aaaarrrrgggh.}
+
+{So, I keep upgrading Qt Creator and finding yet another broken debugger scenario.  Don't get me wrong--I love me some Qt.  But I would be lying if I said this wasn't becoming an annoying pattern.  The otherwise very-tight Qt Creator just seems to have a blind spot w.r.t. making debugging work out of the box *(at least in my personal experience, now repeated several times)*.}
+
+[note {It's a bit of a morale-killer when Microsoft has a more turnkey environment for C++ UI dev than the open source community seems to be able to put together.  Such a shame when Qt Creator is so close!  [I've written about it before.](http://blog.hostilefork.com/qtcreator-debugger-no-locals-ubuntu/)}]
+
+{In this case I started from a fresh [kubuntu-14.04-desktop-i386.iso](http://www.kubuntu.org/news/kubuntu-14.04).  I installed Qt 5.3 and Qt Creator 3.1, and hit another wall.  Every time a breakpoint was hit, it would error out with GDB terminating.  I wasted a couple nights trying various dead ends--downgrading the debugger to Python 2, installing the alpha of Qt Creator, doing other kinds of [Cargo Cult science](http://en.wikipedia.org/wiki/Cargo_cult_science).}
+
+{But there's no substitute for actually pinpointing the source of the problem.  Which I did.  As before I'll give you all the benefit of my experience, as it is.}
+
+[heading {Quick Intro}]
+
+{Although in theory Qt works with more debuggers than GDB, in practice GDB is the main one you probably are using.  An interesting property of GDB is that when you build it, you can embed a Python 2 or Python 3 interpreter inside of it.  If you want to kick off some Pythonic thing, there's a "python" keyword you use in GDB.  So if you've got the Python 3 sort of Python, you might say:}
+
+[code python {
+(gdb) python print("Look.  I'm a debugger, being scripted.")
+}]
+
+{An additional piece of magic is that if you are running a Python script invoked via the GDB tool that has Python built into it, you can `import gdb` and get a `gdb` object.  Qt takes advantage of this with a set of scripts that it uses to automate the debugger.}
+
+{You can edit those scripts if you feel like it.  If you accept the default installation options, you'll probably find them in `/opt/Qt/Tools/QtCreator/share/qtcreator/debugger`.  A couple of important files are `dumper.py` and `gdbbridge.py`.}
+
+[heading {The problem}]
+
+{We all wish things "just worked" and that we didn't have to edit such files.  But in my case, I had to.  Because after digging and delving it turned out that Python was asking to read a ridiculous amount of memory, causing a crash.  The symptom was the debug log saying "virtual memory exhausted"... when the reality was that it was asking for a wacky number that the C of GDB interpreted as a negative number (and Python interpreted as a really big positive number).}
+
+{The error you get in the debugger window (you can turn it on with Window->Views->Debugger Log) looks a bit something like this:}
+
+[text {
+>~"/build/buildd/gdb-7.7/gdb/utils.c:1073: internal-error: virtual memory exhausted.\nA problem internal to GDB has been detected,\nfurther debugging may prove unreliable.\nQuit this debugging session? "
+>~"(y or n) [answered Y; input not from terminal]\n"
+>~"/build/buildd/gdb-7.7/gdb/utils.c:1073: internal-error: virtual memory exhausted.\nA problem internal to GDB has been detected,\nfurther debugging may prove unreliable.\nCreate a core file of GDB? "
+>~"(y or n) [answered Y; input not from terminal]\n"
+
+24bb options:fancy,autoderef,dyntype,partial,tooltiponly vars:tooltip.7669657754776f expanded:return,local,watch,inspect typeformats: formats: watchers:7669657754776f23746f6f6c7469702e3736363936353737353437373666 stringcutoff:10000
+
+dHANDLE GDB ERROR: The gdb process was ended forcefully
+dGDB PROCESS FINISHED, status 1, code 0
+dNOTE: ENGINE ILL ******
+dFORWARDING STATE TO InferiorShutdownFailed
+dState changed BY FORCE from InferiorStopOk(14) to InferiorShutdownFailed(18) [master]
+dState changed from InferiorShutdownFailed(18) to EngineShutdownRequested(20) [master]
+dQUEUE: SHUTDOWN ENGINE
+dCALL: SHUTDOWN ENGINE
+dPLAIN ADAPTER SHUTDOWN 20
+dINITIATE GDBENGINE SHUTDOWN IN STATE 14, PROC: 0
+dNOTE: ENGINE SHUTDOWN OK
+dState changed from EngineShutdownRequested(20) to EngineShutdownOk(22) [master]
+dState changed from EngineShutdownOk(22) to DebuggerFinished(23) [master]
+dQUEUE: FINISH DEBUGGER
+dNOTE: FINISH DEBUGGER
+dHANDLE RUNCONTROL FINISHED
+sDebugger finished.
+}]
+
+{Not one to back down in the face of ridiculous errors, yes, I went in and debugged the debugger.  Okay, well, *sort of*.}
+
+{The problem method is [`putQObjectNameValue`](https://github.com/qtproject/qt-creator/blob/252048ef01347d3061dcdfc8db54ec21c045d801/share/qtcreator/debugger/dumper.py#L940) in `DumperBase`.  Reprinted here for your enjoyment:}
+
+[code python {
+def putQObjectNameValue(self, value):
+    try:
+        intSize = self.intSize()
+        ptrSize = self.ptrSize()
+        # dd = value["d_ptr"]["d"] is just behind the vtable.
+        dd = self.extractPointer(value, offset=ptrSize)
+
+        if self.qtVersion() < 0x050000:
+            # Size of QObjectData: 5 pointer + 2 int
+            #  - vtable
+            #   - QObject *q_ptr;
+            #   - QObject *parent;
+            #   - QObjectList children;
+            #   - uint isWidget : 1; etc..
+            #   - int postedEvents;
+            #   - QMetaObject *metaObject;
+
+            # Offset of objectName in QObjectPrivate: 5 pointer + 2 int
+            #   - [QObjectData base]
+            #   - QString objectName
+            objectName = self.extractPointer(dd + 5 * ptrSize + 2 * intSize)
+
+        else:
+            # Size of QObjectData: 5 pointer + 2 int
+            #   - vtable
+            #   - QObject *q_ptr;
+            #   - QObject *parent;
+            #   - QObjectList children;
+            #   - uint isWidget : 1; etc...
+            #   - int postedEvents;
+            #   - QDynamicMetaObjectData *metaObject;
+            extra = self.extractPointer(dd + 5 * ptrSize + 2 * intSize)
+            if extra == 0:
+                return False
+
+            # Offset of objectName in ExtraData: 6 pointer
+            #   - QVector<QObjectUserData *> userData; only #ifndef QT_NO_USERDATA
+            #   - QList<QByteArray> propertyNames;
+            #   - QList<QVariant> propertyValues;
+            #   - QVector<int> runningTimers;
+            #   - QList<QPointer<QObject> > eventFilters;
+            #   - QString objectName
+            objectName = self.extractPointer(extra + 5 * ptrSize)
+
+        data, size, alloc = self.byteArrayDataHelper(objectName)
+
+        if size == 0:
+            return False
+
+        raw = self.readMemory(data, 2 * size)
+        self.putValue(raw, Hex4EncodedLittleEndian, 1)
+        return True
+
+    except:
+        #warn("NO QOBJECT: %s" % value.type)
+        pass
+}]
+
+{We see in there that it's possible to return `False` from this routine, or to read an amount of memory that is `2 * size`.  For reasons that I don't personally care to research any further than this, size is crazy when the member is `::staticMetaObject`.  Apparently this `byteArrayDataHelper` is to blame.}
+
+{The last time I went into a workaround on this kind of thing, they up and fixed it and made my entry obsolete rather quickly.  So I'm going to hope they'll do that again.  In the meantime, I managed to get the debugger to not crash by returning False after putting this right before the call to `byteArrayDataHelper`:}
+
+[code python {
+if objectName.find("::staticMetaObject") != -1:
+    print("::staticMetaObject ignored http://blog.hostilefork.com/qtcreator-qt5-gdb-process-terminated/")
+    return False
+}]
+
+{Hope you weren't planning on dumping the staticMetaObject.  But so far, it's working for me...so maybe the patch will get you over the hump.  I've reported it as a bug on the Qt Creator Jira, so if you find this post because you have the same problem you'll be doing us all more of a favor by chiming in there vs. here:}
+
+    https://bugreports.qt-project.org/browse/QTCREATORBUG-12330

@@ -1,0 +1,186 @@
+Draem [
+    title: "METHYL: Type-Safe Reimagined DOM for C++11"
+    tags: [c++]
+    slug: %methyl
+    date: 5-Jul-2014/16:21:29-4:00
+]
+
+[image http://methyl.hostilefork.com/media/methyl-logo.png 640x360 "The Methyl logo"]
+
+{Methyl is a library for dealing with DOM-like trees.  Beyond the typical traversal operations, it has some additional interesting properties that leverage C++ features.  The codebase is in a state that is best described as "experimental", but is [published on GitHub](https://github.com/hostilefork/methyl/) anyway.}
+
+{All the classes are in the `methyl` namespace.  They are:}
+
+[list 
+    {**methyl::Identity** - Every node has a UUID.  If it needs to be converted to a URL, this is done via the spec in [RFC 4122](http://www.ietf.org/rfc/rfc4122.txt) *(so `urn:uuid:f81d4fae-7dec-11d0-a765-00a0c91e6bf6` or similar)*.}
+
+    {**methyl::Tag** - Each node in a Methyl tree that is *not* textual or "CDATA" has a tag.  You can use any URI as a tag...and if you use a `methyl::Identity` then nodes can effectively point to each other.  The requirement to use a valid URI means that instead of brief references like `div` you'd have to use something more along the lines of `http://www.w3.org/TR/html5/#div`.}
+
+    {**methyl::Label** - If a node has a tag--rather than textual content--then it may have children.  Unlike XML and HTML which forces child data to be either string-based and keyed ("attributes") or structure-based and unkeyed ("children"), Methyl has no string-only children.  All children are structural, and are in ordered lists keyed by a Label.  As with Tags, any valid URI can serve as a Label.}
+
+    {**methyl::Accessor** is the base class you derive from to invent a new node "type".  Because all nodes are actually "the same type" under the hood, this is a convenience only; and could be explicitly cast away at any time.  Yet implicit casting follows the inheritance graph; so if you derive a `Foo` from Accessor and a `Bar` from Accessor, then you won't be able to use them interchangeably.}
+
+    {**methyl::Node** is a class for referring to a Node, always parameterized by an accessor class.  If you just want the default accessor methods then you can instantiate it as `Node<>` to get the default behavior as `Node<Accessor>`.  For purposes of equality, comparing one node to another is comparing the node's identity; so semantically this class represents a reference to a node.  For a `const` variant of the accessor, the parameterization is for instance `Node<Accessor const>`.}
+
+    {**methyl::Tree** is a kind of "smart pointer" that represents a tree of nodes with no parent.  If it goes out of scope, it will free the tree; so typically you will "std::move" these around using [R-Value references](http://pizer.wordpress.com/2009/04/13/c0x-do-people-understand-rvalue-references/).  There is a hash function and `operator<` defined for Tree, which compares their subtrees for the tags/text/structure (ignoring ID values, which are always unique).  As with Node, they are parameterized with an Accessor type that represents the accessor of their root.}
+]
+
+[heading {'const' and a DOM}]
+
+{Above I mentioned that Node could be parameterized with a `const` accessor.  This provides const-correctness in a way that most DOM libraries do not.  Perhaps it's easiest to study in contrast against something relatively well-known, for instance Qt's XML abstraction `QDomElement`.}
+
+{In Qt, this is how you create a DOM document and add a node to it:}
+
+[code c++ {
+QDomDocument doc("MyML");
+QDomElement root = doc.createElement("MyML");
+doc.appendChild(root);
+
+QDomElement tag = doc.createElement("Greeting");
+root.appendChild(tag);
+
+QDomText t = doc.createTextNode("Hello World");
+tag.appendChild(t);
+}]
+
+{In this case, the document and the elements are non-const.  As a consequence, you can use the non-const [`appendChild()`](http://qt-project.org/doc/qt-5/qdomnode.html#appendChild) method.  You would get a compilation error if the element were const.  But regardless of the constness or non-constness of an element...*all of the methods for navigating the tree return non-const elements*.  So if you want to get non-const access to a node, you could (for instance) pick a child, and then just ask for the parent.}
+
+{Imagine passing `tag` above to something like this:}
+
+[code c++ {
+void DoSomething (QDomElement const & elem) {
+    // This won't work...
+    /* elem.appendChild(doc.createElement("illegal"); */
+
+    QDomNode child = elem.firstChild();
+    QDomNode parent = child.parentNode();
+
+    // But this won't be stopped...
+    parent.appendChild(doc.createElement("tricked you!");
+}
+}]
+
+{Methyl closes this loophole.  A Node parameterized with a const accessor--when asked for its siblings or parents--returns nodes that also have const accessors.  It's therefore possible to control the access on a subtree, and explicit operations have to be used to get write permission on a node.  As with C++ expectations in general, you could pass a non-const handle to a routine that took a const one, but not vice-versa.}
+
+{So for instance:}
+
+[code c++ {
+void DoSomething (Node<Accessor const> elem) {
+    Label test ("http://methyl.hostilefork.com/demo/labels/test");
+
+    // This won't work...
+    /* elem->insertChildAsFirstInLabel(
+        Tree<>::createAsText("illegal"), test
+    ); */
+
+    auto child = elem->firstChildInLabel(test);
+    auto parent = child->parent();
+
+    // Won't work, the type that comes back is also Node<Accessor const>
+    /*
+    parent->insertChildAsFirstInLabel(
+        Tree<>::createAsText("also illegal"), test
+    );
+    */
+}
+}]
+
+{Because all children live in Labels, and Labels and Tags are URIs, the code can look more verbose than that for XML DOMs.  But its trees are meant to be manipulated and edited by C++ code, and are not typically serialized as raw text.}
+
+{At one time, Methyl's implementation was to store nodes in a memory-mapped file by using the [POST++ library](http://www.garret.ru/post/readme.htm); however, the details of that implementation fell by the wayside when it was shown to cause undefined behavior due to violation of the [Strict Aliasing Requirement](http://stackoverflow.com/questions/98650/what-is-the-strict-aliasing-rule).  The codebase was reinvented to decouple raw node handles from the `Node<>` and `Tree<>` types, but a new choice of database has not been firmed up yet.}
+
+[heading {Trees and Ownership}]
+
+{I mentioned that there are two distinct types; one for referencing individual nodes, and another that represents the concept of an entire tree held at the root.  This is used in the type system to manage node lifetimes...you can only insert a `Tree` underneath a non-const `Node`, and you need to call `std::move` to relinquish the ownership from the Tree you passed in.  Similarly, breaking a parent/child relationship will return an owning `Tree` of the removed child.}
+
+{Conceptually, `Tree` is somewhat like a unique_ptr.  It relinquishes ownership on insertion underneath a Node, and ownership is passed back on removals.  Just as unique_ptr will free its contained pointer if it hasn't been released before going out of scope, a Tree will free its contents in the same situation.}
+
+[note {The original name for Node was "NodeRef", and for Tree was "RootNode"...with RootNode was a move-only type, like `unique_ptr`.  But I decided that trying to stop copy construction or assignment of a Tree (when it was technically possible to clone them) was a bit Draconian.}]
+
+[heading {Accessor Subtypes}]
+
+{An Accessor is an instance of what might be considered a [Proxy pattern](http://en.wikipedia.org/wiki/Proxy_pattern) or [Facade pattern](http://en.wikipedia.org/wiki/Facade_pattern).  As a contrived example, consider this list in HTML:}
+
+[code html {
+<ul>
+   <li>Coffee</li>
+   <li>Tea</li>
+   <li>Milk</li>
+</ul>
+}]
+
+{The underlying tree would be seven nodes:}
+
+[text {
++--UL                       // Node #1
+   +--LI                    // Node #2
+      +--String(Coffee)     // Node #3 (literal text)
+   +--LI                    // Node #4
+      +--String(Tea)        // Node #5 (literal text)
+   +--LI                    // Node #6
+      +--String(Milk)       // Node #7 (literal text)
+}]
+
+{Although you could use just the baseline API with it, there can be advantages to creating a custom interface.  Imagine for instance that you want it to represent an unordered set, and disallow the insertion of duplicates:}
+
+[code c++ {
+
+namespace labels {
+    Label listitems ("http://methyl.hostilefork.com/demo/labels/listitems");
+    Label itemtext ("http://methyl.hostilefork.com/demo/labels/itemtext");
+}
+
+namespace tags {
+    Tag li ("http://www.w3.org/TR/html5/#div");
+    Tag ul ("http://www.w3.org/TR/html5/#ul");
+}
+
+struct UnorderedSet: public Accessor {
+
+    static Tree<UnorderedSet> create () {
+        return Tree<UnorderedSet>::create(tags::ul);
+    }
+
+    unordered_set<string> contents () const {
+        unordered_set<string> result;
+
+        auto current = maybeFirstChildInLabel(labels::listitems);
+        while (current) {
+            if (not current->hasTagEqualTo(tags::li))
+                throw "...";
+
+            auto item = current->maybeFirstChildInLabel(labels::itemtext);
+            if (not item or not item->hasText())
+                throw "...";
+
+            result.insert(item->text());
+
+            current = current->maybeNextSiblingInLabel();
+        }
+        return result;
+    }
+
+    void addString (string str) {
+        auto temp = contents();
+        if (temp.find(str) != end(temp))
+            throw "...";
+
+        auto li = Tree::createWithTag(tags::li);
+
+        li->insertChildAsFirstInLabel(
+            Tree::createAsText(str),
+            labels::itemText
+        );
+
+        insertChildAsLastInLabel(std::move(li), labels::listitems);
+    }
+};
+}]
+
+{Once you've defined an accessor, you can parameterize a `Node` or a `Tree` with it.  Methyl offers no silver bullet for keeping the structure valid against a schema, as the placeholder `throw` statements would indicate.  However, Accessors are a tool that comes in handy to insulate portions of your code against the concern, and leverage the C++ type system to do some checking.}
+
+[heading {The Observer Pattern}]
+
+{One feature that Methyl was designed for was to be able to record observations that imperative code makes of a Tree.  You can allocate an object representing an observer, and it will log any reads that are done.  If a later write to the tree affects any of the observations, then the Observer is invalidated and a signal is sent.}
+
+{This is utilized in the [Benzene Application Framework](http://benzene.hostilefork.com), which is the reason Methyl was made in the first place.}

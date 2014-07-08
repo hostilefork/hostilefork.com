@@ -51,7 +51,9 @@ class SubclassOfA : public A
 
 {Unwittingly, the programmer has given B a back door into A.  If you think it should be obvious that they were making a mistake, bear in mind that I gave these methods ridiculous names to make a point--in reality they'll be named based on what they do, rather than who can call them.  Secondly, this call could be much deeper inside a subroutine...so even if there was fair warning that this was not supposed to happen, someone could lose track.}
 
-{I am frequently interested in stopping these "deep" transitive violations of access privileges, as opposed to the "shallow" questions of direct calls.  Breaking it into more classes with more `private` and `protected` bits won't help--crossing the method call boundary will throw away the crucial context information.  It's possible to put in run-time checks which catch this sort of violation, but C++ offers us one oddly-shaped tool for attacking this at compile-time: *the `const` modifier*!}
+{I am frequently interested in stopping these "deep" transitive violations of access privileges, as opposed to the "shallow" questions of direct calls.  Breaking it into more classes with more `private` and `protected` bits won't help--crossing the method call boundary will throw away the crucial context information.}
+
+{Of course C++ is not a pure functional language.  Even so, it's possible to put in run-time checks which catch this sort of violation.  C++ offers us an oddly-shaped tool for attacking this at compile-time: *the `const` modifier*!}
 
 {Most people know `const` can be used to declare constant values in C++:}
 
