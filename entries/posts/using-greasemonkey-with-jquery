@@ -1,0 +1,40 @@
+Draem [
+    title: "Boilerplate for Using Greasemonkey with Jquery"
+    tags: [javascript jquery]
+    slug: %using-greasemonkey-with-jquery
+    date: 8-Jul-2014/20:16:44-4:00
+]
+
+{Though I am all for technological empowerment, you'll often find me debating *against* the usage of web filtering website augmentation to "make bad sites more tolerable".  I like the idea that we have a common basis on which we are seeing "what's there".  It's discomforting to imagine sending someone a link that looked "perfectly fine" on your end, and then the recipient gets something entirely different... possibly offensive or malicious.}
+
+{So on matters of principle, I gave up ad blockers and filtering proxies a decade ago.  And I never got into installing the the scriptable "site-enhancing" scripts like Greasemonkey.  However, I was asked a favor that seemed like a good fit for GreaseMonkey, so I bit the bullet and said *"well, there is a tool for solving that..."*}
+
+{For reference, here is the simple basic boilerplate you need for a script that is going to work with jQuery.  At least in the current version.}
+
+[code javascript {
+// ==UserScript==
+// @name        Some String Naming Your Script
+// @namespace   http://url.path.identifying.you
+// @description Longer description of whatever the script is supposed to do
+// @require     http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js
+// @include     http://url.patterns/script-applies-to/you-can-use.wildcards.*
+// @version     1
+// ==/UserScript==
+
+try {
+
+    $('div.whatever').each(function() {
+        /*... you're on the page, whatever JavaScript should work ... */
+    });
+
+} catch (err) {
+
+    // If an error was thrown, go ahead and present it as an alert to help
+    // with debugging any problems
+    alert(err.toString());
+}
+}]
+
+{The big non-obvious aspect here is that `@require` is how you include libraries, whereas `@include` is how you specify patterns of URLs you expect GreaseMonkey to apply your script to.  (So if you say `@include http://*`, it runs on every page.)}
+
+{The other not-made-completely-clear bit is that the namespace is supposed to be a URL path.  But once you've got those two things going, it works pretty well.  The `try/catch` helps too.}

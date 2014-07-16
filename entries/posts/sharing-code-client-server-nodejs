@@ -35,12 +35,32 @@ Draem [
 
 {In the browser, a global declaration implicitly becomes a member of the `window` object.  Node's parallel to `window` is `process` *(from which you can get things like environment variables, and lots of other things)*.  But a key difference is that an unqualified global declaration does *not* implicitly become a member of `process`; it is only available inside that module unless you explicitly stick it into an `exports` object.}
 
-[note {Not only aren't globals in one module not seen by default, there seems to be no way to work around it.  In digging a little into the V8 JavaScript engine source code and looking how functions were declared, I saw that a "function definition" doesn't get added to the currently context.  Instead, they're put into an "activation object" of the "execution context"; there doesn't appear to be any kind of back door in to let you see inside such things from another module, unless you're using some kind of debugger.}]
+[note {Not only aren't globals in one module not seen by default, there seems to be no way to work around it.  In digging a little into the V8 JavaScript engine source code and looking how functions were declared, I saw that a "function definition" doesn't get added to the current context.  Instead, they're put into an "activation object" of the "execution context"; there doesn't appear to be any kind of back door in to let you see inside such things from another module, unless you're using some kind of debugger.}]
 
 [heading {Meet RequireJS and Browserify}]
 
-{Node.js comes with a loading function called "require" which synchronously loads script code from the local disk.  It has some amount of convention so you don't have to necessarily specify the full path to a module, and you also omit the ".js" extension.  If one is to take advantage of the ability to share code between client and server code with node.js, you need some kind of adapter.  The most thoroughly-considered adapter introduces an inclusive standard that means you write your modules in a way that isn't compatible with either require or the <script> method:}
+{As we all know, to use a JavaScript file in a web page you use a <script> tag.  All of the scripts are loaded asynchronously as separate HTTP requests, and getting a "moment of synchronization" is one of those apparently-not-thought-about-beforehand-but-is-obviously-neessary things that people had to work out after the fact.}
+
+{Node.js comes with a loading function called "require" which synchronously loads script code from the local disk.  It has some amount of convention so you don't have to necessarily specify the full path to a module, and you also omit the ".js" extension.  As this is *the only way*, it means that if you are looking to share code between client and server code with node.js, you need some kind of adapter.}
+
+{The most thoroughly-considered adapter is named RequireJS.  It introduces an inclusive standard that means you write your modules in a way that **isn't compatible with either require or the <script> method** (facepalm).}
 
 http://requirejs.org/docs/node.html#3
 
-[note {Entry to be completed, but the punch line is [here in this stackoverflow question](http://stackoverflow.com/q/22471822/211160)}]
+{Long story short: you can use `require` ordinarily in the node modules, *unless* that module is intended to be shared between the browser and server.  If you want to include one of those shared modules, then use the the keyword requirejs to import it.}
+
+{Take three clicks in any direction, and you will land in a passionate arguments from people who say that the better alternative is to introduce a compilation step.  Basically throw asynchronous loading out the window, and glom everything needed by your page into one file to blob over the network.  Your node program won't care as the files are local, and the browser would probably rather just have everything sent as a minified blob anyway.  How many pages do anything meaningful when they're "half loaded", anyhow?  A popular choice in this area is called [Browserify](http://browserify.org/)}
+
+{But if you value things like...oh, debugging, say...or if you're explicitly trying to convince people your code [has nothing to hide so they trust it](http://blackhighlighter.hostilefork.com), you may not want to obfuscate like that.  So I went with RequireJS.  Having thought about the art of software engineering a lot, I cry a little inside when I think that *this* is what young programmers are reading up on today and consider it "learning something".  HOWEVER--it works, is documented and supported, and there are enough people using it that someone will presumably write the "how to change your code from requirejs to the real answer".}
+
+[note {That is, to the extent that the JavaScript ecostystem ever has had, or will have, "real answers".  :-/  Sorry folks, Node/V8 and the debugging tools in browsers like Chrome/Firefox etc. may be JavaScript's 15 minutes of fame.  It's best hope is to become an invisible underpinning like X86, which engineers curse every day, while working around it in their processor design by translating into something decent prior to execution.}]
+
+[heading {jQuery, Underscore.JS, or native JS in shared code?}]
+
+{BlackHighlighter is a jQuery plug-in which needs to share code between the client and the Node.JS server.  A key constraint on it is that I did not want to include jQuery on the server.}
+
+{There actually *is* an NPM jQuery package, and you *can* do DOM queries with it.  If you mention it people will groan and ask why you would want such a thing, and admonish you not to use it.  I see there point--and preferred to use underscore.JS on the server side.  Yet I didn't want to depend on underscore AND jQuery on the client.  This put me in a bit of a bind.}
+
+{You can read the blackhighlighter source.  But the punch line is that I require the jQuery widget source on the server side, but shim it with a "fake" jQuery.  The shared code uses native JavaScript calls.  This cuts down the dependencies and so far it has worked out pretty well.  Details are in this StackOverflow question:}
+
+http://stackoverflow.com/q/22471822/211160

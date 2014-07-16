@@ -8,7 +8,7 @@ Draem [
 
 {When I was 13, I don't remember if it was mandatory to participate in the Science Fair or not.  Either way, I did... and I decided I wanted to write a program that had an "artificially intelligent" maze solving mouse.  I found the pages from the display and typed them in and scanned the pictures into a Google Doc:}
 
-[https://docs.google.com/document/d/1wLNM718qQVli6yDPiGhHNEQI30yBU1W3ymHQM0gUxyM/edit?usp=sharing {M.O.U.S.E. - Mobile Object that Understands its Surrounding Environment}]
+[http://hostilefork.com/media/blog/funny-maze-solver-age-13/mouse.pdf {M.O.U.S.E. - Mobile Object that Understands its Surrounding Environment}]
 
 {It had been sort of an excuse to try doing some machine language programming, which I used a small bit of in order to make the maze drawing faster.  I also learned about how to do direct accesses to screen memory, so that I could read and write the bytes without needing additional storage.  I was getting really into how to encode large amounts of data efficiently in binary memory blocks, and so it was a good time of discovering all that.}
 
