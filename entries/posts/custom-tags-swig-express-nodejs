@@ -1,0 +1,225 @@
+Draem [
+    title: "Implementing Custom Tags in Swig for Node.JS"
+    tags: [javascript node.js]
+    slug: %custom-tags-swig-express-nodejs
+    date: 20-Jul-2014/2:34:54-4:00
+]
+
+{When I first encountered Node.JS, it was to port [Blackhighlighter](http://blackhighlighter.org) to it from the Django web framework for Python.  One of the things that made the transition easier was the existence of a "template engine" for Node called [Swig](http://paularmstrong.github.io/swig/). It had been strongly inspired by Django templates, and a [comparison chart](http://paularmstrong.github.io/node-templates/) seemed to suggest it held up well.}
+
+[note {Though amittedly that chart was made by Swig's author, Paul Armstrong.  :-)}]
+
+{My hope was to keep the Python version of Blackhighlighter working while the Node experimental port was being developed, sharing the templates directory unmodified.  Yet early on in my tests, I noticed that some Django tags were missing.  Even a trivial-seeming one wasn't there... `{% verbatim %}{% comment %}{% endverbatim %}`.}
+
+{Searching on the topic led me to find a GitHub pull request where someone submitted the comment tag implementation...and it was [rejected by Paul](https://github.com/paularmstrong/swig/pull/32#issuecomment-3553673).  He said:}
+
+[quote
+	{I appreciate the thought here, but I'm really unconcerned with feature-parity between swig and Django, Jinja, Twig, etc.}	
+]
+
+{Darn.  :-/  Yet looking a bit more, there seemed to be hope for my compatibility mission: *Swig had a hook for adding your own tags*.  So I used that to make a stub implementation of the missing `{% verbatim %}{% comment %}{% endverbatim %}` and `{% verbatim %}{% url %}{% endverbatim %}` tags.  Though my `url` didn't actually have a reverse-routing mechanism, I coaxed it into making good-enough output for the few named urls I was using.}
+
+{Now that I'm only developing Blackhighlighter under Node, I stopped using the tags.  But I'd taken notes in the code, which could be useful to me (or someone else) for making a custom tag in the future.  Thus the unused tags sat there for a while in anticipation that I would "someday" move the notes elsewhere.}
+
+{Given my policy in [Comments vs. Links on the Collaborative Web](http://blog.hostilefork.com/comments-vs-web-links-2014/), someday has come.  Here are those notes lifted out of the repository and expanded into a blog.  As usual, comments and corrections are welcome.}
+
+[heading {Tag Registration Overview}]
+
+{Documentation on [extending tags in Swig](http://paularmstrong.github.io/swig/docs/extending/#tags) doesn't go into much detail.  The main advice on the page remains to click through to the source of how the default tags are implemented.  They're written to the same interface, and so are effectively "custom tags" as well:}
+
+https://github.com/paularmstrong/swig/tree/master/lib/tags
+
+{*On the plus side:* that means you can do anything Swig can do with its tags.  *On the minus side:* this is a 'hook' and not an API--so internal jugglings of Swig code will impact your tag extension.  But if you're developing in Node, you are already used to rewriting everything on each package upgrade anyway.  :-)}
+
+{For each custom tag, there are three properties to define.  Two are functions: `parse` and `compile`.  You also need a boolean value `ends` which indicates if the tag is "self-closing" or not.  *(So it would be `ends: false` for something that could stand alone like `{% verbatim %}{% url ... %}{% endverbatim %}`, and `ends: true` for something like `{% verbatim %}{% comment %} ... {% end comment %}{% endverbatim %}`.)*}
+
+{There are two more parameters to registration with [`setTag()`](http://paularmstrong.github.io/swig/docs/api/#setTag): the tag's string name, and something called [blockLevel](http://paularmstrong.github.io/swig/docs/extending/#blockLevel).  These are not exported as properties of the internal tag implementations, but are left for the person doing the registration to choose.  So if you want to register the implementation of `url` to become `{% verbatim %}{% remark %}{% endverbatim %}`, you can...and choose `blockLevel` or not as well *(I just went with the default of `false` by not passing it)*.}
+
+{Something you will be needing to do in the files where you implement the custom tags is to include the Swig extension utilities:}
+
+[code javascript {
+var utils = require('swig/lib/utils');
+}]
+
+[note
+	{As Swig lives in the `node_modules` directory of your project, you may wonder how that path is found by Node.  It used to be *it wasn't*...and you would have to make a call like `require.paths.unshift('./node_modules')` to get it to look there.  But unshift was deprecated a while ago, and today's Node searches the moduels in the lookup ordering:}
+
+	[quote
+		{If the module identifier passed to require() is not a native module, and does not begin with `/`, `../`, or `./`, then node starts at the parent directory of the current module, and adds `/node_modules`, and attempts to load the module from that location.}
+	
+		/source [http://nodejs.org/api/modules.html#modules_loading_from_node_modules_folders {Node.JS Documentation}]
+	]
+]
+
+{Assuming you're implementing your tags in a file separate from your Express and Swig setup, the simplest way to export the 3 "tag-owned" properties would be to put one tag per file and do this:}
+
+[code javascript {
+exports.parse = ...;
+exports.compile = ...;
+exports.ends = ...;
+}]
+
+{Then in your Express and Swig configuration, assuming you have already done a `require('swig')` as `swig` and have implemented url in `./swigtags/url.js`, you could write:}
+
+[code javascript {
+var urlTag = require('./swigtags/url');
+swig.setTag(
+	'url'
+	, urlTag.parse
+	, urlTag.compile
+	, urlTag.ends
+);
+}]
+
+{Alternatively you could put all your tags in one file like `./mytags.js`, and export individual objects:}
+
+[code javascript {
+exports.url = {
+    parse: ...,
+    compile: ...,
+    ends: ...
+};
+
+exports.comment = {
+    parse: ...,
+    compile: ...,
+    ends: ...
+};
+}]
+
+{The configuration would thus look more like:}
+
+[code javascript {
+var mytags = require('./mytags');
+swig.setTag(
+	'url'
+	, mytags.url.parse
+	, mytags.url.compile
+	, mytags.url.ends
+);
+swig.setTag(
+	'comment'
+	, mytags.comment.parse
+	, mytags.comment.compile
+	, mytags.comment.ends
+);
+}]
+
+[note
+	{There's no real reason to avoid creating a directory or having multiple files.  Just mentioning it because I did it that way.  :-)}
+]
+
+[heading {Division of Labor Between parse() and compile()}]
+
+{Regarding the `parse` and `compile` functions you have to write, the documentation didn't lay out quite what the division of responsibility is.  Let's take an example that has an end tag:}
+
+[code {
+{% verbatim %}{% sometag foo "bar" 10 20 %}
+some stuff
+{% end sometag %}{% endverbatim %}
+}]
+
+{The `parse` function will see `foo "bar" 10 20`, but not `some stuff`.  Its job is to convey a processed result to `compile` by a sequence of calls to the "parser"'s `out.push()`.  That would in this case likely *(but not necessarily)* push four elements four times--assuming that's valid input.  Let's say it is valid, but it sums any integers it finds, so it only pushes three items...to produce the sequence `[foo "bar" 30]`.}
+
+{By contrast, the `compile` function gets whatever `parse` produced *(such as the hypothetical `[foo "bar" 30]` array)*.  The parse's `out` is passed in as the `args` parameter.  If there is an ending tag...it can also see "some stuff" in-between the tags.  Yet either way--compile doesn't see the input string containing `foo "bar" 10 20`.}
+
+[heading {Notes on parse()}]
+
+{The entry point to parse is just there to let you set up the hooks for the parser.  So when you return `true` from it, that's not to say a parse operation is finished.  Rather, that you have set up the patterns you want to register for the parse.}
+
+[note {It might thus be better named "configure_parser", or similar.}]
+
+{Here's a basic outline of the parser hook that registers callbacks for the start and end of a parse, and then a single callback to handle any token type at all.  *(You could be more fine-grained by requesting only certain token types, but this `*` hook will get you all of them.)*:}
+
+[code javascript {
+function parse (str, line, parser, types, options) {
+
+	parser.on('start', function () {
+		// called when a parse starts
+	});
+
+	parser.on("*", function (token) {
+		// called on the match of any token at all ("*")
+	});
+
+	parser.on('end', function() {
+		// called when a parse ends
+	});
+
+	return true; // parser is good to go
+}
+}]
+
+[note
+	{We see the function returns true.  But as you're only registering the parser and not really getting any tokens from the input yet...how could this ever *not* "succeed"?}
+
+	{There actually are cases of `parse` returning false in some cases, but they're the weird ones like [/lib/tags/else.js](https://github.com/paularmstrong/swig/blob/aa128e926913786462af4a7eb2411ad89f29d1ad/lib/tags/else.js) and [/lib/tags/elseif.js](https://github.com/paularmstrong/swig/blob/aa128e926913786462af4a7eb2411ad89f29d1ad/lib/tags/elseif.js).  They can look like:}
+
+[code {
+{% verbatim %}{% if false %}
+   Tacos
+{% elseif true %}
+   Burritos
+{% else %}
+   Churros
+{% endif %}{% endverbatim %}
+}]
+
+	{If you're doing something like that, then it seems you need to return false sometimes to implement it.  You're on your own to read the source--I'll assume you're returning true.  :-)}
+]
+
+{Inside the `.on()` handlers you register, you have two actions you basically take.  One is that you throw an Error if the input isn't well-formed enough to be handing off to compile.  The other is that you can push some output.  Often the token you push will be the one that you matched, so the line of code you'd use would be like `this.out.push(token.match);`}
+
+{The fields of that `token` parameter you get are:}
+
+[list
+	{`match` - the matched data}
+
+	[
+		{`type` - something from [this `TYPE` list in /lib/lexer.js](https://github.com/paularmstrong/swig/blob/87bc42b53d9e9a7c035ce0c9dd49916e685285f5/lib/lexer.js#L16)}
+
+		[note 
+			{When it says `types.STRING` it means the parser saw a token that was *literally enclosed in quotes*.  An unquoted token will be presented as `types.VAR`.  So in the example above, `foo` is a var and `"bar"` is a string.}
+		]
+	]
+
+	[
+		{`length` - length of matched data.}
+	
+		[note
+			{As you were given the data in match and can calculate its length yourself, this is preumably provided for performance or convenience reasons--to keep you from having to recalculate it?}
+		]
+	]
+]
+
+[heading {Notes on compile()}]
+
+{The return result from `compile` is a string.  But don't think of that output string as the string of text that winds up in the templated output.  If that were so, it wouldn't be compiling anything!}
+
+{Instead, `compile`'s job is to produce a *string of JavaScript code*, which is spliced into the aggregate of code that is making the output.  In order to add to the accumulating result of the templating process, this string of code needs to contain appends to a string variable named `_output`.}
+
+{Here's how you would `compile` a brain-dead tag that always spliced the word "foo" into the result:}
+
+[code javascript {
+function compile (compiler, args, content, parents, options, blockName) {
+	return '_output += "foo";';
+}
+}]
+
+{Observe that the string of code you're producing is not a standalone function.  It's a fragment of code that is winding up inline in some execution context.  Besides `_output`, Swig defines some other underscore-prefixed variables in that context...such as `_utils`.  Variable names that don't start with an underscore are reserved for the user to invoke in the tag's args *(like the `x` and `obj` in `{% verbatim %}{% for x in obj %}{% endverbatim %}`)*.}
+
+{You have to be a bit careful about naming any variables your compile function creates as part of the code to do its magic.  They should start with an underscore, and can't overlap with the variable names created by other tag instantiations.  That overlap includes *other instances of the custom tag you are implementing*; so this gets to be a rather long and path-like variable name!}
+
+{Internally to Swig itself, it prefixes variables with `_ctx`.  Each variable adds further per-tag disambiguation based on strings unique to the tag and variable, and prevents collisions in-tag by adding a number from `Math.random()`.  *(See for instance: [/lib/tags/for.js](https://github.com/paularmstrong/swig/blob/master/lib/tags/for.js))*}
+
+[note 
+	{Being a C++11 formalist who has growing Haskell-type leanings, I have to say... *sigh*.  O webdevs, U so crazy!}
+]
+
+[heading {Conclusion}]
+
+{So there's my notes, folks.  Do feel free to submit improvements to the article by pull-request *(this article [is on GitHub](https://github.com/hostilefork/hostilefork.com/tree/master/entries/posts/custom-tags-swig-express-nodejs), in [Draem](http://draem.hostilefork.com) format)*.  Or just make a comment.  If any of this gets grafted into the official docs that's fine too; consider this article licensed under whatever license Swig's documentation has.}
+
+{Incidentally...I'm sorry if you were hoping for a working implementation of something like Django's "Don't-Repeat-Yourself (DRY) [named routing reveral](https://docs.djangoproject.com/en/dev/ref/templates/builtins/#url).  [You are not alone in wanting it!](http://stackoverflow.com/questions/10027574/).  Reversible routing is not a baseline function in Express.}
+
+{But--and I sense a pattern, here--Express can be extended. :-)  Yet no clear leader and maintainer of a reversible routing extension has emerged, as of July 2014.  See the likes of [`reversible-router`](https://github.com/web-napopa/node-reversable-router) and [`express-reverse`](https://www.npmjs.org/package/express-reverse).  If it ultimately did get working, maybe this article could help someone who wanted to make that work with Swig.}

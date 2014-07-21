@@ -1,0 +1,114 @@
+Draem [
+	title: "JavaScript and Node.JS Formatting Conventions"
+	tags: [javascript node.js]
+	slug: %javascript-node-formatting-conventions
+	date: 16-Jul-2014/2:34:54-4:00
+]
+
+{Entering into the Wild-Wild-West of the JavaScript ecology is a bit of a culture shock already.  I have a hard time telling what good JavaScript code is in the first place...much less what other people think "good" JavaScript formatting should be!  :-/}
+
+{I'm still experimenting.  But I had a few notes in the Blackhighlighter repository that didn't really belong there, so I'm moving those notes here for safe keeping:}
+
+[heading {80-Column Stretch Goal}]
+
+{I'm someone who really doesn't think it's appropriate to be editing computer source code with the same kind of tool you use to draw ASCII art.  It's sort of like trying to verify a Boeing 777 design using complex analysis tools before you begin building it...but the only way you can specify your parts is by inputting drawings of them using MS paint.}
+
+{Given my "programs are not text files" bias, you might think it weird for me to try and fit code in 80 character lines.  Why would I resist the *one* "layout" feature that most text editors have (line wrapping) vs. accepting the convenience of typing expressions as long as they are?  Why this idea of "programs are not text files, but if they are, they're 80 characters wide"?}
+
+{Here's my rationale:}
+
+[list
+	{My JavaScript code is largely intended to be demonstration, or something I hope others will want to be involved with.  It's becoming more common that the way people become acquainted with new code is through browsing on GitHub.  I feel that putting thought into the right margin is worth it in such scenarios--in a way it might not be for an organization's internal codebase that is not encountered/browsed under that constraint.}
+
+	{Making code constructions grow "downward" instead of "rightward" is generally good, because the line number is the fundamental unit of annotation and reference in systems like git.  That's what you can tie a comment on in the web interfaces in GitHub.  That's the granularity of error reporting.  Etc.}
+
+	{Code formatting on StackOverflow has no wrapping.  If your line is too long, then it creates a very ugly horizontal scroll bar and makes the questions hard to answer.  This became a pet peeve of mine, so I'd fix up questions so that you could read them without any extra need to scroll inside a box inside the browser scroll area.  I started finding a kind of satisfaction from it.}
+]
+
+{But as I say--it's a stretch goal.  I keep the margin line up in the editor so I know it's there, but sometimes it's just going to be crossed.}
+
+[heading {Line Breaks in mid-Expression}]
+	
+{What I like to do is break expressions so that the "it's clearly incomplete" bias is shown on the continued line:}
+
+[code javascript {
+var something = foo + bar
+    + baz(mumble);
+}
+]
+
+{This is an attitude that comes from working in languages which need semicolons to terminate.  Thus the first line is already obviously incomplete.  I like my way better than:}
+
+[code javascript {
+var something = foo + bar +
+    baz(mumble);
+}
+]
+
+{...because now a reader doesn't have the cue that `baz(mumble);` isn't standalone, unless they scan up to the end of the previous (presumably long) line.}
+
+{But in [bizarro JavaScript world](http://lucumr.pocoo.org/2011/2/6/automatic-semicolon-insertion/) something called "automatic semicolon insertion" challenges an assumption.  Both those cases above are ine, but if you had written:}
+
+[code javascript {
+var something = foo + bar
+    baz(mumble);
+}
+]
+
+{...then JavaScript inserts a semicolon after `foo + bar` for you.  For this reason, most JavaScript programmers want to bias the "clearly intentionally incomplete" bit to the end of the line-to-be-continued, instead of the start of the continuation.}
+
+{This doesn't really apply to me as far as I can tell, as I'm always putting a "clearly incomplete" expression on the continued line.  That prevents automatic semicolon insertion.  But I'd been erring on the side of caution in case I would run afoul of some JavaScript problem, and using the way I liked less.}
+
+{But I posted this as a [StackOverflow question](http://stackoverflow.com/questions/24858171/bias-of-obviously-incomplete-expression-on-broken-line-vs-continued-line) where it seems purely subjective and I can do it my way with no problem--as long as I understand the issue.  So I'll be breaking things to my tastes.}
+
+[note
+	{A meta-point [from a comment on that posts](http://stackoverflow.com/questions/24858171/bias-of-obviously-incomplete-expression-on-broken-line-vs-continued-line#comment38603182_24858171) mentions looking at it in a new way to get rid of the issue, such as `[foo, bar, baz(mumble)].reduce(sum)`.}
+]
+
+[heading {Choosing a Linter and Lint settings}]
+
+{My impression from my first days of web programming was that if you went along with [JSLint](http://jslint.com/), then you were doing pretty well.  Revisiting JavaScript with Node.JS much later, I find JSLint to be ornerier.}
+
+{Little things are getting flagged.  I like the spacing of `x: function (foo, bar) { ... }` instead of `x: function(foo, bar) { ... }`, and the syntax highlighter I use doesn't highlight it properly without the space.  But JSlint calls this "messy whitespace".  Is picking on something like that really about "code quality"?}
+
+{Or after seeing some examples that would `throw Error(...)` vs `throw new Error(...)`, I had to do research and find that the former was [fully legitimate in the specification](http://es5.github.io/#x15.11.1).  JSLint doesn't like leaving the new out--and I see it used with the new almost always in other code.  Am I running the risk of looking like I don't know what I'm doing if I don't put in the superfluous `new`?}
+
+{I'm not the only one wondering, as [the person who forked it to make JSHint](http://anton.kovalyov.net/p/why-jshint/) writes:}
+
+[quote 
+	{JSLint served me well for quite some time but in the past few months it has gotten uncomfortably opinionated and hostile towards your code. It is quickly transforming from a tool that helps developers to prevent bugs to a tool that makes sure you write your code like Douglas Crockford.}
+]
+
+{The direction I'm going to go for now is with JSHint, because as he also says:}
+
+[quote
+	{We were saying from the day zero, it will always be a community-driven tool. Simply because a community of programmers working together is better than a single person working alone. No matter who this person is.}
+]
+
+[heading {Variable and field names}]
+
+{I like using camelCase variable and function names.  I'm also not afraid of using what some people might consider "long" names, if they reduce the opaqueness of a name which might otherwise need a comment.  I go into detail about this in the article about [Comments vs. Links on the Collaborative Web](http://blog.hostilefork.com/comments-vs-web-links-2014/).}
+
+{One exception here is that JSON properties use underscores.  That is simply consistent with the majority of popular APIs in JSON:}
+
+http://elasticsearch-users.115913.n3.nabble.com/JSON-API-CamelCase-or-td695216.html
+
+{This can bleed over into variables that aren't actually in a JSON structure, if that variable is coming from or going to JSON.}
+
+[heading {Comma first vs. Comma last}]
+
+{I've seen some odd coding conventions, and come up with some of my own.  But in encountering Node.JS code there seemed to be a popularity of something I wouldn't have thought would become popular... the "comma first" notation:}
+
+https://gist.github.com/isaacs/357981
+
+{"Comma first" goes with my general philosophy of showing a continuation on the next line.  So as it has a foothold in Node.JS, I thought I'd try it out.  So far I don't know that I can say it has made a huge difference one way or another.}
+
+[note 
+	{As a big fan of [Red and Rebol](http://blog.hostilefork.com/why-rebol-red-parse-cool/), I'm actually a *"no comma"* convert!  There are many arguments I could lay down for why, but that isn't an option in JavaScript, so I'll skip those here.}
+]
+
+[heading {Filename choices}]
+
+{Not really a formatting issue per se, but I wanted to throw in a link about why I use dashes for spaces and all lowercase (except for README, LICENSE, etc.)}
+
+http://www.codinghorror.com/blog/2006/04/of-spaces-underscores-and-dashes.html

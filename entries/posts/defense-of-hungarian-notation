@@ -1,6 +1,6 @@
 Draem [
     title: "In Defense of Hungarian Notation (with caveats)"
-    tags: [formatting philosophy c++]
+    tags: [formatting philosophy c++ comments]
     slug: %defense-of-hungarian-notation
     date: 24-Sep-2005/22:24
     old-url-prefix: %2005/09/24/
@@ -9,6 +9,8 @@ Draem [
 {Anyone who has programmed directly to the Windows API knows about the existence of [Hungarian Notation](http://en.wikipedia.org/wiki/Hungarian_notation).  It is a way of making the name of a variable or procedure flow automatically from its data type.  Like other conventions that have been rejected by the general programming community, it would be foolish to use it today on any public API or code example.  Despite this, I do still borrow from some of the "spirit" of the notation when I code.}
 
 "I'd like to explain why."
+
+[update 19-Jul-2014 {This article was written in 2005, and my thoughts on naming have changed even more in the intervening 8 years!}]
 
 {Some critics (and adherents) of Hungarian Notation think its goal is to encode useful type information into names.  The truth is, coming up with useful names is not the point.  It is much more about avoiding the encoding of **useless** information!}
 

@@ -1,0 +1,99 @@
+Draem [
+	title: "Handling Internal Errors (and Bad Requests) in Node"
+	tags: [javascript node.js]
+	slug: %error-handling-internal-badrequest-node
+	date: 21-Jul-2014/2:34:54-4:00
+]
+
+[note
+	{This article is a placeholder.  Pursuant to [Comments vs. Links on the Collaborative Web](http://blog.hostilefork.com/comments-vs-web-links-2014/), I wanted to lift some notes out into a blog entry.  The real goal is to get the code clean and not become a Node blogger--but I wanted to set aside an article to link to from the code.  It's not very good yet, but neither were the comments.}
+]
+
+{In writing the [Blackhighlighter](http://blackhighlighter.org) server in Node.JS, I ran across three categories of `Error` types you have to deal with:}
+
+[list
+	{Errors that are thrown as a result of running bad code (e.g. using undefined variables, whatever JavaScript exception.}
+
+	{Errors returned to callbacks that represent a condition where something server-side is at fault.}
+
+	{Errors that are returned to callbacks when something server-side is at fault}
+]
+
+[heading {Processes, Web Servers, and Node}]
+
+{In a traditional web system like Apache, there is a web server process that sits and listens for requests, which it filters and checks.  Some requests it can service itself with dedicated code.  But if a request matches a configuration setting saying it should be brokered to code external to the web server, then it dispatches the request to another operating-system-isolated process for handling.}
+
+{If you're lucky *(such as by having a mod_XXX module for your language)*, then the server should often reuse a handler process instead of starting up a whole new one to satisfy each request.  If you're unlucky *(such as having to use the [common gateway interface](http://en.wikipedia.org/wiki/Common_Gateway_Interface)*, then you pay for the overhead of the launching a new process for every request.  Either way, you're always running external code in a process different from the server.}
+
+{The strategy for writing a web service in Node is different.  There's still conceptually a sort of "web server written in C++"...in the sense of the HTTP capabilities that are compiled into the node executable.  But that "web server" speaks JavaScript *inside of its own process* to whatever code you hand it.  If your code triggers an unhandled error, node stops running.}
+
+{This has implications for error handling.}
+
+[heading {List of concerns}]
+
+{Though I've gone through and gotten sort of decent blog entries for my other code excisings, this one isn't actually ready yet.  It's just some links and the remarks I had, along with the code snippets to review:}
+
+[list
+	[
+		[quote "How do we deal with exceptions that are thrown on invalid inputs from the client, vs. internal errors."]
+
+		http://stackoverflow.com/questions/5816436/
+
+	] [
+		[quote "For now just strings, but we want the stack trace in there too"]
+
+		http://www.devthought.com/2011/12/22/a-string-is-not-an-error/
+	] [
+		[quote "See note here about how arguments.callee is not to be used in strict mode"]
+
+		https://code.google.com/p/v8/wiki/JavaScriptStackTraceApi
+	]
+]
+
+{The code I have defines a "ClientError"...to be distinguished from "Error":}
+
+[code javascript {
+function ClientError (msg) {
+    // http://stackoverflow.com/a/13294728/211160
+
+    if (!(this instanceof ClientError)) {
+        return new ClientError(msg);
+    }
+
+    Error.call(this);
+    Error.captureStackTrace(this, ClientError);
+    this.message = msg;
+    this.name = 'ClientError';
+};
+
+ClientError.prototype.__proto__ = Error.prototype;
+
+exports.ClientError = ClientError;
+}]
+
+{Because it's a different thing when there is an error in the client request than when the server has some sort of internal error, that has to be distinguished in the result code.  Yet there's only one channel for return--hence the new type.}
+
+[code javascript {
+function resSendJsonForErr (res, err) {
+    if (!err) {
+        throw Error("resSendJsonForErr called without an error parameter");
+    } 
+
+    if (err instanceof Error) {
+        console.error(err.stack);
+    }
+    else {
+        console.warn("Non-error subclass thrown, bad style...");
+    }
+
+    if (err instanceof blackhighlighter.ClientError) {
+        console.error(err.message);
+        res.json(400, { error: err.toString() });
+    }
+    else {
+        res.json(500, { error: err.toString() });
+    }
+}
+}]
+
+{I'll be back to this article shortly to tie it up.}

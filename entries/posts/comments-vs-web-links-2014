@@ -1,0 +1,92 @@
+Draem [
+    title: "Comments vs. Links on the Collaborative Web"
+    tags: [philosophy comments]
+    slug: %comments-vs-web-links-2014
+    date: 16-Jul-2014/2:34:54-4:00
+]
+
+{Lately I've realized that my relationship with code comments has shifted considerably.  It has even changed from when I *thought* I was pretty darn settled on what made a "good" comment vs a "bad" one.}
+
+{What's instigating the shift isn't merely the assumption that all programmers have a browser available while writing/reading/debugging code.  That's already been true for quite a while now, and ever since I was able I've linked to API documentation and articles from comments.}
+
+{The change I see is from newer assumptions about the environment:}
+
+[list
+	{If a URI-addressible information resource doesn't already exist, a developer *can create one instantly*.  That can be on a QA site (e.g. StackOverflow), an issue tracker or organization tool (e.g. Trello), or an article on one's own blog.}
+
+	{External resources can *link back* to a line in a source file.  Not just a line in a file, but (importantly!) a [line in a *specific revision*](http://andrew.yurisich.com/work/2014/07/16/dont-link-that-line-number/) of that file.}
+
+	[
+		{The core sites developers can link to are "too big to fail" - permalinks to them are trusted to live at least as long as the code is relevant, or at worst be retrievable through caches.}
+
+		[note
+			{Questionable, sure.  Not all links are equal...the Internet Archive isn't 100% reliable... and one must weigh this into consideration.}
+
+			{But at least StackExchange links should be retrievable by some means... due to the regular dumps of that data to [the Internet Archive](https://archive.org/details/stackexchange).  You can cache your own copy if you're paranoid.}
+		]
+	]
+]
+
+{I'll contrast the current environment with the olden days of development.  There were generally two "databases" that lived alongside the code:}
+
+[list
+	{**"Groupware"** shared by the developers, where they'd discuss points about development.  In the worst case it was e-mail...in the best case, something like Lotus Notes or Exchange.}
+
+	{**"Bug Database"** which was owned by the test team.  It wasn't a random place for any idea or wish you had, the things in it really were "bugs".  Process-wise you couldn't put things into the tracker unless you had a mainline version the bug was in, and it would bother the testers if developers made it into a place to "think out loud".}
+]
+
+{So there was a pretty strong incentive to keep important notes inline.  You could format them in a certain style, and the issue could live near the affected code.  If you've taken out the [bad comments saying "what"](http://blog.hostilefork.com/what-vs-why-in-commenting/), the good ones left are the ostensibly the "why" ones.  I'd use tagged comment blocks like:}
+
+[code cpp {
+// NOTE: This is here because of reason X.  You might think you could use 
+// technique Y, but it doesn't work because of ...
+// ...
+// a.k.a. "WHY is this code here?"
+// ...
+
+// REVIEW: Should we be using method Z here instead?  The tradeoffs are
+// space vs time and...
+// ...
+// a.k.a. "WHY don't we try this other approach?"
+// ...
+
+// TODO: Add handling for the Q case, which isn't currently being addressed
+// because of...
+// ...
+// a.k.a. "WHY isn't this done yet!  :-)"
+// ...
+}]
+
+{Today, `//REVIEW` and `//TODO` just look like issue-tracker items in disguise to me.  You can link out to a medium that's more pleasant to do research and have conversations in--like Trello or GitHub issues.  It's a lot nicer to be able to work with MarkDown and embed images.  Also being able to update your research and notes without having to create new versions of source keeps it frictionless; and lets visitors chime in more easily.}
+
+[note {If there's no barrier to you sharing your source with the public, there's now even a [CodeReview StackExchange](http://codereview.stackexchange.com) where you can ask for reviews of your code.}]
+
+{To developers in the traditional mindset, it might feel a little weird to take a `//TODO` or a `//REVIEW` that seems a while off and "make an issue out of it" (figuratively and literally).  But find a way to accomodate these thoughts in your issue tracker.  Then leave behind a link, and now you'll be reminded in two places--one of which can be sorted alongside other priorities--even if that priority is "low" or "idle".}
+
+{Putting it another way:}
+
+[quote {When a months-old comment alongside functional code wonders out loud if it *"might be a problem if..."* or there *"could be a better way someday...."*, it's code pollution unless the someday for making an issue about it is today!}]
+
+{The `//NOTE` category doesn't necessarily have the right shape to fit in an issue tracker.  But leaving such descriptions out creates this scenario:}
+
+[list
+	{You write something in the obvious way that seems like it should work.}
+
+	{It takes hours of testing, debugging, and research to realize why the obvious thing will not work in your situation.}
+
+	{After trying several alternative approaches, you finally get one that works, and delete all the code that didn't work.  You don't explain your process.}
+
+	{Someone comes along later and says *"what bozo put THIS here"*, replacing it with the simple method.}
+
+	{The code breaks again and the problems begin all over.}
+]
+
+{If your case is one where you can link to StackOverflow for the explanation, there's little need to repeat the information.  It's possible to permalink a question, as well as specific answers or comments.  You can even link to a [specific version of an answer](http://meta.stackexchange.com/posts/45598/revisions) if you'd like--in case it changes later, and you want the source to link to what you saw.}
+
+{Another great benefit here is that if someone comes along and questions *"is this still true"*, StackOverflow can evolve into better information.  And as long as you know how to ask a question meeting StackOverflow's idea of quality, you put the NOTE on as a new question that you ask and then "self-answer".}
+
+[note
+	{When I did this the first time, I got a surprise.  I thought I had researched and found the best answer and was not really expecting anyone could improve on it.  But someone posted an improvement *right away*... more eyes on a problem are generally good!}
+]
+
+{In conclusion: there's almost always a good path for reducing long comments to a couple of lines and a link *(or possibly even just a link)*.  There are some potential pitfalls to the approach, but the good seems to outweigh the bad so far.  And when you're editing your source, it helps keep the focus on the executable code itself.}

@@ -1,0 +1,167 @@
+Draem [
+    title: "Overview Notes on Node, Express, and Swig"
+    tags: [javascript node.js]
+    slug: %express-swig-node-basics-2014
+    date: 21-Jul-2014/2:34:54-4:00
+]
+
+{This article started as an overview for someone new-to-Node, who might want to understand the dependencies and structure I picked for Blackhighlighter's [demonstration sandbox](http://blackhighlighter.org).  I'm trying to think of it as information I'd have liked to have found when I started--so maybe it will help someone else too.  :-)}
+
+{When I began, I chose Express and Swig...and am currently using those still.  I'll try and explain what they are, and put the choice into a little bit of more-informed context.}
+
+[note
+	{The real reason this article exists is because I was trying to have a place to put notes I'd sprinkled around in the blackhighlighter demo's [app.js entry point](https://github.com/hostilefork/blackhighlighter.org/blob/master/app.js).  Though it was useful information, it was turning what *should* have been a very small file into a long one--interwoven with a blog entry.}
+
+	{I outline the philosophy turning long comments into links in [Comments vs. Links on the Collaborative Web](http://blog.hostilefork.com/comments-vs-web-links-2014/).  And that's what this is.  So since my goal was code cleanup and not becoming a Node.JS blogger...I'm going to try and finish this quickly.  It may be improved over time.}
+]
+
+[heading {Node's web foundation: require('http')}]
+
+{I started looking at Node in the context of porting Blackhighlighter to it from Django/Python.  As the effort was just exploratory in the beginning, I didn't want to try and understand the entire canon of the Node Universe up front.  Learning Node wasn't a foregone conclusion; I'd decide if I was interested based on how easy it was to do what I wanted.}
+
+{That's not a completely unreasonable attitude.  Yet if I could go back in time and give myself something to focus on as an absolute "first", it wouldn't be looking for routing layers or template engine.  It would be to really get a solid understanding of this line:}
+
+[code javascript {
+var http = require('http');
+}]
+
+{I'd suggest watching a video that walks through the basics from the perspective of Node's creator, Ryan Dahl:}
+
+[youtube https://www.youtube.com/v/jo_B4LTHi3I 400x244]
+
+{It's very informal...and only an hour.  It moves slowly enough *(and with enough typos)* that you can follow along with it in your own session if you liked.  Even if you're someone who's not scared of topics with titles like the [Reactor Pattern](http://en.wikipedia.org/wiki/Reactor_pattern) *(I'm not)*, this is easier to take in...and covers the right stuff.}
+
+{Also, the reason I want to emphasize "understanding `require`" is because you shouldn't expect your old JavaScript (or other people's old JavaScript) to 'just work' in Node.  I'd been particularly hopeful to take some code that had been duplicated server side in Python, and replace it with code I already had in JavaScript on the client.  My story may be instructive: [Thoughts on Sharing Client and Server code with Node.JS](http://blog.hostilefork.com/sharing-code-client-server-nodejs/).}
+
+{In that article I bring up something that Ryan's talk mentions, but I'll re-emphasize.  `process` is like `window` in the browser... *except it isn't because it isn't an implicit global that lets you sneak information between your files*.  So start with some basic tests, to understand how the modules work.}
+
+{There's a whole package management ecology for node called [Node Package Manager ("npm")](http://en.wikipedia.org/wiki/Npm_(software)), and an important thing to realize is that `http` is not one of those packages.  `require('http')` looks similar to how those packages are included, as you don't have to specify any particular path to the JavaScript file.  But `http` is built-in, you don't add it as a package dependency.}
+
+{Upshot is that `http` isn't something you choose to use or not.  You'll be using it, for pretty much any Node-based system that speaks http.  If your program is responding to http requests and *doesn't* have that `require('http')` line in it somewhere--it's a near certainty that's because something else that you are including is including it for you.}
+
+[heading {Next Layer: "Web Application Framework" - Express}]
+
+{With `http` there is--for instance--no pattern matching on request paths.  You can't say *"all URLs that match pattern A should be dispatched to function foo, while those that match pattern B should be dispatched to function bar"*.  You give it one handler, that has to break down any request URL it gets.}
+
+[note
+	{Thankfully that means that regular-expression based dispatch of URLs is not built-in!  There's hope for [PARSE-based](http://blog.hostilefork.com/why-rebol-red-parse-cool/) for URL pattern matching in Node someday!  :-P}
+]
+
+{Thus we're entering the level where choice (theoretically) comes into play.  Yet most tutorials will guide you toward using a layer on top of this called [Express](http://expressjs.com/).}
+
+{Express doesn't really "do" all that much, so to speak.  It's more of an interface for wiring together lots of little pieces of middleware.  By adding it to your project, you don't suddenly get a lot of boilerplate decisions made for you.  That stands in contrast to something like Ruby on Rails or Django--for instance.}
+
+{Express wraps up http so you don't have to require it.  Instead you say:}
+
+[code javascript {
+var express = require('express');
+var app = express();
+}]
+
+{Though you can give your vars any name you want, this is the standard.}
+
+[note
+	{This has changed since when I first tried using Node.  Originally in 2.x it was:}
+
+[code javascript {
+var express = require('express');
+var app = express.createServer();
+}]
+
+	{There used to be an "inheritance" model where the `app` could act like the object returned from [http.createServer()](http://nodejs.org/api/http.html#http_http_createserver_requestlistener).  So previous code that had wanted to use the underlying [http.Server](http://nodejs.org/api/http.html#http_class_http_server) directly had just used app, but was broken.}
+
+	{I bring it up to point out "wow, Node modules change a lot".  But also to mention the new way to get a http.Server in 3.x--if you should need it--is:}
+
+[code javascript {
+var http = require('http');
+var express = require('express');
+var app = express();
+var server = http.createServer(app);
+}]
+]
+
+{In terms of the bare minimum of what I needed (and what you'll need too), I had to register some "body parsers".  What are those?  They take the data from your http POST *(such as `application/json`, `application/x-www-form-urlencoded`)* and parse it into a more usable state, so you don't have to.}
+
+{It used to be that there were some default ones in express.  However, those default body parsers were [moved into a separate repository](https://github.com/expressjs/body-parser), and you'll have to make `body-parser` a dependent module in your project alongside `express`.  Though it would be nice if Express could default to finding it if you had it, that's not how the modules work.}
+
+{So these are [the prescribed lines](http://stackoverflow.com/a/24344756/211160 ):}
+
+[code javascript {
+    var bodyParser = require('body-parser');
+
+    app.use(bodyParser.json());
+    app.use(bodyParser.urlencoded({
+        extended: true
+    }));
+}]
+
+
+{There are a lot more settings you can work with.  For the moment I'm not doing anything more than the minimum, but you (and I) should look at articles like [Recipe for Express Configuration Files](http://dailyjs.com/2014/01/02/recipe-for-express-configuration/).}
+
+[heading {Next Layer: "Templating Engine" - Swig}]
+
+{A templating engine is the thing that weaves variables in your code into the responses that you are producing.  So you can have a file called `templated-stuff.html` on your disk, that isn't actually all HTML but has a bunch of funny escape sequences for where "stuff" can be inserted.  Then your code calculates what that "stuff" should be, and passes that to the templating engine along with the filename.  The templating engine produces the filled-in-blanks version.}
+
+{Express doesn't force you to use any particular templating engine.  I chose one called [Swig](http://paularmstrong.github.io/swig/), which is strongly inspired by [Django's templating system](https://docs.djangoproject.com/en/dev/topics/templates/).  There are a lot of alternative choices--some of whose input doesn't look anything like HTML at all.  But I was porting a Django application so Swig was the logical choice.}
+
+[note
+	{Regardless of a Django port, Swig proclaims to [fare well in terms of metrics](http://paularmstrong.github.io/node-templates/) when compared with the competition.  (But do note those tables were made by Swig's author.)}
+]
+
+{You have to initialize Swig, and then tell Express which file extensions you want it to be the templating engine for.  I followed along with the example at Swig's [/examples/express/server.js](https://github.com/paularmstrong/swig/blob/master/examples/express/server.js).  But for the full list of initialization options for Swig, see:}
+
+http://paularmstrong.github.io/swig/docs/api/#SwigOpts
+
+{I only set two options, myself.  One was to tell it that when a template is requested, it should be loaded from a certain directory on the filesystem... in this case, the [`__dirname`](http://stackoverflow.com/questions/8131344/what-is-the-difference-between-dirname-and-in-node-js) where my application script was running with the `/views` subdirectory appended.  The other option was to set caching based on an environment variable.}
+
+[code javascript {
+
+var swigCache = 'memory';
+if (process.env.SWIG_NOCACHE) {
+	if (process.env.SWIG_NOCACHE != "1") {
+		throw Error("SWIG_NOCACHE must be 1 or unset");
+	}
+	swigCache = false;
+}
+
+var swig = require('swig');
+swig.setDefaults({
+    loader: swig.loaders.fs(__dirname + '/views'),
+    cache: swigCache
+});
+}]
+
+{During development it is *very* convenient to be able to make a change to a template and see the effects without having to restart Node.  But you shouldn't leave that switch on in deployments, because it will slow them down.  The environment variable is a decent way of doing it.}
+
+[note
+	{Another thing you can register here that I jumped into fairly early on, in order to get compatibility with Django, was to learn how to make custom tags in the Swig templating engine.  Ultimately that got cut, but this is where you would register them.  I go through all of that in the article [Implementing Custom Tags in Swig for Node.JS](http://blog.hostilefork.com/custom-tags-swig-url-django/)}
+]
+
+{The next thing you have to do is do some [Express settings](http://expressjs.com/api.html#app-settings) to tell it that you want to use Swig, and for what extensions you want to use it for.  In my case, I was registering it for html.}
+
+[code javascript {
+app.engine('html', swig.renderFile);
+app.set('view engine', 'html');
+}]
+
+{That second line sets *"the default engine extension to use when omitted"*.  I'm honestly not sure why it's necessary to have a default vs. just being explicit all the time.  But you will get an error if you don't put it.}
+
+[heading {Conclusion}]
+
+{Things are now set up so you are ready to map URL requests to functions that will be serving those requests.  Like in many other systems, when you register your handlers the URL string is matched against regular expressions.  Then through "routing" you can have Express parse out fragments of the URL, do some handling for a part, and then crunch on the rest of the path:}
+
+http://expressjs.com/guide.html#routing
+
+{Handler functions take a req object ("REQuest") and a res object ("RESponse").  Although the function signature is very similar to view dispatch in something like Django, the asynchronous nature of Node.js means that the function may pass off the res object to some other subsystem and then return.  This delegation will continue until someone finally calls res.end() and it is important to ensure that happens only once.}
+
+[note
+	{I'll point out just one issue that I got confused over, and that was the [distinction between req.param and req.params](http://stackoverflow.com/a/9243020/211160).}
+
+	{There are three sources of data identified by key in the request once it has been processed by Express: `params`, `query`, and `body`.  In theory all of them could have an `x: 10`; If you want to get datayou are capturing information out of the URL pattern then that goes into `req.params`.}
+]
+
+{Once you have all your URL handlers set up, you just have to call `app.listen(port);` where `port` is the port number you want your server to run on.}
+
+{If you're new to Node.JS and actually read this long while not getting painfully bored, you might like the other Node articles I've been pulling out from source code.  Here's another one, about Underscore.js:}
+
+http://blog.hostilefork.com/underscore-use-with-node-jquery/

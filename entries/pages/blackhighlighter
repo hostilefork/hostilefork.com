@@ -1,44 +1,82 @@
 Draem [
     title: "BLACKHIGHLIGHTER: Protected Public Discussions"
-    tags: [javascript node.js]
+    tags: [javascript node.js cryptography]
     slug: %blackhighlighter
     date: 13-May-2009/18:07
 ]
 
 [image http://blackhighlighter.hostilefork.com/media/blackhighlighter-logo.png 640x360 "Black Highlighter"]
 
-{BlackHighlighter combines modern cryptography and client-side editing to create a new way of communicating on the Internet.  You publish text on a network server with the ability to "protect" certain parts of what you have written.  These protected parts can only be read by those who you give access to (and, of course, whoever *they* share it with!)}
+{Blackhighlighter combines novel editing with in-browser cryptography to facilitate new ways of communicating.  It is packaged as a jQuery widget *(with no other dependencies)*, along with a server library that can be integrated into Node.JS projects as an [npm module](https://www.npmjs.org/package/blackhighlighter).}
 
-{This may bring some "cloak and dagger" and legalistic scenarios to mind.  Yet despite the obscuring nature, this was conceived as a tool to help achieve greater transparency!  The hope is to coax *completely private* conversations into the light so they are *mostly public*.  There's also an element of accountability in the mix: using a [commitment scheme](http://en.wikipedia.org/wiki/Commitment_scheme), any missing portions that surface can be checked to ensure it was the text that was originally blacked out at the time of publication.}
-
-{BlackHighlighter *takes the guesswork out of forwarding*.  The sender points out any sensitive information at the time of writing, so anyone receiving certificates with the missing bits understands those should be treated as confidential.  Yet everything else was published on a server for *anyone* to read, so there's a clear delineation of what's okay to share.  This stops misunderstandings, and removes unnecessary blocks on the flow of information to those who may need it.}
-
-{The easiest way to understand it is probably to see it in action, so I built a working prototype.  The underlying system supports multiple separate "colors" of redaction pens that can be revealed independently, but the UI doesn't let you pick a color at the moment.  You can visit the demo sandbox:}
+{The best way to understand the idea is to see a running demo of a site that incorporates it.  So please visit:}
 
 http://blackhighlighter.org
 
-{I've published the source to my demo in order to get community feedback.  Yet just as Ward Cunningham outlined ["The Wiki Way"](http://en.wikipedia.org/wiki/The_Wiki_Way) as more of a collaborative mindset than a specific technology, I'm most interested in seeing the "spirit" of the idea spread.  The point is to be transparent to the greatest extent possible, while transforming any "[unknown unknowns](http://www.slate.com/id/2081042/)" into "[known unknowns](http://www.slate.com/id/2081042/)" for which you take responsibility.}
+{The widget itself is the area where you compose and interact with the content--and its only client-side dependency is jQuery.  All the buttons, tabs, and theming you see are specific to that demo and its usage.  Alternative blackhighlighter workflows could vary wildly...with different people doing the authorship vs. the redaction, or automatically storing certificates with rules triggering revelation *(such as after a certain date)*.}
+
+{Yet even that demo shows a very cool usage for blackhighlighter: a letter-writing tool that *takes the guesswork out of forwarding*!  The sender points out any sensitive information at the time of writing--so anyone given a certificate understands that should be treated as confidential.  But everything else was published on a server for anyone to read; so it's not necessary to worry about sharing it.}
+
+{So despite the seemingly "obscuring" nature, blackhighlighter was conceived as a tool to achieve greater transparency!  The hope is to coax *completely private* conversations into the light so they are *mostly public*.  That removes unnecessary blocks on the flow of information to those who may need it.  (There are of course legalistic scenarios too...but those people probably won't like the "being held accountable to what you [redacted](http://en.wikipedia.org/wiki/Redaction)" part!  :-/)}
+
+{The demo and widget are free software--published for community review, usage, and enhancement.  Yet just how Ward Cunningham saw ["The Wiki Way"](http://en.wikipedia.org/wiki/The_Wiki_Way) as more of a collaborative mindset than a specific technology, I'm most interested in seeing the "spirit" of the idea spread.  The point is to be transparent to the greatest extent possible, while transforming any "[unknown unknowns](http://www.slate.com/id/2081042/)" into "*known* unknowns", for which you take responsibility.}
+
+[heading {Overview Video}]
+
+[note
+	{There will be a video here.  Promise.}
+]
+
+[heading {Methodology}]
+
+{The demo at [blackhighlighter.org](http://blackhighlighter.org) is designed to give a pretty good step-by-step walkthrough.  But I'll summarize some of the methodology here.}
+
+{During the composition process, *no information* is transmitted to the server where the message is to be posted.  The only plaintext the server receives are the parts that have not been blacked out.  The widget can be changed back and forth between a 'compose' mode and 'protect' mode by method calls, until a request to publish is made.}
+
+{On publication, what the server *does* receive are cryptographic signatures which "commit" to the content of the hidden portions.  This constitutes a ["commitment scheme"](http://en.wikipedia.org/wiki/Commitment_scheme), and the signatures are calculated by unobfuscated JavaScript that runs in the user's browser using SHA256.  The widget can also generate a textual "certificate" for verifying the missing portion--again with no server communication.}
+
+{When the posting process has been completed, the client widget receives the timestamp of the post from the server.  That timestamp is then included in the message, whose [canonical JSON](http://wiki.laptop.org/go/Canonical_JSON) is cryptographically hashed.  This becomes the commit ID.  Thus, even without a certificate, it's possible to verify that the server returns valid information for a given commit ID.}
+
+[note
+	{The blackhighlighter.org demo sandbox takes this ID and uses it in the URL of the published commitment (which you send to other people).  That means it's not possible for the server operator to fake the content at that URL without it being noticeable.  Of course--if you're skeptical of the server you shouldn't be running the version of the checking JavaScript client code that *they* served you!  :-/}
+]
+
+{The blackhighlighter widget has a method call for applying a certificate to protected data it has been loaded with.  Showing the missing portions (and verifying they were the ones posted) is done entirely in the browser--the certificate does not need to be shared with the server.  But the widget also has a method for letting anyone with a valid certificate reveal it publicly.  Putting it in the mode for doing this will "blink red" the parts that would be revealed.}
 
 [heading "The Code"]
 
-{Originally, the server was written in Python and built on the [Django](http://www.djangoproject.com/) framework.  It was then ported to Node.JS:}
+{Source for the blackhighlighter npm module (which includes the jQuery widget) is available at:}
 
 https://github.com/hostilefork/blackhighlighter
 
-{The front end is built using libraries like jQuery UI and underscore.js.  Yet the underlying widget `[jquery-blackhighlighter.js](https://github.com/hostilefork/blackhighlighter/blob/master/jquery-blackhighlighter/jquery-blackhighlighter.js)` is separated out so that the only dependency it has is on jQuery.  This should make it easier to incorporate into other applications, or places where multiple widgets have to be embedded on the same page (such as if you were using it to implement a comment section.)}
+{Source for the demonstration website running at blackhighlighter.org is available at:}
 
-{It's released under the [GNU Affero General Public License, Version 3](http://en.wikipedia.org/wiki/Affero_General_Public_License).  But I'd be willing to relax that if someone talked to me about what they wanted to do with it, and why the license was blocking them.  Always easier to relax a license than to try restricting it after you've already released it!}
+https://github.com/hostilefork/blackhighlighter.org
 
-{An important aspect in the separation of the code is that the protected parts of your text are *never sent over the network in an unencrypted form*.  This way you don't have to trust the person running the server not to read or reveal the protected parts--they don't have them!  Yet the system is in its infancy, so if you're a cryptography expert then please chime in with any ideas.  Here's what I got so far from [sci.crypt](http://groups.google.de/group/sci.crypt/browse_thread/thread/51826b8dd1b198cf).}
+{Originally, the server was written in Python and built on the [Django](http://www.djangoproject.com/) framework.  It was then ported to Node.JS.  This allowed removal of some redundancy between the cryptography used by the client and server--although that was less of a benefit than expected.  *(See [Thoughts on Sharing Client and Server code with Node.JS](http://blog.hostilefork.com/sharing-code-client-server-nodejs/))*}
 
-{There is also protection in the protocol to prevent the server from lying about the contents of the message or the commitment hashes.  The URL itself contains a hash of the canonized commitment JSON.  This way, even if you don't have a certificate you can verify that what's on the server is what it should be.  You *only need the URL itself* to verify that the contents are correct!  This is a step up from using a random ID for each blackhighlighter text.}
+{The underlying widget `[jquery-blackhighlighter.js](https://github.com/hostilefork/blackhighlighter/blob/master/jquery-blackhighlighter/jquery-blackhighlighter.js)` is separated out so that the only dependency it has is on jQuery.  An arbitrary number of widgets can be put on the same page, but no good demo of this exists...yet.  So the current development focus is on a blackhighlighter-powered comment service to show that off *(something like Disqus)*.  You would write a comment but be able to use a pen to mark out any information you wanted to be viewable by the article author--and anyone you shared your certificate with.)}
 
 [heading "History and Motivation"]
 
-{I started the project after hearing [Kimo Crossman](http://www.facebook.com/people/Kimo-Crossman/766425653) describe a problem with getting information from the government.  Their conventional use of Microsoft Word or Excel freely mixes in sensitive information with matters of public record.  Lawyers have to "scrub" the confidential data out of the files (which may include "meta-data" that is hidden in parts of the document one does not typically see!)}
+{I started the project after hearing [Kimo Crossman](http://www.facebook.com/people/Kimo-Crossman/766425653) describe a problem with getting information from a local government housing authority.  Their conventional use of Microsoft Word or Excel freely mixed in sensitive data with matters that they were *legally obligated to share as public record*.  Lawyers have to "scrub" the confidential data out of the files (which may include "meta-data" that is hidden in parts of the document one does not typically see!)}
 
-{Because there is cost associated with separating the private data from the parts that should be public, it's an uphill battle in the courts to get the documents.  Kimo suggested remedying this with tools for declaring the sensitive information *at the time it's entered*.  Ideally this would allow everything else to be published instantly to the web.}
+{Because there is cost associated with separating the private data from the parts that were rightfully public, it became an uphill battle in the courts to get the documents.  Kimo suggested remedying this with tools for declaring the sensitive information *at the time it's entered*.  Ideally this would make it fair to ask for a continual publication process; where the agency would publish their information.}
 
-{My variation on his idea was to create something that people outside the government could use, thus building awareness that working in this style is even possible!  So I envisioned a service for communicating with U.S. Senators and Representatives.  By encouraging people to formulate their correspondence so most of it could be shared on the Internet, it would effectively make the inboxes of elected leaders *searchable by anyone*.  Yet it wouldn't have the usual problem of anonymous Internet posts, because the protected portions would be sent to the official.}
+{My variation on his idea was to create something that people outside the government could use, thus building awareness that working in this style is even possible!  So I envisioned a service for communicating with U.S. Senators and Representatives.  By encouraging people to formulate their correspondence so most of it could be shared on the Internet, it would effectively make the inboxes of elected leaders *searchable by anyone*.  Yet it wouldn't have the usual problem of anonymous Internet posts, because the protected portions would be sent to the official--proving the author was a constituent.}
 
-{I intended to submit my site to the [2009 Apps for America Competition](http://www.sunlightlabs.com/appsforamerica/), but only had two weeks and couldn't make the deadline.  So I took that as a mixed blessing, and decided to modularize the code so that it might be used in blog commenting systems or other parts of a site.  I'm still looking to enter this into a web innovation contest or grant program of some sort, so if you have any leads then let me know!  :)}
+{I had intended to submit my site to the [2009 Apps for America Competition](http://www.sunlightlabs.com/appsforamerica/), but only had two weeks and couldn't make the deadline.  It stayed in storage for years after that, but was revived and given new life as a Node.JS project, and made more modular to make it easier to apply to other kinds of problems.}
+
+[heading "License"]
+
+{I'm a pretty strong believer in the Stallman-style of "Software Freedom".  It would be a better world if those who adapted free software (and then deployed it to users) would share their adaptations back with the community.  His arguments have always seemed pretty solid to me:}
+
+http://www.gnu.org/philosophy/shouldbefree.html
+
+{When this project was first started in 2009, I tended to err on the side of conservatism in using GPL-style licenses.  The AGPL closes the "hole" in the GPL so that giving access to a program running GPL code on a server requires provision of any source adaptations made in that case.}
+
+{Yet at the same time, being able to borrow and recombine code without worrying about where it comes from is empowering to programmers.  Black Highlighter owes its existence to code from which copying and pasting could be done.  So being "unfriendly" about the license, in the sense of imposing concerns on people trying to solve a problem... is not my intention.  I just would like to be a little bit of a social agitator, so my own contributions are AGPL; for the moment.}
+
+{But if you are interested in applying Blackhighlighter in your project--and the license is too restrictive and a barrier to doing so, please contact me.  I'd loosen it if there was a good reason to.  Note that as people like Jack Slocum have learned, it's better to relax a license than tighten it after you've set expectations in your community:}
+
+http://blog.hostilefork.com/extjs-licensing-fiasco/
