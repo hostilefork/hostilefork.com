@@ -1,0 +1,365 @@
+Draem [
+    title: {Path Debate for Rebol and Red (plus "New Path!")}
+    tags: [rebol red]
+    slug: %new-path-debate-rebol-red
+    date: 30-Nov-2014/19:07:01-5:00
+]
+
+{I'd like to talk about PATH!, parsing exceptions, and philosophy (to anyone with the time and interest to read).  First I lay out the path block type as it is...and thoughts on why it should be broadened today to allow other word types and parens in the first slot.  I finish with a radical line of thinking on a proposal I'll label "New Path!" (With apologies to [*A Scanner Darkly*](http://scifi.stackexchange.com/questions/45690/how-did-a-scanner-darkly-actually-end).)}
+
+{Because Red is following in Rebol's footsteps, these issues apply equally to both.  But I will often say "Rebol" just because it is the more complete work to study.}
+
+[heading {Block Types Overview}]
+
+{Rebol has historically prided itself on having multiple kinds of symbolic blocks, while Lisp has only one.}
+
+{The easiest to grasp are BLOCK! in square brackets and PAREN! in parentheses, which are ANY-BLOCK! types.  These can accommodate a list of arbitrary values inside them (including other ANY-BLOCK! types).  They are general-purpose...so in pitching the languages often said to be tools available to *you*--the dialect designer.}
+
+{Ordinary blocks are inert unless acted upon in the default evaluator, while parentheses supply a form of precedence and evaluate their content.  PARSE uses block! for rule grouping and paren! to hold arbitrary code to evaluate if the parse position reaches a certain point.}
+
+{There's a red-headed-stepchild of this family (no pun intended)... which is PATH!.  Instead of an asymmetric delimiter, it has a single "interstitial delimiter".  So quirkily... `a/b/c` is a 3-element path!...which is similar in spirit to `[a b c]` the 3-element block! and `(a b c)` the 3-element paren!.}
+
+{Under the hood a path is an any-block! just like the others.  You can put blocks and parens and even other paths inside of paths.  But the interstitial delimiter mucks things up a bit.  Consider this piece of code for putting a paren-in-a-paren (we need the `quote` so it doesn't try to evaluate the paren and get values for the letter-words):}
+
+[code rebol {
+>> foo: quote (a b c)
+
+>> insert/only next foo quote (d e)
+
+>> probe foo
+(a (d e) b c)
+
+>> length? foo
+4
+
+>> length? second foo
+2
+}]
+
+{Fairly straightforward.  Would work the same way for a square bracketed block!, it just wouldn't need the quote.  Now let's try that with a path:}
+
+[code rebol {
+>> foo: quote a/b/c
+
+>> insert/only next foo quote d/e
+
+>> probe foo
+a/d/e/b/c
+
+>> length? foo
+4
+
+>> length? second foo
+2
+}]
+
+{Uh oh.  There's a nesting structure inside of that, but we just can't see it!  Technically speaking there's an answer for this: it's called [construction syntax](http://en.wikibooks.org/wiki/REBOL_Programming/mold#The_.22new.22_syntax_usage_and_name) and it's a more-awkward-but-complete way of representing such things for both loading and printing.}
+
+{Probe isn't using it because it hasn't been modified to detect when it's showing you a misleading case like this one.  The correct output would have been more like:}
+
+[code rebol {
+>> probe foo
+#[path! [a d/e b c]]
+}]
+
+{Construction switches over into representing the outer level of this path with the appearance of a block...even though the actual instruction here is to create a path.  Although it may look block-like, there is no way to use Rebol to traverse the internals of a construction syntax element like this.  When it loads, it loads as a PATH!...no blocks or the word path! itself are created.}
+
+[heading {The role of PATH!}]
+
+{Weird though PATH! may be, it is crucial to the default evaluator.  To pick just one of the ways it is applied in the default is selecting a member out of an object, such as `obj/member`.  If the evaluator hits a 2-element path like that, it goes and looks up the first word and says "oh, hey, it's an OBJECT!" and therefore it uses the second element in the path...a WORD! here, to name the member to look up.}
+
+{Some have raised a murmur about how this heavy symbol is *grating*, and looks too much like a file path.  If they were to go back to the aesthetic drawing board, who knows what they might prefer.  Perhaps the de-facto standard of `obj.member`, because it reads better by using a "lighter" symbol?}
+
+{I actually think that the similarity to path notation in filesystems is a strength...and not a weakness.  In fact, filesystems are somewhat "virtualized" already... when I say `ls foo/bar.txt`, then foo might be a mount point to a networked filesystem...a sort of "object" if you want to think of it that way.  Bit of a matter of taste here.}
+
+{But for the sake of this discussion, let's just assume you're not thinking about running a mutiny and changing how Rebol and Red select members out of objects... and you're at peace with `obj/member`.  (Which I am fine with.)  There are other behaviors of path:}
+
+[list
+    [
+        {Doing a SELECT on a block:}
+        [code rebol {
+>> b: [foo baz bar mumble]
+
+>> b/baz
+== bar
+
+>> b/bar
+== mumble
+}
+        ]
+    ] [
+        {Picking an item by index:}
+        [code rebol {
+>> b: [foo baz bar mumble]
+
+>> b/1
+== foo
+
+>> b/4
+== mumble
+}
+        ]
+    ] [
+        {Adding refinements to a function:}
+        [code rebol {
+>> foo: func [/bar] [print either bar ["just foo"] ["foobar"]]
+
+>> foo
+just foo
+
+>> foo/bar
+foobar
+}
+      ]
+    ] [
+        {Adding content onto a FILE! or URL!:}
+        [code rebol {
+>> f: %/foo/bar
+
+>> f/baz.txt
+== %/foo/bar/baz.txt
+}
+        ]
+    ]
+]
+
+{Each datatype has a different way of looking at how to handle the path selection.  And you can chain these.  For an example of that chaining:}
+
+[code rebol {
+>> o: object [b: [foo baz http://blog.hostilefork.com mumble]]
+
+>> o/b/baz/new-path-debate-rebol-red
+== http://blog.hostilefork.com/new-path-debate-rebol-red
+}]
+
+{This raises a question.  How would you pick the second element out of a block if the number `2` for second was held in a variable `index`?  Path selection with the word name of a variable would try to find a word named `index` and return the element after that.  But Rebol lets you put a GET-WORD! at the slot to say "use the value in that word instead of the literal word":}
+
+[code rebol {
+>> b: [foo baz bar mumble]
+
+>> index: 2
+
+>> b/:index
+== baz
+}]
+
+{It may not be the most attractive looking syntax, but it's an interesting and consistent use of the Rebol types.}
+
+[heading {The Plot Thickens}]
+
+{We've talked a little about what makes PATH! hard to handle.  But now let's look at some more of its differences from BLOCK! and PAREN!.}
+
+{It can't cope with spaces.  Both `[a b]` and `[a    b]` make equivalent blocks, but `a/b` is a path and `a  /  b` is not.  Also not-a-path are `a/ b` and `a /b`.}
+
+{There's nothing foundational about using an interstitial delimiter mandating that paths *couldn't* work with spacing.  But other uses currently claim that space.  Words beginning with slashes are REFINEMENT!, best known for their use in function specs.  A lone `/` becomes a special word that represents division.}
+
+{So if you find yourself needing spaces in a path for some reason...like breaking an especially long one across lines...you will need to use construction syntax.}
+
+{Like words, paths come in variations: SET-PATH!, GET-PATH!, and LIT-PATH!.  You might at first wonder why `a/b/c:` is what would be seen in construction syntax as `#[set-path! [a b c]]` instead of the seemingly more-regular `#[path! [a b c:]`, which wouldn't require the creation of a separate type.  Yet we've already seen that sometimes path elements contain get-words, so how would you write `a/b/:c:` without `#[set-path! [a b :c]`?}
+
+{It's a little confusing and makes you wonder what all is exactly legal in a path:}
+
+[list
+    {**a/b/:c:** => Yes - `#[set-path! [a b :c]]`}
+    {**a/b/c::** => Yes - `#[set-path! [a b c:]]`}
+    {**:a/:b/c** => Yes - `#[get-path! [a :b c]]`}
+    {**::a/b/c** => Yes - `#[get-path! [:a b c]]`}
+    {**'a/b/c** => Yes - `#[lit-path! [a b c]]`}
+    {**''a/b/c** => No.}
+    {**a/'b/c** => Yes - `#[path! [a 'b c]]`}
+    {**':a/b/c** => No.}
+    {**a/#b/c** => Yes - `#[path! [a #b c]]`}
+    {**#a/b/c** => Not a path...generates `#a /b /c`}
+    {**a//b/c** => No.}
+    {**:a:/b/c** => WAT? - `#[get-path! [a b c]]`}
+    {**a/:b:/c** => WAT? - `#[path! [a :b c]]`}
+]
+
+{It's worth pointing out that construction syntax or imperative code can build whatever you want.  But the ad-hoc nature of the lexical rules here definitely dampen path's appeal.}
+
+[heading "First Point of Contention"]
+
+{Newcomers often try to get `a/b` to be division and find it being a path!.  They ask why.  We argue that a richer symbolic space is achieved by allowing `/` to mean things other than division when not put in a spaced-out context.  Rebol has FILE! and URL! literals that don't need quote marks around them and can embed slashes, as well as paths, and even supports division with a slash too (so long as you put the spaces).}
+
+{Drinking this Kool-Aid, I found myself very disappointed that `#a/b/c` generates `#a /b /c`.  Richness is lost here too...for seemingly little value.  On the extremely rare case that I want `#a /b /c` I am willing to put spaces in for that, then I have `#a/b/c` as a path.  It *looks* pathy, and fits in a family with `a/#b/c` and `a/b/#c` and `#a/#b/#c` etc.}
+
+[note {Though there's nothing special about what issues do in paths today, I have proposed what I think could be a very important application: [Make SERIES/#INDEX path forms act as PICKZ and POKEZ on the value in INDEX](http://curecode.org/rebol3/ticket.rsp?id=2182).  It doesn't apply when an issue is at the head of a path.}]
+
+{@DocKimbel has felt that in his ideal, all paths which can be LOADed (without construction syntax) start with just an ordinary WORD!.  So in the list of cases above, he would consider `::a/b/c` giving back a get-path! whose first element is a get-word! to be a problem.}
+
+{It is actually problematic.  Although `::a/b/c` does a seemingly reasonable thing, it's unreasonable in light of the fact that you can't notationally put a get-word! in the first slot *unless* it's a lit-path! or a get-path!.  I believe that it's okay to have rules in the LOAD that say it will not make it easy to put a get-word! or lit-word! in the first slot of a path, or a set-word! in the last slot.}
+
+{You can still get them, you'll have to use construction syntax if you want it.  And not even construction syntax for the path itself, but for the anomalous element.  So `:#[get-word! "a"]/b/c` and `a/b/#[set-word! "c"]:`.}
+
+[note {I realized somewhat sadly that the abbreviated syntax for `#<set words with spaces>:` doesn't resolve the ambiguity of this case.  So `a/b/#<c>:` would have to be interpreted as equivalent to `a/b/c:` Oh well.  :-(}]
+
+{But with those three cases taken care of, I'd actually like to see other types legal at source level, be they strings...or numbers...issues...or whatever.  `304/{hello}/<world>/10.20` seems as legitimate as `[304 {hello} <world> 10.20]` or `(304 {hello} <world> 10.20)` to me, even if Rebol doesn't know what to make of them for all cases.}
+
+{Given that paths can be used to append words onto filenames or URLs (with a slash), what is the reason for excluding this behavior from strings?  Or characters becoming strings?}
+
+[code rebol {
+>> np: {New Path!}
+
+>> {Hello}/:np/#"!"/{World}
+== {Hello/New Path!/World}
+}]
+
+{It isn't necessary to implement such features in a hasty fashion.  They could have no meaning in the evaluator indefinitely, and perhaps be turned on sometime when tests converged on a reasonable behavior.  **But the real point is a philosophical one:**}
+
+[quote {Is the goal of Rebol and Red to create a format uniform and flexible enough that it empowers the imagination of dialect designers, so they connect structures to create new meaning using the symbolic tools?  OR is it to tailor the data format to the needs of the default evaluator and force people into strings or text files due to edge cases that were deemed to have workarounds for in the evaluator?}]
+
+{My bias is of course to say that the dialects are the reason.  Yet every time I've tried to work on a dialect I've found that the Rebol format is actually not friendly over the long run to very much besides Rebol.}
+
+[heading {Parentheses, Braces, Brackets, and Spaces}]
+
+{Because @DocKimbel insists that words must start paths, a paren group cannot either.  This yields the puzzling inability to write `(some stuff)/foo/bar` even though `foo/(some stuff)/bar` and `foo/bar/(some stuff)` are legal.  I asked him how a dialect designer was supposed to cope if they wanted a paren at the head of the path, and he said to just write `baz: (some stuff)` followed by `baz/foo/bar`}
+
+{Yet a dialect may not have this workaround; it may not be imperative.  The meaning of parens could be something declarative...and you simply don't have a way to put it anywhere else.}
+
+{Apparenly allowing parentheses inside paths at the LOAD level was a modification to the language that he thought made it more complex.  Within the imperative bounds of Rebol and the existence of the get-word in mid-path to retrieve computed expressions from variables, there was no reason to complicate things further.}
+
+{One complicating factor was that it took a comfortable assumption about spacing away.  Before, parentheses wouldn't "stick" to things.  So if you were looking at the last bit of `foo/(some stuff)/bar` and your eye was just caught on the `... stuff)/bar` you would know that **/bar** was a refinement.}
+
+{A comprehensive study of spacing in Rebol was done by Ladislav Mecir in [Rebol syntax and space significance](http://curecode.org/rebol3/ticket.rsp?id=2094).  The comments showed some divisions, with Brian Hawley and Ladislav believing that parentheses having this "sticky" behavior was a good thing.  Gregg Irwin found it unnatural and perhaps agrees with @DocKimbel that they should not be sticky.}
+
+{I'm *slightly* empathetic to this.  Because many programming languages have the character that `(foo)bar` is equivalent to `(foo) bar` for any text as foo and bar.  **However**, many programming languages also say `foo/bar` is equivalent to `foo / bar` and `foo /bar` and `foo/ bar`.}
+
+{Ladislav emphasizes the "words separated by spaces" argument; that it is foundational to Rebol, and therefore there should be "more space required".  Perhaps due to my designs in Rebmu I am biased to thinking spaces should be optional most of the time, though encouraged.  So I want to shift the focus away from that.}
+
+{Instead, I suggest this be recast in terms of **the unique needs of PATH! in dealing with its interstitial delimiter: slash**.  It is slash--and only slash--that has this unique "sticky" property.  No functionality is lost with sticky slash, because you can always get the unstuck-version of whatever you had before by throwing in a space.}
+
+{Besides once parentheses are allowed in the LOAD of paths at all, this particular cat is out of the bag.  It seems the only sensible moves are to go back in time and forbid them -or- allow them in the head position.  If they are allowed, why not blocks as well?  *(Any ideas on what `foo/[some stuff]/bar` would do?)*}
+
+{But overall...think of this as a property of the slash.  People who don't want to use it won't have to, you can avoid parentheses in paths altogether, or throw in spaces if you don't want things to stick.  But it's there for the dialects that need it.}
+
+{This has glossed over one issue.  *What about types other than PATH! with slashes in them?*  How can they participate with path, when a very character they contain would have bad mojo in mixing?  This actually was one of the issues that drove me to frustration in dialect work, where PATH! seemed too broken to be a useful part.  And that is why I came up with...}
+
+[heading {NEW PATH!}]
+
+[note {**WARNING** - Radical thinking ahead.}]
+
+{AFAIK...the types that can have slashes in their notations, other than PATH!, are:}
+
+[list
+    {**date!** - `30-Nov-2014/9:25:12+1:00`}
+    {**refinement!** - `/only`}
+    {**url!** - `http://hostilefork.com`}
+    {**file!** - `/usr/local/bin/`}
+]
+
+{Slashes can appear in strings or tags, of course.  But in those cases they have delimiters which keep them from mingling with the surrounding path.}
+
+{Let's think about what might happen if refinements could be in the head or the middle of a path.  Would `/a//b//c` a legal way of saying `[path! [/a /b /c]`?  That doesn't look like a very good idea.  :-/}
+
+{Let's look at how FILE! loads today if you try to hook it up to parentheses:}
+
+[code text {
+>> load "%foo/bar/(some stuff)/baz.txt"
+== [%foo/bar/ (thing) /baz.txt]
+}]
+
+{That could have been loaded as path.  But if it did, we start getting confused.  What cued the start into "pathness"?  If it's not a slash, then the first parentheses you hit?  Confusing.}
+
+{My radical idea was this:}
+
+[quote "**Slash in the Rebol and Red source code, when not enclosed in a string type, belongs to PATH! and always indicates a path separator.**"]
+
+{So if you quote something that might have looked to be a FILE! in the past, it will be a PATH! if it contained any slashes.}
+
+[code text {
+>> x: quote %foo/bar/(reverse "olleh")/baz.txt
+== %foo/bar/(reverse "olleh")/baz.txt
+
+>> type? x
+== path!
+
+>> to-block x
+== [%foo bar (reverse "olleh") baz.txt]
+}]
+
+{But if you don't quote it and instead let the evaluation run, then the head element being a FILE! string cues the behavior to get the result you expect:}
+
+[code text {
+>> y: %foo/bar/(reverse "olleh")/baz.txt
+== #%<foo/bar/hello/baz.txt>
+}]
+
+{That's using my condensed literals notation proposal, equivalent to `#[file! "foo/bar/hello/baz.txt]`.  The proposal has the benefits of construction syntax, like being more generalized to support spaces and such...but is much more compact.}
+
+{Moving on to URL!, it presents a twist:}
+
+[code text {
+>> load "http://hostilefork.com/(some stuff)"
+== [http://hostilefork.com/ (some stuff)]
+}]
+
+{Yet URLs don't start with a special character.  If a general method using Rebol's types were used to load it as a path!, you'd get the first element as a SET-WORD!.  And there's no support for empty path elements to handle `//` either.  But let's patch that up by saying that you can have an "empty" slot in a path just by putting a `#[none!]` in there.  It will render as sequential slashes like that.}
+
+{Now we have an opportunity to define how paths which begin with a SET-WORD! evaluate.  They can produce URLs.  So `#[path! [http:]]` evaluates to `#[url! "http:"]` and the other elements cascade on with the usual appending rules for URL!.  Our new case for a path element `#[none!]` just appends a slash *(as opposed to a word like `foo` which would append `/foo`)*:}
+
+[code text {
+>> load {http://hostilefork.com/(reverse "yppirt")}
+== #[path! [http: #[none] hostilefork.com (reverse "yppirt")]]
+
+>> x: http://hostilefork.com/(reverse "yppirt")
+== #*<http://hostilefork.com/trippy>
+
+>> type? x
+== url!
+}]
+
+{DATE! could handle things similarly.  If you have `30-Nov-2014/9:25:12+1:00` why can't that load as a two element path...a date! and a time!.  Then the behavior for path-selecting a time out of a date! is to make that the time in the date?}
+
+{With slash moving toward "always path", we can set our sights on the ever-quirky REFINEMENT! type.  And just say that's what a path with a #[none!] on its head and a word in the second slot looks like.}
+
+{If slash were so completly subsumed by its bolstering of the path type, it would make sense to lose it for the division operator and use something else.  How about `-:-`?  Then a simple / could become `[path! [#[none!] #[none!]]]`.  Since it is interstitial, there's no way to use it to indicate the empty path on its own...you'd still have to use a construction syntax or `to-path []` for that.}
+
+{Think of the doors opened for generalized escapes for variables into your filenames...taking on the likes of bash scripting and CMake.  You don't have to write special handling for it.  You just evaluate it:}
+
+[code text {
+>> VAR: %somedir
+
+>> %foo/:VAR/bar.txt
+== #%<foo/somedir/bar.txt>
+}]
+
+{This really goes into deep thinking about what the offering *is*.  Imagine having that kind of flexibility and PATH! being a serious peer to BLOCK! and PAREN!.  New users could be informed that "slash means path".  It would be uniform, with dialects able to find all sorts of ways to use it that haven't been invented yet.  And since they are dialects, they'd be able to invoke the evaluator whenever they wanted.}
+
+{Users who don't want the heft of a generalized PATH! could always go directly to the construction syntax and just get the string.  With the shorter proposed construction syntaxes, a file path can look like `#%<C:/Documents and Settings/whatever.txt>` which isn't too bad be too prohibitive.  The PATH! version would wind up looking like `%C:/{Documents and Settings}/whatever.txt` and have more power and flexibility with its components, at the cost of a series and evaluation.}
+
+[heading {Issues with New Path}]
+
+{NewPath is geared toward creating a generic block structure for legal types.  So it means that some kind of escaping needs to be used for anything that doesn't follow that pattern.}
+
+{Thus a NewPath can't be `%foo/1bar.txt` any more than it could be done before as `p: %foo` and `p/1bar.txt`.  This could be worked around with construction syntax, either on the constant as a whole (if no internal structure was desired) or just using construction syntax on the elements that are creating the trouble.}
+
+{There's also an issue that the structural elements of NewPath--unless you indicate them as strings of some kind--will wind up as words, integers, dates, or whatever.  So if you wanted to take the third element out of a NewPath and append some text to it, you'd have to convert it to a string or otherwise manipulate it as the target type.}
+
+{The generalized nature of working with a **/** is thus a lot more like working with a **()**, across the board.  It's a type that you have to quote or have inside of an block to suppress its evaluation.  When it does evaluate, its evaluation properties are a chain from head to tail...using the type of the previous result.}
+
+[note
+    {In terms of the *"path is chained evaluation"* idea, it might be interesting to see how that could be generalized, for instance with unary functions:}
+
+    [code rebol {
+>> a: object [b: [apple banana orange]]
+
+>> c: function [value] [reverse copy value]
+
+>> a/b/:c/1
+== orange
+}]
+
+    {That would be a more convenient way of writing `(c a/b)/1`, which would be a more convenient way of writing `first c a/b`.}
+]
+
+[list
+    {Some URLs have no slashes in them.  The set-word! in the first slot trick wouldn't work with them.  They would have to use construction syntax.}
+
+    {A dialect author who hasn't called the evaluator on a path will be put in a position of doing a little more work.  If they have an unevaluated path and want to know if it's representative of a URL! *without* evaluating it, they'll have to sniff the first element of the path to find out what it's going to be.  If it's a set-word!, they know it's going to become a URL!  If it's a file!, they know it's going to become a FILE!.  If it's a word!, they're in the same old boat they always were of having to know what's in that word.}
+
+    {The product FORM puts out will be as before, but MOLD would presumably put out construction syntax.  So you'd get `#[url! "http://hostilefork.com/trippy"]` or the shorthand like `#*<http://hostilefork.com/trippy>`  Source URLs that come in through as PATH! would thus go out as URL! unless you worked with them in their quoted path forms.}
+]
+
+{I do think it is food for thought.  It points to this question of what Rebol and Red *are*.  Having done enough attempts at dialect design, I've found it tantalizingly close to the "Good LEGO Alligator"...yet falling short in areas where it seems it should not.  Sometimes it starts to seem that the notation is mostly only good for writing Rebol, instead of being the great XML replacement that can function at a human typewriter scale.}
+
+{So I think it's important to ask whether the box of parts is truly well-formed, and these foundational questions are a place to start understanding why not, if not...}

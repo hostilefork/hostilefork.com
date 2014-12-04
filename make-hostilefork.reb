@@ -198,6 +198,9 @@ draem/set-config object compose [
 		{
 /* http://stackoverflow.com/questions/1402698/binding-arrow-keys-in-js-jquery */
 $(document).keydown(function(e) {
+	if (e.shiftKey || e.ctrlKey || e.altKey || e.metaKey)
+		return;
+		
 	switch(e.which) {
 		case 37: // left (up is 38) 
 			anchors = $("#prev > a");

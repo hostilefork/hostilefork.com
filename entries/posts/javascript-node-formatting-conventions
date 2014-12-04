@@ -47,7 +47,7 @@ var something = foo + bar +
 
 {...because now a reader doesn't have the cue that `baz(mumble);` isn't standalone, unless they scan up to the end of the previous (presumably long) line.}
 
-{But in [bizarro JavaScript world](http://lucumr.pocoo.org/2011/2/6/automatic-semicolon-insertion/) something called "automatic semicolon insertion" challenges an assumption.  Both those cases above are ine, but if you had written:}
+{But in [bizarro JavaScript world](http://lucumr.pocoo.org/2011/2/6/automatic-semicolon-insertion/) something called "automatic semicolon insertion" challenges an assumption.  Both those cases above are fine, but if you had written:}
 
 [code javascript {
 var something = foo + bar

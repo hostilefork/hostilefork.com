@@ -1,0 +1,38 @@
+Draem [
+    title: "Open Source Music and Devastatin' Dave"
+    tags: [humor open-source philosophy apple]
+    slug: %open-source-zip-zap-rap
+    date: 18-Aug-2014/16:13:16-4:00
+]
+
+{In 1986, a man going by the name of "Devastatin' Dave: The Turntable Slave" released a song called "Zip Zap Rap":}
+
+[button http://hostilefork.com/media/blog/open-source-zip-zap-rap/zip-zap-rap-album-cover.jpg 400x400 "Hear our message, say no to drugs!" http://hostilefork.com/media/blog/open-source-zip-zap-rap/zip-zap-rap-album-cover.jpg]
+
+{Little is known about him, other than that his name is most likely Dave Cary.  But what we do know is that the song would have almost certainly have been lost to history if not for its (most likely unintentionally) hilarious album cover.  Through a mixture of fate and meme magic, Devastatin' Dave skyrocketed to Internet infamy for consistently placing somewhere on "worst album cover" lists.}
+
+{A couple of years ago I wondered...was it actually bad music, or just a bad album cover?  It turned out some researchers had delved in to [find the original](https://www.youtube.com/watch?v=clg9AziTfI4).  They dismissively concluded the answer was [it's "bad"](http://www.grayflannelsuit.net/blog/music-from-the-worst-album-covers-devastatin-dave-zip-zap-rap).}
+
+{Okay, it has its problems...I'll grant.  But there are some "bones" to the song, and I have experience in remixing and sampling--so I took it as a challenge.  Here's the result:}
+
+[youtube https://www.youtube.com/watch?v=2Bg5hBOKDtw 560x315]
+
+{I didn't add much in the way of instruments, other than a kind of quivering noise to add continuity to whatever machine or UFO is in the background during the beginning.  The most dramatic improvements come from turning his meandering lyrics into something more structured that has a verse/chorus structure, and raising the speed by time-stretching...along with a bunch of [tempo mapping](https://en.wikipedia.org/wiki/Tempo_map) (in Logic, "beatmapping").  That makes it faster and gives it a more mechanical beat.}
+
+[note {Not that purely mechanical beats are some kind of artistic mandate.  *But* if the beat drifts and it isn't motivated in doing so, that's just being sloppy.}]
+
+{I'd thought the source file in Logic Express was lost, but found it a week ago.  I'm not going to spend any more time with it, but I thought that others might have fun with taking it further.  So I figured "why not open source it?":}
+
+[http://hostilefork.com/blog/media/open-source-zip-zap-rap/zip-zap-rap-remix-logic.zip {zip-zap-rap-remix-logic.zip}]
+
+{There are licensing issues of the hard-to-locate Dave's material.  *(He has a long road ahead of him if he's going to start taking legal action against all the Devastators impinging his Zip Zap IP.)*  But every time something like this comes up, I get bothered by the technical question:}
+
+[heading {"How do you open source a music file?"}]
+
+{How can I really give you the "source code" to that song?  *If you don't have a copy of Logic, then how can you read and modify it?*  There is very little incentive or demand for a common format, and the labor to go between them is significant.  Lowest-common-denominator formats like MIDI require too much effort.}
+
+{I don't invest a lot into my work in proprietary programs, and try to stay as independent as I can.  This only happened because I did it on a lark, and happened to have Logic.  (It's something I learned how to use at one point and it was cheaper than locking myself into Ableton Live.)  But while archiving old hard drives I come across something like this file and think how absolutely non-futureproof it is.}
+
+{The obvious thing I could do would be to "rasterize" the retimed audio and turn it into a multitrack.  But even then, how should I format it?  What's the lingua franca?}
+
+{Really, I'm putting it out more as a question than anything.  How can a musician work in a future-proof, shareable format?  What technologies and formats are in the future--and what *should* we be supporting?}

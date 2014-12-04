@@ -9,9 +9,6 @@ Draem [
 
 [image http://hostilefork.com/media/fork-card-back-320x560.png 320x560 "Business Card from SXSW"]
 
-[update {While I have generally avoided full-time employment in favor of consulting and pursuing my own projects, I'm currently considering opportunities if they are outside the USA.  I'd like to travel and experience another culture as a resident instead of just a tourist.  Particularly in Europe--if the position would involve work visas and relocation assistance *(and don't mind that I only speak English and Spanglish at the moment)*.}]
-
-
 [heading {Let me introduce myself...}]
 
 {I've been programming since BASIC on the Osborne 1, and 6502 machine code [without an assembler](http://blog.hostilefork.com/machine-language-commodore-64-128/)!  By age 7, I was already writing some of the best programs in my family *(of 3 people, one of whom did not use the computer, but still...)*:}
@@ -26,13 +23,7 @@ Draem [
 
 {Another big area of interest for me is how domain-specific language methodologies (DSLs) can allow a better capture of program expression in the jargon of the problem space.  The very website that you're looking at now is written using a [tool of my own design](http://draem.hostilefork.com), that runs on an entire cross-platform toolchain clocking in at *half a megabyte*.}
 
-[quote
-	[you: <confused> {Wait, what?  You built all that?}]
-
-	[me: {Sort of.  It actually stands on the shoulders of giants.  Please see [Rebol and Red](http://blog.hostilefork.com/why-rebol-red-parse-cool/), to which I donated the majority of my time to in 2013 after Rebol was open sourced.  While at times I wonder where the time went, I did design the icons for both projects...}]
-]
-
-[note {Although I've gotten increasingly good at JavaScript to write things like [Black Highlighter](http://blackhighlighter.org/), I *really* don't find the language design appealing.}]
+[note {Although I've gotten increasingly good at JavaScript to write things like [Black Highlighter](http://blackhighlighter.org/), I *really* don't find JavaScript appealing. It was admittedly designed in 10 days, and that shows.}]
 
 [heading {Working Style}]
 

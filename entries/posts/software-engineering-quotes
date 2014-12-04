@@ -26,9 +26,16 @@ Draem [
 
 [quote
 
-    {The most reliable parts of a system--the ones that never break down and that you don't need to replace--are the ones that aren't there.}
+    {The cheapest, fastest, and most reliable components of a computer system are those that aren't there.}
 
-    [note {I don't have the exact wording or a source on this one, but I want to quote it a lot.  So if you know, please leave a comment.}]
+    /source [http://en.wikipedia.org/wiki/Gordon_Bell "Gordon Bell"]
+]
+
+[quote
+
+    {Weeks of programming can save you hours of planning.}
+
+    [note {Source unknown.}]
 ]
 
 [quote
@@ -118,7 +125,6 @@ Draem [
     {Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.}
 
     /source [http://en.wikipedia.org/wiki/Brian_Kernighan "Brian W. Kernighan"]
-
 ]
 
 [quote
@@ -126,5 +132,31 @@ Draem [
     {It's been proven there are at most three numbers you should hardcode when programming: 0, 1, and N.  I've long been of the opinion that 1 should be avoided.  But lately I'm becoming increasingly skeptical about zero.}
 
     /source "self"
+]
 
+[quote
+
+    {Most computer technologists don't like to discuss it, but the importance of beauty is a consistent (if sometimes inconspicuous) thread in the software literature. Beauty is more important in computing than anywhere else in technology... Beauty is important in engineering terms because software is so complicated...}
+
+    {Beauty is our most reliable guide to achieving software's ultimate goal: to break free of the computer, to break free conceptually. Software is stuff unlike any other... Software's goal is to escape this gravity field, and every key step in software history has been a step away from the computer, toward forgetting about the machine and its physical structure and limitations -- forgetting that it can hold only so many bytes, that its memory is made of fixed size cells, that you refer to each cell by a numerical address.}
+
+    {Software needn't accept those rules and limitations. But as we throw off the limits, what guides us? How do we know where to head? Beauty is the best guide we have.}
+
+    /source [http://en.wikipedia.org/wiki/David_Gelernter "David Gelertner"]
+]
+
+[quote
+    
+    {We must not forget that the wheel is reinvented so often because it is a very good idea; I've learned to worry more about the soundness of ideas that were invented only once.}
+
+    /source [http://en.wikipedia.org/wiki/David_Parnas "David Parnas"]
+]
+
+{And not just about programming, but about learning any subject:}
+
+[quote
+
+    {To know where you can find everything...that, in short, is the largest part of learning.} 
+
+    /source [https://en.wikipedia.org/wiki/Samuel_Johnson "Samuel Johnson"]
 ]

@@ -1,0 +1,32 @@
+Draem [
+    title: "The 'Rethinking the Progress Bar' Study"
+    tags: [user-interface]
+    slug: %rethinking-the-progress-bar
+    date: 29-Jul-2014/8:10:28-4:00
+]
+
+{For me, progress notification is a very serious thing.  When I'm waiting for train cars to go by at a railroad crossing, I'm always wondering why they couldn't have some way of having each train carry a number on it.  It would count down from the front of the train (which would have the total number of cars) to the back (which would be 0).}
+
+[note
+    {I actually do think about this every time I'm stuck at a train track.  What would the economics be...how it might be done mechanically by something the train cars run past as they leave a station vs. being active electronic components, etc.  Being a programmer who knows a thing or two about loops, I don't want to get trapped forever by some infinite train hack!}
+]
+
+{So every time someone asks a question like "should a progress bar go backward" on StackOverflow, I'll have an opinion.  (That opinion would be "no".)}
+
+{Given my wish for accuracy, I'd not considered the psychological impact of a *lying* progress bar.  But there was some research I found once called ["Rethinking the Progress Bar"](http://www.chrisharrison.net/index.php/Research/ProgressBars) (Harrison, C., Amento, B., Kuznetsov, S., and Bell, R. 2007.)  They tried using nonlinear functions...even "wavy" ones that would incorporate a sine wave.}
+
+[image http://hostilefork.com/media/blog/rethinking-the-progress-bar/actual-vs-displayed-progress.png 540x523 {Actual Progress vs. Displayed Progress}]
+
+{My intuition would be that people would like "Inverse Fast Power" the least; when you are closer to the process ending, you want to see it speed up...not slow down.  I'd also guess that people would prefer the waviness; because if you advance gradually and continuously then you don't perceive any "moments of progress".  So a combination of "Fast Power" and "Wavy" would probably be the best *(though they didn't try that)*.}
+
+{When they tested it, they didn't use a particularly large sample set...just 22 people.  And they were all from a computer lab, presumably at a school.  So not necessarily the average population.  According to the tests done in the paper, the preferences came back unsurprisingly favoring "Fast Power".  Read the paper if you want the details.}
+
+{But I don't know how I feel about this.  It's true that when you're dealing with user interface, there is a psychological component that can upstage an abstract notion of being "right".  Yet this deals with time, and using anything but linear seems maddening.  It's like being at someone's house where they set all their clocks fast because they're always running late.  (I hate it when people do that.)}
+
+{Perhaps there is a middle ground?  A feature I think every progress bar needs is to calculate an estimate of how much time is remaining.  There is no point of making me do the mental math myself...which requires me remembering when I started the operation.  Really this time is the only *useful* piece of information a progress bar can give you--even if it's an estimate.}
+
+{So if I was given that countdown number, and the bar was just a psychological tool that I might stare at for short periods...then I could make the decision.  Either I watch the bar and pander to the world of perception, or read the time and live in the world of facts.}
+
+[note
+    {Hopefully somewhere in the future, there will be a part of people's work in which [Real-Time Computing](http://en.wikipedia.org/wiki/Real-time_computing) actually can give you accurate progress bars!}
+]

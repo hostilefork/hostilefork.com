@@ -43,7 +43,7 @@ Apples > Carrots
       Bananas < Carrots
 }]
 
-{There are four different ways you could have answered these two questions.  However, we know from the mathematical law of permutations that there are *six* different orderings of three items, which we can calculate by using the factorial 3*2*1.  Which did we leave out?}
+{There are four different ways you could have answered these two questions.  However, we know from the mathematical law of permutations that there are *six* different orderings of three items, which we can calculate by using the factorial `3 * 2 * 1`.  Which did we leave out?}
 
 [text {
 1. Apples > Bananas > Carrots

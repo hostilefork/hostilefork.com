@@ -1,0 +1,148 @@
+Draem [
+    title: "Template Specialize std::optional/boost::optional or Not?"
+    tags: [c++ boost graph]
+    slug: %template-specialize-optional-or-not
+    date: 20-Nov-2014/19:07:01-5:00
+]
+
+{One concept that I've found very interesting since I first saw it many years ago is the idea of the [Option type](http://en.wikipedia.org/wiki/Option_type).  The generalized C++ idea of an `optional<T>` started out in the Boost library.  Enough people think it's important that it has been slated for making it into the C++ specification proper as [std::optional](http://en.cppreference.com/w/cpp/experimental/optional).}
+
+[note
+    {Issues and debates on exactly how it should work in edge cases has led to a delay of `std::optional` from its planned inclusion in C++14.  However:}
+
+    [list
+        {for C++98, the [boost::optional](http://www.boost.org/doc/libs/1_57_0/libs/optional/doc/html/index.html) is a longstanding stable choice, and will work in C++11 as well}
+
+        {if you need support for C++11 advanced eatures (such as optionals holding move-only types), the incubator for a reference implementation can be found at [https://github.com/akrzemi1/Optional/](https://github.com/akrzemi1/Optional/)}
+    ]
+
+    {I've used the reference implementation heavily on some strange cases, and it has held up well.  So the "experimental" name shouldn't scare you off from using it.}
+]
+
+{Typical usage is simple.  It takes advantage overloading of `operator*` in order to "dereference" an optional which has been tested to be sure it contains a value.
+*(A reasonable choice...it's conceptualy very similar to if you were using a pointer that may be null)*:}
+
+[code c++ {
+#include <iostream>
+#include "optional/optional.hpp"
+
+using namespace std;
+using namespace std::experimental;
+
+void maybePrintInteger(optional<int> value) {
+    if (value)
+       cout << "Integer is " << value << "\n";
+    else
+       cout << "No integer\n"
+}
+
+int main() {
+   optional<int> threeOhFour (304);
+   optional<int> defaulted;
+
+   maybePrintInteger(threeOhFour);
+   maybePrintInteger(defaulted);
+   maybePrintInteger(1020)
+   maybePrintInteger(nullopt);
+
+   if (defaulted == 189) { // 0xBD :-P
+       cout << "This shouldn't happen...\n";
+   } else {
+       cout << "All done.\n"
+   }
+}
+}]
+
+{As output you'll get:}
+
+[code text {
+Integer is 304
+No integer
+Integer is 1020
+No integer
+All done
+}]
+
+{We can see that an optional provides sensible defaulting behavior; it defaults to being empty.  *(This is particularly nice when you have a type like `int` which would ordinarily default to being uninitialized.)*.  A special `nullptr`-like abstraction called `nullopt` is a trivial value of type `nullopt_t` whose assignment signals the reset of a nullopt.}
+
+{Dereferencing a nullopt is an error, similar to dereferencing a nullptr.  There are lots of subtle interesting things about the behavior.  I picked one showing the comparison against 174 with `defaulted`.  This shows that a `nullopt`-valued optional will compare false against any legal contained value.  You can do equality and inequality comparison without causing a dereference.}
+
+[heading {Pretty...but what does it cost?}]
+
+{The status quo for C programmers pass around integers (or whatever) which encode some value as a "magic number" to indicate "no value".  Often that value is -1 (or its interpretation as a large unsigned value, e.g. 65545).  Drinkers of the C++ Kool-Aid will point out how much cleaner it is to make your classes disallow invalid values...and to use optional as a type-safe way of marking the (hopefully) few points in the code that actually intend to pass a value that has to be checked before using it.}
+
+{Unfortunately... as frequently happens with generalized abstractions, there are some costs from the generality.  First, let's talk about the memory use.  On a 32-bit GCC with the reference C++11 implementation:}
+
+[list
+    {`sizeof(char) == 1` and `sizeof(optional<char>) == 2`}
+
+    {`sizeof(short) == 2` and `sizeof(optional<short>) == 4`}
+
+    {`sizeof(int) == 4` and `sizeof(optional<int>) == 8`}
+
+    {`sizeof(hundredInts) == 400` and `sizeof (optional<hundredInts>) == 404` *(with `struct hundredInts { int data[100]; };`)*}
+]
+
+{Really all that's happening under the hood is that a `bool` is being packed alongside the value.  If the first 3 cases made you fear that optional is doubling the size of the objects it wraps, that's just [structure packing](http://www.catb.org/esr/structure-packing/) kicking in.}
+
+{For a large class you'd barely notice.  But imagine you used to have a megabyte-sized array of `char` which was encoding "no value" for each byte as -1?  Then you try turning that into an an array of `optional<ByteSizedClass>`...hoping to make the class forbid invalid size.  The overhead of the optional on each  Suddenly you have a *two*-megabyte sized array.}
+
+{Small types that are repeated many times are the bane of generalized-C++-answers to old-C-problems.  Many C-heads will say *"never mind this type safety; if it isn't for free I'll just try and make sure I don't screw up"*.}
+
+[heading {What about "template specialization"?}]
+
+{A serious C++ Kool-Aid drinker (crack smoker?) isn't discouraged by this type of thing.  There is *no good reason* for a type-safe C++ solution to perform worse or use more memory than a C way of doing things.  The issue is that you can't always use a generic class from a library; you might have to pave your own path with C++.}
+
+{*But does your path need to be entirely new?*  Might an existing codebase which had used `optional<ByteSizedClass>` become "magically" upgraded, without doing a search-and-replace on those references to use some tailored solution like `OptionalByteSizedClass`?  Could a trick be used to suddenly shrink `optional<ByteSizedClass` down to only use one byte instead of two?}
+
+{This is the alluring idea of what is called [Template Specialization](http://en.cppreference.com/w/cpp/language/template_specialization).  In this case, you'd effectively have to rewrite the implementation of optional...but at least you wouldn't be introducing a new data type.}
+
+{At first I didn't think this was a good idea, and chimed in on an [answer on StackOverflow](http://stackoverflow.com/a/19081234/211160) saying I didn't think it could work.  Here was why:}
+
+[list
+    {The published interface for `optional` says that you can always get a reference to the contained type (`T&`) when you use `operator*`.}
+
+    {The reference you get is to memory that contains a *valid constructed value of of the contained type*.}
+
+    {If we are to leverage an "invalid" bit pattern of the contained type to represent the empty optional state, then we are stuck.  The object should not be able to create invalid patterns...yet we need a pattern of the object instantiated in memory which can tolerate invalid patterns to give back that reference.}
+]
+
+{The logic of the argument seemed to follow "avoiding another vector<bool>" as the StackOverflow answer said.}
+
+[heading {Specialization should preserve the interface}]
+
+{If you're not familiar with the vector<bool> story, here it is...}
+
+{Class designers realized that a [`std::vector<bool>`](http://en.cppreference.com/w/cpp/container/vector_bool) with 8 bools in it (for instance) could be packed under the hood into a single byte, vs. needing 8 bytes at one-per-bool.  They made the `vector` class implement this magic with template specialization.}
+
+{This misguided design choice had a number of problems.  It *assumes* that the user of the class is more concerned about memory than CPU cycles...because extracting individual booleans suddenly requires masking operations.  An irate programmer tripping across this specialization could well say *"If I'd have wanted a [std::bitset](http://en.cppreference.com/w/cpp/utility/bitset), I'd have asked for one!!!"*.}
+
+{But besides the space/time tradeoff, there was an interface issue.  A vector promises to be able to give back a reference to the Nth element inside it...with an associated pointer in memory.  How can you give the address of a single bool *(which is implemented often as a byte or larger)* within your 1-byte vector of 8 "logical booleans"?  You can't...and so the specialization of `vector<bool>` had to introduce a new class to act as a "proxy reference" for booleans.}
+
+{The moral of the story is:}
+
+[quote
+    {Do not specialize templates published by others *unless you can offer the same guarantees they do*.}
+]
+
+{The fact that optionals do embed a full instance of the wrapped type inside themselves leaks through the implementation.}
+
+[heading {A Workaround for the Problem}]
+
+{But while writing up why it "can't be done", I observed that cooperation (or "conspiracy") between the specialization and the class it was specializing could work.  The class could avoid offering any constructors in its interface that allowed the production of the invalid bit pattern.  Then the `optional<T>` specialization could actually *derive from* `T`...and be "friended" well enough to poke the invalid bit pattern into the type.}
+
+{I made a helper class for creating such specializations.  What I did was to have it expect that the class it is specializing offer `void writeOptional()` and `bool testOptional()` functions that are private, and make the "OptionalSpecializer" a friend.}
+
+{TBD: fill in example code here.  Moral of the story: *"a little messy, but rather general, and works with arbitrary classes"*}
+
+[heading {Footnote on optionality}]
+
+{I should explain that what really fascinates me about "optionality" is that I actually think they are generally "bad".  Somewhat the way that Tony Hoare called Null References his "billion dollar mistake":}
+
+[quote
+    {I call it my billion-dollar mistake. It was the invention of the null reference in 1965. At that time, I was designing the first comprehensive type system for references in an object oriented language (ALGOL W). My goal was to ensure that all use of references should be absolutely safe, with checking performed automatically by the compiler. But I couldn't resist the temptation to put in a null reference, simply because it was so easy to implement. This has led to innumerable errors, vulnerabilities, and system crashes, which have probably caused a billion dollars of pain and damage in the last forty years.}
+
+    /source [http://lambda-the-ultimate.org/node/3186 {Tony Hoare, "Historically Bad Ideas"}]
+]
+
+{It's much easier to write code that doesn't have to first check if a value is there before using it.  Generally speaking, I oppose the default construction of any datatype whose only sensible meaning is nullity.  (Collection classes like vector/etc. have a meaningful "empty" state, but something like a suit of cards (Spades, Hearts, Diamonds, Clubs) doesn't have a "sensible default".  It's thus better to avoid default construction, and weave in the `optional<Suit>` whenever it is truly necessary.}

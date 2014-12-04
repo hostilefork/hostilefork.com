@@ -292,17 +292,28 @@ a is 10, and b is 20, sum is 30
 
 [code rebol {
 >> combine/with ["abc" ["def" "ghi"] "jkl"] ["," space]
+== "abc, def, ghi, jkl"
+}]
+
+{Initially I thought that it was bad to apply the delimiter to nested blocks.  Because in cases where you didn't want that, it would be too hard to remove them.  It seemed easier to call a nested COMBINE than to take them out!  But subsequent design discussions suggested being able to take a function that was aware of its depth:}
+
+[code rebol {
+>> delim: function [depth] [either/only depth = 1 ["," space] none]
+
+>> combine/with ["abc" ["def" "ghi"] "jkl"] delim
 == "abc, defghi, jkl"
 }]
 
-{Applying the delimiter deeply to deeper nesting levels is empirically a rarer case.  It's also a lot easier to put it in than to throw it out  *(Similar arguments apply for why not to add it to the end or beginning!)*}
+{It occurred to me that the wish to override the delimiter was so common in practice that using an out-of-band type, such as a refinement or issue, could signal that you didn't want the delimiter to be applied.  As something brief and useful, I thought `/+` might be a good pick.  So that's what I am currently using to see how it works out.}
 
 [code rebol {
->> delim: ["," space]
-
->> combine/with ["abc" (combine ["def" "ghi"] delim) "jkl"] delim
-== "abc, def, ghi, jkl"
+>> combine/with ["abc" ["def" /+ "ghi"] "jkl"] ["," space]
+== "abc, defghi, jkl"
 }]
+
+[note {I first tried using `/-`, but decided it looked too much like the tab escape sequence of `^^-`.  So intead of thinking of it as *"subtract the /WITH delimiter"* I recast it as *"do a concatenation before the COMBINE."*.}]
+
+[heading {Empty Block Handling}]
 
 {One edge case is what to do with an empty block or all none.  At the moment this returns an empty string:}
 
@@ -312,6 +323,28 @@ a is 10, and b is 20, sum is 30
 }]
 
 {Initially I'd hoped to distinguish this case by returning `none`.  However, my prototype implementation has an /INTO refinement...and since that returns the insertion position in another series there would be no way to distinguish between an empty result and a none result.  Technically speaking, I'm not really sure how often someone performing a combine would really need to distinguish the case of gluing together strings which turned out to be empty vs. nones.}
+
+[heading {Using as a basis for PRINT}]
+
+{One application that I decided would be important would be to use COMBINE/WITH a SPACE as the behavior of PRINT when it was passed a block.  That lets you create small bits of "print DNA" in blocks, just as you can break down parse rules into sub-rules.}
+
+[code rebol {
+>> whose: ["whose name is" name]
+
+>> know: ["I know a" type whose]
+
+>> type: "dog" name: "Wesly"
+
+>> print ["Statement:" know /+ "."]
+Statement: I know a dog whose name is Wesly.
+
+>> type: "language" name: "Red"
+
+>> print [know "and it's really cool!"]
+I know a language whose name is Red and it's really cool!
+}]
+
+{The recursive nature of the evaluation offers a lot of possibilities, and the ability to suppress spaces with `/+` gives PRINT a much-needed ability.  Not only is the common case covered cleanly, but the need to break out into REJOIN (or even COMBINE) is almost entirely eliminated.}
 
 [heading {COMBINE in Draem as a case study}]
 

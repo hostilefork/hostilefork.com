@@ -14,6 +14,14 @@ Draem [
 
 {Odds are, you probably plugged that drive into a Mac at some point.  While it had the opportunity, OS/X decided to throw a party on your drive.  It grabbed some chunks of disk space for itself, which it uses to make the experience of using OS/X with that drive more streamlined.  But if you never plug the disk into an Apple computer again, the space it chewed up will not be reclaimed.}
 
+[heading {ASEPSIS: A free open-source permanent solution}]
+
+{Since the time of originally writing of the article, a program has come on the scene called [Asepsis](http://asepsis.binaryage.com/).  On versions of OS/X at 10.8 or newer, it will hook the operating system in such a way to contain all the DS_Store files your system makes into a certain subdirectory.}
+
+http://asepsis.binaryage.com/
+
+{It's a promising idea, although maybe a little bit "invasive".  I'll mention some other solutions and details of the problem.}
+
 [heading {Short Version: What To Do}]
 
 {I only know one method to prevent OS/X from doing this to a specific disk.  Ironically, that involves putting some of your own weird (but tiny) files on the disk before you plug it into an OS/X machine:}

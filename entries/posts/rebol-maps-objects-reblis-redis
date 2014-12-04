@@ -1,0 +1,255 @@
+Draem [
+    title: {Maps in Rebol and a sketch of "Reblis"}
+    tags: [redis ideas rebol]
+    slug: %rebol-maps-objects-reblis-redis
+    date: 4-Aug-2014/12:14:20-4:00
+]
+
+{Looking at the date on a piece of Rebol code I found on my drive, I see I wrote it on `3-Oct-2012`. That was not too long after the announcement that Rebol [was going to become open source](http://www.rebol.com/article/0511.html)--though the source would not actually get released until `12-Dec-2012`.}
+
+{The thing I'd gotten in my mind and tinkered with was what it might be like to do a mash up of Rebol with [Redis](http://en.wikipedia.org/wiki/Redis).  Both of them being C codebases, and operating on a single-threaded model, I thought it could be interesting to gut out Redis's command processor and let Rebol handle all of that.  It would mean a much more script-friendly Redis, which could do something like stored procedures.}
+
+{I built a command table which was in a [Ren](https://github.com/humanistic/REN) format.  It was just a thought experiment and I didn't take it very far.  But I updated it to Redis 3.0, and it's now on GitHub.  Here's the only relevant bit:}
+
+https://github.com/hostilefork/reblis/blob/master/redis-commands.ren
+
+{And during the update I noticed a couple of anomalies in my documentation-and-command-table mash up, so I reported it on GitHub and it got fixed.  So there was at least one productive outcome for a couple evenings of work:}
+
+https://github.com/antirez/redis-doc/issues/398
+
+{Here's a little bit of additional documentation and thoughts as a blog.}
+
+[note
+    {If you found this looking for how to use Redis with Rebol, I'm 99.9% certain this is not what you are looking for.  Look up the [Redis network scheme](https://github.com/rebolek/prot-redis) by @rebolek.  Shown here from the REPL, it's this easy:}
+
+    [code rebol {
+>> rs: open redis://redis-server
+>> write rs [SET foo 1]
+>> write rs [INCR foo]
+    }]
+
+    {To demystify that a little bit: Rebol has a "flavor" of string called URL!, which the tokenizer considers the pattern of `foo:anything`.  You don't have to put it in quotes for the language to know it's a URL, and the `open` command is polymorphic and has special behavior when you pass it a URL-flavored string *(your commands can do this too)*.  The part before the colon in a URL is called the "scheme", and you can register handlers for certain schemes with the I/O subsystem.  So here we see a `redis://` scheme handler that knows what to do with Rebol data when you read and write things.}
+
+    {Very elegant, but not what my crazy idea was about here.}
+]
+
+[heading {Scraping the Redis data}]
+
+{Step one of making "Reblis" was to figure out how to translate all of the Redis commands into Rebol natives.  So what I did was to blend two input sources: the command list in `redis.c` and the `commands.json` file that powers the Redis help site.  In `redis.c` you have a list like:}
+
+[code c {
+struct redisCommand redisCommandTable[] = {
+    {"get",getCommand,2,"rF",0,NULL,1,1,1,0,0},
+    {"set",setCommand,-3,"wm",0,NULL,1,1,1,0,0},
+    {"setnx",setnxCommand,3,"wmF",0,NULL,1,1,1,0,0},
+    {"setex",setexCommand,4,"wm",0,NULL,1,1,1,0,0},
+    {"psetex",psetexCommand,4,"wm",0,NULL,1,1,1,0,0},
+    {"append",appendCommand,3,"wm",0,NULL,1,1,1,0,0},
+    {"strlen",strlenCommand,2,"rF",0,NULL,1,1,1,0,0},
+    ...
+    ...
+    ...
+    {"pfcount",pfcountCommand,-2,"w",0,NULL,1,1,1,0,0},
+    {"pfmerge",pfmergeCommand,-2,"wm",0,NULL,1,-1,1,0,0},
+    {"pfdebug",pfdebugCommand,-3,"w",0,NULL,0,0,0,0,0},
+    {"latency",latencyCommand,-2,"arslt",0,NULL,0,0,0,0,0}
+};
+}]
+
+{This doesn't really break down the parameters, but that string like `"wmF"` or `"arslt"` is encoding a number of flags about the command.  Their meanings are:}
+
+[list
+    {**w** - write command (may modify the key space).}
+
+    {**r** - read command  (will never modify the key space).}
+
+    {**m** - may increase memory usage once called. Don't allow if out of memory.}
+
+    {**a** - admin command, like SAVE or SHUTDOWN.}
+
+    {**p** - Pub/Sub related command.}
+
+    {**f** - force replication of this command, regardless of server.dirty.}
+
+    {**s** - command not allowed in scripts.}
+
+    {**R** - random command. Command is not deterministic, that is, the same command with the same arguments, with the same key space, may have different results. For instance SPOP and RANDOMKEY are two random commands.}
+
+    {**S** - Sort command output array if called from script, so that the output is deterministic.}
+
+    {**l** - Allow command while loading the database.}
+
+    {**t** - Allow command while a slave has stale data but is not allowed to server this data. Normally no command is accepted in this condition but just a few.}
+
+    {**M** - Do not automatically propagate the command on MONITOR.}
+
+    {**k** - Perform an implicit ASKING for this command, so the command will be accepted in cluster mode if the slot is marked as 'importing'.}
+
+    {**F** - Fast command: O(1) or O(log(N)) command that should never delay its execution as long as the kernel scheduler is giving us time. Note that commands that may trigger a DEL as a side effect (like SET) are not fast commands.}
+]
+
+{I thought it would be nice to preserve this information in the import, along with the description data in the documentation JSON.  As I note in my GitHub issue on the documentation, these sources are not connected. Since there's nothing reconciling the existence of a command in the array with documentation in the JSON file, it's done by hand.  Also, I had to sort of wing it and special case some things in the import.}
+
+[note
+    {The reason I didn't just handle the edge cases by hand was because I was pretty sure I'd have to reimport it again, and that it would be best to have it done with code.  That turned out to happen, as in the two years between the idea and now there were changes.}
+]
+
+{As a case study, let's look at BITCOUNT.  Here's its entry in commands.json:}
+
+[code javascript {
+"BITCOUNT": {
+    "summary": "Count set bits in a string",
+    "complexity": "O(N)",
+    "arguments": [
+        {
+            "name": "key",
+            "type": "key"
+        },
+        {
+            "name": ["start", "end"],
+            "type": ["integer", "integer"],
+            "multiple": true
+        }
+    ],
+    "since": "2.6.0",
+    "group": "string"
+    }
+}]
+
+{Then its corresponding C table entry:}
+
+[code c {
+{"bitcount",bitcountCommand,-2,"r",0,NULL,1,1,1,0,0}
+}]
+
+{Here's the entry for that after these are put together, with an "exception" thrown in to name the refinement `/range`:}
+
+[code rebol {
+BITCOUNT: [
+    summary: "Count set bits in a string"
+    complexity: "O(N)"
+    since: 2.6.0
+    group: 'string
+    parameters: [
+        key [string! binary!] "key!"
+        /range start [integer!] end [integer!]
+    ]
+    flags: [read-only]
+]
+}]
+
+{It's not a FUNCTION definition yet, though it could easily be turned into one.  So the `parameters` field is trying to the function-specification-dialect variant of Redis semantics.  Redis does some things Rebol doesn't, like parameters that are optional based on position...so I turned those into refinements.}
+
+{So in Redis you would say:}
+
+[code redis {
+bitcount somekey 10 20
+
+bitcount anotherkey
+}]
+
+{The Rebol way of getting the optional argument would be `bitcount/range somekey 10 20`.  This was a mixture of some naming that could be done automatically (like Redis "subcommands") and some that had to be done by hand. This name "RANGE" is a case of that; it's needed because the arguments are a pair, so the refinement can't be named by either one of the parameter names.}
+
+[note
+    {Although nowadays I'm much more familiar with Rebol, so I'd mention that a single value like `10x20` could be used.  But PAIR! always strikes me as a bit contrived when you aren't using it in a CSS-like dialect to indicate a size.  Still, you couldn't call that pair "start" or "end"...the script would need some sort of mention}
+]
+
+[heading {Redis "Dictionary Hash Table" vs Rebol MAP!}]
+
+{The first thought I had (which was pretty simplistic) was that the Redis code would be unchanged, besides removing the command processing and dispatch.  So there'd be the same implicit global context for all keys.  Somewhere between then and now I'd gotten a far more ambitious idea--which was to actually replace Rebol's `MAP!` with Redis's structure...and get it to store Rebol types.}
+
+{How much more ambitious an idea is that?  Since I hadn't given this idea any attention since October 2012 (which was before the Rebol source was released), I couldn't have told you.  So I thought I'd go ahead and take a look under the hood to see what's going on.}
+
+{Firstly, there's been some discussion about what the deal is with having a MAP! type in Rebol when there's already OBJECT!.  (Rebol2 did not have a separate map.)  Brian Hawley had [this to say on the matter](http://chat.stackoverflow.com/transcript/message/14847600#14847600):}
+
+[quote
+    {Basically, maps are a light-weight version of objects with a different keying model. With objects, you can only have word keys and you can't remove keys - the restrictions required to support binding. With maps, you can have any hashable type as a key, and (depending on how you think about it) you can remove key-value pairs from the map, or (with the other way of thinking about it) all possible keys are in the map, but you only see the keys that don't have none for the values.  Both interpretations of the keyspace of a map are valid.}
+ 
+    {Whether objects or maps are more appropriate is up to your particular needs. Most of the time when you need a data structure it's better to use maps. In some cases, it's even better to use maps when all of your keys are words - for example, in R3-GUI there is a set of reactor functions where whether or not the function is there is not an error either way, so map is better.}
+
+    {If the presence of keys in your structure matters, and you can get away with using word keys, and you don't remove keys, then objects are better. The restrictions needed to do binding are pretty specific, but there are a lot of processes that need those kinds of restrictions for much the same reasons, so they can use objects too.}
+]
+
+{So presumably, if one were to try to blend Rebol and Redis you would leave OBJECT! alone and just mess with MAP!.}
+
+{A MAP! is stored in a Reb_Series...the same structure that holds an ordinary BLOCK!.  You'll find it defined in [`sys-value.h`](https://github.com/rebol/rebol/blob/25033f897b2bd466068d7663563cd3ff64740b94/src/include/sys-value.h#L308):}
+
+[code c {
+/***********************************************************************
+**
+*/  struct Reb_Series
+/*
+**      Series header points to data and keeps track of tail and size.
+**      Additional fields can be used for attributes and GC. Every
+**      string and block in REBOL uses one of these to permit GC
+**      and compaction.
+**
+***********************************************************************/
+{
+    REBYTE  *data;      // series data head
+    REBCNT  tail;       // one past end of useful data
+    REBCNT  rest;       // total number of units from bias to end
+    REBINT  info;       // holds width and flags
+    union {
+        REBCNT size;    // used for vectors and bitsets
+        REBSER *series; // MAP datatype uses this
+        struct {
+            REBCNT wide:16;
+            REBCNT high:16;
+        } area;
+    };
+#ifdef SERIES_LABELS
+    REBYTE  *label;     // identify the series
+#endif
+};
+}]
+
+{By contrast, the Redis dictionary definition from [dict.h](https://github.com/antirez/redis/blob/78a012d81a0f487b92b2b79a91de1f28697100e8/src/dict.h#L47) looks like this:}
+
+[code c {
+typedef struct dictEntry {
+    void *key;
+    union {
+        void *val;
+        uint64_t u64;
+        int64_t s64;
+        double d;
+    } v;
+    struct dictEntry *next;
+} dictEntry;
+
+typedef struct dictType {
+    unsigned int (*hashFunction)(const void *key);
+    void *(*keyDup)(void *privdata, const void *key);
+    void *(*valDup)(void *privdata, const void *obj);
+    int (*keyCompare)(void *privdata, const void *key1, const void *key2);
+    void (*keyDestructor)(void *privdata, void *key);
+    void (*valDestructor)(void *privdata, void *obj);
+} dictType;
+
+/* This is our hash table structure. Every dictionary has two of this as we
+ * implement incremental rehashing, for the old to the new table. */
+typedef struct dictht {
+    dictEntry **table;
+    unsigned long size;
+    unsigned long sizemask;
+    unsigned long used;
+} dictht;
+
+typedef struct dict {
+    dictType *type;
+    void *privdata;
+    dictht ht[2];
+    int rehashidx; /* rehashing not in progress if rehashidx == -1 */
+    int iterators; /* number of iterators currently running */
+} dict;
+}]
+
+{Instead of that union, the `dictEntry` would need to store a REBVAL.  And then this `dict` type that Redis speaks would have to be able to be stored inside a REBVAL as well.}
+
+{That starts becoming a world of complicated.  Suddenly you are having to modify the guts of both Redis and Rebol.  And you'd have to restructure it more to give Rebol types to represent sorted lists, and unsorted lists, etc.}
+
+{My first idea was more realistic, to just glue them together without reaching deeply into either.  It actually wouldn't be that hard, but now that there is a Redis network scheme the benefits are probably marginal.  The only time where this would be interesting would be the "stored procedure" case where you wanted to wrap up some code into a Redis instance.  But then you'd still probably be sending it requests over the network...so the fact that I've mucked with the API would be more an inconvenience than anything.}
+
+{Anyway, published here for "hard drive zero" but I think me learning a little bit about Redis (and helping with a documentation issue) is probably as far as this is going.  :-)}
+

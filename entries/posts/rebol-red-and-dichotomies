@@ -1,0 +1,121 @@
+Draem [
+    title: {A Dichotomy Puzzle for Rebol and Red}
+    tags: [rebol red puzzles]
+    slug: %rebol-red-and-dichotomies
+    date: 12-Aug-2014/9:57:17-4:00
+]
+
+{For those of you who missed the announcement, Red has [released version 0.4.3](http://www.red-lang.org/2014/08/043-floating-point-support.html).  It brings a lot of detailed floating-point support, which can always be a finicky subject.}
+
+{Because Red is a "full stack language", it generates right to machine code and binary formats and depends on no other toolchain.  So it's not an option to borrow anyone else's floating point work directly.  That's both a liberating and daunting prospect, but for those who've enjoyed the unique ergonomics of Rebol it's exciting to see things moving along.}
+
+{We talk a lot about dichotomies with Rebol and Red--contrasts between the projects, and contrasts between how the people drawn to the mission differ from most of other development projects.  But the dichotomies I'm going to talk about are from a puzzle on StackOverflow that caught my interest:}
+
+[http://codegolf.stackexchange.com/questions/36040/programming-dichotomies-literally {Programming Dichotomies (literally)}]
+
+{The gist of the problem is to write a program that does three different things based on how many characters you take out of it.  If you don't take any out (let's call that **p1**) it's supposed to output a question when you run it.  If you take out all the even letters (let's call that **p2**) it's supposed to output an answer when you run it.  And if you take out all the odd letters (let's call that **p3**) you are supposed to make it output a different answer.}
+
+{I hadn't done any coding puzzles on codegolf.SE for a while, and I looked at it and couldn't immediately think of where to start such a thing with Rebol (or Red).  The first thing I noticed was that unlike other languages which have "assignment operators", Rebol wasn't very naturally suited to being able to accept stray repositionings of colons used on SET-WORD.  There was trouble writing any one variable assignment.}
+
+{So I started off--as most things do--with a convoluted idea that eventually I honed down into a [very short and generalized Rebmu program](http://codegolf.stackexchange.com/questions/36040/programming-dichotomies-literally/36114#36114).  It may not be the shortest but it's definitely continuing to test the design of my pet golfing language, that has apparently now spawned recognition of the term "mushing", used by others.}
+
+{There may be something interesting still in my convoluted first idea, if applied to other problem constraints that wouldn't allow my tricks.  So I'm moving it here instead of just deleting it...but I thought my post on CodeGolf.SE was getting oppressively long to scroll through by keeping it there.}
+
+[heading {My Convoluted First Idea}]
+
+{My first idea was that I would find a way to assign some variables and convince the "whole" program that it should run and quit.  That way it wouldn't be executing the halved code.  And I figured I could make things easier if I could work past colons entirely and create a new, single-character version of SET.  I chose asterisk, and this is what I came up with:}
+
+[code rebol {
+     esxept:  'pdi  1  1  esxept:  'pdi  1  ***:   :esxept  1  11  ***:   :esxept  1  dd: :do  dd  {dd  {print "Which languages must you learn?" quit/now}}  pprriinntt {% templatetag openvariable %}R[eRbeodl]{% templatetag closevariable %}
+}]
+
+{Same program, just the odd characters:}
+
+[code rebol {
+     exp: pi  1 set 'd 1 *: :set  1 **  exp 1 d d d {d pit"hc agae utyulan"qi/o} print {[Red]}
+}]
+
+{Now the even characters:}
+
+[code rebol {
+    set 'd 1  exp: pi  **  exp 1 1 *: :set  d::o d d {rn Wihlnugsms o er? utnw} print{Rebol}
+}]
+
+{The funny word ESXEPT came from combining it's a combination of EXP (e raised to the power of the argument) and SET.  I picked EXP because I needed something three letters long that was predefined and okay to overwrite...preferably unary.  So `esxept:` could become `exp:` and `set`, while `:esxept` (the GET variation) would become `exp` and `:set`.}
+
+{Because a general halved program needed to be able to do assignments, the bootstrap makes `*` mean `SET` in both the halved programs.  For the even case:}
+
+[code rebol {
+    set 'd 1                     ; set d to 1
+    exp: pi ** exp 1             ; redefine exp from e^^(arg) to pi^^e 
+    1                            ; integer, no side effects
+    *: :set                      ; make * the SET operation
+    d::o                         ; URI literal, no side effects
+    d                            ; d is now 1, no side effects or undefined
+    d                            ; same
+    {rn Wihlnugsms o er? utnw}   ; string, no side effects
+    print {Rebol}                ; print out "Rebol"
+}]
+
+{For the odd case:}
+
+[code rebol {
+    exp: pi                      ; redefine exp from e^^(arg) to pi^^e
+    1                            ; integer, no side effects
+    set 'd 1                     ; set d to 1
+    *: :set                      ; make * the set operation
+    1 ** exp 1                   ; 1^^e, no side effects
+    d                            ; d is now 1, no side effects or undefined
+    d                            same
+    d                            ; same
+    {d pit"hc agae utyulan"qi/o} ; string, no side effects
+    print {[Red]}                ; print out "[Red]"
+}]
+
+[note {It is possible to recover EXP out of `system/contexts/lib` if you need it; and there may be another definition that would be better, but you're going to have to overwrite SOMETHING that was is defined and can be used without generating a "has no value" error.  Some three letter constant--the color `red`--might be viable if this were revisited, but that can't be used in exponentiation, so another trick would be needed.}]
+
+{The string being skipped is either the odd or even half of the source code for the generalized program that we run in the non-halved case.  That program ends with a quit instruction, so it doesn't run anything that comes after the string.  This leaves the two halved programs to interleave their code freely, as long as it stays parseable.  With `**` being a legal token and `*` now being defined in the halves, any assignments needed can be done with that.}
+
+{Now a quick run-through of the original program:}
+
+[code {
+    esxept: 'pdi                   ; make the symbol pdi esxept's value
+    1                              ; integer, no side effects
+    1                              ; same
+    esxept: 'pdi                   ; assign esxept pdi symbol again
+    1                              ; integer, no side effects
+    ***: :esxept                   ; make ***'s value also pdi 
+    1                              ; integer, no side effects
+    11                             ; same
+    ***: :esxept                   ; write pdi symbol to *** again
+    1                              ; integer, no side effects
+    dd: :do                        ; make dd hold the function held by do
+
+    dd  {dd  {
+        ; put any general purpose code here
+        print "Which languages must you learn?"
+
+        ; quit this DO as well as the enclosing call
+        quit/now
+    }}
+
+    ; interleaved code for the odd/even programs which needs
+    ; to only be legally parseable 
+    pprriinntt {% templatetag openvariable %}R[eRbeodl]{% templatetag closevariable %}
+}]
+
+{It seemed the non-halved program can do anything it wants.  You now only have to worry about making sure the interleaved programs can parse.}
+
+{Then I came up with a little more bootstrap to make it less painful to write the interwoven code:}
+
+[code rebol {
+    **  qquuoottee  ??  ggeett  qquuoottee  ggeett
+    **  qquuoottee  ??  ^^  qquuoottee  qquuoottee
+    **  ^^  !!  ffuunncc  iinnsseerrtt  [[vv]]  ttoo  ggeett--wwoorrdd!!  {% templatetag openvariable %}ww{% templatetag closevariable %}  [[**  ww  vv]]
+}]
+
+{On both even and odd branches that will give you a GET alias (?), a QUOTE alias (^), and a SET-QUOTE alias (!).}
+
+{But then I realized...I'd already demonstrated that if you want something to pass by a parse, all you need to do is figure out how to wrap it in a string and DO it.  The only programs running this code are **p2** and **p3**.  They don't need a special way to do these things at all, they just need `ddoo{% templatetag openvariable %}interleaved code{% templatetag closevariable %}`.}
+
+{I was a little saddened because it seemed like there was this new art form of the interleaved Rebol/Red program emerging.  Of course, it *could* emerge if someone said you couldn't use DO.  But I'm not quite sure how to solve the problem without using DO, and I've now gotten caught up on my puzzling for a while.  :-)}
