@@ -64,7 +64,7 @@ ClientError.prototype.name = 'ClientError';
     {If I were following the "a string is not an error" article, the call to captureStackTrace would look like `Error.captureStackTrace(this, arguments.callee);`  That's designed to try and get "noise" off the stack by removing the immediate caller from the list (ClientError, in this case).  However, `arguments.callee` is not legal in "strict mode" for various reasons:}
 
 
-        https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions_and_function_scope/arguments/callee
+        https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/arguments/callee
 
     {So I just name the current top of stack explicitly, since we know it.  I'll point out that you still wind up with a bit of noise if you invoke the error as `throw ClientError(...)` instead of `throw new ClientError(...)` because of the recursive call protecting against that at the start of the function.}
 ]

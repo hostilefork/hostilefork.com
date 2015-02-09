@@ -41,9 +41,7 @@ round-trip min/avg/max/stddev = 80.797/83.633/85.093/2.005 ms
 
 [image http://hostilefork.com/media/blog/when-sockets-attack-dns-dhcp/map-of-the-internet-xkcd.jpg 740x1076 "XKCD Map of the IP Addresses on the Internet"]
 
-{An even more interesting map (to me) is one that lets you drill down and navigate through which addresses are assigned to organizations or countries [that have been blacklisted](http://thewholeinternet.wordtothewise.com/) by many popular mail servers.}
-
-{If you dig down into this map you'll notice that 72.14.207.99 is assigned to an organization called ARIN.  ARIN in turn has given their seal of approval that this number [belongs to Google Inc.](http://ws.arin.net/whois/?queryinput=72.14.207.99).  Because ARIN is considered a legitimate authority by the average ISP, few routers would ever forward a packet intended for 72.14.207.99 from one of their customers to anyone other than Google.}
+{If you dig down into this map you'll notice that 72.14.207.99 is assigned to an organization called ARIN.  ARIN in turn has given their seal of approval that this number [belongs to Google Inc.](http://whois.arin.net/rest/net/NET-72-14-192-0-1/pft).  Because ARIN is considered a legitimate authority by the average ISP, few routers would ever forward a packet intended for 72.14.207.99 from one of their customers to anyone other than Google.}
 
 [note {Hackers are constantly trying to subvert this, of course.  Though I'll point out that since who-gets-what-number is based more on money and [cybersquatting](http://en.wikipedia.org/wiki/Cybersquatting) than it is on actual legitimacy, it's not like you should have all that much faith in the powers-that-be.  In the words of the X-files: Trust No One--and that includes your ISP...especially if it's [Comcast](https://www.techdirt.com/articles/20071114/175325.shtml)!)}]
 
@@ -83,7 +81,7 @@ en1: flags=8863<UP,BROADCAST,SMART,RUNNING,SIMPLEX,MULTICAST> mtu 1500
     (...)
 }]
 
-{But if I go to [http://whatismyipaddress.com](http://whatismyipaddress.com/), it reports a public number belonging to my ISP.}
+{But if I go to [http://www.whatismyip.com/](http://www.whatismyip.com/), it reports a public number belonging to my ISP.}
 
 {If you are enjoying the study of these magic numbers and how they are handed out, you might be interested to know that a poor technical decision led to the loss of all the 127.xxx.xxx.xxx numbers save one--127.0.0.1.  This is an alias for your own machine, known as [Loopback](http://en.wikipedia.org/wiki/Loopback).  Wikipedia's article on the topic explains how a similar oversight in inconsistent implementations led 0.0.0.0 to be unused.}
 

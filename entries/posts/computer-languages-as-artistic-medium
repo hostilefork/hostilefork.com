@@ -52,7 +52,7 @@ more
 
 [heading {Programming is the "math problem" AND the "art problem"}]
 
-{I chose to start with map coloring because it's a rigorous problem-solving domain with artistic overtones.  That's because I wanted to segue way to the idea that when you are given a programming challenge, doing the work well is not just solving math equations as some people think.  Those immersed in the field start to see it more as being commissioned to make a work of art.  And every artist has a medium they enjoy working in (sometimes to the exclusion of others)!}
+{I chose to start with map coloring because it's a rigorous problem-solving domain with artistic overtones.  That's because I wanted to bring up the idea that when you are given a programming challenge, doing the work well is not just solving math equations as some people think.  Those immersed in the field start to see it more as being commissioned to make a work of art.  And every artist has a medium they enjoy working in (sometimes to the exclusion of others)!}
 
 {Lisp and C++ are considered different mediums by most everyone.  A programmer needs to use a different state of mind to program in them entirely, and that gives rise to different program types.  Yet C++ and Java are very similar in their overall nature with only a few strategic decisions made to differentiate the languages.}
 

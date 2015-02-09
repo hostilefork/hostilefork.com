@@ -30,7 +30,7 @@ more
 
         [http://github.com/hostilefork/smartptr-cast-study/blob/master/unique_ptr_cast.cpp "unique_ptr_cast.cpp"]
 
-        [note {For a skeptic's point of view, see what Bartosz Milewski [has to say](http://bartoszmilewski.wordpress.com/2009/05/21/unique_ptr-how-unique-is-it/) about unique_ptr.  See also the answer I got from Bjarne Stroustrup directly [when I asked him at a talk](http://blog.hostilefork.com/bjarne-stroustrup-unique-ptr-uniqueness/).}]
+        [note {For a skeptic's point of view, see what Bartosz Milewski [has to say](http://bartoszmilewski.com/2009/05/21/unique_ptr-how-unique-is-it/) about unique_ptr.  See also the answer I got from Bjarne Stroustrup directly [when I asked him at a talk](http://blog.hostilefork.com/bjarne-stroustrup-unique-ptr-uniqueness/).}]
 
     ]
 

@@ -14,7 +14,7 @@ Draem [
 
 {So I decided to try using the event-monitoring program [xev](http://stackoverflow.com/questions/433218/is-there-any-spy-equivalent-for-linux-x-window) to see what was going on.  It turned out that pressing ordinary number keys on the client generated numeric keypad events inside the virtual machine.  Since there were no such problems in ordinary programs on the host, it must be some kind of impedance mismatch between the virtualized keyboard and the remote keyboard.  (Neither my client nor my host have a hardware numeric keypad.)}
 
-{To fix this, I used a little set of [xmodmap](http://askubuntu.com/questions/24916/how-do-i-remap-certain-keys) commands.  I didn't bother making it a permanent thing in an `.xmodmap` file, because I don't know if I'm always going to want to do this remapping.}
+{To fix this, I used a little set of [xmodmap](http://askubuntu.com/questions/24916/how-do-i-remap-certain-keys-or-devices) commands.  I didn't bother making it a permanent thing in an `.xmodmap` file, because I don't know if I'm always going to want to do this remapping.}
 
 [code bash {# teamviewerkeys.sh
 

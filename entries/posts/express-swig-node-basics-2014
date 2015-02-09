@@ -134,7 +134,7 @@ swig.setDefaults({
 {During development it is *very* convenient to be able to make a change to a template and see the effects without having to restart Node.  But you shouldn't leave that switch on in deployments, because it will slow them down.  The environment variable is a decent way of doing it.}
 
 [note
-	{Another thing you can register here that I jumped into fairly early on, in order to get compatibility with Django, was to learn how to make custom tags in the Swig templating engine.  Ultimately that got cut, but this is where you would register them.  I go through all of that in the article [Implementing Custom Tags in Swig for Node.JS](http://blog.hostilefork.com/custom-tags-swig-url-django/)}
+	{Another thing you can register here that I jumped into fairly early on, in order to get compatibility with Django, was to learn how to make custom tags in the Swig templating engine.  Ultimately that got cut, but this is where you would register them.  I go through all of that in the article [Implementing Custom Tags in Swig for Node.JS](http://blog.hostilefork.com/custom-tags-swig-express-nodejs/)}
 ]
 
 {The next thing you have to do is do some [Express settings](http://expressjs.com/api.html#app-settings) to tell it that you want to use Swig, and for what extensions you want to use it for.  In my case, I was registering it for html.}
@@ -150,7 +150,7 @@ app.set('view engine', 'html');
 
 {Things are now set up so you are ready to map URL requests to functions that will be serving those requests.  Like in many other systems, when you register your handlers the URL string is matched against regular expressions.  Then through "routing" you can have Express parse out fragments of the URL, do some handling for a part, and then crunch on the rest of the path:}
 
-http://expressjs.com/guide.html#routing
+http://expressjs.com/guide/routing.html
 
 {Handler functions take a req object ("REQuest") and a res object ("RESponse").  Although the function signature is very similar to view dispatch in something like Django, the asynchronous nature of Node.js means that the function may pass off the res object to some other subsystem and then return.  This delegation will continue until someone finally calls res.end() and it is important to ensure that happens only once.}
 

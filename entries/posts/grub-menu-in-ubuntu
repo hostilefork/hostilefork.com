@@ -68,7 +68,7 @@ initrd /boot/initrd.img-2.6.31-14-generic
 
 {So the trick here is that if you want `acpi=off`, you put it where I say `YOUR OPTIONS HERE`.  Once you're done making the change, you can type Ctrl-X to boot.}
 
-{Safe Graphics mode seems to correspond to `vga=771`.  You can read more about all the different options at your disposal in a [ guide from the Ubuntu Help Community](https://help.ubuntu.com/community/BootOptions).}
+{Safe Graphics mode seems to correspond to `vga=771`.  You can read more about all the different options at your disposal in a [guide from the Ubuntu Help Community](https://help.ubuntu.com/community/BootOptions).}
 
 [heading "Permanently Booting with Options"]
 

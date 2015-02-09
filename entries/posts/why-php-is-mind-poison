@@ -9,7 +9,7 @@ Draem [
 
 [quote "Why is PHP mind poison? Is it a language that traps you in a way of thinking about programming that undermines creativity and innovation?"]
 
-{I can't say I've bothered to learn all that much about PHP.  What little I saw in picking apart programs and reading the documentation was enough to send me running the other direction.  But others do the in-depth criticism I don't care to learn enough to do, such as in a well-known essay by [Alex Munroe](http://me.veekun.com/about/).  It starts with a fairly accessible analogy:}
+{I can't say I've bothered to learn all that much about PHP.  What little I saw in picking apart programs and reading the documentation was enough to send me running the other direction.  But others do the in-depth criticism I don't care to learn enough to do, such as in a well-known essay by [Alex Munroe](http://eev.ee/about/).  It starts with a fairly accessible analogy:}
 
 [quote 
     {I can't even say what’s wrong with PHP, because--okay. Imagine you have uh, a toolbox. A set of tools. Looks okay, standard stuff in there.}
@@ -26,7 +26,7 @@ Draem [
 
     {That’s what's wrong with PHP.}
 
-    /source [http://me.veekun.com/blog/2012/04/09/php-a-fractal-of-bad-design/ {PHP: A Fractal of Bad Design}]
+    /source [http://eev.ee/blog/2012/04/09/php-a-fractal-of-bad-design/ {PHP: A Fractal of Bad Design}]
 ]
 
 {That's a good analogy, and I shared the page.  But while a computer language is *like* a toolbox, it's still *not* a toolbox (in the construction sense).  So understanding the rest of the arguments on that page will be difficult for someone who has never written a computer program before, and doesn't really know what a "language" is.}

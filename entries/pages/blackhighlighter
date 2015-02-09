@@ -7,7 +7,7 @@ Draem [
 
 [image http://blackhighlighter.hostilefork.com/media/blackhighlighter-logo.png 640x360 "Black Highlighter"]
 
-{Blackhighlighter combines novel editing with in-browser cryptography to facilitate new ways of communicating.  It is packaged as a jQuery widget *(with no other dependencies)*, along with a server library that can be integrated into Node.JS projects as an [npm module](https://www.npmjs.org/package/blackhighlighter).}
+{Blackhighlighter combines novel editing with in-browser cryptography to facilitate new ways of communicating.  It is packaged as a jQuery widget *(with no other dependencies)*, along with a server library that can be integrated into Node.JS projects as an [npm module](https://www.npmjs.com/package/blackhighlighter).}
 
 {The best way to understand the idea is to see a running demo of a site that incorporates it.  So please visit:}
 
@@ -53,7 +53,7 @@ https://github.com/hostilefork/blackhighlighter
 
 https://github.com/hostilefork/blackhighlighter.org
 
-{Originally, the server was written in Python and built on the [Django](http://www.djangoproject.com/) framework.  It was then ported to Node.JS.  This allowed removal of some redundancy between the cryptography used by the client and server--although that was less of a benefit than expected.  *(See [Thoughts on Sharing Client and Server code with Node.JS](http://blog.hostilefork.com/sharing-code-client-server-nodejs/))*}
+{Originally, the server was written in Python and built on the [Django](http://www.djangoproject.com/) framework.  It was then ported to Node.JS.  This allowed removal of some redundancy between the cryptography used by the client and server--although that was less of a benefit than expected.  *(See [Thoughts on Sharing Client and Server code with Node.JS](http://blog.hostilefork.com/sharing-code-client-server-nodejs/)*}
 
 {The underlying widget `[jquery-blackhighlighter.js](https://github.com/hostilefork/blackhighlighter/blob/master/jquery-blackhighlighter/jquery-blackhighlighter.js)` is separated out so that the only dependency it has is on jQuery.  An arbitrary number of widgets can be put on the same page, but no good demo of this exists...yet.  So the current development focus is on a blackhighlighter-powered comment service to show that off *(something like Disqus)*.  You would write a comment but be able to use a pen to mark out any information you wanted to be viewable by the article author--and anyone you shared your certificate with.)}
 

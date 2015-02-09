@@ -214,7 +214,7 @@ a.lipdf { padding-right: 12px; background: url(link-indication/link-icon_pdf.png
 
     ] [
 
-        {[this one for Google Analytics](http://www.semiologic.com/software/google-analytics/), which allows me to get some information on how many visits the site is getting.  The statistics are only updated once every 24 hours.  I haven't looked into the code to decide if this is a good plugin or not, but it does at least not track your own hits when you're logged in--and that's good because I probably visit my site more often than anyone else does!}
+        {[this one for Google Analytics](https://www.semiologic.com/wordpress-plugins/premium-plugins/google-analytics/), which allows me to get some information on how many visits the site is getting.  The statistics are only updated once every 24 hours.  I haven't looked into the code to decide if this is a good plugin or not, but it does at least not track your own hits when you're logged in--and that's good because I probably visit my site more often than anyone else does!}
 
         {I wasn't getting a whole lot of traffic, but due to some of my pages being submitted to [StumbleUpon.com](http://www.stumbleupon.com) I am getting a fairly large influx, however people do not tend to comment or explore the site.  I'm having to upgrade my bandwidth since I host several 2MB videos, and 500 views a day * 2MB per view goes to 1GB very quickly.  I don't mind--I'm happy to have the traffic--but I do wish more people would comment!  I know I didn't get the articles perfect, so at the very least I'd expect some criticism of my spelling or grammar.  :)}
 

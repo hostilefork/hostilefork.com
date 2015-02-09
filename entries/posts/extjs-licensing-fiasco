@@ -8,7 +8,7 @@ Draem [
 
 {Now and again, I look at the searches that bring people to hostilefork.com  For some period of time, the largest search phrase bringing people here is **"extjs fork"**.  Sadly, they aren't looking for the articles I wrote in 2007.  Instead...it turns out there was a [huge backlash against the Extjs project](http://www.alittlemadness.com/2008/04/24/ext-discovers-step-2-of-the-slashdot-business-model/) surrounding a change of the license from LGPL to GPL.}
 
-{People have been up in arms and threatening to fork the codebase, and independently develop it under the previous contract.  (To the best of my knowledge, the only place such a forked codebase has been posted is [OpenEXT](http://sourceforge.net/projects/openext/).  But with very few commits and the most recent patch being applied in [October of 2008](http://sourceforge.net/tracker/index.php?func=detail%26aid=2167257%26group_id=225970%26atid=1066116) it is not too promising.)}
+{People have been up in arms and threatening to fork the codebase, and independently develop it under the previous contract.  (To the best of my knowledge, the only place such a forked codebase has been posted is [OpenEXT](http://sourceforge.net/projects/openext/).  But with very few commits and the most recent patch being applied in October of 2008, it is not too promising.)}
 
 {Since people are finding my blog because of this question, I'll take a stab at addressing the issue and offer my thoughts.  I think they made a mistake in doing this change the way they did.  Extjs should revert the current 2.0 repository to LGPL--applying the GPL to only 3.0 and beyond--so anyone using v2 who needs LGPL can use all the bugfixes that body of code has.}
 
@@ -18,7 +18,7 @@ more
 
 [heading "Minor Update, Major Change."]
 
-{It's always bothered me how somewhat minor updates to software can be subtle carriers of major changes that are not beneficial to the user.  Take the case of a Creative Labs music player that had an FM antennae in it and the ability to record music.  The natural combination of these features was to let you record things you were listening to on the radio, and that feature was included.  But a firmware "update" [took that away](http://arstechnica.com/gadgets/news/2006/10/8006.ars).}
+{It's always bothered me how somewhat minor updates to software can be subtle carriers of major changes that are not beneficial to the user.  Take the case of a Creative Labs music player that had an FM antennae in it and the ability to record music.  The natural combination of these features was to let you record things you were listening to on the radio, and that feature was included.  But a firmware "update" [took that away](http://arstechnica.com/gadgets/2006/10/8006/).}
 
 {For starters, it's troubling that they tried to be sneaky about it.  Rather than giving adequate notice so people could think about whether they wanted to "update"... it was quietly slipped in under the guise of the healthy maintenance of your player's firmware.}
 

@@ -117,7 +117,7 @@ if (iter != mapKeyToValue.end()) {
 
     {If a user performed a command and a progress dialog did not come up, and there was an error, then the error would be reported in the status bar.  Should the same command be performed again and return the same error--it would be interpreted as the subtle error not having been noticed by the user, and it would be promoted to a message box to deliver it}
 
-    {When a mouse gesture was in mid-operation and an application lost focus for any reason, a "mouse placeholder" would be placed in the interface.  *(I made a video explaining this single feature which you can see in [Mouse Placeholders for when Programs Lose Focus](http://blog.hostilefork.com/lost-focus-placeholder/))*.}
+    {When a mouse gesture was in mid-operation and an application lost focus for any reason, a "mouse placeholder" would be placed in the interface.  *(I made a video explaining this single feature which the [Mouse Placeholders for when Programs Lose Focus](http://blog.hostilefork.com/lost-focus-placeholder/) video demonstrates)*.}
 ]
 
 {I was emboldened by the early promise of these programs, and I got very enthusiastic about the [C++ `const` feature](http://blog.hostilefork.com/transitive-power-of-cpp-const/).  I was using `const` parameterization of document nodes to indicate that they were read-only...while a non-const node could be passed to read/write or read-only contexts.  Doing so meant that I tricky potential holes were caught during compilation--because of how rigorously const-correctness was carried through the call graph.  So I was forced to rethink situations that almost always turned out the be the kinds of edge cases that ruined usability I had been complained about.}
@@ -138,7 +138,7 @@ http://blog.hostilefork.com/pixelcad-icon-editor-from-2002/
 
 [note {I believed it was made out of Titanium at the time of purchase.  But when it scuffed and I saw it was aluminum I read up and found they'd switched the material--ostensibly because of Wi-Fi reception issues.  I felt deceived...and that machine turned out to be nothing but trouble, needing constant replacements of parts during the extended 3-year warranty I paid for, including the entire "logic board".  That's also way too big a laptop.}]
 
-{Though the basics of C++ were unchanged, OS/X GUI programming was very different.  So I started investigating cross-platform toolkits.  The first toolkit I found was wxWindows (these days known as [wxWidgets](http://en.wikipedia.org/wiki/WxWidgets)).  It mapped to the Win32 API fairly closely, so I thought it would be a good candidate.  I wouldn't have to change the client programs very much; most of the significant changes would be in my framework.}
+{Though the basics of C++ were unchanged, OS/X GUI programming was very different.  So I started investigating cross-platform toolkits.  The first toolkit I found was wxWindows (these days known as [wxWidgets](http://en.wikipedia.org/wiki/WxWidgets) ...).  It mapped to the Win32 API fairly closely, so I thought it would be a good candidate.  I wouldn't have to change the client programs very much; most of the significant changes would be in my framework.}
 
 {It was only a few days of experimenting with wxWidgets before I became frustrated with the aesthetics of the resulting application.  I'd spent a lot of time honing the behaviors on the Win32 code to get it just right... and it seemed those behaviors were getting broken on Windows, and producing a very mediocre-seeming Mac application.  What I came to feel was that wxWindows had embraced a sort of "lowest common denominator" in the APIs, and everything was just getting worse by using it.}
 
@@ -155,7 +155,7 @@ http://blog.hostilefork.com/pixelcad-icon-editor-from-2002/
 {It was probably sometime in 2008 that I dug up the framework to try my hand at porting it to Qt, this time under Linux.  Over the years I had gradually become more political about freedom of information--and become active in Wikipedia and going to events with "futurists".  Quotes like this one from Eben Moglen resonated with me:}
 
 [quote {The great moral question of the twenty-first century is this: if all knowing, all culture, all art, all useful information can be costlessly given to everyone at the same price that it is given to anyone; if everyone can have everything, anywhere, all the time, why is it ever moral to exclude anyone?}
-/source [http://video.google.com/videoplay?docid=-2263095526020953463 {Eben Moglen, video}]
+/source [http://en.wikipedia.org/wiki/Eben_Moglen {Eben Moglen}]
 ]
 
 {Unlike wxWidgets, Qt had an entirely different model from thinly wrapping Win32.  And the more I read about it, the more I felt that there was value to following it.  My hand-coded worker/GUI separation--where I was implementing the event queues all on my own--was easily replaced by leveraging `Qt::QueuedConnection` for inter-thread Signal/Slot calls.  They had implemented design philosophies I'd come up with... like the ability to make a new Window-derived instance *(in Qt, "QWidget-derived")* and just `.show()` it immediately.  Nearly every low-level mechanic had been finessed in Qt better than I had done, *and* the products could run on Windows/Mac/Linux.}

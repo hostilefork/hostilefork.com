@@ -6,7 +6,7 @@ Draem [
     old-url-prefix: %2009/03/31/
 ]
 
-{In the preface to his book [Modern C++](http://erdani.org/book/main.html), Andrei Alexandrescu paints a vision of what programming *should* be like:}
+{In the preface to his book [Modern C++](http://en.wikipedia.org/wiki/Modern_C%2B%2B_Design), Andrei Alexandrescu paints a vision of what programming *should* be like:}
 
 [quote
 
@@ -136,7 +136,7 @@ for (
 
 {This should appeal to the same sensibility that leads programmers to declare symbolic constants in a single location, as opposed to repeating the values each time they use them.  And although it's rather  helpful in managing basic churn in one's own code, it is *indispensible* when composing together class libraries that were written by different authors.  The interactions can be very subtle.}
 
-{Yet at the bottom line, it is a lot more keystrokes to enter.  It also requires a depth of understanding of the C++ language.  [Jeremy Friesner](http://www.lcscanada.com/jaf) aptly captured the darker side of the tradeoff:}
+{Yet at the bottom line, it is a lot more keystrokes to enter.  It also requires a depth of understanding of the C++ language.  [Jeremy Friesner](https://public.msli.com/lcs/jaf) aptly captured the darker side of the tradeoff:}
 
 [quote
 
@@ -153,7 +153,7 @@ for (
 
 ]
 
-{Making matters worse is that once one thinks they understand some of the more abstruse mechanics of C++ libraries, they're still changing their minds.  Best practices keep changing, and Alexandrescu himself gave a talk at BoostCon suggesting that ["STL iterators must go](http://www.boostcon.com/site-media/var/sphene/sphwiki/attachment/2009/05/08/iterators-must-go.pdf)!}
+{Making matters worse is that once one thinks they understand some of the more abstruse mechanics of C++ libraries, they're still changing their minds.  Best practices keep changing, and Alexandrescu himself gave a talk at BoostCon suggesting that ["STL iterators must go...which [has some further discussed here on StackOverflow](http://stackoverflow.com/questions/838721/)!}
 
 [heading "Is managed complexity an illusion?"]
 

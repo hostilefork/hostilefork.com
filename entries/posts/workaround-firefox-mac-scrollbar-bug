@@ -6,7 +6,7 @@ Draem [
     old-url-prefix: %2007/11/06/
 ]
 
-{Firefox 2 on the Mac has an unfortunate bug [#187435](https://bugzilla.mozilla.org/show_bug.cgi?id=187435), which makes the scroll bars on lower regions "bleed through" and overwrite the areas above them.  On traditional web pages that aren't doing much tricky stuff, it will be only a minor visual nuisance.  But it seriously impacts sites that are pushing the envelope of what HTML layout can do--like [Mocha](http://greghoustondesign.com/demos/mocha/) or the [Extjs Web Desktop Demonstration](http://extjs.com/deploy/dev/examples/desktop/desktop.html):}
+{Firefox 2 on the Mac has an unfortunate bug [#187435](https://bugzilla.mozilla.org/show_bug.cgi?id=187435), which makes the scroll bars on lower regions "bleed through" and overwrite the areas above them.  On traditional web pages that aren't doing much tricky stuff, it will be only a minor visual nuisance.  But it seriously impacts sites that are pushing the envelope of what HTML layout can do--like [Mocha](http://pat.cullen.co.za/project/WindowPicker/Demo/) or the [Extjs Web Desktop Demonstration](http://extjs.com/deploy/dev/examples/desktop/desktop.html):}
 
 [image http://hostilefork.com/media/blog/workaround-firefox-mac-scrollbar-bug/extjs-firefox-scrollbar-bug.png 640x400 "Firefox 2 Scrollbar Bug on Mac"]
 

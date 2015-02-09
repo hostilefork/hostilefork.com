@@ -38,7 +38,7 @@ more
 
     {**DOM parsing and querying** - I could have extracted the information I wanted with string processing of the HTML file, but wanted to see Ruby's answer to the DOM.  There doesn't seem to be one built-in to the language, but rather (at least) three prominent ones: REXML, Hpricot, libxml-ruby.  I chose [hpricot](http://www.hpricot.com) because it was jQuery-like and it seemed like it might be more tolerant of HTML that wasn't XML-compatible.}
 
-    {**Large image generation** - I didn't know if the [RMagick](http://rmagick.rubyforge.org/install-faq.html) library would be very happy about the size of the image I was planning on making.  But I figured I'd give it a try.  As it turned out, I did have to tweak the virtual memory settings on my virtual machine, but I had it working in virtually no time.  :)}
+    {**Large image generation** - I didn't know if the [RMagick](http://www.imagemagick.org/RMagick/doc/) library would be very happy about the size of the image I was planning on making.  But I figured I'd give it a try.  As it turned out, I did have to tweak the virtual memory settings on my virtual machine, but I had it working in virtually no time.  :)}
 
 ]
 

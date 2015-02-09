@@ -6,7 +6,7 @@ Draem [
     old-url-prefix: %2008/10/20/
 ]
 
-[update {A fuller development of the Arecibo Ascii code is now available at [http://hostilefork.com/uscii/](http://hostilefork.com/uscii/)}]
+[update {A fuller development of the Arecibo Ascii code is now available at [http://uscii.hostilefork.com/](http://uscii.hostilefork.com/)}]
 
 {Every programmer who knows English is aware of the ASCII code, which declares that 65 means "A" and 66 means "B", etc.  Yet there is nothing intrinsically "A-like" about the number 65 (binary: 1000001), nor anything B-like about the number 66 (binary: 1000010).  To see that, just imagine living in the 1800s and this fell from the sky on a piece of paper:}
 

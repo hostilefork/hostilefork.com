@@ -73,7 +73,7 @@ var something = foo + bar
 
 {Or after seeing some examples that would `throw Error(...)` vs `throw new Error(...)`, I had to do research and find that the former was [fully legitimate in the specification](http://es5.github.io/#x15.11.1).  JSLint doesn't like leaving the new out--and I see it used with the new almost always in other code.  Am I running the risk of looking like I don't know what I'm doing if I don't put in the superfluous `new`?}
 
-{I'm not the only one wondering, as [the person who forked it to make JSHint](http://anton.kovalyov.net/p/why-jshint/) writes:}
+{I'm not the only one wondering, as [the person who forked it to make JSHint](https://web.archive.org/web/20140905114706/http://anton.kovalyov.net/p/why-jshint/) writes:}
 
 [quote 
 	{JSLint served me well for quite some time but in the past few months it has gotten uncomfortably opinionated and hostile towards your code. It is quickly transforming from a tool that helps developers to prevent bugs to a tool that makes sure you write your code like Douglas Crockford.}
@@ -111,4 +111,4 @@ https://gist.github.com/isaacs/357981
 
 {Not really a formatting issue per se, but I wanted to throw in a link about why I use dashes for spaces and all lowercase (except for README, LICENSE, etc.)}
 
-http://www.codinghorror.com/blog/2006/04/of-spaces-underscores-and-dashes.html
+http://blog.codinghorror.com/of-spaces-underscores-and-dashes/

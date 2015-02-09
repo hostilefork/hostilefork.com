@@ -36,7 +36,7 @@ else
 
 {Don't get too excited.  Because `forEach` is really about the only thing they added like that; and they didn't add it because they were all that concerned that people were having to wrap other things.  After all--JavaScript is successful enough that people have already shown they'd deal with it.  Language purists weren't going to switch from Haskell because testing for strings got cleaner.  :-)  Plus any "cleanups" would run the risk of breaking backward compatibility.}
 
-[note {What you actually get in ECMAScript5 are things like ["strict mode"](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions_and_function_scope/Strict_mode) *(which you should be using!)* and more functionality for [Objects and Properties](http://ejohn.org/blog/ecmascript-5-objects-and-properties/) *(which you should use if you need it, I dunno)*.}]
+[note {What you actually get in ECMAScript5 are things like ["strict mode"](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode) *(which you should be using!)* and more functionality for [Objects and Properties](http://ejohn.org/blog/ecmascript-5-objects-and-properties/) *(which you should use if you need it, I dunno)*.}]
 
 {This might make you curious why they would pick out `forEach`...which is partially because of its importance, but mostly for performance reasons.  Wrappers like jQuery's `$.each()` were having to do too much work under the hood and were limited in their efficiency.  Now that the libraries can check for the existence of the faster ECMAScript5 primitive, they can "shim" it invisibly in their implementations.}
 
@@ -50,7 +50,7 @@ else
 
 {Underscore doesn't have anything to do with web browser abilities like setting up click methods or styling things with CSS.  It's just the basics like those missing functions for iterating and testing datatypes in a safe way.  It also helps fill in other generally useful methods--like getting all the keys from an object and putting them in an array:}
 
-[http://documentcloud.github.com/underscore/ {Underscore.JS one-page function reference}]
+[http://documentcloud.github.io/underscore/ {Underscore.JS one-page function reference}]
 
 {While jQuery and Underscore have *slight* overlap, it actually isn't much.  And if you're programming on the browser side in jQuery and are worried about yet-another-dependency... the dependency's *size* is actually not all that much of an issue.  In fact, you can read the nicely presented [Annotated Underscore.JS Source](http://underscorejs.org/docs/underscore.html) in a novel two column format, showing it to be short and clear.}
 

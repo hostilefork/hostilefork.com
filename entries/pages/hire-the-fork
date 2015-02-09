@@ -19,7 +19,7 @@ Draem [
 
 {A lot of my code from personal projects is available online.  See the index page at **[hostilefork.com](http://hostilefork.com)**.}
 
-{In terms of popular languages, my most "bankable" skill is as a C++ developer, focused on what would be called ["Modern C++"](http://blog.hostilefork.com/modern_cpp_or_modern_art/) *(in the sense of the word as used by Andrei Alexandrescu)*.  My motivation is to apply the language and its type safety to maintainable systems that are verified for correctness in every way possible--before a single line of code starts running.}
+{In terms of popular languages, my most "bankable" skill is as a C++ developer, focused on what would be called ["Modern C++"](http://blog.hostilefork.com/modern-cpp-or-modern-art/) *(in the sense of the word as used by Andrei Alexandrescu)*.  My motivation is to apply the language and its type safety to maintainable systems that are verified for correctness in every way possible--before a single line of code starts running.}
 
 {Another big area of interest for me is how domain-specific language methodologies (DSLs) can allow a better capture of program expression in the jargon of the problem space.  The very website that you're looking at now is written using a [tool of my own design](http://draem.hostilefork.com), that runs on an entire cross-platform toolchain clocking in at *half a megabyte*.}
 
