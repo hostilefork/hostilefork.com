@@ -9,7 +9,9 @@ Draem [
 
 {So that's how we're doing it.}
 
-{Grab some popcorn...this is an epic tale.  I'm going to tell you what's in the open-source RTBkit project's repository, *for reals*.  Though if you like, you may skip the analysis and [jump directly to the conclusions](#conclusions)}
+{But this is only a *technical examination*.  It is **not** a "review" of RTBkit, in terms of fitness for its purpose--I did not even run it!  What I do here is assess what technologies it uses and to what extent, as well as what skill sets would be required to adapt it.}
+
+{Even so, you'll need some popcorn...this is an epic tale.  I'm going to tell you what's in the open-source repository, *for reals*.  Though if you like, you may skip the analysis and [jump directly to the conclusions](#conclusions)}
 
 
 [heading {A Weighty Proposition}]
@@ -145,11 +147,9 @@ gzip(gfe),gzip(gfe)"}
 
 {Yet looking at the size and dependencies, I wondered how an ad-bidding robot could possibly need all that stuff.  So I started checking the features.  It was talking about plugins for *serving ads*, *handling billing*, etc.}
 
-[quote
-    {**Q:** Isn't this robot trader making deals as a kind *client* to an ad-offering server that was selling ads?  If I'm the one doing billing--and I'm the one serving ads--what exactly was it that I just bought from Google (or whoever)?}
-]
+[you: <confused> {Isn't this robot trader making deals as a kind *client* to an ad-offering server that was selling ads?  If I'm the one doing billing--and I'm the one serving ads--what exactly was it that I just bought from Google (or whoever)?}]
 
-{**A:** This is not generally a Robot-Building-Kit for those with their own ads to place *(though it could be that, if you were big enough to warrant having an in-house effort)*.  Instead, it's for technical people who want to act as middlemen and set up their own ad brokerage.  They find customers who have ads to place, and manage their interests on the network while charging a markup.}
+[me: {This is not generally a Robot-Building-Kit for those with their own ads to place *(though it could be that, if you were big enough to warrant having an in-house effort)*.  Instead, it's for technical people who want to act as middlemen and set up their own ad brokerage.  They find customers who have ads to place, and manage their interests on the network while charging a markup.}]
 
 {In other words, RTBkit is not really intended for the snow-headphones company or the Elgin PC repair shop.  It's intended to be used by the advertising group those shops contract to for placing their ads.  So it might be better to say that these customers could represent individual "Agents" that are running, and a given bidding opportunity needs to be properly routed to see which agent would be most interested in that opportunity.}
 
