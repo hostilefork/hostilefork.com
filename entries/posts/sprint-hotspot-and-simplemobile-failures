@@ -58,7 +58,7 @@ Yet though my 4G hotspot allocation was apparently under the radar (for the mome
 
 {I can't really tell what to do in situations like this.  The guy was at least 12 years younger than me...and has a job I would not want.  I'm in this odd position where I need something from a person whose technical background is no match for mine...but can't get past him.  XKCD has a comic about this, which offers the quote: ["I'm sorry, but this won't get fixed until I talk to an engineer"](http://xkcd.com/806/).}
 
-{Yet I realize who the real enemy is: ***The system that put us into this idiotic situation.***}
+{Yet I realize who the real enemy is: **The system that put us into this idiotic situation.**}
 
 {This kid should be in school, expanding his mind...instead of doing a zombie walk around some store...spewing randomness to befuddle and diminish the minds of people looking to communicate.  In the meantime, I should be given unfettered access to the network and systems--to document and fix the problems.  I'm acting like this beast is *"Sprint Corporation"* (for the sake of this article), but the reality is that it's an endemic problem with our society...and possibly the human species itself.}
 
@@ -72,7 +72,7 @@ Yet though my 4G hotspot allocation was apparently under the radar (for the mome
 
 {The name printed on my government-issued ID is ["Brian Dickens"](http://www.meetup.com/The-Austin-C-C-Meetup-Group/members/9077571/).  Yet when trying to go through and debug phone problems, I tinkered through to some piece of the settings and found my Sprint ID was *"brianickens"*.}
 
-{This didn't strike me as an accident, as I wasn't born yesterday.  I've looked at Google with and without SafeSearch.  I even met the guy who wrote the original code for [Net Nanny](http://en.wikipedia.org/wiki/Net_Nanny)...we had Sushi together in Berkeley.  He told me how the Christian people who bought it specifically asked him to code it so that it would block sites that used the word "blowjob" most of the time, unless it pertained to articles about Bill Clinton and Monica Lewinsky (then it had an exception to pass it through, they hate democrats after all).}
+{This didn't strike me as an accident, as I wasn't born yesterday.  I've looked at Google with and without SafeSearch.  I even met the guy who wrote the original code for [Net Nanny](http://en.wikipedia.org/wiki/Net_Nanny)...we had Sushi together in Berkeley.  He told me how the Christian people who bought it specifically asked him to code it so that it would block sites that used the word "blowjob" most of the time, unless it pertained to articles about Bill Clinton and Monica Lewinsky (then it had an exception to pass it through, they hate Democrats after all).}
 
 {I also know that the "Channel 3" logo in this video for "The Sun Always Shines on TV" by *A-Ha* looks like a penis.  It's supposed to trigger you to go "A-Ha"...get it?}
 
@@ -92,9 +92,9 @@ Yet though my 4G hotspot allocation was apparently under the radar (for the mome
 
 {Isn't it amazing how much people suddenly know about things that they didn't know anything about?  More to the point: if it's so "under the hood" that it's not used for anything and no one sees it, *why would there be a filter*?}
 
-[note {I never said that this specific thing is-or-isn't connected with any issues I was complaining about --like why Google Voice calls didn't go through.  But it's definitely a bad sign when the people trusted with your communications have an "oh well, I dunno" attitude about technical malfunctions.  Realizing there's no one you can escalate to can point to major problems...see [Moon](http://en.wikipedia.org/wiki/Moon) for a good example.)}]
+[note {I never said that this specific thing is-or-isn't connected with any issues I was complaining about--like why Google Voice calls didn't go through.  But it's definitely a bad sign when the people trusted with your communications have an "oh well, I dunno" attitude about technical malfunctions.  Realizing there's no one you can escalate to can point to major problems...see [Moon](http://en.wikipedia.org/wiki/Moon) for a good example.)}]
 
-{As I usually do, I related some stories of hacking from my personal history...and how some guys used the similarity of "RNYSPACE" to "MYSPACE" (when in lowercase: "rnyspace", "myspace") to steal lots of passwords.  She was lightly sympathetic, but nothing came of it.  But as the Ting-Tings say: ***"That's NOT my name."***}
+{As I usually do, I related some stories of hacking from my personal history...and how some guys used the similarity of "RNYSPACE" to "MYSPACE" (when in lowercase: "rnyspace", "myspace") to steal lots of passwords.  She was lightly sympathetic, but nothing came of it.  But as the Ting-Tings say: **"That's NOT my name."**}
 
 [youtube http://www.youtube.com/v/v1c2OfAzDTI 400x244]
 
@@ -106,7 +106,7 @@ Yet though my 4G hotspot allocation was apparently under the radar (for the mome
 
 {First they wouldn't send me the SIM because my billing and shipping address were different.  It should have been a red flag when their support # couldn't find any way to work around this for a $10 SIM, when my current address is on file with the bank as an allowed shipping address.  But fool that I am, I drove half an hour away to Fry's and bought one. Then I got caught in a loop where I couldn't port my number because although I had a SIM card number, I didn't have a "service PIN".}
 
-[me: {"Fry's doesn't sell service PINs, they sell SIMs with numbers on them. You sell service. The SIM is in the phone and talking to your network. I have a credit card...it seems we have all the ingredients here?"}]
+[me: {Fry's doesn't sell service PINs, they sell SIMs with numbers on them. You sell service. The SIM is in the phone and talking to your network. I have a credit card...it seems we have all the ingredients here?}]
 
 {But we were completely deadlocked.  That's despite calling a couple times to see if I could find someone who *wasn't* simple.  No luck whatsoever...just a call center with people who couldn't do anything I couldn't do on the website--at all.  The last thing I want is to deal with is people carrying my communications who are even more incompetent than Sprint, so I'm going to a T-mobile store in the A.M. and taking the SIM back to Fry's... (!)}
 
@@ -114,6 +114,6 @@ Yet though my 4G hotspot allocation was apparently under the radar (for the mome
 
 {After getting AT&T Internet at home, I began to enjoy crazy 1080p HD video and realize what I'd been missing.  All that struggle with Sprint was pointless.  Bureaucrats and liars, filling page after page of meaningless contract paper with *everything they aren't responsible to provide you with*.}
 
-[note {When have you signed a long contract in legalese from a large company, and had it say something about **what *they* guarantee *you***?}]
+[note {When have you signed a long contract in legalese from a large company, and had it say something about what **they** guarantee **you**?}]
 
 {When I signed up for U-verse, I had a long metaphysical conversation with a man named Craig over the course of about nearly two hours.  We talked about the importance of communications.  I suggested he watch "Moon", and he suggested that I see [In Time](http://www.youtube.com/watch?v=EQ4-ioY7IyA), which I will do shortly.  While AT&T probably will have no shortage of opportunities to disappoint me in the future...so far it's been night and day.}

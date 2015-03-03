@@ -42,7 +42,7 @@ more
 
 {While I admire their efforts to bridge compatibility with the existing symbolism, it raises an important question.  If you're going to bow so deeply to pi's influence, why not just call your symbol "2π"?  Then just teach people not to involve the 2 in the surrounding math, and you're done.}
 
-[note {This obvious compromise is what tau-ists and turn-styles do when they have to work with the pi-ous.  Just leave your answer looking like "3/7 * [2π]^^3" instead of doing the obfuscating expansion of "24/7 * π^^3".}]
+[note {This obvious compromise is what tau-ists and turn-styles do when they have to work with the pi-ous.  Just leave your answer looking like "3/7 * 2π<sup>3</sup>" instead of doing the obfuscating expansion of "24/7 * π<sup>3</sup>".}]
 
 {So I wanted a full break from tradition.  My symbol would be foundational in terms of [semiotics](http://en.wikipedia.org/wiki/Semiotics) (even though I didn't learn that word until years later).  I wanted the constant to look "circular" somehow, and didn't care if it could be related to pi at all!}
 
@@ -64,13 +64,13 @@ more
 
     "Circumference: **2πr** vs **⊙r**"
 
-    "Area: **πr^^2** vs **1/2 ⊙r^^2**"
+    "Area: **πr<sup>2</sup>** vs **1/2 ⊙r<sup>2</sup>**"
 
 ]
 
 {This was the most frequent question I've gotten.  But my response was essentially the same as Michael's.  Namely the appearance of the "1/2" may be masked out by a haphazardly doubled constant *in this case*.  Yet there are many other relationships that come from integrals and derivatives that don't involve any foundational constants.}
 
-{Think about the momentum and kinetic energy: [mv => 1/2 mv^^^^2].  To get rid of the halving in the kinetic energy equation you'd have to start measuring things in "double-masses", which would be ludicrous and only push the 1/2 into the momentum formula.  }
+{Think about the momentum and kinetic energy: [mv => 1/2 mv<sup>2</sup>].  To get rid of the halving in the kinetic energy equation you'd have to start measuring things in "double-masses", which would be ludicrous and only push the 1/2 into the momentum formula.  }
 
 {So that 1/2 *belongs* in the area of a circle.  And it's a cognitive time-bomb to have it missing!}
 

@@ -38,7 +38,7 @@ more
 
     {**Fortunately** -- rvalue references were added to gcc version 4.3, which is deployed fairly widely in today's linux distributions.  (Try running `g++ --version` to see what you have...)}
 
-    {**Unfortunately** -- Just because you have a compiler that is able to compile the `unique_ptr` class doesn't mean you actually have unique_ptr in the standard library.  (You need gcc 4.4 or later to get `std::unique_ptr` when you `#include <memory>`, AND you have to compile your program with the "-std=gnu++0x" command line option.)}
+    {**Unfortunately** -- Just because you have a compiler that is able to compile the `unique_ptr` class doesn't mean you actually have `unique_ptr` in the standard library.  (You need gcc 4.4 or later to get `std::unique_ptr` when you `#include <memory>`, AND you have to compile your program with the "-std=gnu++0x" command line option.)}
 
     {**Fortunately** -- The boost interprocess library includes `boost::interprocess::unique_ptr` that you can use with older compilers.}
 

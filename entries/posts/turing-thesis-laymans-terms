@@ -26,23 +26,23 @@ Draem [
 
     "The simple operations must therefore include:"
 
-    [list [
+    [list
 
-            {Changes of the symbol on one of the observed squares.}
+        {Changes of the symbol on one of the observed squares.}
 
-            {Changes of one of the squares observed to another square within **L** squares of one of the previously observed squares.}
+        {Changes of one of the squares observed to another square within **L** squares of one of the previously observed squares.}
 
-        ]]
+    ]
 
     {It may be that some of these changes necessarily involve a change of state of mind. The most general single operation must therefore be taken to be one of the following:}
 
-    [list [
+    [list
 
-            {A possible change (a) of symbol together with a possible change of state of mind.}
+        {A possible change (a) of symbol together with a possible change of state of mind.}
 
-            {A possible change (b) of observed squares, together with a possible change of state of mind.}
+        {A possible change (b) of observed squares, together with a possible change of state of mind.}
 
-        ]]
+    ]
 
     {The operation actually performed is determined, as has been suggested (above) by the state of mind of the computer and the observed symbols. In particular, they determine the state of mind of the computer after the operation.}
 
@@ -50,7 +50,7 @@ Draem [
 
     {Our definition is the now-customary one with **B** = 1 and **L** = 1. That is, there is one scanned square and the head changes position by at most one in a single move.}
 
-    {*<sup>1</sup> If we regard a symbol as literally printed on a square we may suppose that the square is 0 < x < 1, 0 < y < 1. The symbol is defined as a set of points in this square, viz. the set occupied by printers ink. If these sets are restricted to be measurable, we can define the distance between two symbols as the cost of transforming one symbol into the other if the cost of moving a unit area of printers ink unit distance is unity, and there is an infinite supply of ink at x = 2, y = 0. With this topology the symbols form a conditionally compact space.*}
+    {*<sup>1</sup> If we regard a symbol as literally printed on a square we may suppose that the square is `0 < x < 1`, `0 < y < 1`. The symbol is defined as a set of points in this square, viz. the set occupied by printers ink. If these sets are restricted to be measurable, we can define the distance between two symbols as the cost of transforming one symbol into the other if the cost of moving a unit area of printers ink unit distance is unity, and there is an infinite supply of ink at `x = 2`, `y = 0`. With this topology the symbols form a conditionally compact space.*}
 
     /source {Turing, Alan M. (1936), On computable numbers, with an application to the Entscheidungsproblem, Proceedings of the London Mathematical Society, Ser. 2-42, 230-265.}
 ]

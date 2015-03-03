@@ -73,27 +73,11 @@ draem/set-config object compose [
 
 	site-footer: [
 
-		{Currently I am [experimenting with using Disqus](http://blog.hostilefork.com/importing-comments-with-disqus-api/) for comments, however it is configured that you don't have to log in or tie it to an account.  Simply check the "I'd rather post as a guest" button that appears after you begin typing in a name.}
-
-		[html {
-	<div id="disqus_thread"></div>
-	<script type="text/javascript">
-	/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-	var disqus_shortname = 'hostilefork'; // required: replace example with your forum shortname
-
-	/* * * DON'T EDIT BELOW THIS LINE * * */
-	(function() {
-	var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-	dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-	(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-	})();
-	</script>
-	<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-	<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-}]
+		[button http://hostilefork.com/media/fork-card-back-320x560.png 320x560 "Business Card from SXSW" http://hostilefork.com/hire-the-fork/]
+	
 	]
 
-	site-trailer-html: {<div style="text-align: right;"><span>Copyright (c) 2007-2014 hostilefork.com</span></div>}
+	site-trailer-html: {<div style="text-align: right;"><span>Copyright (c) 2007-2015 hostilefork.com</span></div>}
 
 	; This is made long to work around the page width issue where we set a
 	; maximum-width but no minimum-width.  In order to make sure we are

@@ -33,7 +33,7 @@ GRUB_HIDDEN_TIMEOUT_QUIET=true
 GRUB_TIMEOUT="10"
 }]
 
-{Comment out the line that says **GRUB_HIDDEN_TIMEOUT**.}
+{Comment out the line that says `GRUB_HIDDEN_TIMEOUT`.}
 
 [code {
 GRUB_DEFAULT=0
@@ -82,21 +82,21 @@ initrd /boot/initrd.img-2.6.31-14-generic
 
 [list
 
-    "00_header"
+    "`00_header`"
 
-    "05_debian_theme"
+    "`05_debian_theme`"
 
-    "10_linux"
+    "`10_linux`"
 
-    "20_memtest86+"
+    "`20_memtest86+`"
 
-    "30_os-prober"
+    "`30_os-prober`"
 
-    "40_custom"
+    "`40_custom`"
 
 ]
 
-{These are shell scripts, and the two digit numbers in the filename indicate the order in which the scripts are run.  The least invasive way to add your own custom menu option is to edit the file **40_custom** by putting the literal text of the menu option in:}
+{These are shell scripts, and the two digit numbers in the filename indicate the order in which the scripts are run.  The least invasive way to add your own custom menu option is to edit the file `40_custom` by putting the literal text of the menu option in:}
 
 [code {#!/bin/sh
 exec tail -n +3 $0
@@ -111,9 +111,9 @@ menuentry "Your Menu Entry Name Here" {
 }
 }]
 
-{The text inside the menuentry is the same as what you saw when you clicked "e" to edit the GRUB boot instructions.  But don't copy it by hand or use the information I provided for **[THE REST OF THE STUFF]**.  Grab your own settings out of the relevant menu item in **/boot/grub/grub.cfg**.  When you are done, run **update-grub** with root privileges.}
+{The text inside the menuentry is the same as what you saw when you clicked "e" to edit the GRUB boot instructions.  But don't copy it by hand or use the information I provided for **[THE REST OF THE STUFF]**.  Grab your own settings out of the relevant menu item in **/boot/grub/grub.cfg**.  When you are done, run `update-grub` with root privileges.}
 
-{If you want to be an Edgier Eft and edit the script which generates the default boot menu options, you can edit **10_linux** and find the line:}
+{If you want to be an Edgier Eft and edit the script which generates the default boot menu options, you can edit `10_linux` and find the line:}
 
 [code {linux ${rel_dirname}/${basename} root=${linux_root_device_thisversion} ro $2 >>YOUR OPTIONS HERE<<}]
 

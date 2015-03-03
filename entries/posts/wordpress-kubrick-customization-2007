@@ -102,7 +102,7 @@ c: / directory / subdir / file.txt
 
     ] [
 
-        {Change the text in **wp-content / themes / default / footer.php** from "Hostile Fork is proudly powered by WordPress", where WordPress is a link to [http://wordpress.org](http://wordpress.org).  I made it say "Hostile Fork grudgingly admits to running his site with WordPress", where WordPress is a link to [WordPress [wikipedia]](http://en.wikipedia.org/wiki/WordPress).}
+        {Change the text in **wp-content / themes / default / footer.php** from "Hostile Fork is proudly powered by WordPress", where WordPress is a link to [http://wordpress.org](http://wordpress.org).  I made it say "Hostile Fork grudgingly admits to running his site with WordPress", where WordPress is a link to [WordPress on Wikipedia](http://en.wikipedia.org/wiki/WordPress).}
 
         {While I'm glad the software is free and has a large community of people working with it, I don't necessarily think it's the best option out there (even given what little I know at this point)--and it's certainly not best for *everyone*.  So I think it's best to link to a better vetted overview which will lead people to understand their options in [content management systems](http://en.wikipedia.org/wiki/Comparison_of_content_management_systems).}
 

@@ -7,8 +7,6 @@ Draem [
 
 {Hello there!  Do you need help with something tricky, that only someone with a **lot** of *full-spectrum* computer experience can do?}
 
-[image http://hostilefork.com/media/fork-card-back-320x560.png 320x560 "Business Card from SXSW"]
-
 [heading {Let me introduce myself...}]
 
 {I've been programming since BASIC on the Osborne 1, and 6502 machine code [without an assembler](http://blog.hostilefork.com/machine-language-commodore-64-128/)!  By age 7, I was already writing some of the best programs in my family *(of 3 people, one of whom did not use the computer, but still...)*:}
@@ -23,17 +21,17 @@ Draem [
 
 {Another big area of interest for me is how domain-specific language methodologies (DSLs) can allow a better capture of program expression in the jargon of the problem space.  The very website that you're looking at now is written using a [tool of my own design](http://draem.hostilefork.com), that runs on an entire cross-platform toolchain clocking in at *half a megabyte*.}
 
-[note {Although I've gotten increasingly good at JavaScript to write things like [Black Highlighter](http://blackhighlighter.org/), I *really* don't find JavaScript appealing. It was admittedly designed in 10 days, and that shows.}]
+[note {Although I've gotten increasingly good at JavaScript to write things like [Black Highlighter](http://blackhighlighter.org/), I *really* don't find JavaScript appealing. (The language was admittedly designed in 10 days, and it sure shows!)}]
 
 [heading {Working Style}]
 
-{As an open source activist, I keep on top of modern trends and tools...like [GitHub](https://github.com/hostilefork) and [Trello](http://trello.com).  Yet with a heavy skepticism on lock-in and experience spotting hype, I can help steer people toward solutions that borrow the best of the old world and the new.}
+{I keep on top of modern trends and tools...like [GitHub](https://github.com/hostilefork) and [Trello](http://trello.com).  Yet with a heavy skepticism on lock-in and experience spotting hype, I can help steer people toward solutions that borrow the best of the old world and the new.}
 
 {As a [10K+ reputation user on StackOverflow](http://stackoverflow.com/users/211160/hostilefork), you can see how I work with people to solve their questions, as well as how I will not spend long banging my head against a problem if leveraging the experience of others is a better solution.  Here are just a few sample answers:}
 
 [list 
 
-	{[Going down the rabbit hole of GNU libc to explain printf's workings](http://stackoverflow.com/a/2444508/211160)}
+	{[Going down the rabbit hole of GNU libc to explain printf's workings](http://blog.hostilefork.com/where-printf-rubber-meets-road/)}
 
 	{[Researching 001b in "exception in module kernel32.dll at 001b:7c812afb"](http://stackoverflow.com/a/7268649/211160)}
 
@@ -47,10 +45,10 @@ Draem [
 
 	{[Helping someone with an esoteric bug in GTK, which I don't use (or even like)](http://stackoverflow.com/questions/7545804/).}
 
-	[note {I actually wound up in Toronto not too long ago, and didn't think to collect my reward beer.}]
+	[note {I actually wound up in Toronto not too long after answering that, and didn't think to collect my reward beer.}]
 ]
 
-{I believe that institutional knowledge is key.  And I've always been a very forthright and expressive technical writer *(even winning [an award from the Society for Technical Communication](http://blog.hostilefork.com/load-balancing-teenage-coding/) in high school)*.  My notes as I work are part of my daily deliverable.}
+{I believe that institutional knowledge is key.  And I've always been a very forthright and expressive technical writer *(even winning [an award from the Society for Technical Communication](http://blog.hostilefork.com/load-balancing-teenage-coding/) in high school)*.  My notes as I work are part of my daily deliverable.  While I've always thought commenting is key, the increasing power of links into issue databases has led my practices to evolve in recent years...which I've written about in ["Comments vs. Links on the Collaborative Web"](http://blog.hostilefork.com/comments-vs-web-links-2014/)}
 
 {I donate a *ridiculous* amount of my time to Open Source projects--and answering any old problem strangers have on the Internet.  So if you have a question or want some advice, send a rough description of the issue to **brian@hostilefork.com**.  I'll give some thoughts for cheap-as-free.}
 

@@ -93,7 +93,7 @@ All done
 
 {A serious C++ Kool-Aid drinker (crack smoker?) isn't discouraged by this type of thing.  There is *no good reason* for a type-safe C++ solution to perform worse or use more memory than a C way of doing things.  The issue is that you can't always use a generic class from a library; you might have to pave your own path with C++.}
 
-{*But does your path need to be entirely new?*  Might an existing codebase which had used `optional<ByteSizedClass>` become "magically" upgraded, without doing a search-and-replace on those references to use some tailored solution like `OptionalByteSizedClass`?  Could a trick be used to suddenly shrink `optional<ByteSizedClass` down to only use one byte instead of two?}
+{*But does your path need to be entirely new?*  Might an existing codebase which had used `optional<ByteSizedClass>` become "magically" upgraded, without doing a search-and-replace on those references to use some tailored solution like `OptionalByteSizedClass`?  Could a trick be used to suddenly shrink `optional<ByteSizedClass>` down to only use one byte instead of two?}
 
 {This is the alluring idea of what is called [Template Specialization](http://en.cppreference.com/w/cpp/language/template_specialization).  In this case, you'd effectively have to rewrite the implementation of optional...but at least you wouldn't be introducing a new data type.}
 
@@ -107,11 +107,11 @@ All done
     {If we are to leverage an "invalid" bit pattern of the contained type to represent the empty optional state, then we are stuck.  The object should not be able to create invalid patterns...yet we need a pattern of the object instantiated in memory which can tolerate invalid patterns to give back that reference.}
 ]
 
-{The logic of the argument seemed to follow "avoiding another vector<bool>" as the StackOverflow answer said.}
+{The logic of the argument seemed to follow "avoiding another `vector<bool>`" as the StackOverflow answer said.}
 
 [heading {Specialization should preserve the interface}]
 
-{If you're not familiar with the vector<bool> story, here it is...}
+{If you're not familiar with the `vector<bool>` story, here it is...}
 
 {Class designers realized that a [`std::vector<bool>`](http://en.cppreference.com/w/cpp/container/vector_bool) with 8 bools in it (for instance) could be packed under the hood into a single byte, vs. needing 8 bytes at one-per-bool.  They made the `vector` class implement this magic with template specialization.}
 

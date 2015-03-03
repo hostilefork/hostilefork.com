@@ -84,9 +84,9 @@ scrollbar[orient="vertical"] > scrollbarbutton[type="increment"] {
 
 [list
 
-    {Rule #1: All scrollbarbuttons you might find in the universe that *increment* the property to which they are attached--regardless of context--should be painted with the icon **right_cut.png** using the following attributes.}
+    {Rule #1: All scrollbarbuttons you might find in the universe that *increment* the property to which they are attached--regardless of context--should be painted with the icon `right_cut.png` using the following attributes.}
 
-    {Rule #2: Oh...wait...!!  There's one context where that's not the case.  Override it if it's a scrollbarbutton that increments and happens to be enclosed in the context of a *vertical scrollbar*, and use **down_cut.png** with these other attributes.}
+    {Rule #2: Oh...wait...!!  There's one context where that's not the case.  Override it if it's a scrollbarbutton that increments and happens to be enclosed in the context of a *vertical scrollbar*, and use `down_cut.png` with these other attributes.}
 
 ]
 

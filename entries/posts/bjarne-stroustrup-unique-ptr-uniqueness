@@ -10,7 +10,7 @@ Draem [
 
 {Much of it wasn't new material for me.  I am already familiar with the tenets of "Modern C++", but he introduced them lucidly for people unfamiliar with concepts like `shared_pointer` or `unique_ptr`.  I'd also seen his article about type-safety in SI units from IEEE Spectrum.}
 
-[note {What **did** surprise me was a graph of an experiment he did with the performance of vector vs. list.  It also challenged many people's assumptions about at what size a list would crossover to being faster.  The task would seem to benefit substantially from being able to do arbitrary insertions quickly.  But it looks like the three most important things in performance are starting to mirror the three most important things in real-estate: Locality, Locality, Locality!  :-P}]
+[note {What **did** surprise me was a graph of an experiment he did with the performance of vector vs. list.  It also challenged many people's assumptions about at what size a list would crossover to being faster.  The task would seem to benefit substantially from being able to do arbitrary insertions quickly.  But it looks like the three most important things in performance are starting to mirror the three most important things in real-estate: [Locality, Locality, Locality](http://blog.hostilefork.com/locality-locality-locality/)!  :-P}]
 
 {We didn't record the talk.  It would have been some effort to arrange with the venue, and he told us in advance it would be similar to talks he's given elsewhere that were online.  Yet I should have had the prescience to record the Q&A!}
 
@@ -38,6 +38,6 @@ more
 
 {When asked if there was any particular open-source codebase that represented his idea of what represented "good C++", he seemed to think that a lot of public codebases were not using the methodologies that he would suggest.  But he did name a couple of projects that I did not recognize.}
 
-{One other thing someone asked him was what his favorite text editor was to use when editing C++.  He said that these days when he had to work with a system he'd just kind of use whatever was there.  But historically, his favorite one was something called [Sam](http://en.wikipedia.org/wiki/Sam_(text_editor)).}
+{One other thing someone asked him was what his favorite text editor was to use when editing C++.  He said that these days when he had to work with a system he'd just kind of use whatever was there.  But historically, his favorite one was something called [Sam](http://sam.cat-v.org/).}
 
 {That's about all I can remember off the top of my head, and if I've misrepresented any of his answers I apologize.  But I'm taking his word on the unique_ptr answer, and so this is how I will be treating it!}

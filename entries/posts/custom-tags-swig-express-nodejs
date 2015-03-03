@@ -14,7 +14,7 @@ Draem [
 {Searching on the topic led me to find a GitHub pull request where someone submitted the comment tag implementation...and it was [rejected by Paul](https://github.com/paularmstrong/swig/pull/32#issuecomment-3553673).  He said:}
 
 [quote
-	{I appreciate the thought here, but I'm really unconcerned with feature-parity between swig and Django, Jinja, Twig, etc.}	
+    {I appreciate the thought here, but I'm really unconcerned with feature-parity between swig and Django, Jinja, Twig, etc.}  
 ]
 
 {Darn.  :-/  Yet looking a bit more, there seemed to be hope for my compatibility mission: *Swig had a hook for adding your own tags*.  So I used that to make a stub implementation of the missing `{% verbatim %}{% comment %}{% endverbatim %}` and `{% verbatim %}{% url %}{% endverbatim %}` tags.  Though my `url` didn't actually have a reverse-routing mechanism, I coaxed it into making good-enough output for the few named urls I was using.}
@@ -42,13 +42,13 @@ var utils = require('swig/lib/utils');
 }]
 
 [note
-	{As Swig lives in the `node_modules` directory of your project, you may wonder how that path is found by Node.  It used to be *it wasn't*...and you would have to make a call like `require.paths.unshift('./node_modules')` to get it to look there.  But unshift was deprecated a while ago, and today's Node searches the moduels in the lookup ordering:}
+    {As Swig lives in the `node_modules` directory of your project, you may wonder how that path is found by Node.  It used to be *it wasn't*...and you would have to make a call like `require.paths.unshift('./node_modules')` to get it to look there.  But unshift was deprecated a while ago, and today's Node searches the moduels in the lookup ordering:}
 
-	[quote
-		{If the module identifier passed to require() is not a native module, and does not begin with `/`, `../`, or `./`, then node starts at the parent directory of the current module, and adds `/node_modules`, and attempts to load the module from that location.}
-	
-		/source [http://nodejs.org/api/modules.html#modules_loading_from_node_modules_folders {Node.JS Documentation}]
-	]
+    [quote
+        {If the module identifier passed to require() is not a native module, and does not begin with `/`, `../`, or `./`, then node starts at the parent directory of the current module, and adds `/node_modules`, and attempts to load the module from that location.}
+    
+        /source [http://nodejs.org/api/modules.html#modules_loading_from_node_modules_folders {Node.JS Documentation}]
+    ]
 ]
 
 {Assuming you're implementing your tags in a file separate from your Express and Swig setup, the simplest way to export the 3 "tag-owned" properties would be to put one tag per file and do this:}
@@ -64,10 +64,10 @@ exports.ends = ...;
 [code javascript {
 var urlTag = require('./swigtags/url');
 swig.setTag(
-	'url'
-	, urlTag.parse
-	, urlTag.compile
-	, urlTag.ends
+    'url'
+    , urlTag.parse
+    , urlTag.compile
+    , urlTag.ends
 );
 }]
 
@@ -92,21 +92,21 @@ exports.comment = {
 [code javascript {
 var mytags = require('./mytags');
 swig.setTag(
-	'url'
-	, mytags.url.parse
-	, mytags.url.compile
-	, mytags.url.ends
+    'url'
+    , mytags.url.parse
+    , mytags.url.compile
+    , mytags.url.ends
 );
 swig.setTag(
-	'comment'
-	, mytags.comment.parse
-	, mytags.comment.compile
-	, mytags.comment.ends
+    'comment'
+    , mytags.comment.parse
+    , mytags.comment.compile
+    , mytags.comment.ends
 );
 }]
 
 [note
-	{There's no real reason to avoid creating a directory or having multiple files.  Just mentioning it because I did it that way.  :-)}
+    {There's no real reason to avoid creating a directory or having multiple files.  Just mentioning it because I did it that way.  :-)}
 ]
 
 [heading {Division of Labor Between parse() and compile()}]
@@ -127,33 +127,33 @@ some stuff
 
 {The entry point to parse is just there to let you set up the hooks for the parser.  So when you return `true` from it, that's not to say a parse operation is finished.  Rather, that you have set up the patterns you want to register for the parse.}
 
-[note {It might thus be better named "configure_parser", or similar.}]
+[note {It might thus be better named "`configure_parser`", or similar.}]
 
-{Here's a basic outline of the parser hook that registers callbacks for the start and end of a parse, and then a single callback to handle any token type at all.  *(You could be more fine-grained by requesting only certain token types, but this `*` hook will get you all of them.)*:}
+{Here's a basic outline of the parser hook that registers callbacks for the start and end of a parse, and then a single callback to handle any token type at all.  (You could be more fine-grained by requesting only certain token types, but this `*` hook will get you all of them.):}
 
 [code javascript {
 function parse (str, line, parser, types, options) {
 
-	parser.on('start', function () {
-		// called when a parse starts
-	});
+    parser.on('start', function () {
+    // called when a parse starts
+    });
 
-	parser.on("*", function (token) {
-		// called on the match of any token at all ("*")
-	});
+    parser.on("*", function (token) {
+    // called on the match of any token at all ("*")
+    });
 
-	parser.on('end', function() {
-		// called when a parse ends
-	});
+    parser.on('end', function() {
+    // called when a parse ends
+    });
 
-	return true; // parser is good to go
+    return true; // parser is good to go
 }
 }]
 
 [note
-	{We see the function returns true.  But as you're only registering the parser and not really getting any tokens from the input yet...how could this ever *not* "succeed"?}
+    {We see the function returns true.  But as you're only registering the parser and not really getting any tokens from the input yet...how could this ever *not* "succeed"?}
 
-	{There actually are cases of `parse` returning false in some cases, but they're the weird ones like [/lib/tags/else.js](https://github.com/paularmstrong/swig/blob/aa128e926913786462af4a7eb2411ad89f29d1ad/lib/tags/else.js) and [/lib/tags/elseif.js](https://github.com/paularmstrong/swig/blob/aa128e926913786462af4a7eb2411ad89f29d1ad/lib/tags/elseif.js).  They can look like:}
+    {There actually are cases of `parse` returning false in some cases, but they're the weird ones like [/lib/tags/else.js](https://github.com/paularmstrong/swig/blob/aa128e926913786462af4a7eb2411ad89f29d1ad/lib/tags/else.js) and [/lib/tags/elseif.js](https://github.com/paularmstrong/swig/blob/aa128e926913786462af4a7eb2411ad89f29d1ad/lib/tags/elseif.js).  They can look like:}
 
 [code {
 {% verbatim %}{% if false %}
@@ -165,7 +165,7 @@ function parse (str, line, parser, types, options) {
 {% endif %}{% endverbatim %}
 }]
 
-	{If you're doing something like that, then it seems you need to return false sometimes to implement it.  You're on your own to read the source--I'll assume you're returning true.  :-)}
+    {If you're doing something like that, then it seems you need to return false sometimes to implement it.  You're on your own to read the source--I'll assume you're returning true.  :-)}
 ]
 
 {Inside the `.on()` handlers you register, you have two actions you basically take.  One is that you throw an Error if the input isn't well-formed enough to be handing off to compile.  The other is that you can push some output.  Often the token you push will be the one that you matched, so the line of code you'd use would be like `this.out.push(token.match);`}
@@ -173,23 +173,23 @@ function parse (str, line, parser, types, options) {
 {The fields of that `token` parameter you get are:}
 
 [list
-	{`match` - the matched data}
+    {`match` - the matched data}
 
-	[
-		{`type` - something from [this `TYPE` list in /lib/lexer.js](https://github.com/paularmstrong/swig/blob/87bc42b53d9e9a7c035ce0c9dd49916e685285f5/lib/lexer.js#L16)}
+    [
+        {`type` - something from [this `TYPE` list in /lib/lexer.js](https://github.com/paularmstrong/swig/blob/87bc42b53d9e9a7c035ce0c9dd49916e685285f5/lib/lexer.js#L16)}
 
-		[note 
-			{When it says `types.STRING` it means the parser saw a token that was *literally enclosed in quotes*.  An unquoted token will be presented as `types.VAR`.  So in the example above, `foo` is a var and `"bar"` is a string.}
-		]
-	]
+        [note 
+            {When it says `types.STRING` it means the parser saw a token that was *literally enclosed in quotes*.  An unquoted token will be presented as `types.VAR`.  So in the example above, `foo` is a var and `"bar"` is a string.}
+        ]
+    ]
 
-	[
-		{`length` - length of matched data.}
-	
-		[note
-			{As you were given the data in match and can calculate its length yourself, this is preumably provided for performance or convenience reasons--to keep you from having to recalculate it?}
-		]
-	]
+    [
+        {`length` - length of matched data.}
+    
+        [note
+            {As you were given the data in match and can calculate its length yourself, this is preumably provided for performance or convenience reasons--to keep you from having to recalculate it?}
+        ]
+    ]
 ]
 
 [heading {Notes on compile()}]
@@ -202,7 +202,7 @@ function parse (str, line, parser, types, options) {
 
 [code javascript {
 function compile (compiler, args, content, parents, options, blockName) {
-	return '_output += "foo";';
+    return '_output += "foo";';
 }
 }]
 
@@ -213,7 +213,7 @@ function compile (compiler, args, content, parents, options, blockName) {
 {Internally to Swig itself, it prefixes variables with `_ctx`.  Each variable adds further per-tag disambiguation based on strings unique to the tag and variable, and prevents collisions in-tag by adding a number from `Math.random()`.  *(See for instance: [/lib/tags/for.js](https://github.com/paularmstrong/swig/blob/master/lib/tags/for.js))*}
 
 [note 
-	{Being a C++11 formalist who has growing Haskell-type leanings, I have to say... *sigh*.  O webdevs, U so crazy!}
+    {Being a C++11 formalist who has growing Haskell-type leanings, I have to say... *sigh*.  O webdevs, U so crazy!}
 ]
 
 [heading {Conclusion}]

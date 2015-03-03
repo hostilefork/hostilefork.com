@@ -5,9 +5,11 @@ Draem [
     date: 27-Feb-2015/11:52:58-5:00
 ]
 
-{I was asked by a client to evaluate the Apache 2.0 C++11 codebase for [RTBkit](http://rtbkit.org/) as part of a build-or-"buy" decision.  I don't actually know anything about this business sector (online advertising), but I do know about code.  And since we're reviewing open source, I said why not open notes?}
+{I was asked by a client to evaluate the Apache 2.0 C++11 codebase for [RTBkit](http://rtbkit.org/) as part of a build-or-"buy" decision.  I don't actually know anything about this business sector (online advertising), but I do know about code.  And since I'm looking at open source, I said why not open notes?}
 
-{So that's what we're doing.  Grab some popcorn...this is an epic tale.  I'm going to tell you what's in the open-source RTBkit project's repository, *for reals*.  Though if you like, you may skip the analysis and [jump directly to the conclusions](#conclusions)}
+{So that's how we're doing it.}
+
+{Grab some popcorn...this is an epic tale.  I'm going to tell you what's in the open-source RTBkit project's repository, *for reals*.  Though if you like, you may skip the analysis and [jump directly to the conclusions](#conclusions)}
 
 
 [heading {A Weighty Proposition}]
@@ -58,7 +60,7 @@ $ sudo apt-get install linux-tools-generic libbz2-dev python-dev scons\
 
 [heading {"...Wait, So...What's Going on Here?"}]
 
-{The official word on the strategy comes from [Jeremy Barnes](http://rtbkit.org/site/blogs/jeremy), the CTO of the company that open-sourced RTBkit.  He explained the situation in a Google Groups post:}
+{The official word on the strategy comes from [Jeremy Barnes](http://rtbkit.org/site/blogs/jeremy), the CTO of Datacratic (the company that open-sourced RTBkit).  He explained the situation in a Google Groups post:}
 
 [quote
     {At the present moment, RTBkit is designed to be productive for developers to work on.  In particular, we made the conscious choice to require a very specific environment so that we would not need to support all of the effort to port to other architectures and operating systems (and especially to maintain these ports), and we could control the versions of all of the supporting libraries we use (hence platform-deps).  This was our way out of dependency hell and #ifdef hell, into which we have already fallen several times.}
@@ -134,7 +136,7 @@ gzip(gfe),gzip(gfe)"}
 
 {So RTBkit is an open-source (Apache 2.0) Real-Time Bidding Kit.  If you want to get in on the bidding to buy ad space in real time, you can use it to build robots ("Agents") to try and buy ads automatically on your behalf.  A "Banker" service keeps track of how many nickels and dimes you're spending each minute.  A "Post-Auction" loop checks up on what happens after the bidding is done, doing logging and measuring clicks and ["conversions"](http://en.wikipedia.org/wiki/Conversion_marketing) (a.k.a. how many people became "customers" due to the ad).  A "Router" orchestrates the process of figuring out which running Agents might be interested in a given ad bidding opportunity, keeps all the robots within their budget by talking to the Banker, etc.}
 
-{All these services are designed to run as independent processes and communicate via [ØMQ (a.k.a. ZeroMQ)](http://en.wikipedia.org/wiki/%C3%98MQ)...which is a sort of socket abstraction layer that's becoming very popular or its performance-to-flexibility ratio.  Yet performance is important, so generally all these different services are actually running on the same machine, and likely many in the same process (scenarios ZeroMQ is able to optimize for, while not *requiring* them).  Furthermore, RTBkit is written in C++11, a language with the potential for writing very fast and reliable code (when used correctly).}
+{All these services are designed to run as independent processes and communicate via [ØMQ (a.k.a. ZeroMQ)](http://en.wikipedia.org/wiki/%C3%98MQ)...which is a sort of socket abstraction layer that's becoming very popular for its performance-to-flexibility ratio.  Yet performance is important, so generally all these different services are actually running on the same machine, and likely many in the same process (scenarios ZeroMQ is able to optimize for, while not *requiring* them).  Furthermore, RTBkit is written in C++11, a language with the potential for writing very fast and reliable code (when used correctly).}
 
 {So the theory goes: You download the open-source code, and customize it to your liking.  Then you sign up for an account with ad exchanges that will offer your robot opportunities to bid on ads.  You set up your robot with a bank account, and put it out on the cloud on some server with a fast CPU and good Internet connection.  Then you hope it stays up and makes good fast decisions about who to advertise to.}
 
@@ -219,11 +221,11 @@ http://rtbkit.org/dox/0.9/
 
 [heading {The JML Library}]
 
-{The CTO of the company that released RTBkit has his own library included: JML.  That stands for "Jeremy's Machine Learning Library":}
+{Jeremy--the aforementioned CTO of Datacratic--had a personal library of routines that was open sourced before Datacratic's existence.  This library is called JML and is included in the source repository.  (JML stands for "Jeremy's Machine Learning Library"):}
 
 https://github.com/rtbkit/rtbkit/tree/master/jml
 
-{Copyright dates range from one file in 2000 up to several in 2009.  He says part of it has largely been supplanted by better-maintained libraries.  But of other parts he says:}
+{Copyright dates range from one file in 2000 up to several in 2009.  He says part of it has largely been supplanted by better-maintained libraries.  Of other parts he says:}
 
 [quote
     {This code is quite old but extremely efficient and performant, and is used at the core of several machine-learning startups.}
@@ -349,7 +351,9 @@ https://github.com/rtbkit/rtbkit/tree/master/jml
     {[**libcrypto++-dev**](http://www.cryptopp.com/) - Node and Curl require this.  But it's remarked that "Exchanges transmit winning prices in different units, currencies, encodings and encryption schemes."  So you'll find some of them requiring (for instance) [Blowfish](http://en.wikipedia.org/wiki/Blowfish_%28cipher%29).  So in addition to the communications with S3, AWS, and some MD5 hashing you will find cryptography used to communicate with the ad exchanges.}
 
     [
-        {[**libACE-dev**](http://www.cs.wustl.edu/~schmidt/ACE-overview.html) -- The "ACE adaptive communication environment" is yet another grab-bag of a library.  It provides synchronization primitives, timers, and C++ wrappers for things like sockets, signals, datagrams, and INET addresses.  (I'd never heard of this library before.)}
+        {[**libACE-dev**](http://en.wikipedia.org/wiki/Adaptive_Communication_Environment) -- The "ACE adaptive communication environment" is yet another grab-bag of a library.  It provides synchronization primitives, timers, and C++ wrappers for things like sockets, signals, datagrams, and INET addresses.}
+
+        {The codebase uses a few ACE classes as the implementation of JML's "arch" primitives for things like semaphores, and in assisting of the implementation of the socket abstraction classes.  I'd never heard of this library before...and despite its age (it has been around since before 2000), there's only a hundred or so [questions about it on StackOverflow](http://stackoverflow.com/questions/tagged/ace).}
 
         {The most notable-seeming usage of libAce would have *seemed* to be [in the auction.cc file](http://www.cs.wustl.edu/~schmidt/ACE-overview.html):}
 
@@ -364,8 +368,6 @@ https://github.com/rtbkit/rtbkit/tree/master/jml
 }]
 
         {That caught my eye *(beyond just the mixture of [quoted and angle bracketed includes](http://stackoverflow.com/questions/21593/what-is-the-difference-between-include-filename-and-include-filename)*).  Here were high resolution timers, timer heaps, timer queue adapters, dev poll reactors.  Serious-sounding business!  Except...if you comment those headers out it all still builds.  There are no references to any of that.  :-)}
-
-        {The codebase uses a few ACE classes as the implementation of JML's "arch" primitives for things like semaphores, and in assisting of the implementation of the socket abstraction classes.  }
     ]
 ]
 
@@ -408,7 +410,7 @@ gzip(gfe),gzip(gfe)"}
 
 {In this [slide 17 from the RTBkit team](http://www.slideshare.net/Datacratic/a-technical-introduction-to-rtbkit), they frankly say (more or less) *"The only way it could be harder to do this than by using RTBkit would be if you wrote the whole thing yourself."*}
 
-{Well, I'll get to that question.  But first:}
+{Well...let's consider that in a moment.  But first:}
 
 [list
     {While the repository and its dependencies paint an imposing picture, some of the more mysterious components are used rarely (or not at all).  A large machine learning library dependency with neural networks, linear algebra, Fortran and [t-Distributed Stochastic Neighbor Embedding (t-SNE)](http://en.wikipedia.org/wiki/T-distributed_stochastic_neighbor_embedding) has no notable incorporation.  This is both bad and good: it's good because it means you don't need a Ph.D in math to understand the software, and bad because it's relatively ordinary pipes+logic vs. any "magic".}
@@ -417,7 +419,7 @@ gzip(gfe),gzip(gfe)"}
 
     {The overwhelming majority of original code in RTBKit is C++11, with a small amount of JavaScript and Python embedding capability.  There are no large declarative portions to the code or domain-specific languages.  Modifying or understanding the project in any non-trivial way would mandate a practical awareness of C++ with several years of experience.}
 
-    {Adoption of new C++11 features is relatively conservative, with a focus on efficiency benefits, such as [`emplace_back` as opposed to `push_back`](http://stackoverflow.com/questions/4303513/push-back-vs-emplace-back).  Another area are constructs providing convenience (`auto`, range-based `for`, lambdas).  There is no [template metaprogramming](http://en.wikipedia.org/wiki/Template_metaprogramming), and appear to be no instances of `std::enable_if` or [SFINAE](http://en.wikipedia.org/wiki/Substitution_failure_is_not_an_error).)}
+    {Adoption of new C++11 features is relatively conservative, with a focus on efficiency benefits, such as [`emplace_back` as opposed to `push_back`](http://stackoverflow.com/questions/4303513/push-back-vs-emplace-back).  Another area are constructs providing convenience (`auto`, range-based `for`, lambdas).  There is no [template metaprogramming](http://en.wikipedia.org/wiki/Template_metaprogramming), and appear to be no instances of `std::enable_if` or [SFINAE](http://en.wikipedia.org/wiki/Substitution_failure_is_not_an_error).}
 
     {Though `std::shared_ptr` and `std::unique_ptr` do appear, there are still a huge number of raw pointer allocations and calls to `delete` and `delete[]`.  Other areas lagging in modernization are several remaining references to `std::auto_ptr` *(a class that should have never existed in the first place)*, along with usage of `boost::shared_ptr` instead of `std::shared_ptr`, etc.}
 
@@ -430,6 +432,10 @@ gzip(gfe),gzip(gfe)"}
     {A testing system is in place, and valgrind is used to check for memory leaks in an automated fashion, with appropriate suppressions of known issues in libraries.  Assuming the tests represent realistic stresses of running in practice, the raw pointers might not be causing problems yet.  (Still it should be a priority for someone to go through and fix those).}
 
     {One critical weak point is a pervasive dependence on homegrown or obscure libraries, for common functionality that has more popular and/or vetted implementations.  Trained developers would likely demand they be given time to update these to more appropriate variants (as opposed to learning or improving the libraries).  Less-trained developers might spend excessive time absorbing the nuances of obscure classes, which will also not be a transferable skill to other projects.  It may be difficult to find agreements on substitutions that would be endorsed by the repository maintainers...which creates a cost of fragmentation.}
+
+    [note
+        {Although much of the libraries may be homegrown, they do include tests; so reliability may not be at issue.}
+    ]
 
     {If one were to hire a team to work with this project, prior C++11 experience is likely less important than general C++ familiarity (including how to use libraries like boost to avoid reinventing the wheel).  Also of importance would be the developers have current knowledge of--or be very interested in--the technical landscape of emerging server-side technologies.  *(This would be true in any "build" situation as well.)*}
 ]
@@ -454,9 +460,9 @@ gzip(gfe),gzip(gfe)"}
 
 {However, the failure to cull dependencies--and use of obscure or homegrown libraries--creates a giant puzzle for those who have come to evaluate these "mechanical parts of bidding".  With so much in the way, it simply is very *hard to see* the components and tease out what exactly has been open-sourced.}
 
-{It seems (to me) Datacratic had little to lose in publishing the parts they did.  There's a definite PR upside to having openness in an otherwise secretive business.  Yet still, the inertia of the code ensures no small shop can hire to specialize and compete with them as the go-to for consulting support.  The budget, insight, and manpower it would take to become a serious competitor to Datacratic would entail picking another technology stack that, that would not rely on C++ so completely (if at all).}
+{It seems (to me) Datacratic had little to lose in publishing the parts they did.  There's a definite PR upside to having openness in an otherwise secretive business.  Yet still, the inertia of the code ensures no small shop can hire to specialize and compete with them as the go-to for consulting support.  The budget, insight, and manpower it would take to become a serious competitor to Datacratic would imply picking another technology stack, which would not rely on C++ so pervasively (if at all).}
 
-{Another benefit to Datacratic is that by having the full build environment in the distribution (including the parts that only their extensions use), they are able to crowdsource their deployment testing.  Curious downloaders can report and help fix problems...while being highly unlikely to become competitors.  If something doesn't work under a new version of something, they'll find out from a random person on the newsgroup...*prior* to facing the problem with one of the clients of their custom distribution.}
+{Another benefit Datacratic gets is that by having the full build environment in the distribution (including the parts that only their extensions use), they are able to crowdsource their deployment testing.  Curious downloaders can report and help fix problems...while being highly unlikely to become competitors.  If something doesn't work under a new dependency revision, they'll find out from a random person on the newsgroup...*prior* to facing the problem with a clients of their custom distribution.  The random person might even research and apply the fix.}
 
 {All that said, I'm sorry if anyone involved with the project takes offense at the evaluation.  From one programmer to another: I know how hard it is to get all this stuff coded and working *at all* (were we getting a beer, we could sympathize over it all day).  Yet what I've written here is honest and supported, and shared in the spirit of defogging the fog.}
 

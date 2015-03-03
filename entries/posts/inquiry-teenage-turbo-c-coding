@@ -38,11 +38,11 @@ more
 
 https://github.com/hostilefork/teenage-coding/tree/master/INQUIRY
 
-{I simply cringe reading it.  On the first line of executing code it does an unsafe copy of the executable path [from argv[0] into an 80 character buffer](https://github.com/hostilefork/teenage-coding/blob/a753c97abac79d2ae56c8303d08ae3a5b4ce4962/INQUIRY/INQG/INQG.CPP#L67)... :-(}
+{I simply cringe reading it.  On the first line of executing code it does an unsafe copy of the executable path from `argv[0]` [into an 80 character buffer](https://github.com/hostilefork/teenage-coding/blob/a753c97abac79d2ae56c8303d08ae3a5b4ce4962/INQUIRY/INQG/INQG.CPP#L67)... :-(}
 
 {If there were a way to reach back across time and slap some sense into myself, I would.  But we all start somewhere, right?}
 
-{This is one of the great things about the more connected world of today with things like StackOverflow.  Those in the know can correct things in your code samples even when it wasn't what your question was about, and you can also browse and learn rapidly from what others are doing.  And for all those of you who are still writing code like this: Please, please stop.}
+{**BUT** here is wehre I want to mention one of the great things about the more connected world of today with things like StackOverflow.  Those in the know can correct things in your code samples even when it wasn't what your question was about, and you can also browse and learn rapidly from what others are doing.  And for all those of you who are still writing code like this: Please, please stop.}
 
 [update {As an amusing epilogue, I also found a text file outlining a vision for the follow-up to Inquiry... the less-friendly named "Inquisition".  Though I was just 17, I clearly had a bright future in the software industry.  Despite my youth, I already knew how to make outlandish promises for features in a next version that would never be written!!!}]
 

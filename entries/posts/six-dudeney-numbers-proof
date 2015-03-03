@@ -43,11 +43,11 @@ DigitSum(9999) = 9 + 9 + 9 + 9 = 36
 
 [text "DigitSum(value) <= 9 * DigitCount(value)"]
 
-{Another interesting property is that an `n`-digit number will have *at most* as many digits as the cube of a 1 followed by `n` zeroes.  (So for instance 1000^^^^3 will always have a greater or equal number of digits than 999^^^^3.)}
+{Another interesting property is that an `n`-digit number will have *at most* as many digits as the cube of a 1 followed by `n` zeroes.  (So for instance 1000<sup>3</sup> will always have a greater or equal number of digits than 999<sup>3</sup>.)}
 
 {Now let's put that together with the fact that if you cube a 1 followed by `n` zeroes then it will have `3 * n + 1` digits:}
 
-[text "DigitCount(value^^3) <= 3 * DigitCount(value) + 1"]
+[text "DigitCount(value<sup>3</sup>) <= 3 * DigitCount(value) + 1"]
 
 {One last thing we need is a mathematical way of expressing a maximum bound on the number of digits, and that comes from the base 10 logarithm:}
 
@@ -55,24 +55,21 @@ DigitSum(9999) = 9 + 9 + 9 + 9 = 36
 
 [heading "Limiting The Search Space"]
 
-{In this case, I want to show that once `value` becomes a certain size, even a generous overestimate of what possible value `DigitSum(value^^3)` could have is going to be less than `value` (hence not equal, and not meeting the requirement to be a Dudeney number).
+{In this case, I want to show that once `value` becomes a certain size, even a generous overestimate of what possible value DigitSum(value<sup>3</sup>) could have is going to be less than `value` (hence not equal, and not meeting the requirement to be a Dudeney number).}
  
-So let's apply the bounds.  Since we're working with <= and not = it's okay for me to substitute any expression which is known to be *larger or equal to* the previous value... the inequality will still hold true:}
+{So let's apply the bounds.  Since we're working with <= and not = it's okay for me to substitute any expression which is known to be *larger or equal to* the previous value... the inequality will still hold true.  So we know DigitSum(value<sup>3</sup>):}
 
-[text {
-DigitSum(value^^^^3)
-    <= 9 * DigitCount(value^^^^3) 
-    <= 9 * (3 * DigitCount(value) + 1)
-    <= 9 + 27 * DigitCount(value)
-    <= 9 + 27 * (log(value) + 1)
-    <= 36 + 27 * log(value)
-}]
+[list
+    {<= 9 * DigitCount(value<sup>3</sup>)} 
+    {<= 9 * (3 * DigitCount(value) + 1)}
+    {<= 9 + 27 * DigitCount(value)}
+    {<= 9 + 27 * (log(value) + 1)}
+    {<= 36 + 27 * log(value)}
+]
 
-{Remember that we are looking for Dudeney numbers where this rule holds:}
+[note {Remember that we are looking for Dudeney numbers where `value` = DigitSum(value<sup>3</sup>)}]
 
-[text "value = DigitSum(value^^3)"]
-
-{Let's mutate this into the question "find a boundary above which `value` must always be greater than `DigitSum(value^^3)`".  It would be nice to find a minimal boundary, but any boundary is better than nothing.  Using our simple case we look to find where:}
+{Let's mutate this into the question "find a boundary above which `value` must always be greater than DigitSum(value<sup>3</sup>)".  It would be nice to find a minimal boundary, but any boundary is better than nothing.  Using our simple case we look to find where:}
 
 [text "value > 36 + 27 * log(value)"]
 

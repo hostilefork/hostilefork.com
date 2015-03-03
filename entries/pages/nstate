@@ -48,11 +48,11 @@ int main(int argc, char * const argv[]) {
 
 [list
 
-    "`(bits for N tristates) / (bits for 2 * N bits)`"
+    "**(bits for N tristates) / (bits for 2 &times; N bits)**"
 
     [
 
-        "= `ceil(log<sub>2</sub>(3^^N)) / (2 * N)`"
+        "= **ceil(log<sub>2</sub>(3<sup>N</sup>)) / (2 &times; N)**"
 
         [note "by definition"]
 
@@ -60,7 +60,7 @@ int main(int argc, char * const argv[]) {
 
     [
 
-        "&asymp; `N log<sub>2</sub>(3) / (2 * N)`"
+        "&asymp; **N log<sub>2</sub>(3) / (2 &times; N)**"
 
         [note "power rule"]
 
@@ -68,7 +68,7 @@ int main(int argc, char * const argv[]) {
 
     [
 
-        "= `log<sub>2</sub>(3) / 2`"
+        "= **log<sub>2</sub>(3) / 2**"
 
         [note "cancellation"]
 
@@ -76,7 +76,7 @@ int main(int argc, char * const argv[]) {
 
     [
 
-        "`&asymp; 79%`"
+        "&asymp; **79%**"
 
         [note "calculator"]
 

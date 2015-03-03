@@ -25,28 +25,28 @@ https://github.com/hostilefork/nocycle/tree/master
 
 [html {<table>
   <tr>
-    <td>  </td>
-    <td> <b>V0</b></td>
-    <td> <b>V1</b></td>
-    <td> <b>V2</b></td>
+    <td></td>
+    <td><b>V0</b></td>
+    <td><b>V1</b></td>
+    <td><b>V2</b></td>
   </tr>
   <tr>
     <td><b>V0</b></td>
-    <td> ..</td>
-    <td> B1</td>
-    <td> B3</td>
+    <td>..</td>
+    <td>B1</td>
+    <td>B3</td>
   </tr>
   <tr>
     <td><b>V1</b></td>
-    <td> B2</td>
-    <td> ..</td>
-    <td> B4</td>
+    <td>B2</td>
+    <td>..</td>
+    <td>B4</td>
   </tr>
   <tr>
     <td><b>V2</b></td>
-    <td> B5</td>
-    <td> B6</td>
-    <td> ..</td>
+    <td>B5</td>
+    <td>B6</td>
+    <td>..</td>
   </tr>
 </table>}]
 
@@ -149,7 +149,7 @@ https://github.com/hostilefork/nocycle/tree/master
   </tr>
 </table>}]
 
-{Now we have an array T[] which contains both the existence tristate E (with an unused state) and the connection tristates C.  We need the function E(N) where T[E(N)] is the existence tristate for vertex N.  Also, we need C(S,L) such that T[C(S,L)] is the connection tristate for **V*S*** and **V*L*** (where S < L). }
+{Now we have an array T[] which contains both the existence tristate E (with an unused state) and the connection tristates C.  We need the function E(N) where T[E(N)] is the existence tristate for vertex N.  Also, we need C(S,L) such that T[C(S,L)] is the connection tristate for **V&times;S** and **V&times;L** (where S < L). }
 
 {First, E(N) is easy.  It's the sum of the first N natural numbers:}
 
@@ -191,7 +191,7 @@ Most programs use search algorithms to answer questions of reachability, and tho
 
 {I tried a few techniques to improve performance on volatile graphs.  For instance, I used the cache graph's `vertexTypeTwo` to indicate when the outgoing reachability for that vertex might have false positives.  This made it possible to defer the transitive closure update while still knowing *something* in the meantime (e.g. that if there *wasn't* an edge to a vertex in the reachability graph, then it still could definitely not be reached).}
 
-{Also, I noticed that storing reachability links for vertices that were directly connected was somewhat redundant.  After all, one can check for adjacency of **V*x*** and **V*y*** in **O(1)**...so performing that check prior to checking the reachability does not cost much.  This made it possible to "reclaim" a tristate for every edge in the main graph.  If you enable `DIRECTEDACYCLICGRAPH_USER_TRISTATE`, then this tristate becomes available for client use.}
+{Also, I noticed that storing reachability links for vertices that were directly connected was somewhat redundant.  After all, one can check for adjacency of **V&times;x** and **V&times;y** in **O(1)**...so performing that check prior to checking the reachability does not cost much.  This made it possible to "reclaim" a tristate for every edge in the main graph.  If you enable `DIRECTEDACYCLICGRAPH_USER_TRISTATE`, then this tristate becomes available for client use.}
 
 {Once I had reclaimed this tristate for every edge for the user, I decided to try taking it back to see if it could add features to the cache.  With the compile flag `DIRECTEDACYCLICGRAPH_CACHE_REACH_WITHOUT_LINK`, then two of the three possible tristates are used to answer the yes/no question of *"Could the vertex pointed to by this edge be reached even if the physical edge were removed."*  If that is true, then you know the link can be removed without propagating any further invalidation of the cache.  It might be an interesting question for certain clients in its own right.}
 
@@ -201,7 +201,7 @@ Most programs use search algorithms to answer questions of reachability, and tho
 
 {My attempt at caching the transitive closure was fairly simple and had the natural burden for maintaining such a cache.  This is a general-application implementation, there is room for optimization on specialized cases where more is known about the data or access pattern.}
 
-{One aspect that I found discussed in academic papers is leveraging the idea of "strongly connected subgraphs" [[2]](http://www.cs.hut.fi/~enu/ps/thesis-ch3.ps) to compute transitive closure efficiently.  And if you know more about the nature of your graph--such as if it is sparse, or any other special properties, then "graph labeling" [[3]](http://ieeexplore.ieee.org/Xplore/login.jsp?url=/iel5/10757/33902/01617443.pdf?tp=%26isnumber=%26arnumber=1617443) approaches are also used.}
+{One aspect that I found discussed in academic papers is leveraging the idea of ["strongly connected subgraphs"](http://www.cs.hut.fi/~enu/ps/thesis-ch3.ps) to compute transitive closure efficiently.  And if you know more about the nature of your graph--such as if it is sparse, or any other special properties, then ["graph labeling"](http://ieeexplore.ieee.org/Xplore/login.jsp?url=/iel5/10757/33902/01617443.pdf?tp=%26isnumber=%26arnumber=1617443) approaches are also used.}
 
 {As I've read more about the Boost Graph Library, I see that one of the main reasons for its abstruse mechanics is to facilitate the application of its algorithms to custom data structures without loss of performance.  It would be interesting to see an adapter developed that used `OrientedGraph` as a store for applying to boost graph algorithms.  Perhaps it could be called `boost::adjacency_spiral`, and bring about some of the missing resizability and scalability that `boost::adjacency_matrix` doesn't have for DAGs?}
 

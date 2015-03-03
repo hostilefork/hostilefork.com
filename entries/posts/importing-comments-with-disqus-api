@@ -5,6 +5,18 @@ Draem [
     date: 20-Jan-2014/6:52
 ]
 
+[update 1-Mar-2015
+    {This post from a year ago talks about an importation process I used to transfer existing WordPress comments to Disqus, when I switched from WordPress to a static site builder [of my own design](http://draem.hostilefork.com).  Having given it a long time to see if it added value...I can report that Disqus commenting was *a complete fail*.  Prior to the conversion I'd received site comments on a fairly regular basis prior to the switch, some of which were useful.  But after Disqus, *no one would comment anymore*.}
+
+    {In the beginning I assumed it wasn't Disqus's fault.  There were some temporary search rank problems when I did HTTP 301 permanent redirects from WordPress `http://hostilefork.com/XX/YYYYY/blah-blah-blah` links to `http://blog.hostilefork.com/blah-blah-blah` style links.  Apparently Google doesn't like transferring search cred from top-level domains to subdomains when they redirect, for reasons known only to the great Google in the sky.}
+
+    {Visitor counts took a while to rebuild.  But then the visitors came back (as measured by analytics)...they still wouldn't use Disqus.  I turned on anonymous commenting and added a *"You can comment anonymously!"* note right above it.  Still nothing.}
+
+    {I considered trying to find another commenting engine *(or adapt [BlackHighlighter](http://blackhighlighter.hostilefork.com) to be the comment system, which is still a possibility)*.  But I think the tides have turned to where people prefer to link and comment elsewhere, on the social bookmarking site of their choice.  So in ripping out Disqus, I did not replace it with a new engine.  I simply replaced it with a graphic of my business card, such that anyone so inclined may attempt to get in touch with me directly.}
+
+    {So it's a fun experiment to see if anyone writes or calls.  File it under the [Annals of Improbable Research](http://www.improbable.com/airchives/paperair/volume6/v6i4/postal-6-4.html).}
+]
+
 {When I migrated my blog away from WordPress, the version I was using was *seven years old*.  Before you judge me too harshly, I was busy and a blog just wasn't a super high priority.  Besides, I got into using StackOverflow for my programming fix...and they have fake internet points!}
 
 [html {<div class="picture"><a href="http://stackoverflow.com/users/211160/hostilefork">
@@ -90,7 +102,7 @@ Draem [
 
 ]
 
-{Now what are these, exactly?  The first two are really only for doing OAuth as far as I can tell.  So don't be misled and bother trying to pass the *API Key* or *API Secret* into Disqus API calls as the `api_key`, [it just does not work](http://spirytoos.blogspot.com/2013/12/not-so-easy-posting-as-guest-via-disqus.html).  As far as I can tell, the *real* api_key they want can only be found by watching the network traffic the Disqus widget uses to post comments.  Go to one of your pages with Disqus embedded, enable network request tracing, post a comment and look for `http://disqus.com/api/3.0/posts/create.json`.  In the form data you will see an `api_key`, snap that up.  It's the one that works; the "API Key" above won't.}
+{Now what are these, exactly?  The first two are really only for doing OAuth as far as I can tell.  So don't be misled and bother trying to pass the *API Key* or *API Secret* into Disqus API calls as the `api_key`, [it just does not work](http://spirytoos.blogspot.com/2013/12/not-so-easy-posting-as-guest-via-disqus.html).  As far as I can tell, the *real* `api_key` they want can only be found by watching the network traffic the Disqus widget uses to post comments.  Go to one of your pages with Disqus embedded, enable network request tracing, post a comment and look for `http://disqus.com/api/3.0/posts/create.json`.  In the form data you will see an `api_key`, snap that up.  It's the one that works; the "API Key" above won't.}
 
 [note {Some API operations say that they require you to be "logged in as a moderator".  To be more specific, they mean *"when you make the API request, the request's HTTP header needs to include a cookie proving that you went through the login protocol"*.  If you're someone who loves installing OAuth libraries and going through that tapdance, then good for you.  But if you're a cheater like me, you can just log in with your browser...then use debugging tools in Chrome or FireBug to snatch the cookie sent whenever you talk to disqus.com while logged in.}]
 

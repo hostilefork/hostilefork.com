@@ -5,12 +5,12 @@ Draem/Comment [
     old-url: http://hostilefork.com/2009/12/24/six-dudeney-numbers-proof/#comment-1238
 ]
 
-[{I very much like your proof, but I have a minor improvement (unless I've missed something) that reduces the bound. Simply put, you substitute in for DigitCount(value^^^^3) when you don't have to. The log term in your bound on DigitCount will nicely remove the power for you, which decreases the constant term involved from 36 to 9, and the bound to about 55.
-DigitSum(value^^^^3)}]
+[{I very much like your proof, but I have a minor improvement (unless I've missed something) that reduces the bound. Simply put, you substitute in for DigitCount(value<sup>3</sup>) when you don't have to. The log term in your bound on DigitCount will nicely remove the power for you, which decreases the constant term involved from 36 to 9, and the bound to about 55.
+DigitSum(value<sup>3</sup>)}]
 
-["        <= 9 * DigitCount(value^^^^3)"]
+["        <= 9 * DigitCount(value<sup>3</sup>)"]
 
-["        <=9*(log(value^^^^3) + 1)"]
+["        <=9*(log(value<sup>3</sup>) + 1)"]
 
 ["        <=9*(3*log(value) + 1)"]
 

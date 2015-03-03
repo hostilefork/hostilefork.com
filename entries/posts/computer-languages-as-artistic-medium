@@ -68,19 +68,19 @@ more
 
 [quote
 
-    [list [
+    [list
 
-            "COBOL is alphabet blocks."
+        "COBOL is alphabet blocks."
 
-            "C is a set of tinkertoys."
+        "C is a set of tinkertoys."
 
-            {Java is an Erector Set *(with all kinds of braces, motors, girders, nuts, and bolts)*}
+        {Java is an Erector Set *(with all kinds of braces, motors, girders, nuts, and bolts)*}
 
-            "Perl is a Swiss-army chainsaw."
+        "Perl is a Swiss-army chainsaw."
 
-            "Rebol is modeling clay."
+        "Rebol is modeling clay."
 
-        ]]
+    ]
 
     {...learn to use each one according to its own nature.}
 
