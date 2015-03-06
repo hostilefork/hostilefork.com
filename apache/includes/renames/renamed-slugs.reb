@@ -21,6 +21,7 @@
 %/essential-noisy-debug-hook-for-qt %/qt-essential-noisy-debug-hook
 %/failures-of-sprint-and-simple-mobile %/sprint-hotspot-and-simplemobile-failures
 %/when-sockets-attack %/when-sockets-attack-dns-dhcp
+%/one-user-event-one-or-zero-error-messages %/one-user-event-one-error
 %/one-user-event-one-error-message %/one-user-event-one-error
 %/programmers-shouldnt-write-invalidation %/programmers-should-not-write-invalidation
 %/workaround-firefox-scrollbar-bug-on-mac %/workaround-firefox-mac-scrollbar-bug

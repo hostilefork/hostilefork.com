@@ -1,0 +1,12 @@
+Draem [
+    title: "RENCPP: C++ Binding for Rebol and Red"
+    tags: [c++ rebol red]
+    slug: %rencpp
+    date: 6-Mar-2015/12:10:19-5:00
+]
+
+{RenCpp is a binding for Rebol and Red.  It is a work in progress, and this page is a placeholder.}
+
+{You can find the source code for the project on GitHub.}
+
+https://github.com/hostilefork/rencpp

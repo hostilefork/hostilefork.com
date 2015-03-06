@@ -3,24 +3,27 @@ Rebol []
 space: #" "
 
 subdomains: [
+	albumist
 	benzene
+	blackhighlighter
 	copylight
 	draem
 	hoist
 	methyl
 	nocycle
 	nstate
+	openzoom-squared
 	pixelcad
 	rebmu
+	rencpp
+	rubol
 	sourcecad
 	thinker-qt
 	titlewait
+	flatworm
 	trackcad
 	uscii
 	jquery-numband
-
-	albumist
-	blackhighlighter
 ]
 
 pages-conf: copy []

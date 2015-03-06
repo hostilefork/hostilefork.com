@@ -113,6 +113,7 @@ draem/set-config object compose [
 		%draem
 		%methyl
 		%benzene
+		%rencpp
 	]
 
 	entries-dir: (rejoin [system/options/path %entries/])
