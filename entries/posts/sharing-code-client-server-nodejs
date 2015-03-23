@@ -53,7 +53,7 @@ http://requirejs.org/docs/node.html#3
 
 {But if you value things like...oh, debugging, say...or if you're explicitly trying to convince people your code [has nothing to hide so they trust it](http://blackhighlighter.hostilefork.com), you may not want to obfuscate like that.  So I went with RequireJS.  Having thought about the art of software engineering a lot, I cry a little inside when I think that *this* is what young programmers are reading up on today and consider it "learning something".  HOWEVER--it works, is documented and supported, and there are enough people using it that someone will presumably write the "how to change your code from requirejs to the real answer".}
 
-[note {That is, to the extent that the JavaScript ecostystem ever has had, or will have, "real answers".  :-/  Sorry folks, Node/V8 and the debugging tools in browsers like Chrome/Firefox etc. may be JavaScript's 15 minutes of fame.  It's best hope is to become an invisible underpinning like X86, which engineers curse every day, while working around it in their processor design by translating into something decent prior to execution.}]
+[note {That is, to the extent that the JavaScript ecosystem ever has had, or will have, "real answers".  :-/  Sorry folks, Node/V8 and the debugging tools in browsers like Chrome/Firefox etc. may be JavaScript's 15 minutes of fame.  It's best hope is to become an invisible underpinning like X86, which engineers curse every day, while working around it in their processor design by translating into something decent prior to execution.}]
 
 [heading {jQuery, Underscore.JS, or native JS in shared code?}]
 

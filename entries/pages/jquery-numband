@@ -9,8 +9,24 @@ Draem [
 
 {Experimental interface for entering "numeric bands" in response to [this User Interface StackExchange question](http://ui.stackexchange.com/questions/2898/how-to-create-bands-of-number-ranges-for-a-field)}
 
-[heading {Online Demo}]
+[heading {Overview Video}]
+
+[youtube https://www.youtube.com/watch?v=dKoWeRiIJfI 560x315]
+
+[heading {Live Demo}]
 
 {There's an online demo you can try out.  Bear in mind it was written in an evening, and was my first jQuery program.}
 
 http://jquery-numband.hostilefork.com/demo/
+
+{It's MIT licensed...in case anyone feels there's a reason to borrow anything from it!}
+
+[update 20-Mar-2015
+	{I have wound up revisiting the script briefly on a couple of instances to keep it working as the site has changed.  Most recently, that was to add the overview video.}
+]
+
+[heading {Source Code}]
+
+{Source code is available on GitHub:}
+
+https://github.com/hostilefork/jquery-numband

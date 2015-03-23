@@ -19,9 +19,9 @@ Draem [
 
 [heading {Black Highlighter}]
 
-[button http://blackhighlighter.hostilefork.com/media/blackhighlighter-logo.png 640x360 "Black Highlighter" http://blackhighlighter.org]
+[button http://blackhighlighter.hostilefork.com/media/blackhighlighter-logo.png 640x360 "Black Highlighter" http://blackhighlighter.hostilefork.com]
 
-{[Black Highlighter](http://blackhighlighter.org) implements a node.js server that is coupled with a jQuery widget to bring the tool of redaction to the masses.  Unlike existing redaction software, there is a sharp focus on *cryptographically committing* to what was contained in the missing portions.  This means that if an accountability process requires the revelation of a redacted portion, the system notices when revelations are different from what was originally redacted.}
+{[Black Highlighter](http://blackhighlighter.hostilefork.com) implements a node.js server that is coupled with a jQuery widget to bring the tool of redaction to the masses.  Unlike existing redaction software, there is a sharp focus on *cryptographically committing* to what was contained in the missing portions.  This means that if an accountability process requires the revelation of a redacted portion, the system notices when revelations are different from what was originally redacted.  A sandboxed test deployment is available at [blackhighlighter.org](http://blackhighlighter.org).}
 
 [heading {Albumist}]
 

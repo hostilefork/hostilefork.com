@@ -7,9 +7,17 @@ Draem [
 
 [image http://blackhighlighter.hostilefork.com/media/blackhighlighter-logo.png 640x360 "Black Highlighter"]
 
-{Blackhighlighter combines novel editing with in-browser cryptography to facilitate new ways of communicating.  It is packaged as a jQuery widget *(with no other dependencies)*, along with a server library that can be integrated into Node.JS projects as an [npm module](https://www.npmjs.com/package/blackhighlighter).}
+{Blackhighlighter combines novel editing with in-browser cryptography to facilitate new ways of communicating.  It was initially designed for a Sunlight Foundation contest to improve transparency in correspondence with elected officials.  However, it was later evolved to a widget that helps hybridize redaction with accountability in many possible scenarios.  It has applications to open government, but also generally raising the bar for fairness in communications.}
 
-{The best way to understand the idea is to see a running demo of a site that incorporates it.  So please visit:}
+{It is packaged as a jQuery widget *(with no other dependencies)*, along with a server library that can be integrated into Node.JS projects as an [npm module](https://www.npmjs.com/package/blackhighlighter).}
+
+[heading {Overview Video}]
+
+[youtube https://www.youtube.com/watch?v=4dtpCTQPqgM 560x315]
+
+[heading {Description}]
+
+{The best way to understand the idea is to see a running demo of a site that incorporates it.  So please visit the demo deployment (generously hosted gratis by [Nodejitsu](https://www.nodejitsu.com/)):}
 
 http://blackhighlighter.org
 
@@ -20,12 +28,6 @@ http://blackhighlighter.org
 {So despite the seemingly "obscuring" nature, blackhighlighter was conceived as a tool to achieve greater transparency!  The hope is to coax *completely private* conversations into the light so they are *mostly public*.  That removes unnecessary blocks on the flow of information to those who may need it.  (There are of course legalistic scenarios too...but those people probably won't like the "being held accountable to what you [redacted](http://en.wikipedia.org/wiki/Redaction)" part!  :-/)}
 
 {The demo and widget are free software--published for community review, usage, and enhancement.  Yet just how Ward Cunningham saw ["The Wiki Way"](http://en.wikipedia.org/wiki/The_Wiki_Way) as more of a collaborative mindset than a specific technology, I'm most interested in seeing the "spirit" of the idea spread.  The point is to be transparent to the greatest extent possible, while transforming any "[unknown unknowns](http://www.slate.com/id/2081042/)" into "*known* unknowns", for which you take responsibility.}
-
-[heading {Overview Video}]
-
-[note
-	{There will be a video here.  Promise.}
-]
 
 [heading {Methodology}]
 
@@ -53,9 +55,9 @@ https://github.com/hostilefork/blackhighlighter
 
 https://github.com/hostilefork/blackhighlighter.org
 
-{Originally, the server was written in Python and built on the [Django](http://www.djangoproject.com/) framework.  It was then ported to Node.JS.  This allowed removal of some redundancy between the cryptography used by the client and server--although that was less of a benefit than expected.  *(See [Thoughts on Sharing Client and Server code with Node.JS](http://blog.hostilefork.com/sharing-code-client-server-nodejs/)*}
+{Originally, the server was written in Python and built on the [Django](http://www.djangoproject.com/) framework.  It was then ported to Node.JS.  This allowed removal of some redundancy between the cryptography used by the client and server--although that was less of a benefit than expected.  *(See [Thoughts on Sharing Client and Server code with Node.JS](http://blog.hostilefork.com/sharing-code-client-server-nodejs/))*}
 
-{The underlying widget `[jquery-blackhighlighter.js](https://github.com/hostilefork/blackhighlighter/blob/master/jquery-blackhighlighter/jquery-blackhighlighter.js)` is separated out so that the only dependency it has is on jQuery.  An arbitrary number of widgets can be put on the same page, but no good demo of this exists...yet.  So the current development focus is on a blackhighlighter-powered comment service to show that off *(something like Disqus)*.  You would write a comment but be able to use a pen to mark out any information you wanted to be viewable by the article author--and anyone you shared your certificate with.)}
+{The underlying widget [`jquery-blackhighlighter.js`](https://github.com/hostilefork/blackhighlighter/blob/master/jquery-blackhighlighter/jquery-blackhighlighter.js) is separated out so that the only dependency it has is on jQuery.  An arbitrary number of widgets can be put on the same page, but no good demo of this exists...yet.  So the current development focus is on a blackhighlighter-powered comment service to show that off *(something like Disqus)*.  You would write a comment but be able to use a pen to mark out any information you wanted to be viewable by the article author--and anyone you shared your certificate with.)}
 
 [heading "History and Motivation"]
 
@@ -63,9 +65,11 @@ https://github.com/hostilefork/blackhighlighter.org
 
 {Because there is cost associated with separating the private data from the parts that were rightfully public, it became an uphill battle in the courts to get the documents.  Kimo suggested remedying this with tools for declaring the sensitive information *at the time it's entered*.  Ideally this would make it fair to ask for a continual publication process; where the agency would publish their information.}
 
-{My variation on his idea was to create something that people outside the government could use, thus building awareness that working in this style is even possible!  So I envisioned a service for communicating with U.S. Senators and Representatives.  By encouraging people to formulate their correspondence so most of it could be shared on the Internet, it would effectively make the inboxes of elected leaders *searchable by anyone*.  Yet it wouldn't have the usual problem of anonymous Internet posts, because the protected portions would be sent to the official--proving the author was a constituent.}
+{My variation on his idea was to create something that people outside the government could use, thus building awareness that working in this style is even possible!  So I envisioned a service for communicating with U.S. Senators and Representatives.  By encouraging people to formulate their correspondence so most of it could be shared on the Internet, it would effectively make the inboxes of elected leaders *searchable by anyone*.  Yet it wouldn't have the usual problem of anonymous Internet posts, because the protected portions would be sent to the official--proving the author was a constituent.  Here was a prototype of the homepage:}
 
-{I had intended to submit my site to the [2009 Apps for America Competition](http://www.sunlightlabs.com/appsforamerica/), but only had two weeks and couldn't make the deadline.  It stayed in storage for years after that, but was revived and given new life as a Node.JS project, and made more modular to make it easier to apply to other kinds of problems.}
+[image http://blackhighlighter.hostilefork.com/media/concourse-homepage-concept.png 560x576 {Concourse Homepage Concept}]
+
+{I had intended to submit my site to the [2009 Apps for America Competition](http://www.sunlightlabs.com/appsforamerica/), but only had two weeks from the time I found out about the contest before the deadline.  So I couldn't finish it in time.  It stayed in storage for years after that, but was revived and given new life as a Node.JS project, and made more modular to make it easier to apply to other kinds of problems.}
 
 [heading "License"]
 

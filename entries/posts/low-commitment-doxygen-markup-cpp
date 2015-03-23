@@ -1,0 +1,202 @@
+Draem [
+    title: "Low-Commitment Doxygen Markup for C++"
+    tags: [c++ doxygen philosophy]
+    slug: %low-commitment-doxygen-markup-cpp
+    date: 20-Mar-2015/19:01:37-4:00
+]
+
+{I will confess that for quite a long time, I avoided looking at the [Doxygen](http://en.wikipedia.org/wiki/Doxygen) documentation generator.}
+
+{Partially that is because I wasn't really doing anything that seemed to need it.  Yet that rarely stops me from installing and messing with something people mention often.  My *real* reluctance to delve into it came from a traumatic experience reading a codebase using it in the late 90's.}
+
+{It was long enough ago that I don't remember what the program itself actually did.  (And it might have actually been [Javadoc](http://en.wikipedia.org/wiki/Javadoc), whose notation Doxygen can emulate).  What I *do* remember is that the only "comments" were an abysmal plague--placed on *every* definition.  They all looked essentially like this:}
+
+[code text {
+/*! \brief Uh oh, exclamation points and backslash already?
+ *         Do I \ref haveTo() align this on \ref every#line(int)?
+ *
+ *  I see, so what I would have written as a comment in a sane
+ *  universe starts here, this goes in the docs, okay.  Got it...
+ *  ...but \ref wait()... apparently
+ *  \ref ImNotJustForced::toUse() */ /* C comment */ /* style 
+ *     there's also \a boldly ridiculous-seeming
+ *  \markup {language
+ *      } that {superficially} looks like TeX from \a long distance
+ *  \except not, and I'll bet \ref ForCertain#thatItWas() 
+ *      thought \a bout in an \hour by "some guy"  :-/
+ *
+ *  @param[in,out] something Reasonable parameter description.
+ *  \param[in]     bar       I spoke too soon! WE ALIGN THIS TOO? 
+ *      Also, I thought it was "@".  Is "\" the same? 
+ *    Am I describing that parameter still, or talking to myself?
+ *  @return me \to sleep! bye nightmare!
+ */
+}]
+
+{It's an extremely bad sign *when the C++ parts of your program are syntactically cleaner than your comments*!!!  :-/}
+
+{Emotional scarring aside... here in 2015 [RenCpp](http://rencpp.hostilefork.com) had grown to seriously require an API documentation generator.  Having only HTML output would have probably been fine, so Doxygen's multiple-target-formats weren't all that compelling.  I'd have really preferred a better "web experience", as all the flagship Doxygen deployments seemed identically bland with obfuscated links.  Crypto++'s `SimpleKeyingInterface::Resynchronize()` is:}
+
+{[`class_simple_keying_interface.html#ae576137a46ca56005e82f1505cf3cccc`](http://www.cryptopp.com/docs/ref/class_simple_keying_interface.html#ae576137a46ca56005e82f1505cf3cccc)}
+
+[note
+	{Doxygen turns out to do this for a reason: it guarantees distinct and valid links for *arbitrary* C++ codebases, and the `.html` [lets you browse locally](http://stackoverflow.com/questions/29205727/how-to-change-doxygen-to-not-use-any-file-extension).  Qt can get away with prettier links like [http://doc.qt.io/qt-5/qwidget.html#setEditFocus](http://doc.qt.io/qt-5/qwidget.html#setEditFocus) because their coding standards enforce that they don't also have a class called `qwiDgeT`...or a method called `QWidget::seteditfocus`.  *(HTML anchors are case insensitive, as are some filesystems.)*}
+
+	{If a Doxygen user wants to rewrite their links because their codebase is constrained enough to permit prettier ones, the data is available to do that work.  But laziness tends to win, and projects use the default.  :-/}
+]
+
+{In any case, there was a fair amount of peer pressure (in the form of web recommendations) to give today's Doxygen a chance.  So I suspended disbelief and installed it.  After a day of messing with the settings, I found something surprising:}
+
+[quote
+	{When using certain configuration choices, Doxygen can accomplish a fair amount of magic from your documentation comments **even when they don't appear marked up at all**!}
+]
+
+{This inspired me to start with what I called a "Low-Commitment Markup" strategy.  After all... [Markdown](http://en.wikipedia.org/wiki/Markdown) has already won hearts of programmers by passing for literate plaintext, that "magically" becomes web-decorated when a renderer is available.  Wouldn't it be interesting if Doxygen could be cued into extending this concept to hyperlinked C++ documentation?}
+
+{Having a theory to shoot for made the documentation process more of a "game", so it became less boring.  And it also meant that the worst-case scenario if "the relationship with Doxygen didn't work out" would just leave us with what merely looked like really thoroughly-commented code!  Challenge accepted.}
+
+{My growing notes for the RenCpp documentation guidelines started seeming like a notable blog topic.  So if you're a "software tooling commitment-phobe" *(or just want an analysis of Doxygen's switches and heuristics circa 2015, as told by a cartoon fork)*, read on...}
+
+[heading {C++ Extended-Style Comments}]
+
+{Someone at Doxygen was apparently sympathetic to my feeling "insult added to injury of using `/*` comments (that get even worse as `/*!`).  This first step of appeasement is called "C++ extended-style comments", which just use three slashes instead of two:}
+
+[code text {
+/// \brief Brief description.
+///        Brief description continued.
+///
+/// Detailed description starts here.
+}]
+
+{Humorously, a few years ago I'd starting using `///` to call out section dividers in files, so they'd stand out while scrolling through.  Then I noticed several syntax highlighters marking them in a different style.  *"Great!"* I thought, *"I likes how ye started highlighting me section dividers in blue. It adds emphasizin'!"* :-)}
+
+[image http://blog.hostilefork.com/media/low-commitment-doxygen-markup-cpp/pirate-spellcheck-comic.png 260x360 { I likes how ye underline me "Arrr's" in red. It adds emphasizin'!}]
+
+{At one point I found out syntax highlighters hadn't psychically adopted my convention, and this was for Doxygen.  Since I was still biased and happy to embrace the styling, I didn't change.  Now I *probably* should go back and update my old divider styles in other projects.  But I'm trying to finish writing a blog, and you're trying to finish reading it, so let's keep moving...} 
+
+[heading {Automatic "Brief" Description Detection}]
+
+{Another win for reducing markup is a setting called [JAVADOC_AUTOBRIEF](http://www.stack.nl/~dimitri/doxygen/manual/config.html#cfg_javadoc_autobrief).  If you turn that on, then the first sentence of documentation is assumed to be the brief description that appears in the "class overview" at the top of a Doxygen page.  The full description (which appears if you scroll down) then implicitly starts after that sentence:}
+
+[code text {
+/// Brief description; brief description continued.
+///
+/// Detailed description starts here.
+}]
+
+{One catch is the definition of "sentence".  Doxygen takes that to any text up to the first period that is followed by space or a newline.  That's why here I had to transform `Brief description. Brief description continued.` into `Brief description; brief description continued.`  Otherwise, the detailed description would start being picked up as the second sentence of the brief description.  :-/}
+
+{Turning periods into semicolons does not necessarily make for good grammar; so you should be more creative in wording to focus on good single-sentence brief descriptions.Or if you really need two sentences, you could just not put spaces after periods.(Think anyone would notice?)}
+
+{But...what if you *really want* two sentences for the brief description, *and* you want to use  `JAVADOC_AUTOBRIEF`?  Always curious, I had to look into it.  I tried a lot of things, but the only one that *appeared* to work was putting a backslash before the space:}
+
+[code text {
+/// Brief description.\ Brief description continued.
+///
+/// Detailed description starts here.
+}]
+
+[note {The Doxygen documentation claims that escaping the *period* would work around the implicit jump to the detailed description when `JAVADOC_AUTOBRIEF` is enabled.  That didn't work, but backslash-space did.  I'm suspicious about that being "endorsed space escaping" vs. "error state being silently discarded", so I [asked a question on StackOverflow](http://stackoverflow.com/questions/29178465/suppress-periods-from-ending-brief-description-in-javadoc-autobrief) about it.  (No answer yet, at time of writing.)}]
+
+[heading {Automatic Linking of Identifiers}]
+
+{Historically the way that you interject a link to a specific entity in the source was by saying something like `The only good method in \ref YourClass is \ref YourClass::myMethod()`.  So each time you go to talk about some entity in your codebase, you puzzle the question of "is it worth it to get a hyperlink there, or should I leave this comment actually *readable*."}
+
+{Then Doxygen introduced a very crucial switch for the Low-Commitment goal: [AUTOLINK_SUPPORT](http://www.stack.nl/~dimitri/doxygen/manual/config.html#cfg_autolink_support)!}
+
+{With this turned on, you can just write `MyClass` in the middle of a sentence and it will be linked if there's a match.  Besides classes, it can pick up on functions or methods if it finds parentheses after what you've written...so `myFunction()` or `MyClass::myFunction()` can cue it.  If you need to distinguish overloads through type signatures, it can do that too, such as with `myFunction(int)` and `myFunction(float)`.}
+
+{It turns out the heuristics for making the automatic link in the documentation are a little wacky.  They involve rules like the some identifiers "having to have at least one uppercase letter" (for instance).  But even though it's heuristic-driven, it will never link to something that doesn't exist in your project **and** also has Doxygen comments supplied.  All told, the false-positive risk is low...with a failure case that's not all that catastrophic.}
+
+{If you enable this setting, I'd advise reading through the whole [documentation page](http://www.stack.nl/~dimitri/doxygen/manual/autolink.html) on how the automatic link generation works.  One up-front note is that if the rules pick up a link you don't want, then you can suppress it with prefixing it with `%`.  But if the rules *don't* pick up a link you want, you're back to explicitly using `\ref` (or `@ref`) instructions.}
+
+[heading {Inclusion of Markdown}]
+
+{While I knew there were Markdown-based documentation generators, I didn't specifically know Doxygen had added it.  You get it if you have [MARKDOWN_SUPPORT](http://www.stack.nl/~dimitri/doxygen/manual/config.html#cfg_markdown_support) enabled:}
+
+[code text {
+/// _italics_ and **bold** can look like emphasis normally.
+///
+///     if (you.need) {
+///         CodeStyling then {"indent by at least 4 spaces"};
+///     }
+///
+/// 1. It can pick up on lists.
+/// 2. So this will style in the documentation.
+/// 3. You can get it to link inline to <http://hostilefork.com>
+///
+/// Un-indented URLs on a single line are hyperlinked with no markup:
+///
+/// http://hostilefork.com/hire-the-fork/
+}]
+
+{Given the proliferation of inconsistent Markdown parsers, it would be nice if Doxygen joined the boat with [CommonMark](http://commonmark.org/) (which has a spec and a test suite...being standardized by GitHub and StackOverflow and Reddit.)  For now it has its own implementation, and you can [see the documentation](http://www.stack.nl/~dimitri/doxygen/manual/markdown.html) for a list of its supported features.}
+
+{Not all Markdown constructs are created equally beautiful...and those don't get better by being preceded by three slashes!  But using a sufficently controlled subset helps with the "stealth web-formatted documentation" goal.  This isn't surprising, since Markdown was designed with the goal of making something that could be absorbed easily in its plaintext form.  (Hence MarkDOWN vs. MarkUP.)}
+
+{Once you've turned all these on, you might start worrying about how much "magic interference" there would be...e.g. *"If `MARKDOWN_SUPPORT` and `AUTOLINK_SUPPORT` got in a fight, who do you think would win?"*  The first example I thought of was that `_italics_()` *might* be a legal C++ identifier.  Which would you get: a hyperlink to the documentation, or the underscores disappearing with *italics*(), unlinked?  (I tested.  `MARKDOWN_SUPPORT` wins, there's no link.)}
+
+[note
+	{Since we're on the subject, there are already good reasons not to start or end identifiers with underscores in C++.  All identifiers beginning with underscores in global space are reserved for compiler implementation usage, so `_italics_` could not be used as a global variable!  Furthermore, identifiers starting with an underscore and followed by a capital letter are reserved in all scopes, so `_Italics_` wouldn't be a legal local variable or member name.}
+
+	{The rules didn't change in C++11, so [review them here](http://stackoverflow.com/a/228797/211160).  If you were already on the fence about wacky ideas like calling your members things like `_italics_()`, Doxygen Markdown just gave you a little more evidence on why not to do it.  But internal underscores seem to work all right, so `ita_lic_s()` will auto-link correctly and not wind up as ita*lic*s().}
+]
+
+{I'm writing this at a time before having enough experience with the conflicts to make an informed conclusion.  But I searched around and found hits for `MARKDOWN_SUPPORT` being turned from YES to NO git commits by frustrated developers.  Yet it seems mostly these were people who weren't "buying into" the Markdown idea in the first place, so the feature was just disrupting them.  Since I'm buying in, I might not have the same problems...as I'm happy to keep code like `(*foo).bar * 10` in backticks or indented code blocks.}
+
+[heading {Taking It to the Next Level}]
+
+{Whether you find my initial motivations interesting or not, that's the baseline I decided to start with.  But a "Low-Commitment" can only take a relationship so far.  Should you want things to be more "special", you're going to have to learn some ["Special Commands"](http://www.stack.nl/~dimitri/doxygen/manual/commands.html).  *(That is, the ones that are NOT those old "ugly markup instructions"!!!)*}
+
+{Some commands are simply freeform callouts for sections as you write.  Like the article you've been reading, Doxygen also has [`@note`](http://www.stack.nl/~dimitri/doxygen/manual/commands.html#cmdnote) sections.  There are others such as [`@warning`](http://www.stack.nl/~dimitri/doxygen/manual/commands.html#cmdwarning), [`@remark`](http://www.stack.nl/~dimitri/doxygen/manual/commands.html#cmdremark), [`@since`](http://www.stack.nl/~dimitri/doxygen/manual/commands.html#cmdsince), and [`@deprecated`](http://www.stack.nl/~dimitri/doxygen/manual/commands.html#cmddeprecated).  But don't expect much from the default theme--there aren't big red exclamation mark icons on `@warning` or anything.  You get a section label and *maybe* a thin bar of color along the left of the text.}
+
+[note
+	{It's sad when my lame yellow background for **Note:** is more impressive than what you'll get from adding a `@note`!  *(I guess I'm not the only C++ programmer who doesn't feel like messing very much with CSS!)*  But as mentioned before about the URLs: if you don't customize Doxygen's web output for your project...whose fault is that, really?}
+]
+
+{The code annotations are more nuanced and have some format to them.  But before I hit the high points, let's imagine a contrived piece of documentation for `Foo MyClass::proxyFoo(Foo const & foo)`:}
+
+[code text {
+/// Proxies a Foo object value to a value managed by MyClass.
+///
+/// This will proxy a Foo.  Its bar properties will be retained if they have
+/// been modified, but its baz properties will be re-initialized to the 
+/// defaults specified in the MyClass constructor.
+///
+/// @param foo[in]
+///   The foo instance to proxy (passed by const reference)
+///
+/// @see Foo
+}]
+
+{Ugh!  *Less can be more.*  There's no sense in documenting every parameter out of a sense of boilerplate obligation!}
+
+{If you've already got a hyperlink to Foo generated by the automatic linking, what is the point of adding a See Also?  You've got a `const &` input, and *of course it's an in parameter*!  So unless you are employed by a bureaucracy that demands it, spend more time on honing the content of the remarks...which the "Low-Commitment" strategy can often do just fine.}
+
+{Rant aside, these can be quite useful when you *actually* need to add them.  So here are the major ones:}
+
+[list
+	[
+		{[@param](http://www.stack.nl/~dimitri/doxygen/manual/commands.html#cmdparam) - Specifies parameters.  Even though several examples don't seem to put each parameter's description on its own line, that seems like the best practice to avoid having to work with alignments of different length variable names.}
+
+		{As shown above you can optionally specify a "direction" if they are `[in]`, `[out]`, or `[in,out]`.  You can't have a space between the parameter's name and the open bracket, otherwise it will put `[in]` as part of the ordinary description text.}
+	]
+
+	{[@tparam](http://www.stack.nl/~dimitri/doxygen/manual/commands.html#cmdreturns) - Same as param, but for describing template parameters...(with no "direction" of course).}
+
+	{[@return](http://www.stack.nl/~dimitri/doxygen/manual/commands.html#cmdreturn) - For describing the return value, again with no "direction".}
+
+	{[@see](http://www.stack.nl/~dimitri/doxygen/manual/commands.html#cmdsee) - For the "See Also" section, as above.}
+
+	{[@throw](http://www.stack.nl/~dimitri/doxygen/manual/commands.html#cmdexception) - For documenting what exceptions can be thrown.  You supply the objects and descriptions.  As with many of these terms there are synonyms...you could use `@throws` or `@exception` synonymously.  `@throw` wins in my eyes for brevity.}
+]
+
+[heading {Closing Statements}]
+
+{I based this article on the concept that it could be beneficial to keep documentary comments as non-disruptive as you can alongside the source.  This idea isn't going to appeal to everyone...some would prefer more structure than trying to appease the intersections of several types of "magic" just so the plaintext looks good.  Others would argue about whether documentation belongs in the source code, or if it should always be in completely separate files.  <sub>Still others think the whole thing should perhaps be [stored and projected from a graph database](https://www.youtube.com/watch?v=tSnnfUj1XCQ) *(cough)*.</sub>}
+
+{My own beliefs on commenting have changed over time as the tools of programming have changed.  For instance, in ["Comments vs. Links on the Collaborative Web"](http://blog.hostilefork.com/comments-vs-web-links-2014/) I describe how hyperlinks to things like GitHub issues can move a lot of "exposition" into a place woutside of the code.  There it can be triaged, improved, and collaborated on without making versions in the source itself.}
+
+{This evolution seems to me like it applies to documentation generated from codebases too.  So I'm likely to stay very focused on keeping the documentation comments focused, and a launching point for getting to the more "organic" and "wiki-like" sources of information.  I won't try and rewrite a great StackOverflow answer, GitHub issue, or blog post that explains something *better than the documentation can*.  I'll just link it.}
+
+{That's all for now.  Please feel free to send corrections, comments, or additional ideas.  Or just stop by [Rebol and Red StackOverflow Chat](http://rebolsource.net/go/chat-faq) where we discuss RenCpp (among other things).  You may also submit pull requests [to this article on GitHub](https://github.com/hostilefork/hostilefork.com/blob/master/entries/posts/low-commitment-doxygen-markup-cpp)!}

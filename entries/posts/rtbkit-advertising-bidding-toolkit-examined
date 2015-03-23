@@ -155,7 +155,7 @@ gzip(gfe),gzip(gfe)"}
 
 {I searched and Google *does* have an ad hosting service they can charge you for...but that's not what you bought when you won the bid.  The bidding was for the right to show what you wanted on their page.  If you think you can host the ad better and cheaper, you might well be right.  But more important: you may be better at tending your own analytic interests or adapting the ads than the dashboard they give you offers.}
 
-{So there's some of my guesstimation.  With all that in mind for the landscape of "what RBTkit is", let's dig in for a Fork-eye view of the code and how it's built...by studying *every single dependency*. (!!!)}
+{So there's some of my guesstimation.  With all that in mind for the landscape of "what RTBkit is", let's dig in for a Fork-eye view of the code and how it's built...by studying *every single dependency*. (!!!)}
 
 
 [heading {First, the Toolchain}]
@@ -258,7 +258,7 @@ https://github.com/rtbkit/rtbkit/tree/master/jml
 
 [heading {Libraries (and Software) that were Snapshotted}]
 
-{Let's look at what's in the packages kept versioned in [rbtk-deps](https://github.com/rtbkit/rtbkit-deps).  Again: these are built to avoid worrying about the version changes in what `sudo apt-get install` might give you, to make the system more likely to move across distributions without hiccups:}
+{Let's look at what's in the packages kept versioned in [rtbkit-deps](https://github.com/rtbkit/rtbkit-deps).  Again: these are built to avoid worrying about the version changes in what `sudo apt-get install` might give you, to make the system more likely to move across distributions without hiccups:}
 
 [list
     {[**boost**](http://en.wikipedia.org/wiki/Boost_(C%2B%2B_libraries) -- Boost is an important library for C++, providing a number of general facilities.  RTBkit makes heavy usage of several boost libraries, which is good.  It still has some lagging references to things like `boost::shared_ptr` instead of `std::shared_ptr`, and some other "not replaced with updated equivalents".}
