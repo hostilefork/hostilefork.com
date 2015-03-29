@@ -5,21 +5,25 @@ Draem [
     date: 13-Nov-2009/18:52
 ]
 
-[image http://rubol.hostilefork.com/media/rubol-logo.png 640x360 "Rubol Logo"]
+image [http://rubol.hostilefork.com/media/rubol-logo.png 640x360 "Rubol Logo"]
 
-[note {This is a vision statement for a pre-pre-pre-alpha project.  I'm trying to illustrate what I'm doing, but please do not circulate widely yet, the code samples are currently in flux.  That said... anyone who is interested in the current state of the project is welcome to contribute and help make it better.}]
+note {This is a vision statement for a pre-pre-pre-alpha project.  I'm trying to illustrate what I'm doing, but please do not circulate widely yet, the code samples are currently in flux.  That said... anyone who is interested in the current state of the project is welcome to contribute and help make it better.}
 
-{Ruby is an interesting language with some handy features.  But it's missing something... the ability to operate on its own source.  Rubol has adapted many of Ruby's constructs so that they fit into a uniform JSON-like format which can be dynamically inspected, loaded, saved, and executed.  It has source code as a first-class object in the runtime!}
+print << [
 
-{**Rubol is not Ruby**, nor is it an attempt to build a Ruby implementation.  It merely draws strong inspiration from the convenient programming patterns of *collections* and *yield* combined with *code blocks*.}
+    {Ruby is an interesting language with some handy features.  But it's missing something... the ability to operate on its own source.  Rubol has adapted many of Ruby's constructs so that they fit into a uniform JSON-like format which can be dynamically inspected, loaded, saved, and executed.  It has source code as a first-class object in the runtime!}
 
-{As in Ruby, a single line of Rubol can pack a powerful punch!!!}
+    {**Rubol is not Ruby**, nor is it an attempt to build a Ruby implementation.  It merely draws strong inspiration from the convenient programming patterns of *collections* and *yield* combined with *code blocks*.}
 
-[heading "First, a source code comparison..."]
+    {As in Ruby, a single line of Rubol can pack a powerful punch!!!}
 
-{Let's start by looking at this sample Ruby code from [fincher.org](http://www.fincher.org/tips/Languages/Ruby/):}
+]
 
-[text {primes = [1,3,5,7,11,13];
+heading "First, a source code comparison..."
+
+print {Let's start by looking at this sample Ruby code from [fincher.org](http://www.fincher.org/tips/Languages/Ruby/):}
+
+source 'text {primes = [1,3,5,7,11,13];
  
 # using "inject" to sum.  We pass in "0" as the initial value
 sum = primes.inject(0){|cumulative,prime| cumulative+prime}
@@ -41,13 +45,17 @@ puts sum
 hash = primes.inject({}) { |s,e| s.merge( { e.to_s => e } ) }
 p hash  
 # ^^^^-- this outputs {"11"=>11, "7"=>7, "13"=>13, "1"=>1, "3"=>3, "5"=>5}
-}]
+}
 
-{If you're not familiar with Ruby, you might be impressed at how readable it is to declare a function that's passed as a parameter to a routine on the same line as the call!!  The language can also handle collections as seamlessly as it can single values, with built-in iteration primitives that are rather remarkable.}
+print << [
 
-"Now let's see this converted by rote into Rubol:"
+    {If you're not familiar with Ruby, you might be impressed at how readable it is to declare a function that's passed as a parameter to a routine on the same line as the call!!  The language can also handle collections as seamlessly as it can single values, with built-in iteration primitives that are rather remarkable.}
 
-[code rebol {
+    "Now let's see this converted by rote into Rubol:"
+
+]
+
+source 'rebol {
 primes: [1 3 5 7 11 13]
 
 ; using "inject" to sum.  We pass in "0" as the initial value 
@@ -70,17 +78,21 @@ puts sum
 hash: inject/initial primes [ [s e] append s reduce [(to-string e) e] ] (make map! [])
 p hash
 ; ^^^^-- this outputs {"1"=>1, "3"=>3, "5"=>5, "7"=>7, "11"=>11, "13"=>13}
-}]
+}
 
-{It's a little *different*, but parallels the original pretty well.  Spaces separate items without need for commas (which, we, know, from, English, is, good, for, readability).  All of the lists for things like parameters and code blocks have been unified to use brackets.  When notions of assignment are being used, there's a colon instead of an equals sign.}
+print << [
 
-{Explaining why these decisions are important is kind of a long story.  So let's skip that and instead see it do something cool.  After that, you might be more likely to care about those details (or at least believe they might be something other than arbitrary)  :P}
+    {It's a little *different*, but parallels the original pretty well.  Spaces separate items without need for commas (which, we, know, from, English, is, good, for, readability).  All of the lists for things like parameters and code blocks have been unified to use brackets.  When notions of assignment are being used, there's a colon instead of an equals sign.}
 
-[heading "Reflecting the Source"]
+    {Explaining why these decisions are important is kind of a long story.  So let's skip that and instead see it do something cool.  After that, you might be more likely to care about those details (or at least believe they might be something other than arbitrary)  :P}
 
-{You've seen a short example of Rubol doing a little of what people love about Ruby.  But now let's look at one of the many things it can do *which Ruby cannot*:}
+]
 
-[code rebol {
+heading "Reflecting the Source"
+
+print {You've seen a short example of Rubol doing a little of what people love about Ruby.  But now let's look at one of the many things it can do *which Ruby cannot*:}
+
+source 'rebol {
 ; Store the first summation part of the previous program into a variable
 
 sumProgram: [
@@ -100,11 +112,11 @@ do sumProgram
 
 ; Now for the reflection...
 each sumProgram [[codeBit] puts (mold (codeBit))]
-}]
+}
 
-{What's the output of running that last part, you ask?  It's this!!!}
+print {What's the output of running that last part, you ask?  It's this!!!}
 
-[code rebol {
+source 'rebol {
 primes:
 [1 3 5 7 11 13]
 
@@ -116,15 +128,19 @@ primes
 (0)
 puts
 sum
-}]
+}
 
-{The codeBit is not a string, but the magical function `mold` can convert it into one.  What's so magical about it is that there is another function called `load` which is able to turn those strings back into executable code at runtime.  It's fully dynamic!}
+print << [
 
-{Rubol's rearrangement from Ruby isn't just a whim.  It's to bring a JSON-like uniformity to the code, precisely to support features like mold and load.  While it can be confusing initially, the simplicity isn't just good for the interpreter.  It helps the human reader once they've "been converted".}
+    {The codeBit is not a string, but the magical function `mold` can convert it into one.  What's so magical about it is that there is another function called `load` which is able to turn those strings back into executable code at runtime.  It's fully dynamic!}
 
-{Let's see how you can use the Ruby detect pattern to operate on this reflected code.}
+    {Rubol's rearrangement from Ruby isn't just a whim.  It's to bring a JSON-like uniformity to the code, precisely to support features like mold and load.  While it can be confusing initially, the simplicity isn't just good for the interpreter.  It helps the human reader once they've "been converted".}
 
-[code rebol {
+    {Let's see how you can use the Ruby detect pattern to operate on this reflected code.}
+
+]
+
+source 'rebol {
 ; find the first Rubol block in this code, e.g. a section in brackets;
 ; (this may or may not be a Ruby-style "code block")
 
@@ -137,34 +153,42 @@ puts (mold (firstBlock))
 puts collect firstBlock [[value] value * 2]
 
 ; ^^^^-- this outputs [2 6 10 14 22 26]
-}]
+}
 
-"Pretty nifty, no?"
+print "Pretty nifty, no?"
 
-[heading "Strings Attached"]
+heading "Strings Attached"
 
-{You're probably thinking this is too good to be true, and there has to be a catch.}
+print << [
 
-{There isn't and there is.  I said that Rubol wasn't a language because it is merely a small set of extensions to a language called [Rebol](http://en.wikipedia.org/wiki/Rebol).}
+    {You're probably thinking this is too good to be true, and there has to be a catch.}
 
-{I didn't make Rubol to try and clone Ruby.  What I wanted to do was to show that Rebol programmers are already enjoying a lot of what Ruby developers really love about the language... and a whole lot more.  The native syntax and operators is different, and consists of some puzzling words (like mold and rejoin).  But the Rubol abstractions push those issues a little further out.}
+    {There isn't and there is.  I said that Rubol wasn't a language because it is merely a small set of extensions to a language called [Rebol](http://en.wikipedia.org/wiki/Rebol).}
 
-{Due to some fundamental differences, Rebol's runtime is going to sometimes be at odds with Ruby and other more conventional interpreters.  It's different, and quite often those differences have interesting nuances.  But be forewarned--it's one of those "a minute to learn, a lifetime to master" type of situations.  :)}
+    {I didn't make Rubol to try and clone Ruby.  What I wanted to do was to show that Rebol programmers are already enjoying a lot of what Ruby developers really love about the language... and a whole lot more.  The native syntax and operators is different, and consists of some puzzling words (like mold and rejoin).  But the Rubol abstractions push those issues a little further out.}
 
-[heading "License"]
+    {Due to some fundamental differences, Rebol's runtime is going to sometimes be at odds with Ruby and other more conventional interpreters.  It's different, and quite often those differences have interesting nuances.  But be forewarned--it's one of those "a minute to learn, a lifetime to master" type of situations.  :)}
 
-{The Rubol extensions are released under a permissive MIT license.}
+]
 
-{Right now, the Rebol interpreter kernel is "free as in beer" but not "free as in freedom".  No complete open source implementation of exists at this point in time.  But the company behind Rebol has released a large portion of the common library under the MIT license.}
+heading "License"
 
-{There are possibilities forward for an open Rebol initiative, and I am trying to rally both Rebol Technologies Inc. and the open source community to solve the issue in a way that brings productive results and not flamewars.  So visit [Freebol.org](http://freebol.org) for that manifesto.}
+print << [
 
-[heading "More Examples"]
+    {The Rubol extensions are released under a permissive MIT license.}
 
-"Coming soon"
+    {Right now, the Rebol interpreter kernel is "free as in beer" but not "free as in freedom".  No complete open source implementation of exists at this point in time.  But the company behind Rebol has released a large portion of the common library under the MIT license.}
 
-[heading "Getting the Source"]
+    {There are possibilities forward for an open Rebol initiative, and I am trying to rally both Rebol Technologies Inc. and the open source community to solve the issue in a way that brings productive results and not flamewars.  So visit [Freebol.org](http://freebol.org) for that manifesto.}
 
-"Download it or browse the project at GitHub:"
+]
 
-http://github.com/hostilefork/rubol/
+heading "More Examples"
+
+print "Coming soon"
+
+heading "Getting the Source"
+
+print "Download it or browse the project at GitHub:"
+
+link http://github.com/hostilefork/rubol/

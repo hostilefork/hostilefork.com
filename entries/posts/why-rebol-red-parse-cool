@@ -6,91 +6,98 @@ Draem [
     old-url-prefix: %2013/12/05/
 ]
 
-{Recently the Red programming language reached a fairly significant milestone in gaining implementation parity with Rebol's PARSE; even extending it in some interesting ways:}
+print {Recently the Red programming language reached a fairly significant milestone in gaining implementation parity with Rebol's PARSE; even extending it in some interesting ways:}
 
-http://www.red-lang.org/2013/11/041-introducing-parse.html
+link http://www.red-lang.org/2013/11/041-introducing-parse.html
 
-{It's an exciting development as the language grows closer to being a serious alternative to Rebol.  As Nenad Rakocevic puts it:}
+print {It's an exciting development as the language grows closer to being a serious alternative to Rebol.  As Nenad Rakocevic puts it:}
 
-[quote
+quote [
 
-    {One of the greatest features of the Rebol language has always been its parsing engine, simply called Parse. It is an amazing piece of design from Carl Sassenrath, that spared all Rebol users for the last 15 years, from the pain of having to use the famously unmaintainable regexps. Now, Parse is also available to Red users, in an enhanced version!}
+    print << [
 
-    {So, in short, what is Parse? It is an embedded DSL (we call them "dialects" in the Rebol world) for parsing input series using grammar rules. The Parse dialect is an enhanced member of the TDPL family. Parse's common usages are for checking, validating, extracting, modifying input data or even implementing embedded and external DSLs.}
-]
+        {One of the greatest features of the Rebol language has always been its parsing engine, simply called Parse. It is an amazing piece of design from Carl Sassenrath, that spared all Rebol users for the last 15 years, from the pain of having to use the famously unmaintainable regexps. Now, Parse is also available to Red users, in an enhanced version!}
 
-[note
+        {So, in short, what is Parse? It is an embedded DSL (we call them "dialects" in the Rebol world) for parsing input series using grammar rules. The Parse dialect is an enhanced member of the TDPL family. Parse's common usages are for checking, validating, extracting, modifying input data or even implementing embedded and external DSLs.}
 
-    {Also exciting is that the Tower of Hanoi logo--designed by me and rendered by [Petr Stefek](http://phoob.blogspot.com/)--has made it finally to the homepage, Twitter page, and Wikipedia page.  If you have some Meta-StackOverflow reputation, please vote for us in the open source recruiting advertising contest:}
-
-    [button http://i.stack.imgur.com/4iHfk.png 220x250 {Red Language StackOverflow Sidebar Ad Contest Entry} http://meta.stackoverflow.com/questions/210389/open-source-advertising-sidebar-1h-2014/215898#215898]
+    ]
 
 ]
 
-{I thought I'd use this occasion to make another post about why people should give these languages a look.  Other [Rebol and Red](http://chat.stackoverflow.com/rooms/291/rebol-and-red) fanatics tend to approach this question with some very diverse approaches, but I'm converging on my own take.  There's a little bit of the blind-men-and-the-elephant aspect to it, where everyone grabs a different part and tries to say "that's what it's like".  But I'll do my best, in my own words...}
+note [
 
-more
+    print {Also exciting is that the Tower of Hanoi logo--designed by me and rendered by [Petr Stefek](http://phoob.blogspot.com/)--has made it finally to the homepage, Twitter page, and Wikipedia page.  If you have some Meta-StackOverflow reputation, please vote for us in the open source recruiting advertising contest:}
 
-[heading "Exploiting the Lexical Space"]
+    button [http://i.stack.imgur.com/4iHfk.png 220x250 {Red Language StackOverflow Sidebar Ad Contest Entry} http://meta.stackoverflow.com/questions/210389/open-source-advertising-sidebar-1h-2014/215898#215898]
 
-{A lot of languages focus on keywords, and the idea that a symbol means "one thing".  They're based on simple parsers and models that will tell you something like *"slash always means divide"*.  This means that if you type something like a URL into them:}
+]
 
-[text "http://hostilefork.com/"]
+print {I thought I'd use this occasion to make another post about why people should give these languages a look.  Other [Rebol and Red](http://chat.stackoverflow.com/rooms/291/rebol-and-red) fanatics tend to approach this question with some very diverse approaches, but I'm converging on my own take.  There's a little bit of the blind-men-and-the-elephant aspect to it, where everyone grabs a different part and tries to say "that's what it's like".  But I'll do my best, in my own words...}
 
-"It will react to you by saying something like:"
+heading "Exploiting the Lexical Space"
 
-[error "cannot divide http: by /hostilefork.com"]
+print {A lot of languages focus on keywords, and the idea that a symbol means "one thing".  They're based on simple parsers and models that will tell you something like *"slash always means divide"*.  This means that if you type something like a URL into them:}
 
-{Odds are, it would actually give you a less coherent error than that.  The use of boilerplate delimiters, and forcing everything into strings, suggests that perhaps lexical space is being wasted and producing something parallel to a [Turing Tarpit](http://en.wikipedia.org/wiki/Turing_tarpit)... where *"anything is possible, but nothing is easy or clear."*}
+source 'text "http://hostilefork.com/"
 
-{The lack of consistency between languages on this part is another thorn.  Consider how JavaScript can almost express CSS...but then gets confused on things like `background-color` being an attempt at subtraction.  So even though keys in objects don't usually require quotes, you find yourself adding them "just to be safe".  This is especially true if you're doing some kind of meta-coding (like making a JSON library).}
+print "It will react to you by saying something like:"
 
-{Rebol embraces the notion of *"words separated by spaces"*.  So if I want the first 34 characters of my website, I can just write:}
+source 'error "cannot divide http: by /hostilefork.com"
 
-[code rebol {
+print << [
+
+    {Odds are, it would actually give you a less coherent error than that.  The use of boilerplate delimiters, and forcing everything into strings, suggests that perhaps lexical space is being wasted and producing something parallel to a [Turing Tarpit](http://en.wikipedia.org/wiki/Turing_tarpit)... where *"anything is possible, but nothing is easy or clear."*}
+
+    {The lack of consistency between languages on this part is another thorn.  Consider how JavaScript can almost express CSS...but then gets confused on things like `background-color` being an attempt at subtraction.  So even though keys in objects don't usually require quotes, you find yourself adding them "just to be safe".  This is especially true if you're doing some kind of meta-coding (like making a JSON library).}
+
+    {Rebol embraces the notion of *"words separated by spaces"*.  So if I want the first 34 characters of my website, I can just write:}
+
+]
+
+source 'rebol {
 >> copy/part to string! read http://hostilefork.com 34
 == {<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0}
-}]
+}
 
-{That's because a URL! is recognized as anything of the form `foo://blahblahblah`.  And that's actually used as an extension method for "scheme handlers" which is a nifty subject in its own right.  If I really wanted to invoke a divide operation I would need to write something like:}
+print {That's because a URL! is recognized as anything of the form `foo://blahblahblah`.  And that's actually used as an extension method for "scheme handlers" which is a nifty subject in its own right.  If I really wanted to invoke a divide operation I would need to write something like:}
 
-[code rebol "[foo: / /blahblahblah]"]
+source 'rebol "[foo: / /blahblahblah]"
 
-{That's a legitimate sequence of three tokens in Rebol, actually.  *(It's a `set-word!`, followed by a `word!`, and then what's called a `refinement`.)*  Although you'll get a runtime error by default if you try to execute that three-symbol sequence using the default `DO` evaluator, a sequence of symbols held in a block will act as "dead" data if you are handling them by value.  So you can inspect and reflect those symbols, and ascribe them meaning within some specific context.}
+print {That's a legitimate sequence of three tokens in Rebol, actually.  *(It's a `set-word!`, followed by a `word!`, and then what's called a `refinement`.)*  Although you'll get a runtime error by default if you try to execute that three-symbol sequence using the default `DO` evaluator, a sequence of symbols held in a block will act as "dead" data if you are handling them by value.  So you can inspect and reflect those symbols, and ascribe them meaning within some specific context.}
 
-[note {Lisp programmers will know what I'm talking about, here.  But the parts box is much richer in Rebol, and the implementation is hand-tuned to be very cross-platform...and very tiny.}]
+note {Lisp programmers will know what I'm talking about, here.  But the parts box is much richer in Rebol, and the implementation is hand-tuned to be very cross-platform...and very tiny.}
 
-{There are other things built in, like dates and times:}
+print {There are other things built in, like dates and times:}
 
-[code rebol {
+source 'rebol {
 >> 12-Dec-2012 + 30
 == 11-Jan-2013
-}]
+}
 
-"Or percentages:"
+print "Or percentages:"
 
-[code rebol {
+source 'rebol {
 >> 50% * 200
 == 100.0
-}]
+}
 
-{Even binary data has a native literal type, as hex bytes:}
+print {Even binary data has a native literal type, as hex bytes:}
 
-[code rebol {
+source 'rebol {
 >> length? #{DECAFBAD}
 == 4
 
 >> reverse #{DECAFBAD}
 == #{ADFBCADE}
-}]
+}
 
-{All of its types such as these become tinker-toys for language construction via what is called "dialects".  There's no fixed meaning; the context provides it.}
+print {All of its types such as these become tinker-toys for language construction via what is called "dialects".  There's no fixed meaning; the context provides it.}
 
-[heading "The PARSE Dialect"]
+heading "The PARSE Dialect"
 
-{One of the dialects that Rebol comes "in the box" with Rebol is called PARSE.  You can see that elements like words, numbers, and strings can be put together in a new way without causing a syntax error:}
+print {One of the dialects that Rebol comes "in the box" with Rebol is called PARSE.  You can see that elements like words, numbers, and strings can be put together in a new way without causing a syntax error:}
 
-[code rebol {
+source 'rebol {
 >> parse "aaaabbbcccc" [
     some "a"
     2 3 "b"
@@ -98,15 +105,19 @@ more
 ]
 
 == true
-}]
+}
 
-{PARSE is Rebol and Red's answer to RegEx, and it's quite fascinating.  Its first parameter is the data to parse, and the second is a block of rules.  The parse position starts at the beginning, and then rules are matched which move the parse position.  When the rules stop matching, the parse ends, and the operation returns true if the parse position is at the end of the input.}
+print << [
 
-{In this case our rule says *"some (non-zero) number of A, followed by between 2 and 3 B, followed by any (zero included) number of C"*.  That is how the system reads that rule.  When designing your own dialects you have the freedom to make things up like this, and Rebol provides the foundation to let you do it.  There's a lot more bricks in the box than Lisp has!}
+    {PARSE is Rebol and Red's answer to RegEx, and it's quite fascinating.  Its first parameter is the data to parse, and the second is a block of rules.  The parse position starts at the beginning, and then rules are matched which move the parse position.  When the rules stop matching, the parse ends, and the operation returns true if the parse position is at the end of the input.}
 
-{For instance, Rebol has multiple "series" types.  Square brackets are the most common, but parentheses are used to make *another* kind of series.  Slashes make series that are called "paths".  By default Rebol has meanings for what these things do (e.g. parentheses are used for precedence).  But the PARSE dialect chooses to have parentheses mean "code to run if the preceding match rule runs":}
+    {In this case our rule says *"some (non-zero) number of A, followed by between 2 and 3 B, followed by any (zero included) number of C"*.  That is how the system reads that rule.  When designing your own dialects you have the freedom to make things up like this, and Rebol provides the foundation to let you do it.  There's a lot more bricks in the box than Lisp has!}
 
-[code rebol {
+    {For instance, Rebol has multiple "series" types.  Square brackets are the most common, but parentheses are used to make *another* kind of series.  Slashes make series that are called "paths".  By default Rebol has meanings for what these things do (e.g. parentheses are used for precedence).  But the PARSE dialect chooses to have parentheses mean "code to run if the preceding match rule runs":}
+
+]
+
+source 'rebol {
 >> parse "abbabb" [
     some [
         "a" (print "found an A")
@@ -123,11 +134,11 @@ found an A
 found a B
 found a B
 == true
-}]
+}
 
-{Rules can be broken down into sub-parts, and can even be modified as the parse is run...}
+print {Rules can be broken down into sub-parts, and can even be modified as the parse is run...}
 
-[code rebol {
+source 'rebol {
 >> rule: ["a" | "b"]
 
 >> parse "abbaqbbac" [
@@ -140,13 +151,17 @@ found a B
 ]
 
 == true
-}]
+}
 
-{So here we see that finding a "q" causes it to modify the rule by adding two symbols to it, which then allows it to accept the C later.  :-)}
+print << [
 
-{Parse is quite enjoyable, has lots of features, and generates very literate code.  It can work on any series type, even binary data...}
+    {So here we see that finding a "q" causes it to modify the rule by adding two symbols to it, which then allows it to accept the C later.  :-)}
 
-[code rebol {
+    {Parse is quite enjoyable, has lots of features, and generates very literate code.  It can work on any series type, even binary data...}
+
+]
+
+source 'rebol {
 >> parse #{FFFFDECAFBAD000000} [
     2 #{FF}
     copy data to #{00} (print data)
@@ -155,13 +170,17 @@ found a B
 
 #{DECAFBAD}
 == true
-}]
+}
 
-{But even more impressively, it can work on the *symbolic structure of code itself*.  While Rebol and Red are both like Lisp in being [homoiconic](http://en.wikipedia.org/wiki/Homoiconicity), when you see something like PARSE applied on code itself... you know you're looking at something very cool.}
+print << [
 
-{For instance, here we might use PARSE and INTO to descend into a code structure to find all words followed by strings, and add them to a result block:}
+    {But even more impressively, it can work on the *symbolic structure of code itself*.  While Rebol and Red are both like Lisp in being [homoiconic](http://en.wikipedia.org/wiki/Homoiconicity), when you see something like PARSE applied on code itself... you know you're looking at something very cool.}
 
-[code rebol {
+    {For instance, here we might use PARSE and INTO to descend into a code structure to find all words followed by strings, and add them to a result block:}
+
+]
+
+source 'rebol {
 result: []
 
 ;-- subrule...if word/string matches append to result
@@ -195,21 +214,25 @@ parse code [
       skip
    ]
 ]
-}]
+}
 
-{Believe it or not, that will give you a result block of your code reading `[print {Hello} print {Rebol and Red} print {World}]`.  If you wanted to, you could then execute that result by invoking the evaluator with `do result`.  So as much as they disguise themselves as looking like an unusual-but-typical scripting languages, Rebol and Red are anything but typical.}
+print << [
 
-{For a programmer who hasn't experienced a system like Lisp, there's going to be one level of "OMG" realization.  But even jaded language surveyors (who have seen paradigms come and go) should find something to appreciate in the way the design has evolved.  And for those who cast their lot with heavyweight meta-programming and aspect-oriented systems like [JetBrains MPS](http://en.wikipedia.org/wiki/JetBrains_MPS) or [Intentional Programming](http://martinfowler.com/bliki/IntentionalSoftware.html), the under-1MB size of the zero-install cross-platform executables should offer some amount of "OMG".}
+    {Believe it or not, that will give you a result block of your code reading `[print {Hello} print {Rebol and Red} print {World}]`.  If you wanted to, you could then execute that result by invoking the evaluator with `do result`.  So as much as they disguise themselves as looking like an unusual-but-typical scripting languages, Rebol and Red are anything but typical.}
 
-http://rebolsource.net/
+    {For a programmer who hasn't experienced a system like Lisp, there's going to be one level of "OMG" realization.  But even jaded language surveyors (who have seen paradigms come and go) should find something to appreciate in the way the design has evolved.  And for those who cast their lot with heavyweight meta-programming and aspect-oriented systems like [JetBrains MPS](http://en.wikipedia.org/wiki/JetBrains_MPS) or [Intentional Programming](http://martinfowler.com/bliki/IntentionalSoftware.html), the under-1MB size of the zero-install cross-platform executables should offer some amount of "OMG".}
 
-http://www.red-lang.org/p/download.html
+]
 
-[heading "The Expressive Power of Abstraction"]
+link http://rebolsource.net/
 
-{Indeed, the malleable nature of the system opens a lot of doors for meta-programming.  Picking an example of something you can't do in most languages, you can store function prototypes in variables and mutate them:}
+link http://www.red-lang.org/p/download.html
 
-[code rebol {
+heading "The Expressive Power of Abstraction"
+
+print {Indeed, the malleable nature of the system opens a lot of doors for meta-programming.  Picking an example of something you can't do in most languages, you can store function prototypes in variables and mutate them:}
+
+source 'rebol {
 ;-- ordinary function declaration
 foo: function [x [integer!] y [string!]] [
     print x
@@ -236,16 +259,20 @@ bar: function proto
 foo 1 "hello"                    ;-- prints 1, hello
 foo-alternate 1 "hello"          ;-- same
 bar 2 "hello"                    ;-- prints 2, olleh
-}]
+}
 
-{Red is paving the way to using Rebol methodologies in device drivers and other performance critical code.  It compiles code which can be compiled ahead of time, then JIT compiles what it can't do that with, and interprets whatever's left over that neither approach could handle.  So it's fast and drawing a lot of attention, especially with a rather impressive rate of development accomplishments.}
+print {Red is paving the way to using Rebol methodologies in device drivers and other performance critical code.  It compiles code which can be compiled ahead of time, then JIT compiles what it can't do that with, and interprets whatever's left over that neither approach could handle.  So it's fast and drawing a lot of attention, especially with a rather impressive rate of development accomplishments.}
 
-[heading "Wrapping Up..."]
+heading "Wrapping Up..."
 
-{In summary, Rebol and Red code can be fantastically readable, and very fun.  PARSE is a great showcase for what dialecting can do--now implemented in both systems.  And it's amazing to see how much comes in the package with no installation dependencies (not even compressed!)}
+print << [
 
-{Please do come chat with us in the StackOverflow chat room if any of this strikes you as interesting:}
+    {In summary, Rebol and Red code can be fantastically readable, and very fun.  PARSE is a great showcase for what dialecting can do--now implemented in both systems.  And it's amazing to see how much comes in the package with no installation dependencies (not even compressed!)}
 
-http://chat.stackoverflow.com/rooms/291/rebol-and-red
+    {Please do come chat with us in the StackOverflow chat room if any of this strikes you as interesting:}
 
-{If you're having trouble figuring out how to get the 20 baseline points after you've created an account, just stay logged into the room and someone will notice you and what you've asked...}
+]
+
+link http://chat.stackoverflow.com/rooms/291/rebol-and-red
+
+print {If you're having trouble figuring out how to get the 20 baseline points after you've created an account, just stay logged into the room and someone will notice you and what you've asked...}

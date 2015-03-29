@@ -6,35 +6,43 @@ Draem [
     old-url-prefix: %2004/10/10/
 ]
 
-"I saw the following coding problem:"
+print "I saw the following coding problem:"
 
-[quote
+quote [
 
-    {Write a function that takes 4 integers as input and returns an integer.  The four input values will each range from 1-10, and the function should calculate the number of combinations of input that add to 15 and return that number of combinations.}
+    print << [
 
-    {For example, if the four input values were labeled A-D and had the values A=5, B=5, C=5 and D=10 there would be 4 combinations adding to 15.}
+        {Write a function that takes 4 integers as input and returns an integer.  The four input values will each range from 1-10, and the function should calculate the number of combinations of input that add to 15 and return that number of combinations.}
 
-    [list
-
-        "A+D = 15"
-
-        "B+D = 15"
-
-        "C+D = 15"
-
-        "A+B+C = 15"
+        {For example, if the four input values were labeled A-D and had the values A=5, B=5, C=5 and D=10 there would be 4 combinations adding to 15.}
 
     ]
 
-    "So the desired output would be: 4"
+    list [item << [
 
-    {Please describe how you would modify your solution to accept N input values (instead of just four).}
+            "A+D = 15"
+
+            "B+D = 15"
+
+            "C+D = 15"
+
+            "A+B+C = 15"
+
+        ]]
+
+    print << [
+
+        "So the desired output would be: 4"
+
+        {Please describe how you would modify your solution to accept N input values (instead of just four).}
+
+    ]
 
 ]
 
-{My first try turned out to be slower than a solution from an experienced C++ programmer who'd leveraged the C++ standard library algorithms.  Here's how he did it:}
+print {My first try turned out to be slower than a solution from an experienced C++ programmer who'd leveraged the C++ standard library algorithms.  Here's how he did it:}
 
-[code cpp {
+source 'cpp {
 class Knapsack
 {
 public:
@@ -115,41 +123,41 @@ int FillKnapsack (int const * arr, int size, int sum)
   }
   return 0;
 }
-}]
+}
 
-{Not to be outdone, I started wondering if there was a way to do it even faster.  Since the values in the array are bounded, I decided to immediately transform the input into a histogram telling how many of each number appeared.  Then I would do a brute force march through all the histograms that were "recipes" adding to the target sum, and add the appropriate number of sums for each match.  So in the sample case:}
+print {Not to be outdone, I started wondering if there was a way to do it even faster.  Since the values in the array are bounded, I decided to immediately transform the input into a histogram telling how many of each number appeared.  Then I would do a brute force march through all the histograms that were "recipes" adding to the target sum, and add the appropriate number of sums for each match.  So in the sample case:}
 
-[list
+list [item << [
 
-    "A = 5"
+        "A = 5"
 
-    "B = 5"
+        "B = 5"
 
-    "C = 5"
+        "C = 5"
 
-    "D = 10"
+        "D = 10"
 
-]
+    ]]
 
-"I'd quickly transform it to mean:"
+print "I'd quickly transform it to mean:"
 
-[text "[0,0,0,0,3,0,0,0,0,1] // three fives and one 10"]
+source 'text "[0,0,0,0,3,0,0,0,0,1] // three fives and one 10"
 
-{Then, I'd generate the exhaustive list of "recipes" that sum to 15:}
+print {Then, I'd generate the exhaustive list of "recipes" that sum to 15:}
 
-[text {
+source 'text {
 [15,0,0,0,0,0,0,0,0,0] // fifteen ones
 [13,1,0,0,0,0,0,0,0,0] // thirteen ones and one two
 [12,0,1,0,0,0,0,0,0,0] // twelve ones and one three
 /* ... */
 [0,0,0,0,1,0,0,0,0,1] // one ten and one five
-}]
+}
 
-{From there it was just a matter of seeing how many times a recipe could be applied on the input.  That's relatively straightforward combinatorics, but my example cases on large data sets overflowed my naive algorithm for combinations.  It was a hard bug to track down, but once I replaced it with a better routine off the web I had a blazing fast algorithm.  Its performance is determined by the range of the numbers and the value of the sum, not the size of the input array.}
+print {From there it was just a matter of seeing how many times a recipe could be applied on the input.  That's relatively straightforward combinatorics, but my example cases on large data sets overflowed my naive algorithm for combinations.  It was a hard bug to track down, but once I replaced it with a better routine off the web I had a blazing fast algorithm.  Its performance is determined by the range of the numbers and the value of the sum, not the size of the input array.}
 
-[update 17-Jan-2014 {The code below was written 10 years ago; when I wasn't particularly comfortable with the C++ collection classes.}]
+update 17-Jan-2014 {The code below was written 10 years ago; when I wasn't particularly comfortable with the C++ collection classes.}
 
-[code cpp {
+source 'cpp {
 // how many combinations of k objects can you choose from a set of n objects ?
 // this method avoids overflow that you hit with:
 //    factorial(n) / (factorial(k) * factorial(n-k))
@@ -332,6 +340,6 @@ unsigned int SumsThatAddToXSpecialized(
   }
   return Sums;
 }
-}]
+}
 
-{It's fun to see something like this run so fast and still be correct!}
+print {It's fun to see something like this run so fast and still be correct!}

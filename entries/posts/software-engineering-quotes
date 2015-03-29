@@ -6,157 +6,172 @@ Draem [
     old-url-prefix: %2012/12/01/
 ]
 
-{Every now and again I get an urge to repeat some quote on programming.  But I can't always find what I'm looking for when I go search for it on Google, in order to quote it accurately and cite the source.  So here's a list of some of my favorites which I'll try to keep up to date as I find new ones:}
+print {Every now and again I get an urge to repeat some quote on programming.  But I can't always find what I'm looking for when I go search for it on Google, in order to quote it accurately and cite the source.  So here's a list of some of my favorites which I'll try to keep up to date as I find new ones:}
 
-[quote
+quote [
 
-    {The essence of architecture is the suppression of information not necessary to the task at hand, and so it is somehow fitting that the very nature of architecture is such that it never presents its whole self to us but only a facet or two at a time.}
+    print {The essence of architecture is the suppression of information not necessary to the task at hand, and so it is somehow fitting that the very nature of architecture is such that it never presents its whole self to us but only a facet or two at a time.}
 
-    /source [http://www.amazon.com/Documenting-Software-Architectures-Views-Beyond/dp/0321552687 {Documenting Software Architectures: Views and Beyond}]
-
-]
-
-[quote
-
-    {Increasingly, people seem to misinterpret complexity as sophistication, which is baffling---the incomprehensible should cause suspicion rather than admiration. Possibly, this trend results from a mistaken belief that using a somewhat mysterious device confers an aura of power on the user.}
-
-    /source [http://en.wikipedia.org/wiki/Niklaus_Wirth "Niklaus Wirth"]
+    attribution [link [http://www.amazon.com/Documenting-Software-Architectures-Views-Beyond/dp/0321552687 {Documenting Software Architectures: Views and Beyond}]]
 
 ]
 
-[quote
+quote [
 
-    {The cheapest, fastest, and most reliable components of a computer system are those that aren't there.}
+    print {Increasingly, people seem to misinterpret complexity as sophistication, which is baffling---the incomprehensible should cause suspicion rather than admiration. Possibly, this trend results from a mistaken belief that using a somewhat mysterious device confers an aura of power on the user.}
 
-    /source [http://en.wikipedia.org/wiki/Gordon_Bell "Gordon Bell"]
-]
-
-[quote
-
-    {Weeks of programming can save you hours of planning.}
-
-    [note {Source unknown.}]
-]
-
-[quote
-
-    {90% of a program's execution time is spent in only 10% of its code. The standard inference from this rule is that programmers should find that 10% of the code and optimize it ... But a second inference is just as important: programmers can deoptimize the other 90% of the code (in order to make it easier to use, maintain, etc.)}
-
-    /source [http://en.wikipedia.org/wiki/Richard_E._Pattis "Richard Pattis"]
+    attribution [link [http://en.wikipedia.org/wiki/Niklaus_Wirth "Niklaus Wirth"]]
 
 ]
 
-[quote
+quote [
 
-    {Some facets of usability such as cancellation, undo, progress bars, and others require software architecture support. Because they reach so deeply into the architecture of a system, these facets must be built into the system from its inception rather than added after an initial system design and user interface has been achieved.}
+    print {The cheapest, fastest, and most reliable components of a computer system are those that aren't there.}
 
-    /source [http://www.sei.cmu.edu/about/people/profile.cfm?id=bass_13085 "Len Bass"]
-
-]
-
-[quote
-
-    {There are two ways of constructing a software design: One way is to make it so simple that there are obviously no deficiencies, and the other way is to make it so complicated that there are no obvious deficiencies. The first method is far more difficult.}
-
-    /source [http://en.wikipedia.org/wiki/Tony_Hoare "C.A.R. Hoare"]
+    attribution [link [http://en.wikipedia.org/wiki/Gordon_Bell "Gordon Bell"]]
 
 ]
 
-[quote
+quote [
 
-    {Should array indices start at 0 or 1?  My compromise of 0.5 was rejected without, I thought, proper consideration.}
+    print {Weeks of programming can save you hours of planning.}
 
-    /source [http://en.wikipedia.org/wiki/Stan_Kelly-Bootle "Stan Kelly-Bootle"]
-
-]
-
-[quote
-
-    {If the automobile had followed the same development cycle as the computer, a Rolls-Royce would today cost $100, get a million miles per gallon, and explode once a year, killing everyone inside.}
-
-    /source [http://en.wikipedia.org/wiki/Robert_X._Cringely "Robert X. Cringely"]
+    note "Source unknown."
 
 ]
 
-[quote
+quote [
 
-    {That’s the thing about people who think they hate computers.  What they really hate is lousy programmers.}
+    print {90% of a program's execution time is spent in only 10% of its code. The standard inference from this rule is that programmers should find that 10% of the code and optimize it ... But a second inference is just as important: programmers can deoptimize the other 90% of the code (in order to make it easier to use, maintain, etc.)}
 
-    /source [http://en.wikipedia.org/wiki/Larry_Niven "Larry Niven"]
-
-]
-
-[quote
-
-    {There’s an old story about the person who wished his computer were as easy to use as his telephone.  That wish has come true, since I no longer know how to use my telephone.}
-
-    /source [http://en.wikipedia.org/wiki/Bjarne_Stroustrup "Bjarne Stroustrup"]
+    attribution [link [http://en.wikipedia.org/wiki/Richard_E._Pattis "Richard Pattis"]]
 
 ]
 
-[quote
+quote [
 
-    [wally: {When I started programming, we didn't have any of these sissy "icons" and "windows".  All we had were zeros and ones -- and sometimes we didn't even have ones. I once wrote a database using only zeros.}]
+    print {Some facets of usability such as cancellation, undo, progress bars, and others require software architecture support. Because they reach so deeply into the architecture of a system, these facets must be built into the system from its inception rather than added after an initial system design and user interface has been achieved.}
 
-    [dilbert: {You had zeros?  We had to use the letter "O".}]
-
-    /source [http://dilbert.com/strips/comic/1992-09-08/ {"Dilbert"}]
+    attribution [link [http://www.sei.cmu.edu/about/people/profile.cfm?id=bass_13085 "Len Bass"]]
 
 ]
 
-[quote
+quote [
 
-    {I mean, if 10 years from now, when you are doing something quick and dirty, you suddenly visualize that I am looking over your shoulders and say to yourself "Dijkstra would not have liked this", well, that would be enough immortality for me.}
+    print {There are two ways of constructing a software design: One way is to make it so simple that there are obviously no deficiencies, and the other way is to make it so complicated that there are no obvious deficiencies. The first method is far more difficult.}
 
-    /source [http://en.wikipedia.org/wiki/Edsger_W._Dijkstra "Edsger R. Dijstra"]
-
-]
-
-[quote
-
-    {Always code as if the guy who ends up maintaining your code will be a violent psychopath who knows where you live.}
-
-    /source [http://stackoverflow.com/questions/876089/who-wrote-this-programing-saying-always-code-as-if-the-guy-who-ends-up-maintai "John Woods"]
+    attribution [link [http://en.wikipedia.org/wiki/Tony_Hoare "C.A.R. Hoare"]]
 
 ]
 
-[quote
+quote [
 
-    {Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.}
+    print {Should array indices start at 0 or 1?  My compromise of 0.5 was rejected without, I thought, proper consideration.}
 
-    /source [http://en.wikipedia.org/wiki/Brian_Kernighan "Brian W. Kernighan"]
+    attribution [link [http://en.wikipedia.org/wiki/Stan_Kelly-Bootle "Stan Kelly-Bootle"]]
+
 ]
 
-[quote
+quote [
 
-    {It's been proven there are at most three numbers you should hardcode when programming: 0, 1, and N.  I've long been of the opinion that 1 should be avoided.  But lately I'm becoming increasingly skeptical about zero.}
+    print {If the automobile had followed the same development cycle as the computer, a Rolls-Royce would today cost $100, get a million miles per gallon, and explode once a year, killing everyone inside.}
 
-    /source "self"
+    attribution [link [http://en.wikipedia.org/wiki/Robert_X._Cringely "Robert X. Cringely"]]
+
 ]
 
-[quote
+quote [
 
-    {Most computer technologists don't like to discuss it, but the importance of beauty is a consistent (if sometimes inconspicuous) thread in the software literature. Beauty is more important in computing than anywhere else in technology... Beauty is important in engineering terms because software is so complicated...}
+    print {That’s the thing about people who think they hate computers.  What they really hate is lousy programmers.}
 
-    {Beauty is our most reliable guide to achieving software's ultimate goal: to break free of the computer, to break free conceptually. Software is stuff unlike any other... Software's goal is to escape this gravity field, and every key step in software history has been a step away from the computer, toward forgetting about the machine and its physical structure and limitations -- forgetting that it can hold only so many bytes, that its memory is made of fixed size cells, that you refer to each cell by a numerical address.}
+    attribution [link [http://en.wikipedia.org/wiki/Larry_Niven "Larry Niven"]]
 
-    {Software needn't accept those rules and limitations. But as we throw off the limits, what guides us? How do we know where to head? Beauty is the best guide we have.}
-
-    /source [http://en.wikipedia.org/wiki/David_Gelernter "David Gelertner"]
 ]
 
-[quote
-    
-    {We must not forget that the wheel is reinvented so often because it is a very good idea; I've learned to worry more about the soundness of ideas that were invented only once.}
+quote [
 
-    /source [http://en.wikipedia.org/wiki/David_Parnas "David Parnas"]
+    print {There’s an old story about the person who wished his computer were as easy to use as his telephone.  That wish has come true, since I no longer know how to use my telephone.}
+
+    attribution [link [http://en.wikipedia.org/wiki/Bjarne_Stroustrup "Bjarne Stroustrup"]]
+
 ]
 
-{And not just about programming, but about learning any subject:}
+quote [
 
-[quote
+    dialog [
 
-    {To know where you can find everything...that, in short, is the largest part of learning.} 
+        wally: {When I started programming, we didn't have any of these sissy "icons" and "windows".  All we had were zeros and ones -- and sometimes we didn't even have ones. I once wrote a database using only zeros.}
 
-    /source [https://en.wikipedia.org/wiki/Samuel_Johnson "Samuel Johnson"]
+        dilbert: {You had zeros?  We had to use the letter "O".}
+
+    ]
+
+    attribution [link [http://dilbert.com/strips/comic/1992-09-08/ {"Dilbert"}]]
+
+]
+
+quote [
+
+    print {I mean, if 10 years from now, when you are doing something quick and dirty, you suddenly visualize that I am looking over your shoulders and say to yourself "Dijkstra would not have liked this", well, that would be enough immortality for me.}
+
+    attribution [link [http://en.wikipedia.org/wiki/Edsger_W._Dijkstra "Edsger R. Dijstra"]]
+
+]
+
+quote [
+
+    print {Always code as if the guy who ends up maintaining your code will be a violent psychopath who knows where you live.}
+
+    attribution [link [http://stackoverflow.com/questions/876089/who-wrote-this-programing-saying-always-code-as-if-the-guy-who-ends-up-maintai "John Woods"]]
+
+]
+
+quote [
+
+    print {Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.}
+
+    attribution [link [http://en.wikipedia.org/wiki/Brian_Kernighan "Brian W. Kernighan"]]
+
+]
+
+quote [
+
+    print {It's been proven there are at most three numbers you should hardcode when programming: 0, 1, and N.  I've long been of the opinion that 1 should be avoided.  But lately I'm becoming increasingly skeptical about zero.}
+
+    attribution "self"
+
+]
+
+quote [
+
+    print << [
+
+        {Most computer technologists don't like to discuss it, but the importance of beauty is a consistent (if sometimes inconspicuous) thread in the software literature. Beauty is more important in computing than anywhere else in technology... Beauty is important in engineering terms because software is so complicated...}
+
+        {Beauty is our most reliable guide to achieving software's ultimate goal: to break free of the computer, to break free conceptually. Software is stuff unlike any other... Software's goal is to escape this gravity field, and every key step in software history has been a step away from the computer, toward forgetting about the machine and its physical structure and limitations -- forgetting that it can hold only so many bytes, that its memory is made of fixed size cells, that you refer to each cell by a numerical address.}
+
+        {Software needn't accept those rules and limitations. But as we throw off the limits, what guides us? How do we know where to head? Beauty is the best guide we have.}
+
+    ]
+
+    attribution [link [http://en.wikipedia.org/wiki/David_Gelernter "David Gelertner"]]
+
+]
+
+quote [
+
+    print {We must not forget that the wheel is reinvented so often because it is a very good idea; I've learned to worry more about the soundness of ideas that were invented only once.}
+
+    attribution [link [http://en.wikipedia.org/wiki/David_Parnas "David Parnas"]]
+
+]
+
+print {And not just about programming, but about learning any subject:}
+
+quote [
+
+    print {To know where you can find everything...that, in short, is the largest part of learning.}
+
+    attribution [link [https://en.wikipedia.org/wiki/Samuel_Johnson "Samuel Johnson"]]
+
 ]

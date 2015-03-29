@@ -6,11 +6,15 @@ Draem [
     old-url-prefix: %2005/05/01/
 ]
 
-{Let's say you are implementing a class to represent a Phone.  You might want to have the precondition that you cannot `hangUp()` a phone if it was already hung up.}
+print << [
 
-{The typical way to do this is with `assert()` statements, so in the file **phone.cpp** you might write:}
+    {Let's say you are implementing a class to represent a Phone.  You might want to have the precondition that you cannot `hangUp()` a phone if it was already hung up.}
 
-[code cpp {
+    {The typical way to do this is with `assert()` statements, so in the file **phone.cpp** you might write:}
+
+]
+
+source 'cpp {
 class Phone
 {
 private:
@@ -30,11 +34,11 @@ public:
 
    /*... more functions here ...*/
 };
-}]
+}
 
-{Then let's say in **caller.cpp** you are modeling someone who wants to have a ["typical"](http://en.wikipedia.org/wiki/Alice_and_Bob) phone conversation:}
+print {Then let's say in **caller.cpp** you are modeling someone who wants to have a ["typical"](http://en.wikipedia.org/wiki/Alice_and_Bob) phone conversation:}
 
-[code cpp {
+source 'cpp {
 void Alice::callBob()
 {
    _phone.dial("1-617-542-5942");
@@ -55,35 +59,43 @@ void Alice::haveSpecialDiscussion()
    }
    _phone.HangUp();
 }
-}]
+}
 
-{When `callBob()` executes and hits line 48, the Phone's assertion will fire because it was already hung up during `haveSpecialDiscussion()` (on line 60).  Most implementations of `assert` will capture the filename and line number where the actual assertion occurs, so you'd probably get a message like:}
+print {When `callBob()` executes and hits line 48, the Phone's assertion will fire because it was already hung up during `haveSpecialDiscussion()` (on line 60).  Most implementations of `assert` will capture the filename and line number where the actual assertion occurs, so you'd probably get a message like:}
 
-[error "assertion failure on line 90 of phone.cpp"]
+source 'error "assertion failure on line 90 of phone.cpp"
 
-{There's no flexibility to let you indicate another "place" in the source.  For instance, what if you wanted the assert to identify the precise offending call to `hangUp()`?  }
+print << [
 
-{To address these kinds of needs I created `codeplace`.  One of its many uses is the location-parameterized assert...which lets you pass in a "place" to be identified when the assert triggers.  So in **phone.cpp** you would write:}
+    {There's no flexibility to let you indicate another "place" in the source.  For instance, what if you wanted the assert to identify the precise offending call to `hangUp()`?  }
 
-[code cpp {
+    {To address these kinds of needs I created `codeplace`.  One of its many uses is the location-parameterized assert...which lets you pass in a "place" to be identified when the assert triggers.  So in **phone.cpp** you would write:}
+
+]
+
+source 'cpp {
 public:
    void hangUp(const codeplace& cp)
    {
       assert(_status != Disconnected, cp);
       /*... some code here ...*/
    }
-}]
+}
 
-{Then at the call sites, you would use a special macro called `HERE` to create a `codeplace` object which you pass as a parameter.  For instance, the assertion-triggering call to `hangUp()` in **caller.cpp** would look like this:}
+print {Then at the call sites, you would use a special macro called `HERE` to create a `codeplace` object which you pass as a parameter.  For instance, the assertion-triggering call to `hangUp()` in **caller.cpp** would look like this:}
 
-[code cpp "_phone.hangUp(HERE(false));"]
+source 'cpp "_phone.hangUp(HERE(false));"
 
-[note {the forthcoming documentation for codeplace will explain what false, true, and string parameters mean for "HERE" mean...}]
+note {the forthcoming documentation for codeplace will explain what false, true, and string parameters mean for "HERE" mean...}
 
-{Now when the assertion is reported by the program, it will identify the call site.  With this change to our example above, you would get something more like:}
+print {Now when the assertion is reported by the program, it will identify the call site.  With this change to our example above, you would get something more like:}
 
-[error "assertion failure on line 48 of caller.cpp"]
+source 'error "assertion failure on line 48 of caller.cpp"
 
-{The location-parameterized assert is only one application of a codeplace.  They are helpful abstractions for any time we need to speak about a place in our source.  For instance, if we wanted to track the previous disconnection call we could have a local variable in the Phone class to save it... and the `tracked<T>` template even does this for you automatically.  There are some other nuances of the codeplace implementation that are beyond the scope of this particular issue.}
+print << [
 
-{You might theorize that run-time access to the stack is the ultimate API for dealing with this sort of thing.  Imagine if `Phone::hangUp()` could somehow obtain an object representing the call stack, and then extract whatever information it wanted about the callers. That's a little heavy-handed, and I believe that the odds of the API being abused are so high that a "narrower" protocol agreement between callers and subroutines would need to be established for the common scenarios.}
+    {The location-parameterized assert is only one application of a codeplace.  They are helpful abstractions for any time we need to speak about a place in our source.  For instance, if we wanted to track the previous disconnection call we could have a local variable in the Phone class to save it... and the `tracked<T>` template even does this for you automatically.  There are some other nuances of the codeplace implementation that are beyond the scope of this particular issue.}
+
+    {You might theorize that run-time access to the stack is the ultimate API for dealing with this sort of thing.  Imagine if `Phone::hangUp()` could somehow obtain an object representing the call stack, and then extract whatever information it wanted about the callers. That's a little heavy-handed, and I believe that the odds of the API being abused are so high that a "narrower" protocol agreement between callers and subroutines would need to be established for the common scenarios.}
+
+]

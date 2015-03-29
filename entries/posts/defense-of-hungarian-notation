@@ -6,17 +6,25 @@ Draem [
     old-url-prefix: %2005/09/24/
 ]
 
-{Anyone who has programmed directly to the Windows API knows about the existence of [Hungarian Notation](http://en.wikipedia.org/wiki/Hungarian_notation).  It is a way of making the name of a variable or procedure flow automatically from its data type.  Like other conventions that have been rejected by the general programming community, it would be foolish to use it today on any public API or code example.  Despite this, I do still borrow from some of the "spirit" of the notation when I code.}
+print << [
 
-"I'd like to explain why."
+    {Anyone who has programmed directly to the Windows API knows about the existence of [Hungarian Notation](http://en.wikipedia.org/wiki/Hungarian_notation).  It is a way of making the name of a variable or procedure flow automatically from its data type.  Like other conventions that have been rejected by the general programming community, it would be foolish to use it today on any public API or code example.  Despite this, I do still borrow from some of the "spirit" of the notation when I code.}
 
-[update 19-Jul-2014 {This article was written in 2005, and my thoughts on naming have changed even more in the intervening 8 years!}]
+    "I'd like to explain why."
 
-{Some critics (and adherents) of Hungarian Notation think its goal is to encode useful type information into names.  The truth is, coming up with useful names is not the point.  It is much more about avoiding the encoding of **useless** information!}
+]
 
-{Names--like indentation, spacing, and comments--do not affect the executable code.  For instance, look at this code:}
+update 19-Jul-2014 {This article was written in 2005, and my thoughts on naming have changed even more in the intervening 8 years!}
 
-[code cpp {
+print << [
+
+    {Some critics (and adherents) of Hungarian Notation think its goal is to encode useful type information into names.  The truth is, coming up with useful names is not the point.  It is much more about avoiding the encoding of **useless** information!}
+
+    {Names--like indentation, spacing, and comments--do not affect the executable code.  For instance, look at this code:}
+
+]
+
+source 'cpp {
 void DestroyTheWindow(HWND TheWindowIWillDestroy)
    // This function should only be called on windows which
    // have no parents; if you would like to destroy a
@@ -27,110 +35,134 @@ void DestroyTheWindow(HWND TheWindowIWillDestroy)
    {
    ...
    }
-}]
+}
 
-{No matter how nice the prose, that programmer spent their finite allocation of time on earth unwisely.  Given the 30 seconds (at least!) it took them to write that comment, I'd rather they had written:}
+print {No matter how nice the prose, that programmer spent their finite allocation of time on earth unwisely.  Given the 30 seconds (at least!) it took them to write that comment, I'd rather they had written:}
 
-[code cpp {
+source 'cpp {
 void DestroyWindow(HWND hwnd)
    {
    assert(GetParent(hwnd) == NULL);
    ...
    }
-}]
+}
 
-{...or even better, invested that time in creating subclasses of `HWND` (like `HWND_TOPLEVEL` and `HWND_CHILD`) so that the error could be caught at compile-time:}
+print {...or even better, invested that time in creating subclasses of `HWND` (like `HWND_TOPLEVEL` and `HWND_CHILD`) so that the error could be caught at compile-time:}
 
-[code cpp {
+source 'cpp {
 void DestroyToplevel(HWND_TOPLEVEL hwnd)
    {
    ...
    }
-}]
+}
 
-{Even if `HWND_TOPLEVEL` and `HWND_CHILD` are merely typedefs for `HWND`, I think this is better documentation than a comment in the long run.  It conveys all the same information and can easily grow into a compiler-checked solution, if you were to upgrade the definitions from typedefs into distinct classes.}
+print << [
 
-{Before anyone revokes my programming license, I'm not saying people shouldn't comment.  Yet a programmer only has twenty-four hours in a day (disregarding sleep, of course)... and therefore any time invested in comments is energy that was not put into fixing the code so that comment wasn't necessary.  Naming is the same way--a creative name is something a user will not be able to appreciate in terms of runtime features.}
+    {Even if `HWND_TOPLEVEL` and `HWND_CHILD` are merely typedefs for `HWND`, I think this is better documentation than a comment in the long run.  It conveys all the same information and can easily grow into a compiler-checked solution, if you were to upgrade the definitions from typedefs into distinct classes.}
 
-{So to bring our discussion back to the core of Hungarian Notation's value for your programming mind, let's look at the situation of someone naming a function parameter:}
+    {Before anyone revokes my programming license, I'm not saying people shouldn't comment.  Yet a programmer only has twenty-four hours in a day (disregarding sleep, of course)... and therefore any time invested in comments is energy that was not put into fixing the code so that comment wasn't necessary.  Naming is the same way--a creative name is something a user will not be able to appreciate in terms of runtime features.}
 
-[code cpp {
+    {So to bring our discussion back to the core of Hungarian Notation's value for your programming mind, let's look at the situation of someone naming a function parameter:}
+
+]
+
+source 'cpp {
 void DestroyWindow(HWND /*[name goes here]*/)
    {
    ...
    }
-}]
+}
 
-{I could sit around all day debating whether to call it `Input` or `ToBeDestroyedWindow` or `TheWindowIWillDestroy` or cryptically `x`.  Yet what this variable represents is obvious from the context--after all, it is the sole parameter to a routine called `DestroyWindow`.  It's the window to destroy (Duh!)}
+print << [
 
-{One way of avoiding a meaningless name would be to give the variable some unique number:}
+    {I could sit around all day debating whether to call it `Input` or `ToBeDestroyedWindow` or `TheWindowIWillDestroy` or cryptically `x`.  Yet what this variable represents is obvious from the context--after all, it is the sole parameter to a routine called `DestroyWindow`.  It's the window to destroy (Duh!)}
 
-[code cpp {
+    {One way of avoiding a meaningless name would be to give the variable some unique number:}
+
+]
+
+source 'cpp {
 void DestroyWindow(HWND noname1231 /* hope this is unique! */)
    {
    ...
    }
-}]
+}
 
-{In the future, our integrated development environments might be able to manage such numeric identities for declarations "behind the scenes".  This would be a lot like how databases invisibly manage table relationships through primary keys.  But so long as we're directly modifying textual code, humans can't really match up these numbers while reading.  So this is a bad idea.}
+print << [
 
-{But what if you made all your type names in capital letters?  Then you could turn the type into lowercase letters to produce an available symbol:}
+    {In the future, our integrated development environments might be able to manage such numeric identities for declarations "behind the scenes".  This would be a lot like how databases invisibly manage table relationships through primary keys.  But so long as we're directly modifying textual code, humans can't really match up these numbers while reading.  So this is a bad idea.}
 
-[code cpp {
+    {But what if you made all your type names in capital letters?  Then you could turn the type into lowercase letters to produce an available symbol:}
+
+]
+
+source 'cpp {
 void DestroyWindow(HWND hwnd)
    {
    ...
    }
-}]
+}
 
-{Assuming that turning your type into lowercase doesn't produce a language keyword, then you'll always get a legal identifier.  Moreover, the name isn't completely useless: anywhere you see a reference to this "nameless" variable you know at least one thing about it: *its type*.}
+print << [
 
-{Naturally, this method of producing a unique symbol breaks down once you have more than one variable of a specific type in a scope:}
+    {Assuming that turning your type into lowercase doesn't produce a language keyword, then you'll always get a legal identifier.  Moreover, the name isn't completely useless: anywhere you see a reference to this "nameless" variable you know at least one thing about it: *its type*.}
 
-[code cpp {
+    {Naturally, this method of producing a unique symbol breaks down once you have more than one variable of a specific type in a scope:}
+
+]
+
+source 'cpp {
 HWND hwnd; // topmost window in the Z order
 HWND hwnd; // parent window (**ERROR, NAME ALREADY USED**)
-}]
+}
 
-{Yet if there's more than one variable of the same type in a scope, that means that context alone is **by definition** insufficient to explain your variable's purpose.  Hungarian Notation prescribes adding a disambiguating mixed-case phrase to the end of the name.  It is especially efficient, because the disambiguation always tacks onto the end of names--which is easy to add and remove in the editor if you ever run up against a collision:}
+print {Yet if there's more than one variable of the same type in a scope, that means that context alone is **by definition** insufficient to explain your variable's purpose.  Hungarian Notation prescribes adding a disambiguating mixed-case phrase to the end of the name.  It is especially efficient, because the disambiguation always tacks onto the end of names--which is easy to add and remove in the editor if you ever run up against a collision:}
 
-[code cpp {
+source 'cpp {
 HWND hwndTopmostInZOrder;
 HWND hwndParent;
-}]
+}
 
-{This only works if you create lots of new types.  If you have an integer value, and you prefix a variable with the letter "i", context is probably not sufficient to know what the variable is for.  So that raises the question: why are you using an integer and not a higher level abstraction like "line number" (`LINE`), "count of employees" (`CEMP`), or a "stack depth counter" (`SDC`)?}
+print << [
 
-{If the Y2K problem taught us anything, it's that you should be very liberal in creating new types which capture your ideas--even if it's just a measly preprocessor macro.  Compare:}
+    {This only works if you create lots of new types.  If you have an integer value, and you prefix a variable with the letter "i", context is probably not sufficient to know what the variable is for.  So that raises the question: why are you using an integer and not a higher level abstraction like "line number" (`LINE`), "count of employees" (`CEMP`), or a "stack depth counter" (`SDC`)?}
 
-[code cpp "BYTE todays_date_in_MM_DD_YY[3];"]
+    {If the Y2K problem taught us anything, it's that you should be very liberal in creating new types which capture your ideas--even if it's just a measly preprocessor macro.  Compare:}
 
-"with:"
+]
 
-[code cpp {
+source 'cpp "BYTE todays_date_in_MM_DD_YY[3];"
+
+print "with:"
+
+source 'cpp {
 typedef BYTE[3] DATE;
 DATE date;
-}]
+}
 
-{Even though the implementations are isomorphic, the second pattern is far better. There is no automatic way to find all the dates in the first example...you have to do manual inspection of all the names of BYTE arrays to figure out which are dates and which are not.  This is why I don't hesitate to create new types while I program, even wrappers for basic types like `int` or `long`.  Once you've done that, you can feel good about variable declarations like `LINE lineFirst;` or `CEMP cempHiredLastMonth;` or just `SDC sdc;`.}
+print << [
 
-{If you aren't making tons of types, and just sticking "i" or "l" in front of everything, forget about Hungarian.  It will be useless, and makes what Linus Torvalds says absolutely true:}
+    {Even though the implementations are isomorphic, the second pattern is far better. There is no automatic way to find all the dates in the first example...you have to do manual inspection of all the names of BYTE arrays to figure out which are dates and which are not.  This is why I don't hesitate to create new types while I program, even wrappers for basic types like `int` or `long`.  Once you've done that, you can feel good about variable declarations like `LINE lineFirst;` or `CEMP cempHiredLastMonth;` or just `SDC sdc;`.}
 
-[quote {Encoding the type of a function into the name (so-called Hungarian notation) is brain damaged - the compiler knows the types anyway and can check those, and it only confuses the programmer.}]
+    {If you aren't making tons of types, and just sticking "i" or "l" in front of everything, forget about Hungarian.  It will be useless, and makes what Linus Torvalds says absolutely true:}
 
-{I'm not surprised Hungarian Notation has a terrible reputation, because I've never seen published code that used it right.  Microsoft even screwed it up in their most public APIs!  Just look at the definition for window procedures:}
+]
 
-[code cpp {
+quote {Encoding the type of a function into the name (so-called Hungarian notation) is brain damaged - the compiler knows the types anyway and can check those, and it only confuses the programmer.}
+
+print {I'm not surprised Hungarian Notation has a terrible reputation, because I've never seen published code that used it right.  Microsoft even screwed it up in their most public APIs!  Just look at the definition for window procedures:}
+
+source 'cpp {
 long FAR PASCAL WndProc(
    HWND hwnd,
    UINT msg,
    UINT wParam,
    LONG lParam);
-}]
+}
 
-{The only part they did right is the `HWND`.  The rest is a complete mess.  A more genuine attempt would probably look like:}
+print {The only part they did right is the `HWND`.  The rest is a complete mess.  A more genuine attempt would probably look like:}
 
-[code cpp {
+source 'cpp {
 typedef UINT WPARAM;
 typedef LONG LPARAM;
 typedef LONG LRESULT;
@@ -141,15 +173,19 @@ LRESULT FAR PASCAL LresultWndproc(
    WM wm,
    WPARAM wparam,
    LPARAM lparam);
-}]
+}
 
-{Some very reasonable people suggest that since so few programmers have grasped the "true" spirit of Hungarian Notation, something must be inherently confusing about it.  Therefore nearly everyone should avoid it.}
+print << [
 
-"I mostly agree."
+    {Some very reasonable people suggest that since so few programmers have grasped the "true" spirit of Hungarian Notation, something must be inherently confusing about it.  Therefore nearly everyone should avoid it.}
 
-{Yet I dislike being forced to give a meaningless name to something which is obvious from its context.  That's why I came up with a compromise that I sometimes use.  I simply make a mental association of a shorthand for each data type that I'm using (such as "WND" for `System.Window`) without changing the definition.  This means code starts to look like:}
+    "I mostly agree."
 
-[code java {
+    {Yet I dislike being forced to give a meaningless name to something which is obvious from its context.  That's why I came up with a compromise that I sometimes use.  I simply make a mental association of a shorthand for each data type that I'm using (such as "WND" for `System.Window`) without changing the definition.  This means code starts to look like:}
+
+]
+
+source 'java {
 void DestroyWindow(System.Window wnd)
    {
    System.Window wndParent = wnd.GetParent();
@@ -160,13 +196,17 @@ void DestroyWindow(System.Window wnd)
          ...
       }
    }
-}]
+}
 
-{This gives me what I desire, and avoids the taboo of data types that are in all capital letters.  (I don't know why, but people have reserved all caps for naming constants.  It's a convention that never made sense to me--mixed case constants are more readable.  Oh well.)}
+print << [
 
-{One quirk I have adopted is to use "is" as the prefix for booleans.  I still think it's in the spirit of Hungarian, and `boolean isTheUserOnline` reads a bit better than `boolean boolUserOnline`.  Here's another example demonstrating my naming technique:}
+    {This gives me what I desire, and avoids the taboo of data types that are in all capital letters.  (I don't know why, but people have reserved all caps for naming constants.  It's a convention that never made sense to me--mixed case constants are more readable.  Oh well.)}
 
-[code cpp {
+    {One quirk I have adopted is to use "is" as the prefix for booleans.  I still think it's in the spirit of Hungarian, and `boolean isTheUserOnline` reads a bit better than `boolean boolUserOnline`.  Here's another example demonstrating my naming technique:}
+
+]
+
+source 'cpp {
 void KickUserOffline(UserObject userKick, UserObject userAdministrator)
    {
    assert(userAdministrator.HasPrivilege(PRIVILEGE_KICK));
@@ -176,4 +216,4 @@ void KickUserOffline(UserObject userKick, UserObject userAdministrator)
       userKick.Logout();
       }
    }
-}]
+}

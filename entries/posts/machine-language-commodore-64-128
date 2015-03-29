@@ -1,341 +1,436 @@
 Draem [
-    title: {Machine Language for the Commodore 64 and 128}
+    title: "Machine Language for the Commodore 64 and 128"
     tags: [history]
     slug: %machine-language-commodore-64-128
     date: 16-May-2014/6:52:51-4:00
 ]
 
-{While I do neglect my blog for long stretches, once I get the bug to update...one thing leads to another.  Discussing [my first computer programming experience](http://blog.hostilefork.com/osborne-one-basic-fun-history/) (and the book on BASIC that I don't remember very well) got me thinking about the book I do remember well.  It taught me machine language.}
+print {While I do neglect my blog for long stretches, once I get the bug to update...one thing leads to another.  Discussing [my first computer programming experience](http://blog.hostilefork.com/osborne-one-basic-fun-history/) (and the book on BASIC that I don't remember very well) got me thinking about the book I do remember well.  It taught me machine language.}
 
-[image http://blog.hostilefork.com/media/machine-language-commodore-64-128/butterfield-machine-language.png 395x495 "Machine Language For the Commodore 64, 128, and Other Commodore Computers (Revised and Expanded Edition)"]
+image [http://blog.hostilefork.com/media/machine-language-commodore-64-128/butterfield-machine-language.png 395x495 {Machine Language For the Commodore 64, 128, and Other Commodore Computers (Revised and Expanded Edition)}]
 
-[note {At first I had a hard time finding it, because I recalled the author's name as being "James Butterworth".  But it was actually [Jim Butterfield](https://en.wikipedia.org/wiki/Jim_Butterfield).}]
+note {At first I had a hard time finding it, because I recalled the author's name as being "James Butterworth".  But it was actually [Jim Butterfield](https://en.wikipedia.org/wiki/Jim_Butterfield).}
 
-{I was inspired to make a few notes about this, and how I spiraled down the rabbit hole of software development...the hard way!}
+print {I was inspired to make a few notes about this, and how I spiraled down the rabbit hole of software development...the hard way!}
 
-[heading {The Pre-Disk-Drive Era}]
+heading "The Pre-Disk-Drive Era"
 
-{When my family got a Commodore 64, we had no tape drive... or disk drive.  There were some cartridges available, and I had about 4 of them.  I spent many an hour playing "Buck Rogers: Planet of Zoom" (which wasn't actually all that much fun):}
+print {When my family got a Commodore 64, we had no tape drive... or disk drive.  There were some cartridges available, and I had about 4 of them.  I spent many an hour playing "Buck Rogers: Planet of Zoom" (which wasn't actually all that much fun):}
 
-[image http://blog.hostilefork.com/media/machine-language-commodore-64-128/planet-of-zoom.png 320x200 "Buck Rogers: Planet of Zoom (C64)"]
+image [http://blog.hostilefork.com/media/machine-language-commodore-64-128/planet-of-zoom.png 320x200 "Buck Rogers: Planet of Zoom (C64)"]
 
-{Despite not having a storage medium, one could get programs by typing them in from a magazine.  So I would do that, and it was painstaking.  One of the earliest I can remember was "React" from COMPUTE's Gazette, which I found a scan online from the author:}
+print {Despite not having a storage medium, one could get programs by typing them in from a magazine.  So I would do that, and it was painstaking.  One of the earliest I can remember was "React" from COMPUTE's Gazette, which I found a scan online from the author:}
 
-[quote
+quote [
 
-	[heading {React - Compute's Gazette Feb 1984}]
+    heading "React - Compute's Gazette Feb 1984"
 
-	{This is my first published work. :) A game written for the Vic 20 and Commodore 64 called React. You ran around the screen picking up random objects, leaving a trail behind. Surely inspired by Tron's Lightcycles.}
+    print << [
 
-	{I think I bought a 1541 disk drive with the proceeds. 170KB of storage!}
+        {This is my first published work. :) A game written for the Vic 20 and Commodore 64 called React. You ran around the screen picking up random objects, leaving a trail behind. Surely inspired by Tron's Lightcycles.}
 
-	/source [https://www.flickr.com/photos/mothernaturevideos/5451205663/ {Don Whitaker}]
+        {I think I bought a 1541 disk drive with the proceeds. 170KB of storage!}
+
+    ]
+
+    attribution [link [https://www.flickr.com/photos/mothernaturevideos/5451205663/ "Don Whitaker"]]
+
 ]
 
-[image http://blog.hostilefork.com/media/machine-language-commodore-64-128/react-compute-gazette.png 390x1024 "React from COMPUTE's Gazette"]
+image [http://blog.hostilefork.com/media/machine-language-commodore-64-128/react-compute-gazette.png 390x1024 "React from COMPUTE's Gazette"]
 
-{The typing was laborious.  And I had to leave the computer on to keep it from forgetting the program.  It also tied up the computer with one program so that I couldn't do anything else with it until I finally reset it.  But it was a chance to see how programs were written.}
+print {The typing was laborious.  And I had to leave the computer on to keep it from forgetting the program.  It also tied up the computer with one program so that I couldn't do anything else with it until I finally reset it.  But it was a chance to see how programs were written.}
 
-[heading {SYS 32768}]
+heading "SYS 32768"
 
-{When I later got a disk drive, some of the games seemed to be incredibly complicated by comparison.  I wanted to "list" them to see how they worked, but nothing would show.  There would be some line like `SYS 32768`--that was all.  But the files were clearly much bigger, and took a long time to load.  *Where was the code?*}
+print << [
 
-{That's when I got the Butterfield book.  It taught Machine Language at the lowest level...and you used a machine language monitor:}
+    {When I later got a disk drive, some of the games seemed to be incredibly complicated by comparison.  I wanted to "list" them to see how they worked, but nothing would show.  There would be some line like `SYS 32768`--that was all.  But the files were clearly much bigger, and took a long time to load.  *Where was the code?*}
 
-[image http://blog.hostilefork.com/media/machine-language-commodore-64-128/machine-language-monitor.png 420x236 "A Machine Language Monitor"]
+    {That's when I got the Butterfield book.  It taught Machine Language at the lowest level...and you used a machine language monitor:}
 
-{At first I thought this was a breakthrough.  Now I understood it all: how the programs were loaded directly into areas of memory and thus couldn't be "listed" by the BASIC interpreter.  I could load the programs up and see what they were doing.  When I wrote my first program that actually did something *(it was a screen editor that helped you make stuff that looked like ANSI art)* I was very excited.}
+]
 
-{But I quickly hit a plateau of what I could accomplish, and the code for the commercial programs I looked at was nearly impossible to read.  Programming in Machine Language had simply too much bookkeeping that needed to be done...it was a lot harder than BASIC.  There were problems similar to dealing with line numbering, where you would sometimes run out of space...there were no variable names...I decided that I wasn't cut out for real software development.}
+image [http://blog.hostilefork.com/media/machine-language-commodore-64-128/machine-language-monitor.png 420x236 "A Machine Language Monitor"]
 
-{Perhaps you think that's funny.  But this was quite a while before the Internet or StackOverflow...so there was nowhere to read or get guidance about how such things were done.  Imagine how mad I was--years later--when I learned about assemblers, compilers, and cross-compilers!}
+print << [
 
-[heading {Funny Interview Story}]
+    {At first I thought this was a breakthrough.  Now I understood it all: how the programs were loaded directly into areas of memory and thus couldn't be "listed" by the BASIC interpreter.  I could load the programs up and see what they were doing.  When I wrote my first program that actually did something *(it was a screen editor that helped you make stuff that looked like ANSI art)* I was very excited.}
 
-{I had a job interview where we had been talking for a while.  Due to the fact that I had a track record of writing good code in other departments, he hadn't asked me any coding questions...it was just philosophy.}
+    {But I quickly hit a plateau of what I could accomplish, and the code for the commercial programs I looked at was nearly impossible to read.  Programming in Machine Language had simply too much bookkeeping that needed to be done...it was a lot harder than BASIC.  There were problems similar to dealing with line numbering, where you would sometimes run out of space...there were no variable names...I decided that I wasn't cut out for real software development.}
 
-[interviewer: <looking at clock> {Well, we've almost used up our hour.  So let's 'talk turkey' as they say.  Do you *like* to program?}]
+    {Perhaps you think that's funny.  But this was quite a while before the Internet or StackOverflow...so there was nowhere to read or get guidance about how such things were done.  Imagine how mad I was--years later--when I learned about assemblers, compilers, and cross-compilers!}
 
-{My response was to go into some amount of detail about how I'd written that first screen editor.  I described some of the issues, and a wall I'd hit, and how I'd worked around it...and that I did all this in the machine language monitor.  He followed along with it, and we reached a point something like this:}
+]
 
-[interviewer: <confused> {Okay, right.  Yes--I see then the value would be in the register--that would fix it.  But, what is your point?}]
+heading "Funny Interview Story"
 
-{I just kind of smiled at him.}
+print {I had a job interview where we had been talking for a while.  Due to the fact that I had a track record of writing good code in other departments, he hadn't asked me any coding questions...it was just philosophy.}
 
-[interviewer: {Ohhh.  I see.  Your point is that you wouldn't have done all that if you didn't like to program.  Very well.}]
+dialog [interviewer: <looking at clock> {Well, we've almost used up our hour.  So let's 'talk turkey' as they say.  Do you *like* to program?}]
 
-[heading {Afterword: Jim Butterfield}]
+print {My response was to go into some amount of detail about how I'd written that first screen editor.  I described some of the issues, and a wall I'd hit, and how I'd worked around it...and that I did all this in the machine language monitor.  He followed along with it, and we reached a point something like this:}
 
-{The man whose book taught me machine language apparently died in 2007.  A personal webpage still seems to be up for the moment, still framed in the first person, at [http://pages.pathcom.com/~fjb/Personal%20Computers.html](http://pages.pathcom.com/~fjb/Personal%20Computers.html).  It outlines a talk he gave at York University in 2005, two years before his death, and has this photo:}
+dialog [interviewer: <confused> {Okay, right.  Yes--I see then the value would be in the register--that would fix it.  But, what is your point?}]
 
-[image http://blog.hostilefork.com/media/machine-language-commodore-64-128/jim-butterfield.jpg 252x305 {Jim Butterfield photo from 2005 site}]
+print "I just kind of smiled at him."
 
-{I've become very interested in archival efforts of late.  So I'd like to get another copy of the thoughts of a programmer who influenced me up as a bit more insurance against it disappearing.  Regarding potential copyright claims from his ghost, see his disappointed remark in the talk below:}
+dialog [interviewer: {Ohhh.  I see.  Your point is that you wouldn't have done all that if you didn't like to program.  Very well.}]
 
-[quote {At that time, Dr. Dobbs was conceived as a public domain vehicle; all material in it was free from copyright.  The publication still exists, but the whimsical name has been truncated to "Dr. Dobbs Journal." ... and its contents are now copyright.}]
+heading "Afterword: Jim Butterfield"
 
-{Telling that I would have learned machine language from a good and honest communicator!  If I'd been a bit faster about historical investigation, I might have written him a letter to thank him.  Hopefully he is sipping tropical drinks with 0s and 1s on a beach in Digital Heaven somewhere.  But either way, I'll offer a bit of immortality via a reprint here.}
+print {The man whose book taught me machine language apparently died in 2007.  A personal webpage still seems to be up for the moment, still framed in the first person, at [http://pages.pathcom.com/~fjb/Personal%20Computers.html](http://pages.pathcom.com/~fjb/Personal%20Computers.html).  It outlines a talk he gave at York University in 2005, two years before his death, and has this photo:}
 
-[note {Oddly enough, I seem to have one of the few copies online of Turing's thesis when [reframed in his own words for the layman](http://blog.hostilefork.com/turing-thesis-laymans-terms/).  Yet puzzlingly, I am the top Google rank hit for that strangely rare text (at time of writing).  Perhaps I should jump in and preserve more when I see a chance to.}]
+image [http://blog.hostilefork.com/media/machine-language-commodore-64-128/jim-butterfield.jpg 252x305 "Jim Butterfield photo from 2005 site"]
 
-[quote
-	{The following material is speaking notes for a presentation I made at York University on Friday March 18th, 2005.  Since they are speaking notes, they are not exactly in publication form; and, at the presentation, I might well have omitted some material and added other stuff (especially in response to questions).}
+print {I've become very interested in archival efforts of late.  So I'd like to get another copy of the thoughts of a programmer who influenced me up as a bit more insurance against it disappearing.  Regarding potential copyright claims from his ghost, see his disappointed remark in the talk below:}
 
-	{Information on the York University Museum for early microcomputers can be obtained from: See [http://www.cse.yorku.ca/museum/](http://www.cse.yorku.ca/museum/)}
+quote {At that time, Dr. Dobbs was conceived as a public domain vehicle; all material in it was free from copyright.  The publication still exists, but the whimsical name has been truncated to "Dr. Dobbs Journal." ... and its contents are now copyright.}
 
-	{There is also a microcomputer museum in Brantford, Ontario.  See [http://www.pcmuseum.ca](http://www.pcmuseum.ca)}
+print {Telling that I would have learned machine language from a good and honest communicator!  If I'd been a bit faster about historical investigation, I might have written him a letter to thank him.  Hopefully he is sipping tropical drinks with 0s and 1s on a beach in Digital Heaven somewhere.  But either way, I'll offer a bit of immortality via a reprint here.}
 
-	[heading {I. A little about myself}]
+note {Oddly enough, I seem to have one of the few copies online of Turing's thesis when [reframed in his own words for the layman](http://blog.hostilefork.com/turing-thesis-laymans-terms/).  Yet puzzlingly, I am the top Google rank hit for that strangely rare text (at time of writing).  Perhaps I should jump in and preserve more when I see a chance to.}
 
-	{I'm Jim Butterfield. My first encounters with computers took place back in 1963.  My background was math and electronics, working mostly in the field of telecommunications.  My first machine was a computer nobody had heard of: the Collins C8401, programmed in assembly language.}
+quote [
 
-	{So when microcomputers started to arrive in 1976, I had an advantage over most hobbyists:  I'd worked with computers for a dozen years or more.  I was in a good position to write about these devices, which were unfamiliar to most readers. And I did so.}
+    print << [
 
-	{Most of my experience was with Commodore computers.  What follows will be from that viewpoint, and I'll talk almost exclusively about the 8-bit world.  It was a fun time.}
+        {The following material is speaking notes for a presentation I made at York University on Friday March 18th, 2005.  Since they are speaking notes, they are not exactly in publication form; and, at the presentation, I might well have omitted some material and added other stuff (especially in response to questions).}
 
-	{I should mention that I have never been an employee of Commodore, or owned stock in the company. My viewpoint is that of an outsider, although Commodore personnel have always been open and frank in responding to the many questions I have asked over the years.}
+        {Information on the York University Museum for early microcomputers can be obtained from: See [http://www.cse.yorku.ca/museum/](http://www.cse.yorku.ca/museum/)}
 
-	[heading {II. Industry prologue}]
+        {There is also a microcomputer museum in Brantford, Ontario.  See [http://www.pcmuseum.ca](http://www.pcmuseum.ca)}
 
-	{By 1963, transistors had replaced vacuum tubes, and the industry had settled into a form of stability.  Although there were a number of computer manufacturers, IBM enjoyed over two-thirds of the market. Industry watchers often referred to ‘IBM and the seven dwarfs.'}
+    ]
 
-	{Why did IBM dominate?  In part, it was because they had been in the data processing business long before the arrival of computers.  Using Hollerith punched cards, IBM had an array of "unit record" equipment such as keypunch devices, tabulators, and sorters; they had decades of experience in handling data.}
+    heading "I. A little about myself"
 
-	{A second reason for IBM's strength was that they leased their equipment rather than selling it. And with the lease came support, with system engineers on site or on call. Industry people talked about being sheltered by the "IBM umbrella."}
+    print << [
 
-	{And, as a general rule, software was free.  Assemblers, compilers, report generators ... phone your IBM rep and he'd send over a copy.  Need personnel training?  IBM would do it free.  Or, at least, at no extra charge.}
+        {I'm Jim Butterfield. My first encounters with computers took place back in 1963.  My background was math and electronics, working mostly in the field of telecommunications.  My first machine was a computer nobody had heard of: the Collins C8401, programmed in assembly language.}
 
-	[heading {III. Underground fun}]
+        {So when microcomputers started to arrive in 1976, I had an advantage over most hobbyists:  I'd worked with computers for a dozen years or more.  I was in a good position to write about these devices, which were unfamiliar to most readers. And I did so.}
 
-	{Even in those days, computer programmers and operators would have secret amusements.  Secret, because senior management would have misgivings about ‘horsing around' on a multi-million dollar computer.}
+        {Most of my experience was with Commodore computers.  What follows will be from that viewpoint, and I'll talk almost exclusively about the 8-bit world.  It was a fun time.}
 
-	{Pictures were drawn on the line printer, patterns generated on punched card or paper tape, games were created and played, jokes were being played on co-workers, and music was being played on these computers.  Note how the word ‘play' seems to be repeated.}
+        {I should mention that I have never been an employee of Commodore, or owned stock in the company. My viewpoint is that of an outsider, although Commodore personnel have always been open and frank in responding to the many questions I have asked over the years.}
 
-	{The seemingly impossible job of playing music on computers that had no speakers was accomplished in several ways.  The hammers of line printers could be carefully timed to produce sounds of a selected pitch; the paper-advance chain could be declutched and made to furnish drum rhythms.  And a transistor radio placed adjacent to the CPU, where it would pick up the electromagnetic emissions, would play a selection of popular numbers.}
+    ]
 
-	[heading {IV. Transitions}]
+    heading "II. Industry prologue"
 
-	{In the time frame between 1963 and 1971, there were a number of changes that helped shape the nature of microcomputers-to-come.}
+    print << [
 
-	{Minicomputers started to gain acceptance in 1965 with the Digital Equipment Corporation PDP-8.  These "minis" were stripped-down computers, designed to sell for a paltry $10,000 or so.  In the early days, magnetic core memory was a major cost impediment, and attempts were made to circumvent it with other resources.  I recall that the PDP-8S used a serial memory (a mercury column delay line).  It was said that if you stamped on the floor, you could change its memory contents.}
+        {By 1963, transistors had replaced vacuum tubes, and the industry had settled into a form of stability.  Although there were a number of computer manufacturers, IBM enjoyed over two-thirds of the market. Industry watchers often referred to ‘IBM and the seven dwarfs.'}
 
-	{Minicomputer technology didn't have much effect on future microcomputers.  But it's interesting to note that a powerful user group, DECUS, grew around the PDP series, and may have been a precursor to microcomputer user groups that appeared much later.}
+        {Why did IBM dominate?  In part, it was because they had been in the data processing business long before the arrival of computers.  Using Hollerith punched cards, IBM had an array of "unit record" equipment such as keypunch devices, tabulators, and sorters; they had decades of experience in handling data.}
 
-	{In 1965, General Electric introduced "Time-Sharing" service, where users could concurrently make use of a central computer.  The terminal device was usually a Teletype™ machine.  The major impact of time-sharing on the future microcomputers was its choice of language:  Basic, both adored and vilified.}
+        {A second reason for IBM's strength was that they leased their equipment rather than selling it. And with the lease came support, with system engineers on site or on call. Industry people talked about being sheltered by the "IBM umbrella."}
 
-	{By 1971, the expensive and labour-intensive magnetic core memory that had been the heart of computers started to be replaced by semiconductor memory.  This set the stage for ongoing price reductions, which we still see today.}
+        {And, as a general rule, software was free.  Assemblers, compilers, report generators ... phone your IBM rep and he'd send over a copy.  Need personnel training?  IBM would do it free.  Or, at least, at no extra charge.}
 
-	{This, in turn, spawned another product that was to become important in the future microcomputer world:  the floppy disk.  Magnetic core memory had been non-volatile:  once loaded, it kept its contents even when power was off.  Semiconductor memory needed to be reloaded, and the 8-inch floppy disk was created by IBM for this purpose.  Initially, it was a read-only device, whose contents would be created at the IBM production facility.}
+    ]
 
-	[heading {V. Emergence of LSI: Viatron (1970), then Intel (1971)}]
+    heading "III. Underground fun"
 
-	{As fabrication techniques were advanced, more and more elements could be packed onto an integrated circuit chip.  The first chips were flip-flops and gates.  Then came larger assemblies such as shift registers and ALUs (arithmetic/logic units). Inevitably, a complete CPU (Central Processing Unit) would be placed onto a single chip.  With a collection of chips such as CPU, memory, input/output, and some sort of control logic in a ROM (Read Only Memory), a complete computer system could be put together.}
+    print << [
 
-	{The first microcomputer that I know of was made in 1970 by an almost-forgotten company called Viatron.  Viatron's main marketing thrust was terminal devices as inexpensive substitutes for Teletype™ machines, which were priced in the $1,000 to $1,500 region.}
+        {Even in those days, computer programmers and operators would have secret amusements.  Secret, because senior management would have misgivings about ‘horsing around' on a multi-million dollar computer.}
 
-	{Viatron's concept and design was good, and they advertised massivly in Datamation magazine.  But their fabrication plant had poor chip yields, and eventually they disappeared from the scene.}
+        {Pictures were drawn on the line printer, patterns generated on punched card or paper tape, games were created and played, jokes were being played on co-workers, and music was being played on these computers.  Note how the word ‘play' seems to be repeated.}
 
-	{The Viatron era called for some technical innovation.  CRT display devices were rare and generally costly; modestly priced printers were virtually unknown.  Viatron's use of converted television displays and "printing robots" seems quaint today.}
+        {The seemingly impossible job of playing music on computers that had no speakers was accomplished in several ways.  The hammers of line printers could be carefully timed to produce sounds of a selected pitch; the paper-advance chain could be declutched and made to furnish drum rhythms.  And a transistor radio placed adjacent to the CPU, where it would pick up the electromagnetic emissions, would play a selection of popular numbers.}
 
-	{Intel entered the microcomputer field in 1971 with the 4004. It seems almost as if Intel wasn't planning this as a product; they needed to find a quick way to fulfil their contract to build a calculator for a Japanese firm, and devising and programming a microcomputer seemed to be the quickest method. But once the 4004 had been devised, the electronics industry accepted it quickly as a general-purpose component which replaced wiring with code. Motorola announced their 6800 chip very quickly.}
+    ]
 
-	[heading {VI. The emergence of "hobby" micros; early user groups}]
+    heading "IV. Transitions"
 
-	{There was a rush to build.  Even before computers were offered in kit form, hobbyists were salvaging parts and building logic devices.  A friend of mine, Julien Dubé, salvaged some magnetic core memory from a telecommunications relay device, and restrung the little ferromagnetic doughnuts into a working memory, with a view to creating a small computer of his own design.}
+    print << [
 
-	{Kits came on the market from various small entrepreneurs.  Electronic houses produced their own versions, which consisted of a circuit board and a bunch of chips loose in a plastic bag.  Sometimes the supplied circuit boards had printed circuit connections; other times you were expected to make the connections yourself using wire wrap techniques (rarely soldering).  Sometimes the parts worked, sometimes they were defective, and sometimes incorrect wiring would wreck the chip.  A saying of the times was, "All computer chips are powered by smoke; if the smoke gets out, the chip will fail."}
+        {In the time frame between 1963 and 1971, there were a number of changes that helped shape the nature of microcomputers-to-come.}
 
-	{When the December 1975 issue of Popular Electronics described the Altair 8800 computer, available in kit form for about $500, the computer hobbyist world took off.}
+        {Minicomputers started to gain acceptance in 1965 with the Digital Equipment Corporation PDP-8.  These "minis" were stripped-down computers, designed to sell for a paltry $10,000 or so.  In the early days, magnetic core memory was a major cost impediment, and attempts were made to circumvent it with other resources.  I recall that the PDP-8S used a serial memory (a mercury column delay line).  It was said that if you stamped on the floor, you could change its memory contents.}
 
-	{The Apple I was also a kit that you needed to assemble yourself.  The founders of Apple – Wozniak and Jobs – liked the new, inexpensive 6502 chip, and designed their system around it.}
+        {Minicomputer technology didn't have much effect on future microcomputers.  But it's interesting to note that a powerful user group, DECUS, grew around the PDP series, and may have been a precursor to microcomputer user groups that appeared much later.}
 
-	{Users started to get together and swap notes.  In the Toronto area, TRACE (Toronto Regional Association of Computer Enthusiasts) was under way in early 1976.  An amazing assortment of machines was under construction.  Some liked the Intel 4004 or 8008, some the Motorola 6800. Memory was whatever came to hand, seldom more than 256 bytes.  And input/output ... paper tape, toggle switches, home-brew keyboards, LED or LCD character or numeric displays, arrays of LED lights.  Whatever you could get your hands on, or afford.  There was little commonality between one home-brew machine and the next.}
+        {In 1965, General Electric introduced "Time-Sharing" service, where users could concurrently make use of a central computer.  The terminal device was usually a Teletype™ machine.  The major impact of time-sharing on the future microcomputers was its choice of language:  Basic, both adored and vilified.}
 
-	{Oddly, few of the builders had any idea of what to do with the computer once it was complete. This may have been due, in part, to the shortage of programming skills; and lack of standardization across the assortment of machines also posed difficulties in conceptualization.}
+        {By 1971, the expensive and labour-intensive magnetic core memory that had been the heart of computers started to be replaced by semiconductor memory.  This set the stage for ongoing price reductions, which we still see today.}
 
-	{In 1977 and 1978, the Ontario Science Centre invited TRACE members to display their home computers to the public.  One member's computer controlled a model train set; another played simple logic games; one played simple music tunes. And I believe a couple just sat there, perhaps blinked lights, and looked pretty.}
+        {This, in turn, spawned another product that was to become important in the future microcomputer world:  the floppy disk.  Magnetic core memory had been non-volatile:  once loaded, it kept its contents even when power was off.  Semiconductor memory needed to be reloaded, and the 8-inch floppy disk was created by IBM for this purpose.  Initially, it was a read-only device, whose contents would be created at the IBM production facility.}
 
-	[heading {VII. The struggle for standards}]
+    ]
 
-	{There was an attempt to introduce some standards into this tower of Bit Babel.  Two areas of concern seemed to be: a standard wiring concept, to connect several boards; secondly, a way to exchange data.}
+    heading {V. Emergence of LSI: Viatron (1970), then Intel (1971)}
 
-	{The S-100 bus was conceived as a standardized way to pass information between the various units of the computer.  It included schemes for pin numbering and for power distribution.  It was in use for a number of years until the IBM PC juggernaut took over.}
+    print << [
 
-	{A form of standardization existed for paper tape input and output, carried over from teleprinter days. An attempt was made to generate an audio data standard, mostly for data storage on cassette tapes, called the Kansas City Standard.  It didn't take hold.}
+        {As fabrication techniques were advanced, more and more elements could be packed onto an integrated circuit chip.  The first chips were flip-flops and gates.  Then came larger assemblies such as shift registers and ALUs (arithmetic/logic units). Inevitably, a complete CPU (Central Processing Unit) would be placed onto a single chip.  With a collection of chips such as CPU, memory, input/output, and some sort of control logic in a ROM (Read Only Memory), a complete computer system could be put together.}
 
-	{The Basic language was starting to creep into the scene.  Hot debates were taking place between users on the west coast of the USA as to how a simple Basic interpreter could be constructed in a small amount of memory storage:  8K, 4K, or even 2K.  "Tiny Basic" was produced as a free program; to publish it, the authors started a publication which they called "Dr. Dobbs Journal of Computer Calisthenics and Orthodontia."  At that time, Dr. Dobbs was conceived as a public domain vehicle; all material in it was free from copyright.  The publication still exists, but the whimsical name has been truncated to "Dr. Dobbs Journal." ... and its contents are now copyright.}
+        {The first microcomputer that I know of was made in 1970 by an almost-forgotten company called Viatron.  Viatron's main marketing thrust was terminal devices as inexpensive substitutes for Teletype™ machines, which were priced in the $1,000 to $1,500 region.}
 
-	{A side comment on whimsical names: when Gary Kildall developed a standard operating system, he called his distribution company "Intergalactic Digital Research."  A few years later, as IBM entered the field, the "Intergalactic" was dropped.  In a similar vein, Commodore called their first home computer "PET", perhaps after the "Pet Rock" fad; but later regretted the name as they tried to convince the marketplace that their products were serious business machines.  I'm sure they were not influenced by the fact that "PET" means flatulence in French.}
+        {Viatron's concept and design was good, and they advertised massivly in Datamation magazine.  But their fabrication plant had poor chip yields, and eventually they disappeared from the scene.}
 
-	[heading {VIII. The KIM-1}]
+        {The Viatron era called for some technical innovation.  CRT display devices were rare and generally costly; modestly priced printers were virtually unknown.  Viatron's use of converted television displays and "printing robots" seems quaint today.}
 
-	{My first microcomputer – other than a logic device powered by rubber bands that I had constructed years before – was the MOS Technology KIM-1.  KIM stands for "Keyboard Input Monitor", which was the operating system of this tiny single-board machine.}
+        {Intel entered the microcomputer field in 1971 with the 4004. It seems almost as if Intel wasn't planning this as a product; they needed to find a quick way to fulfil their contract to build a calculator for a Japanese firm, and devising and programming a microcomputer seemed to be the quickest method. But once the 4004 had been devised, the electronics industry accepted it quickly as a general-purpose component which replaced wiring with code. Motorola announced their 6800 chip very quickly.}
 
-	{The "engine" of the KIM-1 is a 6502 microprocessor.  This chip was designed by a group of ex-Motorola employees, who took the design of the Motorola 6800 and introduced new concepts and improvements.  Leading the team was Chuck Peddle, a name you'll hear again in this presentation.}
+    ]
 
-	{The 6502 was a late arrival into the early microprocessor world.  Motorola and Intel chips had already gained acceptance; and even though the 6502 would outperform them, its merits were not immediately recognized.  So MOS Technology priced the chip well below the competition: the 6502 was $25 in single unit quantities; competitive chips were around $150 and had to be ordered in batches of 100.}
+    heading {VI. The emergence of "hobby" micros; early user groups}
 
-	{After the 6502 was completed, and legal disputes settled, MOS Technology decided that they should produce an "engineering sampler" board, which would show what the chip could do.  They populated the board not only with microprocessor, RAM, and input/output; they also added a teletype interface, an LED display, a 20-key keypad, a facility for audio output and input (to save programs), and an operating system called KIM.  And the board was factory-assembled; all you had to do was to add a power supply and you had a complete system.}
+    print << [
 
-	{Here's the important part: because the board came pre-assembled, everyone had exactly the same system.  For the first time, you could swap programs with other users and be confident that they would work without being "touched up" to fit the system.}
+        {There was a rush to build.  Even before computers were offered in kit form, hobbyists were salvaging parts and building logic devices.  A friend of mine, Julien Dubé, salvaged some magnetic core memory from a telecommunications relay device, and restrung the little ferromagnetic doughnuts into a working memory, with a view to creating a small computer of his own design.}
 
-	{I wrote a few programs – games, amusements, utilities – and wrote MOS Technology to see if anyone wanted them.  They wanted them for themselves in order to demonstrate the KIM-1, and had also heard from a fellow in the Cleveland area who was starting a newsletter. And thus began "Kim User Notes", edited by Eric Rehnke.}
+        {Kits came on the market from various small entrepreneurs.  Electronic houses produced their own versions, which consisted of a circuit board and a bunch of chips loose in a plastic bag.  Sometimes the supplied circuit boards had printed circuit connections; other times you were expected to make the connections yourself using wire wrap techniques (rarely soldering).  Sometimes the parts worked, sometimes they were defective, and sometimes incorrect wiring would wreck the chip.  A saying of the times was, "All computer chips are powered by smoke; if the smoke gets out, the chip will fail."}
 
-	{The newsletter acquired hundreds of subscribers.  MOS Technology must have been amazed to see this intended engineering prototype become a popular home gizmo.  In time, it also became widely used as a training device.}
+        {When the December 1975 issue of Popular Electronics described the Altair 8800 computer, available in kit form for about $500, the computer hobbyist world took off.}
 
-	{About that time, I heard from a young fellow who worked at Honeywell who said he was working on a program for the KIM-1.  His name was Peter Jennings, and his project was to write a chess-playing program in the KIM's tiny 1K of RAM.  He did it, too.  In these days of gigabyte memory, it's sometimes refreshing to think that Peter could play chess with only a little over 1K ... even if it didn't play at a grandmaster level.  Peter later went on to be one of the creators of code for Visicalc, the first microcomputer spreadsheet program.}
+        {The Apple I was also a kit that you needed to assemble yourself.  The founders of Apple – Wozniak and Jobs – liked the new, inexpensive 6502 chip, and designed their system around it.}
 
-	[heading {IX. Publications, and The First Book of KIM}]
+        {Users started to get together and swap notes.  In the Toronto area, TRACE (Toronto Regional Association of Computer Enthusiasts) was under way in early 1976.  An amazing assortment of machines was under construction.  Some liked the Intel 4004 or 8008, some the Motorola 6800. Memory was whatever came to hand, seldom more than 256 bytes.  And input/output ... paper tape, toggle switches, home-brew keyboards, LED or LCD character or numeric displays, arrays of LED lights.  Whatever you could get your hands on, or afford.  There was little commonality between one home-brew machine and the next.}
 
-	{Meanwhile, there had been a few personal-computer publications. During his time with a minicomputer firm, David Ahl had gathered together various games that users had contributed, and published "101 Basic Games".  On the west coast, Bob Albrecht had formed a group called "People's Computer" and had produced a similar volume entitled "What To Do After You Hit Return."  In both books, the programs were supplied in the language Basic.  They could be played on time-sharing systems, or Basic could be fitted to those computers that had enough memory – not very many of them in the early days.}
+        {Oddly, few of the builders had any idea of what to do with the computer once it was complete. This may have been due, in part, to the shortage of programming skills; and lack of standardization across the assortment of machines also posed difficulties in conceptualization.}
 
-	{Meanwhile, we KIM-1 users were contributing lots of programs to be printed in KIM User Notes.  I suggested to another user, Stan Ockers, that perhaps we should bundle them together and put them into a book.  The editor of the Notes, Eric Rehnke joined us in the enterprise and we privately printed The First Book of KIM.}
+        {In 1977 and 1978, the Ontario Science Centre invited TRACE members to display their home computers to the public.  One member's computer controlled a model train set; another played simple logic games; one played simple music tunes. And I believe a couple just sat there, perhaps blinked lights, and looked pretty.}
 
-	{As best I recall, we estimated our market at about 600 copies.  We printed 2,000, sold about 1,000, and the remaining copies burned up in a garage fire. There was still demand for the book; people got mad at us when we said we had no more copies.  So a publisher picked up the demand, and many thousands more were sold.  There were also two editions printed in Germany, one authorized and one pirated.  The authorized publisher never sent any royalties; the pirate publisher sent us secret payments.  Go figure.}
+    ]
 
-	[heading {X. Commodore stumbles into the computer market}]
+    heading "VII. The struggle for standards"
 
-	{In late 1976, we heard that MOS Technology had been acquired by a firm called Commodore, which was known for making office furniture and calculators.  There was to be a new microcomputer system called the PET.}
+    print << [
 
-	{The KIM-1 thus became a Commodore product, which is why I sometimes say that I programmed Commodore computers before they made computers.}
+        {There was an attempt to introduce some standards into this tower of Bit Babel.  Two areas of concern seemed to be: a standard wiring concept, to connect several boards; secondly, a way to exchange data.}
 
-	{Jack Tramiel was the founder of Commodore Business Machines.  A former inmate of Auschwitz, Tramiel had started out with a part-time typewriter repair shop in the Bronx, supplemented by driving a taxi. In 1962, he moved to Toronto and set up a typewriter manufacturing business.  He soon switched to calculators, and these devices soon made the transition from mechanical devices to electronics.}
+        {The S-100 bus was conceived as a standardized way to pass information between the various units of the computer.  It included schemes for pin numbering and for power distribution.  It was in use for a number of years until the IBM PC juggernaut took over.}
 
-	{In October 1976, Tramiel took over MOS Technologies, which he perceived as a manufacturer of display devices and semiconductors.  He got more than he bargained for.  He also got Chuck Peddle, the designer of the 6502 chip.  And Peddle was determined to build a home computer.}
+        {A form of standardization existed for paper tape input and output, carried over from teleprinter days. An attempt was made to generate an audio data standard, mostly for data storage on cassette tapes, called the Kansas City Standard.  It didn't take hold.}
 
-	{Peddle had taken a look at a prototype version of the Apple ][, and had wondered if Commodore should buy the company.  He eventually decided that Commodore should build a home computer of their own design, and quickly talked Tramiel into it.  An early model of the PET was shown to Radio Shack, in the hopes that they would sell the unit; but Radio Shack, in turn, opted to build their own home computer.}
+        {The Basic language was starting to creep into the scene.  Hot debates were taking place between users on the west coast of the USA as to how a simple Basic interpreter could be constructed in a small amount of memory storage:  8K, 4K, or even 2K.  "Tiny Basic" was produced as a free program; to publish it, the authors started a publication which they called "Dr. Dobbs Journal of Computer Calisthenics and Orthodontia."  At that time, Dr. Dobbs was conceived as a public domain vehicle; all material in it was free from copyright.  The publication still exists, but the whimsical name has been truncated to "Dr. Dobbs Journal." ... and its contents are now copyright.}
 
-	{Commodore had undergone some trauma in its organization and financing.  As part of a new corporate financing deal, corporate headquarters was moved to the Bahamas, and administrative offices were set up in the Philadelphia area. But Tramiel's heart apparently remained in Toronto.  The corporate airplane – the PET jet – was often to be seen in a hangar at Pearson airport during the many years that followed.}
+        {A side comment on whimsical names: when Gary Kildall developed a standard operating system, he called his distribution company "Intergalactic Digital Research."  A few years later, as IBM entered the field, the "Intergalactic" was dropped.  In a similar vein, Commodore called their first home computer "PET", perhaps after the "Pet Rock" fad; but later regretted the name as they tried to convince the marketplace that their products were serious business machines.  I'm sure they were not influenced by the fact that "PET" means flatulence in French.}
 
-	[heading {XI. Apple, Commodore, Tandy}]
+    ]
 
-	{Three companies – Apple, Commodore, and Radio Shack – seemed to announce their models of a home computer simultaneously. The question of "who was first?" will never be solved. Commodore displayed the PET at the Consumer Electronics show in January 1977.  Apple sold its first unit at the March West Coast Computer Faire.  Radio Shack didn't enter the field with the TRS-80 until August, but they were able to sell units in quantity right away.}
+    heading "VIII. The KIM-1"
 
-	{Here in Toronto, we first saw Commodore computers in quantity at the Canadian National Exhibition.  One of the Ex's themes for that year was "chess".  Commodore furnished dozens of PET computers, furnished with Peter Jennings' Microchess program, at a site in the Coliseum area; visitors were invited to sit down and play chess.}
+    print << [
 
-	{With little access to a dealer network, Commodore had a curious method of achieving sales.  Buyers would send Commodore money – about $600 US – and Commodore expected that they would ship the PET within three months!  A lot of PET deliveries in this area took place immediately after the CNE closed.}
+        {My first microcomputer – other than a logic device powered by rubber bands that I had constructed years before – was the MOS Technology KIM-1.  KIM stands for "Keyboard Input Monitor", which was the operating system of this tiny single-board machine.}
 
-	[heading {XII. Commodore Design Excellence}]
+        {The "engine" of the KIM-1 is a 6502 microprocessor.  This chip was designed by a group of ex-Motorola employees, who took the design of the Motorola 6800 and introduced new concepts and improvements.  Leading the team was Chuck Peddle, a name you'll hear again in this presentation.}
 
-	{The Commodore PET was a remarkable machine in many ways, with features you did not find on its competitors of the time.  Many might be considered ahead of their time.}
+        {The 6502 was a late arrival into the early microprocessor world.  Motorola and Intel chips had already gained acceptance; and even though the 6502 would outperform them, its merits were not immediately recognized.  So MOS Technology priced the chip well below the competition: the 6502 was $25 in single unit quantities; competitive chips were around $150 and had to be ordered in batches of 100.}
 
-	{The PET, and all following 8-bit products, had "screen editing". Instead of receiving information from the keyboard, the operating system transferred the received keystrokes to the computer screen.  When a RETURN key was pressed, the system then read from the current line of the screen, and took the data from there.  This made screen editing simple and truly WYSIWYG ("what you see is what you get"), and later allowed some elegant programming tricks. This was far from intuitive back in the days when much computing was based on teleprinter input.}
+        {After the 6502 was completed, and legal disputes settled, MOS Technology decided that they should produce an "engineering sampler" board, which would show what the chip could do.  They populated the board not only with microprocessor, RAM, and input/output; they also added a teletype interface, an LED display, a 20-key keypad, a facility for audio output and input (to save programs), and an operating system called KIM.  And the board was factory-assembled; all you had to do was to add a power supply and you had a complete system.}
 
-	{Associated with this was the concept of keyboard interrupt handling.  Since most keystrokes were collected into a buffer for subsequent delivery to the screen, the main system could ignore them and go on with whatever job it was doing, allowing an interrupt service to take care of this.  The result was a "type-ahead" feature, not seen on other contemporary computers; for those, the keyboard was dead until a program specifically asked for input.}
+        {Here's the important part: because the board came pre-assembled, everyone had exactly the same system.  For the first time, you could swap programs with other users and be confident that they would work without being "touched up" to fit the system.}
 
-	{Computer input was thought of in those days as a teleprinter device or equivalent. As such, input and output was upper case only; a full ASCII capability was unheard of. Commodore added an upper/lower case facility to the PET. However, the fixation on upper case was such that lower case was "inverted" – that is, you had to shift to get lower case letters.  The Radio Shack TRS-80 had no lower case; the Apple ][ had "slots", or board plug-in positions, where upper/lower case could be added at a later time.}
+        {I wrote a few programs – games, amusements, utilities – and wrote MOS Technology to see if anyone wanted them.  They wanted them for themselves in order to demonstrate the KIM-1, and had also heard from a fellow in the Cleveland area who was starting a newsletter. And thus began "Kim User Notes", edited by Eric Rehnke.}
 
-	{The Commodore PET was introduced without peripherals such as printer or floppy disk; it took almost a year for these devices to appear. But the interface was already in place, and it was an interesting one: the Hewlett-Packard GPIB ("General Purpose Interface Bus"), also know as the IEEE-488 bus.  It was possible right from the start to connect to specialized devices, such as sensors, which had already been devised for this bus.  When the Commodore disk drives and printers appeared, they would string together on this bus. It was decades before the introduction of the USB ("Universal Serial Bus") would use a similar scheme.}
+        {The newsletter acquired hundreds of subscribers.  MOS Technology must have been amazed to see this intended engineering prototype become a popular home gizmo.  In time, it also became widely used as a training device.}
 
-	{The use of such a bus called for intelligent peripherals.  When the Commodore devices finally appeared, they had their own microcontrollers and logic; in the case of disk drives, that included a sophisticated DOS, which wrote data to disk in a more sophisticated way than other drives of that generation.  Although "back end computers" were known in the mainframe environment, their use in the micro world was, to put it mildly, innovative.  Meanwhile, competing machines of the era had to have DOS loaded into the main computer.}
+        {About that time, I heard from a young fellow who worked at Honeywell who said he was working on a program for the KIM-1.  His name was Peter Jennings, and his project was to write a chess-playing program in the KIM's tiny 1K of RAM.  He did it, too.  In these days of gigabyte memory, it's sometimes refreshing to think that Peter could play chess with only a little over 1K ... even if it didn't play at a grandmaster level.  Peter later went on to be one of the creators of code for Visicalc, the first microcomputer spreadsheet program.}
 
-	{Commodore somehow made a deal with Microsoft for a perpetual license for Microsoft Basic. I don't know of any other manufacturer who obtained such a license, and it gave Commodore a major competitive edge for the entire life of its eight-bit products.  Microsoft had not at that time achieved major sales, and Bill Gates was complaining loudly and publicly about software piracy. Perhaps Tramiel and Peddle offered a deal that appeared attractive for the time. Microsoft later regretted the deal, and internal memos within Commodore urged employees to disclose no information about Basic, for fear of litigation.}
+    ]
 
-	{In contrast, Apple initially had only "integer Basic", whose arithmetic was based on 16-bit integers.  This gave speed, but limited the usage.  The Radio Shack TRS-80 had "tiny Basic", as published in Doctor Dobbs Journal.  Eventually, both of them migrated to Microsoft Basic; but royalty payments to Microsoft became a factor in their product pricing.}
+    heading "IX. Publications, and The First Book of KIM"
 
-	{Even when the competition joined the Microsoft bandwagon, the Commodore version still had an advantage.  "Commodore Basic," as it was called, had a 32-bit mantissa, which computer techs will tell you produces about 10 decimal digits of numeric accuracy. Other versions had only a 24-bit mantissa, perhaps to enhance speed; but this will give an accuracy of only about 7 digits, which is not enough for financial work.}
+    print << [
 
-	[heading {XIII. The growth of publications: Newsletters to Newsstands}]
+        {Meanwhile, there had been a few personal-computer publications. During his time with a minicomputer firm, David Ahl had gathered together various games that users had contributed, and published "101 Basic Games".  On the west coast, Bob Albrecht had formed a group called "People's Computer" and had produced a similar volume entitled "What To Do After You Hit Return."  In both books, the programs were supplied in the language Basic.  They could be played on time-sharing systems, or Basic could be fitted to those computers that had enough memory – not very many of them in the early days.}
 
-	{A proliferation of magazines and newsletters came with the advances in microcomputer technology.}
+        {Meanwhile, we KIM-1 users were contributing lots of programs to be printed in KIM User Notes.  I suggested to another user, Stan Ockers, that perhaps we should bundle them together and put them into a book.  The editor of the Notes, Eric Rehnke joined us in the enterprise and we privately printed The First Book of KIM.}
 
-	{Like Doctor Dobbs, BYTE magazine arrived early.  Its first year contained articles such as how to build your own wire-wrap tool out of a ballpoint refill, and how to punch paper tape so that humans could hold it up to the light and read actual text.}
+        {As best I recall, we estimated our market at about 600 copies.  We printed 2,000, sold about 1,000, and the remaining copies burned up in a garage fire. There was still demand for the book; people got mad at us when we said we had no more copies.  So a publisher picked up the demand, and many thousands more were sold.  There were also two editions printed in Germany, one authorized and one pirated.  The authorized publisher never sent any royalties; the pirate publisher sent us secret payments.  Go figure.}
 
-	{The Commodore world hosted many newsletters.  "The PET Paper" was told by Commodore to remove the PET reference, which they viewed as a trademark; it became "The XXX Paper", a title which might raise some eyebrows in this day and age.}
+    ]
 
-	{Len Lindsay published "The PET Gazette". He became overwhelmed by the volume of material arriving, and public begged for someone to take over the job on his behalf.  Robert Lock of Greensboro, North Carolina, did this in autumn of 1979. COMPUTE magazine developed into a major publication; in the late 1960s, it became the largest selling microcomputer publication of them all. It ceased publication in the late 90s.}
+    heading "X. Commodore stumbles into the computer market"
 
-	{"The Transactor" began as a single sheet newsletter issued by Commodore Canada. After a couple of issues, a young fellow called Karl Hildon was hired to keep it going as a customer information vehicle.  Hildon built it into a respectable technical journal.  When Commodore tired of it, Hildon found another company in the Toronto area willing to continue publication. The Transactor folded in the late 90s, but was considered a major technical source during its lifetime.}
+    print << [
 
-	[heading {XIV. The Toronto PET User Group – TPUG}]
+        {In late 1976, we heard that MOS Technology had been acquired by a firm called Commodore, which was known for making office furniture and calculators.  There was to be a new microcomputer system called the PET.}
 
-	{Shortly after the arrival of the first few PET computers in Toronto, I received a call from Lyman Duggan, who worked for Marconi. He wanted to know why nobody was organizing a user group; I gave him the usual answer.  So sometime in 1979, about sixteen interested users gathered in the rec room of Lyman's apartment block, and TPUG – at that time, called Club 2001, after the PET 2001 - was born.}
+        {The KIM-1 thus became a Commodore product, which is why I sometimes say that I programmed Commodore computers before they made computers.}
 
-	{Duggan ran TPUG as a private enterprise. He arranged program and location, charged five dollars for attendance, and served coffee and doughnuts.  His wife, Cherie, had cassette tapes containing contributed programs which sold for a dollar or two.}
+        {Jack Tramiel was the founder of Commodore Business Machines.  A former inmate of Auschwitz, Tramiel had started out with a part-time typewriter repair shop in the Bronx, supplemented by driving a taxi. In 1962, he moved to Toronto and set up a typewriter manufacturing business.  He soon switched to calculators, and these devices soon made the transition from mechanical devices to electronics.}
 
-	{Attendance grew rapidly, and Duggan had to seek out ever larger sites for the meetings.  Then, with little warning, his employee posted him to Florida. Duggan quickly nominated a board of directors to replace him, and TPUG became a member's club.}
+        {In October 1976, Tramiel took over MOS Technologies, which he perceived as a manufacturer of display devices and semiconductors.  He got more than he bargained for.  He also got Chuck Peddle, the designer of the 6502 chip.  And Peddle was determined to build a home computer.}
 
-	{The Toronto area had quite a few talented people who could be called upon to make presentations, offer opinions, or disseminate news.  Apart from myself, we had Karl Hildon, editor of The Transactor; Brad Templeton, who later went on to become the publisher of Clarion online service; Steve Punter, who wrote the first major word processor package for Commodore, and numerous others. And I have a special affection for the antics of Brett Butler, one of the first PET owners in the Toronto area, who wrote a tiny program for his wife who was in the late stages of pregnancy: tap any key, and the PET would show time elapsed since the previous contraction.}
+        {Peddle had taken a look at a prototype version of the Apple ][, and had wondered if Commodore should buy the company.  He eventually decided that Commodore should build a home computer of their own design, and quickly talked Tramiel into it.  An early model of the PET was shown to Radio Shack, in the hopes that they would sell the unit; but Radio Shack, in turn, opted to build their own home computer.}
 
-	{Computer enthusiasts were regarded as mavericks.  Few of those who worked in the field of data processing would have any association with microcomputers. I suspect the reasons for this are varied. Perhaps there would be a loss of corporate prestige to admit that those little thousand-dollar machines were capable of taking on some tasks, when DP personnel had million-dollar machines as their private domain. It seemed that some users would believe only what IBM told them; and, at that time, IBM had no interest in giving any credibility to these pesky little machines.}
+        {Commodore had undergone some trauma in its organization and financing.  As part of a new corporate financing deal, corporate headquarters was moved to the Bahamas, and administrative offices were set up in the Philadelphia area. But Tramiel's heart apparently remained in Toronto.  The corporate airplane – the PET jet – was often to be seen in a hangar at Pearson airport during the many years that followed.}
 
-	{There were rebels.  A Vice President of Air Canada used a Commodore PET to plan fuel needs at various airports; but he had to hide his machine from the DP mavens, who didn't approve. A regional education officer in northern Ontario supported microcomputers in schools, and helped assembly a body of educational software; all the while, the Department of Education wanted all educational flow to be centralized.}
+    ]
 
-	{TPUG prospered, and its influence went far beyond Ontario's boundaries, or even those of North America. Today, it may be difficult to comprehend the difficult in distributing free programs across the country or around the world.  We use the internet. Back then, you put cassette tapes in the mail, or, later, floppy disks. And a central clearing point produced better organization.  TPUG was it, for many years; most Commodore clubs across North America became associate TPUG members.}
+    heading "XI. Apple, Commodore, Tandy"
 
-	{Membership reached a peak in 1984 of about 17,000 members.  TPUG now had a full-time staff for handling memberships and mailing requested programs, and another full-time staff to publish the TPUG magazine.  There was a lot of money flowing into TPUG, and it seemed to me that this caused dissention between members of the executive and the staff.}
+    print << [
 
-	{An early online service, "The Source" opened for business in 1979, and was soon followed by another, Compuserve. A service specific to the Commodore 64, Quantum, became available in 1985.  There started to be other ways to distribute programs.  And the internet was coming.}
+        {Three companies – Apple, Commodore, and Radio Shack – seemed to announce their models of a home computer simultaneously. The question of "who was first?" will never be solved. Commodore displayed the PET at the Consumer Electronics show in January 1977.  Apple sold its first unit at the March West Coast Computer Faire.  Radio Shack didn't enter the field with the TRS-80 until August, but they were able to sell units in quantity right away.}
 
-	{Online services, and a shift to other manufacturers computers, caused a further decline in membership. And this caused disputes to become more pronounced.  It's easy to bring in new equipment and new staff in prosperous times; it's not so easy to start cutting back.  Many old-timers dropped out of the TPUG picture.  But TPUG survived, and is still active today. I'm told that the next World of Commodore gathering will take place this December.}
+        {Here in Toronto, we first saw Commodore computers in quantity at the Canadian National Exhibition.  One of the Ex's themes for that year was "chess".  Commodore furnished dozens of PET computers, furnished with Peter Jennings' Microchess program, at a site in the Coliseum area; visitors were invited to sit down and play chess.}
 
-	[heading {XV. Product proliferation}]
+        {With little access to a dealer network, Commodore had a curious method of achieving sales.  Buyers would send Commodore money – about $600 US – and Commodore expected that they would ship the PET within three months!  A lot of PET deliveries in this area took place immediately after the CNE closed.}
 
-	{The original PET 2001 was soon followed by bigger models, with more memory or 80 column screens. Commodore did its best to drop the name PET in favour of CBM, so as to establish a business image. At one time, it even tried to disenfranchise one of its major retail outlets because it thought the name was too frivolous:  Batteries Included.  The outlet set up a subsidiary with a "sensible" name, and continued to handle Commodore machines.}
+    ]
 
-	{Commodore technicians built prototypes of many imaginative machines. One of these, called the TOI, had a colour screen, graphics and sound capability; it eventually became the VIC-20.  The 22-column screen of the VIC-20 made it of little utility with text applications, but it worked well with graphics, and became popular as a game machine. The VIC-20 was still a full-featured computer, complete with the Commodore Basic language, and many people used it to learn computer programming.}
+    heading "XII. Commodore Design Excellence"
 
-	{There's a believable story that, long before, the chip manufacturer Texas Instruments had cost Commodore and Jack Tramiel a great deal of money on plans he had made for a calculator. The story continues that Tramiel swore revenge; and when Texas Instruments came out with a computer of their own, the TI-99, he launched an economic war.}
+    print << [
 
-	{Whatever the truth of the story, it's true that Tramiel was very good at pruning prices, pressing suppliers to drop costs in order to allow him to pitch extremely competitive retail prices.  And with his next product, the Commodore 64, he trashed most of the competition ... including Texas Instruments.}
+        {The Commodore PET was a remarkable machine in many ways, with features you did not find on its competitors of the time.  Many might be considered ahead of their time.}
 
-	{At one point, Commodore was offering $100 as a trade-in for any make or model of computer. Since the Sinclair/Timex Spectrum was selling for about $60 at that time, Commodore received a considerable number of these units, still in their shrink-wrap packaging.  The local user group told me that Commodore had no use for these trade-ins, and they went directly to the trash bit.  At night, members of the club would pick these back out of the trash, and turn them back in the next day for another discount.}
+        {The PET, and all following 8-bit products, had "screen editing". Instead of receiving information from the keyboard, the operating system transferred the received keystrokes to the computer screen.  When a RETURN key was pressed, the system then read from the current line of the screen, and took the data from there.  This made screen editing simple and truly WYSIWYG ("what you see is what you get"), and later allowed some elegant programming tricks. This was far from intuitive back in the days when much computing was based on teleprinter input.}
 
-	{Doctor Wesley Graham, of the Computer Science department of Waterloo University, thought that the CBM computers could be expanded and modified so as to allow students to take language training on them.  Waterloo was already noted for its "training" languages, such as WatFor, a training dialogue of Fortran.  Together with hardware assistance from BMB Compuscience, a retailer and hardware designer in the Milton area, they devised "The SuperPET", a machine with dual processors.  One "side" was a standard CBM computer; the other was a Motorola 6809-based system fitted with several languages. Perhaps the most startling of these was APL ("A Programming Language"), developed by Ken Iverson, which used a completely different character set to undertake its computations.}
+        {Associated with this was the concept of keyboard interrupt handling.  Since most keystrokes were collected into a buffer for subsequent delivery to the screen, the main system could ignore them and go on with whatever job it was doing, allowing an interrupt service to take care of this.  The result was a "type-ahead" feature, not seen on other contemporary computers; for those, the keyboard was dead until a program specifically asked for input.}
 
-	{The SuperPET was well respected and used in training environments, but never became a mainstream machine. I often wondered if adding language compilers – in addition to the interpreters that Waterloo had furnished – might make it world-beating commercial machine.}
+        {Computer input was thought of in those days as a teleprinter device or equivalent. As such, input and output was upper case only; a full ASCII capability was unheard of. Commodore added an upper/lower case facility to the PET. However, the fixation on upper case was such that lower case was "inverted" – that is, you had to shift to get lower case letters.  The Radio Shack TRS-80 had no lower case; the Apple ][ had "slots", or board plug-in positions, where upper/lower case could be added at a later time.}
 
-	[heading {XVI. Fun computers hit their zenith}]
+        {The Commodore PET was introduced without peripherals such as printer or floppy disk; it took almost a year for these devices to appear. But the interface was already in place, and it was an interesting one: the Hewlett-Packard GPIB ("General Purpose Interface Bus"), also know as the IEEE-488 bus.  It was possible right from the start to connect to specialized devices, such as sensors, which had already been devised for this bus.  When the Commodore disk drives and printers appeared, they would string together on this bus. It was decades before the introduction of the USB ("Universal Serial Bus") would use a similar scheme.}
 
-	{Following the success of the 64, Commodore tackled the objective of making a set of scaled-down computers: the Commodore Plus/4 and its smaller cousin, the Commodore 16.  I had some involvement in this product: I was invited to introduce it at the Consumer Electronics Show in Las Vegas, 1984.}
+        {The use of such a bus called for intelligent peripherals.  When the Commodore devices finally appeared, they had their own microcontrollers and logic; in the case of disk drives, that included a sophisticated DOS, which wrote data to disk in a more sophisticated way than other drives of that generation.  Although "back end computers" were known in the mainframe environment, their use in the micro world was, to put it mildly, innovative.  Meanwhile, competing machines of the era had to have DOS loaded into the main computer.}
 
-	{Inside the Plus-4 and Commodore 16 was ... almost ... nothing. The various support chips that had been needed to make things work had been telescoped into a single interface chip called TED.  So there was TED, the processor, and on the Plus/4, an ACIA chip (similar to a UART) for higher-speed communications.}
+        {Commodore somehow made a deal with Microsoft for a perpetual license for Microsoft Basic. I don't know of any other manufacturer who obtained such a license, and it gave Commodore a major competitive edge for the entire life of its eight-bit products.  Microsoft had not at that time achieved major sales, and Bill Gates was complaining loudly and publicly about software piracy. Perhaps Tramiel and Peddle offered a deal that appeared attractive for the time. Microsoft later regretted the deal, and internal memos within Commodore urged employees to disclose no information about Basic, for fear of litigation.}
 
-	{Manufacturing costs must have been remarkable low for a computer with so few parts. But before the show, the marketing mavens told me they planned to set the price high so that it wouldn't impact sales of the Commodore 64. They succeeded beyond their wildest dreams; the Plus/4 and its smaller cousin bombed in the market.}
+        {In contrast, Apple initially had only "integer Basic", whose arithmetic was based on 16-bit integers.  This gave speed, but limited the usage.  The Radio Shack TRS-80 had "tiny Basic", as published in Doctor Dobbs Journal.  Eventually, both of them migrated to Microsoft Basic; but royalty payments to Microsoft became a factor in their product pricing.}
 
-	{They gave up on this new line, reasoning that the marketplace required compatibility. Their next product was the Commodore 128, which was highly compatible – a switch converted it into a 64 clone – but could be switched into CP/M mode for anyone who wanted that style of compatibility.}
+        {Even when the competition joined the Microsoft bandwagon, the Commodore version still had an advantage.  "Commodore Basic," as it was called, had a 32-bit mantissa, which computer techs will tell you produces about 10 decimal digits of numeric accuracy. Other versions had only a 24-bit mantissa, perhaps to enhance speed; but this will give an accuracy of only about 7 digits, which is not enough for financial work.}
 
-	{On the "business computer" side, Commodore meddled with expanded memory. In Europe, they tried new cast stylings, and at one point almost introduce "the Porsche PET", whose case had been designed by the Porsche team.}
+    ]
 
-	{Then they tried another approach to higher speed and more memory.  The B128 and B256 computers were built, but Commodore couldn't get them going on schedule.  Eventually, they were made to work, but it was too late for the marketplace, and Commodore blew them out their back door using a clearinghouse.  It worked well, and many users loved them; but it was a Commodore ex-product, and Commodore didn't make them any more.}
+    heading {XIII. The growth of publications: Newsletters to Newsstands}
 
-	{It was becoming clear that Commodore was reaching a dead end in the 8-bit world. Commodore acquired the Amiga, originally planned as a game machine, and reconfigured it for a business/entertainment market.}
+    print << [
 
-	{But that's another story, and this presentation is following the fate of the Commodore 8-bit world.}
+        {A proliferation of magazines and newsletters came with the advances in microcomputer technology.}
 
-	[heading {XVII. Arrival of the IBM PC}]
+        {Like Doctor Dobbs, BYTE magazine arrived early.  Its first year contained articles such as how to build your own wire-wrap tool out of a ballpoint refill, and how to punch paper tape so that humans could hold it up to the light and read actual text.}
 
-	{When the IBM PC was announced in August 1981, Commodore users couldn't believe that anyone would try to sell a machine that was so underpowered and overpriced. $3,000 for a little machine with 16K of RAM, expandable to 32K, black-and-white only, disk drive extra? And their first floppy disk drives could store only 160K of data, where Commodore drives ranged up to 1.2 megabytes in capacity. And, powered by an Intel 8088, it wasn't exactly a 16-bit machine; just part 16 and part 8.}
+        {The Commodore world hosted many newsletters.  "The PET Paper" was told by Commodore to remove the PET reference, which they viewed as a trademark; it became "The XXX Paper", a title which might raise some eyebrows in this day and age.}
 
-	{But the name IBM had credibility, and it sold well, beyond IBM's expectations. At one point, I told Commodore that their mistake was in picking the wrong first letter for their initials; change the "C" to an "I" and they'd be in business.}
+        {Len Lindsay published "The PET Gazette". He became overwhelmed by the volume of material arriving, and public begged for someone to take over the job on his behalf.  Robert Lock of Greensboro, North Carolina, did this in autumn of 1979. COMPUTE magazine developed into a major publication; in the late 1960s, it became the largest selling microcomputer publication of them all. It ceased publication in the late 90s.}
 
-	{IBM made frequent upgrades to their product line – from PC to XT to AT. The machines became truly 16-bit, and were fitted with formidable memory and improved disk drives. At each new product announcment, to IBM's astonishment, the new unit quickly sold its initial production, and then sales dropped off radically. If it was off the shelf, user didn't want it; they always wanted the next generation.}
+        {"The Transactor" began as a single sheet newsletter issued by Commodore Canada. After a couple of issues, a young fellow called Karl Hildon was hired to keep it going as a customer information vehicle.  Hildon built it into a respectable technical journal.  When Commodore tired of it, Hildon found another company in the Toronto area willing to continue publication. The Transactor folded in the late 90s, but was considered a major technical source during its lifetime.}
 
-	{All other brands of small computer were seriously impacted. To our surprise, people would buy these expensive machines, borrow software from their place of business, and set up these machine in their home.  PC user groups expanded at a startling rate.  And when, in 1983, Compaq and others broke the IBM stranglehold on the PC design, prices dropped and sales exploded.  By that time, the PC architecture clearly outperformed the 8-bit computers in raw computer power, although they still performed poorly in the graphics and games area.}
+    ]
 
-	{Commodore introduced its own line of PC-compatibles in 1987. These sold well in Europe and reasonably well in Canada.  The US market was never penetrated to any significant extent, and they ceased production in 1993...}
+    heading "XIV. The Toronto PET User Group – TPUG"
 
-	{Oh, and just to prove that IBM isn't perfect: their scaled-down PC Junior failed miserably.}
+    print << [
 
-	[heading {XVIII. The Commodore empire disintegrates}]
+        {Shortly after the arrival of the first few PET computers in Toronto, I received a call from Lyman Duggan, who worked for Marconi. He wanted to know why nobody was organizing a user group; I gave him the usual answer.  So sometime in 1979, about sixteen interested users gathered in the rec room of Lyman's apartment block, and TPUG – at that time, called Club 2001, after the PET 2001 - was born.}
 
-	{Commodore had run out of steam on the 8-bit track, and were concentrating all their efforts on the Amiga. It wasn't enough, and Commodore as we knew it broke up in April 1994.}
+        {Duggan ran TPUG as a private enterprise. He arranged program and location, charged five dollars for attendance, and served coffee and doughnuts.  His wife, Cherie, had cassette tapes containing contributed programs which sold for a dollar or two.}
 
-	{Commodore was gone, but the name stayed. It was sold and resold to a number of organizations, most of whom were in Europe, where the name was viewed favourably by consumers.}
+        {Attendance grew rapidly, and Duggan had to seek out ever larger sites for the meetings.  Then, with little warning, his employee posted him to Florida. Duggan quickly nominated a board of directors to replace him, and TPUG became a member's club.}
 
-	[heading {XIX. Follow on:  Loyalties remain.}]
+        {The Toronto area had quite a few talented people who could be called upon to make presentations, offer opinions, or disseminate news.  Apart from myself, we had Karl Hildon, editor of The Transactor; Brad Templeton, who later went on to become the publisher of Clarion online service; Steve Punter, who wrote the first major word processor package for Commodore, and numerous others. And I have a special affection for the antics of Brett Butler, one of the first PET owners in the Toronto area, who wrote a tiny program for his wife who was in the late stages of pregnancy: tap any key, and the PET would show time elapsed since the previous contraction.}
 
-	{Magazines scaled down and ceased publication. User groups dwindled.  But loyalties remain. Many users haunt thrift stores for old Commodore computers and spare parts. There are continuing rumours that both the Commodore computers and the Amiga will be reborn in some form or other.}
+        {Computer enthusiasts were regarded as mavericks.  Few of those who worked in the field of data processing would have any association with microcomputers. I suspect the reasons for this are varied. Perhaps there would be a loss of corporate prestige to admit that those little thousand-dollar machines were capable of taking on some tasks, when DP personnel had million-dollar machines as their private domain. It seemed that some users would believe only what IBM told them; and, at that time, IBM had no interest in giving any credibility to these pesky little machines.}
 
-	{Meanwhile, "64 emulators" can be run on a PC which closely match the behaviour of the original machine. It's not the same, of course; part of the joy was the things you could hook up to the machine.}
+        {There were rebels.  A Vice President of Air Canada used a Commodore PET to plan fuel needs at various airports; but he had to hide his machine from the DP mavens, who didn't approve. A regional education officer in northern Ontario supported microcomputers in schools, and helped assembly a body of educational software; all the while, the Department of Education wanted all educational flow to be centralized.}
 
-	{Small user groups still gather in Canada and the USA. In mid-May, there will be a gathering in Louisville, Kentucky. In September, I expect that there will be something in the Chicago area. There has been talk of something in Las Vegas this year.  And TPUG tells me that the World of Commodore will take place once again in Toronto sometime in early December.}
+        {TPUG prospered, and its influence went far beyond Ontario's boundaries, or even those of North America. Today, it may be difficult to comprehend the difficult in distributing free programs across the country or around the world.  We use the internet. Back then, you put cassette tapes in the mail, or, later, floppy disks. And a central clearing point produced better organization.  TPUG was it, for many years; most Commodore clubs across North America became associate TPUG members.}
 
-	{Here's a story of dedication and loyalty.  Back in the Commodore heyday, a young girl loved her Commodore 64 so much, and was so curious about its inner workings, that she destroyed quite a few of them in trying to find out how it works. She was determined that some day, she would construct a Commodore 64.}
+        {Membership reached a peak in 1984 of about 17,000 members.  TPUG now had a full-time staff for handling memberships and mailing requested programs, and another full-time staff to publish the TPUG magazine.  There was a lot of money flowing into TPUG, and it seemed to me that this caused dissention between members of the executive and the staff.}
 
-	{Her name is Jeri Ellsworth, and she did it.  She built a complete Commodore 64 on a chip: processor, video, sound, operating system ... the whole works. Her most recent creation is the 64DTV, a Commodore 64 on a tiny chip buried inside a joystick, including about 30 games of the era. Without a keyboard, it's hard to program, but it can be done. Without a disk interface, it's hard to store or load other programs – but a good hardware hacker can construct one, and some have done so.}
+        {An early online service, "The Source" opened for business in 1979, and was soon followed by another, Compuserve. A service specific to the Commodore 64, Quantum, became available in 1985.  There started to be other ways to distribute programs.  And the internet was coming.}
 
-	{It's quite a feat.  And it makes me think that perhaps the Commodore 64 will live forever.}
+        {Online services, and a shift to other manufacturers computers, caused a further decline in membership. And this caused disputes to become more pronounced.  It's easy to bring in new equipment and new staff in prosperous times; it's not so easy to start cutting back.  Many old-timers dropped out of the TPUG picture.  But TPUG survived, and is still active today. I'm told that the next World of Commodore gathering will take place this December.}
 
-	/source [http://pages.pathcom.com/~fjb/Personal%20Computers.html {Jim Butterfield}]
+    ]
+
+    heading "XV. Product proliferation"
+
+    print << [
+
+        {The original PET 2001 was soon followed by bigger models, with more memory or 80 column screens. Commodore did its best to drop the name PET in favour of CBM, so as to establish a business image. At one time, it even tried to disenfranchise one of its major retail outlets because it thought the name was too frivolous:  Batteries Included.  The outlet set up a subsidiary with a "sensible" name, and continued to handle Commodore machines.}
+
+        {Commodore technicians built prototypes of many imaginative machines. One of these, called the TOI, had a colour screen, graphics and sound capability; it eventually became the VIC-20.  The 22-column screen of the VIC-20 made it of little utility with text applications, but it worked well with graphics, and became popular as a game machine. The VIC-20 was still a full-featured computer, complete with the Commodore Basic language, and many people used it to learn computer programming.}
+
+        {There's a believable story that, long before, the chip manufacturer Texas Instruments had cost Commodore and Jack Tramiel a great deal of money on plans he had made for a calculator. The story continues that Tramiel swore revenge; and when Texas Instruments came out with a computer of their own, the TI-99, he launched an economic war.}
+
+        {Whatever the truth of the story, it's true that Tramiel was very good at pruning prices, pressing suppliers to drop costs in order to allow him to pitch extremely competitive retail prices.  And with his next product, the Commodore 64, he trashed most of the competition ... including Texas Instruments.}
+
+        {At one point, Commodore was offering $100 as a trade-in for any make or model of computer. Since the Sinclair/Timex Spectrum was selling for about $60 at that time, Commodore received a considerable number of these units, still in their shrink-wrap packaging.  The local user group told me that Commodore had no use for these trade-ins, and they went directly to the trash bit.  At night, members of the club would pick these back out of the trash, and turn them back in the next day for another discount.}
+
+        {Doctor Wesley Graham, of the Computer Science department of Waterloo University, thought that the CBM computers could be expanded and modified so as to allow students to take language training on them.  Waterloo was already noted for its "training" languages, such as WatFor, a training dialogue of Fortran.  Together with hardware assistance from BMB Compuscience, a retailer and hardware designer in the Milton area, they devised "The SuperPET", a machine with dual processors.  One "side" was a standard CBM computer; the other was a Motorola 6809-based system fitted with several languages. Perhaps the most startling of these was APL ("A Programming Language"), developed by Ken Iverson, which used a completely different character set to undertake its computations.}
+
+        {The SuperPET was well respected and used in training environments, but never became a mainstream machine. I often wondered if adding language compilers – in addition to the interpreters that Waterloo had furnished – might make it world-beating commercial machine.}
+
+    ]
+
+    heading "XVI. Fun computers hit their zenith"
+
+    print << [
+
+        {Following the success of the 64, Commodore tackled the objective of making a set of scaled-down computers: the Commodore Plus/4 and its smaller cousin, the Commodore 16.  I had some involvement in this product: I was invited to introduce it at the Consumer Electronics Show in Las Vegas, 1984.}
+
+        {Inside the Plus-4 and Commodore 16 was ... almost ... nothing. The various support chips that had been needed to make things work had been telescoped into a single interface chip called TED.  So there was TED, the processor, and on the Plus/4, an ACIA chip (similar to a UART) for higher-speed communications.}
+
+        {Manufacturing costs must have been remarkable low for a computer with so few parts. But before the show, the marketing mavens told me they planned to set the price high so that it wouldn't impact sales of the Commodore 64. They succeeded beyond their wildest dreams; the Plus/4 and its smaller cousin bombed in the market.}
+
+        {They gave up on this new line, reasoning that the marketplace required compatibility. Their next product was the Commodore 128, which was highly compatible – a switch converted it into a 64 clone – but could be switched into CP/M mode for anyone who wanted that style of compatibility.}
+
+        {On the "business computer" side, Commodore meddled with expanded memory. In Europe, they tried new cast stylings, and at one point almost introduce "the Porsche PET", whose case had been designed by the Porsche team.}
+
+        {Then they tried another approach to higher speed and more memory.  The B128 and B256 computers were built, but Commodore couldn't get them going on schedule.  Eventually, they were made to work, but it was too late for the marketplace, and Commodore blew them out their back door using a clearinghouse.  It worked well, and many users loved them; but it was a Commodore ex-product, and Commodore didn't make them any more.}
+
+        {It was becoming clear that Commodore was reaching a dead end in the 8-bit world. Commodore acquired the Amiga, originally planned as a game machine, and reconfigured it for a business/entertainment market.}
+
+        {But that's another story, and this presentation is following the fate of the Commodore 8-bit world.}
+
+    ]
+
+    heading "XVII. Arrival of the IBM PC"
+
+    print << [
+
+        {When the IBM PC was announced in August 1981, Commodore users couldn't believe that anyone would try to sell a machine that was so underpowered and overpriced. $3,000 for a little machine with 16K of RAM, expandable to 32K, black-and-white only, disk drive extra? And their first floppy disk drives could store only 160K of data, where Commodore drives ranged up to 1.2 megabytes in capacity. And, powered by an Intel 8088, it wasn't exactly a 16-bit machine; just part 16 and part 8.}
+
+        {But the name IBM had credibility, and it sold well, beyond IBM's expectations. At one point, I told Commodore that their mistake was in picking the wrong first letter for their initials; change the "C" to an "I" and they'd be in business.}
+
+        {IBM made frequent upgrades to their product line – from PC to XT to AT. The machines became truly 16-bit, and were fitted with formidable memory and improved disk drives. At each new product announcment, to IBM's astonishment, the new unit quickly sold its initial production, and then sales dropped off radically. If it was off the shelf, user didn't want it; they always wanted the next generation.}
+
+        {All other brands of small computer were seriously impacted. To our surprise, people would buy these expensive machines, borrow software from their place of business, and set up these machine in their home.  PC user groups expanded at a startling rate.  And when, in 1983, Compaq and others broke the IBM stranglehold on the PC design, prices dropped and sales exploded.  By that time, the PC architecture clearly outperformed the 8-bit computers in raw computer power, although they still performed poorly in the graphics and games area.}
+
+        {Commodore introduced its own line of PC-compatibles in 1987. These sold well in Europe and reasonably well in Canada.  The US market was never penetrated to any significant extent, and they ceased production in 1993...}
+
+        {Oh, and just to prove that IBM isn't perfect: their scaled-down PC Junior failed miserably.}
+
+    ]
+
+    heading "XVIII. The Commodore empire disintegrates"
+
+    print << [
+
+        {Commodore had run out of steam on the 8-bit track, and were concentrating all their efforts on the Amiga. It wasn't enough, and Commodore as we knew it broke up in April 1994.}
+
+        {Commodore was gone, but the name stayed. It was sold and resold to a number of organizations, most of whom were in Europe, where the name was viewed favourably by consumers.}
+
+    ]
+
+    heading "XIX. Follow on:  Loyalties remain."
+
+    print << [
+
+        {Magazines scaled down and ceased publication. User groups dwindled.  But loyalties remain. Many users haunt thrift stores for old Commodore computers and spare parts. There are continuing rumours that both the Commodore computers and the Amiga will be reborn in some form or other.}
+
+        {Meanwhile, "64 emulators" can be run on a PC which closely match the behaviour of the original machine. It's not the same, of course; part of the joy was the things you could hook up to the machine.}
+
+        {Small user groups still gather in Canada and the USA. In mid-May, there will be a gathering in Louisville, Kentucky. In September, I expect that there will be something in the Chicago area. There has been talk of something in Las Vegas this year.  And TPUG tells me that the World of Commodore will take place once again in Toronto sometime in early December.}
+
+        {Here's a story of dedication and loyalty.  Back in the Commodore heyday, a young girl loved her Commodore 64 so much, and was so curious about its inner workings, that she destroyed quite a few of them in trying to find out how it works. She was determined that some day, she would construct a Commodore 64.}
+
+        {Her name is Jeri Ellsworth, and she did it.  She built a complete Commodore 64 on a chip: processor, video, sound, operating system ... the whole works. Her most recent creation is the 64DTV, a Commodore 64 on a tiny chip buried inside a joystick, including about 30 games of the era. Without a keyboard, it's hard to program, but it can be done. Without a disk interface, it's hard to store or load other programs – but a good hardware hacker can construct one, and some have done so.}
+
+        {It's quite a feat.  And it makes me think that perhaps the Commodore 64 will live forever.}
+
+    ]
+
+    attribution [link [http://pages.pathcom.com/~fjb/Personal%20Computers.html "Jim Butterfield"]]
+
 ]

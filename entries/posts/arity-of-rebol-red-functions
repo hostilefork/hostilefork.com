@@ -1,77 +1,93 @@
 Draem [
-    title: {The Central Newbie Question about Rebol/Red}
+    title: "The Central Newbie Question about Rebol/Red"
     tags: [rebol red philosophy]
     slug: %arity-of-rebol-red-functions
-    date: 20-Mar-2014/06:52
+    date: 20-Mar-2014/6:52
 ]
 
-{As many people know, I tend to suggest people look at Rebol and Red.  I think these are some very interesting languages.  But of course, if they were perfect then the whole world would be using them instead of rewriting all our infrastructure in JavaScript, right?}
+print << [
 
-{Let's put aside the fact that Javascript is obviously the best language ever created, because everyone uses it.  :-)  For a moment let's live in a world where there is a reason to learn and study other languages.  And let's consider one of the first questions that [every new Rebol and Red user asks](https://groups.google.com/forum/#!topic/red-lang/qLt6wBHWGIo):}
+    {As many people know, I tend to suggest people look at Rebol and Red.  I think these are some very interesting languages.  But of course, if they were perfect then the whole world would be using them instead of rewriting all our infrastructure in JavaScript, right?}
 
-[quote {If functions are called this way; **do-stuff arg1 arg2**, does that not make the code hard to read?  When would one be able to tell if arg1 is a function or just a value?}]
+    {Let's put aside the fact that Javascript is obviously the best language ever created, because everyone uses it.  :-)  For a moment let's live in a world where there is a reason to learn and study other languages.  And let's consider one of the first questions that [every new Rebol and Red user asks](https://groups.google.com/forum/#!topic/red-lang/qLt6wBHWGIo):}
 
-{Right off the bat I'll mention that when we write in a human language, somehow we take nothing much more than a list of "words separated by spaces", and can deduce the internal structure out of it.  There's nothing explicit telling us what's a verb, or noun, or showing which adjective phrase is describing which noun phrase.  Think of [sentence diagrams for example](http://en.wikipedia.org/wiki/Sentence_diagram):}
+]
 
-[image http://blog.hostilefork.com/media/arity-of-rebol-red-functions/this-tree-illustrates-constituency.png 335x178 "This tree illustrates constituency."]
+quote {If functions are called this way; **do-stuff arg1 arg2**, does that not make the code hard to read?  When would one be able to tell if arg1 is a function or just a value?}
 
-{So there's a sentence from Wikipedia: "This tree illustrates constituency."  Would English be easier to learn if we wrote that like this?}
+print {Right off the bat I'll mention that when we write in a human language, somehow we take nothing much more than a list of "words separated by spaces", and can deduce the internal structure out of it.  There's nothing explicit telling us what's a verb, or noun, or showing which adjective phrase is describing which noun phrase.  Think of [sentence diagrams for example](http://en.wikipedia.org/wiki/Sentence_diagram):}
 
-[text "<s><np><d>This</d><n>tree</n></np><vp><v>illustrates</v><n>constituency</n></vp></s>"]
+image [http://blog.hostilefork.com/media/arity-of-rebol-red-functions/this-tree-illustrates-constituency.png 335x178 "This tree illustrates constituency."]
 
-{It might be easier to learn in the beginning... maybe.  Though I'll point out that the consensus among linguists (after studying many human languages) is that we're genetically predisposed to handle the "words separated by spaces":}
+print {So there's a sentence from Wikipedia: "This tree illustrates constituency."  Would English be easier to learn if we wrote that like this?}
 
-http://en.wikipedia.org/wiki/X-bar_theory
+source 'text {<s><np><d>This</d><n>tree</n></np><vp><v>illustrates</v><n>constituency</n></vp></s>}
 
-{So when evaluating Red or Rebol syntax as a new learner, you have to consider how differently it will look to your eyes once you are familiar with it.  The rules are far simpler and more consistent than in a human language, so you really do pick it up quickly.}
+print {It might be easier to learn in the beginning... maybe.  Though I'll point out that the consensus among linguists (after studying many human languages) is that we're genetically predisposed to handle the "words separated by spaces":}
 
-{The second point I'll raise is that just as with a written language, you have a lot of tools to cue people reading your code.  Spaces, newlines, and indentation are very important.  There are also parentheses, which are a surprising element once you learn how they *actually* work.  Those who understand how powerful their applications can be tend to avoid "wasting" them on readability issues for beginners... because that interferes with using them for composing code into template structures.  I probably use them more often to call out structure than most people.}
+link http://en.wikipedia.org/wiki/X-bar_theory
 
-{Another very important point is that proper use of Red/Rebol is that the language core is meant to be a kind of "assembly code" for building domain specific languages that suit whatever you want.  Although Rebol functions must take a fixed number of parameters, one of those single parameters can be a block of arbitrary symbolic/literals/blocks.  If you treat it as data instead of invoke the default evaluator...you become the language designer, and you start making the rules:}
+print << [
 
-[code rebol {
+    {So when evaluating Red or Rebol syntax as a new learner, you have to consider how differently it will look to your eyes once you are familiar with it.  The rules are far simpler and more consistent than in a human language, so you really do pick it up quickly.}
+
+    {The second point I'll raise is that just as with a written language, you have a lot of tools to cue people reading your code.  Spaces, newlines, and indentation are very important.  There are also parentheses, which are a surprising element once you learn how they *actually* work.  Those who understand how powerful their applications can be tend to avoid "wasting" them on readability issues for beginners... because that interferes with using them for composing code into template structures.  I probably use them more often to call out structure than most people.}
+
+    {Another very important point is that proper use of Red/Rebol is that the language core is meant to be a kind of "assembly code" for building domain specific languages that suit whatever you want.  Although Rebol functions must take a fixed number of parameters, one of those single parameters can be a block of arbitrary symbolic/literals/blocks.  If you treat it as data instead of invoke the default evaluator...you become the language designer, and you start making the rules:}
+
+]
+
+source 'rebol {
 run script except on [
     sundays at noon
     mondays after 10:00
     fridays before 9:30
-]}]
+]}
 
-{These are called dialects, and that example is from an essay by Carl Sassenrath called "More Than Just Code: A Deep Lake":}
+print {These are called dialects, and that example is from an essay by Carl Sassenrath called "More Than Just Code: A Deep Lake":}
 
-http://www.rebol.com/article/0103.html
+link http://www.rebol.com/article/0103.html
 
-{If you aren't using dialects in Red/Rebol, then you're missing 90% of the picture (I think).  And how underlying Rebol function calls get their parameters doesn't have to influence your design...if you don't want it to.  So try looking at PARSE first, as an example of how you can shift a solution to a problem far away from the concern you ask about:}
+print {If you aren't using dialects in Red/Rebol, then you're missing 90% of the picture (I think).  And how underlying Rebol function calls get their parameters doesn't have to influence your design...if you don't want it to.  So try looking at PARSE first, as an example of how you can shift a solution to a problem far away from the concern you ask about:}
 
-http://blog.hostilefork.com/why-rebol-red-parse-cool/
+link http://blog.hostilefork.com/why-rebol-red-parse-cool/
 
-{Another question that comes up is about whether we use an IDE.}
+print {Another question that comes up is about whether we use an IDE.}
 
-[quote {I suppose an ide that colors these things would be really useful but do you red programmers use one?}]
+quote {I suppose an ide that colors these things would be really useful but do you red programmers use one?}
 
-{There is something of an objective with Red and Rebol to make code readable and maintainable without a complex analytical tool like an IDE.}
+print << [
 
-{Syntax highlighters exist for many editors, though.  One for SublimeText here:}
+    {There is something of an objective with Red and Rebol to make code readable and maintainable without a complex analytical tool like an IDE.}
 
-https://github.com/onetom/rebol-red-sublime
+    {Syntax highlighters exist for many editors, though.  One for SublimeText here:}
 
-[quote {Will an ide be developed specifically for red(I think one should be since the language has such unique syntactic structures that it must be hard to parse for a normal ide)?}]
+]
 
-{The syntax isn't trivial to parse, but it's not that hard.  There are some edge cases that are weird, but that's more an issue that needs to be hammered out in the formalisms of the grammar than actually anything technically difficult.}
+link https://github.com/onetom/rebol-red-sublime
 
-{A trickier fundamental problem in getting "IntelliSense" is how much abstraction is permitted.  The problems are sort of like dealing with any language that allows a preprocessor, although Red and Rebol are much more powerful than text-based macros.}
+quote {Will an ide be developed specifically for red(I think one should be since the language has such unique syntactic structures that it must be hard to parse for a normal ide)?}
 
-{For instance, to declare a function that takes a string and an integer:}
- 
-[code rebol {
+print << [
+
+    {The syntax isn't trivial to parse, but it's not that hard.  There are some edge cases that are weird, but that's more an issue that needs to be hammered out in the formalisms of the grammar than actually anything technically difficult.}
+
+    {A trickier fundamental problem in getting "IntelliSense" is how much abstraction is permitted.  The problems are sort of like dealing with any language that allows a preprocessor, although Red and Rebol are much more powerful than text-based macros.}
+
+    {For instance, to declare a function that takes a string and an integer:}
+
+]
+
+source 'rebol {
 foo: function [str [string!] value [integer!]] [
     print [{String is:} str]
     print [{Value is:} value]
 ]
-}]
+}
 
-{You could also have written:}
+print "You could also have written:"
 
-[code rebol {
+source 'rebol {
 params: [str [string!] value [integer!]]
 
 body: [
@@ -80,11 +96,11 @@ body: [
 ]
 
 foo: function params body  
-}]
+}
 
-{The meta-programming can get weirder than that, to actually wind up defining a function that could have an integer parameter, but may be composed to be defined without mentioning it at all:}
+print {The meta-programming can get weirder than that, to actually wind up defining a function that could have an integer parameter, but may be composed to be defined without mentioning it at all:}
 
-[code rebol {
+source 'rebol {
 takes-integer?: false
 
 foo: function compose [
@@ -93,10 +109,14 @@ foo: function compose [
 ] compose [
     print [{String is:} str]
     (either takes-integer? [print [{Value is:} value]] [])
-]}]
+]}
 
-{Here is that application of parentheses I mentioned before; COMPOSE looks for parentheses and executes the code in them as a substitution for that part of the block.  In this case, it's doing some runtime evaluation before passing the parameter block and body block to the function generator.  Based on a boolean condition, it may splice in code related to the integer value or just put nothing there.}
+print << [
 
-{To ask an IDE to prompt you for how many parameters FOO takes at a callsite may not be practical, or even possible.  The function entity may not be built until runtime.  Red is designed to get a performance advantage by noticing when this isn't the case and doing as much precompilation as it can.  But still seeks to allow this kind of meta-programming at runtime, via an interpreter and JIT-compiler that it embeds in the executables it makes.}
+    {Here is that application of parentheses I mentioned before; COMPOSE looks for parentheses and executes the code in them as a substitution for that part of the block.  In this case, it's doing some runtime evaluation before passing the parameter block and body block to the function generator.  Based on a boolean condition, it may splice in code related to the integer value or just put nothing there.}
 
-{Again: consider it not so much about a language that's trying to tell you how to write things ultimately.  You're getting a powerful toolbox to decide how you want to write things.  If you focus on the value of that, the concern of the baseline readability of the language primitives becomes less relevant...and you might even find you grow to like it.  :-)}
+    {To ask an IDE to prompt you for how many parameters FOO takes at a callsite may not be practical, or even possible.  The function entity may not be built until runtime.  Red is designed to get a performance advantage by noticing when this isn't the case and doing as much precompilation as it can.  But still seeks to allow this kind of meta-programming at runtime, via an interpreter and JIT-compiler that it embeds in the executables it makes.}
+
+    {Again: consider it not so much about a language that's trying to tell you how to write things ultimately.  You're getting a powerful toolbox to decide how you want to write things.  If you focus on the value of that, the concern of the baseline readability of the language primitives becomes less relevant...and you might even find you grow to like it.  :-)}
+
+]

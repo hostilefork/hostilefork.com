@@ -5,13 +5,13 @@ Draem [
     date: 15-Jul-2014/2:34:54-4:00
 ]
 
-{Most programmers are under the general agreement that if a comment is good, it needs to explain WHY the code is doing what it's doing... not WHAT it is doing.  WHAT should emerge from the natural reading of the story being told by the code.}
+print {Most programmers are under the general agreement that if a comment is good, it needs to explain WHY the code is doing what it's doing... not WHAT it is doing.  WHAT should emerge from the natural reading of the story being told by the code.}
 
-[heading {Sticking to the Story}]
+heading "Sticking to the Story"
 
-{To take an example, these two comments are "bad":}
+print {To take an example, these two comments are "bad":}
 
-[code cpp {
+source 'cpp {
 // 1. Add a and b, then store the result in c.
 
 c = a + b;
@@ -19,83 +19,105 @@ c = a + b;
 // 2. Set d to d less the magnitude of e (since e is negative)
 
 d += e;
-}]
+}
 
-{Case (1) adds no value.  If you're trying to teach someone the language and they come from a background where  `=` and `+` mean something other than assign and add, then that would be okay in a tutorial.  Yet it should not appear in code where the reader is assumed to need to know the language.}
+print << [
 
-{Case (2) seems at least a little better--it warns you that something that looks like it's adding is actually subtracting.  But if that's what you wanted to say, you'd be better off with:}
+    {Case (1) adds no value.  If you're trying to teach someone the language and they come from a background where  `=` and `+` mean something other than assign and add, then that would be okay in a tutorial.  Yet it should not appear in code where the reader is assumed to need to know the language.}
 
-[code cpp {
-assert(e < 0);
-d = d - abs(e);
-}]
+    {Case (2) seems at least a little better--it warns you that something that looks like it's adding is actually subtracting.  But if that's what you wanted to say, you'd be better off with:}
 
-{The assert is certainly better than the parenthetical comment, as it's something the machine can check to make sure it's true.  It also forces you to be more formal: did you mean to say it was negative, or just that was not positive (and might be zero)?}
-
-[note {Depending on your language, there might be more or fewer tools at your disposal for checking things like *pre-conditions*, *post-conditions*, or *invariants*.  If your language is missing them, try seeing how to add a library to your project to do them in lieu of comments.  Or perhaps create your own library...}]
-
-{As for rewriting the second line in that way and invoking `abs()`--I'm not saying one has to do that.  I haven't done any performance tests but offhand I imagine it won't make a diference in an optimizing C compiler (for instance).}
-
-{The point is that the comment had been inserted to tell a story--and to need a comment, it was a story the code was not telling.  Here we tell it in code, and better:}
-
-[list 
-	{"(since e is negative)" => `assert(e < 0);`}
-
-	{"Set d" => `d =`}
-
-	{"to d" => `d`}
-
-	{"less the magnitude of e." => `- abs(e);`}
 ]
 
-{If that story wasn't important, then the comment probably wasn't either.  Just use the assert and leave the line of code alone.}
+source 'cpp {
+assert(e < 0);
+d = d - abs(e);
+}
 
-[heading {Longer names should not be feared (if they're better)}]
+print {The assert is certainly better than the parenthetical comment, as it's something the machine can check to make sure it's true.  It also forces you to be more formal: did you mean to say it was negative, or just that was not positive (and might be zero)?}
 
-{Perhaps it's my German blood, but I'm not afraid of long composite names.  For instance, let's say you have this comment:}
+note {Depending on your language, there might be more or fewer tools at your disposal for checking things like *pre-conditions*, *post-conditions*, or *invariants*.  If your language is missing them, try seeing how to add a library to your project to do them in lieu of comments.  Or perhaps create your own library...}
 
-[code javascript {
+print << [
+
+    {As for rewriting the second line in that way and invoking `abs()`--I'm not saying one has to do that.  I haven't done any performance tests but offhand I imagine it won't make a diference in an optimizing C compiler (for instance).}
+
+    {The point is that the comment had been inserted to tell a story--and to need a comment, it was a story the code was not telling.  Here we tell it in code, and better:}
+
+]
+
+list [item << [
+
+        {"(since e is negative)" => `assert(e < 0);`}
+
+        {"Set d" => `d =`}
+
+        {"to d" => `d`}
+
+        {"less the magnitude of e." => `- abs(e);`}
+
+    ]]
+
+print {If that story wasn't important, then the comment probably wasn't either.  Just use the assert and leave the line of code alone.}
+
+heading {Longer names should not be feared (if they're better)}
+
+print {Perhaps it's my German blood, but I'm not afraid of long composite names.  For instance, let's say you have this comment:}
+
+source 'javascript {
    var msg = server.getJson(foo);
 
    checkMsg(msg); // throws error if msg is invalid
-}]
+}
 
-{The author was troubled by it not being obvious what the operation did in the invalid case.  *(Was there a return value that's not being checked on accident?  Is `msg` somehow mutated to now hold an invalid flag?)*}
+print << [
 
-{But if you're the one controlling the names, why not:}
+    {The author was troubled by it not being obvious what the operation did in the invalid case.  *(Was there a return value that's not being checked on accident?  Is `msg` somehow mutated to now hold an invalid flag?)*}
 
-[code javascript {
+    {But if you're the one controlling the names, why not:}
+
+]
+
+source 'javascript {
    var msg = server.getJson(foo);
 
    throwOnInvalidMsg(msg);
-}]
+}
 
-{My concern about good names for things has raised with time.  And the more "public" your API is and the more frequently a function is called, it's reasonable to be reticent about the length.  But if it's an internal function that only you are calling--and only a smattering of times--err on the side of clarity and make it longer.}
+print {My concern about good names for things has raised with time.  And the more "public" your API is and the more frequently a function is called, it's reasonable to be reticent about the length.  But if it's an internal function that only you are calling--and only a smattering of times--err on the side of clarity and make it longer.}
 
-[note
-	{The love of short names in popular libraries at all costs can cause grief.  I had a nasty time tracing down a bug related to a fine point of distinction between jQuery's `$.detach()` and `$.remove()`.  I'd conflated the two from web searches into believing there was really only one operation; I just couldn't remember the name.  Case by case I would use one or the other, based on which my memory drew up...or what the nearest call in the source had been.}
+note [
 
-	{But [there is a difference](http://stackoverflow.com/questions/4942070/differences-between-detach-hide-and-remove-jquery), and a rather important one.  If you "remove" something that has jQuery sidestructure information on it and then insert it into the DOM somewhere else, it will have **lost the stored data and events associated with the matched elements**.  If you "detach" that information will be kept, and still function when reinserted into the tree.}
+    print << [
 
-	{I'm not sure what the backstory is on these operations.  But `$.remove()` seems the more heavy-handed in a garbage-collected language, so I would not have been afraid to call it something more like `$.detachAndScrub()`.  Just an example.  Of course, this is a case I *can't* change.}
+        {The love of short names in popular libraries at all costs can cause grief.  I had a nasty time tracing down a bug related to a fine point of distinction between jQuery's `$.detach()` and `$.remove()`.  I'd conflated the two from web searches into believing there was really only one operation; I just couldn't remember the name.  Case by case I would use one or the other, based on which my memory drew up...or what the nearest call in the source had been.}
+
+        {But [there is a difference](http://stackoverflow.com/questions/4942070/differences-between-detach-hide-and-remove-jquery), and a rather important one.  If you "remove" something that has jQuery sidestructure information on it and then insert it into the DOM somewhere else, it will have **lost the stored data and events associated with the matched elements**.  If you "detach" that information will be kept, and still function when reinserted into the tree.}
+
+        {I'm not sure what the backstory is on these operations.  But `$.remove()` seems the more heavy-handed in a garbage-collected language, so I would not have been afraid to call it something more like `$.detachAndScrub()`.  Just an example.  Of course, this is a case I *can't* change.}
+
+    ]
+
 ]
 
-{Some API designers might say locking the "throw" into the name doesn't provide flexibility for future expansion.  Perhaps someday you'll want a parameter that indicates another method of handling invalid messages.  Yet if it's a concern, add that parameter today.  You don't have to allow more than one value for it:}
+print {Some API designers might say locking the "throw" into the name doesn't provide flexibility for future expansion.  Perhaps someday you'll want a parameter that indicates another method of handling invalid messages.  Yet if it's a concern, add that parameter today.  You don't have to allow more than one value for it:}
 
-[code javascript {
+source 'javascript {
     var msg = server.getJson(foo);
 
     checkMsg(msg, {ifInvalid: 'throw'});
-}]
+}
 
-{That specific example isn't important.  But the bigger point is that if all these options make you uncomfortable, *then the comment should have made you uncomfortable as well*.}
+print << [
 
-{There's a saying that goes:}
+    {That specific example isn't important.  But the bigger point is that if all these options make you uncomfortable, *then the comment should have made you uncomfortable as well*.}
 
-[quote
-	{Every truly good comment represents a small failure of the language.}
+    "There's a saying that goes:"
+
 ]
 
-{I don't think that captures the whole story, because there will always be a need for WHY.  But in the space of WHAT comments, I think that's quite often true.  For some of my opinions on how WHY commenting has changed in the era of web collaboration, see:}
+quote {Every truly good comment represents a small failure of the language.}
 
-http://blog.hostilefork.com/comments-vs-web-links-2014/
+print {I don't think that captures the whole story, because there will always be a need for WHY.  But in the space of WHAT comments, I think that's quite often true.  For some of my opinions on how WHY commenting has changed in the era of web collaboration, see:}
+
+link http://blog.hostilefork.com/comments-vs-web-links-2014/

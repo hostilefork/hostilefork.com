@@ -5,38 +5,46 @@ Draem [
     date: 6-Mar-2015/12:10:19-5:00
 ]
 
-{RenCpp is a C++ language binding for the [Rebol and Red](http://blog.hostilefork.com/why-rebol-red-parse-cool/) languages.  It has a unique design...arising from the unique nature of the languages themselves as well as taking advantage of several modern C++11 techniques.}
+print << [
 
-{It is a work in progress, and this page is a placeholder.  Oddly enough, I've made a demo video before I've made the page.  It includes notes on RenCpp as well as on Ren Garden--a cross platform GUI console which demonstrates some of what's possible with the binding.}
+    {RenCpp is a C++ language binding for the [Rebol and Red](http://blog.hostilefork.com/why-rebol-red-parse-cool/) languages.  It has a unique design...arising from the unique nature of the languages themselves as well as taking advantage of several modern C++11 techniques.}
 
-[heading {Overview Video}]
+    {It is a work in progress, and this page is a placeholder.  Oddly enough, I've made a demo video before I've made the page.  It includes notes on RenCpp as well as on Ren Garden--a cross platform GUI console which demonstrates some of what's possible with the binding.}
 
-[youtube https://www.youtube.com/watch?v=0exDvv5WEv4 560x315]
-
-[heading {Source Code}]
-
-{The source code is on GitHub, with [build directions](https://github.com/hostilefork/rencpp/blob/develop/doc/build.md) available for Windows, Linux, and OS/X.  At this point about a dozen people have successfully built it, so the process is getting closer to streamlined.}
-
-https://github.com/hostilefork/rencpp
-
-{Documentation with Doxygen is now underway with what I call ["Low-Commitment Doxygen Markup for C++"](http://blog.hostilefork.com/low-commitment-doxygen-markup-cpp/).}
-
-[heading {Testing}]
-
-{Unit testing is done using the [Catch](https://github.com/philsquared/Catch) framework.  *(For a rationale and comparison of "why not CppUnit or Boost.Test", see [Why Catch?](https://github.com/philsquared/Catch/blob/master/docs/why-catch.md).)*}
-
-{Continuous integration is [now enabled on Travis CI](https://travis-ci.org/hostilefork/rencpp).  The build matrix is:}
-
-[list
-	{64-bit, Clang, Rebol}
-
-	{64-bit, GCC, Rebol}
-
-	{32-bit, GCC, Rebol}
-
-	{32-bit, GCC, Red}
 ]
 
-[note
-	{The Red variant of RenCpp is stubbed out and not ready for operational use.  However, the CI testing keeps things up to date and ready to be connected to the Red runtime.}
+heading "Overview Video"
+
+youtube [https://www.youtube.com/watch?v=0exDvv5WEv4 560x315]
+
+heading "Source Code"
+
+print {The source code is on GitHub, with [build directions](https://github.com/hostilefork/rencpp/blob/develop/doc/build.md) available for Windows, Linux, and OS/X.  At this point about a dozen people have successfully built it, so the process is getting closer to streamlined.}
+
+link https://github.com/hostilefork/rencpp
+
+print {Documentation with Doxygen is now underway with what I call ["Low-Commitment Doxygen Markup for C++"](http://blog.hostilefork.com/low-commitment-doxygen-markup-cpp/).}
+
+heading "Testing"
+
+print << [
+
+    {Unit testing is done using the [Catch](https://github.com/philsquared/Catch) framework.  *(For a rationale and comparison of "why not CppUnit or Boost.Test", see [Why Catch?](https://github.com/philsquared/Catch/blob/master/docs/why-catch.md).)*}
+
+    {Continuous integration is [now enabled on Travis CI](https://travis-ci.org/hostilefork/rencpp).  The build matrix is:}
+
 ]
+
+list [item << [
+
+        "64-bit, Clang, Rebol"
+
+        "64-bit, GCC, Rebol"
+
+        "32-bit, GCC, Rebol"
+
+        "32-bit, GCC, Red"
+
+    ]]
+
+note {The Red variant of RenCpp is stubbed out and not ready for operational use.  However, the CI testing keeps things up to date and ready to be connected to the Red runtime.}

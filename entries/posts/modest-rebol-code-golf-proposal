@@ -6,56 +6,62 @@ Draem [
     old-url-prefix: %2010/01/08/
 ]
 
-[update {I've uploaded a preliminary proof-of-concept Rebmu implementation to GitHub.  See [http://hostilefork.com/rebmu/](http://rebmu.hostilefork.com/) for details.}]
+update {I've uploaded a preliminary proof-of-concept Rebmu implementation to GitHub.  See [http://hostilefork.com/rebmu/](http://rebmu.hostilefork.com/) for details.}
 
-{StackOverflow has a tag for so-called ["Code Golf"](http://stackoverflow.com/questions/tagged/code-golf), which has the goal of attempting to perform a programming task with a program that has a minimum number of ASCII characters.}
+print << [
 
-"There are several loopholes:"
+    {StackOverflow has a tag for so-called ["Code Golf"](http://stackoverflow.com/questions/tagged/code-golf), which has the goal of attempting to perform a programming task with a program that has a minimum number of ASCII characters.}
 
-[list
-
-    {You can obviously define a language which specifically performs only the one task, and uses a single-character program to do it (e.g. if the task is to print "Hello World", you can make a fictitious language in which the single character program **h** will do it)}
-
-    {You can compress your program into a form where it is no longer the sort of thing a human can reasonably read or write (e.g. the hexadecimal representation of assembled machine code)}
+    "There are several loopholes:"
 
 ]
 
-{But a *real* Code Golf language needs to be Turing complete.  Furthermore, I feel that you should be able to give an arbitrary challenge to a programmer they could write a working program without machine assistance.  It should also be feasible to make minor adjustments to the program's behavior without using some kind of tool.  My opinion is that in this respect, Rebol has potential to be *the most impressive language for Code Golf ever created*.}
+list [item << [
 
-{However, Rebol has striven for a verbose English-like wording scheme.  So out of the box, its ability to compete is hampered against less ideal languages that have been purposefully shortened for this purpose, like [GolfScript](http://www.golfscript.com/golfscript/).  Yet I began to wonder if the language could be configured in a trivial way that preserved its basic character (so it still passed the language parser) but that made it more terse.}
+        {You can obviously define a language which specifically performs only the one task, and uses a single-character program to do it (e.g. if the task is to print "Hello World", you can make a fictitious language in which the single character program **h** will do it)}
 
-{I've decided to call my idea **"Rebmu"** (REB&mu;) the *Microsocopic* Rebol Dialect for solving code golf challenges!  You can find a proof-of-concept source file on GitHub which has some documentation, but this post goes into some detail as well...}
+        {You can compress your program into a form where it is no longer the sort of thing a human can reasonably read or write (e.g. the hexadecimal representation of assembled machine code)}
 
-https://github.com/hostilefork/Rebmu/blob/master/rebmu.reb
+    ]]
 
-more
+print << [
 
-[heading "Mushing"]
+    {But a *real* Code Golf language needs to be Turing complete.  Furthermore, I feel that you should be able to give an arbitrary challenge to a programmer they could write a working program without machine assistance.  It should also be feasible to make minor adjustments to the program's behavior without using some kind of tool.  My opinion is that in this respect, Rebol has potential to be *the most impressive language for Code Golf ever created*.}
 
-{Rebol has case-insensitive binding, but when you convert a word! to a string it does have the case preserved.  This means that a dialect could use case to signal something else.  One application would be to use alternation of case in a word to do word separation.  This is a part of what I have called "mushing":}
+    {However, Rebol has striven for a verbose English-like wording scheme.  So out of the box, its ability to compete is hampered against less ideal languages that have been purposefully shortened for this purpose, like [GolfScript](http://www.golfscript.com/golfscript/).  Yet I began to wonder if the language could be configured in a trivial way that preserved its basic character (so it still passed the language parser) but that made it more terse.}
 
-[code rebol {
+    {I've decided to call my idea **"Rebmu"** (REB&mu;) the *Microsocopic* Rebol Dialect for solving code golf challenges!  You can find a proof-of-concept source file on GitHub which has some documentation, but this post goes into some detail as well...}
+
+]
+
+link https://github.com/hostilefork/Rebmu/blob/master/rebmu.reb
+
+heading "Mushing"
+
+print {Rebol has case-insensitive binding, but when you convert a word! to a string it does have the case preserved.  This means that a dialect could use case to signal something else.  One application would be to use alternation of case in a word to do word separation.  This is a part of what I have called "mushing":}
+
+source 'rebol {
 >> unmush/deep [s:["a"]appendFIRSTs"b"]
 == [s: ["a"] append first s "b"]
-}]
+}
 
-{The Rebol parser automatically breaks the input up into `s: ["a"] appendFIRSTs "b"`.  So the unmusher's job is merely to look at all the word! instances in a block of code and break them up before running.  As a further aspect, Rebmu assumes that you aren't using words with numbers in the name (in source), so you can do some good whitespace optimization:}
+print {The Rebol parser automatically breaks the input up into `s: ["a"] appendFIRSTs "b"`.  So the unmusher's job is merely to look at all the word! instances in a block of code and break them up before running.  As a further aspect, Rebmu assumes that you aren't using words with numbers in the name (in source), so you can do some good whitespace optimization:}
 
-[code rebol {
+source 'rebol {
 >> unmush [appendS10]
 == [append s 10]
-}]
+}
 
-{Paths are mushed in a way that keeps the slashed parts together but breaks the rest:}
+print {Paths are mushed in a way that keeps the slashed parts together but breaks the rest:}
 
-[code rebol {
+source 'rebol {
 >> unmush [aBcDe/fG/h]
 == [a b c d e/f g/h]
-}]
+}
 
-{The simplest rule would be to assume `aBcDe/fG/h` is the same as `aBcDe/Fg/H` and `AbCdE/Fg/H`.  But we see here that the start of each path element (including the start of any isolated word) offers us an opportunity to introduce 1 bit of meaning.  Only one interpretation I can think of has enough payoff to be worth it:}
+print {The simplest rule would be to assume `aBcDe/fG/h` is the same as `aBcDe/Fg/H` and `AbCdE/Fg/H`.  But we see here that the start of each path element (including the start of any isolated word) offers us an opportunity to introduce 1 bit of meaning.  Only one interpretation I can think of has enough payoff to be worth it:}
 
-[code rebol {
+source 'rebol {
 >> unmush [aBcDe/fG/h]
 == [a b c d e/f g/h]
 
@@ -64,109 +70,113 @@ more
 
 >> unmush [aBcDe/Fg/H]
 == [a b c d e/f: g/h:]
-}]
+}
 
-{If you're groaning with *"oh NO he di-uhn!"* all I can say is that code golf is a mean game.  :)  But once you get used to it, this isn't actually all that hard to read.  If you don't like it, don't start your runs with capitals!}
+print {If you're groaning with *"oh NO he di-uhn!"* all I can say is that code golf is a mean game.  :)  But once you get used to it, this isn't actually all that hard to read.  If you don't like it, don't start your runs with capitals!}
 
-[heading "Double Letters for Natives and Mezzanines"]
+heading "Double Letters for Natives and Mezzanines"
 
-{I propose that standard functions and mezzanines likely to be useful in Code Golf be aliased to two-letter codes, along with the most common refined versions.  The first letter should always match the first letter of the operation's name in Rebol, while the second can be random if sensible alternatives have been exhausted.  Some examples:}
+print {I propose that standard functions and mezzanines likely to be useful in Code Golf be aliased to two-letter codes, along with the most common refined versions.  The first letter should always match the first letter of the operation's name in Rebol, while the second can be random if sensible alternatives have been exhausted.  Some examples:}
 
-[list
+list [item << [
 
-    "**AP** append"
+        "**AP** append"
 
-    "**AO** append/only"
+        "**AO** append/only"
 
-    "**RA** repend (reduce-append)"
+        "**RA** repend (reduce-append)"
 
-    "**RE** replace"
+        "**RE** replace"
 
-    "**RT** return"
+        "**RT** return"
 
-    "**RP** repeat"
+        "**RP** repeat"
 
-    "**RM** remove"
+        "**RM** remove"
 
-    "**RL** remold"
+        "**RL** remold"
 
-    "**TS** to string!"
+        "**TS** to string!"
 
-    "**OB** object"
+        "**OB** object"
 
-    "**CY** copy"
+        "**CY** copy"
 
-    "**CP** copy/part"
+        "**CP** copy/part"
 
-]
+    ]]
 
-{In order to implement refinement shorthands, these need to be mapped not to the functions directly but to a translation stub which has single letter abbreviations for the refinements.  These stubs could also do additional work on any types that Rebol doesn't define.  For instance lit-words passed as function spec blocks:}
+print {In order to implement refinement shorthands, these need to be mapped not to the functions directly but to a translation stub which has single letter abbreviations for the refinements.  These stubs could also do additional work on any types that Rebol doesn't define.  For instance lit-words passed as function spec blocks:}
 
-[code rebol {
+source 'rebol {
 fn'A[pA] => FN 'A [p a] => function [a] [p a]
-}]
+}
 
-{The same trick could be applied to other functions that only operate on blocks at the moment in certain arguments (if, else, while).  I'll call these the "mu variations" (if-mu, else-mu, while-mu, funct-mu).  Though there are consequences to not surrounding arguments in blocks--like unconditional evaluation--there could be shortcuts.  For instance:}
+print {The same trick could be applied to other functions that only operate on blocks at the moment in certain arguments (if, else, while).  I'll call these the "mu variations" (if-mu, else-mu, while-mu, funct-mu).  Though there are consequences to not surrounding arguments in blocks--like unconditional evaluation--there could be shortcuts.  For instance:}
 
-[code rebol {
+source 'rebol {
 either c 'a 'b => either c [a][b]
 
 either c [print "hello"] [print "goodbye"]
-}]
+}
 
-{You save a bracket on single-parameter situations without breaking the paradigm.}
+print {You save a bracket on single-parameter situations without breaking the paradigm.}
 
-[heading "Reserve Single Letters for User, but Initialize"]
+heading "Reserve Single Letters for User, but Initialize"
 
-{Generally speaking, single letters should be reserved for any variables or operations that might be used more than once in your program.  But there's no harm in defining all the single letter variables to hold some default values when the Rebmu interpreter starts.  Some ideas:}
+print {Generally speaking, single letters should be reserved for any variables or operations that might be used more than once in your program.  But there's no harm in defining all the single letter variables to hold some default values when the Rebmu interpreter starts.  Some ideas:}
 
-[list
+list [item << [
 
-    "**n, j, k** integer values of 0"
+        "**n, j, k** integer values of 0"
 
-    {**s, t, m** copies of the empty string (text, message)}
+        {**s, t, m** copies of the empty string (text, message)}
 
-    "**x, y, z** float values of 0"
+        "**x, y, z** float values of 0"
 
-    "**b, g, l** an empty block (group, list)"
+        "**b, g, l** an empty block (group, list)"
 
-    "**i** synonym for IF (ifMU)"
+        "**i** synonym for IF (ifMU)"
 
-    "**e** synonym for EI (eitherMU)"
+        "**e** synonym for EI (eitherMU)"
 
-    "**c** synonym for CY (copy)"
+        "**c** synonym for CY (copy)"
 
-    "**f** synonym for FN (functMU)"
+        "**f** synonym for FN (functMU)"
 
-    "**w** synonym for WH (whileMU)"
+        "**w** synonym for WH (whileMU)"
+
+    ]]
+
+print {Input and output are important things to consider, and Rebol isn't necessarily tuned by default to meet the Code Golf expectations.  So maybe (P)rint and (R)ead are good to specially define.}
+
+heading "Declare Synonym And Invoke Operator"
+
+print {A fast synonym operator would be useful, so if you know you're going to call `function foo [x] [probe x]` a lot of times you could say something like Z*FOO.  This means the first time you use a function you could also define a shorthand, e.g. Z*FOO"Hello" would both make Z equivalent to foo as well as call it with the parameter "Hello".  Going to think about this.}
+
+heading "An Example: Roman Numerals"
+
+print {I got the dialect hobbling along well enough to run an example I coded to answer StackOverflow's code golf of [Converting Roman Numerals to Integers](http://stackoverflow.com/questions/1839079/can-this-roman-number-to-integer-converter-code-be-shorter).  The shortest Ruby code given on StackOverflow is 53 characters:}
+
+source 'ruby {
+n=1;$.+=n/2-n%n=10**(494254%C/9)%4999while C=getc;p$.
+}
+
+print << [
+
+    {Yet they were only trying to get it to work up to 3999, so I'm not sure what the input range that works on.  Plus, regardless of the language used the mechanism has been horribly obfuscated.}
+
+    {My early attempt at the problem in Rebmu is much more interesting IMO, even though it's 72 characters.  It prompts for the input, though if you were willing to pass it in a parameter variable that would get rid of two more characters right away.  :)}
 
 ]
 
-{Input and output are important things to consider, and Rebol isn't necessarily tuned by default to meet the Code Golf expectations.  So maybe (P)rint and (R)ead are good to specially define.}
-
-[heading "Declare Synonym And Invoke Operator"]
-
-{A fast synonym operator would be useful, so if you know you're going to call `function foo [x] [probe x]` a lot of times you could say something like Z*FOO.  This means the first time you use a function you could also define a shorthand, e.g. Z*FOO"Hello" would both make Z equivalent to foo as well as call it with the parameter "Hello".  Going to think about this.}
-
-[heading "An Example: Roman Numerals"]
-
-{I got the dialect hobbling along well enough to run an example I coded to answer StackOverflow's code golf of [Converting Roman Numerals to Integers](http://stackoverflow.com/questions/1839079/can-this-roman-number-to-integer-converter-code-be-shorter).  The shortest Ruby code given on StackOverflow is 53 characters:}
-
-[code ruby {
-n=1;$.+=n/2-n%n=10**(494254%C/9)%4999while C=getc;p$.
-}]
-
-{Yet they were only trying to get it to work up to 3999, so I'm not sure what the input range that works on.  Plus, regardless of the language used the mechanism has been horribly obfuscated.}
-
-{My early attempt at the problem in Rebmu is much more interesting IMO, even though it's 72 characters.  It prompts for the input, though if you were willing to pass it in a parameter variable that would get rid of two more characters right away.  :)}
-
-[code rebol {
+source 'rebol {
 rSfeCs[Nse[i1v5x10l50c100d500m1000]twCi~j[JnCN]Kk+elJn[alN-j N0]'jJn]k+j
-}]
+}
 
-"Let's see it running in Rebmu!"
+print "Let's see it running in Rebmu!"
 
-[code rebol {
+source 'rebol {
 >> rebmu [rSfeCs[Nse[i1v5x10l50c100d500m1000]twCi~j[JnCN]Kk+elJn[alN-j N0]'jJn]k+j] 
 Input String: I
 == 1
@@ -185,19 +195,19 @@ Input String: MMMDCCCLXXXVIII
 >> rebmu [rSfeCs[Nse[i1v5x10l50c100d500m1000]twCi~j[JnCN]Kk+elJn[alN-j N0]'jJn]k+j] 
 Input String: MMMCMXCIX
 == 3999
-}]
+}
 
-{But it gets better than that.  It can be edited easily, and already handles numbers far bigger than the problem specified:}
+print {But it gets better than that.  It can be edited easily, and already handles numbers far bigger than the problem specified:}
 
-[code rebol {
+source 'rebol {
 >> rebmu [rSfeCs[Nse[i1v5x10l50c100d500m1000]twCi~j[JnCN]Kk+elJn[alN-j N0]'jJn]k+j] 
 Input String: MMMMMMMMMMMMMMMMCCCCXCIII                                                         
 16493
-}]
+}
 
-{Plus you can add more symbols if you feel like it without using a calculator.  The code is surprisingly clear (*if* you know Rebol)...because you just do a simple translation in your head to what the Rebmu dialect does.  We can ask Rebmu to do this for us using UNMUSH with the /deep refinement:}
+print {Plus you can add more symbols if you feel like it without using a calculator.  The code is surprisingly clear (*if* you know Rebol)...because you just do a simple translation in your head to what the Rebmu dialect does.  We can ask Rebmu to do this for us using UNMUSH with the /deep refinement:}
 
-[code rebol {
+source 'rebol {
 unmush/deep [
     rSfeCs[Nse[i1v5x10l50c100d500m1000]twCi~j[JnCN]Kk+elJn[alN-j N0]'jJn]k+j
 ]
@@ -206,11 +216,11 @@ unmush/deep [
     [i 1 v 5 x 10 l 50 c 100 d 500 m 1000] 
     tw c i ~ j [j: n cn] k: k + el j n
     [al n - j n: 0] 'j j: n] k + j]
-}]
+}
 
-{So the Rebmu saved 40% over using Rebol as-is.  Here's a commented version with full function names so you can follow along more easily:}
+print {So the Rebmu saved 40% over using Rebol as-is.  Here's a commented version with full function names so you can follow along more easily:}
 
-[code rebol {
+source 'rebol {
 ; The following initial declarations are implicit
 ; k: 0
 ; j: 0 
@@ -247,8 +257,8 @@ foreach c s [
 ; if lingering previous value is not zero
 ; it will be added here and returned
 k + j
-}]
+}
 
-[note {I'm using some extensions like either-lesser-mu EL and mapping ~ to the function "inversion-mu".  I also assume that the to-word-mu variant TW allows character arguments and EI/E either-mu allows words in addition to blocks.  The goal of the mu variants of functions would be to do the same thing for the same inputs as their Rebol counterparts BUT possibly extend by operating on types which would be illegal.  This helps ensure that those coding in ordinary Rebol who try an IF instead of an IF-MU will get an error message and not a program that just does something different.}]
+note {I'm using some extensions like either-lesser-mu EL and mapping ~ to the function "inversion-mu".  I also assume that the to-word-mu variant TW allows character arguments and EI/E either-mu allows words in addition to blocks.  The goal of the mu variants of functions would be to do the same thing for the same inputs as their Rebol counterparts BUT possibly extend by operating on types which would be illegal.  This helps ensure that those coding in ordinary Rebol who try an IF instead of an IF-MU will get an error message and not a program that just does something different.}
 
-{There's a start on my idea to make Rebol the greatest Code Golf language ever. :)}
+print {There's a start on my idea to make Rebol the greatest Code Golf language ever. :)}

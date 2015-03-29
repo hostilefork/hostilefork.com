@@ -6,36 +6,46 @@ Draem [
     old-url-prefix: %2007/10/20/
 ]
 
-{I complain a lot about how things are, and offer ideas on how they could be better.  But I don't tend to try and predict the future.}
+print << [
 
-{This is mostly because I have no illusions that just because something is a bad way of doing things that it will get better!  Look how the world just kept putting more gas-powered human-driven vehicles on the road...the myopia of most people is staggering.  Deaths and pollution and wasted time in traffic is apparently not enough of a reason to try harder for the average person.  In software, the myopia of the masses is strongly parallel.}
+    {I complain a lot about how things are, and offer ideas on how they could be better.  But I don't tend to try and predict the future.}
 
-{I avoided web development for a very long time, because it always felt lousy to me.  I'd watched APIs grow and develop, and I just couldn't understand expressing user interfaces in HTML.  Real programmers had been working trying to find ways of moving toward "skinnable" interfaces and rich behavior of form components that would lay out intelligently.  The Web set back user interface design by decades, forcing people to recast their user interfaces into things like grids or tables of images rather than a richer compositional model.  The result is boxy, and you're forced to recast everything into this boxy way of expressing yourself with inflexible bitmaps.}
+    {This is mostly because I have no illusions that just because something is a bad way of doing things that it will get better!  Look how the world just kept putting more gas-powered human-driven vehicles on the road...the myopia of most people is staggering.  Deaths and pollution and wasted time in traffic is apparently not enough of a reason to try harder for the average person.  In software, the myopia of the masses is strongly parallel.}
 
-{Let's take a common thing going on in browsers, the "curvy corner".  The number of documents where people talk about making little bitmaps for the corners that are necessary to give this simple visual illusion makes me want to gag.  I'm no more pleased by the fact that this random, useless, singularly uninteresting visual concept *was explicitly added to CSS* because the morons who use and develop websites find this more important than actually solving real technical problems.}
+    {I avoided web development for a very long time, because it always felt lousy to me.  I'd watched APIs grow and develop, and I just couldn't understand expressing user interfaces in HTML.  Real programmers had been working trying to find ways of moving toward "skinnable" interfaces and rich behavior of form components that would lay out intelligently.  The Web set back user interface design by decades, forcing people to recast their user interfaces into things like grids or tables of images rather than a richer compositional model.  The result is boxy, and you're forced to recast everything into this boxy way of expressing yourself with inflexible bitmaps.}
 
-{But being angry about the priorities of society is not unique to me.  As Horace Walpole said: *"This world is a comedy to those that think, a tragedy to those that feel."*  I do both but, spend more time venting than laughing.  Yet oddly this methodology of sticks and glue has given me web comedy series on YouTube.  And I'll also say that there has been a bit of a "less is more" evolution; the utter horror of how bad web-based software interfaces were caused a laser-like focus from companies like Google to get you directly to the top 10 results for your query.  In a lousy UI, search is paramount.}
+    {Let's take a common thing going on in browsers, the "curvy corner".  The number of documents where people talk about making little bitmaps for the corners that are necessary to give this simple visual illusion makes me want to gag.  I'm no more pleased by the fact that this random, useless, singularly uninteresting visual concept *was explicitly added to CSS* because the morons who use and develop websites find this more important than actually solving real technical problems.}
 
-{But let me talk a little about the future, by analogy.}
+    {But being angry about the priorities of society is not unique to me.  As Horace Walpole said: *"This world is a comedy to those that think, a tragedy to those that feel."*  I do both but, spend more time venting than laughing.  Yet oddly this methodology of sticks and glue has given me web comedy series on YouTube.  And I'll also say that there has been a bit of a "less is more" evolution; the utter horror of how bad web-based software interfaces were caused a laser-like focus from companies like Google to get you directly to the top 10 results for your query.  In a lousy UI, search is paramount.}
 
-{Some of us people remember the old-fashioned terminal programs, which would communicate with your computer in a linear way... churning a stream of characters at you.  In the beginning, these were designed for printers and not screens; so once a character was output there was no going back.  It's possible to write a text editor under these circumstances, but it's a bit painful.  On the plus side, the protocol is very simple.}
+    {But let me talk a little about the future, by analogy.}
 
-{Then came along the ability to reposition the cursor on the screen.  Suddenly, the computer you were talking to could erase characters it had written.  It ushered in a new wave of interactive editors that featured the ability to "paint the screen".}
+    {Some of us people remember the old-fashioned terminal programs, which would communicate with your computer in a linear way... churning a stream of characters at you.  In the beginning, these were designed for printers and not screens; so once a character was output there was no going back.  It's possible to write a text editor under these circumstances, but it's a bit painful.  On the plus side, the protocol is very simple.}
 
-{As with most people watching the rise of systems like Wikipedia, Gmail, Freebase, and Google Maps, I started wondering.  My worst fears were confirmed.  As horrible an experience as writing programs for Microsoft Windows was using the WIN32 API, doing it in Ajax is **worse**.}
+    {Then came along the ability to reposition the cursor on the screen.  Suddenly, the computer you were talking to could erase characters it had written.  It ushered in a new wave of interactive editors that featured the ability to "paint the screen".}
 
-{Yet what I am convinced of now is that the protocol is reaching its critical limit.  With Ajax, web browsers are splitting at the seams.  Evolution in web protocols is going nowhere fast, and it is the lagging advancement of browser installs that means that.}
+    {As with most people watching the rise of systems like Wikipedia, Gmail, Freebase, and Google Maps, I started wondering.  My worst fears were confirmed.  As horrible an experience as writing programs for Microsoft Windows was using the WIN32 API, doing it in Ajax is **worse**.}
 
-{Browsers will be around for a long time--don't get me wrong--and they will set a new bar for the lowest-common-denominator in UI, replacing the classic command line terminal.  This is already happening in devices like routers...where you administrate them through the fetching and posting of web forms.  Also remember that the web came into being largely because the network was not fast enough to handle screen remoting, such as through [VNC (Virtual Network Computing)](http://en.wikipedia.org/wiki/Virtual_Network_Computing).  In developing countries, this will be the case for some time to come.}
+    {Yet what I am convinced of now is that the protocol is reaching its critical limit.  With Ajax, web browsers are splitting at the seams.  Evolution in web protocols is going nowhere fast, and it is the lagging advancement of browser installs that means that.}
 
-{There are two options, as far as I see it, for the evolution of interactive computer software over networks:}
+    {Browsers will be around for a long time--don't get me wrong--and they will set a new bar for the lowest-common-denominator in UI, replacing the classic command line terminal.  This is already happening in devices like routers...where you administrate them through the fetching and posting of web forms.  Also remember that the web came into being largely because the network was not fast enough to handle screen remoting, such as through [VNC (Virtual Network Computing)](http://en.wikipedia.org/wiki/Virtual_Network_Computing).  In developing countries, this will be the case for some time to come.}
 
-[list
-	{The continued rise of network computing and virtual hosting, which will facilitate safe full-screen remoting.  Where this is not possible due to either a lack of computing power on the server (talking to your router) or due to a lack of network bandwidth (networks in developing countries) Ajax will be the newer, friendlier VT100.}
+    {There are two options, as far as I see it, for the evolution of interactive computer software over networks:}
 
-	{The other is the idea that a new browser codebase will arise, which does magic safe component downloading to the client to use its processor power.  .NET wants to be this platform, and so do Flash and Silverlight, and Java wanted to be it too.  All of these fall pretty flat because they're based on very old ideas, and haven't come up with any magic.  Flash and Silverlight will not dominate the future of computing, because at this point, no one in their right mind is willing to hand over the future infrastructure to a corporation.  The backlash from important developers has been so severe that they'd rather suffer through Ajax's mediocrity and promote the broken browser metaphor than code to a proprietary platform.  Right now Flash happens to be the best way to deliver cross-platform audio and video, but like the proprietary GIF standard it will be excised if they try to push it forward.}
 ]
 
-{As I don't believe in any of those technologies specifically, I'll restate my belief that [the real future lies in Virtualization](http://blog.hostilefork.com/virtualization-and-the-integrated-circuit/), simply because there is no granularity that's really working at this scale.  Native apps inside of VMs or on devices that run only one OS, written against a backend, are going to eclipse the browser and relegate it to VT-100 status...an "old way".  You'll sooner be running an iPad emulator than use a lousy website based on garbage.}
+list [item << [
 
-{It's the future: hear me now and believe me later.  :-)}
+        {The continued rise of network computing and virtual hosting, which will facilitate safe full-screen remoting.  Where this is not possible due to either a lack of computing power on the server (talking to your router) or due to a lack of network bandwidth (networks in developing countries) Ajax will be the newer, friendlier VT100.}
+
+        {The other is the idea that a new browser codebase will arise, which does magic safe component downloading to the client to use its processor power.  .NET wants to be this platform, and so do Flash and Silverlight, and Java wanted to be it too.  All of these fall pretty flat because they're based on very old ideas, and haven't come up with any magic.  Flash and Silverlight will not dominate the future of computing, because at this point, no one in their right mind is willing to hand over the future infrastructure to a corporation.  The backlash from important developers has been so severe that they'd rather suffer through Ajax's mediocrity and promote the broken browser metaphor than code to a proprietary platform.  Right now Flash happens to be the best way to deliver cross-platform audio and video, but like the proprietary GIF standard it will be excised if they try to push it forward.}
+
+    ]]
+
+print << [
+
+    {As I don't believe in any of those technologies specifically, I'll restate my belief that [the real future lies in Virtualization](http://blog.hostilefork.com/virtualization-and-the-integrated-circuit/), simply because there is no granularity that's really working at this scale.  Native apps inside of VMs or on devices that run only one OS, written against a backend, are going to eclipse the browser and relegate it to VT-100 status...an "old way".  You'll sooner be running an iPad emulator than use a lousy website based on garbage.}
+
+    {It's the future: hear me now and believe me later.  :-)}
+
+]

@@ -6,136 +6,176 @@ Draem [
     old-url-prefix: %2012/01/18/
 ]
 
-[update 1-Jan-2014 {This entry summarizes why I found it easier to use StackOverflow as a surrogate blog, rather than tackle the migration away from WordPress, which has happened since...}]
+update 1-Jan-2014 {This entry summarizes why I found it easier to use StackOverflow as a surrogate blog, rather than tackle the migration away from WordPress, which has happened since...}
 
-{I've not been posting on this WordPress blog very often this past year.  That's despite actually doing more programming-related explorations than I had in a long time.  One of the key reasons is because I found more "instant gratification" (and sometimes "instant frustration") by participating in the online question-and-answer site [StackOverflow](http://stackoverflow.com/users/211160/hostilefork?tab=answers&sort=votes).}
+print << [
 
-{Like Wikipedia, StackOverflow is a collaboratively-edited body of knowledge.  Also like Wikipedia, it is curated by (mostly) volunteers who've agreed to use the "Creative Commons Attribution-Share Alike 2.5 Generic License"  a.k.a. [CC-Wiki](http://wiki.creativecommons.org/Case_Studies/StackOverflow.com).  But unlike Wikipedia, S.O. is a closed-source system written using proprietary server-side Microsoft technologies.  The people running it are a for-profit business, with paid advertisers and venture capital investors.  Their profitability enables them to keep [$100 bills in jars](http://blog.stackoverflow.com/2011/03/a-new-name-for-stack-overflow-with-surprise-ending/) of their company snack room:}
+    {I've not been posting on this WordPress blog very often this past year.  That's despite actually doing more programming-related explorations than I had in a long time.  One of the key reasons is because I found more "instant gratification" (and sometimes "instant frustration") by participating in the online question-and-answer site [StackOverflow](http://stackoverflow.com/users/211160/hostilefork?tab=answers&sort=votes).}
 
-[image http://hostilefork.com/media/blog/stackoverflow-summary/stackoverflow-snack-room.jpg 400x290 "the StackOverflow snack jars"]
-
-{I don't begrudge them their success.  But while the site can be snapshotted and mirrored, it's certainly not free of lock-in for tracking question history and other integral site features.  Due to the aesthetics of the programmer-types running it, quality and improvements have moved ahead quickly...*so far*.  I will remind everyone that seemingly trustworthy and upstanding programmers have sold out sites hosting my content in the past for something "as petty as money".}
-
-[note
-	{Remember LiveJournal when [Brad Fitzpatrick](http://en.wikipedia.org/wiki/Brad_Fitzpatrick) ran it, vs. when it was sold and covered with full-pop-up-video advertisements, feature stagnation, and possible KGB oppression by its [new Russian owners](http://kavkazcenter.com/eng/content/2011/09/01/15049_print.html)?}
-
-	{Trusting too much content to that, back in the day, also created a real hassle for me later.}
-]
-
-{So I remain a little skeptical.  But I did learn a lot by participating, which for me meant reading a lot then answering many more questions than I asked.  I've been at times awed by the *extremely detailed* knowledge some people have...and how quickly one can get a thorough and elegant answer.  At other times I've been amazed at what jerks some of those same incredibly knowledgeable people can be, for no apparent reason.  (It's less surprising when people whose knowledge does *not* impress me are jerks...that's status quo for the Internet!)}
-
-{Because I've recently taken on the organizer role of the [Austin C/C++ Meetup](http://www.meetup.com/The-Austin-C-C-Meetup-Group/), I've been introducing myself and sharing links to this creaky old WordPress site.  So it seems good to share a few of the high-and-low points of what has been my substitute for a programming blog in the latter half of 2011.  Sometimes funny, sometimes enlightening, sometimes lame--and sometimes all three!  Read on...}
-
-more
-
-[heading "Reverse Trolling the LOLCODE Troll"]
-
-{The famous internet [lolcat](http://en.wikipedia.org/wiki/Lolcat) is the tradition of juxtaposing poorly-spelled captions onto a picture of a cat--supposedly to represent the cat's thoughts.  In any case, a programming language called [LOLCODE](http://en.wikipedia.org/wiki/LOLCODE) was created as a joke, to incorporate some of the phrasings and spellings found in these captions as keywords in the language.}
-
-{As in a lot of computer science classes, one can ask serious-sounding questions about the choices made by language designers for a "joke".  Someone did this on StackOverflow:}
-
-http://stackoverflow.com/questions/6124995/what-good-is-the-nerfin-loop-operation-in-lolcode/
-
-{I came across it as one of the more highly upvoted questions that had gone unanswered for months.  So I decided to research it, and even went as far as downloading and compiling a LOLCODE interpreter.  [My deadpan response](http://stackoverflow.com/questions/6124995/what-good-is-the-nerfin-loop-operation-in-lolcode/7170973#7170973) ends with the phrase *"It may be a suitable interim solution for existing 1.2 LOLCODE deployments if you don't have to share code with unpatched installations"*.  The whole thing ends with a picture of a flying cat.}
-
-[heading "Free Beverage In Toronto"]
-
-{One issue I'm passionate about is the divergence that happened when Linux fragmented between systems built on GTK and Qt.  This fragmentation came largely from the fact that Richard Stallman (the "Father of the Free Software Movement") said that Qt...while technically good and *somewhat* free...simply [didn't have acceptable licensing terms](http://www.linuxtoday.com/developer/2000090500121OPLFKE) for a library that would be used to build a Linux graphical desktop that he would endorse.}
-
-{For most people (including Stallman) the licensing issues have now been solved, more or less.  He called off the team of free software believers he'd encouraged to clone Qt in the project called "Harmony".  There's a bit of a push-and-pull right now since Nokia controls the main source repositories for the project, especially since a lot of their strategy has moved to Windows Phone and doesn't use Qt at all.  But there's no *legal* barrier keeping you or I from forking their work, if we find their stewardship to be unacceptable.}
-
-{Lots of Linux desktop software builds on GTK.  Examples would be Google's Linux version of Chrome, or the GNU answer to PhotoShop ("GIMP"), or anything written with the "wxWidgets" library.  These tend to depress me if I ever have to trace through their source, and I find wxWidgets particularly depressing because its cross-platform strategy centers on cloning a subset of the Windows API.}
-
-{Since I think the architecture of Qt is a league above GTK, I endeavor to make people see why I feel this way.  But to be an effective critic of a codebase, one must know thy codebase enemy.  This question no one seemed to know the answer to looked like an opportunity to dig:}
-
-http://stackoverflow.com/questions/7545804/modeless-parentless-wxdialog-still-always-above-wxframe-window-in-z-order/
-
-{I didn't actually *want* to install wxWidgets and Gnome to answer the question.  But my first educated guess from browsing the online source repositories didn't work.  When I did trace through the code it was every bit as depressing as I'd expected.  I did solve the problem, which got the response:}
-
-[quote
-
-    {Good Lord... I did not expect anyone to go to that level of effort for something this trivial. I'd mark this as accepted for the effort even if it didn't work, but I'm happy to report that it does -- you've nailed it. :-D Thank you!}
-
-    {That change also fixed another problem I had, where the modeless parentless dialogs would always appear in the center of the screen. I hadn't had a chance to look for the cause of that yet, now I don't have to. :-D Let me know if you're ever in the Toronto area, I owe you a beverage of your choice.}
+    {Like Wikipedia, StackOverflow is a collaboratively-edited body of knowledge.  Also like Wikipedia, it is curated by (mostly) volunteers who've agreed to use the "Creative Commons Attribution-Share Alike 2.5 Generic License"  a.k.a. [CC-Wiki](http://wiki.creativecommons.org/Case_Studies/StackOverflow.com).  But unlike Wikipedia, S.O. is a closed-source system written using proprietary server-side Microsoft technologies.  The people running it are a for-profit business, with paid advertisers and venture capital investors.  Their profitability enables them to keep [$100 bills in jars](http://blog.stackoverflow.com/2011/03/a-new-name-for-stack-overflow-with-surprise-ending/) of their company snack room:}
 
 ]
 
-{Don't know if I'll ever be in Toronto, but if I do...I'm ordering the [unicorn tears](http://www.thepostgame.com/blog/clip-board/201201/hilarious-homemade-doritos-ad-delights-web).}
+image [http://hostilefork.com/media/blog/stackoverflow-summary/stackoverflow-snack-room.jpg 400x290 "the StackOverflow snack jars"]
 
-[heading "Swabbing Decks on the Battleship"]
+print {I don't begrudge them their success.  But while the site can be snapshotted and mirrored, it's certainly not free of lock-in for tracking question history and other integral site features.  Due to the aesthetics of the programmer-types running it, quality and improvements have moved ahead quickly...*so far*.  I will remind everyone that seemingly trustworthy and upstanding programmers have sold out sites hosting my content in the past for something "as petty as money".}
 
-{In my attempts to foster more Qt advocacy, I'd try and delve into questions asked by students or new programmers.  I would have personally appreciated such help if channels like StackOverflow had existed when I was learning to program.  All *I* had was a Commodore 64 in a dim basement, with one book on BASIC and one on machine language, and no Internet.  To quote William Kamkwamba, who built a windmill basically on his own in rural Malawi when he was 14: ["Where was this Google all this time?"](http://hackaday.com/2009/10/08/william-kamkwamba-talks-windmills-with-jon-stewart/)}
+note [
 
-{What I found rather striking about this fellow's question was how much manual labor he had done.  He was trying to use the Qt Designer tool to build the interface for a variant of the Battleship board game (that he called "Star Admiral") and had built this interface:}
+    print << [
 
-[image http://hostilefork.com/media/blog/stackoverflow-summary/battleship-interface.jpg 400x301 "a laboriously created Battleship interface"]
+        {Remember LiveJournal when [Brad Fitzpatrick](http://en.wikipedia.org/wiki/Brad_Fitzpatrick) ran it, vs. when it was sold and covered with full-pop-up-video advertisements, feature stagnation, and possible KGB oppression by its [new Russian owners](http://kavkazcenter.com/eng/content/2011/09/01/15049_print.html)?}
 
-{The amazing bit is that he had *manually* gone through and duplicated the grid cells and arranged them in the designer.  Then he had to give each one a unique string name that could somehow encode the position.  That way he could build an addressing scheme in his code to get the widget on a certain grid, for a certain X,Y coordinate.}
+        {Trusting too much content to that, back in the day, also created a real hassle for me later.}
 
-http://stackoverflow.com/questions/8335025/qt-update-pixmap-grid-layout-with-2d-array-values/
+    ]
 
-{It's kind of mind-boggling for me to remember that there was a time when I might have attacked problems in a similar way.  Today I would quickly realize "this tool is ridiculous for this purpose" and I would begin researching what the "right" way to do it was.  But decades ago when I didn't know any better, I too would have probably just pushed through it, trying to beeline for the Battleship clone I wanted.}
+]
 
-{I'm confident my answer [lays out the better/saner path](http://stackoverflow.com/a/8335365/211160).  Not only can a programmatic approach to producing the grids save one labor in the design tool, but it can smooth over implementation and performance questions of how to reference items on the screen through code.  But it did make me wonder if I have really lost the ability to "just slog through" a situation, now that I almost always know that a better way exists...}
+print << [
 
-{One might notice that despite all my effort, no one (not even the asker) has upvoted what I said.  My answer has also not been accepted.  So altogether, the work I did on answering that question resulted in *zero* reputation.  It's not an uncommon phenomenon...and there is a "meta" site where people argue on the [imbalance of reputation scores](http://meta.stackoverflow.com/questions/7162/why-do-long-well-thought-out-answers-result-in-negative-reputation-while-short-s).  But I think the best advice is to really consider the number to be a fairly irrelevant metric and let your posts speak for themselves.}
+    {So I remain a little skeptical.  But I did learn a lot by participating, which for me meant reading a lot then answering many more questions than I asked.  I've been at times awed by the *extremely detailed* knowledge some people have...and how quickly one can get a thorough and elegant answer.  At other times I've been amazed at what jerks some of those same incredibly knowledgeable people can be, for no apparent reason.  (It's less surprising when people whose knowledge does *not* impress me are jerks...that's status quo for the Internet!)}
 
-[update {Presumably because of my whining above, the answer was upvoted shortly after posting this entry.  Then after a long delay it was accepted.  Nevermind my whining.  StackOverflow does sort of harass people who re-log in and haven't accepted prior answers to try and get them to make a decision before asking new questions... which is cool.}]
+    {Because I've recently taken on the organizer role of the [Austin C/C++ Meetup](http://www.meetup.com/The-Austin-C-C-Meetup-Group/), I've been introducing myself and sharing links to this creaky old WordPress site.  So it seems good to share a few of the high-and-low points of what has been my substitute for a programming blog in the latter half of 2011.  Sometimes funny, sometimes enlightening, sometimes lame--and sometimes all three!  Read on...}
 
-[heading {Are << and >> "Binary" Safe}]
+]
 
-{One thing I started taking a more serious look at last year was the value of iostreams.  Not every C++ programmer "believes in" them, and there are some good and bad reasons for this.  I actually put together a presentation about them that I'll share on the site at some point.  But as I researched, I hit some questions about good and bad practices that no one seemed to have a very clear answer to, like this one:}
+heading "Reverse Trolling the LOLCODE Troll"
 
-http://stackoverflow.com/questions/8230786/inserters-and-extractors-reading-writing-binary-data-vs-text
+print << [
 
-{It's an interesting case of where there was no agreement.  I was told *"you'll be lucky to find any 'authoritative source' on a completely subjective issue"*, and yet people still seemed very comfortable throwing around distinctions like "formatted output" vs. "binary output" when no one knew the answer.  I mention it here in case anyone can digest all that and sort it out, because despite some of the assertions I'm still not really satisfied that we found any prescriptive answer.}
+    {The famous internet [lolcat](http://en.wikipedia.org/wiki/Lolcat) is the tradition of juxtaposing poorly-spelled captions onto a picture of a cat--supposedly to represent the cat's thoughts.  In any case, a programming language called [LOLCODE](http://en.wikipedia.org/wiki/LOLCODE) was created as a joke, to incorporate some of the phrasings and spellings found in these captions as keywords in the language.}
 
-[heading {"exception in module kernel32.dll at 001b:7c812afb"}]
+    {As in a lot of computer science classes, one can ask serious-sounding questions about the choices made by language designers for a "joke".  Someone did this on StackOverflow:}
 
-{This is another one of those "no one else answered it so I did" kind of questions.  And I didn't really know in particular what the details were, I just trusted they were *knowable*.  I find it kind of strange that I'm at a point where looking at this kind of thing is fun, but it's the kind of thing that's fun to look into on a random evening when one is in the mood:}
+]
 
-http://stackoverflow.com/questions/7267851/what-does-001b-mean-in-exception-in-module-kernel32-dll-at-001b7c812afb/
+link http://stackoverflow.com/questions/6124995/what-good-is-the-nerfin-loop-operation-in-lolcode/
 
-[heading "Friendship Is Magic--and so is Image Recognition"]
+print {I came across it as one of the more highly upvoted questions that had gone unanswered for months.  So I decided to research it, and even went as far as downloading and compiling a LOLCODE interpreter.  [My deadpan response](http://stackoverflow.com/questions/6124995/what-good-is-the-nerfin-loop-operation-in-lolcode/7170973#7170973) ends with the phrase *"It may be a suitable interim solution for existing 1.2 LOLCODE deployments if you don't have to share code with unpatched installations"*.  The whole thing ends with a picture of a flying cat.}
 
-{You might be amused in a case where I address someone's question about the fuzzy logic task of identifying My Little Ponies in freeze frames of cartoons.  I hadn't heard of ["bronies"](http://www.wired.co.uk/news/archive/2011-06/10/bronies-my-little-ponies?page=all) when I answered this question--so I didn't know a recent cartoon reboot had actually developed a comic/geek following.  I just thought it was funny and answered in the persona of a closeted My Little Pony collector:}
+heading "Free Beverage In Toronto"
 
-http://stackoverflow.com/questions/5823903/automated-my-little-pony-detection-and-classification
+print << [
 
-{If my tongue-in-cheek references turn out to actually reflect events that happen in this cartoon series, I'll be worried.}
+    {One issue I'm passionate about is the divergence that happened when Linux fragmented between systems built on GTK and Qt.  This fragmentation came largely from the fact that Richard Stallman (the "Father of the Free Software Movement") said that Qt...while technically good and *somewhat* free...simply [didn't have acceptable licensing terms](http://www.linuxtoday.com/developer/2000090500121OPLFKE) for a library that would be used to build a Linux graphical desktop that he would endorse.}
 
-[heading "So...What Dulled My Motivation on StackOverflow?"]
+    {For most people (including Stallman) the licensing issues have now been solved, more or less.  He called off the team of free software believers he'd encouraged to clone Qt in the project called "Harmony".  There's a bit of a push-and-pull right now since Nokia controls the main source repositories for the project, especially since a lot of their strategy has moved to Windows Phone and doesn't use Qt at all.  But there's no *legal* barrier keeping you or I from forking their work, if we find their stewardship to be unacceptable.}
 
-{Anyone who's been part of a web community knows that it can be a recipe for frustration if you ever get an inkling to start taking it seriously.  People on the web are still subject to all the same human fallibility that they would be if you met them in person--none of that goes away.  But it can get even worse because we don't have the benefit of our natural social networks or cues.}
+    {Lots of Linux desktop software builds on GTK.  Examples would be Google's Linux version of Chrome, or the GNU answer to PhotoShop ("GIMP"), or anything written with the "wxWidgets" library.  These tend to depress me if I ever have to trace through their source, and I find wxWidgets particularly depressing because its cross-platform strategy centers on cloning a subset of the Windows API.}
 
-[image http://imgs.xkcd.com/comics/duty_calls.png 300x330 "Someone is WRONG on the Internet!"]
+    {Since I think the architecture of Qt is a league above GTK, I endeavor to make people see why I feel this way.  But to be an effective critic of a codebase, one must know thy codebase enemy.  This question no one seemed to know the answer to looked like an opportunity to dig:}
 
-{What has bothered me most about StackOverflow is generally what others have called the problem of experienced users ["not being nice enough to the noobs"](http://meta.stackoverflow.com/questions/9953/could-we-please-be-a-bit-nicer-to-the-noobs).  It bothers me to see learned engineers (who are most likely in their 30s or 40s) being rude or mocking of users who a single click or two can reveal they are a child in another country, for whom English is a second language.}
+]
 
-{I've ripped into some users for this, especially chat room regulars.  I'm a bit taken aback to find that their knowledge and seeming desire to share it does not necessarily correlate with being a good person or a kind educator.  Yet that's the kind of behavior that gives programmers a bad name--so I don't like these guys perpetuating the stereotype when I feel they should know better.  If they want to pick on someone their own size, The Fork is ready to "take this outside".}
+link http://stackoverflow.com/questions/7545804/modeless-parentless-wxdialog-still-always-above-wxframe-window-in-z-order/
 
-{I've always had a deep problem watching people who are ostensibly in positions of status and power using that to belittle someone who did no harm to them.  There are several examples of me bristling at established users who have tens of thousands of reputation points when they're mean to new users.  Clearly not everyone with high reputation is like that--famous longtime users like Jon Skeet are genuinely cool people with [genuinely cool attitudes](http://blogs.msmvps.com/jonskeet/2009/01/15/stack-overflow-reputation-and-being-a-micro-celebrity/).  But the bad side, sadly, seems to appear more often than I'd like.}
+print {I didn't actually *want* to install wxWidgets and Gnome to answer the question.  But my first educated guess from browsing the online source repositories didn't work.  When I did trace through the code it was every bit as depressing as I'd expected.  I did solve the problem, which got the response:}
 
-{My displeasure at a response I got to an answer I'd written from a user named "curiousguy" sort of marked the last straw for me.  At least for a while.  The question was something fairly innocuous about [how extreme one should be about putting "const" on things](http://stackoverflow.com/questions/8532095/is-it-a-good-idea-of-maintaining-const-ness-as-much-as-possible/).  I'd posted an answer that took a little time to write, at least it represented my understanding:}
+quote [
 
-http://stackoverflow.com/questions/8532095/is-it-a-good-idea-of-maintaining-const-ness-as-much-as-possible/8532404#8532404
+    print << [
 
-{Someone had upvoted it.  Later I noticed it had been downvoted, and this curiousguy had commented simply *"'POD' fundamental?"*}
+        {Good Lord... I did not expect anyone to go to that level of effort for something this trivial. I'd mark this as accepted for the effort even if it didn't work, but I'm happy to report that it does -- you've nailed it. :-D Thank you!}
 
-{My mind didn't connect the comment with the downvote...not until after in the thread I realized he *wasn't asking me a question*.  He was apparently trying--through a methodology inspired by [Calvin Coolidge](http://msgboard.snopes.com/cgi-bin/ultimatebb.cgi?ubb=get_topic;f=101;t=000060;p=0) and [Socrates](http://en.wikipedia.org/wiki/Socratic_method)--to point to the error of my answer by way of a really short comment.  Even when I didn't seem to understand him and tried to help him with a definition, he didn't clarify...but just hinted I was supposed to go off and realize why I was wrong, and appreciate the downvote (or something to that effect?)}
+        {That change also fixed another problem I had, where the modeless parentless dialogs would always appear in the center of the screen. I hadn't had a chance to look for the cause of that yet, now I don't have to. :-D Let me know if you're ever in the Toronto area, I owe you a beverage of your choice.}
 
-{By that time I'd read the top-voted answer about "swaptimization", but I'd lost interest in whether my answer was right or wrong.  I don't totally remember the mindset I was in --I'm sure alcohol was involved--but I was pretty darn mad when I grokked the comments.  I'm able to handle writing detailed answers to questions from students and not get any rep points, and excuse it because they're young and don't know any better.  Yet getting a smackdown with a "go read a book, kid" style response on something like this reinforced my perception that StackOverflow's C++ cabal simply wasn't a club I wanted to be a member of.}
+    ]
 
-{I find my story is not uncommon: in the "real world" Austin C++ Group when I've mentioned this kind of issue, people say they stay away as well.  Experienced professionals--who at one point find themselves working with a technology they don't quite understand--start an account and ask a question.  It's phrased competently enough that their misunderstanding catches the attention of "gurus", leading to a treatment that may well provide clarification...but has a tone that makes them think **"sorry I asked"**.  They don't feel like coming back, and I don't blame them given some things I've seen.}
+]
 
-{There have been a couple of developments since that minor scuffle with curiousguy.  I took a few days and then looked over his answers...and saw at least one example where I felt he was getting disproportionately negative treatment for an attempt to help.  While long time users like Jon Skeet may be "feeling the love", there are probably more people who come in with goodwill...and who walk away feeling a bit more informed but a lot more isolated.  So I [upvoted one of his answers and said](http://stackoverflow.com/questions/2145030/are-all-temporaries-rvalues-in-c/8413387#comment10715140_8413387):}
+print {Don't know if I'll ever be in Toronto, but if I do...I'm ordering the [unicorn tears](http://www.thepostgame.com/blog/clip-board/201201/hilarious-homemade-doritos-ad-delights-web).}
 
-{"Arrite man...I was frustrated by your (I assumed) downvote and what I considered a snide comment on our last interaction. Fact is, I answer enough newbie questions sincerely that I guess I hold anyone who has "real knowledge" to a better standard of communication. But this looks very frustrating, and I offer you a Xmas +1 as a gesture of Goodwill and hope for the future of knowledge and the Internets--anonymous as they may sometimes be. :-/"}
+heading "Swabbing Decks on the Battleship"
 
-{His response indicated he also felt frustration over the situation, though he hadn't understood why I was mad.  I must not be the only one with a beef (though *I* did not flag him or complain to any moderator), because his account has been temporarily suspended until February in what StackOverflow calls the [penalty box](http://blog.stackoverflow.com/2009/04/a-day-in-the-penalty-box/).  They even cite one of the reasons for this practice as wanting to curb behaviors that "begin to actively turn people away from our community, stunting its growth and harming everyone"...while still recognizing a user's potential as a contributor and being willing to welcome them back.}
+print << [
 
-{A small part of me feels reassured to know others had a problem, because I felt guilty for over-reacting on a small amount of data...perhaps misinterpreting a person who didn't mean harm.  But for the most part I'm upset, because I feel like just as with Facebook or Twitter that we are running a risk by centralizing this kind of authority.  I'll now share this talk by James Vasile regarding FreedomBox, which has been a big influence on me lately:}
+    {In my attempts to foster more Qt advocacy, I'd try and delve into questions asked by students or new programmers.  I would have personally appreciated such help if channels like StackOverflow had existed when I was learning to program.  All *I* had was a Commodore 64 in a dim basement, with one book on BASIC and one on machine language, and no Internet.  To quote William Kamkwamba, who built a windmill basically on his own in rural Malawi when he was 14: ["Where was this Google all this time?"](http://hackaday.com/2009/10/08/william-kamkwamba-talks-windmills-with-jon-stewart/)}
 
-[youtube http://www.youtube.com/embed/9bDDUyJSQ9s 400x225]
+    {What I found rather striking about this fellow's question was how much manual labor he had done.  He was trying to use the Qt Designer tool to build the interface for a variant of the Battleship board game (that he called "Star Admiral") and had built this interface:}
 
-{I think Jeff and Joel (who started StackOverflow) are forward-thinking enough to appreciate the ideas James is speaking about.  We're in a phase of compromise right now, but it *must* move to separate the value encoded in curation of trust networks from the value of the Q&A&comments by people who may have a different trust network.  Seeing what I can do to help that is going to be a focus area for me in 2012, and while I won't be off StackOverflow entirely I'll definitely be looking to see what we can do to decentralize the authority for such an important and powerful resource.}
+]
+
+image [http://hostilefork.com/media/blog/stackoverflow-summary/battleship-interface.jpg 400x301 "a laboriously created Battleship interface"]
+
+print {The amazing bit is that he had *manually* gone through and duplicated the grid cells and arranged them in the designer.  Then he had to give each one a unique string name that could somehow encode the position.  That way he could build an addressing scheme in his code to get the widget on a certain grid, for a certain X,Y coordinate.}
+
+link http://stackoverflow.com/questions/8335025/qt-update-pixmap-grid-layout-with-2d-array-values/
+
+print << [
+
+    {It's kind of mind-boggling for me to remember that there was a time when I might have attacked problems in a similar way.  Today I would quickly realize "this tool is ridiculous for this purpose" and I would begin researching what the "right" way to do it was.  But decades ago when I didn't know any better, I too would have probably just pushed through it, trying to beeline for the Battleship clone I wanted.}
+
+    {I'm confident my answer [lays out the better/saner path](http://stackoverflow.com/a/8335365/211160).  Not only can a programmatic approach to producing the grids save one labor in the design tool, but it can smooth over implementation and performance questions of how to reference items on the screen through code.  But it did make me wonder if I have really lost the ability to "just slog through" a situation, now that I almost always know that a better way exists...}
+
+    {One might notice that despite all my effort, no one (not even the asker) has upvoted what I said.  My answer has also not been accepted.  So altogether, the work I did on answering that question resulted in *zero* reputation.  It's not an uncommon phenomenon...and there is a "meta" site where people argue on the [imbalance of reputation scores](http://meta.stackoverflow.com/questions/7162/why-do-long-well-thought-out-answers-result-in-negative-reputation-while-short-s).  But I think the best advice is to really consider the number to be a fairly irrelevant metric and let your posts speak for themselves.}
+
+]
+
+update {Presumably because of my whining above, the answer was upvoted shortly after posting this entry.  Then after a long delay it was accepted.  Nevermind my whining.  StackOverflow does sort of harass people who re-log in and haven't accepted prior answers to try and get them to make a decision before asking new questions... which is cool.}
+
+heading {Are << and >> "Binary" Safe}
+
+print {One thing I started taking a more serious look at last year was the value of iostreams.  Not every C++ programmer "believes in" them, and there are some good and bad reasons for this.  I actually put together a presentation about them that I'll share on the site at some point.  But as I researched, I hit some questions about good and bad practices that no one seemed to have a very clear answer to, like this one:}
+
+link http://stackoverflow.com/questions/8230786/inserters-and-extractors-reading-writing-binary-data-vs-text
+
+print {It's an interesting case of where there was no agreement.  I was told *"you'll be lucky to find any 'authoritative source' on a completely subjective issue"*, and yet people still seemed very comfortable throwing around distinctions like "formatted output" vs. "binary output" when no one knew the answer.  I mention it here in case anyone can digest all that and sort it out, because despite some of the assertions I'm still not really satisfied that we found any prescriptive answer.}
+
+heading {"exception in module kernel32.dll at 001b:7c812afb"}
+
+print {This is another one of those "no one else answered it so I did" kind of questions.  And I didn't really know in particular what the details were, I just trusted they were *knowable*.  I find it kind of strange that I'm at a point where looking at this kind of thing is fun, but it's the kind of thing that's fun to look into on a random evening when one is in the mood:}
+
+link http://stackoverflow.com/questions/7267851/what-does-001b-mean-in-exception-in-module-kernel32-dll-at-001b7c812afb/
+
+heading "Friendship Is Magic--and so is Image Recognition"
+
+print {You might be amused in a case where I address someone's question about the fuzzy logic task of identifying My Little Ponies in freeze frames of cartoons.  I hadn't heard of ["bronies"](http://www.wired.co.uk/news/archive/2011-06/10/bronies-my-little-ponies?page=all) when I answered this question--so I didn't know a recent cartoon reboot had actually developed a comic/geek following.  I just thought it was funny and answered in the persona of a closeted My Little Pony collector:}
+
+link http://stackoverflow.com/questions/5823903/automated-my-little-pony-detection-and-classification
+
+print {If my tongue-in-cheek references turn out to actually reflect events that happen in this cartoon series, I'll be worried.}
+
+heading "So...What Dulled My Motivation on StackOverflow?"
+
+print {Anyone who's been part of a web community knows that it can be a recipe for frustration if you ever get an inkling to start taking it seriously.  People on the web are still subject to all the same human fallibility that they would be if you met them in person--none of that goes away.  But it can get even worse because we don't have the benefit of our natural social networks or cues.}
+
+image [http://imgs.xkcd.com/comics/duty_calls.png 300x330 "Someone is WRONG on the Internet!"]
+
+print << [
+
+    {What has bothered me most about StackOverflow is generally what others have called the problem of experienced users ["not being nice enough to the noobs"](http://meta.stackoverflow.com/questions/9953/could-we-please-be-a-bit-nicer-to-the-noobs).  It bothers me to see learned engineers (who are most likely in their 30s or 40s) being rude or mocking of users who a single click or two can reveal they are a child in another country, for whom English is a second language.}
+
+    {I've ripped into some users for this, especially chat room regulars.  I'm a bit taken aback to find that their knowledge and seeming desire to share it does not necessarily correlate with being a good person or a kind educator.  Yet that's the kind of behavior that gives programmers a bad name--so I don't like these guys perpetuating the stereotype when I feel they should know better.  If they want to pick on someone their own size, The Fork is ready to "take this outside".}
+
+    {I've always had a deep problem watching people who are ostensibly in positions of status and power using that to belittle someone who did no harm to them.  There are several examples of me bristling at established users who have tens of thousands of reputation points when they're mean to new users.  Clearly not everyone with high reputation is like that--famous longtime users like Jon Skeet are genuinely cool people with [genuinely cool attitudes](http://blogs.msmvps.com/jonskeet/2009/01/15/stack-overflow-reputation-and-being-a-micro-celebrity/).  But the bad side, sadly, seems to appear more often than I'd like.}
+
+    {My displeasure at a response I got to an answer I'd written from a user named "curiousguy" sort of marked the last straw for me.  At least for a while.  The question was something fairly innocuous about [how extreme one should be about putting "const" on things](http://stackoverflow.com/questions/8532095/is-it-a-good-idea-of-maintaining-const-ness-as-much-as-possible/).  I'd posted an answer that took a little time to write, at least it represented my understanding:}
+
+]
+
+link http://stackoverflow.com/questions/8532095/is-it-a-good-idea-of-maintaining-const-ness-as-much-as-possible/8532404#8532404
+
+print << [
+
+    {Someone had upvoted it.  Later I noticed it had been downvoted, and this curiousguy had commented simply *"'POD' fundamental?"*}
+
+    {My mind didn't connect the comment with the downvote...not until after in the thread I realized he *wasn't asking me a question*.  He was apparently trying--through a methodology inspired by [Calvin Coolidge](http://msgboard.snopes.com/cgi-bin/ultimatebb.cgi?ubb=get_topic;f=101;t=000060;p=0) and [Socrates](http://en.wikipedia.org/wiki/Socratic_method)--to point to the error of my answer by way of a really short comment.  Even when I didn't seem to understand him and tried to help him with a definition, he didn't clarify...but just hinted I was supposed to go off and realize why I was wrong, and appreciate the downvote (or something to that effect?)}
+
+    {By that time I'd read the top-voted answer about "swaptimization", but I'd lost interest in whether my answer was right or wrong.  I don't totally remember the mindset I was in --I'm sure alcohol was involved--but I was pretty darn mad when I grokked the comments.  I'm able to handle writing detailed answers to questions from students and not get any rep points, and excuse it because they're young and don't know any better.  Yet getting a smackdown with a "go read a book, kid" style response on something like this reinforced my perception that StackOverflow's C++ cabal simply wasn't a club I wanted to be a member of.}
+
+    {I find my story is not uncommon: in the "real world" Austin C++ Group when I've mentioned this kind of issue, people say they stay away as well.  Experienced professionals--who at one point find themselves working with a technology they don't quite understand--start an account and ask a question.  It's phrased competently enough that their misunderstanding catches the attention of "gurus", leading to a treatment that may well provide clarification...but has a tone that makes them think **"sorry I asked"**.  They don't feel like coming back, and I don't blame them given some things I've seen.}
+
+    {There have been a couple of developments since that minor scuffle with curiousguy.  I took a few days and then looked over his answers...and saw at least one example where I felt he was getting disproportionately negative treatment for an attempt to help.  While long time users like Jon Skeet may be "feeling the love", there are probably more people who come in with goodwill...and who walk away feeling a bit more informed but a lot more isolated.  So I [upvoted one of his answers and said](http://stackoverflow.com/questions/2145030/are-all-temporaries-rvalues-in-c/8413387#comment10715140_8413387):}
+
+    {"Arrite man...I was frustrated by your (I assumed) downvote and what I considered a snide comment on our last interaction. Fact is, I answer enough newbie questions sincerely that I guess I hold anyone who has "real knowledge" to a better standard of communication. But this looks very frustrating, and I offer you a Xmas +1 as a gesture of Goodwill and hope for the future of knowledge and the Internets--anonymous as they may sometimes be. :-/"}
+
+    {His response indicated he also felt frustration over the situation, though he hadn't understood why I was mad.  I must not be the only one with a beef (though *I* did not flag him or complain to any moderator), because his account has been temporarily suspended until February in what StackOverflow calls the [penalty box](http://blog.stackoverflow.com/2009/04/a-day-in-the-penalty-box/).  They even cite one of the reasons for this practice as wanting to curb behaviors that "begin to actively turn people away from our community, stunting its growth and harming everyone"...while still recognizing a user's potential as a contributor and being willing to welcome them back.}
+
+    {A small part of me feels reassured to know others had a problem, because I felt guilty for over-reacting on a small amount of data...perhaps misinterpreting a person who didn't mean harm.  But for the most part I'm upset, because I feel like just as with Facebook or Twitter that we are running a risk by centralizing this kind of authority.  I'll now share this talk by James Vasile regarding FreedomBox, which has been a big influence on me lately:}
+
+]
+
+youtube [http://www.youtube.com/embed/9bDDUyJSQ9s 400x225]
+
+print {I think Jeff and Joel (who started StackOverflow) are forward-thinking enough to appreciate the ideas James is speaking about.  We're in a phase of compromise right now, but it *must* move to separate the value encoded in curation of trust networks from the value of the Q&A&comments by people who may have a different trust network.  Seeing what I can do to help that is going to be a focus area for me in 2012, and while I won't be off StackOverflow entirely I'll definitely be looking to see what we can do to decentralize the authority for such an important and powerful resource.}

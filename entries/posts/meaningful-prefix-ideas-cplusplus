@@ -6,30 +6,34 @@ Draem [
     old-url-prefix: %2009/11/14/
 ]
 
-{In the article [In Defense of Hungarian Notation (with caveats)](http://blog.hostilefork.com/defense-of-hungarian-notation/) I talked about why that convention was not inherently bad.  In fact, if one isn't using it *blatantly incorrectly*--the way the Win32 API does--it can be rather nice.  It's a way of avoiding meaningless or arbitrary pieces of a variable's name which could be supplied from context alone.}
+print << [
 
-{However, I concluded that article by saying that modern IDEs and languages call for different conventions.  While I've become a bit interested in the literacy of [Rebol](http://blog.hostilefork.com/major-rebol-language-quirks/) code, I still use other languages.  In C++ specifically, I've become curious about what naming conventions are "good".}
+    {In the article [In Defense of Hungarian Notation (with caveats)](http://blog.hostilefork.com/defense-of-hungarian-notation/) I talked about why that convention was not inherently bad.  In fact, if one isn't using it *blatantly incorrectly*--the way the Win32 API does--it can be rather nice.  It's a way of avoiding meaningless or arbitrary pieces of a variable's name which could be supplied from context alone.}
 
-{Despite my penchant for [Rebmu](http://rebmu.hostilefork.com/), in real programming I'm not concerned with brevity in the "fewest characters of source code" sense. Brief names are a case of *"penny-wise, pound-foolish"*--the stronger form of brevity to capture essential patterns so there's less code overall.  Sometimes a long and descriptive name can help point out smoking guns. Think about a routine that returns a pointer which can either be written as `GetEmployee` and `GetEmployeeMaybeNull`.  Depending on your tastes, you might think "MaybeNull" is a verbose suffix, but what will cost you more in the long run: 9 characters or the lack of awareness of the actual function's behavior?}
+    {However, I concluded that article by saying that modern IDEs and languages call for different conventions.  While I've become a bit interested in the literacy of [Rebol](http://blog.hostilefork.com/major-rebol-language-quirks/) code, I still use other languages.  In C++ specifically, I've become curious about what naming conventions are "good".}
 
-{While naming is a broad general topic, in this article I'm just going to talk about some of my unusual uses of prefixes on method names.}
+    {Despite my penchant for [Rebmu](http://rebmu.hostilefork.com/), in real programming I'm not concerned with brevity in the "fewest characters of source code" sense. Brief names are a case of *"penny-wise, pound-foolish"*--the stronger form of brevity to capture essential patterns so there's less code overall.  Sometimes a long and descriptive name can help point out smoking guns. Think about a routine that returns a pointer which can either be written as `GetEmployee` and `GetEmployeeMaybeNull`.  Depending on your tastes, you might think "MaybeNull" is a verbose suffix, but what will cost you more in the long run: 9 characters or the lack of awareness of the actual function's behavior?}
 
-[heading "booleans"]
+    {While naming is a broad general topic, in this article I'm just going to talk about some of my unusual uses of prefixes on method names.}
 
-{The convention of using "is" on boolean methods is pretty good.  But it tends to be a bad idea for variables that capture the results from such methods:}
+]
 
-[code cpp {
+heading "booleans"
+
+print {The convention of using "is" on boolean methods is pretty good.  But it tends to be a bad idea for variables that capture the results from such methods:}
+
+source 'cpp {
 bool isDoorOpen = door.isOpen();
 door.close();
 if (isDoorOpen) // well, its not any more!
     complain("you left the door open");
-}]
+}
 
-{
+print {
  
 I've found some interesting words for working around this.  For instance, you can use "should" in the variable name if you know what it's going to control later...}
 
-[code cpp {
+source 'cpp {
 bool shouldCloseDoor = door.isOpen();
 ...
 if (shouldCloseDoor) {
@@ -37,11 +41,11 @@ if (shouldCloseDoor) {
     shouldCloseDoor = false;
 }
 ...
-}]
+}
 
-{If you know you're capturing just to look at later, "was" can be a nice word:}
+print {If you know you're capturing just to look at later, "was" can be a nice word:}
 
-[code cpp {
+source 'cpp {
 bool wasDoorOpen = door.isOpen();
 ...
 if (wasDoorOpen) {
@@ -50,38 +54,46 @@ if (wasDoorOpen) {
 ...
 if (wasDoorOpen)
    complain("you left the door open earlier this morning");
-}]
+}
 
-{Generally speaking, "is" comes in handy for const methods... but non-const methods usually want to emphasize their action and not the result.  If your non-const method has a boolean result, then "maybe" can come in handy:}
+print {Generally speaking, "is" comes in handy for const methods... but non-const methods usually want to emphasize their action and not the result.  If your non-const method has a boolean result, then "maybe" can come in handy:}
 
-[code cpp {
+source 'cpp {
 bool didCloseDoor = door.maybeClose();
 if (not didCloseDoor)
     complain("Guess that door was closed already, huh?")
-}]
+}
 
-[note {I used to use "try" for this, but I think that since try has very specific meaning in exception handling it's better to use maybe.}]
+note {I used to use "try" for this, but I think that since try has very specific meaning in exception handling it's better to use maybe.}
 
-{We also see that "did" lines up with actions, in a way similar to how "was" worked for simple observation.}
+print {We also see that "did" lines up with actions, in a way similar to how "was" worked for simple observation.}
 
-[heading "get, set, fetch, extract"]
+heading "get, set, fetch, extract"
 
-{Everyone knows "get" and "set".  But sometimes you have a more heavyweight version of get.  Like with an object that contains a shared pointer.  You might have a get method that retrieves the pointer, and a "fetch" method that retrieves the *shared* pointer... thus letting go of a bit of control.}
+print << [
 
-{I use "extract" to mean a complete takeover of ownership.  So in the example I just explained, that would mean getting back a unique pointer.}
+    {Everyone knows "get" and "set".  But sometimes you have a more heavyweight version of get.  Like with an object that contains a shared pointer.  You might have a get method that retrieves the pointer, and a "fetch" method that retrieves the *shared* pointer... thus letting go of a bit of control.}
 
-[heading "maybe"]
+    {I use "extract" to mean a complete takeover of ownership.  So in the example I just explained, that would mean getting back a unique pointer.}
 
-{I mentioned **maybe** earlier in the context of boolean results regarding an action with side-effects that may or may not succeed.  A specific application I have of that is as `maybeGet` to indicate when something might not return a result, such as with `optional`:}
+]
 
-[code cpp "optional<Foo> maybeGetFooFromBar(Bar& bar);"]
+heading "maybe"
 
-{While I've concluded that putting `shared_ptr` or `unique_ptr` inside of an optional is questionable, I still use the "maybe" prefix to cue when a nullptr result is legitimate.}
+print {I mentioned **maybe** earlier in the context of boolean results regarding an action with side-effects that may or may not succeed.  A specific application I have of that is as `maybeGet` to indicate when something might not return a result, such as with `optional`:}
 
-[heading "hopefully"]
+source 'cpp "optional<Foo> maybeGetFooFromBar(Bar& bar);"
 
-{When I use hopefully at the beginning of a name, that means it's returning a boolean of whether that hope succeeded *and* it will be [taking a codeplace](http://hoist.hostilefork.com/) of where to indicate the problem happened.  In other words, it is the client who has the hope and is providing a token to hang it on.}
+print {While I've concluded that putting `shared_ptr` or `unique_ptr` inside of an optional is questionable, I still use the "maybe" prefix to cue when a nullptr result is legitimate.}
 
-{In this sense it is like a "maybe" on steroids.  The caller does not have to worry about providing a handler for the case that didn't succeed, but can do so in order to assist in debug overrides which may be injected after the fact.  (Presumably the override allowing the code to continue to run would not be added if the implications hadn't been thought out!)}
+heading "hopefully"
 
-{When I use hopefully at the *end* of a name, that means it is not returning a boolean of whether the hope succeeded or not.  The hope is just part of the process.  You still are providing a codeplace.}
+print << [
+
+    {When I use hopefully at the beginning of a name, that means it's returning a boolean of whether that hope succeeded *and* it will be [taking a codeplace](http://hoist.hostilefork.com/) of where to indicate the problem happened.  In other words, it is the client who has the hope and is providing a token to hang it on.}
+
+    {In this sense it is like a "maybe" on steroids.  The caller does not have to worry about providing a handler for the case that didn't succeed, but can do so in order to assist in debug overrides which may be injected after the fact.  (Presumably the override allowing the code to continue to run would not be added if the implications hadn't been thought out!)}
+
+    {When I use hopefully at the *end* of a name, that means it is not returning a boolean of whether the hope succeeded or not.  The hope is just part of the process.  You still are providing a codeplace.}
+
+]

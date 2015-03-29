@@ -1,123 +1,142 @@
 Draem [
-    title: {Building MOBI, PDF, EPUB with Softcover on Ubuntu}
+    title: "Building MOBI, PDF, EPUB with Softcover on Ubuntu"
     tags: [open-source linux]
     slug: %mobi-pdf-epub-softcover-ubuntu
     date: 25-Jul-2014/0:34:09-4:00
 ]
 
-{If you're looking to publish eBooks for fun or profit, one question you might ask is what authoring tool to use.  The average writer is probably using something like Microsoft Word...pushing a button to import it into the various ebook stores and hoping for the best.}
+print << [
 
-{But if you're a programmer, you might be looking for a vetted programmer's solution.  You'd like to write your book in something that looks a bit like MarkDown--perhaps with some LaTeX thrown in.  You'd like to keep the chapters of your book under version control in git.  And you'd like to run one command and have all the different formats for the eBook build automatically.  A version that you can just put up on the web as HTML would be nice too.}
+    {If you're looking to publish eBooks for fun or profit, one question you might ask is what authoring tool to use.  The average writer is probably using something like Microsoft Word...pushing a button to import it into the various ebook stores and hoping for the best.}
 
-{One open-source solution that does all the builds is called [Softcover](https://github.com/softcover/softcover), which is under an MIT license.  You can see [samples of the output here](http://www.railstutorial.org/book).}
+    {But if you're a programmer, you might be looking for a vetted programmer's solution.  You'd like to write your book in something that looks a bit like MarkDown--perhaps with some LaTeX thrown in.  You'd like to keep the chapters of your book under version control in git.  And you'd like to run one command and have all the different formats for the eBook build automatically.  A version that you can just put up on the web as HTML would be nice too.}
 
-[note
-	{In addition to the software package, there is also a publishing and sales channel site that integrates with it called [softcover.io](http://softcover.io).  One interesting angle they have that's not really on other ebook sites is that if you want to make the web version free, they'll host that build of it.  Then they provide the back end for upselling on associated media...things like screencasts.  It's a revenue model that has worked for [railstutorial.org](http://railstutorial.org).}
+    {One open-source solution that does all the builds is called [Softcover](https://github.com/softcover/softcover), which is under an MIT license.  You can see [samples of the output here](http://www.railstutorial.org/book).}
 
-	{Beyond the tie-in with screencast media, the other differentiating factor from the popular [gitbook.io](https://www.gitbook.io/) toolchain would be its extension of MarkDown using LaTeX:}
-
-	[quote
-		{**Hartl's Tenth Rule of Typesetting** - Any sufficiently complicated typesetting system contains an ad hoc, informally specified, bug-ridden, slow implementation of half of LaTeX}
-
-		/source [http://manual.softcover.io/book/softcover_markdown#cha-softcover_flavored_markdown {The Softcover Book}]
-	]
-
-	{In any case--the cross-format-building software itself is independent of the service, so you don't have to use it to use softcover.}
 ]
 
+note [
 
-{I made a fresh Xubuntu 14.04 VM to install Softcover, and here are the steps:}
+    print << [
 
-[heading {Get Ruby and Gems}]
+        {In addition to the software package, there is also a publishing and sales channel site that integrates with it called [softcover.io](http://softcover.io).  One interesting angle they have that's not really on other ebook sites is that if you want to make the web version free, they'll host that build of it.  Then they provide the back end for upselling on associated media...things like screencasts.  It's a revenue model that has worked for [railstutorial.org](http://railstutorial.org).}
 
-{Softcover is written in Ruby *(although for some programs it uses, it has dependencies on other systems like Node.JS and Java)*.  It's distributed as a "Ruby Gem".  So first you'll need to get the Ruby and Ruby Gems packages:}
+        {Beyond the tie-in with screencast media, the other differentiating factor from the popular [gitbook.io](https://www.gitbook.io/) toolchain would be its extension of MarkDown using LaTeX:}
 
-[text {
+    ]
+
+    quote [
+
+        print {**Hartl's Tenth Rule of Typesetting** - Any sufficiently complicated typesetting system contains an ad hoc, informally specified, bug-ridden, slow implementation of half of LaTeX}
+
+        attribution [link [http://manual.softcover.io/book/softcover_markdown#cha-softcover_flavored_markdown "The Softcover Book"]]
+
+    ]
+
+    print {In any case--the cross-format-building software itself is independent of the service, so you don't have to use it to use softcover.}
+
+]
+
+print {I made a fresh Xubuntu 14.04 VM to install Softcover, and here are the steps:}
+
+heading "Get Ruby and Gems"
+
+print {Softcover is written in Ruby *(although for some programs it uses, it has dependencies on other systems like Node.JS and Java)*.  It's distributed as a "Ruby Gem".  So first you'll need to get the Ruby and Ruby Gems packages:}
+
+source 'text {
 sudo apt-get install ruby
 sudo apt-get install gems
-}]
+}
 
-[heading {Install native gem building dependencies}]
+heading "Install native gem building dependencies"
 
-{Some of the gems you're going to need to install are going to require building native code.  So be sure you have both a C++ compiler and the `ruby-dev` package installed:}
+print {Some of the gems you're going to need to install are going to require building native code.  So be sure you have both a C++ compiler and the `ruby-dev` package installed:}
 
-[text {
+source 'text {
 sudo apt-get install g++
 sudo apt-get install ruby-dev
-}]
+}
 
-[note {I don't know whether gcc would also work, I just always install g++.  You might be able to get away with just gcc.}]
+note {I don't know whether gcc would also work, I just always install g++.  You might be able to get away with just gcc.}
 
-{You will also be needing the `libcurl` and `curl/curl.h`.  According to [this upvoted answer on StackOverflow](http://stackoverflow.com/a/14160148), this should cover you for all your curl development needs:}
+print {You will also be needing the `libcurl` and `curl/curl.h`.  According to [this upvoted answer on StackOverflow](http://stackoverflow.com/a/14160148), this should cover you for all your curl development needs:}
 
-[text {
+source 'text {
 sudo apt-get install libcurl3 libcurl3-gnutls libcurl4-openssl-dev
-}]
+}
 
-[note {There may be a more minimal set than that, but monkey see...monkey install.  Disposable VM.  :-)}]
+note {There may be a more minimal set than that, but monkey see...monkey install.  Disposable VM.  :-)}
 
-[heading {Install the Softcover Gem}]
+heading "Install the Softcover Gem"
 
-{The source for Softcover is [available on GitHub](https://github.com/softcover/softcover), but the gem installation is the easy way to get it installed with all of its dependencies:}
+print {The source for Softcover is [available on GitHub](https://github.com/softcover/softcover), but the gem installation is the easy way to get it installed with all of its dependencies:}
 
-[text {
+source 'text {
 sudo gem install softcover --pre --no-ri --no-rdoc
-}]
+}
 
-{If you don't add that `--no-ri` and `--no-rdoc`, then the process can wind up taking a ridiculously long time.  It will sit there building local documentation files for all of the gems that Softcover depends upon, and all the gems *they* depend upon.  I don't know about you, but I look everything up in the web browser anyway.  So disabling that saves disk space and time.}
+print << [
 
-{You should now have enough to make the HTML and EPUB builds of a book.  But there are more dependencies if you want MOBI for the Kindle and PDF.  The command `softcover check` lists things you can install and URLs to install from, but most are available as packages on Ubuntu; here's the quick version}
+    {If you don't add that `--no-ri` and `--no-rdoc`, then the process can wind up taking a ridiculously long time.  It will sit there building local documentation files for all of the gems that Softcover depends upon, and all the gems *they* depend upon.  I don't know about you, but I look everything up in the web browser anyway.  So disabling that saves disk space and time.}
 
-[heading {Install Turnkey Dependencies}]
+    {You should now have enough to make the HTML and EPUB builds of a book.  But there are more dependencies if you want MOBI for the Kindle and PDF.  The command `softcover check` lists things you can install and URLs to install from, but most are available as packages on Ubuntu; here's the quick version}
 
-{The biggest nuisance is how long LaTeX takes to install and that you have to "pick a Java" instead of just being able to say "sudo apt-get install java".  But these commands should "just work":}
+]
 
-[text {
+heading "Install Turnkey Dependencies"
+
+print {The biggest nuisance is how long LaTeX takes to install and that you have to "pick a Java" instead of just being able to say "sudo apt-get install java".  But these commands should "just work":}
+
+source 'text {
 sudo apt-get install imagemagick
 sudo apt-get install default-jre
 sudo apt-get install inkscape
 sudo apt-get install phantomjs
 sudo apt-get install calibre
 sudo apt-get install texlive-full
-}]
+}
 
-[note {Yes, you can type them all on one line, but fixed fonts don't word-wrap here.}]
+note {Yes, you can type them all on one line, but fixed fonts don't word-wrap here.}
 
-[heading {Install Node.JS as "Node"}]
+heading {Install Node.JS as "Node"}
 
-{One trick in installing Node.JS is that the package name is `nodejs` and it is installed under that name, but softcover wants it to be named `node`.}
+print {One trick in installing Node.JS is that the package name is `nodejs` and it is installed under that name, but softcover wants it to be named `node`.}
 
-[note {You can find the routine where Softcover checks for dependencies in [utils.rb](https://github.com/softcover/softcover/blob/d64185309d8843e2ebd708721a57f82d65060af8/lib/softcover/utils.rb#L237), and see it's using `which node` to find it.}]
+note {You can find the routine where Softcover checks for dependencies in [utils.rb](https://github.com/softcover/softcover/blob/d64185309d8843e2ebd708721a57f82d65060af8/lib/softcover/utils.rb#L237), and see it's using `which node` to find it.}
 
-{So install `nodejs`, but then create a symbolic link so that Softcover can find it under the name "node":}
+print {So install `nodejs`, but then create a symbolic link so that Softcover can find it under the name "node":}
 
-[text {
+source 'text {
 sudo apt-get install nodejs
 
 cd /usr/local/bin
 sudo ln -s /usr/bin/nodejs node
-}]
+}
 
-[heading {Install EpubCheck}]
+heading "Install EpubCheck"
 
-{EpubCheck is looked for in a `/bin` subdirectory of your home directory.  So install it with:}
+print {EpubCheck is looked for in a `/bin` subdirectory of your home directory.  So install it with:}
 
-[text {
+source 'text {
 cd ~
 wget https://github.com/IDPF/epubcheck/releases/download/v3.0/epubcheck-3.0.zip
 unzip epubcheck-3.0.zip
 rm epubcheck-3.0.zip
-}]
+}
 
-[heading {Install Amazon KindleGen}]
+heading "Install Amazon KindleGen"
 
-{It's pointed out in the Softcover manual that Amazon's KindleGen tool has rules over the use of it to generate books you will sell on sites other than Amazon.  Calibre is the open-source alternative, and can substitute for it and build MOBI files.}
+print << [
 
-{If you want to be principled about rejecting that rule, don't bother with KindleGen and use Calibre.  If you are worried that it might be buggier or less optimized, or lead to some kind of bad blood with Amazon if you upload books with it, then that could be a reason to install it.}
+    {It's pointed out in the Softcover manual that Amazon's KindleGen tool has rules over the use of it to generate books you will sell on sites other than Amazon.  Calibre is the open-source alternative, and can substitute for it and build MOBI files.}
 
-{The [link for downloading](http://www.amazon.com/gp/feature.html?ie=UTF8&docId=1000765211) requires you to tick a box.  At time of writing, KindleGen is 2.9.  So:}
+    {If you want to be principled about rejecting that rule, don't bother with KindleGen and use Calibre.  If you are worried that it might be buggier or less optimized, or lead to some kind of bad blood with Amazon if you upload books with it, then that could be a reason to install it.}
 
-[text {
+    {The [link for downloading](http://www.amazon.com/gp/feature.html?ie=UTF8&docId=1000765211) requires you to tick a box.  At time of writing, KindleGen is 2.9.  So:}
+
+]
+
+source 'text {
 cd ~
 wget http://kindlegen.s3.amazonaws.com/kindlegen_linux_2.6_i386_v2_9.tar.gz
 tar -zxvf kindlegen_linux_2.6_i386_v2_9.tar.gz
@@ -125,20 +144,20 @@ rm kindlegen_linux_2.6_i386_v2_9.tar.gz
 
 cd /usr/local/bin
 sudo ln -s ~/kindlegen_linux_2.6_i386_v2_9/kindlegen kindlegen
-}]
+}
 
-[note {I'm assuming here you're downloading things into your home directory.  Adapt if you're not working in a VM solely for Softcover and care about directory organization.}]
+note {I'm assuming here you're downloading things into your home directory.  Adapt if you're not working in a VM solely for Softcover and care about directory organization.}
 
-[heading {That should be it!}]
+heading "That should be it!"
 
-{That should work.  From there, just follow along in the [Softcover Book](http://manual.softcover.io/book/).  You should be able to do:}
+print {That should work.  From there, just follow along in the [Softcover Book](http://manual.softcover.io/book/).  You should be able to do:}
 
-[text {
+source 'text {
 softcover new example_book
 
 cd example_book
 
 softcover build:all
-}]
+}
 
-{The only thing that was a bit confusing was that there were a lot of warnings while LaTeX ran.  But the output products in the "ebooks" directory seemed to be okay.}
+print {The only thing that was a bit confusing was that there were a lot of warnings while LaTeX ran.  But the output products in the "ebooks" directory seemed to be okay.}

@@ -1,30 +1,31 @@
 Draem [
-    title: {The RTBkit Real-Time-Bidding Toolkit Examined}
+    title: "The RTBkit Real-Time-Bidding Toolkit Examined"
     tags: [c++ open-source]
     slug: %rtbkit-advertising-bidding-toolkit-examined
     date: 27-Feb-2015/11:52:58-5:00
 ]
 
-{I was asked by a client to evaluate the Apache 2.0 C++11 codebase for [RTBkit](http://rtbkit.org/) as part of a build-or-"buy" decision.  I don't actually know anything about this business sector (online advertising), but I do know about code.  And since I'm looking at open source, I said why not open notes?}
+print << [
 
-{So that's how we're doing it.}
+    {I was asked by a client to evaluate the Apache 2.0 C++11 codebase for [RTBkit](http://rtbkit.org/) as part of a build-or-"buy" decision.  I don't actually know anything about this business sector (online advertising), but I do know about code.  And since I'm looking at open source, I said why not open notes?}
 
-{But this is only a *technical examination*.  It is **not** a "review" of RTBkit, in terms of fitness for its purpose--I did not even run it!  What I do here is assess what technologies it uses and to what extent, as well as what skill sets would be required to adapt it.}
+    "So that's how we're doing it."
 
-{Even so, you'll need some popcorn...this is an epic tale.  I'm going to tell you what's in the open-source repository, *for reals*.  Though if you like, you may skip the analysis and [jump directly to the conclusions](#conclusions)}
+    {But this is only a *technical examination*.  It is **not** a "review" of RTBkit, in terms of fitness for its purpose--I did not even run it!  What I do here is assess what technologies it uses and to what extent, as well as what skill sets would be required to adapt it.}
 
+    {Even so, you'll need some popcorn...this is an epic tale.  I'm going to tell you what's in the open-source repository, *for reals*.  Though if you like, you may skip the analysis and [jump directly to the conclusions](#conclusions)}
 
-[heading {A Weighty Proposition}]
-
-{When I cloned the repository I saw it was about 50 MB of directory contents with 19 MB of additional Git history.  That was...big!}
-
-[note
-    {If you weren't aware, you can actually [use shallow cloning](http://blogs.atlassian.com/2014/05/handle-big-repositories-git/) to get a large repository with only the last N commits of history.  Yet this of course can hamper your ability to go into the past or switch branches!  Just mentioning the feature is there.}
 ]
 
-{Then I moved to the ["Getting Started"](https://github.com/rtbkit/rtbkit/wiki/Getting-Started) and saw this suggested line of `sudo apt-get install` dependencies:}
+heading "A Weighty Proposition"
 
-[code text {
+print {When I cloned the repository I saw it was about 50 MB of directory contents with 19 MB of additional Git history.  That was...big!}
+
+note {If you weren't aware, you can actually [use shallow cloning](http://blogs.atlassian.com/2014/05/handle-big-repositories-git/) to get a large repository with only the last N commits of history.  Yet this of course can hamper your ability to go into the past or switch branches!  Just mentioning the feature is there.}
+
+print {Then I moved to the ["Getting Started"](https://github.com/rtbkit/rtbkit/wiki/Getting-Started) and saw this suggested line of `sudo apt-get install` dependencies:}
+
+source 'text {
 $ sudo apt-get install git-core g++ libbz2-dev \
    liblzma-dev libcrypto++-dev libpqxx3-dev scons libicu-dev \
    strace emacs ccache make gdb time automake libtool autoconf \
@@ -36,15 +37,19 @@ $ sudo apt-get install git-core g++ libbz2-dev \
    libfreetype6-dev libpng-dev python-tk tk-dev python-virtualenv \
    sshfs rake ipmitool mm-common libsigc++-2.0-dev \
    libcairo2-dev libcairomm-1.0-dev
-}]
+}
 
-{That reported it would be 564 MB of additional installation...*and I already had several of those things installed!*}
+print << [
 
-{I thought this was basically all C++...so what on earth *was* all that?  Given that I was originally planning to build and test on a headless server which didn't even have XWindows...the idea that I'd have to install Tk and FreeType was seeming a bit over-the-top.  And emacs?  Prescriptive-much?  :-P}
+    {That reported it would be 564 MB of additional installation...*and I already had several of those things installed!*}
 
-{But I noticed these instructions were not the latest.  So I found a *slightly* less demanding version titled ["RTBkit-Deps-and-Ubuntu-14.04"](https://github.com/rtbkit/rtbkit/wiki/RTBkit-Deps-and-Ubuntu-14.04).  It suggested:}
+    {I thought this was basically all C++...so what on earth *was* all that?  Given that I was originally planning to build and test on a headless server which didn't even have XWindows...the idea that I'd have to install Tk and FreeType was seeming a bit over-the-top.  And emacs?  Prescriptive-much?  :-P}
 
-[code text {
+    {But I noticed these instructions were not the latest.  So I found a *slightly* less demanding version titled ["RTBkit-Deps-and-Ubuntu-14.04"](https://github.com/rtbkit/rtbkit/wiki/RTBkit-Deps-and-Ubuntu-14.04).  It suggested:}
+
+]
+
+source 'text {
 $ sudo apt-get install linux-tools-generic libbz2-dev python-dev scons\
    libtool liblzma-dev libblas-dev make automake \
    ccache ant openjdk-7-jdk libcppunit-dev doxygen \
@@ -52,31 +57,45 @@ $ sudo apt-get install linux-tools-generic libbz2-dev python-dev scons\
    liblzma-dev libevent-dev libssh2-1-dev libicu-dev \
    g++ google-perftools libgoogle-perftools-dev \
    zlib1g-dev git pkg-config valgrind autoconf
-}]
+}
 
-{The reduced dependencies became a "mere" 418 MB extra of installation.  :-/}
+print << [
 
-{Scanning ahead in the directions, I realized this only accounted for those dependencies they'd accept as the version packaged with the OS distribution.  Several additional things they build from source, and keep frozen as snapshots as git submodules in another repository called [rtbkit-deps](https://github.com/rtbkit/rtbkit-deps).  That archive itself is a whopping 639 MB...and that's *just the source code*!  (It puffs up heartily with all the build products.)}
+    {The reduced dependencies became a "mere" 418 MB extra of installation.  :-/}
 
-{As a member of the [rebellion against software complexity](http://blog.hostilefork.com/why-rebol-red-parse-cool/), I'd not be doing my job if I didn't say...}
+    {Scanning ahead in the directions, I realized this only accounted for those dependencies they'd accept as the version packaged with the OS distribution.  Several additional things they build from source, and keep frozen as snapshots as git submodules in another repository called [rtbkit-deps](https://github.com/rtbkit/rtbkit-deps).  That archive itself is a whopping 639 MB...and that's *just the source code*!  (It puffs up heartily with all the build products.)}
 
-[heading {"...Wait, So...What's Going on Here?"}]
+    {As a member of the [rebellion against software complexity](http://blog.hostilefork.com/why-rebol-red-parse-cool/), I'd not be doing my job if I didn't say...}
 
-{The official word on the strategy comes from [Jeremy Barnes](http://rtbkit.org/site/blogs/jeremy), the CTO of Datacratic (the company that open-sourced RTBkit).  He explained the situation in a Google Groups post:}
-
-[quote
-    {At the present moment, RTBkit is designed to be productive for developers to work on.  In particular, we made the conscious choice to require a very specific environment so that we would not need to support all of the effort to port to other architectures and operating systems (and especially to maintain these ports), and we could control the versions of all of the supporting libraries we use (hence platform-deps).  This was our way out of dependency hell and #ifdef hell, into which we have already fallen several times.}
-
-    {Secondly we tend to deploy RTBkit as part of a larger product and include it as a submodule under a larger source tree rather than by installing it on the system.  This allows us to have a cohesive build over RTBkit and the code it depends upon, and makes it much faster for us to develop it.  RTBkit by itself is not terribly useful (although it is getting more so); you need to integrate it with other code to make it do something worthwhile and develop that system as a whole.}
-
-    /source [https://groups.google.com/a/rtbkit.org/d/msg/discuss/Q7sa-hmeaMI/pHw79jqXyCcJ {Jeremy Barnes, Google Groups, 6-Aug-2013}]
 ]
 
-{What they mean is that on a typical Linux system, if you `sudo apt-get install X` then you're only guaranteed to be able to get whatever version of **X** the packagers built for that release.  That version might be subtly (or not-so-subtly) different than the one your codebase expects.  To avoid having their codebase worry over the differences, they snapshot some canonical versions RTBkit wants, and have everyone who installs it build those from source.}
+heading {"...Wait, So...What's Going on Here?"}
 
-{Instead of these sandboxed dependencies installing into `/usr/local/include` or `/usr/local/lib`, they have you edit your `.profile` to specify putting them in a separate location.  (In my virtual machine following the build procedure, it was `/home/hostilefork/local`).  For example, after the dependency build, this is what was in my `/home/hostilefork/local/include`:}
+print {The official word on the strategy comes from [Jeremy Barnes](http://rtbkit.org/site/blogs/jeremy), the CTO of Datacratic (the company that open-sourced RTBkit).  He explained the situation in a Google Groups post:}
 
-[code text {
+quote [
+
+    print << [
+
+        {At the present moment, RTBkit is designed to be productive for developers to work on.  In particular, we made the conscious choice to require a very specific environment so that we would not need to support all of the effort to port to other architectures and operating systems (and especially to maintain these ports), and we could control the versions of all of the supporting libraries we use (hence platform-deps).  This was our way out of dependency hell and #ifdef hell, into which we have already fallen several times.}
+
+        {Secondly we tend to deploy RTBkit as part of a larger product and include it as a submodule under a larger source tree rather than by installing it on the system.  This allows us to have a cohesive build over RTBkit and the code it depends upon, and makes it much faster for us to develop it.  RTBkit by itself is not terribly useful (although it is getting more so); you need to integrate it with other code to make it do something worthwhile and develop that system as a whole.}
+
+    ]
+
+    attribution [link [https://groups.google.com/a/rtbkit.org/d/msg/discuss/Q7sa-hmeaMI/pHw79jqXyCcJ "Jeremy Barnes, Google Groups, 6-Aug-2013"]]
+
+]
+
+print << [
+
+    {What they mean is that on a typical Linux system, if you `sudo apt-get install X` then you're only guaranteed to be able to get whatever version of **X** the packagers built for that release.  That version might be subtly (or not-so-subtly) different than the one your codebase expects.  To avoid having their codebase worry over the differences, they snapshot some canonical versions RTBkit wants, and have everyone who installs it build those from source.}
+
+    {Instead of these sandboxed dependencies installing into `/usr/local/include` or `/usr/local/lib`, they have you edit your `.profile` to specify putting them in a separate location.  (In my virtual machine following the build procedure, it was `/home/hostilefork/local`).  For example, after the dependency build, this is what was in my `/home/hostilefork/local/include`:}
+
+]
+
+source 'text {
 boost/      libssh2.h              urcu/            utilspp/
 citycrc.h   libssh2_publickey.h    urcu-bp.h        zmq.h
 city.h      libssh2_sftp.h         urcu-call-rcu.h  zmq_utils.h
@@ -84,34 +103,45 @@ curl/       snappy-c.h             urcu-defer.h     zookeeper/
 curlpp/     snappy.h               urcu.h
 google/     snappy-sinksource.h    urcu-pointer.h
 hiredis/    snappy-stubs-public.h  urcu-qsbr.h
-}]
+}
 
-[note
-    {While Node.JS is included in the dependencies git repository, you are instructed to disable usage of it when building against Ubuntu14 with `make NODEJS_ENABLED=0`.  So it does not appear here.  I imagine it would if building against the Ubuntu12 instructions with `make NODEJS_ENABLED=1`.}
+note [
 
-    {I should also mention that although **hiredis** is the C library interface for redis, and the tests *sometimes* ran...sometimes they didn't.  On a hunch I did a `sudo apt-get install redis-server`, after which the tests ran consistently.  This *might* be a workaround for others on the Google Group regarding `error waking up fd 5: Resource temporarily unavailable` and `redis_async_test FAILED`.}
+    print << [
+
+        {While Node.JS is included in the dependencies git repository, you are instructed to disable usage of it when building against Ubuntu14 with `make NODEJS_ENABLED=0`.  So it does not appear here.  I imagine it would if building against the Ubuntu12 instructions with `make NODEJS_ENABLED=1`.}
+
+        {I should also mention that although **hiredis** is the C library interface for redis, and the tests *sometimes* ran...sometimes they didn't.  On a hunch I did a `sudo apt-get install redis-server`, after which the tests ran consistently.  This *might* be a workaround for others on the Google Group regarding `error waking up fd 5: Resource temporarily unavailable` and `redis_async_test FAILED`.}
+
+    ]
+
 ]
 
-{The large number of third-party packages built explains why there are so many dependencies.  It's not that RTBkit uses all these libraries and tools directly.  Rather, you are installing the *build dependencies of the dependent packages* as well.  It explodes quickly, and that's just the nature of this approach.  So if you're going to be trying this in a virtual machine, make sure you set the hard drive limit in the range of 32GB at minimum!  Lots of source, and lots of build products...}
+print << [
 
-{Before I give you the technical breakdown, let me switch gears and try and explain what I think this thing *is*.}
+    {The large number of third-party packages built explains why there are so many dependencies.  It's not that RTBkit uses all these libraries and tools directly.  Rather, you are installing the *build dependencies of the dependent packages* as well.  It explodes quickly, and that's just the nature of this approach.  So if you're going to be trying this in a virtual machine, make sure you set the hard drive limit in the range of 32GB at minimum!  Lots of source, and lots of build products...}
 
+    {Before I give you the technical breakdown, let me switch gears and try and explain what I think this thing *is*.}
 
-[heading {What's RTB, and Why Would Someone Want a Kit For It?}]
-
-{If you haven't been in a coma, you've probably realized we now live in a Sci-Fi-like world, where even the most mundane information is running in Internet Time.  Gas signs will tick up and down while you're waiting at an intersection.  Grocery stores increasingly have digital price-tags controlled from a central computer.  So by the time you get to the counter with that loaf of bread, the price may be different than when you picked it up.}
-
-[note
-    {You might *assume* such systems are set up to only change the prices while the store is closed, but I've seen them change while I was there.  I've seen them in 24-hour convenience stores too.  Moral is: check your receipts.}
 ]
 
-{Anyone who searches for a lamp and then later starts getting ads for lamps knows about targeted advertising and web "cookies" and tracking.  *(Annoyingly, this continues even long after you've got your lamp...and you're only irritated to see one you like better...that's cheaper.)*  But the thing you might not know is which ad you're shown can be the result of competing advertisers doing high-frequency trading to decide whether to get the space to market to you *in that instant*.}
+heading {What's RTB, and Why Would Someone Want a Kit For It?}
 
-{It's a bit eerie to think that a bidding war between competing advertisers can begin when you click on a link, and ends when a winner gets their ad shown.  But that's exactly what an industry has arisen to do, and the "RTB" in "RTBkit" stands for the advertising term [Real-Time-Bidding](http://en.wikipedia.org/wiki/Real-time_bidding).}
+print {If you haven't been in a coma, you've probably realized we now live in a Sci-Fi-like world, where even the most mundane information is running in Internet Time.  Gas signs will tick up and down while you're waiting at an intersection.  Grocery stores increasingly have digital price-tags controlled from a central computer.  So by the time you get to the counter with that loaf of bread, the price may be different than when you picked it up.}
 
-{What do those putting ad space up for bid know about a person viewing a page in order to make someone feel it might be worth bidding on?  That depends...if they're Google they know everything.  *([Do we have other options?](https://www.youtube.com/watch?v=9bDDUyJSQ9s))*  But for a more-or-less innocuous piece of data from a testing set included in RTBkit, here's a page visitor whose virtual eyeballs went up for bid on the "DoubleClick" ad exchange:}
+note {You might *assume* such systems are set up to only change the prices while the store is closed, but I've seen them change while I was there.  I've seen them in 24-hour convenience stores too.  Moral is: check your receipts.}
 
-[code text {
+print << [
+
+    {Anyone who searches for a lamp and then later starts getting ads for lamps knows about targeted advertising and web "cookies" and tracking.  *(Annoyingly, this continues even long after you've got your lamp...and you're only irritated to see one you like better...that's cheaper.)*  But the thing you might not know is which ad you're shown can be the result of competing advertisers doing high-frequency trading to decide whether to get the space to market to you *in that instant*.}
+
+    {It's a bit eerie to think that a bidding war between competing advertisers can begin when you click on a link, and ends when a winner gets their ad shown.  But that's exactly what an industry has arisen to do, and the "RTB" in "RTBkit" stands for the advertising term [Real-Time-Bidding](http://en.wikipedia.org/wiki/Real-time_bidding).}
+
+    {What do those putting ad space up for bid know about a person viewing a page in order to make someone feel it might be worth bidding on?  That depends...if they're Google they know everything.  *([Do we have other options?](https://www.youtube.com/watch?v=9bDDUyJSQ9s))*  But for a more-or-less innocuous piece of data from a testing set included in RTBkit, here's a page visitor whose virtual eyeballs went up for bid on the "DoubleClick" ad exchange:}
+
+]
+
+source 'text {
 {"!!CV":"0.1","exchange":"dblclk_adx","id":"1497db9a-24a5-4001-15e8-deff04002930",
 "ipAddress":"76.209.61.239","language":"en","location":{"cityName":"Elgin",
 "countryCode":"US","dma":602,"postalCode":"847","regionCode":"IL"},
@@ -124,240 +154,329 @@ hiredis/    snappy-stubs-public.h  urcu-qsbr.h
 "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.1; Trident/4.0;
 Media Center PC 3.0; .NET CLR 1.0.3705; .NET CLR 1.1.4322; AskTbFWV5/5.12.2.16749),
 gzip(gfe),gzip(gfe)"}
-}]
+}
 
-[note
-    {JSON over HTTP is suggested by the [OpenRTB](http://openrtb.github.io/OpenRTB/) standard used by several ad networks (HTTPS is considered too slow).  But Google's ad bidding requires using their [Protocol Buffers](http://en.wikipedia.org/wiki/Protocol_Buffers).  So in their actual "trading" there's no labeling indicating `exchange`, `spots`, `protocolVersion`.  It's more analogous to a compiled structure in C where the fields are implicit by their order in memory.}
+note [
 
-    {If you're curious what the protocol buffer spec for talking about ad bidding looks like with Google, here's the specification of [realtime-bidding.proto](https://github.com/rtbkit/rtbkit/blob/c9bf1160ba0158710c3a49f126788a0adc7b6f64/rtbkit/plugins/exchange/realtime-bidding.proto).}
+    print << [
+
+        {JSON over HTTP is suggested by the [OpenRTB](http://openrtb.github.io/OpenRTB/) standard used by several ad networks (HTTPS is considered too slow).  But Google's ad bidding requires using their [Protocol Buffers](http://en.wikipedia.org/wiki/Protocol_Buffers).  So in their actual "trading" there's no labeling indicating `exchange`, `spots`, `protocolVersion`.  It's more analogous to a compiled structure in C where the fields are implicit by their order in memory.}
+
+        {If you're curious what the protocol buffer spec for talking about ad bidding looks like with Google, here's the specification of [realtime-bidding.proto](https://github.com/rtbkit/rtbkit/blob/c9bf1160ba0158710c3a49f126788a0adc7b6f64/rtbkit/plugins/exchange/realtime-bidding.proto).}
+
+    ]
+
 ]
 
-{So what do you think?  Does this person from Elgin, Illinois (who uses a "Media Center PC" with an interest in music, and skiing in Nevada) warrant a bid to show them an ad?  If you sold snow-proof headphones, it may be worth a penny or two.  But you'd have to outbid your competition who does Windows support in Elgin...}
+print << [
 
-{The C++ community is familiar with companies trying to make it rich on the stock market with similar technical practices in [High-Frequency Trading](http://www.meetup.com/The-Austin-C-C-Meetup-Group/events/78181842/).  But this was the first I'd heard of it being applied to advertising on an instantaneous per-person basis.  Weird or not, it apparently exists--and affects you every time you browse.}
+    {So what do you think?  Does this person from Elgin, Illinois (who uses a "Media Center PC" with an interest in music, and skiing in Nevada) warrant a bid to show them an ad?  If you sold snow-proof headphones, it may be worth a penny or two.  But you'd have to outbid your competition who does Windows support in Elgin...}
 
-{So RTBkit is an open-source (Apache 2.0) Real-Time Bidding Kit.  If you want to get in on the bidding to buy ad space in real time, you can use it to build robots ("Agents") to try and buy ads automatically on your behalf.  A "Banker" service keeps track of how many nickels and dimes you're spending each minute.  A "Post-Auction" loop checks up on what happens after the bidding is done, doing logging and measuring clicks and ["conversions"](http://en.wikipedia.org/wiki/Conversion_marketing) (a.k.a. how many people became "customers" due to the ad).  A "Router" orchestrates the process of figuring out which running Agents might be interested in a given ad bidding opportunity, keeps all the robots within their budget by talking to the Banker, etc.}
+    {The C++ community is familiar with companies trying to make it rich on the stock market with similar technical practices in [High-Frequency Trading](http://www.meetup.com/The-Austin-C-C-Meetup-Group/events/78181842/).  But this was the first I'd heard of it being applied to advertising on an instantaneous per-person basis.  Weird or not, it apparently exists--and affects you every time you browse.}
 
-{All these services are designed to run as independent processes and communicate via [ØMQ (a.k.a. ZeroMQ)](http://en.wikipedia.org/wiki/%C3%98MQ)...which is a sort of socket abstraction layer that's becoming very popular for its performance-to-flexibility ratio.  Yet performance is important, so generally all these different services are actually running on the same machine, and likely many in the same process (scenarios ZeroMQ is able to optimize for, while not *requiring* them).  Furthermore, RTBkit is written in C++11, a language with the potential for writing very fast and reliable code (when used correctly).}
+    {So RTBkit is an open-source (Apache 2.0) Real-Time Bidding Kit.  If you want to get in on the bidding to buy ad space in real time, you can use it to build robots ("Agents") to try and buy ads automatically on your behalf.  A "Banker" service keeps track of how many nickels and dimes you're spending each minute.  A "Post-Auction" loop checks up on what happens after the bidding is done, doing logging and measuring clicks and ["conversions"](http://en.wikipedia.org/wiki/Conversion_marketing) (a.k.a. how many people became "customers" due to the ad).  A "Router" orchestrates the process of figuring out which running Agents might be interested in a given ad bidding opportunity, keeps all the robots within their budget by talking to the Banker, etc.}
 
-{So the theory goes: You download the open-source code, and customize it to your liking.  Then you sign up for an account with ad exchanges that will offer your robot opportunities to bid on ads.  You set up your robot with a bank account, and put it out on the cloud on some server with a fast CPU and good Internet connection.  Then you hope it stays up and makes good fast decisions about who to advertise to.}
+    {All these services are designed to run as independent processes and communicate via [ØMQ (a.k.a. ZeroMQ)](http://en.wikipedia.org/wiki/%C3%98MQ)...which is a sort of socket abstraction layer that's becoming very popular for its performance-to-flexibility ratio.  Yet performance is important, so generally all these different services are actually running on the same machine, and likely many in the same process (scenarios ZeroMQ is able to optimize for, while not *requiring* them).  Furthermore, RTBkit is written in C++11, a language with the potential for writing very fast and reliable code (when used correctly).}
 
+    {So the theory goes: You download the open-source code, and customize it to your liking.  Then you sign up for an account with ad exchanges that will offer your robot opportunities to bid on ads.  You set up your robot with a bank account, and put it out on the cloud on some server with a fast CPU and good Internet connection.  Then you hope it stays up and makes good fast decisions about who to advertise to.}
 
-[heading {Ad-Bidding Server...or Ad-Bidding Client?}]
-
-{Yet looking at the size and dependencies, I wondered how an ad-bidding robot could possibly need all that stuff.  So I started checking the features.  It was talking about plugins for *serving ads*, *handling billing*, etc.}
-
-[you: <confused> {Isn't this robot trader making deals as a kind *client* to an ad-offering server that was selling ads?  If I'm the one doing billing--and I'm the one serving ads--what exactly was it that I just bought from Google (or whoever)?}]
-
-[me: {This is not generally a Robot-Building-Kit for those with their own ads to place *(though it could be that, if you were big enough to warrant having an in-house effort)*.  Instead, it's for technical people who want to act as middlemen and set up their own ad brokerage.  They find customers who have ads to place, and manage their interests on the network while charging a markup.}]
-
-{In other words, RTBkit is not really intended for the snow-headphones company or the Elgin PC repair shop.  It's intended to be used by the advertising group those shops contract to for placing their ads.  So it might be better to say that these customers could represent individual "Agents" that are running, and a given bidding opportunity needs to be properly routed to see which agent would be most interested in that opportunity.}
-
-{I searched and Google *does* have an ad hosting service they can charge you for...but that's not what you bought when you won the bid.  The bidding was for the right to show what you wanted on their page.  If you think you can host the ad better and cheaper, you might well be right.  But more important: you may be better at tending your own analytic interests or adapting the ads than the dashboard they give you offers.}
-
-{So there's some of my guesstimation.  With all that in mind for the landscape of "what RTBkit is", let's dig in for a Fork-eye view of the code and how it's built...by studying *every single dependency*. (!!!)}
-
-
-[heading {First, the Toolchain}]
-
-{[**git**](http://git-scm.com/) is the version control system in use, which is the logical choice.}
-
-{The install requests **linux-tools-generic**, and if you're wondering what's in that you will get a surprise when you run `dpkg-query -L linux-tools-generic`.  It's basically empty.  That's because it's really just a dependency sanity check, saying that the package scripts expect you to have things like `ls` and `diff` and `cd`...which Ubuntu has without that package.  It's superfluous on any system that can run the command `apt-get`, but might be considered  documentation: *"This package will explicitly call shell commands"*.}
-
-[note
-    {There seems to be no formal document about what list of executables `linux-tools-generic` guarantees.  It says linux not [POSIX](http://en.wikipedia.org/wiki/POSIX), so it's anybody's guess.}
 ]
 
-{RTBkit uses C++11, but it does not appear that any of the project's *dependencies* require the modern standard.  You're told to install [**g++**](http://en.wikipedia.org/wiki/GNU_Compiler_Collection), though there is some mention in the Google group of a pull request for [Clang](http://en.wikipedia.org/wiki/Clang) support.  (I don't know if that got processed, but I'll mention that I believe in building with both compilers regularly... preferably in [continuous-integration](https://travis-ci.org/hostilefork/rencpp).)  To speed up compilation, [**ccache**](http://en.wikipedia.org/wiki/Ccache) is used.}
+heading "Ad-Bidding Server...or Ad-Bidding Client?"
 
-{Curiously enough, a Fortran compiler [**gfortran**](http://en.wikipedia.org/wiki/GNU_Fortran) is also required to build the project.  (But more on that later.)}
+print {Yet looking at the size and dependencies, I wondered how an ad-bidding robot could possibly need all that stuff.  So I started checking the features.  It was talking about plugins for *serving ads*, *handling billing*, etc.}
 
-{The build system of choice by the project's developers is [GNU **make**](http://www.gnu.org/software/make/) with the helper utility [**pkg-config**](http://en.wikipedia.org/wiki/Pkg-config).  *However*, the third-party dependent packages that are being built require [**autoconf**](http://en.wikipedia.org/wiki/Autoconf), [**automake**](http://en.wikipedia.org/wiki/Automake), and [**libtool**](http://en.wikipedia.org/wiki/GNU_Libtool).  Dependencies also appear to need the Python build utility [**scons**](http://en.wikipedia.org/wiki/SCons).}
+dialog [
 
-[note
-    {For similar reasons of building the embedded dependency [Zookeeper](http://en.wikipedia.org/wiki/Apache_ZooKeeper), you are required to have both [**openjdk-7-jdk**](http://en.wikipedia.org/wiki/OpenJDK) and the Java build tool [**ant**](http://en.wikipedia.org/wiki/Apache_Ant).  (There are no `.java` files in the source of RTBkit itself.)}
+    you: <confused> {Isn't this robot trader making deals as a kind *client* to an ad-offering server that was selling ads?  If I'm the one doing billing--and I'm the one serving ads--what exactly was it that I just bought from Google (or whoever)?}
+
+    me: {This is not generally a Robot-Building-Kit for those with their own ads to place *(though it could be that, if you were big enough to warrant having an in-house effort)*.  Instead, it's for technical people who want to act as middlemen and set up their own ad brokerage.  They find customers who have ads to place, and manage their interests on the network while charging a markup.}
+
 ]
 
-{The [**libgoogle-perftools-dev**](https://code.google.com/p/gperftools/wiki/GooglePerformanceTools) provides a particularly fast lockless thread-caching malloc implementation called `tcmalloc()`.  *(For explicit detail you can read about [how tcmalloc works](http://jamesgolick.com/2013/5/19/how-tcmalloc-works.html).)*  Once you've compiled against tcmalloc there's also some additional profiling you can do with the help of **google-perftools**...though I don't see any invocation of them automatically for performance regression.}
+print << [
 
-{It has you install the test framework CppUnit [**libcppunit-dev**](http://en.wikipedia.org/wiki/CppUnit), which is a C++ port of JUnit.  *(That's a popular choice, but I've been liking [Catch](https://github.com/philsquared/Catch) myself.)*  BUT despite having you install CppUnit, there's no usage in the project or its dependencies...instead it uses [Boost.Test](http://www.boost.org/doc/libs/1_43_0/libs/test/doc/html/utf/user-guide.html). (?)}
+    {In other words, RTBkit is not really intended for the snow-headphones company or the Elgin PC repair shop.  It's intended to be used by the advertising group those shops contract to for placing their ads.  So it might be better to say that these customers could represent individual "Agents" that are running, and a given bidding opportunity needs to be properly routed to see which agent would be most interested in that opportunity.}
 
-{I'll mention the project does an admirable job by actually incorporating [**valgrind**](http://en.wikipedia.org/wiki/Valgrind) into the tests.  Props for that.}
+    {I searched and Google *does* have an ad hosting service they can charge you for...but that's not what you bought when you won the bid.  The bidding was for the right to show what you wanted on their page.  If you think you can host the ad better and cheaper, you might well be right.  But more important: you may be better at tending your own analytic interests or adapting the ads than the dashboard they give you offers.}
 
-{For auto-generated documentation, the process installs [**doxygen**](http://en.wikipedia.org/wiki/Doxygen).  There aren't a whole lot of written notes, but you can at least browse the stuctures for reference online:}
+    {So there's some of my guesstimation.  With all that in mind for the landscape of "what RTBkit is", let's dig in for a Fork-eye view of the code and how it's built...by studying *every single dependency*. (!!!)}
 
-http://rtbkit.org/dox/0.9/
+]
 
-[heading {Third-Party Libraries inside the RTBkit Source}]
+heading "First, the Toolchain"
 
-{Worth mentioning first are some small Third-Party libraries that aren't in the `rtbkit-deps` repository, but are inside the RTBkit git repository proper:}
+print << [
 
-[list 
-    {[**jsoncpp**](https://github.com/open-source-parsers/jsoncpp) -- As mentioned, the OpenRTB standard suggests using JSON.  And even though Google uses protocol buffers in the bidding, you'd still need JSON for logging.}
+    {[**git**](http://git-scm.com/) is the version control system in use, which is the logical choice.}
 
-    {[**tinyxml2**](http://www.grinninglizard.com/tinyxml2/index.html) -- XML is used in service connections to Amazon's S3, SQS, and AWS...a layer provided presumably for the ad serving functions.  Cursory inspection suggests these services probably offer JSON interfaces now for the same operations.  Perhaps it was not always so.}
+    {The install requests **linux-tools-generic**, and if you're wondering what's in that you will get a surprise when you run `dpkg-query -L linux-tools-generic`.  It's basically empty.  That's because it's really just a dependency sanity check, saying that the package scripts expect you to have things like `ls` and `diff` and `cd`...which Ubuntu has without that package.  It's superfluous on any system that can run the command `apt-get`, but might be considered  documentation: *"This package will explicitly call shell commands"*.}
 
-    [
-        {[**utf8cpp**](http://sourceforge.net/projects/utfcpp/) -- The C++ `std::string` datatype is lamentably not very different from a `std::vector` of `char`.  It's actually kind of worse, because a mutable string's `.data()` method gives you a [`const char *`](http://en.cppreference.com/w/cpp/string/basic_string/data) instead of a [`plain char *`](http://en.cppreference.com/w/cpp/container/vector/data).  So if one wants to know something as simple as the number of "actual character codepoints" in an encoded UTF8 string, you're going to need something else.}
+]
 
-        {RTBkit wraps this tiny library in a custom string class called [`Datacratic::Utf8String`](https://github.com/rtbkit/rtbkit/blob/c9bf1160ba0158710c3a49f126788a0adc7b6f64/soa/types/string.h), and wraps the C++11 [std::u32string](http://en.cppreference.com/w/cpp/string/basic_string) into a class that can be converted to it called `Datacratic::Utf32String`.  Additional conversion methods go between them.}
+note {There seems to be no formal document about what list of executables `linux-tools-generic` guarantees.  It says linux not [POSIX](http://en.wikipedia.org/wiki/POSIX), so it's anybody's guess.}
 
-        {It's a reasonable solution that doesn't require the full heft of the [International Components of Unicode](http://en.wikipedia.org/wiki/International_Components_for_Unicode).  However, the ICU components wind up installed as a dependency anyway.  So it's a slight redundancy.}
-    ] [
-        {[**leveldb**](http://en.wikipedia.org/wiki/LevelDB) -- I'd heard of this but never installed it.  It's a Key-Value store similar to Google's closed-source BigTable they've given presentations on, but it doesn't share any of the dependencies.  So they could open-source it with minimal dependencies.}
+print << [
 
-        {It is used in what is called the ["Post-Auction Loop"](https://github.com/rtbkit/rtbkit/wiki/Agent-Configuration-and-Filtering).  It helps with "simple event matching" in order that after an ad has been shown, to track and report "wins, impressions, clicks, and conversions".  An [`auctionId` and `spotId`](https://github.com/rtbkit/rtbkit/blob/c9bf1160ba0158710c3a49f126788a0adc7b6f64/rtbkit/core/post_auction/simple_event_matcher.h#L21) are hashed to form a key, and the value is presumably the cumulative interesting data about that event.}
-    ] [
-        {**"googleurl"** is included, which was once known as "The Google URL Parsing Library".  Since that time it's no longer packaged as a standalone library, and is now an [internal component of the Chromium browser](http://src.chromium.org/viewvc/chrome/trunk/src/url/).}
+    {RTBkit uses C++11, but it does not appear that any of the project's *dependencies* require the modern standard.  You're told to install [**g++**](http://en.wikipedia.org/wiki/GNU_Compiler_Collection), though there is some mention in the Google group of a pull request for [Clang](http://en.wikipedia.org/wiki/Clang) support.  (I don't know if that got processed, but I'll mention that I believe in building with both compilers regularly... preferably in [continuous-integration](https://travis-ci.org/hostilefork/rencpp).)  To speed up compilation, [**ccache**](http://en.wikipedia.org/wiki/Ccache) is used.}
 
-        [note
-            {The best way to understand what it does and the quirks it handles is probably to read [the URL parsing unit tests](http://src.chromium.org/viewvc/chrome/trunk/src/url/url_parse_unittest.cc?revision=265120).}
+    {Curiously enough, a Fortran compiler [**gfortran**](http://en.wikipedia.org/wiki/GNU_Fortran) is also required to build the project.  (But more on that later.)}
+
+    {The build system of choice by the project's developers is [GNU **make**](http://www.gnu.org/software/make/) with the helper utility [**pkg-config**](http://en.wikipedia.org/wiki/Pkg-config).  *However*, the third-party dependent packages that are being built require [**autoconf**](http://en.wikipedia.org/wiki/Autoconf), [**automake**](http://en.wikipedia.org/wiki/Automake), and [**libtool**](http://en.wikipedia.org/wiki/GNU_Libtool).  Dependencies also appear to need the Python build utility [**scons**](http://en.wikipedia.org/wiki/SCons).}
+
+]
+
+note {For similar reasons of building the embedded dependency [Zookeeper](http://en.wikipedia.org/wiki/Apache_ZooKeeper), you are required to have both [**openjdk-7-jdk**](http://en.wikipedia.org/wiki/OpenJDK) and the Java build tool [**ant**](http://en.wikipedia.org/wiki/Apache_Ant).  (There are no `.java` files in the source of RTBkit itself.)}
+
+print << [
+
+    {The [**libgoogle-perftools-dev**](https://code.google.com/p/gperftools/wiki/GooglePerformanceTools) provides a particularly fast lockless thread-caching malloc implementation called `tcmalloc()`.  *(For explicit detail you can read about [how tcmalloc works](http://jamesgolick.com/2013/5/19/how-tcmalloc-works.html).)*  Once you've compiled against tcmalloc there's also some additional profiling you can do with the help of **google-perftools**...though I don't see any invocation of them automatically for performance regression.}
+
+    {It has you install the test framework CppUnit [**libcppunit-dev**](http://en.wikipedia.org/wiki/CppUnit), which is a C++ port of JUnit.  *(That's a popular choice, but I've been liking [Catch](https://github.com/philsquared/Catch) myself.)*  BUT despite having you install CppUnit, there's no usage in the project or its dependencies...instead it uses [Boost.Test](http://www.boost.org/doc/libs/1_43_0/libs/test/doc/html/utf/user-guide.html). (?)}
+
+    {I'll mention the project does an admirable job by actually incorporating [**valgrind**](http://en.wikipedia.org/wiki/Valgrind) into the tests.  Props for that.}
+
+    {For auto-generated documentation, the process installs [**doxygen**](http://en.wikipedia.org/wiki/Doxygen).  There aren't a whole lot of written notes, but you can at least browse the stuctures for reference online:}
+
+]
+
+link http://rtbkit.org/dox/0.9/
+
+heading "Third-Party Libraries inside the RTBkit Source"
+
+print {Worth mentioning first are some small Third-Party libraries that aren't in the `rtbkit-deps` repository, but are inside the RTBkit git repository proper:}
+
+list [item << [
+
+        {[**jsoncpp**](https://github.com/open-source-parsers/jsoncpp) -- As mentioned, the OpenRTB standard suggests using JSON.  And even though Google uses protocol buffers in the bidding, you'd still need JSON for logging.}
+
+        {[**tinyxml2**](http://www.grinninglizard.com/tinyxml2/index.html) -- XML is used in service connections to Amazon's S3, SQS, and AWS...a layer provided presumably for the ad serving functions.  Cursory inspection suggests these services probably offer JSON interfaces now for the same operations.  Perhaps it was not always so.}
+
+        [
+
+            print << [
+
+                {[**utf8cpp**](http://sourceforge.net/projects/utfcpp/) -- The C++ `std::string` datatype is lamentably not very different from a `std::vector` of `char`.  It's actually kind of worse, because a mutable string's `.data()` method gives you a [`const char *`](http://en.cppreference.com/w/cpp/string/basic_string/data) instead of a [`plain char *`](http://en.cppreference.com/w/cpp/container/vector/data).  So if one wants to know something as simple as the number of "actual character codepoints" in an encoded UTF8 string, you're going to need something else.}
+
+                {RTBkit wraps this tiny library in a custom string class called [`Datacratic::Utf8String`](https://github.com/rtbkit/rtbkit/blob/c9bf1160ba0158710c3a49f126788a0adc7b6f64/soa/types/string.h), and wraps the C++11 [std::u32string](http://en.cppreference.com/w/cpp/string/basic_string) into a class that can be converted to it called `Datacratic::Utf32String`.  Additional conversion methods go between them.}
+
+                {It's a reasonable solution that doesn't require the full heft of the [International Components of Unicode](http://en.wikipedia.org/wiki/International_Components_for_Unicode).  However, the ICU components wind up installed as a dependency anyway.  So it's a slight redundancy.}
+
+            ]
+
         ]
 
-        {Using a version from 2007, RTBkit wraps Google's `GURL` class lightly in its own [`Datacratic::Url`](https://github.com/rtbkit/rtbkit/blob/c9bf1160ba0158710c3a49f126788a0adc7b6f64/soa/types/url.h).  It expands on the parsing and canonization with the ability to remember an invalid URL by caching the original string passed to the constructor, and serializing that cache to a database.}
-    ]
-]
+        [
 
+            print << [
 
-[heading {The JML Library}]
+                {[**leveldb**](http://en.wikipedia.org/wiki/LevelDB) -- I'd heard of this but never installed it.  It's a Key-Value store similar to Google's closed-source BigTable they've given presentations on, but it doesn't share any of the dependencies.  So they could open-source it with minimal dependencies.}
 
-{Jeremy--the aforementioned CTO of Datacratic--had a personal library of routines that was open sourced before Datacratic's existence.  This library is called JML and is included in the source repository.  (JML stands for "Jeremy's Machine Learning Library"):}
+                {It is used in what is called the ["Post-Auction Loop"](https://github.com/rtbkit/rtbkit/wiki/Agent-Configuration-and-Filtering).  It helps with "simple event matching" in order that after an ad has been shown, to track and report "wins, impressions, clicks, and conversions".  An [`auctionId` and `spotId`](https://github.com/rtbkit/rtbkit/blob/c9bf1160ba0158710c3a49f126788a0adc7b6f64/rtbkit/core/post_auction/simple_event_matcher.h#L21) are hashed to form a key, and the value is presumably the cumulative interesting data about that event.}
 
-https://github.com/rtbkit/rtbkit/tree/master/jml
+            ]
 
-{Copyright dates range from one file in 2000 up to several in 2009.  He says part of it has largely been supplanted by better-maintained libraries.  Of other parts he says:}
-
-[quote
-    {This code is quite old but extremely efficient and performant, and is used at the core of several machine-learning startups.}
-]
-
-{When first skimming, I saw this library had some of the more intriguing and/or bizarre dependencies, like Fortran.  It turns out there's no *original* Fortran, it's used to compile [one ilaenv.f file](https://github.com/rtbkit/rtbkit/blob/c9bf1160ba0158710c3a49f126788a0adc7b6f64/jml/algebra/ilaenv.f) taken from LAPACK.  *(Perhaps the [f2c ilaenv.c](ftp://ftp.math.ucla.edu/pub/anderson/MVA/camcfort/src/ilaenv.c) would have been sufficient?)*}
-
-{Yet as I looked, the interesting-sounding things were not seeming to be utilized within the published RTBkit repository.  To test my theory I commented them out of the makefiles, and the build still succeeded.  That left behind only some references to:}
-
-[list   
-    {[**arch**](https://github.com/rtbkit/rtbkit/tree/c9bf1160ba0158710c3a49f126788a0adc7b6f64/jml/arch) -- some architecture-specific functionality, basically timers and low-level stuff.}
-
-    {[**db**](https://github.com/rtbkit/rtbkit/tree/c9bf1160ba0158710c3a49f126788a0adc7b6f64/jml/db) -- simple code for putting nested streams of data into one persistent file; kind of like a `.tar` file.}
-
-    {[**utils**](https://github.com/rtbkit/rtbkit/tree/c9bf1160ba0158710c3a49f126788a0adc7b6f64/jml/utils) -- a grab bag of utilities, for hashing, CSV files, compressing...miscellany like old copies of SGI STL headers...}
-]
- 
-{The only reference even to the **math** library was one header for either dividing fractions or dividing while rounding up.  And [deleting the header inclusion has no effect](https://github.com/rtbkit/rtbkit/blob/c9bf1160ba0158710c3a49f126788a0adc7b6f64/rtbkit/core/router/router.cc#L22), as neither function is used.  :-/}
-
-{Cursory inspection of everything that was used seemed like those cases of "things that could be done better today with C++11 or have been otherwise standardized, but the substitutions just haven't been made".  I haven't read all the code, but that's the impression.}
-
-{Thus, it turns out that the machine learning code is almost certainly all related to the *NON-open-source portion* of the project...the [Datacratic RTB Optimizer](http://datacratic.com/site/products/rtb-optimizer).  From the site:}
-
-[quote
-    {RTB Optimizer is a real-time bid management system that computes a unique probability score for each impression, then uses that score to calculate an optimal bid price based on campaign goals. It can be integrated with any front-end RTB stack and is powered by Datacratic's Real-Time Machine Learning Platform.}
-]
-
-{A bit disappointing, as that doesn't leave really anything all that *interesting* in here for me to read.  But moving on for now...}
-
-
-[heading {Libraries (and Software) that were Snapshotted}]
-
-{Let's look at what's in the packages kept versioned in [rtbkit-deps](https://github.com/rtbkit/rtbkit-deps).  Again: these are built to avoid worrying about the version changes in what `sudo apt-get install` might give you, to make the system more likely to move across distributions without hiccups:}
-
-[list
-    {[**boost**](http://en.wikipedia.org/wiki/Boost_(C%2B%2B_libraries) -- Boost is an important library for C++, providing a number of general facilities.  RTBkit makes heavy usage of several boost libraries, which is good.  It still has some lagging references to things like `boost::shared_ptr` instead of `std::shared_ptr`, and some other "not replaced with updated equivalents".}
-
-    {[**cairomm**](http://cairographics.org/cairomm/) -- C++ interface to the [Cairo](http://en.wikipedia.org/wiki/Cairo_%28graphics%29) 2-D drawing library.  It's used to draw a dynamic advertisement which indicates the win price in the ad bid on top of the ad.  For some reason only featured in the exchange tester for the Rubicon ad network.  No other use.}
-
-    {[**cityhash**](http://en.wikipedia.org/wiki/CityHash) -- Some non-cryptographic functions for speedy hashing, used a few times to generate unique ID numbers from strings or IP addresses.}
-
-    [
-        {[**curl**](http://en.wikipedia.org/wiki/CURL) and its C++ binding **curlpp** -- This library is how RTBkit does any GET, POST, etc. that it needs.  Used by an "http client", "rest proxy", and connection for "s3".  Mostly intended for services to do basic file transfers; the kind of stuff you'd do with cURL at the command line except not needing to call out to a shell to do it.}
-
-        {cURL is *not* used to connect to the bidding exchanges.  For that, there are custom classes wrapping everything down from the [TCP layer](https://github.com/rtbkit/rtbkit/blob/c9bf1160ba0158710c3a49f126788a0adc7b6f64/soa/service/tcp_client.cc) on up.  So there's still more custom code for commodity functionality that the system is based on.  That doesn't mean it's *bad* code...but it does mean that there's not a lot of manpower and auditing improving it.}
-
-        [note 
-            {I've dabbled in low-level socket programming.  (I ported a DHCP server from Windows to Mac (see ["When Sockets Attack!"](http://blog.hostilefork.com/when-sockets-attack-dns-dhcp/), and tinkered around designing a rewriting proxy server called [Flatworm](http://flatworm.hostilefork.com/).)  So I know it's doable but can be hard to get the details right, I'd probably look into Boost.Asio more if ever facing such a situation.}
         ]
-    ]
 
-    {[**libssh2**](http://www.libssh2.org/) -- Implementation of the SSH secure shell protocol.  Provides the ability to do secure file transfers to SFTP servers as a service.  The service is not used by any of the published RTBkit code *(but it's there)*.}
+        [
 
-    {[**node**](http://en.wikipedia.org/wiki/Node.js) -- Node.js, already mentioned as not built in the Ubuntu14 version, and seems to be a deprecated dependency going forward.}
+            print {**"googleurl"** is included, which was once known as "The Google URL Parsing Library".  Since that time it's no longer packaged as a standalone library, and is now an [internal component of the Chromium browser](http://src.chromium.org/viewvc/chrome/trunk/src/url/).}
 
-    {[**protobuf**](http://en.wikipedia.org/wiki/Protocol_Buffers) -- Google Protocol buffers... already mentioned as the fast piping technique Google uses for ad bidding.}
+            note {The best way to understand what it does and the quirks it handles is probably to read [the URL parsing unit tests](http://src.chromium.org/viewvc/chrome/trunk/src/url/url_parse_unittest.cc?revision=265120).}
 
-    [
-        {[**redis**](http://en.wikipedia.org/wiki/Redis) and [**hiredis**](https://github.com/redis/hiredis) -- so both the structured storage system and the C binding for it.  For those not-in-the-know, Redis is a key-value store that is known for holding state fully in memory; it's written in C and flexible for what it is.  The people I knew of who used Redis used it for fast tracking of metrics when they're willing to fail and miss a few.}
+            print {Using a version from 2007, RTBkit wraps Google's `GURL` class lightly in its own [`Datacratic::Url`](https://github.com/rtbkit/rtbkit/blob/c9bf1160ba0158710c3a49f126788a0adc7b6f64/soa/types/url.h).  It expands on the parsing and canonization with the ability to remember an invalid URL by caching the original string passed to the constructor, and serializing that cache to a database.}
 
-        {So I was surprised that the first usage I found was in the "banker" as persistence for the [banking structures](http://rtbkit.org/dox/0.9/structRTBKIT_1_1Account.html).  How could an in-memory system be good for keeping track of account balances and spending limits?  Digging further I found out that Redis actually does have recoverable persistence in ["append-only-file" mode (AOF)](http://redis.io/topics/persistence), and [the ability to get ACID durability](http://stackoverflow.com/a/2512704/211160) with an fsync on every operation.}
+        ]
 
-        {But they didn't configure it that way, and one of the RTBkit team members said they [don't even use AOF](https://groups.google.com/a/rtbkit.org/forum/#!searchin/discuss/AOF/discuss/jZWXO1IXK2I/Uhz93LAllXAJ).  So it appears the Redis database is just some kind of shadow.}
+    ]]
 
-        {It's also used in something called a RedisAugmentor, which is a component not used by the distribution, so my only understanding of its usage would be very abstract.  It's something about being able to take an ad spot that you're going to pass from the Router to an Agent and add some data to the bid before the Agent has a look--in the case where the data lives in a Redis database somehow.}
-    ]
+heading "The JML Library"
 
-    {[**snappy**](http://en.wikipedia.org/wiki/Snappy_%28software%29) -- A compression library which happens to be needed by LevelDB.  Its goal is speed, but at the cost that "the compression ratio is 20–100% lower than gzip."}
+print {Jeremy--the aforementioned CTO of Datacratic--had a personal library of routines that was open sourced before Datacratic's existence.  This library is called JML and is included in the source repository.  (JML stands for "Jeremy's Machine Learning Library"):}
 
-    [
-        {[**userspace-rcu**](http://urcu.so/) -- This is described as a "userspace read-copy-update library for data synchronization, that provides read-side access which scales linearly with the number of cores."  While I know a little bit about lock-free programing I don't know the linux kernel term "RCU"...but am [bookmarking an article to read more about the implementation](http://lwn.net/Articles/262464/).}
+link https://github.com/rtbkit/rtbkit/tree/master/jml
 
-        {It seems to mostly be used in logging.  I'll look more at it later.}
-    ]
+print {Copyright dates range from one file in 2000 up to several in 2009.  He says part of it has largely been supplanted by better-maintained libraries.  Of other parts he says:}
 
-    [
-        {[**zeromq3-x**](http://en.wikipedia.org/wiki/%C3%98MQ) -- is the C binding to ZeroMQ.  The C++ binding cppzmq is a the single file `zmq.hpp`, a snapshot of which [is embedded in RTBkit](https://github.com/rtbkit/rtbkit/blob/c9bf1160ba0158710c3a49f126788a0adc7b6f64/soa/service/zmq.hpp) (with some extra JML assertions added).}
+quote {This code is quite old but extremely efficient and performant, and is used at the core of several machine-learning startups.}
 
-        {Communications between the different services in the system is done using ZeroMQ, as previously mentioned.  I gather this means you can run all of them in the same process, or each in their own process...and the code will just work.}  
-    ]
+print << [
 
-    [
-        {[**zookeeper**](http://en.wikipedia.org/wiki/Apache_ZooKeeper) -- Apache ZooKeeper is something I'd never heard of.  It's a kind of directory service, and is used to let the running services find out about each other.  They describe here [how the services publish their zeromq and http info](https://github.com/rtbkit/rtbkit/wiki/ZooKeeper-Nodes).}
+    {When first skimming, I saw this library had some of the more intriguing and/or bizarre dependencies, like Fortran.  It turns out there's no *original* Fortran, it's used to compile [one ilaenv.f file](https://github.com/rtbkit/rtbkit/blob/c9bf1160ba0158710c3a49f126788a0adc7b6f64/jml/algebra/ilaenv.f) taken from LAPACK.  *(Perhaps the [f2c ilaenv.c](ftp://ftp.math.ucla.edu/pub/anderson/MVA/camcfort/src/ilaenv.c) would have been sufficient?)*}
 
-        {The situation is that they've decoupled the services from each other (architecturally, even if they are in the same process).  And perhaps there is some dynamism in terms of where a service might pop up; more dynamic than a configuration file could handle.  So this is just a way of avoiding the specification of ZeroMQ and TCP endpoints statically...perhaps coping with when some go down and need to come back up.  I'd have to look at it more to really understand it.}
-    ]
+    {Yet as I looked, the interesting-sounding things were not seeming to be utilized within the published RTBkit repository.  To test my theory I commented them out of the makefiles, and the build still succeeded.  That left behind only some references to:}
+
 ]
 
+list [item << [
 
-[heading {Libraries Taken for Granted}]
+        {[**arch**](https://github.com/rtbkit/rtbkit/tree/c9bf1160ba0158710c3a49f126788a0adc7b6f64/jml/arch) -- some architecture-specific functionality, basically timers and low-level stuff.}
 
-{Some libraries are presumably "stable enough to take for granted" and don't change often enough to make it necessary to draw them out into the separate dependencies.  So they were installed with `sudo apt-get`.}
+        {[**db**](https://github.com/rtbkit/rtbkit/tree/c9bf1160ba0158710c3a49f126788a0adc7b6f64/jml/db) -- simple code for putting nested streams of data into one persistent file; kind of like a `.tar` file.}
 
-{These ones are used during the build of dependencies only:}
+        {[**utils**](https://github.com/rtbkit/rtbkit/tree/c9bf1160ba0158710c3a49f126788a0adc7b6f64/jml/utils) -- a grab bag of utilities, for hashing, CSV files, compressing...miscellany like old copies of SGI STL headers...}
 
-[list
-    {[**libicu-dev**](http://en.wikipedia.org/wiki/International_Components_for_Unicode) - Internet Components for Unicode used by Boost.RegEx and GoogleURL}
+    ]]
 
-    {[**libevent-dev**](http://en.wikipedia.org/wiki/Libevent) - used by Redis.}
+print << [
 
-    {[**libssh2-1-dev**](http://www.libssh2.org/) - ssh library used by Curl.}
+    {The only reference even to the **math** library was one header for either dividing fractions or dividing while rounding up.  And [deleting the header inclusion has no effect](https://github.com/rtbkit/rtbkit/blob/c9bf1160ba0158710c3a49f126788a0adc7b6f64/rtbkit/core/router/router.cc#L22), as neither function is used.  :-/}
 
-    {**libbz2-dev** - [bzip](http://www.bzip.org/) compression used by Node (which now seems being phased out as a dependency).}
+    {Cursory inspection of everything that was used seemed like those cases of "things that could be done better today with C++11 or have been otherwise standardized, but the substitutions just haven't been made".  I haven't read all the code, but that's the impression.}
+
+    {Thus, it turns out that the machine learning code is almost certainly all related to the *NON-open-source portion* of the project...the [Datacratic RTB Optimizer](http://datacratic.com/site/products/rtb-optimizer).  From the site:}
+
 ]
 
-{These are used by the JML library for things that are never invoked by the open source RTBkit distribution, pursuant to what was mentioned earlier:}
+quote {RTB Optimizer is a real-time bid management system that computes a unique probability score for each impression, then uses that score to calculate an optimal bid price based on campaign goals. It can be integrated with any front-end RTB stack and is powered by Datacratic's Real-Time Machine Learning Platform.}
 
-[list
-    {[**libblas-dev**](http://en.wikipedia.org/wiki/Basic_Linear_Algebra_Subprograms) - "basic linear algebra subprograms"}
+print {A bit disappointing, as that doesn't leave really anything all that *interesting* in here for me to read.  But moving on for now...}
 
-    {[**liblapack-dev**](http://en.wikipedia.org/wiki/LAPACK) - "linear algebra package"}
+heading "Libraries (and Software) that were Snapshotted"
+
+print {Let's look at what's in the packages kept versioned in [rtbkit-deps](https://github.com/rtbkit/rtbkit-deps).  Again: these are built to avoid worrying about the version changes in what `sudo apt-get install` might give you, to make the system more likely to move across distributions without hiccups:}
+
+list [item << [
+
+        {[**boost**](http://en.wikipedia.org/wiki/Boost_(C%2B%2B_libraries) -- Boost is an important library for C++, providing a number of general facilities.  RTBkit makes heavy usage of several boost libraries, which is good.  It still has some lagging references to things like `boost::shared_ptr` instead of `std::shared_ptr`, and some other "not replaced with updated equivalents".}
+
+        {[**cairomm**](http://cairographics.org/cairomm/) -- C++ interface to the [Cairo](http://en.wikipedia.org/wiki/Cairo_%28graphics%29) 2-D drawing library.  It's used to draw a dynamic advertisement which indicates the win price in the ad bid on top of the ad.  For some reason only featured in the exchange tester for the Rubicon ad network.  No other use.}
+
+        {[**cityhash**](http://en.wikipedia.org/wiki/CityHash) -- Some non-cryptographic functions for speedy hashing, used a few times to generate unique ID numbers from strings or IP addresses.}
+
+        [
+
+            print << [
+
+                {[**curl**](http://en.wikipedia.org/wiki/CURL) and its C++ binding **curlpp** -- This library is how RTBkit does any GET, POST, etc. that it needs.  Used by an "http client", "rest proxy", and connection for "s3".  Mostly intended for services to do basic file transfers; the kind of stuff you'd do with cURL at the command line except not needing to call out to a shell to do it.}
+
+                {cURL is *not* used to connect to the bidding exchanges.  For that, there are custom classes wrapping everything down from the [TCP layer](https://github.com/rtbkit/rtbkit/blob/c9bf1160ba0158710c3a49f126788a0adc7b6f64/soa/service/tcp_client.cc) on up.  So there's still more custom code for commodity functionality that the system is based on.  That doesn't mean it's *bad* code...but it does mean that there's not a lot of manpower and auditing improving it.}
+
+            ]
+
+            note {I've dabbled in low-level socket programming.  (I ported a DHCP server from Windows to Mac (see ["When Sockets Attack!"](http://blog.hostilefork.com/when-sockets-attack-dns-dhcp/), and tinkered around designing a rewriting proxy server called [Flatworm](http://flatworm.hostilefork.com/).)  So I know it's doable but can be hard to get the details right, I'd probably look into Boost.Asio more if ever facing such a situation.}
+
+        ]
+
+        {[**libssh2**](http://www.libssh2.org/) -- Implementation of the SSH secure shell protocol.  Provides the ability to do secure file transfers to SFTP servers as a service.  The service is not used by any of the published RTBkit code *(but it's there)*.}
+
+        {[**node**](http://en.wikipedia.org/wiki/Node.js) -- Node.js, already mentioned as not built in the Ubuntu14 version, and seems to be a deprecated dependency going forward.}
+
+        {[**protobuf**](http://en.wikipedia.org/wiki/Protocol_Buffers) -- Google Protocol buffers... already mentioned as the fast piping technique Google uses for ad bidding.}
+
+        [
+
+            print << [
+
+                {[**redis**](http://en.wikipedia.org/wiki/Redis) and [**hiredis**](https://github.com/redis/hiredis) -- so both the structured storage system and the C binding for it.  For those not-in-the-know, Redis is a key-value store that is known for holding state fully in memory; it's written in C and flexible for what it is.  The people I knew of who used Redis used it for fast tracking of metrics when they're willing to fail and miss a few.}
+
+                {So I was surprised that the first usage I found was in the "banker" as persistence for the [banking structures](http://rtbkit.org/dox/0.9/structRTBKIT_1_1Account.html).  How could an in-memory system be good for keeping track of account balances and spending limits?  Digging further I found out that Redis actually does have recoverable persistence in ["append-only-file" mode (AOF)](http://redis.io/topics/persistence), and [the ability to get ACID durability](http://stackoverflow.com/a/2512704/211160) with an fsync on every operation.}
+
+                {But they didn't configure it that way, and one of the RTBkit team members said they [don't even use AOF](https://groups.google.com/a/rtbkit.org/forum/#!searchin/discuss/AOF/discuss/jZWXO1IXK2I/Uhz93LAllXAJ).  So it appears the Redis database is just some kind of shadow.}
+
+                {It's also used in something called a RedisAugmentor, which is a component not used by the distribution, so my only understanding of its usage would be very abstract.  It's something about being able to take an ad spot that you're going to pass from the Router to an Agent and add some data to the bid before the Agent has a look--in the case where the data lives in a Redis database somehow.}
+
+            ]
+
+        ]
+
+        {[**snappy**](http://en.wikipedia.org/wiki/Snappy_%28software%29) -- A compression library which happens to be needed by LevelDB.  Its goal is speed, but at the cost that "the compression ratio is 20–100% lower than gzip."}
+
+        [
+
+            print << [
+
+                {[**userspace-rcu**](http://urcu.so/) -- This is described as a "userspace read-copy-update library for data synchronization, that provides read-side access which scales linearly with the number of cores."  While I know a little bit about lock-free programing I don't know the linux kernel term "RCU"...but am [bookmarking an article to read more about the implementation](http://lwn.net/Articles/262464/).}
+
+                {It seems to mostly be used in logging.  I'll look more at it later.}
+
+            ]
+
+        ]
+
+        [
+
+            print << [
+
+                {[**zeromq3-x**](http://en.wikipedia.org/wiki/%C3%98MQ) -- is the C binding to ZeroMQ.  The C++ binding cppzmq is a the single file `zmq.hpp`, a snapshot of which [is embedded in RTBkit](https://github.com/rtbkit/rtbkit/blob/c9bf1160ba0158710c3a49f126788a0adc7b6f64/soa/service/zmq.hpp) (with some extra JML assertions added).}
+
+                {Communications between the different services in the system is done using ZeroMQ, as previously mentioned.  I gather this means you can run all of them in the same process, or each in their own process...and the code will just work.}
+
+            ]
+
+        ]
+
+        [
+
+            print << [
+
+                {[**zookeeper**](http://en.wikipedia.org/wiki/Apache_ZooKeeper) -- Apache ZooKeeper is something I'd never heard of.  It's a kind of directory service, and is used to let the running services find out about each other.  They describe here [how the services publish their zeromq and http info](https://github.com/rtbkit/rtbkit/wiki/ZooKeeper-Nodes).}
+
+                {The situation is that they've decoupled the services from each other (architecturally, even if they are in the same process).  And perhaps there is some dynamism in terms of where a service might pop up; more dynamic than a configuration file could handle.  So this is just a way of avoiding the specification of ZeroMQ and TCP endpoints statically...perhaps coping with when some go down and need to come back up.  I'd have to look at it more to really understand it.}
+
+            ]
+
+        ]
+
+    ]]
+
+heading "Libraries Taken for Granted"
+
+print << [
+
+    {Some libraries are presumably "stable enough to take for granted" and don't change often enough to make it necessary to draw them out into the separate dependencies.  So they were installed with `sudo apt-get`.}
+
+    {These ones are used during the build of dependencies only:}
+
 ]
 
-{These are used by the RTBkit directly:}
+list [item << [
 
-[list
-    {[**python-dev**](https://docs.python.org/devguide/) - used by Boost.Python; there is some information about writing a [Python Bidder Client](https://github.com/rtbkit/rtbkit/wiki/Multi-language-bidding-agent) on the RTBkit wiki.}
+        {[**libicu-dev**](http://en.wikipedia.org/wiki/International_Components_for_Unicode) - Internet Components for Unicode used by Boost.RegEx and GoogleURL}
 
-    {**zlib1g-dev** - [DEFLATE](http://en.wikipedia.org/wiki/DEFLATE)-based library used by the Logger to compress logs.}
+        {[**libevent-dev**](http://en.wikipedia.org/wiki/Libevent) - used by Redis.}
 
-    {**liblzma-dev** - [LZMA](http://en.wikipedia.org/wiki/Lempel%E2%80%93Ziv%E2%80%93Markov_chain_algorithm)-based library (as used in .xz/.7z files).  Also used to compress logs (although it's not clear how you get to pick a "ZlibCompressor" vs an "LzmaCompressor".}
+        {[**libssh2-1-dev**](http://www.libssh2.org/) - ssh library used by Curl.}
 
-    {[**libcrypto++-dev**](http://www.cryptopp.com/) - Node and Curl require this.  But it's remarked that "Exchanges transmit winning prices in different units, currencies, encodings and encryption schemes."  So you'll find some of them requiring (for instance) [Blowfish](http://en.wikipedia.org/wiki/Blowfish_%28cipher%29).  So in addition to the communications with S3, AWS, and some MD5 hashing you will find cryptography used to communicate with the ad exchanges.}
+        {**libbz2-dev** - [bzip](http://www.bzip.org/) compression used by Node (which now seems being phased out as a dependency).}
 
-    [
-        {[**libACE-dev**](http://en.wikipedia.org/wiki/Adaptive_Communication_Environment) -- The "ACE adaptive communication environment" is yet another grab-bag of a library.  It provides synchronization primitives, timers, and C++ wrappers for things like sockets, signals, datagrams, and INET addresses.}
+    ]]
 
-        {The codebase uses a few ACE classes as the implementation of JML's "arch" primitives for things like semaphores, and in assisting of the implementation of the socket abstraction classes.  I'd never heard of this library before...and despite its age (it has been around since before 2000), there's only a hundred or so [questions about it on StackOverflow](http://stackoverflow.com/questions/tagged/ace).}
+print {These are used by the JML library for things that are never invoked by the open source RTBkit distribution, pursuant to what was mentioned earlier:}
 
-        {The most notable-seeming usage of libAce would have *seemed* to be [in the auction.cc file](http://www.cs.wustl.edu/~schmidt/ACE-overview.html):}
+list [item << [
 
-[code {
+        {[**libblas-dev**](http://en.wikipedia.org/wiki/Basic_Linear_Algebra_Subprograms) - "basic linear algebra subprograms"}
+
+        {[**liblapack-dev**](http://en.wikipedia.org/wiki/LAPACK) - "linear algebra package"}
+
+    ]]
+
+print "These are used by the RTBkit directly:"
+
+list [item << [
+
+        {[**python-dev**](https://docs.python.org/devguide/) - used by Boost.Python; there is some information about writing a [Python Bidder Client](https://github.com/rtbkit/rtbkit/wiki/Multi-language-bidding-agent) on the RTBkit wiki.}
+
+        {**zlib1g-dev** - [DEFLATE](http://en.wikipedia.org/wiki/DEFLATE)-based library used by the Logger to compress logs.}
+
+        {**liblzma-dev** - [LZMA](http://en.wikipedia.org/wiki/Lempel%E2%80%93Ziv%E2%80%93Markov_chain_algorithm)-based library (as used in .xz/.7z files).  Also used to compress logs (although it's not clear how you get to pick a "ZlibCompressor" vs an "LzmaCompressor".}
+
+        {[**libcrypto++-dev**](http://www.cryptopp.com/) - Node and Curl require this.  But it's remarked that "Exchanges transmit winning prices in different units, currencies, encodings and encryption schemes."  So you'll find some of them requiring (for instance) [Blowfish](http://en.wikipedia.org/wiki/Blowfish_%28cipher%29).  So in addition to the communications with S3, AWS, and some MD5 hashing you will find cryptography used to communicate with the ad exchanges.}
+
+        [
+
+            print << [
+
+                {[**libACE-dev**](http://en.wikipedia.org/wiki/Adaptive_Communication_Environment) -- The "ACE adaptive communication environment" is yet another grab-bag of a library.  It provides synchronization primitives, timers, and C++ wrappers for things like sockets, signals, datagrams, and INET addresses.}
+
+                {The codebase uses a few ACE classes as the implementation of JML's "arch" primitives for things like semaphores, and in assisting of the implementation of the socket abstraction classes.  I'd never heard of this library before...and despite its age (it has been around since before 2000), there's only a hundred or so [questions about it on StackOverflow](http://stackoverflow.com/questions/tagged/ace).}
+
+                {The most notable-seeming usage of libAce would have *seemed* to be [in the auction.cc file](http://www.cs.wustl.edu/~schmidt/ACE-overview.html):}
+
+            ]
+
+            source {
 #include "ace/Acceptor.h"
 #include <ace/Timer_Heap_T.h>
 #include <ace/Synch.h>
@@ -365,26 +484,29 @@ https://github.com/rtbkit/rtbkit/tree/master/jml
 #include "ace/SOCK_Acceptor.h"
 #include <ace/High_Res_Timer.h>
 #include <ace/Dev_Poll_Reactor.h>
-}]
+}
 
-        {That caught my eye *(beyond just the mixture of [quoted and angle bracketed includes](http://stackoverflow.com/questions/21593/what-is-the-difference-between-include-filename-and-include-filename)*).  Here were high resolution timers, timer heaps, timer queue adapters, dev poll reactors.  Serious-sounding business!  Except...if you comment those headers out it all still builds.  There are no references to any of that.  :-)}
-    ]
-]
+            print {That caught my eye *(beyond just the mixture of [quoted and angle bracketed includes](http://stackoverflow.com/questions/21593/what-is-the-difference-between-include-filename-and-include-filename)*).  Here were high resolution timers, timer heaps, timer queue adapters, dev poll reactors.  Serious-sounding business!  Except...if you comment those headers out it all still builds.  There are no references to any of that.  :-)}
 
+        ]
 
-[heading {Still, why 50MB for RTBkit's Repository?}]
+    ]]
 
-{Although I've explained that there are a lot of embedded libraries, even still it doesn't seem like it could add up to 50MB.  Here's the breakdown of the C++ content total:}
+heading "Still, why 50MB for RTBkit's Repository?"
 
-[list
-    {**.cc** -- 6 MB -- *(The [extension debate may never die](http://stackoverflow.com/questions/1545080/correct-c-code-file-extension-cc-vs-cpp), but I use .cpp myself)*}
+print {Although I've explained that there are a lot of embedded libraries, even still it doesn't seem like it could add up to 50MB.  Here's the breakdown of the C++ content total:}
 
-    {**.h** -- 3.7 MB -- header files, either C or C++ *(presumably mostly C++)*}
-]
+list [item << [
 
-{So what's all the rest?  The largest file is a 32 MB **.log** file...a huge uncompressed data set for testing the RTBkit Router.  The entries are in JSON, and look like the sample presented earlier:}
+        {**.cc** -- 6 MB -- *(The [extension debate may never die](http://stackoverflow.com/questions/1545080/correct-c-code-file-extension-cc-vs-cpp), but I use .cpp myself)*}
 
-[code text {
+        {**.h** -- 3.7 MB -- header files, either C or C++ *(presumably mostly C++)*}
+
+    ]]
+
+print {So what's all the rest?  The largest file is a 32 MB **.log** file...a huge uncompressed data set for testing the RTBkit Router.  The entries are in JSON, and look like the sample presented earlier:}
+
+source 'text {
 {"!!CV":"0.1","exchange":"dblclk_adx","id":"1497db9a-24a5-4001-15e8-deff04002930",
 "ipAddress":"76.209.61.239","language":"en","location":{"cityName":"Elgin",
 "countryCode":"US","dma":602,"postalCode":"847","regionCode":"IL"},
@@ -397,73 +519,98 @@ https://github.com/rtbkit/rtbkit/tree/master/jml
 "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.1; Trident/4.0;
 Media Center PC 3.0; .NET CLR 1.0.3705; .NET CLR 1.1.4322; AskTbFWV5/5.12.2.16749),
 gzip(gfe),gzip(gfe)"}
-}]
+}
 
-{A very similar data set was compressed in the same directory taking up about 1.6 MB as an ['.xz' file](http://en.wikipedia.org/wiki/Xz).  *(Note: Had it been uncompressed, it would have been 18 MB.)*}
+print << [
 
-{Then there is a 381 K compressed ['.gz' file](http://en.wikipedia.org/wiki/Gzip), which expands to 718 K...curiously a copy of a [training set of data for machine learning](https://archive.ics.uci.edu/ml/datasets/Letter+Recognition) that recognizes written letters.  (Part of the unused machine-learning code.)}
+    {A very similar data set was compressed in the same directory taking up about 1.6 MB as an ['.xz' file](http://en.wikipedia.org/wiki/Xz).  *(Note: Had it been uncompressed, it would have been 18 MB.)*}
 
-{So those data files are where the actual heft comes from.}
+    {Then there is a 381 K compressed ['.gz' file](http://en.wikipedia.org/wiki/Gzip), which expands to 718 K...curiously a copy of a [training set of data for machine learning](https://archive.ics.uci.edu/ml/datasets/Letter+Recognition) that recognizes written letters.  (Part of the unused machine-learning code.)}
 
+    {So those data files are where the actual heft comes from.}
 
-[heading {In Conclusion} %conclusions]
-
-{In this [slide 17 from the RTBkit team](http://www.slideshare.net/Datacratic/a-technical-introduction-to-rtbkit), they frankly say (more or less) *"The only way it could be harder to do this than by using RTBkit would be if you wrote the whole thing yourself."*}
-
-{Well...let's consider that in a moment.  But first:}
-
-[list
-    {While the repository and its dependencies paint an imposing picture, some of the more mysterious components are used rarely (or not at all).  A large machine learning library dependency with neural networks, linear algebra, Fortran and [t-Distributed Stochastic Neighbor Embedding (t-SNE)](http://en.wikipedia.org/wiki/T-distributed_stochastic_neighbor_embedding) has no notable incorporation.  This is both bad and good: it's good because it means you don't need a Ph.D in math to understand the software, and bad because it's relatively ordinary pipes+logic vs. any "magic".}
-
-    {If any magic *does* exist, it is not open-sourced--except in a library form that requires sophistication to know how to begin to use (and it is one among many such libraries).  Options exist to work with partners in the [RTBkit Ecosystem](http://rtbkit.org/site/ecosystem), including the company that open sourced RTBkit (whose extensions presumably use the aforementioned unused libraries for machine learning).  However, costs for their services do not appear to be publicly disclosed, so it's difficult to know exactly what you'd be in for with that..}
-
-    {The overwhelming majority of original code in RTBKit is C++11, with a small amount of JavaScript and Python embedding capability.  There are no large declarative portions to the code or domain-specific languages.  Modifying or understanding the project in any non-trivial way would mandate a practical awareness of C++ with several years of experience.}
-
-    {Adoption of new C++11 features is relatively conservative, with a focus on efficiency benefits, such as [`emplace_back` as opposed to `push_back`](http://stackoverflow.com/questions/4303513/push-back-vs-emplace-back).  Another area are constructs providing convenience (`auto`, range-based `for`, lambdas).  There is no [template metaprogramming](http://en.wikipedia.org/wiki/Template_metaprogramming), and appear to be no instances of `std::enable_if` or [SFINAE](http://en.wikipedia.org/wiki/Substitution_failure_is_not_an_error).}
-
-    {Though `std::shared_ptr` and `std::unique_ptr` do appear, there are still a huge number of raw pointer allocations and calls to `delete` and `delete[]`.  Other areas lagging in modernization are several remaining references to `std::auto_ptr` *(a class that should have never existed in the first place)*, along with usage of `boost::shared_ptr` instead of `std::shared_ptr`, etc.}
-
-    [note
-        {I did find interesting the incorporation of [Scoping helpers](https://github.com/rtbkit/rtbkit/blob/c9bf1160ba0158710c3a49f126788a0adc7b6f64/soa/utils/scope.h) that are passed lambdas to implement a pseudo-"try/catch/finally" alternative, apparently originating from the D language.  Kind of interesting.}
-
-        {As it's new to me, I don't have experience with using this to say whether it is especially "good" or "bad" compared to more traditional coding styles with exception-handling.  I will point out that since destructors run in the reverse order of construction, you'll get some possibly-counterintuitive ordering if you use more than one in a scope.}
-    ]
-
-    {A testing system is in place, and valgrind is used to check for memory leaks in an automated fashion, with appropriate suppressions of known issues in libraries.  Assuming the tests represent realistic stresses of running in practice, the raw pointers might not be causing problems yet.  (Still it should be a priority for someone to go through and fix those).}
-
-    {One critical weak point is a pervasive dependence on homegrown or obscure libraries, for common functionality that has more popular and/or vetted implementations.  Trained developers would likely demand they be given time to update these to more appropriate variants (as opposed to learning or improving the libraries).  Less-trained developers might spend excessive time absorbing the nuances of obscure classes, which will also not be a transferable skill to other projects.  It may be difficult to find agreements on substitutions that would be endorsed by the repository maintainers...which creates a cost of fragmentation.}
-
-    [note
-        {Although much of the libraries may be homegrown, they do include tests; so reliability may not be at issue.}
-    ]
-
-    {If one were to hire a team to work with this project, prior C++11 experience is likely less important than general C++ familiarity (including how to use libraries like boost to avoid reinventing the wheel).  Also of importance would be the developers have current knowledge of--or be very interested in--the technical landscape of emerging server-side technologies.  *(This would be true in any "build" situation as well.)*}
 ]
 
-{In the big picture, I think the data over two years show that the barrier has been simply too high for contribution.  GitHub statistics and graphs demonstrate that even though there have been 4006 commits, [very few of those commits have been substantial](https://github.com/rtbkit/rtbkit/graphs/contributors?from=2009-04-26&to=2015-02-28&type=a).  There also are few enough rtbkit-related repositories on GitHub [that you can count them on two hands](https://github.com/search?p=1&q=rtbkit&type=Repositories) *(not including clones of rtbkit that were just renamed)*.}
+heading %conclusions "In Conclusion"
 
-[note
-    {Only six questions made it into the [rtbkit](http://stackoverflow.com/questions/tagged/rtbkit) tag on StackOverflow, two of which are there because I found and tagged them.  :-/}
+print << [
+
+    {In this [slide 17 from the RTBkit team](http://www.slideshare.net/Datacratic/a-technical-introduction-to-rtbkit), they frankly say (more or less) *"The only way it could be harder to do this than by using RTBkit would be if you wrote the whole thing yourself."*}
+
+    {Well...let's consider that in a moment.  But first:}
+
 ]
 
-{So I personally would say indicators point to taking a *very strong hedge* against there ever being major advancements in the open-sourced C++11 codebase.  To that end, I would not attempt to hire a team of C++ developers with the aim of working on and bringing this codebase forward.  It would be much better to hire for a diverse skill set *(pluses: server-side experience in Erlang, Haskell, Clojure)*...and a track record of good solutions.}
+list [item << [
 
-{However: if RTBkit does more-or-less what one wants today, it might be worth it to pay Datacratic to quickly do whatever customizations are required.  Then hire a sysadmin to keep that running as a near-term solution.  Having a working installation to study would be instructive just in terms of observing the "in" and "out" surface of what defines a functional RTB system, even as a model for writing one's own.}
+        {While the repository and its dependencies paint an imposing picture, some of the more mysterious components are used rarely (or not at all).  A large machine learning library dependency with neural networks, linear algebra, Fortran and [t-Distributed Stochastic Neighbor Embedding (t-SNE)](http://en.wikipedia.org/wiki/T-distributed_stochastic_neighbor_embedding) has no notable incorporation.  This is both bad and good: it's good because it means you don't need a Ph.D in math to understand the software, and bad because it's relatively ordinary pipes+logic vs. any "magic".}
 
-[heading {Afterword}]
+        {If any magic *does* exist, it is not open-sourced--except in a library form that requires sophistication to know how to begin to use (and it is one among many such libraries).  Options exist to work with partners in the [RTBkit Ecosystem](http://rtbkit.org/site/ecosystem), including the company that open sourced RTBkit (whose extensions presumably use the aforementioned unused libraries for machine learning).  However, costs for their services do not appear to be publicly disclosed, so it's difficult to know exactly what you'd be in for with that..}
 
-{If I've sounded a bit grim about the lack of "magic", let me soften some by saying that there are several public statements that RTBkit is an open-sourced *piece* of something; and not really "the whole thing".  For instance, [an article on PRWeb](http://www.prweb.com/releases/2013/2/prweb10443806.htm) from February 2013 says (emphasis mine):}
+        {The overwhelming majority of original code in RTBKit is C++11, with a small amount of JavaScript and Python embedding capability.  There are no large declarative portions to the code or domain-specific languages.  Modifying or understanding the project in any non-trivial way would mandate a practical awareness of C++ with several years of experience.}
 
-[quote
-    {Developers who decide to build on top of the RTBkit framework can eliminate most of the difficult engineering work required to create a scalable real-time bidder. Its open, service-oriented architecture can be used to assemble a bidder as simple or complex as desired. The software routes bid requests and data through a configurable set of components which can be extended to implement a customized bidder. It is highly efficient and scalable, with the core logic able to support tens of thousands of bid requests per second per commodity server. **The framework handles most of the mechanical parts of bidding allowing software developers to focus on truly innovative features like unique bidding logic and data driven optimization.**}
+        {Adoption of new C++11 features is relatively conservative, with a focus on efficiency benefits, such as [`emplace_back` as opposed to `push_back`](http://stackoverflow.com/questions/4303513/push-back-vs-emplace-back).  Another area are constructs providing convenience (`auto`, range-based `for`, lambdas).  There is no [template metaprogramming](http://en.wikipedia.org/wiki/Template_metaprogramming), and appear to be no instances of `std::enable_if` or [SFINAE](http://en.wikipedia.org/wiki/Substitution_failure_is_not_an_error).}
+
+        {Though `std::shared_ptr` and `std::unique_ptr` do appear, there are still a huge number of raw pointer allocations and calls to `delete` and `delete[]`.  Other areas lagging in modernization are several remaining references to `std::auto_ptr` *(a class that should have never existed in the first place)*, along with usage of `boost::shared_ptr` instead of `std::shared_ptr`, etc.}
+
+        [
+
+            note [
+
+                print << [
+
+                    {I did find interesting the incorporation of [Scoping helpers](https://github.com/rtbkit/rtbkit/blob/c9bf1160ba0158710c3a49f126788a0adc7b6f64/soa/utils/scope.h) that are passed lambdas to implement a pseudo-"try/catch/finally" alternative, apparently originating from the D language.  Kind of interesting.}
+
+                    {As it's new to me, I don't have experience with using this to say whether it is especially "good" or "bad" compared to more traditional coding styles with exception-handling.  I will point out that since destructors run in the reverse order of construction, you'll get some possibly-counterintuitive ordering if you use more than one in a scope.}
+
+                ]
+
+            ]
+
+        ]
+
+        {A testing system is in place, and valgrind is used to check for memory leaks in an automated fashion, with appropriate suppressions of known issues in libraries.  Assuming the tests represent realistic stresses of running in practice, the raw pointers might not be causing problems yet.  (Still it should be a priority for someone to go through and fix those).}
+
+        {One critical weak point is a pervasive dependence on homegrown or obscure libraries, for common functionality that has more popular and/or vetted implementations.  Trained developers would likely demand they be given time to update these to more appropriate variants (as opposed to learning or improving the libraries).  Less-trained developers might spend excessive time absorbing the nuances of obscure classes, which will also not be a transferable skill to other projects.  It may be difficult to find agreements on substitutions that would be endorsed by the repository maintainers...which creates a cost of fragmentation.}
+
+        [
+
+            note {Although much of the libraries may be homegrown, they do include tests; so reliability may not be at issue.}
+
+        ]
+
+        {If one were to hire a team to work with this project, prior C++11 experience is likely less important than general C++ familiarity (including how to use libraries like boost to avoid reinventing the wheel).  Also of importance would be the developers have current knowledge of--or be very interested in--the technical landscape of emerging server-side technologies.  *(This would be true in any "build" situation as well.)*}
+
+    ]]
+
+print {In the big picture, I think the data over two years show that the barrier has been simply too high for contribution.  GitHub statistics and graphs demonstrate that even though there have been 4006 commits, [very few of those commits have been substantial](https://github.com/rtbkit/rtbkit/graphs/contributors?from=2009-04-26&to=2015-02-28&type=a).  There also are few enough rtbkit-related repositories on GitHub [that you can count them on two hands](https://github.com/search?p=1&q=rtbkit&type=Repositories) *(not including clones of rtbkit that were just renamed)*.}
+
+note {Only six questions made it into the [rtbkit](http://stackoverflow.com/questions/tagged/rtbkit) tag on StackOverflow, two of which are there because I found and tagged them.  :-/}
+
+print << [
+
+    {So I personally would say indicators point to taking a *very strong hedge* against there ever being major advancements in the open-sourced C++11 codebase.  To that end, I would not attempt to hire a team of C++ developers with the aim of working on and bringing this codebase forward.  It would be much better to hire for a diverse skill set *(pluses: server-side experience in Erlang, Haskell, Clojure)*...and a track record of good solutions.}
+
+    {However: if RTBkit does more-or-less what one wants today, it might be worth it to pay Datacratic to quickly do whatever customizations are required.  Then hire a sysadmin to keep that running as a near-term solution.  Having a working installation to study would be instructive just in terms of observing the "in" and "out" surface of what defines a functional RTB system, even as a model for writing one's own.}
+
 ]
 
-{However, the failure to cull dependencies--and use of obscure or homegrown libraries--creates a giant puzzle for those who have come to evaluate these "mechanical parts of bidding".  With so much in the way, it simply is very *hard to see* the components and tease out what exactly has been open-sourced.}
+heading "Afterword"
 
-{It seems (to me) Datacratic had little to lose in publishing the parts they did.  There's a definite PR upside to having openness in an otherwise secretive business.  Yet still, the inertia of the code ensures no small shop can hire to specialize and compete with them as the go-to for consulting support.  The budget, insight, and manpower it would take to become a serious competitor to Datacratic would imply picking another technology stack, which would not rely on C++ so pervasively (if at all).}
+print {If I've sounded a bit grim about the lack of "magic", let me soften some by saying that there are several public statements that RTBkit is an open-sourced *piece* of something; and not really "the whole thing".  For instance, [an article on PRWeb](http://www.prweb.com/releases/2013/2/prweb10443806.htm) from February 2013 says (emphasis mine):}
 
-{Another benefit Datacratic gets is that by having the full build environment in the distribution (including the parts that only their extensions use), they are able to crowdsource their deployment testing.  Curious downloaders can report and help fix problems...while being highly unlikely to become competitors.  If something doesn't work under a new dependency revision, they'll find out from a random person on the newsgroup...*prior* to facing the problem with a clients of their custom distribution.  The random person might even research and apply the fix.}
+quote {Developers who decide to build on top of the RTBkit framework can eliminate most of the difficult engineering work required to create a scalable real-time bidder. Its open, service-oriented architecture can be used to assemble a bidder as simple or complex as desired. The software routes bid requests and data through a configurable set of components which can be extended to implement a customized bidder. It is highly efficient and scalable, with the core logic able to support tens of thousands of bid requests per second per commodity server. **The framework handles most of the mechanical parts of bidding allowing software developers to focus on truly innovative features like unique bidding logic and data driven optimization.**}
 
-{All that said, I'm sorry if anyone involved with the project takes offense at the evaluation.  From one programmer to another: I know how hard it is to get all this stuff coded and working *at all* (were we getting a beer, we could sympathize over it all day).  Yet what I've written here is honest and supported, and shared in the spirit of defogging the fog.}
+print << [
 
-{Contact me with any corrections.}
+    {However, the failure to cull dependencies--and use of obscure or homegrown libraries--creates a giant puzzle for those who have come to evaluate these "mechanical parts of bidding".  With so much in the way, it simply is very *hard to see* the components and tease out what exactly has been open-sourced.}
+
+    {It seems (to me) Datacratic had little to lose in publishing the parts they did.  There's a definite PR upside to having openness in an otherwise secretive business.  Yet still, the inertia of the code ensures no small shop can hire to specialize and compete with them as the go-to for consulting support.  The budget, insight, and manpower it would take to become a serious competitor to Datacratic would imply picking another technology stack, which would not rely on C++ so pervasively (if at all).}
+
+    {Another benefit Datacratic gets is that by having the full build environment in the distribution (including the parts that only their extensions use), they are able to crowdsource their deployment testing.  Curious downloaders can report and help fix problems...while being highly unlikely to become competitors.  If something doesn't work under a new dependency revision, they'll find out from a random person on the newsgroup...*prior* to facing the problem with a clients of their custom distribution.  The random person might even research and apply the fix.}
+
+    {All that said, I'm sorry if anyone involved with the project takes offense at the evaluation.  From one programmer to another: I know how hard it is to get all this stuff coded and working *at all* (were we getting a beer, we could sympathize over it all day).  Yet what I've written here is honest and supported, and shared in the spirit of defogging the fog.}
+
+    "Contact me with any corrections."
+
+]

@@ -6,15 +6,19 @@ Draem [
     old-url-prefix: %2005/04/21/
 ]
 
-{Object-oriented programming is a powerful paradigm for improving software engineering. However, it is important to realize why OOP is powerful.}
+print << [
 
-{Some people think the power comes from inheritance, and this means that instead of having to write new code you can just "inherit" behaviors from code that has already been written.  This is not patently false, but if your sole goal is to write fewer bytes of code you can attack that lots of ways without OOP.  You can find repeated program structures and put them in functions, or just use shorter variable names.  :)}
+    {Object-oriented programming is a powerful paradigm for improving software engineering. However, it is important to realize why OOP is powerful.}
 
-{What real OOP is about is creating entities which saliently capture specific programmer concerns (objects). Thanks to the built-in creation management of objects through constructors and destructors, you can make the lifetime of the object map to the lifetime of the concern.  It's more about "everthing in its right place" and sane APIs than it is about reducing lines of code.}
+    {Some people think the power comes from inheritance, and this means that instead of having to write new code you can just "inherit" behaviors from code that has already been written.  This is not patently false, but if your sole goal is to write fewer bytes of code you can attack that lots of ways without OOP.  You can find repeated program structures and put them in functions, or just use shorter variable names.  :)}
 
-"So given that, what's wrong with this picture?"
+    {What real OOP is about is creating entities which saliently capture specific programmer concerns (objects). Thanks to the built-in creation management of objects through constructors and destructors, you can make the lifetime of the object map to the lifetime of the concern.  It's more about "everthing in its right place" and sane APIs than it is about reducing lines of code.}
 
-[code cpp {
+    "So given that, what's wrong with this picture?"
+
+]
+
+source 'cpp {
 {
 Employee worker;
 worker.DoSomeStuffAndMaybeInitializeEmployee();
@@ -36,14 +40,18 @@ if (worker.IsValid())
 
 // should be safe to run employee destructor now!
 }
-}]
+}
 
-{In short, this is not real C++.  The abstract concept of an employee is getting tangled up with the mechanics of initializing an employee, after the constructor has already run.  The programmer is worried about *cleaning up the object before the destructor runs*, which is terrible since destructors should be safe to run at any moment.  Especially if you believe in exception handling!}
+print << [
 
-{There are grievous examples of this in many class libraries. For example, in the Microsoft Foundation Classes (MFC) the CView class tries to inherit much of its functionality from CWindow.  (A view is-a window, and hence it "inherits" much of its functionality).  Yet there are copious comments in the source warning you against putting "too much code" in the constructor for a class inheriting from view.  Instead, you're supposed to put it in the `OnInitialUpdate()` or `OnInitialize()` method.}
+    {In short, this is not real C++.  The abstract concept of an employee is getting tangled up with the mechanics of initializing an employee, after the constructor has already run.  The programmer is worried about *cleaning up the object before the destructor runs*, which is terrible since destructors should be safe to run at any moment.  Especially if you believe in exception handling!}
 
-{Why do these Initialize methods exist?  When the view constructor runs, the window it needs should have been already created, so that relevant initialization code can be put in the constructor--however much it takes.  It doesn't do this because MFC is too caught up in the mechanics of inheritance and dismissing the importance of separation of concerns.  A view constructor should be the place for initialization code, not an obligatory "post-constructor" function.}
+    {There are grievous examples of this in many class libraries. For example, in the Microsoft Foundation Classes (MFC) the CView class tries to inherit much of its functionality from CWindow.  (A view is-a window, and hence it "inherits" much of its functionality).  Yet there are copious comments in the source warning you against putting "too much code" in the constructor for a class inheriting from view.  Instead, you're supposed to put it in the `OnInitialUpdate()` or `OnInitialize()` method.}
 
-{Another generally troubling aspect about the example above is that there are "modes" under which certain methods are not safe to call at run-time.  This indicates the design is not protecting the programmer from a concern--just giving them a headache!  (However, see my article on [usage of const](http://blog.hostilefork.com/transitive-power-of-cpp-const/) to see how modes on objects at *compile time* can actually be quite helpful.)}
+    {Why do these Initialize methods exist?  When the view constructor runs, the window it needs should have been already created, so that relevant initialization code can be put in the constructor--however much it takes.  It doesn't do this because MFC is too caught up in the mechanics of inheritance and dismissing the importance of separation of concerns.  A view constructor should be the place for initialization code, not an obligatory "post-constructor" function.}
 
-{In short: don't lose focus on the idea that objects in a class library are there to reduce the concerns of the programmer.  That reduces client lines of code and bugs.  If you instead think of how to use C++ to reduce the concerns of the class library author by saving code through inheritance, you're probably missing the point!}
+    {Another generally troubling aspect about the example above is that there are "modes" under which certain methods are not safe to call at run-time.  This indicates the design is not protecting the programmer from a concern--just giving them a headache!  (However, see my article on [usage of const](http://blog.hostilefork.com/transitive-power-of-cpp-const/) to see how modes on objects at *compile time* can actually be quite helpful.)}
+
+    {In short: don't lose focus on the idea that objects in a class library are there to reduce the concerns of the programmer.  That reduces client lines of code and bugs.  If you instead think of how to use C++ to reduce the concerns of the class library author by saving code through inheritance, you're probably missing the point!}
+
+]

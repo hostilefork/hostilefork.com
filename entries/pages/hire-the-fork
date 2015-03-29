@@ -5,78 +5,104 @@ Draem [
     date: 16-May-2014/1:55
 ]
 
-{Hello there!  Do you need help with something tricky, that only someone with a **lot** of *full-spectrum* computer experience can do?}
+print {Hello there!  Do you need help with something tricky, that only someone with a **lot** of *full-spectrum* computer experience can do?}
 
-[heading {Let me introduce myself...}]
+heading "Let me introduce myself..."
 
-{I've been programming since BASIC on the Osborne 1, and 6502 machine code [without an assembler](http://blog.hostilefork.com/machine-language-commodore-64-128/)!  By age 7, I was already writing some of the best programs in my family *(of 3 people, one of whom did not use the computer, but still...)*:}
+print {I've been programming since BASIC on the Osborne 1, and 6502 machine code [without an assembler](http://blog.hostilefork.com/machine-language-commodore-64-128/)!  By age 7, I was already writing some of the best programs in my family *(of 3 people, one of whom did not use the computer, but still...)*:}
 
-[http://blog.hostilefork.com/osborne-one-basic-fun-history/ {Coding on the Osborne One with BASIC FUN}]
+link [http://blog.hostilefork.com/osborne-one-basic-fun-history/ "Coding on the Osborne One with BASIC FUN"]
 
-{With a degree in Electrical Engineering from Cornell University and experience working at Microsoft Research Labs (as well as on the SQL Server and Access products), I know both about how to future-proof a design and how to meet practical deadlines.  I've consulted independently with [Evernote Corporation](http://evernote.com/) and [Oblong Industries](http://www.oblong.com/), and done some other things for people I'm fairly sure you haven't heard of.  :-)}
+print << [
 
-{A lot of my code from personal projects is available online.  See the index page at **[hostilefork.com](http://hostilefork.com)**.}
+    {With a degree in Electrical Engineering from Cornell University and experience working at Microsoft Research Labs (as well as on the SQL Server and Access products), I know both about how to future-proof a design and how to meet practical deadlines.  I've consulted independently with [Evernote Corporation](http://evernote.com/) and [Oblong Industries](http://www.oblong.com/), and done some other things for people I'm fairly sure you haven't heard of.  :-)}
 
-{In terms of popular languages, my most "bankable" skill is as a C++ developer, focused on what would be called ["Modern C++"](http://blog.hostilefork.com/modern-cpp-or-modern-art/) *(in the sense of the word as used by Andrei Alexandrescu)*.  My motivation is to apply the language and its type safety to maintainable systems that are verified for correctness in every way possible--before a single line of code starts running.}
+    {A lot of my code from personal projects is available online.  See the index page at **[hostilefork.com](http://hostilefork.com)**.}
 
-{Another big area of interest for me is how domain-specific language methodologies (DSLs) can allow a better capture of program expression in the jargon of the problem space.  The very website that you're looking at now is written using a [tool of my own design](http://draem.hostilefork.com), that runs on an entire cross-platform toolchain clocking in at *half a megabyte*.}
+    {In terms of popular languages, my most "bankable" skill is as a C++ developer, focused on what would be called ["Modern C++"](http://blog.hostilefork.com/modern-cpp-or-modern-art/) *(in the sense of the word as used by Andrei Alexandrescu)*.  My motivation is to apply the language and its type safety to maintainable systems that are verified for correctness in every way possible--before a single line of code starts running.}
 
-[note {Although I've gotten increasingly good at JavaScript to write things like [Black Highlighter](http://blackhighlighter.org/), I *really* don't find JavaScript appealing. (The language was admittedly designed in 10 days, and it sure shows!)}]
+    {Another big area of interest for me is how domain-specific language methodologies (DSLs) can allow a better capture of program expression in the jargon of the problem space.  The very website that you're looking at now is written using a [tool of my own design](http://draem.hostilefork.com), that runs on an entire cross-platform toolchain clocking in at *half a megabyte*.}
 
-[heading {Working Style}]
-
-{I keep on top of modern trends and tools...like [GitHub](https://github.com/hostilefork) and [Trello](http://trello.com).  Yet with a heavy skepticism on lock-in and experience spotting hype, I can help steer people toward solutions that borrow the best of the old world and the new.}
-
-{As a [10K+ reputation user on StackOverflow](http://stackoverflow.com/users/211160/hostilefork), you can see how I work with people to solve their questions, as well as how I will not spend long banging my head against a problem if leveraging the experience of others is a better solution.  Here are just a few sample answers:}
-
-[list 
-
-	{[Going down the rabbit hole of GNU libc to explain printf's workings](http://blog.hostilefork.com/where-printf-rubber-meets-road/)}
-
-	{[Researching 001b in "exception in module kernel32.dll at 001b:7c812afb"](http://stackoverflow.com/a/7268649/211160)}
-
-	{[Tracking down a bug in bcrypt](http://stackoverflow.com/a/3003147/211160)}
-
-	{[Explaining the use of programmatic layout in Qt to a student](http://stackoverflow.com/a/8335365/211160)}
-
-	{[Explaining the behavior of a cellular automaton doing a sum](http://stackoverflow.com/a/2924443/211160)}
-
-	{[Adding behavior for middle mouse wheel handling to Smalltalk Squeak](http://stackoverflow.com/a/2082999/211160)}
-
-	{[Helping someone with an esoteric bug in GTK, which I don't use (or even like)](http://stackoverflow.com/questions/7545804/).}
-
-	[note {I actually wound up in Toronto not too long after answering that, and didn't think to collect my reward beer.}]
 ]
 
-{I believe that institutional knowledge is key.  And I've always been a very forthright and expressive technical writer *(even winning [an award from the Society for Technical Communication](http://blog.hostilefork.com/load-balancing-teenage-coding/) in high school)*.  My notes as I work are part of my daily deliverable.  While I've always thought commenting is key, the increasing power of links into issue databases has led my practices to evolve in recent years...which I've written about in ["Comments vs. Links on the Collaborative Web"](http://blog.hostilefork.com/comments-vs-web-links-2014/)}
+note {Although I've gotten increasingly good at JavaScript to write things like [Black Highlighter](http://blackhighlighter.org/), I *really* don't find JavaScript appealing. (The language was admittedly designed in 10 days, and it sure shows!)}
 
-{I donate a *ridiculous* amount of my time to Open Source projects--and answering any old problem strangers have on the Internet.  So if you have a question or want some advice, send a rough description of the issue to **brian@hostilefork.com**.  I'll give some thoughts for cheap-as-free.}
+heading "Working Style"
 
-{However, I need to eat...and I happen to like sushi.  That stuff isn't cheap!  Well, the good kind isn't.}
+print << [
 
-{So until we solve the money problem, if you just happen to have some, maybe we can help each other.  I can work remotely, and can also travel on-site to help you and your team if necessary.}
+    {I keep on top of modern trends and tools...like [GitHub](https://github.com/hostilefork) and [Trello](http://trello.com).  Yet with a heavy skepticism on lock-in and experience spotting hype, I can help steer people toward solutions that borrow the best of the old world and the new.}
 
+    {As a [10K+ reputation user on StackOverflow](http://stackoverflow.com/users/211160/hostilefork), you can see how I work with people to solve their questions, as well as how I will not spend long banging my head against a problem if leveraging the experience of others is a better solution.  Here are just a few sample answers:}
 
-[heading {Philosophical Beliefs}]
-
-{I dislike [closed-source software](http://www.gnu.org/philosophy/shouldbefree.html), [software patents](http://endsoftpatents.org/), [digital restrictions management](https://defectivebydesign.org/), and stuff of that nature.  My childhood dreams were of using computers to bring us all into a [post-scarcity economy](http://en.wikipedia.org/wiki/Post-scarcity_economy)...not a world of information "haves" and "have-nots".}
-
-{There are some closed source projects that I will work on, if I must.  But I try to steer people on paths that will ultimately align with Richard Stallman's philosophies, and the "four freedoms" he says are essential:}
-
-[list
-	{The freedom to run the program, for any purpose.}
-
-	{The freedom to study how the program works, and change it so it does your computing as you wish. Access to the source code is a precondition for this.}
-
-	{The freedom to redistribute copies so you can help your neighbor.}
-
-	{The freedom to distribute copies of your modified versions to others. By doing this you can give the whole community a chance to benefit from your changes. Access to the source code is a precondition for this.}
 ]
 
-{Also like Stallman, I am *not* anti-business.  We believe you should be able to charge for software...just as you should be able to charge for selling someone a car.  But to continue the analogy, there is tremendous danger when we culturally accept an idea like it being illegal to look under the hood of your car--or to have someone else look for you.  Your car carries important cargo...yourself and your family.  And the software you use carries important cargo too, increasingly the bulk of your digital life and identity.}
+list [item << [
 
-{Author Cory Doctorow's talk about "The Coming War on General Computation" is one of the most accessible framings of the problem I've come across.  It is of profound importance.  [Here is a transcript](http://craphound.com/?p=3848), but **please** set aside an hour to watch it if you haven't come across it already:}
+        {[Going down the rabbit hole of GNU libc to explain printf's workings](http://blog.hostilefork.com/where-printf-rubber-meets-road/)}
 
-[youtube https://www.youtube.com/watch?v=HUEvRyemKSg 560x315]
+        {[Researching 001b in "exception in module kernel32.dll at 001b:7c812afb"](http://stackoverflow.com/a/7268649/211160)}
 
-{So that's the point of view I'm coming from.}
+        {[Tracking down a bug in bcrypt](http://stackoverflow.com/a/3003147/211160)}
+
+        {[Explaining the use of programmatic layout in Qt to a student](http://stackoverflow.com/a/8335365/211160)}
+
+        {[Explaining the behavior of a cellular automaton doing a sum](http://stackoverflow.com/a/2924443/211160)}
+
+        {[Adding behavior for middle mouse wheel handling to Smalltalk Squeak](http://stackoverflow.com/a/2082999/211160)}
+
+        {[Helping someone with an esoteric bug in GTK, which I don't use (or even like)](http://stackoverflow.com/questions/7545804/).}
+
+        [
+
+            note {I actually wound up in Toronto not too long after answering that, and didn't think to collect my reward beer.}
+
+        ]
+
+    ]]
+
+print << [
+
+    {I believe that institutional knowledge is key.  And I've always been a very forthright and expressive technical writer *(even winning [an award from the Society for Technical Communication](http://blog.hostilefork.com/load-balancing-teenage-coding/) in high school)*.  My notes as I work are part of my daily deliverable.  While I've always thought commenting is key, the increasing power of links into issue databases has led my practices to evolve in recent years...which I've written about in ["Comments vs. Links on the Collaborative Web"](http://blog.hostilefork.com/comments-vs-web-links-2014/)}
+
+    {I donate a *ridiculous* amount of my time to Open Source projects--and answering any old problem strangers have on the Internet.  So if you have a question or want some advice, send a rough description of the issue to **brian@hostilefork.com**.  I'll give some thoughts for cheap-as-free.}
+
+    {However, I need to eat...and I happen to like sushi.  That stuff isn't cheap!  Well, the good kind isn't.}
+
+    {So until we solve the money problem, if you just happen to have some, maybe we can help each other.  I can work remotely, and can also travel on-site to help you and your team if necessary.}
+
+]
+
+heading "Philosophical Beliefs"
+
+print << [
+
+    {I dislike [closed-source software](http://www.gnu.org/philosophy/shouldbefree.html), [software patents](http://endsoftpatents.org/), [digital restrictions management](https://defectivebydesign.org/), and stuff of that nature.  My childhood dreams were of using computers to bring us all into a [post-scarcity economy](http://en.wikipedia.org/wiki/Post-scarcity_economy)...not a world of information "haves" and "have-nots".}
+
+    {There are some closed source projects that I will work on, if I must.  But I try to steer people on paths that will ultimately align with Richard Stallman's philosophies, and the "four freedoms" he says are essential:}
+
+]
+
+list [item << [
+
+        "The freedom to run the program, for any purpose."
+
+        {The freedom to study how the program works, and change it so it does your computing as you wish. Access to the source code is a precondition for this.}
+
+        {The freedom to redistribute copies so you can help your neighbor.}
+
+        {The freedom to distribute copies of your modified versions to others. By doing this you can give the whole community a chance to benefit from your changes. Access to the source code is a precondition for this.}
+
+    ]]
+
+print << [
+
+    {Also like Stallman, I am *not* anti-business.  We believe you should be able to charge for software...just as you should be able to charge for selling someone a car.  But to continue the analogy, there is tremendous danger when we culturally accept an idea like it being illegal to look under the hood of your car--or to have someone else look for you.  Your car carries important cargo...yourself and your family.  And the software you use carries important cargo too, increasingly the bulk of your digital life and identity.}
+
+    {Author Cory Doctorow's talk about "The Coming War on General Computation" is one of the most accessible framings of the problem I've come across.  It is of profound importance.  [Here is a transcript](http://craphound.com/?p=3848), but **please** set aside an hour to watch it if you haven't come across it already:}
+
+]
+
+youtube [https://www.youtube.com/watch?v=HUEvRyemKSg 560x315]
+
+print "So that's the point of view I'm coming from."

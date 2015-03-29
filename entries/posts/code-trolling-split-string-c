@@ -1,114 +1,129 @@
 Draem [
-    title: {Code Trolling, Deletionism, and String Splitting}
+    title: "Code Trolling, Deletionism, and String Splitting"
     tags: [c humor stackexchange]
     slug: %code-trolling-deletion-split-string
     date: 1-Mar-2015/7:12:02-5:00
 ]
 
-{Students will often show up on Internet programming sites with a question that amounts to *"write my code, please!"*.  Day after day, patient sages give wizened advice along the lines of *"asking for help is fine, but you have to show you've at least tried something, and can articulate your confusion and where you got stuck."*}
+print {Students will often show up on Internet programming sites with a question that amounts to *"write my code, please!"*.  Day after day, patient sages give wizened advice along the lines of *"asking for help is fine, but you have to show you've at least tried something, and can articulate your confusion and where you got stuck."*}
 
-[note
-    {When the sages aren't around, the great unwashed on StackOverflow will simply downvote them into oblivion...assuming they'll "get the message".  I think the only message they get is "StackOverflow sucks and I hate everyone on it".  As someone once told me:}
+note [
 
-    [quote
-        {There is something you need to understand about showing people Future Things. You have to be careful. It's a lot like if you are dealing with someone who has never had a grape before. When you give them their first grape you must be 100% sure it's not a sour one...because if it is sour, then every time they're asked if they want a grape after that they will say no.}
+    print {When the sages aren't around, the great unwashed on StackOverflow will simply downvote them into oblivion...assuming they'll "get the message".  I think the only message they get is "StackOverflow sucks and I hate everyone on it".  As someone once told me:}
+
+    quote {There is something you need to understand about showing people Future Things. You have to be careful. It's a lot like if you are dealing with someone who has never had a grape before. When you give them their first grape you must be 100% sure it's not a sour one...because if it is sour, then every time they're asked if they want a grape after that they will say no.}
+
+]
+
+print {But even the most patient of sage can't help to think--now and again--about trolling them with some code.  It's tempting to slip something to them that appears to work, but has some property that would cue any professor or TA reading to know it wasn't original work...and that the student had basically been pranked.}
+
+heading "Code Trolling"
+
+print << [
+
+    {As an indulgence of this sinister thought, there was a short-lived tag on the *Programming Puzzles and Code Golf* StackExchange called ["code-trolling"](http://codegolf.stackexchange.com/tags/code-trolling/info).  It was a programming challenge to respond to a poor question with the best prank code that a naive asker might actually use.  Except since you're doing it on a puzzle site, it would be "o.k." vs (perhaps) getting you a flag smackdown on StackOverflow were you to be cheeky enough to try it.}
+
+    {The premise sounds like it would get old fast, and it did.  Writing a good programming challenge is difficult, but writing a short poor question with no code is *very easy* (as the flow of questions coming into StackOverflow every few nanoseconds shows.)}
+
+    {It was an amusing fad for a week or so.  But ultimately it was banned and that's fine by me.}
+
+    {**What ISN'T FINE by me** is a moderation habit that's become all-too-typical: to take community upvoted content and wipe it from the historical record, based on small backroom discussions no one finds out about *(if a discussion happens at all)*.  [I have complained about this already](http://meta.stackoverflow.com/questions/284187/why-was-hourglass-deleted), in where *all* the Code Golf questions from StackOverflow were deleted--regardless of how many upvotes they had.  This frustrates me personally as I had linked to those pages for puzzle definitions...now those puzzles are gone!}
+
+]
+
+note {At least [I saved my solutions](https://github.com/hostilefork/rebmu/tree/master/examples), but what if I hadn't?  Under what sort of worldview is this being considered sensible?  In addition to spending time on this, I've given [presentations at conferences](https://www.youtube.com/watch?v=iDKaz1iB9wQ) with the puzzles in them.  We should be archivists of each others' efforts, not destroyers.}
+
+print {This caused me to think to go back and check up on my [*one* Code Trolling answer](http://codegolf.stackexchange.com/questions/16479/how-do-i-split-a-string-help-plz-code-trolling/), which I spent some time on and thought was rather epic.  It was thankfully still there!  However, it nearly wasn't :-/ and apparently I have [Turion](https://turion.wordpress.com/) to thank.  As an answerer, I received no notification of its pending demise, and these things seem to be decided off-the-cuff:}
+
+quote [
+
+    print {Code-trolling is in the process of being removed, as per the official stance. This post recieved over 75% "delete" votes on the poll. It does have a large amount of votes on the question and the answers, but it is over 3 months old and no reputation will be lost. Therefore, I am closing this and will delete it in 24 hours. Note that since this is an outlier in that it has a large amount of votes, I'll be happy to undelete and lock given a convincing argument on meta.}
+
+    attribution {**Doorknob (moderator)**, [comment 12-May-2014/12:22](http://codegolf.stackexchange.com/questions/16479/how-do-i-split-a-string-help-plz-code-trolling/16712#comment60023_16479)}
+
+]
+
+quote [
+
+    print {@Doorknob, this is not a question to be deleted according to your accepted answer in the linked official stance. It has 44 answers and 21 votes, which is quite popular. As for the poll, I wasn't even aware of such a poll existing until now. I'm not going into spending time on writing another answer on meta pro code-trolling since it's obvious that exactly the meta-users are opposed to code-trolling whereas a sizeable part of codegolf users isn't. Closing this question is an excellent idea, but deleting it is in my opinion unnecessary and unhelpful.}
+
+    attribution {**Turion**, [comment 12-May-2014/12:54](http://codegolf.stackexchange.com/questions/16479/how-do-i-split-a-string-help-plz-code-trolling/16712#comment60032_16479)}
+
+]
+
+print << [
+
+    {This is important, and I don't know what to do about it.  There have been questions about the most effective way to [get your questions and answers out](http://meta.stackexchange.com/questions/97511/what-is-the-easiest-way-for-me-to-download-all-my-questionsanswers-across-all).  But there's no incentive for StackExchange to make this turnkey, or to give people easy tools to put the authors in control of their content.  If they delete it...even if it was your answer, you can't get it back from the database.}
+
+    {I don't know the general solution, but I think people need to be aware.  In the meantime, I'll go ahead and archive here my answer for "how to split a string".}
+
+]
+
+heading "Q: How do I split a string??? Help plz?"
+
+quote {My homework assignment is take a string and split it into pieces at every new line. I have no idea what to do! Please help!}
+
+heading "A: Implementation in the C Language"
+
+quote [
+
+    print << [
+
+        {Tricky problem for a beginning C programming class! First you have to understand a few basics about this complicated subject.}
+
+        {A string is a sequence made up of only characters. This means that in order for programmers to indicate an "invisible" thing (that isn't a space, which counts as a character), you have to use a special sequence of characters somehow to mean that invisible thing.}
+
+        {On Windows, the new line is a sequence of two characters in the string: backslash and n (or the string `"\n"`)}
+
+        {On Linux or OS/X Macs, it is a sequence of four characters: backslash, n, backslash, and then r: (or `"\n\r"`).}
+
+        {*(Interesting historical note: on older Macintoshes it was a different sequence of four characters: `"\r\n"`... totally backwards from how Unix did things! History takes strange roads.)}
+
+        {It may seem that Linux is more wasteful than Windows, but it's actually a better idea to use a longer sequence. Because Windows uses such a short sequence the C language runtime cannot print out the actual letters `\n` without using special system calls. You can usually do it on Linux without a system call (it can even print `\n\` or `\n\q` ... anything but `\n\r`). But since C is meant to be cross platform it enforces the lowest common-denominator. So you'll always be seeing `\n` in your book.}
+
     ]
-]
 
-{But even the most patient of sage can't help to think--now and again--about trolling them with some code.  It's tempting to slip something to them that appears to work, but has some property that would cue any professor or TA reading to know it wasn't original work...and that the student had basically been pranked.}
+    note {If you're wondering how we're talking about \n without getting newlines every time we do, StackOverflow is written almost entirely in HTML...not C. So it's a lot more modern. Many of these old aspects of C are being addressed by things you might have heard about, like CLANG and LLVM.}
 
-[heading {Code Trolling}]
+    print {But back to what we're working on. Let's imagine a string with three pieces and two newlines, like:}
 
-{As an indulgence of this sinister thought, there was a short-lived tag on the *Programming Puzzles and Code Golf* StackExchange called ["code-trolling"](http://codegolf.stackexchange.com/tags/code-trolling/info).  It was a programming challenge to respond to a poor question with the best prank code that a naive asker might actually use.  Except since you're doing it on a puzzle site, it would be "o.k." vs (perhaps) getting you a flag smackdown on StackOverflow were you to be cheeky enough to try it.}
-
-{The premise sounds like it would get old fast, and it did.  Writing a good programming challenge is difficult, but writing a short poor question with no code is *very easy* (as the flow of questions coming into StackOverflow every few nanoseconds shows.)}
-
-{It was an amusing fad for a week or so.  But ultimately it was banned and that's fine by me.}
-
-{**What ISN'T FINE by me** is a moderation habit that's become all-too-typical: to take community upvoted content and wipe it from the historical record, based on small backroom discussions no one finds out about *(if a discussion happens at all)*.  [I have complained about this already](http://meta.stackoverflow.com/questions/284187/why-was-hourglass-deleted), in where *all* the Code Golf questions from StackOverflow were deleted--regardless of how many upvotes they had.  This frustrates me personally as I had linked to those pages for puzzle definitions...now those puzzles are gone!}
-
-[note
-    {At least [I saved my solutions](https://github.com/hostilefork/rebmu/tree/master/examples), but what if I hadn't?  Under what sort of worldview is this being considered sensible?  In addition to spending time on this, I've given [presentations at conferences](https://www.youtube.com/watch?v=iDKaz1iB9wQ) with the puzzles in them.  We should be archivists of each others' efforts, not destroyers.}
-]
-
-{This caused me to think to go back and check up on my [*one* Code Trolling answer](http://codegolf.stackexchange.com/questions/16479/how-do-i-split-a-string-help-plz-code-trolling/), which I spent some time on and thought was rather epic.  It was thankfully still there!  However, it nearly wasn't :-/ and apparently I have [Turion](https://turion.wordpress.com/) to thank.  As an answerer, I received no notification of its pending demise, and these things seem to be decided off-the-cuff:}
-
-[quote
-    {Code-trolling is in the process of being removed, as per the official stance. This post recieved over 75% "delete" votes on the poll. It does have a large amount of votes on the question and the answers, but it is over 3 months old and no reputation will be lost. Therefore, I am closing this and will delete it in 24 hours. Note that since this is an outlier in that it has a large amount of votes, I'll be happy to undelete and lock given a convincing argument on meta.}
-
-    /source {**Doorknob (moderator)**, [comment 12-May-2014/12:22](http://codegolf.stackexchange.com/questions/16479/how-do-i-split-a-string-help-plz-code-trolling/16712#comment60023_16479)}
-]
-
-[quote
-  {@Doorknob, this is not a question to be deleted according to your accepted answer in the linked official stance. It has 44 answers and 21 votes, which is quite popular. As for the poll, I wasn't even aware of such a poll existing until now. I'm not going into spending time on writing another answer on meta pro code-trolling since it's obvious that exactly the meta-users are opposed to code-trolling whereas a sizeable part of codegolf users isn't. Closing this question is an excellent idea, but deleting it is in my opinion unnecessary and unhelpful.}
-
-  /source {**Turion**, [comment 12-May-2014/12:54](http://codegolf.stackexchange.com/questions/16479/how-do-i-split-a-string-help-plz-code-trolling/16712#comment60032_16479)}
-]
-
-{This is important, and I don't know what to do about it.  There have been questions about the most effective way to [get your questions and answers out](http://meta.stackexchange.com/questions/97511/what-is-the-easiest-way-for-me-to-download-all-my-questionsanswers-across-all).  But there's no incentive for StackExchange to make this turnkey, or to give people easy tools to put the authors in control of their content.  If they delete it...even if it was your answer, you can't get it back from the database.}
-
-{I don't know the general solution, but I think people need to be aware.  In the meantime, I'll go ahead and archive here my answer for "how to split a string".}
-
-[heading {Q: How do I split a string??? Help plz?}]
-
-[quote
-    {My homework assignment is take a string and split it into pieces at every new line. I have no idea what to do! Please help!}
-]
-
-[heading {A: Implementation in the C Language}]
-
-[quote
-    {Tricky problem for a beginning C programming class! First you have to understand a few basics about this complicated subject.}
-
-    {A string is a sequence made up of only characters. This means that in order for programmers to indicate an "invisible" thing (that isn't a space, which counts as a character), you have to use a special sequence of characters somehow to mean that invisible thing.}
-
-    {On Windows, the new line is a sequence of two characters in the string: backslash and n (or the string `"\n"`)}
-
-    {On Linux or OS/X Macs, it is a sequence of four characters: backslash, n, backslash, and then r: (or `"\n\r"`).}
-
-    {*(Interesting historical note: on older Macintoshes it was a different sequence of four characters: `"\r\n"`... totally backwards from how Unix did things! History takes strange roads.)}
-
-    {It may seem that Linux is more wasteful than Windows, but it's actually a better idea to use a longer sequence. Because Windows uses such a short sequence the C language runtime cannot print out the actual letters `\n` without using special system calls. You can usually do it on Linux without a system call (it can even print `\n\` or `\n\q` ... anything but `\n\r`). But since C is meant to be cross platform it enforces the lowest common-denominator. So you'll always be seeing `\n` in your book.}
-
-    [note {If you're wondering how we're talking about \n without getting newlines every time we do, StackOverflow is written almost entirely in HTML...not C. So it's a lot more modern. Many of these old aspects of C are being addressed by things you might have heard about, like CLANG and LLVM.}]
-
-    {But back to what we're working on. Let's imagine a string with three pieces and two newlines, like:}
-
-[code c {
+    source 'c {
 "foo\nbaz\nbar"
-}]
+}
 
-    {You can see the length of that string is 3 + 2 + 3 + 2 + 3 = 13. So you have to make a buffer of length 13 for it, and C programmers always add one to the size of their arrays to be safe. So make your buffer and copy the string into it:}
+    print {You can see the length of that string is 3 + 2 + 3 + 2 + 3 = 13. So you have to make a buffer of length 13 for it, and C programmers always add one to the size of their arrays to be safe. So make your buffer and copy the string into it:}
 
-[code c {
+    source 'c {
     /* REMEMBER: always add one to your array sizes in C, for safety! */
     char buffer[14];
     strcpy(buffer, "foo\nbaz\nbar");
-}]
+}
 
-    {Now what you have to do is look for that two-character pattern that represents the newline. You aren't allowed to look for just a backslash. Because C is used for string splitting quite a lot, it will give you an error if you try. You can see this if you try writing:}
+    print {Now what you have to do is look for that two-character pattern that represents the newline. You aren't allowed to look for just a backslash. Because C is used for string splitting quite a lot, it will give you an error if you try. You can see this if you try writing:}
 
-[code c {
+    source 'c {
     char pattern[2];
     strcpy(pattern, "\");
-}]
+}
 
-    [note
-        {There is a setting in the compiler for if you are writing a program that just looks for backslashes. But that's extremely uncommon; backslashes are very rarely used, which is why they were chosen for this purpose. We won't turn that switch on.}
-    ]
+    note {There is a setting in the compiler for if you are writing a program that just looks for backslashes. But that's extremely uncommon; backslashes are very rarely used, which is why they were chosen for this purpose. We won't turn that switch on.}
 
-    {So let's make the pattern we really want, like this:}
+    print {So let's make the pattern we really want, like this:}
 
-[code c {
+    source 'c {
 char pattern[3];
 strcpy(pattern, "\n");
-}]
+}
 
-    {When we want to compare two strings which are of a certain length, we use strncmp. It compares a certain number of characters of a potentially larger string, and tells you whether they match or not. So `strncmp("\nA", "\nB", 2)` returns 1 (true). This is even though the strings aren't entirely equal over the length of three... but because only two characters are needed to be.}
+    print << [
 
-    {So let's step through our buffer, one character at a time, looking for the two character match to our pattern. Each time we find a two-character sequence of a backslash followed by an n, we'll use the very special system call (or "syscall") putc to put out a special kind of character: ASCII code 10, to get a physical newline.}
+        {When we want to compare two strings which are of a certain length, we use strncmp. It compares a certain number of characters of a potentially larger string, and tells you whether they match or not. So `strncmp("\nA", "\nB", 2)` returns 1 (true). This is even though the strings aren't entirely equal over the length of three... but because only two characters are needed to be.}
 
-[code c {
+        {So let's step through our buffer, one character at a time, looking for the two character match to our pattern. Each time we find a two-character sequence of a backslash followed by an n, we'll use the very special system call (or "syscall") putc to put out a special kind of character: ASCII code 10, to get a physical newline.}
+
+    ]
+
+    source 'c {
 #include "stdio.h"
 #include "string.h"
 
@@ -140,35 +155,46 @@ int main(int argc, char* argv[]) {
     putc(10, stdout); 
     return 1;
 }
-}]
+}
 
-    {The output of this program is the desired result...the string split!}
+    print {The output of this program is the desired result...the string split!}
 
-[code text {
+    source 'text {
 foo
 baz
 bar
-}]
+}
+
 ]
 
-[heading {`\t` is for \trolling}]
+heading "`\t` is for \trolling"
 
-{It's absolutely incorrect from the top to the bottom. Yet it's filled with plausible-sounding nonsense that has scrambled information like what's in the textbook or Wikipedia. Program logic appears transparent in the context of the misinformation, but is completely misleading. Even global variables and returning an error code, for good measure...}
+print << [
 
-{Of course, there's only one character in the C string representation of the two-character source literal sequence `\n`. But making a buffer larger is harmless, as long as `strlen()` is used to get the actual length to operate on.}
+    {It's absolutely incorrect from the top to the bottom. Yet it's filled with plausible-sounding nonsense that has scrambled information like what's in the textbook or Wikipedia. Program logic appears transparent in the context of the misinformation, but is completely misleading. Even global variables and returning an error code, for good measure...}
 
-{I try to convince the reader that `strncmp` is a boolean operation that either matches (1) or doesn't (0). But it actually has three return values (-1 matching less, 0 for equal, 1 for matching greater). Our two character "pattern" being compared is not [`\`, `n`], but rather [`\n`, `\0`]...picking up the implicit null terminator. As that sequence slides through the string it will never be greater than a two-character sequence it's compared to...at best it will be zero if there is a terminating newline in the input string.}
+    {Of course, there's only one character in the C string representation of the two-character source literal sequence `\n`. But making a buffer larger is harmless, as long as `strlen()` is used to get the actual length to operate on.}
 
-{So all this does is loop through the string and print it one character at a time. The top branch never runs. (Though you could get it to if your string had lower-than `\n` codes in it, say tab...which could be used to mysteriously omit characters from the output :-P)}
+    {I try to convince the reader that `strncmp` is a boolean operation that either matches (1) or doesn't (0). But it actually has three return values (-1 matching less, 0 for equal, 1 for matching greater). Our two character "pattern" being compared is not [`\`, `n`], but rather [`\n`, `\0`]...picking up the implicit null terminator. As that sequence slides through the string it will never be greater than a two-character sequence it's compared to...at best it will be zero if there is a terminating newline in the input string.}
 
-[heading {Moment of Zen}]
+    {So all this does is loop through the string and print it one character at a time. The top branch never runs. (Though you could get it to if your string had lower-than `\n` codes in it, say tab...which could be used to mysteriously omit characters from the output :-P)}
 
-{When people were criticizing the usefulness of Code Trolling, I agreed the tag should probably be banned.  Yet I cited this as a good example of how the puzzle form could produce useful teaching exercises, along the lines of "what's wrong with this picture".  It's *essential* to be able to explain what's wrong with the above, if you are to claim to be a C programmer.  And as a side benefit, I think it's hilarious.}
+]
 
-{I'm glad I could save it.  But how much else will be lost, or has been?  The Internet was based on decentralization...yet we keep trusting our content and identity to centralized institutions that re-emerged from the information democracy.  I'll close with some Chomsky:}
+heading "Moment of Zen"
 
-[quote
-    {...power is always illegitimate, unless it proves itself to be legitimate. So the burden of proof is always on those who claim that some authoritarian hierarchic relation is legitimate. If they can't prove it, then it should be dismantled.}
+print << [
 
-    /source {[Noam Chomsky interviewed by Harry Kreisler](http://www.chomsky.info/interviews/20020322.htm), 2002}
+    {When people were criticizing the usefulness of Code Trolling, I agreed the tag should probably be banned.  Yet I cited this as a good example of how the puzzle form could produce useful teaching exercises, along the lines of "what's wrong with this picture".  It's *essential* to be able to explain what's wrong with the above, if you are to claim to be a C programmer.  And as a side benefit, I think it's hilarious.}
+
+    {I'm glad I could save it.  But how much else will be lost, or has been?  The Internet was based on decentralization...yet we keep trusting our content and identity to centralized institutions that re-emerged from the information democracy.  I'll close with some Chomsky:}
+
+]
+
+quote [
+
+    print {...power is always illegitimate, unless it proves itself to be legitimate. So the burden of proof is always on those who claim that some authoritarian hierarchic relation is legitimate. If they can't prove it, then it should be dismantled.}
+
+    attribution {[Noam Chomsky interviewed by Harry Kreisler](http://www.chomsky.info/interviews/20020322.htm), 2002}
+
 ]

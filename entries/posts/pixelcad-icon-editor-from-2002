@@ -5,186 +5,262 @@ Draem [
     date: 20-Jun-2014/20:13
 ]
 
-{A stated goal of mine for 2014 was to take every scrap of code, writing, or graphics on my hard drives--and either dust them off for publication or delete them forever.  My codename for the initiative is *"hard drive zero"*.}
+print {A stated goal of mine for 2014 was to take every scrap of code, writing, or graphics on my hard drives--and either dust them off for publication or delete them forever.  My codename for the initiative is *"hard drive zero"*.}
 
-[note {The term is derived from another periodic goal of mine where I try to empty my inbox, called *"inbox zero"*.  Unsurprisingly I'm [not the only person to use that term](http://mashable.com/2013/10/10/inbox-zero/), but I don't see any relevant hits for "hard drive zero".}]
+note {The term is derived from another periodic goal of mine where I try to empty my inbox, called *"inbox zero"*.  Unsurprisingly I'm [not the only person to use that term](http://mashable.com/2013/10/10/inbox-zero/), but I don't see any relevant hits for "hard drive zero".}
 
-{Slowly but surely, I'm getting closer to the objective; and *trying* to be disciplined about not picking up anything new.  But one project has lurked in directories on my drives in some form since 2002, which I have tinkered on and off with every couple of years.  I've been dreading figuring out what to do with it; but I found an old document related to it that I decided was best put up in the history tag.}
+print << [
 
-{The project is an application framework, and this was content from a webpage for a very basic demo of an application built on the framework.  As a program, it was not all that interesting in and of itself... what was interesting was *how* it was written.  I'll write up an article providing the historical context for it, but for now I'll just post the page's content so its sole existence isn't on my hard drive:}
+    {Slowly but surely, I'm getting closer to the objective; and *trying* to be disciplined about not picking up anything new.  But one project has lurked in directories on my drives in some form since 2002, which I have tinkered on and off with every couple of years.  I've been dreading figuring out what to do with it; but I found an old document related to it that I decided was best put up in the history tag.}
 
-[quote
-    [image http://hostilefork.com/media/blog/pixelcad-icon-editor-from-2002/splash.jpg 320x200 "PixelCAD Splash Screen"]
+    {The project is an application framework, and this was content from a webpage for a very basic demo of an application built on the framework.  As a program, it was not all that interesting in and of itself... what was interesting was *how* it was written.  I'll write up an article providing the historical context for it, but for now I'll just post the page's content so its sole existence isn't on my hard drive:}
 
-    [heading {What is PixelCAD?}]
+]
 
-    {PixelCAD is a program that aspires to someday bring the features of high-end drawing tools into the domain of precision pixel-oriented editing.  It is in the **very early** alpha stages of development, and thus far is only a very limited test.  Nevertheless, it is starting to demonstrate some of its abilities, and it can actually let you create a 32x32 .ICO output file from start to finish *(sort of)*.  Here are some of the features:}
+quote [
 
-    [heading {Impressionistic Rendering}]
+    image [http://hostilefork.com/media/blog/pixelcad-icon-editor-from-2002/splash.jpg 320x200 "PixelCAD Splash Screen"]
 
-    {The hard edges on pixels in many icon drawing programs create a blocky picture which can be difficult to conceive at smaller resolutions:}
+    heading "What is PixelCAD?"
 
-    [image http://hostilefork.com/media/blog/pixelcad-icon-editor-from-2002/blocky.png 342x262 "without impressionistic rendering, blocky"]
+    print {PixelCAD is a program that aspires to someday bring the features of high-end drawing tools into the domain of precision pixel-oriented editing.  It is in the **very early** alpha stages of development, and thus far is only a very limited test.  Nevertheless, it is starting to demonstrate some of its abilities, and it can actually let you create a 32x32 .ICO output file from start to finish *(sort of)*.  Here are some of the features:}
 
-    {PixelCAD can smooth the edges of pixels to help visualize what a zoomed image will look like scaled down without constantly referring to a thumbnail:}
+    heading "Impressionistic Rendering"
 
-    [image http://hostilefork.com/media/blog/pixelcad-icon-editor-from-2002/impression.png 342x262 "with impressionistic rendering, smoothed"]
+    print {The hard edges on pixels in many icon drawing programs create a blocky picture which can be difficult to conceive at smaller resolutions:}
 
-    [heading {Feature: Independent Layers}]
+    image [http://hostilefork.com/media/blog/pixelcad-icon-editor-from-2002/blocky.png 342x262 "without impressionistic rendering, blocky"]
 
-    {Layers let you separate the parts of your icon so that you may edit one part without destroying the overlapped portion.  Here, the text "DRAW" is in a layer above a disk icon:}
+    print {PixelCAD can smooth the edges of pixels to help visualize what a zoomed image will look like scaled down without constantly referring to a thumbnail:}
 
-    [image http://hostilefork.com/media/blog/pixelcad-icon-editor-from-2002/drawabove.png 342x262 "text 'DRAW' in a layer above a disk icon"]
+    image [http://hostilefork.com/media/blog/pixelcad-icon-editor-from-2002/impression.png 342x262 "with impressionistic rendering, smoothed"]
 
-    {While editing the disk icon's layer independently, you can choose to overlay top layers as a translucent "cloud":}
+    heading "Feature: Independent Layers"
 
-    [image http://hostilefork.com/media/blog/pixelcad-icon-editor-from-2002/layercloud.png 342x262 "edit disk icon independently, top layer is shown as a 'cloud'"]
+    print {Layers let you separate the parts of your icon so that you may edit one part without destroying the overlapped portion.  Here, the text "DRAW" is in a layer above a disk icon:}
 
-    [heading {Feature: Dynamic Effects}]
+    image [http://hostilefork.com/media/blog/pixelcad-icon-editor-from-2002/drawabove.png 342x262 "text 'DRAW' in a layer above a disk icon"]
 
-    {Effects analyze the drawing you have done and augment it, such as outlining and shading.  These effects automatically 
+    print {While editing the disk icon's layer independently, you can choose to overlay top layers as a translucent "cloud":}
+
+    image [http://hostilefork.com/media/blog/pixelcad-icon-editor-from-2002/layercloud.png 342x262 {edit disk icon independently, top layer is shown as a 'cloud'}]
+
+    heading "Feature: Dynamic Effects"
+
+    print {Effects analyze the drawing you have done and augment it, such as outlining and shading.  These effects automatically 
     update themselves as you modify the pixels in your drawing...there is no need to re-run the effect manually.  For instance, if you have drawn an email icon:}
 
-    [image http://hostilefork.com/media/blog/pixelcad-icon-editor-from-2002/emailicon.png 342x262 "drawing an email icon"]
+    image [http://hostilefork.com/media/blog/pixelcad-icon-editor-from-2002/emailicon.png 342x262 "drawing an email icon"]
 
-    {Then you can apply an outline effect:}
+    print "Then you can apply an outline effect:"
 
-    [image http://hostilefork.com/media/blog/pixelcad-icon-editor-from-2002/outlined.png 342x262 "outline effect is applied"]
+    image [http://hostilefork.com/media/blog/pixelcad-icon-editor-from-2002/outlined.png 342x262 "outline effect is applied"]
 
-    {As you modify the shape, the outline will update in the background.  Here, the dots show indeterminate pixels that have not been calculated yet:}
+    print {As you modify the shape, the outline will update in the background.  Here, the dots show indeterminate pixels that have not been calculated yet:}
 
-    [image http://hostilefork.com/media/blog/pixelcad-icon-editor-from-2002/indeterminate.png 342x262 "modifying the shape, dots show indeterminate pixels"]
+    image [http://hostilefork.com/media/blog/pixelcad-icon-editor-from-2002/indeterminate.png 342x262 {modifying the shape, dots show indeterminate pixels}]
 
-    {When the CPU time is available to finish the processing, the indeterminate dots disappear to give a complete outline:}
+    print {When the CPU time is available to finish the processing, the indeterminate dots disappear to give a complete outline:}
 
-    [image http://hostilefork.com/media/blog/pixelcad-icon-editor-from-2002/updated.png 342x262 "outline is updated when CPU is available, dots disappear"]
+    image [http://hostilefork.com/media/blog/pixelcad-icon-editor-from-2002/updated.png 342x262 {outline is updated when CPU is available, dots disappear}]
 
-    [heading {Feature: Thumbnail Contexts}]
+    heading "Feature: Thumbnail Contexts"
 
-    {The preview feature in PixelCAD shows icons in context, so you don't have to guess how your icon might look when it is held up against different backgrounds.  Here you can see some context on a blank white background with some other Windows XP desktop icons:}
+    print {The preview feature in PixelCAD shows icons in context, so you don't have to guess how your icon might look when it is held up against different backgrounds.  Here you can see some context on a blank white background with some other Windows XP desktop icons:}
 
-    [image http://hostilefork.com/media/blog/pixelcad-icon-editor-from-2002/whitecontext.png 342x262 "context with Windows XP desktop icons"]
+    image [http://hostilefork.com/media/blog/pixelcad-icon-editor-from-2002/whitecontext.png 342x262 "context with Windows XP desktop icons"]
 
-    {Here are the same icons shown against an ocean background:}
+    print {Here are the same icons shown against an ocean background:}
 
-    [image http://hostilefork.com/media/blog/pixelcad-icon-editor-from-2002/oceancontext.png 342x262 "context with a different background"]
+    image [http://hostilefork.com/media/blog/pixelcad-icon-editor-from-2002/oceancontext.png 342x262 "context with a different background"]
 
-    [heading {Feature: Inspection Grid}]
+    heading "Feature: Inspection Grid"
 
-    {If you hover your mouse over an area of the workspace, an inspection grid appears to give insight into the physical layout of your data.  This includes indicating which layer the pixel originates from, or indication of whether it is a "real" pixel you have drawn or one generated by an effect.}
+    print << [
 
-    {Here, the diagonal line across the cells indicates that the outline is computed:}
+        {If you hover your mouse over an area of the workspace, an inspection grid appears to give insight into the physical layout of your data.  This includes indicating which layer the pixel originates from, or indication of whether it is a "real" pixel you have drawn or one generated by an effect.}
 
-    [image http://hostilefork.com/media/blog/pixelcad-icon-editor-from-2002/hoveroutline.png 342x262 "hover grid showing outline pixels are computed"]
+        {Here, the diagonal line across the cells indicates that the outline is computed:}
 
-    {The letters in the cells in this example correspond to the source layer a pixel originates from:}
-
-    [image http://hostilefork.com/media/blog/pixelcad-icon-editor-from-2002/hoverlayer.png 342x262 "hover grid revealing pixel originating layers"]
-
-    [heading {Feature: Drag and Drop}]
-
-    {PixelCAD features a painless drag and drop from Windows Explorer and Internet Explorer, and can resize icons to the size of your workspace on the fly.  This makes building icons from component parts is simple and painless.}
-
-    [heading {How do I try it?}]
-
-    {If you're willing to not expect too much (since it's just a demo), then feel free to give it a shot.  You will need Windows XP, or if you have an older version of Windows you will need to make sure you install Microsoft's GDI+ DLL.  *(If for some reason you have installed the .NET runtime, you already have it.)*}
-
-    {Since I have not yet spent any time on performance issues and am experimenting with a technique that taxes the graphics card, you will need a fairly fast processor...about 1GHz or so.}
-
-    {There is no setup program as of yet, just click on the following link:}
-
-    [button http://hostilefork.com/media/blog/pixelcad-icon-editor-from-2002/wfxdraw.jpg 32x32 "PIXELCAD.EXE" http://hostilefork.com]
-
-    {Save the executable to your hard disk, and put it in a folder of your choosing.  Also, I have put together a small ZIP of component parts which you can use to test the Drag & Drop facilities of the program.  Use Windows Explorer to "explore into" the ZIP.&nbsp; Then while you are using PixelCAD, just drag and drop the parts into the workspace:}
-
-    [button http://hostilefork.com/media/blog/pixelcad-icon-editor-from-2002/zip.jpg 32x32 "PARTS.ZIP" http://hostilefork.com]
-
-    {I make no warranties that&nbsp;PixelCAD won't do bad things to your computer.  But then again...neither will any other software development firm in the world (just *try* to find a license which places liability on the developers)!  Nevertheless, since it would affect my professional and personal reputation, be assured there's nothing intentionally damaging or reckless about it.}
-
-    [heading {Why are you writing it?}]
-
-    {PixelCAD is the first application I am experimenting with releasing publicly that is being built on the "WFX application framework", as to be explained in the book "Factoring Interactive Applications".  As such, it's not intended to be any magnum opus of software.  I actually hope to make it unambitious enough in intellectual property content that I have little to lose by publishing the source code to the app, and use it as a tutorial for the framework.}
-
-    [heading {How much will it cost?}]
-
-    {Pursuant to the above about publishing the source, probably nothing.  But regardless of what direction it may take, my longer term model is that I always intend to have a freeware version available.  This program tests the nuances of an application framework for which more users means more getting feedback.  So even if I decide to commercialize it, I will make the commercial version "outshine" any version I previously give away free on the web...rather than take anything back.}
-
-    [heading {What are the known issues?}]
-
-    {There are more problems than I can count right now, there's lots to do!  I've been scratching my head over large issues that polishing this sample app hasn't been a high priority (yet).  However, the earlier you can get feedback on a program...the sooner you can start directing it usefully.}
-
-    {So, here goes:}
-
-    [list
-        {PixelCAD currently only supports 32x32 icons in TrueColor.}
-
-        {When you click the disk picture in the toolbar, your output will be saved as "wfx.ico".}
-
-        {Drawing tools are limited to freehand drawing and fill.  *(Obviously, rectangles and ellipses are in the agenda, they're just not a priority for my framework testing, since their implementations would be so similar to things I've already written.)*}
-            
-        {Effects are limited to "Outline in Black" and "Dither Shade". I chose these two because they were relatively easy to write...and they let me test two important effect varieties *(effects which add pixels to your composition which aren't there, and effects which modify pixels which are already in your composition)*.}
-
-        {Each time I release a new executable on the web, the file format changes.  This means you'll have to export your icons to .ICO files and then drag 'n' drop them into the new version.  Of course, this will lose your layer and effect information.  Of course this is not a long term strategy---I intend to have an invariant XML format to use for these conversions.}
-
-        {The effects processor isn't able to "think" while you have the mouse button down, which means you'll have to release the mouse button to see the impact of a stroke.}
-
-        {There is only one data file the system knows about, called "WFX.ODB".  If you want to start a new drawing, delete this file and let the system regenerate it for you. If you want to save a drawing's layers/etc, close the program and save the wfx.odb file to some other location.}
     ]
 
-    {So clearly...this is only a test.  But getting basic feedback on whether it runs at all on various configurations is helpful in and of itself.  In the meantime, I'll go over rough edges and remove them, and update this list as I do.  *(My computer is going to the shop for a while so I just wanted to throw something out there while I still had a system on-hand.)*}
+    image [http://hostilefork.com/media/blog/pixelcad-icon-editor-from-2002/hoveroutline.png 342x262 "hover grid showing outline pixels are computed"]
 
-    {I appreciate any feedback from those who download the program.}
+    print {The letters in the cells in this example correspond to the source layer a pixel originates from:}
 
-    [heading {What Programs are "the Competition"?}]
+    image [http://hostilefork.com/media/blog/pixelcad-icon-editor-from-2002/hoverlayer.png 342x262 "hover grid revealing pixel originating layers"]
 
-    {Often the least ambitious programs in the drawing domain, icon editors are notoriously easy to write.  They usually have modest expectations on the interface, so weekend efforts to write an icon editor have a reasonable chance of growing into something useful.}
+    heading "Feature: Drag and Drop"
 
-    {Perhaps the biggest hurdle *(for programs that don't tackle things like dynamic effects that update in the background)* is handling .ICO files.  There is [no built-in save codec](http://support.microsoft.com/default.aspx?scid=KB;EN-US;q316563) for the .ICO file format in Windows, so all developers must deal with the [somewhat obscure details](http://msdn.microsoft.com/en-us/library/ms997538.aspx">somewhat obscure details).  Microsoft once provided a sample application called "IconPro" which is all but extinct from the web.}
+    print {PixelCAD features a painless drag and drop from Windows Explorer and Internet Explorer, and can resize icons to the size of your workspace on the fly.  This makes building icons from component parts is simple and painless.}
 
-    {In any case, a fair number of icon editing programs have sprung up--most are shareware.  I have a profound respect for the amount of work it takes to actually get a software product of any kind out the door at all--so I'll try to present as balanced an account as I can of the products which might be positioned against PixelCAD in the future.}
+    heading "How do I try it?"
 
-    [list 
-        [
-            {**Axialis Icon Workshop**}
-        
-            {A French company called [Axialis Software](http://www.axialis.com/) has a product called [Icon Workshop](http://www.axialis.com/iconworkshop/) which many consider to be the best icon editor for Windows XP.  As far as usability goes, it is very good...although there is a lot of emphasis on peripheral UI (fancy buttons, animated widgets spinning in the corner which do nothing, etc.).  It seems to be a file-format-master, handling many different icon formats from different platforms.}
+    print << [
 
-            {They seem to acknowledge that few people will use the program for drawing, and that their key value lies as a "finishing tool" for putting together icon libraries.  Hence, their tutorials explain how to integrate with [Adobe Photoshop](http://www.axialis.com/tutorials/tutorial-iw012.html) and other high-end drawing programs.}
+        {If you're willing to not expect too much (since it's just a demo), then feel free to give it a shot.  You will need Windows XP, or if you have an older version of Windows you will need to make sure you install Microsoft's GDI+ DLL.  *(If for some reason you have installed the .NET runtime, you already have it.)*}
 
-            {It costs $35 for the most basic version, making it a decent price/performance option.  They also offer free upgrades for life via the web.}
-        ] [
-            {**IconCool**}
+        {Since I have not yet spent any time on performance issues and am experimenting with a technique that taxes the graphics card, you will need a fairly fast processor...about 1GHz or so.}
 
-            {An inexpensive option, [IconCool](http://iconcool.com/icon-editor.htm) actually provides some reasonably innovative UI in editing the icons, and it can sometimes feel a bit more "ergonomic" than the other programs.  It also has a number of effects that you can use, but unlike the effects in PixelCAD these are destructive and do not update dynamically.}
+        {There is no setup program as of yet, just click on the following link:}
 
-            {It's $20 to register.}
-        ] [
-            {**Microangelo**}
+    ]
 
-            {A California company *(called [Impact Software](http://microangelo.us/about.asp) formerly)* makes a product called [Microangelo](http://www.microangelo.us/).  It is actually a suite of tools, including an icon librarian, tools for ripping icons out of the EXE's and DLL's on your hard disk, and an icon editor called "Studio".  The program is not 
+    button [http://hostilefork.com/media/blog/pixelcad-icon-editor-from-2002/wfxdraw.jpg 32x32 "PIXELCAD.EXE" http://hostilefork.com]
+
+    print {Save the executable to your hard disk, and put it in a folder of your choosing.  Also, I have put together a small ZIP of component parts which you can use to test the Drag & Drop facilities of the program.  Use Windows Explorer to "explore into" the ZIP.&nbsp; Then while you are using PixelCAD, just drag and drop the parts into the workspace:}
+
+    button [http://hostilefork.com/media/blog/pixelcad-icon-editor-from-2002/zip.jpg 32x32 "PARTS.ZIP" http://hostilefork.com]
+
+    print {I make no warranties that&nbsp;PixelCAD won't do bad things to your computer.  But then again...neither will any other software development firm in the world (just *try* to find a license which places liability on the developers)!  Nevertheless, since it would affect my professional and personal reputation, be assured there's nothing intentionally damaging or reckless about it.}
+
+    heading "Why are you writing it?"
+
+    print {PixelCAD is the first application I am experimenting with releasing publicly that is being built on the "WFX application framework", as to be explained in the book "Factoring Interactive Applications".  As such, it's not intended to be any magnum opus of software.  I actually hope to make it unambitious enough in intellectual property content that I have little to lose by publishing the source code to the app, and use it as a tutorial for the framework.}
+
+    heading "How much will it cost?"
+
+    print {Pursuant to the above about publishing the source, probably nothing.  But regardless of what direction it may take, my longer term model is that I always intend to have a freeware version available.  This program tests the nuances of an application framework for which more users means more getting feedback.  So even if I decide to commercialize it, I will make the commercial version "outshine" any version I previously give away free on the web...rather than take anything back.}
+
+    heading "What are the known issues?"
+
+    print << [
+
+        {There are more problems than I can count right now, there's lots to do!  I've been scratching my head over large issues that polishing this sample app hasn't been a high priority (yet).  However, the earlier you can get feedback on a program...the sooner you can start directing it usefully.}
+
+        "So, here goes:"
+
+    ]
+
+    list [item << [
+
+            {PixelCAD currently only supports 32x32 icons in TrueColor.}
+
+            {When you click the disk picture in the toolbar, your output will be saved as "wfx.ico".}
+
+            {Drawing tools are limited to freehand drawing and fill.  *(Obviously, rectangles and ellipses are in the agenda, they're just not a priority for my framework testing, since their implementations would be so similar to things I've already written.)*}
+
+            {Effects are limited to "Outline in Black" and "Dither Shade". I chose these two because they were relatively easy to write...and they let me test two important effect varieties *(effects which add pixels to your composition which aren't there, and effects which modify pixels which are already in your composition)*.}
+
+            {Each time I release a new executable on the web, the file format changes.  This means you'll have to export your icons to .ICO files and then drag 'n' drop them into the new version.  Of course, this will lose your layer and effect information.  Of course this is not a long term strategy---I intend to have an invariant XML format to use for these conversions.}
+
+            {The effects processor isn't able to "think" while you have the mouse button down, which means you'll have to release the mouse button to see the impact of a stroke.}
+
+            {There is only one data file the system knows about, called "WFX.ODB".  If you want to start a new drawing, delete this file and let the system regenerate it for you. If you want to save a drawing's layers/etc, close the program and save the wfx.odb file to some other location.}
+
+        ]]
+
+    print << [
+
+        {So clearly...this is only a test.  But getting basic feedback on whether it runs at all on various configurations is helpful in and of itself.  In the meantime, I'll go over rough edges and remove them, and update this list as I do.  *(My computer is going to the shop for a while so I just wanted to throw something out there while I still had a system on-hand.)*}
+
+        {I appreciate any feedback from those who download the program.}
+
+    ]
+
+    heading {What Programs are "the Competition"?}
+
+    print << [
+
+        {Often the least ambitious programs in the drawing domain, icon editors are notoriously easy to write.  They usually have modest expectations on the interface, so weekend efforts to write an icon editor have a reasonable chance of growing into something useful.}
+
+        {Perhaps the biggest hurdle *(for programs that don't tackle things like dynamic effects that update in the background)* is handling .ICO files.  There is [no built-in save codec](http://support.microsoft.com/default.aspx?scid=KB;EN-US;q316563) for the .ICO file format in Windows, so all developers must deal with the [somewhat obscure details](http://msdn.microsoft.com/en-us/library/ms997538.aspx">somewhat obscure details).  Microsoft once provided a sample application called "IconPro" which is all but extinct from the web.}
+
+        {In any case, a fair number of icon editing programs have sprung up--most are shareware.  I have a profound respect for the amount of work it takes to actually get a software product of any kind out the door at all--so I'll try to present as balanced an account as I can of the products which might be positioned against PixelCAD in the future.}
+
+    ]
+
+    list [item << [
+
+            [
+
+                print << [
+
+                    "**Axialis Icon Workshop**"
+
+                    {A French company called [Axialis Software](http://www.axialis.com/) has a product called [Icon Workshop](http://www.axialis.com/iconworkshop/) which many consider to be the best icon editor for Windows XP.  As far as usability goes, it is very good...although there is a lot of emphasis on peripheral UI (fancy buttons, animated widgets spinning in the corner which do nothing, etc.).  It seems to be a file-format-master, handling many different icon formats from different platforms.}
+
+                    {They seem to acknowledge that few people will use the program for drawing, and that their key value lies as a "finishing tool" for putting together icon libraries.  Hence, their tutorials explain how to integrate with [Adobe Photoshop](http://www.axialis.com/tutorials/tutorial-iw012.html) and other high-end drawing programs.}
+
+                    {It costs $35 for the most basic version, making it a decent price/performance option.  They also offer free upgrades for life via the web.}
+
+                ]
+
+            ]
+
+            [
+
+                print << [
+
+                    "**IconCool**"
+
+                    {An inexpensive option, [IconCool](http://iconcool.com/icon-editor.htm) actually provides some reasonably innovative UI in editing the icons, and it can sometimes feel a bit more "ergonomic" than the other programs.  It also has a number of effects that you can use, but unlike the effects in PixelCAD these are destructive and do not update dynamically.}
+
+                    "It's $20 to register."
+
+                ]
+
+            ]
+
+            [
+
+                print << [
+
+                    "**Microangelo**"
+
+                    {A California company *(called [Impact Software](http://microangelo.us/about.asp) formerly)* makes a product called [Microangelo](http://www.microangelo.us/).  It is actually a suite of tools, including an icon librarian, tools for ripping icons out of the EXE's and DLL's on your hard disk, and an icon editor called "Studio".  The program is not 
             too amazing, but has a particularly nice screen capture function.}
 
-            {It costs $40 for the most basic version.}
-        ] [
-            {**IconForge**}
+                    "It costs $40 for the most basic version."
 
-            {An Oregon company called [Cursor Arts](http://cursorarts.com/) offers [IconForge](http://cursorarts.com/ca_if.html), a somewhat unusual program which seems to be shooting for the homemade look.  It provides many effects, but generally is similar to&nbsp;what IconCool provides *(although IconForge may well have been first)*.}
+                ]
 
-            {It costs $38.}
-        ] [
-            {**Visual Studio Resource Editor**}
+            ]
 
-            {The resource editor in Microsoft Visual Studio is not a great icon program by any means, but it is serviceable for many purposes.  If you already use Visual Studio you might be reluctant to go outside of the environment to do your icon editing.  When used in conjunction with Microsoft Paint, one can have a relatively painful (but complete) icon experience.}
+            [
 
-            {You can download an edition of Visual Studio for free from the web, but it does a lot more than edit icons.}
-        ] [
-            {**Real Draw Pro**}
-        
-            {This isn't an icon editing program per se, but [MediaChance](http://www.mediachance.com)'s [one-man-Czechoslovakian-software-engineering-team](http://www.mediachance.com/aboutme.htm) has created a product that deserves mention as a low-priced powerful bitmap AND vector editor (and more!).  [Real Draw Pro](http://www.mediachance.com/realdraw/)</a> does quite a bit...with non-destructive effects and bitmap editing.&nbsp; I suggest you check it out.}
+                print << [
 
-            {...and it costs a mere $50.}
-        ]
-    ]
+                    "**IconForge**"
 
-    {I'm wondering about potential business models for software like this in today's world.  So I'd be very interested to hear opinions of people on what they think of the competitors' features and pricing.  Were I to go the route of trying to develop a product, what sort of features would make it stand out as being software someone would pay for--and what features would command what prices?}
+                    {An Oregon company called [Cursor Arts](http://cursorarts.com/) offers [IconForge](http://cursorarts.com/ca_if.html), a somewhat unusual program which seems to be shooting for the homemade look.  It provides many effects, but generally is similar to&nbsp;what IconCool provides *(although IconForge may well have been first)*.}
+
+                    "It costs $38."
+
+                ]
+
+            ]
+
+            [
+
+                print << [
+
+                    "**Visual Studio Resource Editor**"
+
+                    {The resource editor in Microsoft Visual Studio is not a great icon program by any means, but it is serviceable for many purposes.  If you already use Visual Studio you might be reluctant to go outside of the environment to do your icon editing.  When used in conjunction with Microsoft Paint, one can have a relatively painful (but complete) icon experience.}
+
+                    {You can download an edition of Visual Studio for free from the web, but it does a lot more than edit icons.}
+
+                ]
+
+            ]
+
+            [
+
+                print << [
+
+                    "**Real Draw Pro**"
+
+                    {This isn't an icon editing program per se, but [MediaChance](http://www.mediachance.com)'s [one-man-Czechoslovakian-software-engineering-team](http://www.mediachance.com/aboutme.htm) has created a product that deserves mention as a low-priced powerful bitmap AND vector editor (and more!).  [Real Draw Pro](http://www.mediachance.com/realdraw/)</a> does quite a bit...with non-destructive effects and bitmap editing.&nbsp; I suggest you check it out.}
+
+                    "...and it costs a mere $50."
+
+                ]
+
+            ]
+
+        ]]
+
+    print {I'm wondering about potential business models for software like this in today's world.  So I'd be very interested to hear opinions of people on what they think of the competitors' features and pricing.  Were I to go the route of trying to develop a product, what sort of features would make it stand out as being software someone would pay for--and what features would command what prices?}
+
 ]

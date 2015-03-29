@@ -6,23 +6,31 @@ Draem [
     old-url-prefix: %2013/04/07/
 ]
 
-{One area in C++ I had never really spent a lot of time with until early last year is the iostreams library.  I *thought* I understood it pretty well.  At a superficial level, it made perfect sense: replace printf/scanf with an abstract interface for serialization that objects could implement for themselves.}
+print << [
 
-{As a developer whose post-stdio-era coding usually targeted things like graph databases instead of text files, I didn't have all that many occasions to use iostreams.  But as I became more involved in exchanging small conceptual programs with other developers, I realized that they are the *"lingua franca"* of standard C++.  Using them began to teach me that there were many things about them I didn't know...and that they could be very useful, as well as very tricky.}
+    {One area in C++ I had never really spent a lot of time with until early last year is the iostreams library.  I *thought* I understood it pretty well.  At a superficial level, it made perfect sense: replace printf/scanf with an abstract interface for serialization that objects could implement for themselves.}
 
-{For instance, do you know the difference between these two lines?}
+    {As a developer whose post-stdio-era coding usually targeted things like graph databases instead of text files, I didn't have all that many occasions to use iostreams.  But as I became more involved in exchanging small conceptual programs with other developers, I realized that they are the *"lingua franca"* of standard C++.  Using them began to teach me that there were many things about them I didn't know...and that they could be very useful, as well as very tricky.}
 
-[code cpp {std::cout << std::endl;
+    {For instance, do you know the difference between these two lines?}
+
+]
+
+source 'cpp {std::cout << std::endl;
 /* vs... */
 std::cout << '\n';
-}]
+}
 
-{I didn't!  That's just for starters, so I gave a presentation on the topic to my [Austin C/C++ Group](http://www.meetup.com/The-Austin-C-C-Meetup-Group/) in October 2011.  In it, I represent some of my new understandings:}
+print {I didn't!  That's just for starters, so I gave a presentation on the topic to my [Austin C/C++ Group](http://www.meetup.com/The-Austin-C-C-Meetup-Group/) in October 2011.  In it, I represent some of my new understandings:}
 
-[https://docs.google.com/presentation/d/1YL7tW9flenQoCgFCMB1Ks-UPMiTB0il5klbjryKd6YM/edit?usp=sharing "View the presentation"]
+link [https://docs.google.com/presentation/d/1YL7tW9flenQoCgFCMB1Ks-UPMiTB0il5klbjryKd6YM/edit?usp=sharing "View the presentation"]
 
-{At first, I delayed on publishing it to the Web for fear that it may not be 100% right.  But then it languished in a private Google Docs presentation for a year and a half.  I found it today, and if I'm worried about its inaccuracy it's sure not going to get any better by leaving it there.  And it might help someone, as I know there are a large number of people on the Internet who are even more less than 100% right. :-P}
+print << [
 
-{So here it is, and corrections are of course welcome--just leave a comment!}
+    {At first, I delayed on publishing it to the Web for fear that it may not be 100% right.  But then it languished in a private Google Docs presentation for a year and a half.  I found it today, and if I'm worried about its inaccuracy it's sure not going to get any better by leaving it there.  And it might help someone, as I know there are a large number of people on the Internet who are even more less than 100% right. :-P}
 
-[note {Learning the details about this would not have happened without the help of the [active C++ community on SO](http://stackoverflow.com/questions/tagged/c%2b%2b?sort=votes%26pagesize=50).  That's where I spent most of my recreational programming time--instead of writing blog entries--in 2011.  Both asking and answering questions offers insights.  While some people seem to have a bit of what amounts to an "online game addiction", it's a case where their affliction can benefit you and the common good.  :P}]
+    {So here it is, and corrections are of course welcome--just leave a comment!}
+
+]
+
+note {Learning the details about this would not have happened without the help of the [active C++ community on SO](http://stackoverflow.com/questions/tagged/c%2b%2b?sort=votes%26pagesize=50).  That's where I spent most of my recreational programming time--instead of writing blog entries--in 2011.  Both asking and answering questions offers insights.  While some people seem to have a bit of what amounts to an "online game addiction", it's a case where their affliction can benefit you and the common good.  :P}

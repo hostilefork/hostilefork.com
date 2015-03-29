@@ -1,31 +1,35 @@
 Draem [
-    title: "DRAEM: Domain Specific Toolchain for Web Generation"
+    title: {DRAEM: Domain Specific Toolchain for Web Generation}
     tags: [rebol draem]
     slug: %draem
     date: 18-May-2014/5:41:02-4:00
 ]
 
-[image https://raw.githubusercontent.com/hostilefork/draem/master/draem-logo.png 640x360 "Draem"]
+image [https://raw.githubusercontent.com/hostilefork/draem/master/draem-logo.png 640x360 "Draem"]
 
-{**DRAEM** is a static website builder, which is along the lines of something like [Jekyll](http://jekyllrb.com/)...but using open source [Rebol 3](http://en.wikipedia.org/wiki/Rebol).  Blog entries (or pages) are written in a "dialect" of the language, so despite their customized appearance they have no parser of their own.  Rather, they embrace the carefully-chosen limits of the host system to create a [Domain-Specific Language](http://en.wikipedia.org/wiki/Domain-specific_language).}
+print << [
 
-{The tool is mostly notable for the reasons Rebol is notable.  This includes depending only on a *half-megabyte*, *zero-install*, *cross-platform* executable that can run on Linux, Android, HaikuOS, Windows, Mac, etc.}
+    {**DRAEM** is a static website builder, which is along the lines of something like [Jekyll](http://jekyllrb.com/)...but using open source [Rebol 3](http://en.wikipedia.org/wiki/Rebol).  Blog entries (or pages) are written in a "dialect" of the language, so despite their customized appearance they have no parser of their own.  Rather, they embrace the carefully-chosen limits of the host system to create a [Domain-Specific Language](http://en.wikipedia.org/wiki/Domain-specific_language).}
 
-{See [http://rebolsource.net](http://rebolsource.net)}
+    {The tool is mostly notable for the reasons Rebol is notable.  This includes depending only on a *half-megabyte*, *zero-install*, *cross-platform* executable that can run on Linux, Android, HaikuOS, Windows, Mac, etc.}
 
-{If you are the sort of person who just clicks "yes" to installing packages or DLLs without concern about size or dependencies, the biggest advantages of Draem will probably be off your radar.  But if you think these matters are worth considering, perhaps it's worth looking at to see how it works.  Rebol 3 was open sourced in December of 2012, and a compiled variant called [Red](http://www.red-lang.org/) is under heavy development.}
+    {See [http://rebolsource.net](http://rebolsource.net)}
 
-; [heading {Overview Video}]
+    {If you are the sort of person who just clicks "yes" to installing packages or DLLs without concern about size or dependencies, the biggest advantages of Draem will probably be off your radar.  But if you think these matters are worth considering, perhaps it's worth looking at to see how it works.  Rebol 3 was open sourced in December of 2012, and a compiled variant called [Red](http://www.red-lang.org/) is under heavy development.}
 
-; [youtube https://www.youtube.com/watch?v=GYZrcLlICNo 560x315]
+]
 
-[heading {History}]
+heading "History"
 
-{Draem was initially designed as a simple system for making a website which facilitated the easy authoring of a stylized "screenplay" format of blogging.  This was primarily for journaling [lucid dreams](http://en.wikipedia.org/wiki/Lucid_dream), biased toward a traditional "movie script" style.  It was expanded to support things like code samples, and has continued to be tuned and tweaked.}
+print << [
 
-{A question that could be asked is what value this tool has compared to Jekyll (or things like it).  Well...}
+    {Draem was initially designed as a simple system for making a website which facilitated the easy authoring of a stylized "screenplay" format of blogging.  This was primarily for journaling [lucid dreams](http://en.wikipedia.org/wiki/Lucid_dream), biased toward a traditional "movie script" style.  It was expanded to support things like code samples, and has continued to be tuned and tweaked.}
 
-[code rebol {
+    {A question that could be asked is what value this tool has compared to Jekyll (or things like it).  Well...}
+
+]
+
+source 'rebol {
 {...an important thing is that it has *more structure*, and a cleaner model for evolving}
 
 [you: <surprised> {Wait, it supports things like dialogue?}]
@@ -33,59 +37,65 @@ Draem [
 [me: {Yes, in fact that was one of the things it was originally designed for.}]
 
 [update 1-Jan-2014 {But it now powers hostilefork.com!}]
-}]
+}
 
-{A string standing on its own is interpreted in MarkDown format.  But if you put a series of symbolic tokens into a block, the system matches it against patterns.  Rebol's linguistically rich nature opens a lot of doors for coming up with interesting dialects...the current implementation only scratches the surface.}
+print << [
 
-{Some other web-generation systems have been made in Rebol, many of which take text files as input.  The reasoning is that having to express your thought in parseable "code" was too constraining as a markup language.  I wanted to challenge that belief, and try working with the site content as Rebol.  So far it has been quite natural.}
+    {A string standing on its own is interpreted in MarkDown format.  But if you put a series of symbolic tokens into a block, the system matches it against patterns.  Rebol's linguistically rich nature opens a lot of doors for coming up with interesting dialects...the current implementation only scratches the surface.}
 
-{The compromise I made was that strings would be allowed to use markdown, but this would be done on a paragraph level.  There would still be what I call a "Rebol backbone", used for any greater structure needed in a document.  As a result, it's fairly easy to write programs that do structural transformations on the data--a "metaprogramming" capability that you won't find in other tools.}
+    {Some other web-generation systems have been made in Rebol, many of which take text files as input.  The reasoning is that having to express your thought in parseable "code" was too constraining as a markup language.  I wanted to challenge that belief, and try working with the site content as Rebol.  So far it has been quite natural.}
 
-[heading {Format}]
+    {The compromise I made was that strings would be allowed to use markdown, but this would be done on a paragraph level.  There would still be what I call a "Rebol backbone", used for any greater structure needed in a document.  As a result, it's fairly easy to write programs that do structural transformations on the data--a "metaprogramming" capability that you won't find in other tools.}
 
-{The input format is a series of blocks, representing sequential sections of the dream dialogue.  The rule is that the behavior of any block that would accept a single item as legal is the same as omitting the block.  So if you can write:}
+]
 
-[text {[Foo]}]
+heading "Format"
 
-{Then you could have just written:}
+print {The input format is a series of blocks, representing sequential sections of the dream dialogue.  The rule is that the behavior of any block that would accept a single item as legal is the same as omitting the block.  So if you can write:}
 
-[text {Foo}]
+source 'text "[Foo]"
 
-{However, you cannot omit the block if something takes options.  So instead of writing:}
+print "Then you could have just written:"
 
-[text {[Foo FooOption]}]
+source 'text "Foo"
 
-{You *cannot* just write:}
+print {However, you cannot omit the block if something takes options.  So instead of writing:}
 
-[text {Foo FooOption}]
+source 'text "[Foo FooOption]"
 
-{Whitespace between items is ignored, per Rebol's rules.  So a series of items are presumed to be different sections.  So this would produce three separate "paragraphs", despite the lack of a newline:}
+print "You *cannot* just write:"
 
-[text {{One} {Two} {Three}}]
+source 'text "Foo FooOption"
 
-{Blocks can be used to group items in places where a single item would be expected.  So for instance, this is ia legitimate way of passing two "groups" to Foo:}
+print {Whitespace between items is ignored, per Rebol's rules.  So a series of items are presumed to be different sections.  So this would produce three separate "paragraphs", despite the lack of a newline:}
 
-[text {[Foo [{Baz} {Bar}] [{Mumble} {Frotz}]]}]
+source 'text "{One} {Two} {Three}"
 
-{This is applicable to cases like bulleted lists, where you might want to put multiple sections under a single bullet.  But most constructs do not require the blocks.}
+print {Blocks can be used to group items in places where a single item would be expected.  So for instance, this is ia legitimate way of passing two "groups" to Foo:}
 
+source 'text "[Foo [{Baz} {Bar}] [{Mumble} {Frotz}]]"
 
-[heading {Dialect Types}]
+print {This is applicable to cases like bulleted lists, where you might want to put multiple sections under a single bullet.  But most constructs do not require the blocks.}
 
-{In order to avoid having this information in more than one place, the dialect elements are described in the GitHub repository:}
+heading "Dialect Types"
 
-https://github.com/hostilefork/draem/blob/master/README.md
+print {In order to avoid having this information in more than one place, the dialect elements are described in the GitHub repository:}
 
+link https://github.com/hostilefork/draem/blob/master/README.md
 
-[heading {Future}]
+heading "Future"
 
-{Draem is more of an experiment than anything.  How far it will go is not known.  Other similar systems are being developed like [Lest: Low Entropy System for Templating](http://lest.iluminat.cz/).  Mission-wise, they are not that different...so Draem may wind up being a set of plug-ins for Lest eventually.}
+print << [
 
-{However, I am interested in seeing what kinds of tricks might be possible to do partial-page compilation.  An idea I had was that Draem pages might use parentheses for evaluations, such as:}
+    {Draem is more of an experiment than anything.  How far it will go is not known.  Other similar systems are being developed like [Lest: Low Entropy System for Templating](http://lest.iluminat.cz/).  Mission-wise, they are not that different...so Draem may wind up being a set of plug-ins for Lest eventually.}
 
-[code rebol {
+    {However, I am interested in seeing what kinds of tricks might be possible to do partial-page compilation.  An idea I had was that Draem pages might use parentheses for evaluations, such as:}
+
+]
+
+source 'rebol {
 [{The sum of 1 + 2 is} (1 + 2) {and can be calculated at build time.}]
 [{The user name is} (model/user) {and cannot.}]
-}]
+}
 
-{The thought I had would be that the model would be defined as a function throwing a specific error if you tried to use it at compile time.  The resulting partially-compiled template would then be evaluated on the server when requested, when the actual model was available.  It would be a neat trick!}
+print {The thought I had would be that the model would be defined as a function throwing a specific error if you tried to use it at compile time.  The resulting partially-compiled template would then be evaluated on the server when requested, when the actual model was available.  It would be a neat trick!}

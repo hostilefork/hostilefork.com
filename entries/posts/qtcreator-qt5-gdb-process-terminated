@@ -5,35 +5,51 @@ Draem [
     date: 29-May-2014/14:07:28-4:00
 ]
 
-{Aaaarrrrgggh.}
+print << [
 
-{So, I keep upgrading Qt Creator and finding yet another broken debugger scenario.  Don't get me wrong--I love me some Qt.  But I would be lying if I said this wasn't becoming an annoying pattern.  The otherwise very-tight Qt Creator just seems to have a blind spot w.r.t. making debugging work out of the box *(at least in my personal experience, now repeated several times)*.}
+    "Aaaarrrrgggh."
 
-[note {It's a bit of a morale-killer when Microsoft has a more turnkey environment for C++ UI dev than the open source community seems to be able to put together.  Such a shame when Qt Creator is so close!  [I've written about it before.](http://blog.hostilefork.com/qtcreator-debugger-no-locals-ubuntu/)}]
+    {So, I keep upgrading Qt Creator and finding yet another broken debugger scenario.  Don't get me wrong--I love me some Qt.  But I would be lying if I said this wasn't becoming an annoying pattern.  The otherwise very-tight Qt Creator just seems to have a blind spot w.r.t. making debugging work out of the box *(at least in my personal experience, now repeated several times)*.}
 
-{In this case I started from a fresh [kubuntu-14.04-desktop-i386.iso](http://www.kubuntu.org/news/kubuntu-14.04).  I installed Qt 5.3 and Qt Creator 3.1, and hit another wall.  Every time a breakpoint was hit, it would error out with GDB terminating.  I wasted a couple nights trying various dead ends--downgrading the debugger to Python 2, installing the alpha of Qt Creator, doing other kinds of [Cargo Cult science](http://en.wikipedia.org/wiki/Cargo_cult_science).}
+]
 
-{But there's no substitute for actually pinpointing the source of the problem.  Which I did.  As before I'll give you all the benefit of my experience, as it is.}
+note {It's a bit of a morale-killer when Microsoft has a more turnkey environment for C++ UI dev than the open source community seems to be able to put together.  Such a shame when Qt Creator is so close!  [I've written about it before.](http://blog.hostilefork.com/qtcreator-debugger-no-locals-ubuntu/)}
 
-[heading {Quick Intro}]
+print << [
 
-{Although in theory Qt works with more debuggers than GDB, in practice GDB is the main one you probably are using.  An interesting property of GDB is that when you build it, you can embed a Python 2 or Python 3 interpreter inside of it.  If you want to kick off some Pythonic thing, there's a "python" keyword you use in GDB.  So if you've got the Python 3 sort of Python, you might say:}
+    {In this case I started from a fresh [kubuntu-14.04-desktop-i386.iso](http://www.kubuntu.org/news/kubuntu-14.04).  I installed Qt 5.3 and Qt Creator 3.1, and hit another wall.  Every time a breakpoint was hit, it would error out with GDB terminating.  I wasted a couple nights trying various dead ends--downgrading the debugger to Python 2, installing the alpha of Qt Creator, doing other kinds of [Cargo Cult science](http://en.wikipedia.org/wiki/Cargo_cult_science).}
 
-[code python {
+    {But there's no substitute for actually pinpointing the source of the problem.  Which I did.  As before I'll give you all the benefit of my experience, as it is.}
+
+]
+
+heading "Quick Intro"
+
+print {Although in theory Qt works with more debuggers than GDB, in practice GDB is the main one you probably are using.  An interesting property of GDB is that when you build it, you can embed a Python 2 or Python 3 interpreter inside of it.  If you want to kick off some Pythonic thing, there's a "python" keyword you use in GDB.  So if you've got the Python 3 sort of Python, you might say:}
+
+source 'python {
 (gdb) python print("Look.  I'm a debugger, being scripted.")
-}]
+}
 
-{An additional piece of magic is that if you are running a Python script invoked via the GDB tool that has Python built into it, you can `import gdb` and get a `gdb` object.  Qt takes advantage of this with a set of scripts that it uses to automate the debugger.}
+print << [
 
-{You can edit those scripts if you feel like it.  If you accept the default installation options, you'll probably find them in `/opt/Qt/Tools/QtCreator/share/qtcreator/debugger`.  A couple of important files are `dumper.py` and `gdbbridge.py`.}
+    {An additional piece of magic is that if you are running a Python script invoked via the GDB tool that has Python built into it, you can `import gdb` and get a `gdb` object.  Qt takes advantage of this with a set of scripts that it uses to automate the debugger.}
 
-[heading {The problem}]
+    {You can edit those scripts if you feel like it.  If you accept the default installation options, you'll probably find them in `/opt/Qt/Tools/QtCreator/share/qtcreator/debugger`.  A couple of important files are `dumper.py` and `gdbbridge.py`.}
 
-{We all wish things "just worked" and that we didn't have to edit such files.  But in my case, I had to.  Because after digging and delving it turned out that Python was asking to read a ridiculous amount of memory, causing a crash.  The symptom was the debug log saying "virtual memory exhausted"... when the reality was that it was asking for a wacky number that the C of GDB interpreted as a negative number (and Python interpreted as a really big positive number).}
+]
 
-{The error you get in the debugger window (you can turn it on with Window->Views->Debugger Log) looks a bit something like this:}
+heading "The problem"
 
-[text {
+print << [
+
+    {We all wish things "just worked" and that we didn't have to edit such files.  But in my case, I had to.  Because after digging and delving it turned out that Python was asking to read a ridiculous amount of memory, causing a crash.  The symptom was the debug log saying "virtual memory exhausted"... when the reality was that it was asking for a wacky number that the C of GDB interpreted as a negative number (and Python interpreted as a really big positive number).}
+
+    {The error you get in the debugger window (you can turn it on with Window->Views->Debugger Log) looks a bit something like this:}
+
+]
+
+source 'text {
 >~"/build/buildd/gdb-7.7/gdb/utils.c:1073: internal-error: virtual memory exhausted.\nA problem internal to GDB has been detected,\nfurther debugging may prove unreliable.\nQuit this debugging session? "
 >~"(y or n) [answered Y; input not from terminal]\n"
 >~"/build/buildd/gdb-7.7/gdb/utils.c:1073: internal-error: virtual memory exhausted.\nA problem internal to GDB has been detected,\nfurther debugging may prove unreliable.\nCreate a core file of GDB? "
@@ -58,13 +74,17 @@ dQUEUE: FINISH DEBUGGER
 dNOTE: FINISH DEBUGGER
 dHANDLE RUNCONTROL FINISHED
 sDebugger finished.
-}]
+}
 
-{Not one to back down in the face of ridiculous errors, yes, I went in and debugged the debugger.  Okay, well, *sort of*.}
+print << [
 
-{The problem method is [`putQObjectNameValue`](https://github.com/qtproject/qt-creator/blob/252048ef01347d3061dcdfc8db54ec21c045d801/share/qtcreator/debugger/dumper.py#L940) in `DumperBase`.  Reprinted here for your enjoyment:}
+    {Not one to back down in the face of ridiculous errors, yes, I went in and debugged the debugger.  Okay, well, *sort of*.}
 
-[code python {
+    {The problem method is [`putQObjectNameValue`](https://github.com/qtproject/qt-creator/blob/252048ef01347d3061dcdfc8db54ec21c045d801/share/qtcreator/debugger/dumper.py#L940) in `DumperBase`.  Reprinted here for your enjoyment:}
+
+]
+
+source 'python {
 def putQObjectNameValue(self, value):
     try:
         intSize = self.intSize()
@@ -121,18 +141,22 @@ def putQObjectNameValue(self, value):
     except:
         #warn("NO QOBJECT: %s" % value.type)
         pass
-}]
+}
 
-{We see in there that it's possible to return `False` from this routine, or to read an amount of memory that is `2 * size`.  For reasons that I don't personally care to research any further than this, size is crazy when the member is `::staticMetaObject`.  Apparently this `byteArrayDataHelper` is to blame.}
+print << [
 
-{The last time I went into a workaround on this kind of thing, they up and fixed it and made my entry obsolete rather quickly.  So I'm going to hope they'll do that again.  In the meantime, I managed to get the debugger to not crash by returning False after putting this right before the call to `byteArrayDataHelper`:}
+    {We see in there that it's possible to return `False` from this routine, or to read an amount of memory that is `2 * size`.  For reasons that I don't personally care to research any further than this, size is crazy when the member is `::staticMetaObject`.  Apparently this `byteArrayDataHelper` is to blame.}
 
-[code python {
+    {The last time I went into a workaround on this kind of thing, they up and fixed it and made my entry obsolete rather quickly.  So I'm going to hope they'll do that again.  In the meantime, I managed to get the debugger to not crash by returning False after putting this right before the call to `byteArrayDataHelper`:}
+
+]
+
+source 'python {
 if objectName.find("::staticMetaObject") != -1:
     print("::staticMetaObject ignored http://blog.hostilefork.com/qtcreator-qt5-gdb-process-terminated/")
     return False
-}]
+}
 
-{Hope you weren't planning on dumping the staticMetaObject.  But so far, it's working for me...so maybe the patch will get you over the hump.  I've reported it as a bug on the Qt Creator Jira, so if you find this post because you have the same problem you'll be doing us all more of a favor by chiming in there vs. here:}
+print {Hope you weren't planning on dumping the staticMetaObject.  But so far, it's working for me...so maybe the patch will get you over the hump.  I've reported it as a bug on the Qt Creator Jira, so if you find this post because you have the same problem you'll be doing us all more of a favor by chiming in there vs. here:}
 
-    https://bugreports.qt-project.org/browse/QTCREATORBUG-12330
+link https://bugreports.qt-project.org/browse/QTCREATORBUG-12330

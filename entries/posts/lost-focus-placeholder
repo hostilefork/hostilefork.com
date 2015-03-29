@@ -6,62 +6,84 @@ Draem [
     old-url-prefix: %2007/11/25/
 ]
 
-{Programmers typically assume that a `MouseUp()` message won't happen unless they had previously received a `MouseDown()`... and that these signals will come in precise pairs.  Yet in almost every modern system that runs multiple applications at once, you will hit edge cases that send your program a `MouseUp()` when no `MouseDown()` ever happened--or two `MouseDown()` messages in a row.}
+print << [
 
-{There is no well-studied example of how to write your mouse handling code in a way that accounts for these cases.  As a consequence, merely task-switching while still in the middle of a mouse operation will send a lot of applications into unexpected conditions!  Many will crash or assert when you return... and those that don't crash often do something bizarre.  So I thought I would make a screencast of a prototype I made in 2002 which insulates programmers from these concerns.  Even if you're not a programmer and don't want to read the whole article about the implementation, you might think the feature itself is unique, so check it out!}
+    {Programmers typically assume that a `MouseUp()` message won't happen unless they had previously received a `MouseDown()`... and that these signals will come in precise pairs.  Yet in almost every modern system that runs multiple applications at once, you will hit edge cases that send your program a `MouseUp()` when no `MouseDown()` ever happened--or two `MouseDown()` messages in a row.}
 
-[note {I use alt-tab to take the focus away in mid-mouse stroke, because that was easy to choreograph.  But of course the technique is more compelling when an application in the background jumps forward and "steals" the focus.}]
-
-[youtube https://www.youtube.com/watch?v=LJdB1JQhtZA 560x315]
-
-{As you can see, my library took control of the mouse message pump and reduced the concerns of the programmer.  If a mouse gesture was interrupted somehow I didn't cancel the operation (nor did I just pretend the mouse button had been released and commit it).  Instead, *the library put the application into a suspended state with a placeholder icon at the last known mouse position*.  Clicking inside the placeholder restores your cursor to the previous coordinates and resumes the mouse operation, while pressing escape lets you abort.}
-
-[heading "Use Command objects that only run on MouseUp"]
-
-{In the past I've written about the importance of designing your program's command processor in such a way that [undo and redo operate consistently](http://blog.hostilefork.com/undo-single-user-event/).  One of the rules I mentioned was that your command processor shouldn't be modifying the user's document on `MouseDown()` or `MouseMove()`, but should accumulate the state in a Command object that is only submitted to your Undo/Redo queue when the `MouseUp()` is finally reached.}
-
-{The good news is that if you've done that part right, then most of the necessary support work for this feature is already done!}
-
-{A Command object not only makes things clearer for undo and redo—it also gives you a fantastic way of holding a mouse operation in "suspended animation".  The counterintuitive aspect is that pending commands must participate in the rendering process—since the document's state alone is not enough to draw the view.}
-
-[heading "Build on Drag&Drop APIs, not mouse messages"]
-
-{One issue that I really had to grapple with was how to retain some control of the mouse cursor even when it had left my application.  Sadly, running `SetCapture()` on Windows still means that the cursor will turn into the default arrow after the focus is lost.  The way I found to work around this on Windows was with the Drag&Drop APIs—which turned out to be "tighter" than the default mouse API.}
-
-{On Windows and other platforms, the Drag&Drop methods are precise analogues to the mouse messages we are familiar with:}
-
-[list
-
-    "`DragStart()` = `MouseDown()`"
-
-    "`DragOver()` = `MouseMove()`"
-
-    "`Drop()` = `MouseUp()`"
+    {There is no well-studied example of how to write your mouse handling code in a way that accounts for these cases.  As a consequence, merely task-switching while still in the middle of a mouse operation will send a lot of applications into unexpected conditions!  Many will crash or assert when you return... and those that don't crash often do something bizarre.  So I thought I would make a screencast of a prototype I made in 2002 which insulates programmers from these concerns.  Even if you're not a programmer and don't want to read the whole article about the implementation, you might think the feature itself is unique, so check it out!}
 
 ]
 
-more
+note {I use alt-tab to take the focus away in mid-mouse stroke, because that was easy to choreograph.  But of course the technique is more compelling when an application in the background jumps forward and "steals" the focus.}
 
-{To use Drag&Drop for all your mouse handling, you merely need to invent a data type that only your application understands.  If an object of that type is used, then it is an internal message and you should treat it as the corresponding ordinary mouse event.  That may sound like a convoluted way of doing things, but the way Drag&Drop is built into the operating system gives it fundamental powers you won't get from ordinary messages.}
+youtube [https://www.youtube.com/watch?v=LJdB1JQhtZA 560x315]
 
-{One limitation to consider is that while a drag is in progress, your program will not receive typed text input.  I considered this an acceptable loss--no mainstream application I can think of works that way.  Plus, any operation you can define by:}
+print {As you can see, my library took control of the mouse message pump and reduced the concerns of the programmer.  If a mouse gesture was interrupted somehow I didn't cancel the operation (nor did I just pretend the mouse button had been released and commit it).  Instead, *the library put the application into a suspended state with a placeholder icon at the last known mouse position*.  Clicking inside the placeholder restores your cursor to the previous coordinates and resumes the mouse operation, while pressing escape lets you abort.}
 
-[text "[Mouse Down] + typing + [Mouse Up]"]
+heading "Use Command objects that only run on MouseUp"
 
-{...can be transformed into an equivalent (and probably better) sequence of operations like:}
+print << [
 
-[text "[Mouse Down] + [Mouse Up] + typing + [ENTER]"]
+    {In the past I've written about the importance of designing your program's command processor in such a way that [undo and redo operate consistently](http://blog.hostilefork.com/undo-single-user-event/).  One of the rules I mentioned was that your command processor shouldn't be modifying the user's document on `MouseDown()` or `MouseMove()`, but should accumulate the state in a Command object that is only submitted to your Undo/Redo queue when the `MouseUp()` is finally reached.}
 
-{Do note that the keyboard can still *affect* mouse operations under the Drag&Drop API.  You can read the status of whether keys on the keyboard are pressed, most typically **Ctrl**, **Alt** and **Shift**.}
+    {The good news is that if you've done that part right, then most of the necessary support work for this feature is already done!}
 
-[heading "Jump the cursor back to its lost position"]
+    {A Command object not only makes things clearer for undo and redo—it also gives you a fantastic way of holding a mouse operation in "suspended animation".  The counterintuitive aspect is that pending commands must participate in the rendering process—since the document's state alone is not enough to draw the view.}
 
-{I wanted the placeholder icon to be a big target to hit, so it would stand out visually and be easy to click on.  But once the user clicks anywhere inside of the placeholder, their cursor should be jumped back to the last known position.  This means you need to save the coordinates of the cursor when the focus was lost--which isn't necessarily where you're drawing the exact center of the placeholder.}
+]
 
-{Though I talk about this in the video, you may have noticed that I clicked directly in the center of the icon.  The reason I did that rather than make the cursor "jump" is because I'm running this old program in a virtual machine, and [SetCursorPos() doesn't work in VMWare at the moment](https://communities.vmware.com/thread/189519)!  That's a bug which will hopefully be fixed, and until it is then VMWare users will just have to be a little more careful when they click the placeholder.}
+heading "Build on Drag&Drop APIs, not mouse messages"
 
-[heading "Final thoughts"]
+print << [
 
-{It may seem small in the scheme of things, but applications can suddenly lose focus for lots of random reasons (not just Alt-Tab!).  Losing one's in-progress work is always frustrating... drawing is the obvious case, but I get annoyed even if I am interrupted while merely making a selection of text!  Plus it can be nice to be able to interrupt yourself sometimes and trust that an application will let you resume what you were doing without penalty.}
+    {One issue that I really had to grapple with was how to retain some control of the mouse cursor even when it had left my application.  Sadly, running `SetCapture()` on Windows still means that the cursor will turn into the default arrow after the focus is lost.  The way I found to work around this on Windows was with the Drag&Drop APIs—which turned out to be "tighter" than the default mouse API.}
 
-{I hope this demonstration inspires someone—especially people who write application frameworks and operating systems—to implement this feature!}
+    {On Windows and other platforms, the Drag&Drop methods are precise analogues to the mouse messages we are familiar with:}
+
+]
+
+list [item << [
+
+        "`DragStart()` = `MouseDown()`"
+
+        "`DragOver()` = `MouseMove()`"
+
+        "`Drop()` = `MouseUp()`"
+
+    ]]
+
+print << [
+
+    {To use Drag&Drop for all your mouse handling, you merely need to invent a data type that only your application understands.  If an object of that type is used, then it is an internal message and you should treat it as the corresponding ordinary mouse event.  That may sound like a convoluted way of doing things, but the way Drag&Drop is built into the operating system gives it fundamental powers you won't get from ordinary messages.}
+
+    {One limitation to consider is that while a drag is in progress, your program will not receive typed text input.  I considered this an acceptable loss--no mainstream application I can think of works that way.  Plus, any operation you can define by:}
+
+]
+
+source 'text "[Mouse Down] + typing + [Mouse Up]"
+
+print {...can be transformed into an equivalent (and probably better) sequence of operations like:}
+
+source 'text "[Mouse Down] + [Mouse Up] + typing + [ENTER]"
+
+print {Do note that the keyboard can still *affect* mouse operations under the Drag&Drop API.  You can read the status of whether keys on the keyboard are pressed, most typically **Ctrl**, **Alt** and **Shift**.}
+
+heading "Jump the cursor back to its lost position"
+
+print << [
+
+    {I wanted the placeholder icon to be a big target to hit, so it would stand out visually and be easy to click on.  But once the user clicks anywhere inside of the placeholder, their cursor should be jumped back to the last known position.  This means you need to save the coordinates of the cursor when the focus was lost--which isn't necessarily where you're drawing the exact center of the placeholder.}
+
+    {Though I talk about this in the video, you may have noticed that I clicked directly in the center of the icon.  The reason I did that rather than make the cursor "jump" is because I'm running this old program in a virtual machine, and [SetCursorPos() doesn't work in VMWare at the moment](https://communities.vmware.com/thread/189519)!  That's a bug which will hopefully be fixed, and until it is then VMWare users will just have to be a little more careful when they click the placeholder.}
+
+]
+
+heading "Final thoughts"
+
+print << [
+
+    {It may seem small in the scheme of things, but applications can suddenly lose focus for lots of random reasons (not just Alt-Tab!).  Losing one's in-progress work is always frustrating... drawing is the obvious case, but I get annoyed even if I am interrupted while merely making a selection of text!  Plus it can be nice to be able to interrupt yourself sometimes and trust that an application will let you resume what you were doing without penalty.}
+
+    {I hope this demonstration inspires someone—especially people who write application frameworks and operating systems—to implement this feature!}
+
+]

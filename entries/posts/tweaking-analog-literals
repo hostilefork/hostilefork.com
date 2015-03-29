@@ -6,9 +6,9 @@ Draem [
     old-url-prefix: %2009/08/29/
 ]
 
-{Jeremy Friesner brought [this site about analog literals](http://www.eelis.net/C++/analogliterals.xhtml) to my attention.  It provides the long-needed ability to represent integer constants in C++ not as numbers (like 42) but rather as 1-D, 2-D, or 3-D shapes whose length, area, or volume correspond to the number's quantity.  So for instance:}
+print {Jeremy Friesner brought [this site about analog literals](http://www.eelis.net/C++/analogliterals.xhtml) to my attention.  It provides the long-needed ability to represent integer constants in C++ not as numbers (like 42) but rather as 1-D, 2-D, or 3-D shapes whose length, area, or volume correspond to the number's quantity.  So for instance:}
 
-[code cpp {
+source 'cpp {
 assert( ( o-------------o
           |L             \
           | L             \
@@ -27,43 +27,45 @@ assert( ( o-------------o
   !             !
   !             !
   o-------------o ).area * int(I-------------I) );
-}]
+}
 
-{That's great!  As the inventor of [Arecibo ASCII](http://uscii.hostilefork.com/encode/), I fully support this visual double-check with our intuitions about numbers!  What if aliens are trying to read our code, but don't know about our arbitrary choices of digits and numeric base??  This could bridge that important gap!  :P}
+print << [
 
-{But there's one nagging concern I have, which is that I don't think the 1-D numeric values are very intuitive.  Look at these examples from the site:}
+    {That's great!  As the inventor of [Arecibo ASCII](http://uscii.hostilefork.com/encode/), I fully support this visual double-check with our intuitions about numbers!  What if aliens are trying to read our code, but don't know about our arbitrary choices of digits and numeric base??  This could bridge that important gap!  :P}
 
-[code cpp {
+    {But there's one nagging concern I have, which is that I don't think the 1-D numeric values are very intuitive.  Look at these examples from the site:}
+
+]
+
+source 'cpp {
 assert( I-I == 0 );
 assert( I---I == 1 );
 assert( I-----I == 2 );
 assert( I-------I == 3 );
-}]
+}
 
-{I'd prefer it to more consistently depict the historic concept of zero, and be less arbitrary with the "2N+1" formula of dashes to implement value N.  So why not overload dereference and multiply, and define "II" to be the constant value zero?  This way you can get:}
+print {I'd prefer it to more consistently depict the historic concept of zero, and be less arbitrary with the "2N+1" formula of dashes to implement value N.  So why not overload dereference and multiply, and define "II" to be the constant value zero?  This way you can get:}
 
-[code cpp {
+source 'cpp {
 assert(II == 0);
 assert(I*I == 1);
 assert(I**I == 2);
 assert(I***I == 3);
-}]
+}
 
-{The implementation is relatively straightforward from the proposal.  But I went ahead and wrote it, and it is complete enough to give errors when compiling invalid literal specifications:}
+print {The implementation is relatively straightforward from the proposal.  But I went ahead and wrote it, and it is complete enough to give errors when compiling invalid literal specifications:}
 
-[code cpp {
+source 'cpp {
 int test1 (I); // compile error!
 int test2 (*I); // compile error!
 int test3 (I*); // compile error!
 int test4 (*I*I); // compile error!
 int test5 (I*I*); // compile error!
-}]
+}
 
-{I hope this makes it more practical for people to apply analog literals to real-world situations!  Source below...}
+print {I hope this makes it more practical for people to apply analog literals to real-world situations!  Source below...}
 
-more
-
-[code cpp {
+source 'cpp {
 #include <cassert>
 
 // Implementation for Tweaked 1-D Literal proposal
@@ -114,4 +116,4 @@ int main() {
 
    return 0;
 }
-}]
+}

@@ -1,45 +1,59 @@
 Draem [
-	title: "Handling Internal Errors (and Bad Requests) in Node"
-	tags: [javascript node.js]
-	slug: %error-handling-internal-badrequest-node
-	date: 21-Jul-2014/2:34:54-4:00
+    title: {Handling Internal Errors (and Bad Requests) in Node}
+    tags: [javascript node.js]
+    slug: %error-handling-internal-badrequest-node
+    date: 21-Jul-2014/2:34:54-4:00
 ]
 
-{JavaScript is *weird*, JavaScript `Error` objects are *weird*, and handling errors in Node.JS is *weird*.  My knowledge of the error-handling landscape evolved as I worked on the [Blackhighlighter](http://blackhighlighter.org) server in Node.  I'd make notes in the code about things I discovered, or raise points to come back and look at later.}
+print << [
 
-{Now that I get the basics of Node's landscape fairly well, I'm going back and looking at foundational documents like Joyent's [Error Handling in Node.js - Production Practices](https://www.joyent.com/developers/node/design/errors).  But I did want a place to put the information I'd found, while getting it out of the code.  *(See [Comments vs. Links on the Collaborative Web](http://blog.hostilefork.com/comments-vs-web-links-2014/) for details.)*}
+    {JavaScript is *weird*, JavaScript `Error` objects are *weird*, and handling errors in Node.JS is *weird*.  My knowledge of the error-handling landscape evolved as I worked on the [Blackhighlighter](http://blackhighlighter.org) server in Node.  I'd make notes in the code about things I discovered, or raise points to come back and look at later.}
 
-[heading {Error Stacks and Creation Locations}]
+    {Now that I get the basics of Node's landscape fairly well, I'm going back and looking at foundational documents like Joyent's [Error Handling in Node.js - Production Practices](https://www.joyent.com/developers/node/design/errors).  But I did want a place to put the information I'd found, while getting it out of the code.  *(See [Comments vs. Links on the Collaborative Web](http://blog.hostilefork.com/comments-vs-web-links-2014/) for details.)*}
 
-{The first thing to know about errors in JavaScript is that they shouldn't be strings.  This article lays out a number of details worth knowing:}
-
-http://www.devthought.com/2011/12/22/a-string-is-not-an-error/
-
-{A key here is that *"The fundamental benefit of Error objects is that they automatically keep track of where they were built and originated."*  Or rather--*they probably do*, but it's not in the specification.  Similarly, how they would expose that data (or if they would) [is not standardized either](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/Stack).}
-
-{Before we get into cracking open that black box of Error... I'll point out something perhaps of interest.  There is a wider vocabulary in the standard than just `Error`... you have [six more standard Error constructors](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error#Error_types):}
-
-[list
-    {**EvalError** - Creates an instance representing an error that occurs regarding the global function eval().}
-
-    {**RangeError** - Creates an instance representing an error that occurs when a numeric variable or parameter is outside of its valid range.}
-
-    {**ReferenceError** - Creates an instance representing an error that occurs when de-referencing an invalid reference.}
-
-    {**SyntaxError** - Creates an instance representing a syntax error that occurs while parsing code in eval().}
-
-    {**TypeError** - Creates an instance representing an error that occurs when a variable or parameter is not of a valid type.}
-
-    {**URIError** - Creates an instance representing an error that occurs when encodeURI() or decodeURl() are passed invalid parameters.}
 ]
 
-{Which is a curious point; that if you wanted to throw an error indicating something was out of range, you could use a `RangeError`.  It would record its source location like an Error would.  I'm not sure how often people re-use these errors--it might be more confusing than anything.}
+heading "Error Stacks and Creation Locations"
 
-{If you're going to make your own custom Error class that inherits from Error... there's as-of-yet no cross JavaScript implementation way of making sure your custom error has a stack trace in it.  If you browse around you might find a link to [stacktrace.js](https://github.com/stacktracejs/stacktrace.js/blob/master/stacktrace.js), which is a somewhat frightening way of achieving cross-browser stack trace printouts from an Error--or just wherever you happen to be at the code when you call it.  Not a "Stack API" per se.}
+print {The first thing to know about errors in JavaScript is that they shouldn't be strings.  This article lays out a number of details worth knowing:}
 
-{For code only intended to run in Node, however, you only have to worry about one JavaScript implementation -- V8.  And it has a [JavaScriptStackTraceApi](https://code.google.com/p/v8/wiki/JavaScriptStackTraceApi).  So your server-side code can take advantage of that.  However, if you do, be sure to make a note about it only working in Node/V8/Chrome!  So from within Node, you can get away with:}
+link http://www.devthought.com/2011/12/22/a-string-is-not-an-error/
 
-[code javascript {
+print << [
+
+    {A key here is that *"The fundamental benefit of Error objects is that they automatically keep track of where they were built and originated."*  Or rather--*they probably do*, but it's not in the specification.  Similarly, how they would expose that data (or if they would) [is not standardized either](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/Stack).}
+
+    {Before we get into cracking open that black box of Error... I'll point out something perhaps of interest.  There is a wider vocabulary in the standard than just `Error`... you have [six more standard Error constructors](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error#Error_types):}
+
+]
+
+list [item << [
+
+        {**EvalError** - Creates an instance representing an error that occurs regarding the global function eval().}
+
+        {**RangeError** - Creates an instance representing an error that occurs when a numeric variable or parameter is outside of its valid range.}
+
+        {**ReferenceError** - Creates an instance representing an error that occurs when de-referencing an invalid reference.}
+
+        {**SyntaxError** - Creates an instance representing a syntax error that occurs while parsing code in eval().}
+
+        {**TypeError** - Creates an instance representing an error that occurs when a variable or parameter is not of a valid type.}
+
+        {**URIError** - Creates an instance representing an error that occurs when encodeURI() or decodeURl() are passed invalid parameters.}
+
+    ]]
+
+print << [
+
+    {Which is a curious point; that if you wanted to throw an error indicating something was out of range, you could use a `RangeError`.  It would record its source location like an Error would.  I'm not sure how often people re-use these errors--it might be more confusing than anything.}
+
+    {If you're going to make your own custom Error class that inherits from Error... there's as-of-yet no cross JavaScript implementation way of making sure your custom error has a stack trace in it.  If you browse around you might find a link to [stacktrace.js](https://github.com/stacktracejs/stacktrace.js/blob/master/stacktrace.js), which is a somewhat frightening way of achieving cross-browser stack trace printouts from an Error--or just wherever you happen to be at the code when you call it.  Not a "Stack API" per se.}
+
+    {For code only intended to run in Node, however, you only have to worry about one JavaScript implementation -- V8.  And it has a [JavaScriptStackTraceApi](https://code.google.com/p/v8/wiki/JavaScriptStackTraceApi).  So your server-side code can take advantage of that.  However, if you do, be sure to make a note about it only working in Node/V8/Chrome!  So from within Node, you can get away with:}
+
+]
+
+source 'javascript {
 function ClientError (msg) {
     // http://stackoverflow.com/a/13294728/211160
 
@@ -58,46 +72,53 @@ function ClientError (msg) {
 
 ClientError.prototype.__proto__ = Error.prototype;
 ClientError.prototype.name = 'ClientError';
-}]
+}
 
-[note
-    {If I were following the "a string is not an error" article, the call to captureStackTrace would look like `Error.captureStackTrace(this, arguments.callee);`  That's designed to try and get "noise" off the stack by removing the immediate caller from the list (ClientError, in this case).  However, `arguments.callee` is not legal in "strict mode" for various reasons:}
+note [
 
+    print {If I were following the "a string is not an error" article, the call to captureStackTrace would look like `Error.captureStackTrace(this, arguments.callee);`  That's designed to try and get "noise" off the stack by removing the immediate caller from the list (ClientError, in this case).  However, `arguments.callee` is not legal in "strict mode" for various reasons:}
 
-        https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/arguments/callee
+    link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/arguments/callee
 
-    {So I just name the current top of stack explicitly, since we know it.  I'll point out that you still wind up with a bit of noise if you invoke the error as `throw ClientError(...)` instead of `throw new ClientError(...)` because of the recursive call protecting against that at the start of the function.}
+    print {So I just name the current top of stack explicitly, since we know it.  I'll point out that you still wind up with a bit of noise if you invoke the error as `throw ClientError(...)` instead of `throw new ClientError(...)` because of the recursive call protecting against that at the start of the function.}
+
 ]
 
-[heading {Node.JS Error callback policy}]
+heading "Node.JS Error callback policy"
 
-{The policy for Node.JS callbacks is to have the error be the first parameter to the callback.  This is often tested with an `if (err)` statement...with the assumption that anything that isn't false-valued was not an error, and it's ok to proceed.  But remember that these values all evaluate to false in conditional statements:}
+print {The policy for Node.JS callbacks is to have the error be the first parameter to the callback.  This is often tested with an `if (err)` statement...with the assumption that anything that isn't false-valued was not an error, and it's ok to proceed.  But remember that these values all evaluate to false in conditional statements:}
 
-[list
-    {`false`}
+list [item << [
 
-    {`null`}
+        "`false`"
 
-    {`undefined`}
+        "`null`"
 
-    {The empty string `''`}
+        "`undefined`"
 
-    {The number `0`}
+        "The empty string `''`"
 
-    {The number `NaN`}
+        "The number `0`"
+
+        "The number `NaN`"
+
+    ]]
+
+print << [
+
+    {But the convention is that you're [supposed to pass a `null`](http://docs.nodejitsu.com/articles/errors/what-are-the-error-conventions) to a callback if you mean it didn't succeed.  And you're supposed to pass an `Error`-derived object otherwise.}
+
+    {This raises the question of what to do if you have more than one error.  Can you pass an array of them?  It's not going to evaluate to false in conditional statements.  Still I side with the opinion that `err instanceof Error` should be true for any non-null `err` passed to a callback, and passing an array would be bad.}
+
+    {I couldn't find a canonical reference on that, except for a StackOverflow question where the accepted answer said it would be okay.  :-/  So I added my own reasoning and placed a bounty on it.  We'll see if that comes to any conclusion:}
+
 ]
 
-{But the convention is that you're [supposed to pass a `null`](http://docs.nodejitsu.com/articles/errors/what-are-the-error-conventions) to a callback if you mean it didn't succeed.  And you're supposed to pass an `Error`-derived object otherwise.}
+link http://stackoverflow.com/questions/8513703/node-js-convention-for-returning-multiple-errors-via-callback
 
-{This raises the question of what to do if you have more than one error.  Can you pass an array of them?  It's not going to evaluate to false in conditional statements.  Still I side with the opinion that `err instanceof Error` should be true for any non-null `err` passed to a callback, and passing an array would be bad.}
+print {But I said you could create a MultipleError like this:}
 
-{I couldn't find a canonical reference on that, except for a StackOverflow question where the accepted answer said it would be okay.  :-/  So I added my own reasoning and placed a bounty on it.  We'll see if that comes to any conclusion:}
-
-http://stackoverflow.com/questions/8513703/node-js-convention-for-returning-multiple-errors-via-callback
-
-{But I said you could create a MultipleError like this:}
-
-[code javascript {
+source 'javascript {
 function MultipleError (errs) {
     // http://stackoverflow.com/a/13294728/211160
 
@@ -119,43 +140,49 @@ MultipleError.prototype.name = 'MultipleError';
 MultipleError.prototype.toString = function () {
    return 'MultipleError: [\n\t' + this.errs.join(',\n\t') + '\n]';
 }
-}]
+}
 
-[heading {Processes, Web Servers, and Node}]
+heading "Processes, Web Servers, and Node"
 
-{In a traditional web system like Apache, there is a web server process that sits and listens for requests, which it filters and checks.  Some requests it can service itself with dedicated code.  But if a request matches a configuration setting saying it should be brokered to code external to the web server, then it dispatches the request to another operating-system-isolated process for handling.}
+print << [
 
-{If you're lucky *(such as by having a `mod_XXX` module for your language)*, then the server should often reuse a handler process instead of starting up a whole new one to satisfy each request.  If you're unlucky *(such as having to use the [common gateway interface](http://en.wikipedia.org/wiki/Common_Gateway_Interface)*, then you pay for the overhead of the launching a new process for every request.  Either way, you're always running external code in a process different from the server.}
+    {In a traditional web system like Apache, there is a web server process that sits and listens for requests, which it filters and checks.  Some requests it can service itself with dedicated code.  But if a request matches a configuration setting saying it should be brokered to code external to the web server, then it dispatches the request to another operating-system-isolated process for handling.}
 
-{The strategy for writing a web service in Node is different.  There's still conceptually a sort of "web server written in C++"...in the sense of the HTTP capabilities that are compiled into the node executable.  But that "web server" speaks JavaScript *inside of its own process* to whatever code you hand it.  If your code triggers an unhandled error, node stops running.}
+    {If you're lucky *(such as by having a `mod_XXX` module for your language)*, then the server should often reuse a handler process instead of starting up a whole new one to satisfy each request.  If you're unlucky *(such as having to use the [common gateway interface](http://en.wikipedia.org/wiki/Common_Gateway_Interface)*, then you pay for the overhead of the launching a new process for every request.  Either way, you're always running external code in a process different from the server.}
 
-[note
-    {It would be nice to add here a survey of how services like Nodejitsu/Heroku/etc. restart the Node process, and what their logic is.  Also to describe handling of infinite loops.}
+    {The strategy for writing a web service in Node is different.  There's still conceptually a sort of "web server written in C++"...in the sense of the HTTP capabilities that are compiled into the node executable.  But that "web server" speaks JavaScript *inside of its own process* to whatever code you hand it.  If your code triggers an unhandled error, node stops running.}
+
 ]
 
-{You can of course go "outside of node" and start some kind of health monitoring system to watch if the process goes down, and restart it.  But you'd instead presumably like to have any errors that get thrown be caught, and take the appropriate action, right?}
+note {It would be nice to add here a survey of how services like Nodejitsu/Heroku/etc. restart the Node process, and what their logic is.  Also to describe handling of infinite loops.}
 
-{But wait a minute; Node is single threaded and running in the reactor pattern, interspersing the processing of various requests all at once.  *How do you know which one threw the error?*  I wasn't the first person to ask that:}
+print << [
 
-http://stackoverflow.com/questions/5816436/error-handling-in-asynchronous-node-js-calls
+    {You can of course go "outside of node" and start some kind of health monitoring system to watch if the process goes down, and restart it.  But you'd instead presumably like to have any errors that get thrown be caught, and take the appropriate action, right?}
 
-{The long story short is that this problem was addressed with a new feature added to Node, called [Domains](http://nodejs.org/api/domain.html):}
+    {But wait a minute; Node is single threaded and running in the reactor pattern, interspersing the processing of various requests all at once.  *How do you know which one threw the error?*  I wasn't the first person to ask that:}
 
-[quote
-    {Domains provide a way to handle multiple different IO operations as a single group. If any of the event emitters or callbacks registered to a domain emit an error event, or throw an error, then the domain object will be notified, rather than losing the context of the error in the process.on('uncaughtException') handler, or causing the program to exit immediately with an error code.}
 ]
 
-[note
-    {As this article is research to follow-up on questions and notes in my code, [I've added a GitHub Issue](https://github.com/hostilefork/blackhighlighter.org/issues/3) for using these "Domains" in the blackhighlighter.org demo.}
+link http://stackoverflow.com/questions/5816436/error-handling-in-asynchronous-node-js-calls
+
+print {The long story short is that this problem was addressed with a new feature added to Node, called [Domains](http://nodejs.org/api/domain.html):}
+
+quote {Domains provide a way to handle multiple different IO operations as a single group. If any of the event emitters or callbacks registered to a domain emit an error event, or throw an error, then the domain object will be notified, rather than losing the context of the error in the process.on('uncaughtException') handler, or causing the program to exit immediately with an error code.}
+
+note {As this article is research to follow-up on questions and notes in my code, [I've added a GitHub Issue](https://github.com/hostilefork/blackhighlighter.org/issues/3) for using these "Domains" in the blackhighlighter.org demo.}
+
+heading "ClientError vs ServerError vs. Error"
+
+print << [
+
+    {Regardless of whether an error is thrown and caught or simply returned, you have to distinguish things like whether to return a [5xx Server Error](http://en.wikipedia.org/wiki/List_of_HTTP_status_codes#5xx_Server_Error) or a [4xx Client Error](http://en.wikipedia.org/wiki/List_of_HTTP_status_codes#4xx_Client_Error).}
+
+    {My first take at responding to a JSON API was simple.  I made a ClientError subclass of Error, and when a module wanted to raise an error that was due to poorly formatted input that's what it returned.  An `Error` was returned as "500 Internal Server Error", and `ClientError` as "400 Client Request Error".  The JSON that I sent back had the stringification of the error in an `error:` field:}
+
 ]
 
-[heading {ClientError vs ServerError vs. Error}]
-
-{Regardless of whether an error is thrown and caught or simply returned, you have to distinguish things like whether to return a [5xx Server Error](http://en.wikipedia.org/wiki/List_of_HTTP_status_codes#5xx_Server_Error) or a [4xx Client Error](http://en.wikipedia.org/wiki/List_of_HTTP_status_codes#4xx_Client_Error).}
-
-{My first take at responding to a JSON API was simple.  I made a ClientError subclass of Error, and when a module wanted to raise an error that was due to poorly formatted input that's what it returned.  An `Error` was returned as "500 Internal Server Error", and `ClientError` as "400 Client Request Error".  The JSON that I sent back had the stringification of the error in an `error:` field:}
-
-[code javascript {
+source 'javascript {
 function resSendJsonForErr (res, err) {
     if (!err) {
         throw Error("resSendJsonForErr called without an error parameter");
@@ -176,10 +203,10 @@ function resSendJsonForErr (res, err) {
         res.json(500, { error: err.toString() });
     }
 }
-}]
+}
 
-{That didn't provide the granularity of being able to say what sub-error class it was; which would be more work.  However, I found a module that makes it easier to define your own error subclasses with an embedded error code:}
+print {That didn't provide the granularity of being able to say what sub-error class it was; which would be more work.  However, I found a module that makes it easier to define your own error subclasses with an embedded error code:}
 
-https://github.com/jayyvis/extend-error
+link https://github.com/jayyvis/extend-error
 
-{A string is still a fairly narrow window through which to return an error to a client; so I'll be reviewing the better ways of doing it and update this article as I find more.}
+print {A string is still a fairly narrow window through which to return an error to a client; so I'll be reviewing the better ways of doing it and update this article as I find more.}

@@ -1,32 +1,40 @@
 Draem [
-    title: {Setting up an Ubuntu Cloud Server}
+    title: "Setting up an Ubuntu Cloud Server"
     tags: [linux]
     slug: %setting-up-ubuntu-cloud-server
     date: 26-Apr-2014/13:05:33-4:00
 ]
 
-{So I thought I'd scribble down some notes about setting up an Ubuntu-based cloud server.  I've had one running for quite some time, that [Eric Shalov](http://www.ericshalov.com) walked me through setting up.  And it's been largely reliable, so I'm repeating some of the steps now that I need to redeploy.}
+print {So I thought I'd scribble down some notes about setting up an Ubuntu-based cloud server.  I've had one running for quite some time, that [Eric Shalov](http://www.ericshalov.com) walked me through setting up.  And it's been largely reliable, so I'm repeating some of the steps now that I need to redeploy.}
 
-[heading {Add A Non-Root User}]
+heading "Add A Non-Root User"
 
-{Most people know that you don't want to be running as root all the time.  It means if you slip up you might delete important system files because the machine "assumes you know what you're doing".  Running as a less-privileged user protects you, such that you will need to override the protection if you are sure you need to.}
+print << [
 
-{So the first thing to do is to make a user account that has can escalate to root privileges, while not using them by default.  The easiest way to [make such an account](http://askubuntu.com/questions/70236/how-can-i-create-an-administrator-user-from-the-command-line) from the command line is:}
+    {Most people know that you don't want to be running as root all the time.  It means if you slip up you might delete important system files because the machine "assumes you know what you're doing".  Running as a less-privileged user protects you, such that you will need to override the protection if you are sure you need to.}
 
-[text {adduser <username> sudo}]
+    {So the first thing to do is to make a user account that has can escalate to root privileges, while not using them by default.  The easiest way to [make such an account](http://askubuntu.com/questions/70236/how-can-i-create-an-administrator-user-from-the-command-line) from the command line is:}
 
-{Next thing to do is to try logging into your Ubuntu machine and make sure you can run sudo with that account.  Be sure you can!}
+]
 
-[heading {To disable root logins, or not?}]
+source 'text "adduser <username> sudo"
 
-{It's pretty much conventional wisdom that it's very important to disable the ability to log in directly as root.  I'm personally a little skeptical if it's absoutely necessary.  One can reasonably ask what security hole disabling the root account from logging is plugging...given that we've created another account with effectively the same permissions that *can* log in.}
+print {Next thing to do is to try logging into your Ubuntu machine and make sure you can run sudo with that account.  Be sure you can!}
 
-{One argument might say that there's a helpful level of obscurity from hackers.  They might try to log in as root and guess the password...while knowing *which specific account name* on your machine has admin rights can be trickier.  I'm unsure how much protection this single step offers.  The better argument is probably just breaking you of the habit of ever logging in as root "because it seems convenient", then forgetting you did that and shooting yourself in the foot.}
+heading "To disable root logins, or not?"
 
-{One annoying consideration is that disabling root logins also creates a hassle if you want to use something like [ExpanDrive](http://www.expandrive.com/) to edit files with root permissions.  There is [no protocol in SFTP to run a "sudo" operation](http://www.expandrive.com/support#question-sudo), so if you can't login as root you're just going to have to log in and edit files with VIM in the terminal or something.}
+print << [
 
-{Regardless, if you don't want to be considered a security noob, you should disable it.  To do so, you need to [edit `/etc/ssh/sshd_config`](http://askubuntu.com/questions/27559/how-do-i-disable-remote-ssh-login-as-root-from-a-server/27561#27561):}
+    {It's pretty much conventional wisdom that it's very important to disable the ability to log in directly as root.  I'm personally a little skeptical if it's absoutely necessary.  One can reasonably ask what security hole disabling the root account from logging is plugging...given that we've created another account with effectively the same permissions that *can* log in.}
 
-[text {PermitRootLogin no}]
+    {One argument might say that there's a helpful level of obscurity from hackers.  They might try to log in as root and guess the password...while knowing *which specific account name* on your machine has admin rights can be trickier.  I'm unsure how much protection this single step offers.  The better argument is probably just breaking you of the habit of ever logging in as root "because it seems convenient", then forgetting you did that and shooting yourself in the foot.}
 
-[note {This article is just a stub, a place to put notes on things I do.  I went through the steps in ["What can be done to Secure Ubuntu Server"](http://askubuntu.com/questions/146775/what-can-be-done-to-secure-ubuntu-server) also, and I'll repeat my notes on what worked and didn't work, and what gave false alarms when I get to it.}]
+    {One annoying consideration is that disabling root logins also creates a hassle if you want to use something like [ExpanDrive](http://www.expandrive.com/) to edit files with root permissions.  There is [no protocol in SFTP to run a "sudo" operation](http://www.expandrive.com/support#question-sudo), so if you can't login as root you're just going to have to log in and edit files with VIM in the terminal or something.}
+
+    {Regardless, if you don't want to be considered a security noob, you should disable it.  To do so, you need to [edit `/etc/ssh/sshd_config`](http://askubuntu.com/questions/27559/how-do-i-disable-remote-ssh-login-as-root-from-a-server/27561#27561):}
+
+]
+
+source 'text "PermitRootLogin no"
+
+note {This article is just a stub, a place to put notes on things I do.  I went through the steps in ["What can be done to Secure Ubuntu Server"](http://askubuntu.com/questions/146775/what-can-be-done-to-secure-ubuntu-server) also, and I'll repeat my notes on what worked and didn't work, and what gave false alarms when I get to it.}

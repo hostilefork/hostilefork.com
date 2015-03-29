@@ -6,92 +6,112 @@ Draem [
     old-url-prefix: %2009/12/24/
 ]
 
-{I came across an article in Wikipedia about [Dudeney numbers](http://en.wikipedia.org/wiki/Dudeney_number).  These are numbers whose digit sum add up to their cube root:}
+print {I came across an article in Wikipedia about [Dudeney numbers](http://en.wikipedia.org/wiki/Dudeney_number).  These are numbers whose digit sum add up to their cube root:}
 
-[text {
+source 'text {
     1 =  1 x  1 x  1   ;   1 = 1
   512 =  8 x  8 x  8   ;   8 = 5 + 1 + 2
  4913 = 17 x 17 x 17   ;  17 = 4 + 9 + 1 + 3
  5832 = 18 x 18 x 18   ;  18 = 5 + 8 + 3 + 2
 17576 = 26 x 26 x 26   ;  26 = 1 + 7 + 5 + 7 + 6
 19683 = 27 x 27 x 27   ;  27 = 1 + 9 + 6 + 8 + 3
-}]
+}
 
-{The wiki page went on to proclaim that those are the *only* six such numbers.  Somebody on the talk page asked where the proof was.}
+print << [
 
-{I poked on Google and didn't find anything, so I wondered if I could just prove it myself.  Here's what I came up with off the cuff.  Perhaps others would find it interesting.}
+    {The wiki page went on to proclaim that those are the *only* six such numbers.  Somebody on the talk page asked where the proof was.}
 
-more
+    {I poked on Google and didn't find anything, so I wondered if I could just prove it myself.  Here's what I came up with off the cuff.  Perhaps others would find it interesting.}
 
-[heading "Bounding From Above"]
-
-{Let us define `DigitCount` to be the number of decimal digits in a value, e.g.}
-
-[text {
-DigitCount(132) = 3
-DigitCount(9999) = 4
-}]
-
-{Then let us define `DigitSum` to be the sum of the values of digits in the decimal representation of a number.  So for instance:}
-
-[text {
-DigitSum(132) = 1 + 3 + 2 = 6
-DigitSum(9999) = 9 + 9 + 9 + 9 = 36
-}]
-
-{We can see that for any n-digit number, the largest possible digit sum is the case where all those digits are 9.  To put this a little more formally:}
-
-[text "DigitSum(value) <= 9 * DigitCount(value)"]
-
-{Another interesting property is that an `n`-digit number will have *at most* as many digits as the cube of a 1 followed by `n` zeroes.  (So for instance 1000<sup>3</sup> will always have a greater or equal number of digits than 999<sup>3</sup>.)}
-
-{Now let's put that together with the fact that if you cube a 1 followed by `n` zeroes then it will have `3 * n + 1` digits:}
-
-[text "DigitCount(value<sup>3</sup>) <= 3 * DigitCount(value) + 1"]
-
-{One last thing we need is a mathematical way of expressing a maximum bound on the number of digits, and that comes from the base 10 logarithm:}
-
-[text "DigitCount(value) <= log(value) + 1"]
-
-[heading "Limiting The Search Space"]
-
-{In this case, I want to show that once `value` becomes a certain size, even a generous overestimate of what possible value DigitSum(value<sup>3</sup>) could have is going to be less than `value` (hence not equal, and not meeting the requirement to be a Dudeney number).}
- 
-{So let's apply the bounds.  Since we're working with <= and not = it's okay for me to substitute any expression which is known to be *larger or equal to* the previous value... the inequality will still hold true.  So we know DigitSum(value<sup>3</sup>):}
-
-[list
-    {<= 9 * DigitCount(value<sup>3</sup>)} 
-    {<= 9 * (3 * DigitCount(value) + 1)}
-    {<= 9 + 27 * DigitCount(value)}
-    {<= 9 + 27 * (log(value) + 1)}
-    {<= 36 + 27 * log(value)}
 ]
 
-[note {Remember that we are looking for Dudeney numbers where `value` = DigitSum(value<sup>3</sup>)}]
+heading "Bounding From Above"
 
-{Let's mutate this into the question "find a boundary above which `value` must always be greater than DigitSum(value<sup>3</sup>)".  It would be nice to find a minimal boundary, but any boundary is better than nothing.  Using our simple case we look to find where:}
+print {Let us define `DigitCount` to be the number of decimal digits in a value, e.g.}
 
-[text "value > 36 + 27 * log(value)"]
+source 'text {
+DigitCount(132) = 3
+DigitCount(9999) = 4
+}
 
-"Wolfram Alpha is here to help with this:"
+print {Then let us define `DigitSum` to be the sum of the values of digits in the decimal representation of a number.  So for instance:}
 
-[http://www.wolframalpha.com/input/?i=%2836+++27+*+log%28x%29%29+-+x+from+1+to+100&a=*FunClash.log-_*Log10.Log- "Wolfram Alpha Query"]
+source 'text {
+DigitSum(132) = 1 + 3 + 2 = 6
+DigitSum(9999) = 9 + 9 + 9 + 9 = 36
+}
 
-{We just look for where the crossover is in this plot:}
+print {We can see that for any n-digit number, the largest possible digit sum is the case where all those digits are 9.  To put this a little more formally:}
 
-[image http://hostilefork.com/media/blog/six-dudeney-numbers-proof/dudeney-equation.gif 337x33 "Dudeney Equation"]
+source 'text "DigitSum(value) <= 9 * DigitCount(value)"
 
-[image http://hostilefork.com/media/blog/six-dudeney-numbers-proof/dudeney-graph.gif 300x176 "Dudeney Graph"]
+print << [
 
-{88 is the last number for which the right hand side is bigger than the left, and from then on we know that `log(value)`--even multiplied by a constant and added to another constant--will not have the possibility of catching up with `value` again.}
+    {Another interesting property is that an `n`-digit number will have *at most* as many digits as the cube of a 1 followed by `n` zeroes.  (So for instance 1000<sup>3</sup> will always have a greater or equal number of digits than 999<sup>3</sup>.)}
 
-[heading "Brute Force The Remaining Possibilities"]
+    {Now let's put that together with the fact that if you cube a 1 followed by `n` zeroes then it will have `3 * n + 1` digits:}
 
-{89 is probably not the best bound we could find.  But it didn't need any advanced math knowledge to get to.  Now the only remaining thing to do is let the computer pick up the slack and try from 1 to 88.  If the claim is true, we should only find those six numbers.}
+]
 
-{Easy program to write in any programming language.  But I'll use Rebol just to show how nicely it can format the output for us without too much overhead:}
+source 'text {DigitCount(value<sup>3</sup>) <= 3 * DigitCount(value) + 1}
 
-[code rebol {
+print {One last thing we need is a mathematical way of expressing a maximum bound on the number of digits, and that comes from the base 10 logarithm:}
+
+source 'text "DigitCount(value) <= log(value) + 1"
+
+heading "Limiting The Search Space"
+
+print << [
+
+    {In this case, I want to show that once `value` becomes a certain size, even a generous overestimate of what possible value DigitSum(value<sup>3</sup>) could have is going to be less than `value` (hence not equal, and not meeting the requirement to be a Dudeney number).}
+
+    {So let's apply the bounds.  Since we're working with <= and not = it's okay for me to substitute any expression which is known to be *larger or equal to* the previous value... the inequality will still hold true.  So we know DigitSum(value<sup>3</sup>):}
+
+]
+
+list [item << [
+
+        "<= 9 * DigitCount(value<sup>3</sup>)"
+
+        "<= 9 * (3 * DigitCount(value) + 1)"
+
+        "<= 9 + 27 * DigitCount(value)"
+
+        "<= 9 + 27 * (log(value) + 1)"
+
+        "<= 36 + 27 * log(value)"
+
+    ]]
+
+note {Remember that we are looking for Dudeney numbers where `value` = DigitSum(value<sup>3</sup>)}
+
+print {Let's mutate this into the question "find a boundary above which `value` must always be greater than DigitSum(value<sup>3</sup>)".  It would be nice to find a minimal boundary, but any boundary is better than nothing.  Using our simple case we look to find where:}
+
+source 'text "value > 36 + 27 * log(value)"
+
+print "Wolfram Alpha is here to help with this:"
+
+link [http://www.wolframalpha.com/input/?i=%2836+++27+*+log%28x%29%29+-+x+from+1+to+100&a=*FunClash.log-_*Log10.Log- "Wolfram Alpha Query"]
+
+print {We just look for where the crossover is in this plot:}
+
+image [http://hostilefork.com/media/blog/six-dudeney-numbers-proof/dudeney-equation.gif 337x33 "Dudeney Equation"]
+
+image [http://hostilefork.com/media/blog/six-dudeney-numbers-proof/dudeney-graph.gif 300x176 "Dudeney Graph"]
+
+print {88 is the last number for which the right hand side is bigger than the left, and from then on we know that `log(value)`--even multiplied by a constant and added to another constant--will not have the possibility of catching up with `value` again.}
+
+heading "Brute Force The Remaining Possibilities"
+
+print << [
+
+    {89 is probably not the best bound we could find.  But it didn't need any advanced math knowledge to get to.  Now the only remaining thing to do is let the computer pick up the slack and try from 1 to 88.  If the claim is true, we should only find those six numbers.}
+
+    {Easy program to write in any programming language.  But I'll use Rebol just to show how nicely it can format the output for us without too much overhead:}
+
+]
+
+source 'rebol {
 ; This generates a block of integers containing the decimal
 ; digits of an integer's absolute value, e.g.
 ;    >> make-digit-block 123
@@ -148,11 +168,11 @@ for value 1 88 1 [
         ]
     ]
 ]
-}]
+}
 
-"The output of the program is:"
+print "The output of the program is:"
 
-[code rebol {
+source 'rebol {
 [1 = 1 * 1 * 1 and 1 = 1]
 
 [512 = 8 * 8 * 8 and 8 = 5 + 1 + 2]
@@ -164,10 +184,14 @@ for value 1 88 1 [
 [17576 = 26 * 26 * 26 and 26 = 1 + 7 + 5 + 7 + 6]
 
 [19683 = 27 * 27 * 27 and 27 = 1 + 9 + 6 + 8 + 3]
-}]
+}
 
-"That's it!"
+print << [
 
-{Notice how Rebol lets us build a symbolic structure to represent the sums and products.  That structure can be reflected, evaluated, and "molded" into output.  It actually builds blocks of symbols like `[4 + 9 + 1 + 3]`.  Then it "evals" it (using `reduce`) to get back a single-element list `[26]`.  Finally it picks the first and only item out of that block to get the result as a value.}
+    "That's it!"
 
-{Pretty nifty, eh?  And isn't it much more *natural* looking than Lisp, with all those parentheses and `CAR` and `CDR`?}
+    {Notice how Rebol lets us build a symbolic structure to represent the sums and products.  That structure can be reflected, evaluated, and "molded" into output.  It actually builds blocks of symbols like `[4 + 9 + 1 + 3]`.  Then it "evals" it (using `reduce`) to get back a single-element list `[26]`.  Finally it picks the first and only item out of that block to get the result as a value.}
+
+    {Pretty nifty, eh?  And isn't it much more *natural* looking than Lisp, with all those parentheses and `CAR` and `CDR`?}
+
+]

@@ -6,30 +6,46 @@ Draem [
     old-url-prefix: %2011/06/17/
 ]
 
-{Over the years I have come a long way toward a close philosophical alignment with the Free Software movement.  Yet I'll shamefully admit that my two computers are an iMac running OS/X and a Acer running Windows 7.  Of course, nearly all of my projects are undertaken in Linux virtual machines which I fire up in the host environment.  I just didn't want to cope with issues of finding drivers for the proprietary hardware of machines that were already "working".}
+print << [
 
-{This week I took one more token step toward a free software stack, by migrating from proprietary-ol' VMWare over into open-source VirtualBox.  Although they use different virtual disk formats -- [VMDK vs. VDI](http://superuser.com/questions/5114/is-there-any-performance-difference-between-the-vmdk-and-vdi-virtual-disk-format) -- it is possible to convert between them using a free tool, just like this:}
+    {Over the years I have come a long way toward a close philosophical alignment with the Free Software movement.  Yet I'll shamefully admit that my two computers are an iMac running OS/X and a Acer running Windows 7.  Of course, nearly all of my projects are undertaken in Linux virtual machines which I fire up in the host environment.  I just didn't want to cope with issues of finding drivers for the proprietary hardware of machines that were already "working".}
 
-[code {
+    {This week I took one more token step toward a free software stack, by migrating from proprietary-ol' VMWare over into open-source VirtualBox.  Although they use different virtual disk formats -- [VMDK vs. VDI](http://superuser.com/questions/5114/is-there-any-performance-difference-between-the-vmdk-and-vdi-virtual-disk-format) -- it is possible to convert between them using a free tool, just like this:}
+
+]
+
+source {
 VBoxManage clonehd image.vmdk image.vdi --format VDI
-}]
+}
 
-{Yet the format of the virtual disk file is a minor hurdle in the scheme of things.  The real problem with switching from one virtualization system to another is that *all* the "virtual hardware" changes.  You basically have a whole new video card, processor, BIOS, sound device, keyboard, ethernet interface--*everything* changes.  There can be problems booting after the switch **if** the operating system tailored the installation for only the hardware you had at the moment you ran the setup.}
+print << [
 
-{Fortunately modern operating systems were designed to roll with such punches.  Manufacturers and users alike will pull parts out of the computer and put new ones in.  So there's enough of a "lowest common denominator" lingo that even super-futuristic graphics cards can go into a 640x480 mode long enough to let you see the dialog boxes for installing a smarter driver designed for it.  My Linux installs came through just fine.}
+    {Yet the format of the virtual disk file is a minor hurdle in the scheme of things.  The real problem with switching from one virtualization system to another is that *all* the "virtual hardware" changes.  You basically have a whole new video card, processor, BIOS, sound device, keyboard, ethernet interface--*everything* changes.  There can be problems booting after the switch **if** the operating system tailored the installation for only the hardware you had at the moment you ran the setup.}
 
-{But I keep a VM for Windows XP too, that I pull out in those circumstances when I need such a thing.  Predictably...Windows had some esoteric trouble on VirtualBox with **agp440.sys** and **intelppm.sys**.  A helpful article I found suggested to essentially [delete them and it starts working](http://rachaelandtom.info/content/migrating-vmware-suns-virtual-box).  I did a little reading and agp440.sys is related to a deprecated standard called the [Accelerated Graphics Port](http://en.wikipedia.org/wiki/Accelerated_Graphics_Port); it seems that removing it does not seem to prevent the Virtual Machine from having accelerated 3D services.  intelppm.sys is related to power management and turns off the processor if the CPU is effectively idle, so it is likely superfluous to a virtual machine.}
+    {Fortunately modern operating systems were designed to roll with such punches.  Manufacturers and users alike will pull parts out of the computer and put new ones in.  So there's enough of a "lowest common denominator" lingo that even super-futuristic graphics cards can go into a 640x480 mode long enough to let you see the dialog boxes for installing a smarter driver designed for it.  My Linux installs came through just fine.}
 
-[note {I did have to turn on the VirtualBox setting for enabling "'IO APIC" to appease **mup.sys** but did not see the CPU utilization bug mentioned in [Ticket #638](https://www.virtualbox.org/ticket/638).  So I decided not to follow the convoluted process of using SysPrep to rewire things so that I could turn that check box off.}]
+    {But I keep a VM for Windows XP too, that I pull out in those circumstances when I need such a thing.  Predictably...Windows had some esoteric trouble on VirtualBox with **agp440.sys** and **intelppm.sys**.  A helpful article I found suggested to essentially [delete them and it starts working](http://rachaelandtom.info/content/migrating-vmware-suns-virtual-box).  I did a little reading and agp440.sys is related to a deprecated standard called the [Accelerated Graphics Port](http://en.wikipedia.org/wiki/Accelerated_Graphics_Port); it seems that removing it does not seem to prevent the Virtual Machine from having accelerated 3D services.  intelppm.sys is related to power management and turns off the processor if the CPU is effectively idle, so it is likely superfluous to a virtual machine.}
 
-{So after a couple hours of tinkering, my Windows VM came up under VirtualBox...though it gave me a warning.  My hardware had changed sufficiently that its "Genuine Windows" status was invalidated.  It told me I would have to activate it again within 3 days.}
+]
 
-{**"Or what?"**, you may ask.}
+note {I did have to turn on the VirtualBox setting for enabling "'IO APIC" to appease **mup.sys** but did not see the CPU utilization bug mentioned in [Ticket #638](https://www.virtualbox.org/ticket/638).  So I decided not to follow the convoluted process of using SysPrep to rewire things so that I could turn that check box off.}
 
-{In this case the "or what" is "we won't let you into your system".  You type in your password and it announces that you'll be going into the activation process right now, else no soup for you.  It didn't even give me the 3 days it claimed; in the course of less than 24 hours it decided to jump me straight to OS death row.}
+print << [
 
-[note {A long way to go, just to harass users of an operating system the company [DOES NOT EVEN SELL ANYMORE](http://en.wikipedia.org/wiki/Windows_XP#Support_lifecycle).}]
+    {So after a couple hours of tinkering, my Windows VM came up under VirtualBox...though it gave me a warning.  My hardware had changed sufficiently that its "Genuine Windows" status was invalidated.  It told me I would have to activate it again within 3 days.}
 
-{My one copy of XP is very old.  The wily holographic disk has the orange license key sticker stuck directly on it.  I've used it on several computers, all of which basically either died and got thrown away...or were formatted with Linux and given away to charitable causes sans any of my personal info.  Yet I don't know how many times I can push this magic "activate" button before it decides to say no.  Plus I hadn't even installed the VirtualBox tools that let Windows magically embrace things like integrating the mouse pointer with the host...what if I activated, then installed those, and it decided it was a new computer all over again?}
+    {**"Or what?"**, you may ask.}
 
-{As it happens, I restarted in Safe Mode and it decided to let me in.  I installed the VirtualBox tools and rebooted and clicked "activate".  It let me activate (for now...at least while these activation servers happen to be around.)  But this is another zen lesson about what it means for something to be [Defective By Design](http://www.defectivebydesign.org/).  My small dependence on a few Windows tools and desire to assist people with problems (such as porting solutions to *not need* Windows) will hopefully be phased out before I should ever encounter another Genuine Windows Disadvantage!}
+    {In this case the "or what" is "we won't let you into your system".  You type in your password and it announces that you'll be going into the activation process right now, else no soup for you.  It didn't even give me the 3 days it claimed; in the course of less than 24 hours it decided to jump me straight to OS death row.}
+
+]
+
+note {A long way to go, just to harass users of an operating system the company [DOES NOT EVEN SELL ANYMORE](http://en.wikipedia.org/wiki/Windows_XP#Support_lifecycle).}
+
+print << [
+
+    {My one copy of XP is very old.  The wily holographic disk has the orange license key sticker stuck directly on it.  I've used it on several computers, all of which basically either died and got thrown away...or were formatted with Linux and given away to charitable causes sans any of my personal info.  Yet I don't know how many times I can push this magic "activate" button before it decides to say no.  Plus I hadn't even installed the VirtualBox tools that let Windows magically embrace things like integrating the mouse pointer with the host...what if I activated, then installed those, and it decided it was a new computer all over again?}
+
+    {As it happens, I restarted in Safe Mode and it decided to let me in.  I installed the VirtualBox tools and rebooted and clicked "activate".  It let me activate (for now...at least while these activation servers happen to be around.)  But this is another zen lesson about what it means for something to be [Defective By Design](http://www.defectivebydesign.org/).  My small dependence on a few Windows tools and desire to assist people with problems (such as porting solutions to *not need* Windows) will hopefully be phased out before I should ever encounter another Genuine Windows Disadvantage!}
+
+]

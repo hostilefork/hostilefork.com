@@ -6,19 +6,27 @@ Draem [
     old-url-prefix: %2012/06/26/
 ]
 
-{Having a remote desktop is pretty cool, although it can be a bit of a pain to set up.  Especially if you're dealing with multiple platforms.  So I was pleased to find a free (for non-commercial use) turnkey solution called [TeamViewer](http://www.teamviewer.com/en/index.aspx).  You don't even have to install the client or the host software...it runs straight out of the package, so administrative privileges aren't required.}
+print << [
 
-{In a matter of minutes I was controlling my quad-core i7 server from my little netbook.  It wasn't blazingly fast even though the data is only carried on the local WiFi network, and I doubt their protocol is all that efficient under the hood.  But for free I was happy.}
+    {Having a remote desktop is pretty cool, although it can be a bit of a pain to set up.  Especially if you're dealing with multiple platforms.  So I was pleased to find a free (for non-commercial use) turnkey solution called [TeamViewer](http://www.teamviewer.com/en/index.aspx).  You don't even have to install the client or the host software...it runs straight out of the package, so administrative privileges aren't required.}
 
-{Only problem is that one of my big things to do on the server is run lots of virtual machines, and number keys weren't getting fed properly into VirtualBox machines on the host.  I wasn't the first person to hit this, and [hk42 on experts-exchange](http://mobile.experts-exchange.com/OS/Linux/Distributions/Q_26980129.html) tried a list of suggestions that didn't resolve the issue.}
+    {In a matter of minutes I was controlling my quad-core i7 server from my little netbook.  It wasn't blazingly fast even though the data is only carried on the local WiFi network, and I doubt their protocol is all that efficient under the hood.  But for free I was happy.}
 
-[note  {I will continue to urge everyone to NOT use ExpertSexChange...popups and login nonsense, the [StackExchange network](http://stackexchange.com/sites) is more elegant by far, although it does [have its own problems...](http://blog.hostilefork.com/code-trolling-deletion-split-string/)}]
+    {Only problem is that one of my big things to do on the server is run lots of virtual machines, and number keys weren't getting fed properly into VirtualBox machines on the host.  I wasn't the first person to hit this, and [hk42 on experts-exchange](http://mobile.experts-exchange.com/OS/Linux/Distributions/Q_26980129.html) tried a list of suggestions that didn't resolve the issue.}
 
-{So I decided to try using the event-monitoring program [xev](http://stackoverflow.com/questions/433218/is-there-any-spy-equivalent-for-linux-x-window) to see what was going on.  It turned out that pressing ordinary number keys on the client generated numeric keypad events inside the virtual machine.  Since there were no such problems in ordinary programs on the host, it must be some kind of impedance mismatch between the virtualized keyboard and the remote keyboard.  (Neither my client nor my host have a hardware numeric keypad.)}
+]
 
-{To fix this, I used a little set of [xmodmap](http://askubuntu.com/questions/24916/how-do-i-remap-certain-keys-or-devices) commands.  I didn't bother making it a permanent thing in an `.xmodmap` file, because I don't know if I'm always going to want to do this remapping.}
+note {I will continue to urge everyone to NOT use ExpertSexChange...popups and login nonsense, the [StackExchange network](http://stackexchange.com/sites) is more elegant by far, although it does [have its own problems...](http://blog.hostilefork.com/code-trolling-deletion-split-string/)}
 
-[code bash {# teamviewerkeys.sh
+print << [
+
+    {So I decided to try using the event-monitoring program [xev](http://stackoverflow.com/questions/433218/is-there-any-spy-equivalent-for-linux-x-window) to see what was going on.  It turned out that pressing ordinary number keys on the client generated numeric keypad events inside the virtual machine.  Since there were no such problems in ordinary programs on the host, it must be some kind of impedance mismatch between the virtualized keyboard and the remote keyboard.  (Neither my client nor my host have a hardware numeric keypad.)}
+
+    {To fix this, I used a little set of [xmodmap](http://askubuntu.com/questions/24916/how-do-i-remap-certain-keys-or-devices) commands.  I didn't bother making it a permanent thing in an `.xmodmap` file, because I don't know if I'm always going to want to do this remapping.}
+
+]
+
+source 'bash {# teamviewerkeys.sh
 
 # KP_End
 xmodmap -e "keycode 87 = 1"
@@ -51,6 +59,6 @@ xmodmap -e "keycode 81 = 9"
 xmodmap -e "keycode 90 = 0"
 
 # KP_Delete
-xmodmap -e "keycode 91 = period"}]
+xmodmap -e "keycode 91 = period"}
 
-{Hopefully the authors of the products involved will fix this issue in a less hacky way.  But for now this works for me!}
+print {Hopefully the authors of the products involved will fix this issue in a less hacky way.  But for now this works for me!}

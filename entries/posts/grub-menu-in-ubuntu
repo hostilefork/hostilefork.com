@@ -6,49 +6,55 @@ Draem [
     old-url-prefix: %2009/11/22/
 ]
 
-{Ubuntu has a nice install screen that lets you press F4 for *Modes* or F6 for *Other Options*.  If you have an older laptop, you may find that you can't boot unless you turn on "Safe Graphics" or check "acpi=off".}
+print {Ubuntu has a nice install screen that lets you press F4 for *Modes* or F6 for *Other Options*.  If you have an older laptop, you may find that you can't boot unless you turn on "Safe Graphics" or check "acpi=off".}
 
-[note {In my case, the failure I was experiencing on boot was accompanied by horrible graphic corruption on the LCD.  This made me think I'd need safe graphics mode, but that had no effect.  It turned out the acpi=off was the setting I needed to get through the boot.  YMMV.}]
+note {In my case, the failure I was experiencing on boot was accompanied by horrible graphic corruption on the LCD.  This made me think I'd need safe graphics mode, but that had no effect.  It turned out the acpi=off was the setting I needed to get through the boot.  YMMV.}
 
-{Yet there's a catch to getting Ubuntu working this way.  It may get you through the install, but once you're finished and try to boot from your hard disk these options aren't there any more.  As of 9.10, it seems that it does not slipstream these settings into the configuration files on your hard disk.}
+print << [
 
-{As more of an exercise than anything else, I looked into how to address this after installing Ubuntu onto an old Pentium III laptop.  Hopefully it can help someone else.  Here goes...}
+    {Yet there's a catch to getting Ubuntu working this way.  It may get you through the install, but once you're finished and try to boot from your hard disk these options aren't there any more.  As of 9.10, it seems that it does not slipstream these settings into the configuration files on your hard disk.}
 
-more
+    {As more of an exercise than anything else, I looked into how to address this after installing Ubuntu onto an old Pentium III laptop.  Hopefully it can help someone else.  Here goes...}
 
-[heading "Get to the GRUB Menu"]
+]
 
-{Supposedly, you are able to hold down the Escape key in order to get into GRUB.  After I installed Ubuntu, it would work sometimes...and then at other times it would get into a cycle where it just booted immediately regardless of whether I pressed Escape or Shift or anything.}
+heading "Get to the GRUB Menu"
 
-{I'm not the only one who has reported this problem.  If it happens to you, put the Ubuntu CD back in the drive and start the Install again.  When you get to the first step tell it to continue booting from the hard drive.}
+print << [
 
-[note {As of now, there are two versions of GRUB and apparently they are very different.  If you aren't using GRUB 2 then all the following may be different.}]
+    {Supposedly, you are able to hold down the Escape key in order to get into GRUB.  After I installed Ubuntu, it would work sometimes...and then at other times it would get into a cycle where it just booted immediately regardless of whether I pressed Escape or Shift or anything.}
 
-{To ensure you always get a GRUB menu, once you get into Ubuntu edit **/etc/default/grub**.  You should see some lines in there like:}
+    {I'm not the only one who has reported this problem.  If it happens to you, put the Ubuntu CD back in the drive and start the Install again.  When you get to the first step tell it to continue booting from the hard drive.}
 
-[code {
+]
+
+note {As of now, there are two versions of GRUB and apparently they are very different.  If you aren't using GRUB 2 then all the following may be different.}
+
+print {To ensure you always get a GRUB menu, once you get into Ubuntu edit **/etc/default/grub**.  You should see some lines in there like:}
+
+source {
 GRUB_DEFAULT=0
 GRUB_HIDDEN_TIMEOUT=0
 GRUB_HIDDEN_TIMEOUT_QUIET=true
 GRUB_TIMEOUT="10"
-}]
+}
 
-{Comment out the line that says `GRUB_HIDDEN_TIMEOUT`.}
+print {Comment out the line that says `GRUB_HIDDEN_TIMEOUT`.}
 
-[code {
+source {
 GRUB_DEFAULT=0
 # GRUB_HIDDEN_TIMEOUT=0
 GRUB_HIDDEN_TIMEOUT_QUIET=true
 GRUB_TIMEOUT="10"
-}]
+}
 
-{Now run the command update-grub with administrator privileges (e.g. **sudo update-grub**).  This should give you a chance to see the menu.  You can change the timing if you think 10 seconds is too much.}
+print {Now run the command update-grub with administrator privileges (e.g. **sudo update-grub**).  This should give you a chance to see the menu.  You can change the timing if you think 10 seconds is too much.}
 
-[heading "Temporarily Booting With Options"]
+heading "Temporarily Booting With Options"
 
-{One way or another you should now be able to get to a GRUB menu.  You can pick an image to boot, or click "e" to edit.  Here's what I got on this Laptop when I chose to edit the settings for *Ubuntu, Linux 2.6.31-14-generic*.}
+print {One way or another you should now be able to get to a GRUB menu.  You can pick an image to boot, or click "e" to edit.  Here's what I got on this Laptop when I chose to edit the settings for *Ubuntu, Linux 2.6.31-14-generic*.}
 
-[code {
+source {
 recordfail=1
 
 if [ -n ${have_grubenv} ]; then save_env recordfail; fi
@@ -64,41 +70,49 @@ search --no-floppy --fs-uuid --set 9e483753-19de-4dc7-87fe-9119eb65b\cad
 linux /boot/vmlinuz-2.6.31-14-generic root=UUID=9e483753-19de-4dc7-8\7fe-9119eb65bcad ro quiet splash [YOUR OPTIONS HERE]
 
 initrd /boot/initrd.img-2.6.31-14-generic
-}]
+}
 
-{So the trick here is that if you want `acpi=off`, you put it where I say `YOUR OPTIONS HERE`.  Once you're done making the change, you can type Ctrl-X to boot.}
+print << [
 
-{Safe Graphics mode seems to correspond to `vga=771`.  You can read more about all the different options at your disposal in a [guide from the Ubuntu Help Community](https://help.ubuntu.com/community/BootOptions).}
+    {So the trick here is that if you want `acpi=off`, you put it where I say `YOUR OPTIONS HERE`.  Once you're done making the change, you can type Ctrl-X to boot.}
 
-[heading "Permanently Booting with Options"]
-
-{What if you want a change to the GRUB menu options to apply each time you boot?  You might think all you have to do is go in and find the file somewhere that has the text you edited above in it, and change it.}
-
-"Nope!!!  That's not the way it works!"
-
-{If it *were* the way it worked, you would just go edit the file **/boot/grub/grub.cfg**.  Yet convention has established this as a generated file, and each time you run **update-grub** it will be overwritten.  So you don't want to edit it directly!}
-
-{What you need to do is venture into the directory **/etc/grub.d**.  That's where the scripts which generate **grub.cfg** live, and you should see files like:}
-
-[list
-
-    "`00_header`"
-
-    "`05_debian_theme`"
-
-    "`10_linux`"
-
-    "`20_memtest86+`"
-
-    "`30_os-prober`"
-
-    "`40_custom`"
+    {Safe Graphics mode seems to correspond to `vga=771`.  You can read more about all the different options at your disposal in a [guide from the Ubuntu Help Community](https://help.ubuntu.com/community/BootOptions).}
 
 ]
 
-{These are shell scripts, and the two digit numbers in the filename indicate the order in which the scripts are run.  The least invasive way to add your own custom menu option is to edit the file `40_custom` by putting the literal text of the menu option in:}
+heading "Permanently Booting with Options"
 
-[code {#!/bin/sh
+print << [
+
+    {What if you want a change to the GRUB menu options to apply each time you boot?  You might think all you have to do is go in and find the file somewhere that has the text you edited above in it, and change it.}
+
+    "Nope!!!  That's not the way it works!"
+
+    {If it *were* the way it worked, you would just go edit the file **/boot/grub/grub.cfg**.  Yet convention has established this as a generated file, and each time you run **update-grub** it will be overwritten.  So you don't want to edit it directly!}
+
+    {What you need to do is venture into the directory **/etc/grub.d**.  That's where the scripts which generate **grub.cfg** live, and you should see files like:}
+
+]
+
+list [item << [
+
+        "`00_header`"
+
+        "`05_debian_theme`"
+
+        "`10_linux`"
+
+        "`20_memtest86+`"
+
+        "`30_os-prober`"
+
+        "`40_custom`"
+
+    ]]
+
+print {These are shell scripts, and the two digit numbers in the filename indicate the order in which the scripts are run.  The least invasive way to add your own custom menu option is to edit the file `40_custom` by putting the literal text of the menu option in:}
+
+source {#!/bin/sh
 exec tail -n +3 $0
 # This file provides an easy way to add custom menu
 # entries.  Simply type the menu entries you want to
@@ -109,20 +123,28 @@ menuentry "Your Menu Entry Name Here" {
    if [ -n ${have_grubenv} ]; then save_env recordfail; fi
    <font color="red">[THE REST OF THE STUFF]</font>
 }
-}]
+}
 
-{The text inside the menuentry is the same as what you saw when you clicked "e" to edit the GRUB boot instructions.  But don't copy it by hand or use the information I provided for **[THE REST OF THE STUFF]**.  Grab your own settings out of the relevant menu item in **/boot/grub/grub.cfg**.  When you are done, run `update-grub` with root privileges.}
+print << [
 
-{If you want to be an Edgier Eft and edit the script which generates the default boot menu options, you can edit `10_linux` and find the line:}
+    {The text inside the menuentry is the same as what you saw when you clicked "e" to edit the GRUB boot instructions.  But don't copy it by hand or use the information I provided for **[THE REST OF THE STUFF]**.  Grab your own settings out of the relevant menu item in **/boot/grub/grub.cfg**.  When you are done, run `update-grub` with root privileges.}
 
-[code {linux ${rel_dirname}/${basename} root=${linux_root_device_thisversion} ro $2 >>YOUR OPTIONS HERE<<}]
+    {If you want to be an Edgier Eft and edit the script which generates the default boot menu options, you can edit `10_linux` and find the line:}
 
-{That will inject the options into the default boot entries, rather than creating a new custom menu item.  Once again you'll have to run **update-grub**.}
+]
 
-[heading "That's it!"]
+source {linux ${rel_dirname}/${basename} root=${linux_root_device_thisversion} ro $2 >>YOUR OPTIONS HERE<<}
 
-{With that I was able to rescue a Fujitsu Lifebook Series C (PIII, 512MB, 1.13GHz) so it ran Ubuntu 9.10.  Unfortunately, disabling ACPI meant it didn't know it was a laptop... so the laptop tab in the Power Management Settings wasn't available.  That's life.}
+print {That will inject the options into the default boot entries, rather than creating a new custom menu item.  Once again you'll have to run **update-grub**.}
 
-{If it helps you out or you have corrections, please leave a comment!}
+heading "That's it!"
 
-[note {It's funny to see the state of where things are at today.  I dabbled in details of things like the Linux LILO boot loader back when I was using pre-1.0 Linux.  That was when dinosaurs walked the Earth, and the FAQ warned you that if you entered the wrong dot-clock values in your X11 files that it would fry your monitor.  It was kind of a thrill, feeling dangerous, seeing how high a resolution you could get... knowing every moment that your monitor might explode. :)}]
+print << [
+
+    {With that I was able to rescue a Fujitsu Lifebook Series C (PIII, 512MB, 1.13GHz) so it ran Ubuntu 9.10.  Unfortunately, disabling ACPI meant it didn't know it was a laptop... so the laptop tab in the Power Management Settings wasn't available.  That's life.}
+
+    {If it helps you out or you have corrections, please leave a comment!}
+
+]
+
+note {It's funny to see the state of where things are at today.  I dabbled in details of things like the Linux LILO boot loader back when I was using pre-1.0 Linux.  That was when dinosaurs walked the Earth, and the FAQ warned you that if you entered the wrong dot-clock values in your X11 files that it would fry your monitor.  It was kind of a thrill, feeling dangerous, seeing how high a resolution you could get... knowing every moment that your monitor might explode. :)}

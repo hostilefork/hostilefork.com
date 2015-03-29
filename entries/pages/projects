@@ -3,130 +3,133 @@ Draem [
     tags: []
     slug: %projects
     date: 12-May-2014/8:30:19-4:00
-
     css: {
-    	#entry-tags {
-    		display: none;
-    	}
+    ^-#entry-tags {
+    ^-^-display: none;
+    ^-}
     }
 ]
 
-{This is the list of projects authored and supported from hostilefork.com.  As part of the major web overhaul, all projects are being slowly redesigned and revamped.  That includes writeups, demos, YouTube videos, and logos.  No one said it would be easy.  :-/  A better index method *(fancy sliding gallery, etc.)* is on the agenda once all the content is lined up.}
+print << [
 
-{If you are looking for the blog that used to be here, please visit: **[blog.hostilefork.com](http://blog.hostilefork.com)**}
+    {This is the list of projects authored and supported from hostilefork.com.  As part of the major web overhaul, all projects are being slowly redesigned and revamped.  That includes writeups, demos, YouTube videos, and logos.  No one said it would be easy.  :-/  A better index method *(fancy sliding gallery, etc.)* is on the agenda once all the content is lined up.}
 
-{See also contact and consulting information at [Hire The Fork](http://hostilefork.com/hire-the-fork/).}
+    {If you are looking for the blog that used to be here, please visit: **[blog.hostilefork.com](http://blog.hostilefork.com)**}
 
-[heading {Black Highlighter}]
+    {See also contact and consulting information at [Hire The Fork](http://hostilefork.com/hire-the-fork/).}
 
-[button http://blackhighlighter.hostilefork.com/media/blackhighlighter-logo.png 640x360 "Black Highlighter" http://blackhighlighter.hostilefork.com]
+]
 
-{[Black Highlighter](http://blackhighlighter.hostilefork.com) implements a node.js server that is coupled with a jQuery widget to bring the tool of redaction to the masses.  Unlike existing redaction software, there is a sharp focus on *cryptographically committing* to what was contained in the missing portions.  This means that if an accountability process requires the revelation of a redacted portion, the system notices when revelations are different from what was originally redacted.  A sandboxed test deployment is available at [blackhighlighter.org](http://blackhighlighter.org).}
+heading "Black Highlighter"
 
-[heading {Albumist}]
+button [http://blackhighlighter.hostilefork.com/media/blackhighlighter-logo.png 640x360 "Black Highlighter" http://blackhighlighter.hostilefork.com]
 
-[button http://albumist.hostilefork.com/media/albumist-logo.png 640x360 "Albumist" http://albumist.hostilefork.com]
+print {[Black Highlighter](http://blackhighlighter.hostilefork.com) implements a node.js server that is coupled with a jQuery widget to bring the tool of redaction to the masses.  Unlike existing redaction software, there is a sharp focus on *cryptographically committing* to what was contained in the missing portions.  This means that if an accountability process requires the revelation of a redacted portion, the system notices when revelations are different from what was originally redacted.  A sandboxed test deployment is available at [blackhighlighter.org](http://blackhighlighter.org).}
 
-{When the band The Legendary Pink Dots needed to track their releases on their website, [Albumist](http://albumist.hostilefork.com) was created as a web mash-up from the Freebase graph database.  It generates a thumbnail discography that can be explored and augmented with information *(such as links to promotional deals)*, and is easy for others to use just by changing the artist ID.  Originally written in 2008 as a mootools script to use with Joomla 1.5, it was resurrected in 2014 as a jQuery plugin--as well as to use cover art from the Internet Archive.}
+heading "Albumist"
 
-[heading {CopyLight}]
+button [http://albumist.hostilefork.com/media/albumist-logo.png 640x360 "Albumist" http://albumist.hostilefork.com]
 
-[button http://copylight.hostilefork.com/media/copylight-logo.png 640x360 "CopyLight" http://copylight.hostilefork.com/]
+print {When the band The Legendary Pink Dots needed to track their releases on their website, [Albumist](http://albumist.hostilefork.com) was created as a web mash-up from the Freebase graph database.  It generates a thumbnail discography that can be explored and augmented with information *(such as links to promotional deals)*, and is easy for others to use just by changing the artist ID.  Originally written in 2008 as a mootools script to use with Joomla 1.5, it was resurrected in 2014 as a jQuery plugin--as well as to use cover art from the Internet Archive.}
 
-{Some websites--even high profile ones--have been going ever farther to cripple users web browsers to break text copying functionality.  This sabotage is under the claim of wanting to "protect their content" *(frequently including quotes or excerpts from other sources)*.  [CopyLight](http://copylight.hostilefork.com) is a jQuery plugin experiment to tag HTML nodes with their licenses, and offer feedback (such as watermarks, or an alert button) to guide users to consider how the material can be shared.  It does this while keeping copy working as normal, and the user need not do any extra work to interact with or dismiss the alerts.}
+heading "CopyLight"
 
-[heading {USCII}]
+button [http://copylight.hostilefork.com/media/copylight-logo.png 640x360 "CopyLight" http://copylight.hostilefork.com/]
 
-[button http://uscii.hostilefork.com/media/uscii-logo.png 640x360 "USCII" http://uscii.hostilefork.com/]
+print {Some websites--even high profile ones--have been going ever farther to cripple users web browsers to break text copying functionality.  This sabotage is under the claim of wanting to "protect their content" *(frequently including quotes or excerpts from other sources)*.  [CopyLight](http://copylight.hostilefork.com) is a jQuery plugin experiment to tag HTML nodes with their licenses, and offer feedback (such as watermarks, or an alert button) to guide users to consider how the material can be shared.  It does this while keeping copy working as normal, and the user need not do any extra work to interact with or dismiss the alerts.}
 
-{Conventional character encoding schemes often lack instrinsically meaningful connections between the numbers and the symbols or control codes they represent.  *(For instance, ASCII's 65 for "A".)*  [USCII](http://uscii.hostilefork.com/) is a somewhat fanciful reimagination of how to pick larger numbers that encode bitmaps, where they have a prime width and a prime height--leveraging a scheme in the spirit of the Arecibo message that was beamed into space.  There's a fun online encoder and decoder, which explain how the methodology works.}
+heading "USCII"
 
-[heading {TitleWait}]
+button [http://uscii.hostilefork.com/media/uscii-logo.png 640x360 "USCII" http://uscii.hostilefork.com/]
 
-[button http://titlewait.hostilefork.com/media/titlewait-logo.jpg 640x360 "TitleWait" http://titlewait.hostilefork.com/]
+print {Conventional character encoding schemes often lack instrinsically meaningful connections between the numbers and the symbols or control codes they represent.  *(For instance, ASCII's 65 for "A".)*  [USCII](http://uscii.hostilefork.com/) is a somewhat fanciful reimagination of how to pick larger numbers that encode bitmaps, where they have a prime width and a prime height--leveraging a scheme in the spirit of the Arecibo message that was beamed into space.  There's a fun online encoder and decoder, which explain how the methodology works.}
 
-{In the current software ecology, processes are frequently launching others and then disconnecting, crashing on some unexpected dependency, or hanging in a way conventional APIs can't kill.  [TitleWait](http://titlewait.hostilefork.com) is a program launcher to use in automated testing that under the hood is actually a MS Windows debugger--which gives it a level of control you won't find in programs like AutoHotkey.  It has several interesting features, but as the name suggests it can match regular expressions in window title bars.  This creates a lightweight method for communicating status information from JavaScript in a browser to the automated test script.}
+heading "TitleWait"
 
-[heading {Draem}]
+button [http://titlewait.hostilefork.com/media/titlewait-logo.jpg 640x360 "TitleWait" http://titlewait.hostilefork.com/]
 
-[button http://draem.hostilefork.com/media/draem-logo.png 640x360 "Draem" http://draem.hostilefork.com]
+print {In the current software ecology, processes are frequently launching others and then disconnecting, crashing on some unexpected dependency, or hanging in a way conventional APIs can't kill.  [TitleWait](http://titlewait.hostilefork.com) is a program launcher to use in automated testing that under the hood is actually a MS Windows debugger--which gives it a level of control you won't find in programs like AutoHotkey.  It has several interesting features, but as the name suggests it can match regular expressions in window title bars.  This creates a lightweight method for communicating status information from JavaScript in a browser to the automated test script.}
 
-{hostilefork.com was held captive for a many years to a very old WordPress installation.  My programming nature led me to desire to maintain and version my site as if it were source code *(a growing trend among programmers who have switched to "static site builders")*.  I made my own, which is called [Draem](https://github.com/hostilefork/draem)...and similar to other offerings it does paragraphs in MarkDown.  However, the whole toolchain it uses is only half a megabyte, and it can easily do structural transformations as I rethink the format.}
+heading "Draem"
 
-[heading {Thinker-Qt}]
+button [http://draem.hostilefork.com/media/draem-logo.png 640x360 "Draem" http://draem.hostilefork.com]
 
-[button http://thinker-qt.hostilefork.com/media/thinker-qt-logo.png 640x360 "Thinker-Qt Logo" http://thinker-qt.hostilefork.com/]
+print {hostilefork.com was held captive for a many years to a very old WordPress installation.  My programming nature led me to desire to maintain and version my site as if it were source code *(a growing trend among programmers who have switched to "static site builders")*.  I made my own, which is called [Draem](https://github.com/hostilefork/draem)...and similar to other offerings it does paragraphs in MarkDown.  However, the whole toolchain it uses is only half a megabyte, and it can easily do structural transformations as I rethink the format.}
 
-{Basic concurrency is attacked with foundational tools like mutexes, semaphores, and events.  But more abstract concurrency primitives in languages are being explored, for instance the QFuture in Qt.  [Thinker-Qt](http://thinker-qt.hostilefork.com/) introduces a new kind of concurrency primitive that is similar, but based on a copy-on-write strategy.  Thus an in-progress calculation can be examined with snapshots paid for by the background thread, on an as-needed basis.}
+heading "Thinker-Qt"
 
-[heading {Rebmu}]
+button [http://thinker-qt.hostilefork.com/media/thinker-qt-logo.png 640x360 "Thinker-Qt Logo" http://thinker-qt.hostilefork.com/]
 
-[button http://rebmu.hostilefork.com/media/rebmu-logo.png 640x360 "Rebmu Logo" http://rebmu.hostilefork.com/]
+print {Basic concurrency is attacked with foundational tools like mutexes, semaphores, and events.  But more abstract concurrency primitives in languages are being explored, for instance the QFuture in Qt.  [Thinker-Qt](http://thinker-qt.hostilefork.com/) introduces a new kind of concurrency primitive that is similar, but based on a copy-on-write strategy.  Thus an in-progress calculation can be examined with snapshots paid for by the background thread, on an as-needed basis.}
 
-{At this point, it is relatively common knowledge that I am the mysterious Dr. Rebmu.  *(Or at least, that's what the media would have you think.)*  Whatever you choose to believe, one thing is certain: [Dr. Rebmu's bizarre invention](http://rebmu.hostilefork.com/) is a novel tool for "Code Golfing"--a puzzle game where the objective is to solve programming puzzles in the fewest characters of code possible.  It may have coined a new term in computer science as well: "mushing", which is now being referenced in other golf languages.}
+heading "Rebmu"
 
-[heading {Nstate}]
+button [http://rebmu.hostilefork.com/media/rebmu-logo.png 640x360 "Rebmu Logo" http://rebmu.hostilefork.com/]
 
-[button http://nstate.hostilefork.com/media/nstate-logo.png 640x360 "Nstate Logo" http://nstate.hostilefork.com/]
+print {At this point, it is relatively common knowledge that I am the mysterious Dr. Rebmu.  *(Or at least, that's what the media would have you think.)*  Whatever you choose to believe, one thing is certain: [Dr. Rebmu's bizarre invention](http://rebmu.hostilefork.com/) is a novel tool for "Code Golfing"--a puzzle game where the objective is to solve programming puzzles in the fewest characters of code possible.  It may have coined a new term in computer science as well: "mushing", which is now being referenced in other golf languages.}
 
-{C++ has long had "bitsets" that allow you to address individual bits inside of an array, which allows for the dense packing of binary bits.  But what if you wanted to get a similar packing for something like tristates?  [Nstate](http://nstate.hostilefork.com/) provides a dynamically resizable array structure, which comes close to the optimal packing while still having tractable performance.  It can pack 20 tristates in 32-bits *(using two bits per tristate would only fit 16)*.  Similar gains are seen for other radix values.}
+heading "Nstate"
 
-[heading {NoCycle}]
+button [http://nstate.hostilefork.com/media/nstate-logo.png 640x360 "Nstate Logo" http://nstate.hostilefork.com/]
 
-[button http://nocycle.hostilefork.com/media/nocycle-logo.png 640x360 "Nocycle Logo" http://nocycle.hostilefork.com/]
+print {C++ has long had "bitsets" that allow you to address individual bits inside of an array, which allows for the dense packing of binary bits.  But what if you wanted to get a similar packing for something like tristates?  [Nstate](http://nstate.hostilefork.com/) provides a dynamically resizable array structure, which comes close to the optimal packing while still having tractable performance.  It can pack 20 tristates in 32-bits *(using two bits per tristate would only fit 16)*.  Similar gains are seen for other radix values.}
 
-{Built upon the foundations of Nstate, [Nocycle](http://nocycle.hostilefork.com) is a dynamically growing C++ data structure that can encode an adjacency matrix for oriented graphs.  It does so in about as compact a format as is possible for an adjacency matrix.  It has the additional ability to cache a reachability calculation, such that insertions on such a structure can guard against cycles in O(1) time.}
+heading "NoCycle"
 
-[heading {Hoist}]
+button [http://nocycle.hostilefork.com/media/nocycle-logo.png 640x360 "Nocycle Logo" http://nocycle.hostilefork.com/]
 
-[button http://hoist.hostilefork.com/media/hoist-logo.png 640x360 "The Hoist logo" http://hoist.hostilefork.com]
+print {Built upon the foundations of Nstate, [Nocycle](http://nocycle.hostilefork.com) is a dynamically growing C++ data structure that can encode an adjacency matrix for oriented graphs.  It does so in about as compact a format as is possible for an adjacency matrix.  It has the additional ability to cache a reachability calculation, such that insertions on such a structure can guard against cycles in O(1) time.}
 
-{The [Hoist Library](http://hoist.hostilefork.com) establishes a C++ class called "codeplace", which allows you to identify places in your code with a very large number (a UUID).  This number is provided to new location-parameterized assertions, which can help track an alert's identity across code reorganizations.  *(Conventional line numbers and filenames do not have this ability.)*  It includes a suite of partnered abstractions that leverage the ability to do more inbuilt testing, as well as check if a "paranoid" check is on record as being safe to ignore.}
+heading "Hoist"
 
-[heading {OpenZoom-Squared}]
+button [http://hoist.hostilefork.com/media/hoist-logo.png 640x360 "The Hoist logo" http://hoist.hostilefork.com]
 
-[button http://openzoom-squared.hostilefork.com/media/openzoom-squared-logo.png 640x360 "OpenZoom Squared Logo" http://blog.hostilefork.com/imagination-squared-plus-openzoom/]
+print {The [Hoist Library](http://hoist.hostilefork.com) establishes a C++ class called "codeplace", which allows you to identify places in your code with a very large number (a UUID).  This number is provided to new location-parameterized assertions, which can help track an alert's identity across code reorganizations.  *(Conventional line numbers and filenames do not have this ability.)*  It includes a suite of partnered abstractions that leverage the ability to do more inbuilt testing, as well as check if a "paranoid" check is on record as being safe to ignore.}
 
-{Being impressed by the Microsoft Research project for "Zoomable User Interfaces" (ZUI), I became interested in open source solutions simulating the effect.  Despite my distaste for the language that starts with F and rhymes with "crash", I decided to try adapting the ActionScript open-source variant OpenZoom to an art project that I thought had a website which could be improved.  The result is actually pretty slick, but that doesn't change the fact that it's in Flash.}
+heading "OpenZoom-Squared"
 
-[note {I dislike Flash and Adobe in general, so let's just consider this one closed.  It was interesting to do, though.}]
+button [http://openzoom-squared.hostilefork.com/media/openzoom-squared-logo.png 640x360 "OpenZoom Squared Logo" http://blog.hostilefork.com/imagination-squared-plus-openzoom/]
 
-[heading {Flatworm}]
+print {Being impressed by the Microsoft Research project for "Zoomable User Interfaces" (ZUI), I became interested in open source solutions simulating the effect.  Despite my distaste for the language that starts with F and rhymes with "crash", I decided to try adapting the ActionScript open-source variant OpenZoom to an art project that I thought had a website which could be improved.  The result is actually pretty slick, but that doesn't change the fact that it's in Flash.}
 
-[button http://flatworm.hostilefork.com/media/flatworm-logo.jpg 640x360 "Flatworm" http://flatworm.hostilefork.com/]
+note {I dislike Flash and Adobe in general, so let's just consider this one closed.  It was interesting to do, though.}
 
-{[Flatworm](http://flatworm.hostilefork.com) was an investigation into achieving a low-latency proxy server.  The design goal was that it be easy to author filters to rewrite traffic as it went by...while handling the necessary bookkeeping to make sure information in headers was adjusted if necessary.}
+heading "Flatworm"
 
-[note {This was originally intended to inject frames in YouTube videos on my WLAN and freak people out, the YouTubes (at least) have wised up and are using HTTPS now.  It is thus less interesting than it once was, and not likely to be further developed.}]
+button [http://flatworm.hostilefork.com/media/flatworm-logo.jpg 640x360 "Flatworm" http://flatworm.hostilefork.com/]
 
-[heading {Rubol}]
+print {[Flatworm](http://flatworm.hostilefork.com) was an investigation into achieving a low-latency proxy server.  The design goal was that it be easy to author filters to rewrite traffic as it went by...while handling the necessary bookkeeping to make sure information in headers was adjusted if necessary.}
 
-[button http://rubol.hostilefork.com/media/rubol-logo.png 640x360 "Rubol Logo" http://rubol.hostilefork.com/]
+note {This was originally intended to inject frames in YouTube videos on my WLAN and freak people out, the YouTubes (at least) have wised up and are using HTTPS now.  It is thus less interesting than it once was, and not likely to be further developed.}
 
-{The Ruby language is not homoiconic in the way systems like Lisp and Rebol are.  That is to say: Ruby interpreter doesn't offer a data structure that represents the lexed and parsed structure in a "code as data" paradigm.  Given Ruby's popularity and Rebol's adaptability, I thought it would be interesting to make a Rebol dialect to ["dress up" Rebol as having Ruby features](http://rubol.hostilefork.com).}
+heading "Rubol"
 
-[note {I came up with this idea in 2009--before my understanding of either Rebol or Ruby was all that mature.  So it's not as good as it could/should be, and hasn't been revisited.  (Although some of us who were working on the ideas keep threatening to go back and improve it.)  It's not currently high on any priority list.}]
+button [http://rubol.hostilefork.com/media/rubol-logo.png 640x360 "Rubol Logo" http://rubol.hostilefork.com/]
 
-[heading {jquery-numband}]
+print {The Ruby language is not homoiconic in the way systems like Lisp and Rebol are.  That is to say: Ruby interpreter doesn't offer a data structure that represents the lexed and parsed structure in a "code as data" paradigm.  Given Ruby's popularity and Rebol's adaptability, I thought it would be interesting to make a Rebol dialect to ["dress up" Rebol as having Ruby features](http://rubol.hostilefork.com).}
 
-[button http://jquery-numband.hostilefork.com/media/jquery-numband-logo.png 640x360 "jquery-numband Logo" http://jquery-numband.hostilefork.com/]
+note {I came up with this idea in 2009--before my understanding of either Rebol or Ruby was all that mature.  So it's not as good as it could/should be, and hasn't been revisited.  (Although some of us who were working on the ideas keep threatening to go back and improve it.)  It's not currently high on any priority list.}
 
-{This was a small experiment that came out of wanting to demonstrate a UI design principle in an answer to a User Experience Design StackExchange question.  The answers others were giving seemed to be falling into the trap of making a user interface where every button corresponded to an API operation on the target data.  I wanted to show how to take advantage of the things a computer could bring to the table, like automatic sorting and cleaning of input.  It was my first jQuery program, and [the demo is still kind of cool](http://jquery-numband.hostilefork.com).}
+heading "jquery-numband"
 
-[note {Beyond keeping the demo working, it is unlikely to be developed further unless someone else needs it and does the work.}]
+button [http://jquery-numband.hostilefork.com/media/jquery-numband-logo.png 640x360 "jquery-numband Logo" http://jquery-numband.hostilefork.com/]
 
-[heading {Inquiry/E and /G}]
+print {This was a small experiment that came out of wanting to demonstrate a UI design principle in an answer to a User Experience Design StackExchange question.  The answers others were giving seemed to be falling into the trap of making a user interface where every button corresponded to an API operation on the target data.  I wanted to show how to take advantage of the things a computer could bring to the table, like automatic sorting and cleaning of input.  It was my first jQuery program, and [the demo is still kind of cool](http://jquery-numband.hostilefork.com).}
 
-[button http://blog.hostilefork.com/media/inquiry-teenage-turbo-c-coding/inquiry-title-screen.png 640x360 "Inquiry/E Title Screen" http://blog.hostilefork.com/inquiry-teenage-turbo-c-coding/]
+note {Beyond keeping the demo working, it is unlikely to be developed further unless someone else needs it and does the work.}
 
-[note {This is an archival project from 1993, put online for amusement and retrospective.}]
+heading "Inquiry/E and /G"
 
-{It started as a text mode project for the Spanish Honor Society, to make quizzes that could show accent marks and upside down punctuation.  What it ultimately became was a [database editor and graphical player](http://blog.hostilefork.com/inquiry-teenage-turbo-c-coding/) to be used to present physiology lectures and Q&A.  I drew all the pictures, too.  :-)}
+button [http://blog.hostilefork.com/media/inquiry-teenage-turbo-c-coding/inquiry-title-screen.png 640x360 "Inquiry/E Title Screen" http://blog.hostilefork.com/inquiry-teenage-turbo-c-coding/]
 
-[heading {ManyKeys}]
+note {This is an archival project from 1993, put online for amusement and retrospective.}
 
-[button http://blog.hostilefork.com/media/manykeys-my-open-source-roots/manykeys-logo.png 640x360 {ManyKeys "Logo"} http://blog.hostilefork.com/manykeys-my-open-source-roots/]
+print {It started as a text mode project for the Spanish Honor Society, to make quizzes that could show accent marks and upside down punctuation.  What it ultimately became was a [database editor and graphical player](http://blog.hostilefork.com/inquiry-teenage-turbo-c-coding/) to be used to present physiology lectures and Q&A.  I drew all the pictures, too.  :-)}
 
-[note {This is an archival project from 1990, put online for amusement and retrospective.}]
+heading "ManyKeys"
 
-{Googling my name, I found something I made from before I knew of the Internet...which had managed to make it onto the Internet.  It was a BIOS keyboard interrupt replacement I called ["ManyKeys"](http://blog.hostilefork.com/manykeys-my-open-source-roots/).  Apparently the uploads directory on that BBS had been put on a programming compilation CD-ROM, and then someone had put it up on a FTP server after that.  I'd completely forgotten I'd written a README and released it into the wild - so my open source roots go all the way back to age 15!  :-)}
+button [http://blog.hostilefork.com/media/manykeys-my-open-source-roots/manykeys-logo.png 640x360 {ManyKeys "Logo"} http://blog.hostilefork.com/manykeys-my-open-source-roots/]
+
+note {This is an archival project from 1990, put online for amusement and retrospective.}
+
+print {Googling my name, I found something I made from before I knew of the Internet...which had managed to make it onto the Internet.  It was a BIOS keyboard interrupt replacement I called ["ManyKeys"](http://blog.hostilefork.com/manykeys-my-open-source-roots/).  Apparently the uploads directory on that BBS had been put on a programming compilation CD-ROM, and then someone had put it up on a FTP server after that.  I'd completely forgotten I'd written a README and released it into the wild - so my open source roots go all the way back to age 15!  :-)}

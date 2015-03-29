@@ -1,56 +1,60 @@
 Draem [
-    title: {COMBINE: an alternative to REJOIN for Rebol/Red}
+    title: "COMBINE: an alternative to REJOIN for Rebol/Red"
     tags: [red draem rebol]
     slug: %combine-alternative-rebol-red-rejoin
     date: 13-May-2014/4:55:37-4:00
 ]
 
-{The REJOIN primitive in Rebol and Red has never pleased me, and I've been trying to either change its functionality or adjust the name for a while.  Taking my ideas and incorporating some feedback from others, I've focused on something called COMBINE instead, and leaving REJOIN alone.}
+print << [
 
-{The effort has turned out so far to be fruitful, in my opinion.  Yet to understand why COMBINE is "good", and REJOIN is "bad" *(at least for many casual applications)*, you first have to understand what REJOIN **is**.  It was meant to encapsulate two operations: *joining* and *reducing*.}
+    {The REJOIN primitive in Rebol and Red has never pleased me, and I've been trying to either change its functionality or adjust the name for a while.  Taking my ideas and incorporating some feedback from others, I've focused on something called COMBINE instead, and leaving REJOIN alone.}
 
-[heading "Joining"]
+    {The effort has turned out so far to be fruitful, in my opinion.  Yet to understand why COMBINE is "good", and REJOIN is "bad" *(at least for many casual applications)*, you first have to understand what REJOIN **is**.  It was meant to encapsulate two operations: *joining* and *reducing*.}
 
-{At first joining will seem like the easier of the two concepts to get through.  JOIN takes two parameters and produces a new result by joining them together.}
+]
 
-[code rebol {
+heading "Joining"
+
+print {At first joining will seem like the easier of the two concepts to get through.  JOIN takes two parameters and produces a new result by joining them together.}
+
+source 'rebol {
 >> join "foo" 10
 == "foo10"
-}]
+}
 
-{But JOIN hides a rather confusing matrix of behavior, because as a generic operation it can take any data type as a first parameter...and any as a second parameter.  Some of the results can seem pretty sensible:}
+print {But JOIN hides a rather confusing matrix of behavior, because as a generic operation it can take any data type as a first parameter...and any as a second parameter.  Some of the results can seem pretty sensible:}
 
-[code rebol {
+source 'rebol {
 >> join 10 20
 == "1020"
-}]
+}
 
-{One might think that should be able to create a number by joining the digits, and not be surprised if it gave back the number 1020 instead of a string representation.  But it's reasonable to imagine that it doesn't.  Yet what would happen if you joined a value from the `<tag>` subclass of string with another tag?}
+print {One might think that should be able to create a number by joining the digits, and not be surprised if it gave back the number 1020 instead of a string representation.  But it's reasonable to imagine that it doesn't.  Yet what would happen if you joined a value from the `<tag>` subclass of string with another tag?}
 
-[code rebol {
+source 'rebol {
 >> join <span> </span>
 == <span</span>>
-}]
+}
 
-{Er... ["WAT?"](https://www.destroyallsoftware.com/talks/wat) *(as the saying goes)*.  Or how about if you just want to join a couple of blocks together?}
+print {Er... ["WAT?"](https://www.destroyallsoftware.com/talks/wat) *(as the saying goes)*.  Or how about if you just want to join a couple of blocks together?}
 
-[code rebol {
+source 'rebol {
 >> join [a b c] [d]      
 ** Script error: d has no value
 ** Where: reduce apply repend join
 ** Near: reduce :value part length only dup count
-}]
+}
 
-{Sure...it's true that `d` is being manipulated as a symbol and has no value.  But neither did `a`, `b`, or `c`.  APPEND seems quite capable of joining blocks containing arbitrary symbols:}
+print {Sure...it's true that `d` is being manipulated as a symbol and has no value.  But neither did `a`, `b`, or `c`.  APPEND seems quite capable of joining blocks containing arbitrary symbols:}
 
-[code rebol {
+source 'rebol {
 >> append [a b c] [d]     
 == [a b c d]
-}]
+}
 
-{That probably makes you wonder what the semantic difference between "joining" things and "appending" them is, anyway.  The words seem awfully similar.  For comparison:}
+print {That probably makes you wonder what the semantic difference between "joining" things and "appending" them is, anyway.  The words seem awfully similar.  For comparison:}
 
-[code rebol {
+source 'rebol {
 >> append "foo" 10
 == "foo10"
 
@@ -60,17 +64,23 @@ Draem [
 >> append <span> </span>
 == <span</span>>
 ]
-}]
+}
 
-{It *actually* turns out that the behavior of JOIN is defined fairly plainly in terms of APPEND.  Yet despite their close relationship as functions that take two arguments and moosh things together, JOIN is designed for certain conveniences.}
+print {It *actually* turns out that the behavior of JOIN is defined fairly plainly in terms of APPEND.  Yet despite their close relationship as functions that take two arguments and moosh things together, JOIN is designed for certain conveniences.}
 
-[list
-    [
-        {**First convenience**: *JOIN does not modify the series you are joining with*.}
+list [item << [
 
-        {Here's APPEND:}
+        [
 
-        [code rebol {
+            print << [
+
+                {**First convenience**: *JOIN does not modify the series you are joining with*.}
+
+                "Here's APPEND:"
+
+            ]
+
+            source 'rebol {
 >> foo: [10 20 30]
 
 >> append foo 40
@@ -78,11 +88,11 @@ Draem [
 
 >> probe foo
 == [10 20 30 40]
-}]
+}
 
-        {Now, here's JOIN:}
+            print "Now, here's JOIN:"
 
-        [code rebol {
+            source 'rebol {
 >> bar: [10 20 30]
 
 >> join bar 40
@@ -90,50 +100,66 @@ Draem [
 
 >> probe bar
 == [10 20 30]
-}]
+}
 
-        {The modification distinction is a shade of meaning that the words don't actually carry in English.  But now I've told you it's there--so you know.  While some definitions that come in the box are up for grabs, this one apparently isn't...you can call them whatever you like on your own system.}
-    ] [
+            print {The modification distinction is a shade of meaning that the words don't actually carry in English.  But now I've told you it's there--so you know.  While some definitions that come in the box are up for grabs, this one apparently isn't...you can call them whatever you like on your own system.}
 
-        {**Second convenience**: *if you hand JOIN a value type as its first parameter that isn't a series type APPEND could understand, it will convert it to a human-readable string*.}
+        ]
 
-        {It uses a function called FORM to do this.  If you use this behavior you become somewhat tied in to the hardcoded behavior of FORM, and you will not (yet) find a detailed ISO spec of what it does.  As with many languages whose "stringification" is implementation-defined, if you have specific needs of (for instance) how a date is going to be rendered as a string that FORM can't (or won't) define, then JOINing with a date value won't serve your purposes either.}
-    ] [
+        [
 
-        {**Third convenience**: *if the second parameter to JOIN is a block, it will be reduced before the append is performed.*}
-    ]
-]
+            print << [
 
-{Understanding the third convenience will require knowing what reducing is, so let's go ahead and tackle that.}
+                {**Second convenience**: *if you hand JOIN a value type as its first parameter that isn't a series type APPEND could understand, it will convert it to a human-readable string*.}
 
-[heading "Reducing"]
+                {It uses a function called FORM to do this.  If you use this behavior you become somewhat tied in to the hardcoded behavior of FORM, and you will not (yet) find a detailed ISO spec of what it does.  As with many languages whose "stringification" is implementation-defined, if you have specific needs of (for instance) how a date is going to be rendered as a string that FORM can't (or won't) define, then JOINing with a date value won't serve your purposes either.}
 
-{To "reduce" a block of data in the Rebol vernacular is to take it through an evaluation step, calling functions and substitions on any value that isn't of an "irreducible type" to the interpreter.  So:}
+            ]
 
-[code rebol {
+        ]
+
+        [
+
+            print {**Third convenience**: *if the second parameter to JOIN is a block, it will be reduced before the append is performed.*}
+
+        ]
+
+    ]]
+
+print {Understanding the third convenience will require knowing what reducing is, so let's go ahead and tackle that.}
+
+heading "Reducing"
+
+print {To "reduce" a block of data in the Rebol vernacular is to take it through an evaluation step, calling functions and substitions on any value that isn't of an "irreducible type" to the interpreter.  So:}
+
+source 'rebol {
 >> reduce [10 + 20]
 == [30]
-}]
+}
 
-{If you didn't have the addition operator in there, there would have been nothing (from REDUCE's point of view) to do.}
+print {If you didn't have the addition operator in there, there would have been nothing (from REDUCE's point of view) to do.}
 
-[code rebol {
+source 'rebol {
 >> reduce [10 20]
 == [10 20]
-}]
+}
 
-{It's at the foundation of understanding the logic of Rebol languages to know what value types are "reducible" and which are "irreducible".  The design decisions behind this are what drive the entire trick.  It's how a homoiconic data structure has managed to dress up so convincingly (at times) as a normal-looking language, while easily bending to do more creative things.}
+print << [
 
-{The "dead" value types are things like integers, strings (including string subclasses like `<tags>`, binary data blobs, coordinate pairs, and (interestingly) nested ordinary blocks:}
+    {It's at the foundation of understanding the logic of Rebol languages to know what value types are "reducible" and which are "irreducible".  The design decisions behind this are what drive the entire trick.  It's how a homoiconic data structure has managed to dress up so convincingly (at times) as a normal-looking language, while easily bending to do more creative things.}
 
-[code rebol {
+    {The "dead" value types are things like integers, strings (including string subclasses like `<tags>`, binary data blobs, coordinate pairs, and (interestingly) nested ordinary blocks:}
+
+]
+
+source 'rebol {
 >> reduce ["Nothing happening!" </nada> 10x20 #{DECAFBAD} [10 + 20]]
 == ["Nothing happening!" </nada> 10x20 #{DECAFBAD} [10 + 20]]
-}]
+}
 
-{"Live" value types are things like symbolic words, as well as more unusual block types like `(parentheses style blocks)` and `path/style/blocks`.}
+print {"Live" value types are things like symbolic words, as well as more unusual block types like `(parentheses style blocks)` and `path/style/blocks`.}
 
-[code rebol {
+source 'rebol {
 >> foo: "Signs of Life!"
 
 >> bar: function [] [
@@ -144,55 +170,63 @@ Draem [
 
 >> reduce [foo bar baz/x baz/y (30 + 40)]
 == ["Signs of Life!" foo 10 20 70]
-}]
+}
 
-[note {It's always important to reiterate that Rebol's foundational tools like `reduce` represent only one way of evaluating the underlying data structure.  Being able to build your own mini-languages that do neat things, leveraging these as your building blocks, is the real point.}]
+note {It's always important to reiterate that Rebol's foundational tools like `reduce` represent only one way of evaluating the underlying data structure.  Being able to build your own mini-languages that do neat things, leveraging these as your building blocks, is the real point.}
 
-{We see that the reduce operator performs only a single step.  Because invoking the `bar` function returned a quoted symbolic word as a result, that symbolic word is in the result.  It would take another reduce step to get it to a state that isn't further reducible.}
+print {We see that the reduce operator performs only a single step.  Because invoking the `bar` function returned a quoted symbolic word as a result, that symbolic word is in the result.  It would take another reduce step to get it to a state that isn't further reducible.}
 
-[code rebol {
+source 'rebol {
 >> reduce ["Signs of Life!" foo 10 20 70]
 == ["Signs of Life!" "Signs of Life!" 10 20 70]
-}]
+}
 
-{This ability to intermingle "live" and "dead" elements in a single block for processing is actually leveraged by many Rebol primitives, such as `print`}
+print {This ability to intermingle "live" and "dead" elements in a single block for processing is actually leveraged by many Rebol primitives, such as `print`}
 
-[code rebol {
+source 'rebol {
 >> a: 10 b: 20
 
 >> print ["a is" a "and b is" b "sum is" a + b]
 a is 10 and b is 20 sum is 30
-}]
+}
 
-{When you start thinking of reducing as a "service" and know what it will touch (and what it won't) you can start building dialects with confidence.  JOIN uses the service, but only on the second parameter.  That's why you can do nice things like this:}
+print {When you start thinking of reducing as a "service" and know what it will touch (and what it won't) you can start building dialects with confidence.  JOIN uses the service, but only on the second parameter.  That's why you can do nice things like this:}
 
-[code rebol {
+source 'rebol {
 >> domain: http://blog.hostilefork.com
 
 >> slug: "combine-alternative-rebol-red-rejoin"
 
 >> join domain ["/" slug "/"]
 == http://blog.hostilefork.com/combine-alternative-rebol-red-rejoin/
-}]
+}
 
-{If you were using APPEND and didn't want to corrupt your domain to produce the derived URL from it, you'd have to copy.  And to get the substitution for the post slug you'd need to explicitly call reduce.  Even a simple example like this becomes less pleasing quickly:}
+print {If you were using APPEND and didn't want to corrupt your domain to produce the derived URL from it, you'd have to copy.  And to get the substitution for the post slug you'd need to explicitly call reduce.  Even a simple example like this becomes less pleasing quickly:}
 
-[code rebol {
+source 'rebol {
 >> append (copy domain) reduce ["/" slug "/"]
 == http://blog.hostilefork.com/combine-alternative-rebol-red-rejoin/
-}]
+}
 
-{A reasonable question would be that if implicit reduction is so convenient for the second argument, then why isn't it done to the first argument as well?  The reason is that since JOIN is essentially a convenience function layered over APPEND, it winds up being used in a similar situation.  The block as a first parameter represents "finalized" results, and you are only concerned about doing calculations on the new material being added to the tail.}
+print << [
 
-{Hearing all this, you may be convinced that JOIN is a plausible reaction to how to make the lower-level APPEND more convenient.  Now you are ready to cast a critical eye on something that's definitely more "WAT?"-worthy...}
+    {A reasonable question would be that if implicit reduction is so convenient for the second argument, then why isn't it done to the first argument as well?  The reason is that since JOIN is essentially a convenience function layered over APPEND, it winds up being used in a similar situation.  The block as a first parameter represents "finalized" results, and you are only concerned about doing calculations on the new material being added to the tail.}
 
-[heading {"Rejoining" (?)}]
+    {Hearing all this, you may be convinced that JOIN is a plausible reaction to how to make the lower-level APPEND more convenient.  Now you are ready to cast a critical eye on something that's definitely more "WAT?"-worthy...}
 
-{When I discovered `rejoin`, I did not know about the existence of `join`.  REJOIN seemed to be the go-to answer for how people would concatenate strings.  It seemed like a funny name (was there an `unjoin` somewhere?) and I didn't like it much.}
+]
 
-{I understood that it took one block parameter, that it would reduce and join the components together to make a string.  It was a lot like what you could get out of `print`, except that `print` would throw in spaces between elements I often did not want.  I wound up writing a lot of `print rejoin [...]`, taking care of spaces manually so I could have control.  You would need that control if you wanted to throw commas in after evaluations with no space:}
+heading {"Rejoining" (?)}
 
-[code rebol {
+print << [
+
+    {When I discovered `rejoin`, I did not know about the existence of `join`.  REJOIN seemed to be the go-to answer for how people would concatenate strings.  It seemed like a funny name (was there an `unjoin` somewhere?) and I didn't like it much.}
+
+    {I understood that it took one block parameter, that it would reduce and join the components together to make a string.  It was a lot like what you could get out of `print`, except that `print` would throw in spaces between elements I often did not want.  I wound up writing a lot of `print rejoin [...]`, taking care of spaces manually so I could have control.  You would need that control if you wanted to throw commas in after evaluations with no space:}
+
+]
+
+source 'rebol {
 >> print rejoin [
     {a is} space a 
     {,} space
@@ -202,17 +236,21 @@ a is 10 and b is 20 sum is 30
     newline
    ]
 a is 10, and b is 20, sum is 30
-}]
+}
 
-{I'd actually go to the level of using the full word `space` to refer to the character constant, instead of embedding it awkwardly into the surrounding strings.  At first it wound up being more verbose, but it drew attention to patterns.  Those patterns could be used to build clear abstractions, which usually wound up being not only briefer but more generally correct.}
+print << [
 
-{Thus `print` throwing in line feeds and spaces was good for debug output, but a lot of formatted output needs to be specific.  To the extent that I knew a `join` existed it seemed useless.  How often would you want to join a list of irreducible values without reducing them first?  Not very often--you probably would have entered them joined to begin with.  And that's why I used `print rejoin` a lot and didn't understand why string concatenation had such a foreign name.}
+    {I'd actually go to the level of using the full word `space` to refer to the character constant, instead of embedding it awkwardly into the surrounding strings.  At first it wound up being more verbose, but it drew attention to patterns.  Those patterns could be used to build clear abstractions, which usually wound up being not only briefer but more generally correct.}
 
-[note {@DocKimbel has pointed out, ["rejoindre" is the word for join in French](http://en.wiktionary.org/wiki/rejoindre).  That makes it less surprising that he isn't bothered by it.  :-/}]
+    {Thus `print` throwing in line feeds and spaces was good for debug output, but a lot of formatted output needs to be specific.  To the extent that I knew a `join` existed it seemed useless.  How often would you want to join a list of irreducible values without reducing them first?  Not very often--you probably would have entered them joined to begin with.  And that's why I used `print rejoin` a lot and didn't understand why string concatenation had such a foreign name.}
 
-{But `rejoin` **is not a string concatenation function**.  Like `join` it's kind of an "anything concatenation function", and inherits all of the "WAT?" properties that come with that:}
+]
 
-[code rebol {
+note {@DocKimbel has pointed out, ["rejoindre" is the word for join in French](http://en.wiktionary.org/wiki/rejoindre).  That makes it less surprising that he isn't bothered by it.  :-/}
+
+print {But `rejoin` **is not a string concatenation function**.  Like `join` it's kind of an "anything concatenation function", and inherits all of the "WAT?" properties that come with that:}
+
+source 'rebol {
 >> rejoin ["Hello" <span> "World" </span>]
 == "Hello<span>World</span>"
 
@@ -224,111 +262,131 @@ a is 10, and b is 20, sum is 30
 
 >> rejoin [1 [2 3] 4]  
 == "12 34"
-}]
+}
 
-{To make a long story short, what you get is a result that is strongly influenced by the first element in the block.  You are effectively getting a JOIN that reduces both of its parameters instead of just the second, but the first parameter is merely the result of the first evaluation in the block.}
+print << [
 
-{This means that if you want to force the result type to get a more predictable result, you can do that by putting in an empty first element of your target type.  So if you want a string output regardless of the elements being joined, you could put a string literal at the head.  That could correct the wild output from the `rejoin` starting with a `<span>` tag above:}
+    {To make a long story short, what you get is a result that is strongly influenced by the first element in the block.  You are effectively getting a JOIN that reduces both of its parameters instead of just the second, but the first parameter is merely the result of the first evaluation in the block.}
 
-[code rebol {
+    {This means that if you want to force the result type to get a more predictable result, you can do that by putting in an empty first element of your target type.  So if you want a string output regardless of the elements being joined, you could put a string literal at the head.  That could correct the wild output from the `rejoin` starting with a `<span>` tag above:}
+
+]
+
+source 'rebol {
 >> rejoin ["" <span> "Hello" </span> "World"]
 == "<span>Hello</span>World"
-}]
+}
 
-{Perhaps you think this operation is highly useful, or perhaps an aesthetic monstrosity.  Whether it has a good or bad name for what it does as related to `join`, there has been strong resistance to eliminating it or tinkering with the names.}
+print << [
 
-{For my own part, I will say that though I still don't feel great about the names, I came to soften my anti-JOIN stance once I learned what it did.  But in the case of `rejoin`, there is a newly named primitive that can replace it in essentially every case I'd care about...}
+    {Perhaps you think this operation is highly useful, or perhaps an aesthetic monstrosity.  Whether it has a good or bad name for what it does as related to `join`, there has been strong resistance to eliminating it or tinkering with the names.}
 
-[heading "A New Hope: COMBINE"]
+    {For my own part, I will say that though I still don't feel great about the names, I came to soften my anti-JOIN stance once I learned what it did.  But in the case of `rejoin`, there is a newly named primitive that can replace it in essentially every case I'd care about...}
 
-{Based on a pattern of needs that `rejoin` had not been meeting, I kicked off a proposal [currently going under the name "combine"](http://curecode.org/rebol3/ticket.rsp?id=2142).  It's been evolving with some input from others.}
+]
 
-{The strongest impetus behind `combine` came from wanting to remedy how hard it was to put expressions that may result in `none` into `rejoin`.  This pattern was constantly coming up:}
+heading "A New Hope: COMBINE"
 
-[code rebol {
+print << [
+
+    {Based on a pattern of needs that `rejoin` had not been meeting, I kicked off a proposal [currently going under the name "combine"](http://curecode.org/rebol3/ticket.rsp?id=2142).  It's been evolving with some input from others.}
+
+    {The strongest impetus behind `combine` came from wanting to remedy how hard it was to put expressions that may result in `none` into `rejoin`.  This pattern was constantly coming up:}
+
+]
+
+source 'rebol {
 >> rejoin ["abc" if 1 > 2 ["def"] "ghi"]
 == "abcnoneghi"
-}]
+}
 
-{Hence `if` and `unless` could basically never be used.  Suppressing the string conversion of none required `either`:}
+print {Hence `if` and `unless` could basically never be used.  Suppressing the string conversion of none required `either`:}
 
-[code rebol {
+source 'rebol {
 >> rejoin ["abc" either 1 > 2 ["def"] [{}] "ghi"]
 == "abcghi"
-}]
+}
 
-{Another frustration for me was how the outermost block of a `rejoin` behaved differently from an inner block:}
+print {Another frustration for me was how the outermost block of a `rejoin` behaved differently from an inner block:}
 
-[code rebol {
+source 'rebol {
 >> rejoin ["abc" "def" ["ghi" "jkl"] "mno" "pqr"]
 == "abcdefghi jklmnopqr"
-}]
+}
 
-{Remember that my first reason for using `rejoin` was to get more control over the spacing.  This behavior creates the awkward need to request using no-space semantics, when that's already the mindset I'm in:}
+print {Remember that my first reason for using `rejoin` was to get more control over the spacing.  This behavior creates the awkward need to request using no-space semantics, when that's already the mindset I'm in:}
 
-[code rebol {
+source 'rebol {
 >> rejoin ["abc" "def" rejoin ["ghi" "jkl"] "mno" "pqr"]
 == "abcdefghijklmnopqr"
-}]
+}
 
-{Correcting those two behaviors seemed like enough at first.  But thinking more about it, I felt that determining the type from the first non-none element was a mistake...and `combine` should be used to make strings only.}
+print << [
 
-{To try and mitigate performance concerns of doing type conversions between other target string types, it's possible to add refinements or allow COMBINE/INTO to target any string subclass with the result.  But with a fresh start and opportunity to avoid the WAT--and REJOIN still around for anyone who believes they need it--its fickleness shouldn't be carried forward.}
+    {Correcting those two behaviors seemed like enough at first.  But thinking more about it, I felt that determining the type from the first non-none element was a mistake...and `combine` should be used to make strings only.}
 
-{Going even further in realizing what I needed, I didn't just want blocks that were combined without spaces.  I wanted a *recursive* evaluation...so that if an evaluation produced a block, that block would be combined as well.  I'd liken this desire to wanting to have the compositional ability in parse rules to pull out frequent patterns; something I frequently wish to do.}
+    {To try and mitigate performance concerns of doing type conversions between other target string types, it's possible to add refinements or allow COMBINE/INTO to target any string subclass with the result.  But with a fresh start and opportunity to avoid the WAT--and REJOIN still around for anyone who believes they need it--its fickleness shouldn't be carried forward.}
 
-[note {As designed, this has the comfortable property that `combine [x y]` gets the same results as `combine [combine x combine y]`.}]
+    {Going even further in realizing what I needed, I didn't just want blocks that were combined without spaces.  I wanted a *recursive* evaluation...so that if an evaluation produced a block, that block would be combined as well.  I'd liken this desire to wanting to have the compositional ability in parse rules to pull out frequent patterns; something I frequently wish to do.}
 
-{I also wanted protections against converting things like word results into strings, which rejoin happily does.  My own experiences had shown that getting into situations like this were usually mistakes:}
+]
 
-[code rebol {
+note {As designed, this has the comfortable property that `combine [x y]` gets the same results as `combine [combine x combine y]`.}
+
+print {I also wanted protections against converting things like word results into strings, which rejoin happily does.  My own experiences had shown that getting into situations like this were usually mistakes:}
+
+source 'rebol {
 >> rejoin ["abc" quote def "ghi"]
 == "abcdefghi"
-}]
+}
 
-{So COMBINE will error in this case.  If an evaluation bottomed out to something like a WORD!, SET-WORD! or LIT-WORD!...and you *really* meant that to happen and form it in the middle of your string, it could be controlled with an /ANY refinement or similar.  It's also be theoretically possible to keep running the evaluator to see if the def word resolved (as with the blocks), but it seems better to just have it be an error.}
+print << [
 
-{A suggestion from @rgchris was to provide a /WITH refinement to put delimiters in-between the elements being combined.  In my sample I made it accept a string, a character, or a block that it would run combine on.  My reasoning for accepting the block is that I like to have ways to call more attention to spaces in strings:}
+    {So COMBINE will error in this case.  If an evaluation bottomed out to something like a WORD!, SET-WORD! or LIT-WORD!...and you *really* meant that to happen and form it in the middle of your string, it could be controlled with an /ANY refinement or similar.  It's also be theoretically possible to keep running the evaluator to see if the def word resolved (as with the blocks), but it seems better to just have it be an error.}
 
-[code rebol {
+    {A suggestion from @rgchris was to provide a /WITH refinement to put delimiters in-between the elements being combined.  In my sample I made it accept a string, a character, or a block that it would run combine on.  My reasoning for accepting the block is that I like to have ways to call more attention to spaces in strings:}
+
+]
+
+source 'rebol {
 >> combine/with ["abc" ["def" "ghi"] "jkl"] ["," space]
 == "abc, def, ghi, jkl"
-}]
+}
 
-{Initially I thought that it was bad to apply the delimiter to nested blocks.  Because in cases where you didn't want that, it would be too hard to remove them.  It seemed easier to call a nested COMBINE than to take them out!  But subsequent design discussions suggested being able to take a function that was aware of its depth:}
+print {Initially I thought that it was bad to apply the delimiter to nested blocks.  Because in cases where you didn't want that, it would be too hard to remove them.  It seemed easier to call a nested COMBINE than to take them out!  But subsequent design discussions suggested being able to take a function that was aware of its depth:}
 
-[code rebol {
+source 'rebol {
 >> delim: function [depth] [either/only depth = 1 ["," space] none]
 
 >> combine/with ["abc" ["def" "ghi"] "jkl"] delim
 == "abc, defghi, jkl"
-}]
+}
 
-{It occurred to me that the wish to override the delimiter was so common in practice that using an out-of-band type, such as a refinement or issue, could signal that you didn't want the delimiter to be applied.  As something brief and useful, I thought `/+` might be a good pick.  So that's what I am currently using to see how it works out.}
+print {It occurred to me that the wish to override the delimiter was so common in practice that using an out-of-band type, such as a refinement or issue, could signal that you didn't want the delimiter to be applied.  As something brief and useful, I thought `/+` might be a good pick.  So that's what I am currently using to see how it works out.}
 
-[code rebol {
+source 'rebol {
 >> combine/with ["abc" ["def" /+ "ghi"] "jkl"] ["," space]
 == "abc, defghi, jkl"
-}]
+}
 
-[note {I first tried using `/-`, but decided it looked too much like the tab escape sequence of `^^-`.  So intead of thinking of it as *"subtract the /WITH delimiter"* I recast it as *"do a concatenation before the COMBINE."*.}]
+note {I first tried using `/-`, but decided it looked too much like the tab escape sequence of `^^-`.  So intead of thinking of it as *"subtract the /WITH delimiter"* I recast it as *"do a concatenation before the COMBINE."*.}
 
-[heading {Empty Block Handling}]
+heading "Empty Block Handling"
 
-{One edge case is what to do with an empty block or all none.  At the moment this returns an empty string:}
+print {One edge case is what to do with an empty block or all none.  At the moment this returns an empty string:}
 
-[code rebol {
+source 'rebol {
 >> combine [none (if (1 > 2) "uh-oh") none]
 == ""
-}]
+}
 
-{Initially I'd hoped to distinguish this case by returning `none`.  However, my prototype implementation has an /INTO refinement...and since that returns the insertion position in another series there would be no way to distinguish between an empty result and a none result.  Technically speaking, I'm not really sure how often someone performing a combine would really need to distinguish the case of gluing together strings which turned out to be empty vs. nones.}
+print {Initially I'd hoped to distinguish this case by returning `none`.  However, my prototype implementation has an /INTO refinement...and since that returns the insertion position in another series there would be no way to distinguish between an empty result and a none result.  Technically speaking, I'm not really sure how often someone performing a combine would really need to distinguish the case of gluing together strings which turned out to be empty vs. nones.}
 
-[heading {Using as a basis for PRINT}]
+heading "Using as a basis for PRINT"
 
-{One application that I decided would be important would be to use COMBINE/WITH a SPACE as the behavior of PRINT when it was passed a block.  That lets you create small bits of "print DNA" in blocks, just as you can break down parse rules into sub-rules.}
+print {One application that I decided would be important would be to use COMBINE/WITH a SPACE as the behavior of PRINT when it was passed a block.  That lets you create small bits of "print DNA" in blocks, just as you can break down parse rules into sub-rules.}
 
-[code rebol {
+source 'rebol {
 >> whose: ["whose name is" name]
 
 >> know: ["I know a" type whose]
@@ -342,19 +400,19 @@ Statement: I know a dog whose name is Wesly.
 
 >> print [know "and it's really cool!"]
 I know a language whose name is Red and it's really cool!
-}]
+}
 
-{The recursive nature of the evaluation offers a lot of possibilities, and the ability to suppress spaces with `/+` gives PRINT a much-needed ability.  Not only is the common case covered cleanly, but the need to break out into REJOIN (or even COMBINE) is almost entirely eliminated.}
+print {The recursive nature of the evaluation offers a lot of possibilities, and the ability to suppress spaces with `/+` gives PRINT a much-needed ability.  Not only is the common case covered cleanly, but the need to break out into REJOIN (or even COMBINE) is almost entirely eliminated.}
 
-[heading {COMBINE in Draem as a case study}]
+heading "COMBINE in Draem as a case study"
 
-{I now have a non-trivial case study for its usage: the fledgling static website builder behind this site, called Draem.  It continues to be an experiment...although little by little it is becoming less ad-hoc.  Feel welcome to take a look through the sources, especially for [htmlify.reb](https://github.com/hostilefork/draem/blob/master/htmlify.reb) and [make-templates.reb](https://github.com/hostilefork/draem/blob/master/make-templates.reb).}
+print {I now have a non-trivial case study for its usage: the fledgling static website builder behind this site, called Draem.  It continues to be an experiment...although little by little it is becoming less ad-hoc.  Feel welcome to take a look through the sources, especially for [htmlify.reb](https://github.com/hostilefork/draem/blob/master/htmlify.reb) and [make-templates.reb](https://github.com/hostilefork/draem/blob/master/make-templates.reb).}
 
-[note {Draem targets Django templated HTML and not raw HTML at this point in time.  Though the template substitutions are trivial; it could be replaced.  I just happened to have other Django projects running so it was the shortest-path way to manage URL routing, basically.}]
+note {Draem targets Django templated HTML and not raw HTML at this point in time.  Though the template substitutions are trivial; it could be replaced.  I just happened to have other Django projects running so it was the shortest-path way to manage URL routing, basically.}
 
-{The conversion to use `combine` solved several bugs in Draem, and the code looks better.  I found myself experimenting with things like IF/ONLY in order to avoid needing to nest blocks.  A sample combine:}
+print {The conversion to use `combine` solved several bugs in Draem, and the code looks better.  I found myself experimenting with things like IF/ONLY in order to avoid needing to nest blocks.  A sample combine:}
 
-[code rebol {
+source 'rebol {
 combine [
     if/only main-tag [
         <li>
@@ -367,11 +425,11 @@ combine [
         </span>
     </li>
 ]
-}]
+}
 
-{Probably a matter of preference as to whether one thinks that reads better as:}
+print {Probably a matter of preference as to whether one thinks that reads better as:}
 
-[code rebol {
+source 'rebol {
 combine [
     if main-tag [
         [
@@ -386,13 +444,17 @@ combine [
         </span>
     </li>
 ]
-}]
+}
 
-{It's a new pattern to think about.  May not be for everyone, but in my programming style I like how it tightens up the indentation.}
+print << [
 
-{We might observe that the `rejoin` equivalent--not even particularly bad in this case--is still a headache:}
+    {It's a new pattern to think about.  May not be for everyone, but in my programming style I like how it tightens up the indentation.}
 
-[code rebol {
+    {We might observe that the `rejoin` equivalent--not even particularly bad in this case--is still a headache:}
+
+]
+
+source 'rebol {
 rejoin [
     ""
     either main-tag [               
@@ -411,17 +473,17 @@ rejoin [
         </span>
     </li>
 ]
-}]
+}
 
-{I got a bit of a surprise when I tried to convert some append-based tricks to use `map-each` and build blocks to combine.  So for example:}
+print {I got a bit of a surprise when I tried to convert some append-based tricks to use `map-each` and build blocks to combine.  So for example:}
 
-[code rebol {
+source 'rebol {
 >> combine [map-each x [1 2] [[x]]]
 == "22"
-}]
+}
 
-{It's not confusing that it doesn't work.  What's confusing is why when it got `[[x] [x]]` back it didn't error during the combine by saying x isn't defined.  :-/}
+print {It's not confusing that it doesn't work.  What's confusing is why when it got `[[x] [x]]` back it didn't error during the combine by saying x isn't defined.  :-/}
 
-[heading {Suggestions?...}]
+heading "Suggestions?..."
 
-{Visit the [CureCode issue #2142](http://curecode.org/rebol3/ticket.rsp?id=2142) to offer your thoughts.  Also: remember that [this blog entry is in GitHub](https://github.com/hostilefork/hostilefork.com/blob/master/entries/posts/combine-alternative-rebol-red-rejoin) as dialected Rebol.  So if you have suggested edits or ways of making this more clear, that's another avenue...send a pull request!}
+print {Visit the [CureCode issue #2142](http://curecode.org/rebol3/ticket.rsp?id=2142) to offer your thoughts.  Also: remember that [this blog entry is in GitHub](https://github.com/hostilefork/hostilefork.com/blob/master/entries/posts/combine-alternative-rebol-red-rejoin) as dialected Rebol.  So if you have suggested edits or ways of making this more clear, that's another avenue...send a pull request!}

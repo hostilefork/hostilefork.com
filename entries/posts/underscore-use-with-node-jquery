@@ -5,63 +5,81 @@ Draem [
     date: 18-Jul-2014/2:34:54-4:00
 ]
 
-{When I first encountered Node.JS it was to port [Blackhighlighter](http://blackhighlighter.org) to it from Django.  In early Node tutorials, I ran into [underscore.js](http://en.wikipedia.org/wiki/Underscore.js)--and had to put it into a context I understood as a non-JavaScript person.  While doing so, I took notes in code to describe it...which wound up scattered as small sections of comments around the files.}
+print << [
 
-{Nowadays I'm reasonably familiar with Underscore.  Yet I'd still like to provide my notes alongside the `require('underscore')` for those who *aren't* familiar, who might read my code and want to understand it.  I simply don't know of any entry point which maps it out quite the way I'd like to see it presented.}
+    {When I first encountered Node.JS it was to port [Blackhighlighter](http://blackhighlighter.org) to it from Django.  In early Node tutorials, I ran into [underscore.js](http://en.wikipedia.org/wiki/Underscore.js)--and had to put it into a context I understood as a non-JavaScript person.  While doing so, I took notes in code to describe it...which wound up scattered as small sections of comments around the files.}
 
-{So following the policy I describe in [Comments vs. Links on the Collaborative Web](http://blog.hostilefork.com/comments-vs-web-links-2014/), I'm transferring my Underscore-related comments into a blog I can just link to instead.  Maybe this article will also help someone else coming from another language into the Node.JS ecology?}
+    {Nowadays I'm reasonably familiar with Underscore.  Yet I'd still like to provide my notes alongside the `require('underscore')` for those who *aren't* familiar, who might read my code and want to understand it.  I simply don't know of any entry point which maps it out quite the way I'd like to see it presented.}
 
-{Either way, let's start at the top...}
+    {So following the policy I describe in [Comments vs. Links on the Collaborative Web](http://blog.hostilefork.com/comments-vs-web-links-2014/), I'm transferring my Underscore-related comments into a blog I can just link to instead.  Maybe this article will also help someone else coming from another language into the Node.JS ecology?}
 
-[heading {JavaScript is missing stuff (and it's weird)}]
+    "Either way, let's start at the top..."
 
-{For those who don't know: standard JavaScript defines a very minimal set of basic library routines or functions.  The glaringly obvious omission of being able to iterate with a `forEach` led that feature to be reinvented countless times...with different syntax.  Other functions that *should* be simple--like testing to see if a variable is a string or not--wind up looking strange if done "right":}
+]
 
-[code javascript {
+heading "JavaScript is missing stuff (and it's weird)"
+
+print {For those who don't know: standard JavaScript defines a very minimal set of basic library routines or functions.  The glaringly obvious omission of being able to iterate with a `forEach` led that feature to be reinvented countless times...with different syntax.  Other functions that *should* be simple--like testing to see if a variable is a string or not--wind up looking strange if done "right":}
+
+source 'javascript {
 if (typeof myVar == 'string' || myVar instanceof String)
 // it's a string
 else
 // it's something else
-}]
+}
 
-{You can look over a StackOverflow discussion about [why this top-voted test is so ugly](http://stackoverflow.com/questions/4059147/check-if-a-variable-is-a-string).  There's controversy on whether one needs to be that careful or not, but it's kind of unreasonable to expect new programmers to absorb the ramifications.  So this creates a problem that needs to be solved with abstractions that are what you meant: `forEach` and `isString` *(or at least something that can reliably tell you `type` to test against 'string')*.}
+print << [
 
-{In the days when JavaScript was only in the browser, library developers would keep reinventing the basic routines like this.  Since there wasn't a standard, no one wanted to risk a dependency that their project didn't need.  Yet jQuery had its own way of covering these bases, and wound up the de-facto foundation of browser development.  So its set of built-ins like `$.each()` and `$.type()` spread wide and far into code samples on the web.}
+    {You can look over a StackOverflow discussion about [why this top-voted test is so ugly](http://stackoverflow.com/questions/4059147/check-if-a-variable-is-a-string).  There's controversy on whether one needs to be that careful or not, but it's kind of unreasonable to expect new programmers to absorb the ramifications.  So this creates a problem that needs to be solved with abstractions that are what you meant: `forEach` and `isString` *(or at least something that can reliably tell you `type` to test against 'string')*.}
 
-[heading {Node (in itself) doesn't address any of this}]
+    {In the days when JavaScript was only in the browser, library developers would keep reinventing the basic routines like this.  Since there wasn't a standard, no one wanted to risk a dependency that their project didn't need.  Yet jQuery had its own way of covering these bases, and wound up the de-facto foundation of browser development.  So its set of built-ins like `$.each()` and `$.type()` spread wide and far into code samples on the web.}
 
-{Perhaps you heard that Node comes with some really great functionality out of the box.  But when people say that, they mean stuff like libraries for streaming http and tcp.  They are not talking about basic enhancements to the datatypes.}
-
-{No...under the hood, Node.JS is just running the standard V8 JavaScript engine that's in Chrome.  So you're getting a pretty fast and modern JavaScript, to the extent we can use those words to describe JavaScript.  :-P  That means all Node installs use ECMAScript 5 *(at least)*, which actually [did add a forEach](http://stackoverflow.com/a/9329476/211160)!}
-
-{Don't get too excited.  Because `forEach` is really about the only thing they added like that; and they didn't add it because they were all that concerned that people were having to wrap other things.  After all--JavaScript is successful enough that people have already shown they'd deal with it.  Language purists weren't going to switch from Haskell because testing for strings got cleaner.  :-)  Plus any "cleanups" would run the risk of breaking backward compatibility.}
-
-[note {What you actually get in ECMAScript5 are things like ["strict mode"](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode) *(which you should be using!)* and more functionality for [Objects and Properties](http://ejohn.org/blog/ecmascript-5-objects-and-properties/) *(which you should use if you need it, I dunno)*.}]
-
-{This might make you curious why they would pick out `forEach`...which is partially because of its importance, but mostly for performance reasons.  Wrappers like jQuery's `$.each()` were having to do too much work under the hood and were limited in their efficiency.  Now that the libraries can check for the existence of the faster ECMAScript5 primitive, they can "shim" it invisibly in their implementations.}
-
-[note {I hadn't heard the word "shim" used in this particular sense before.  But JavaScript developers apply it to an abstraction that probes for the native presence of a piece of functionality, and prefers the native but can fulfill the request itself if the need arises.}]
-
-{So given that the standards committee didn't particularly add `forEach` for you anyway, there's not much point in rewriting that jQuery code you copy-pasted off StackOverflow to use it.  Except...}
-
-[heading {You almost certainly shouldn't use jQuery in Node}]
-
-{Using jQuery in Node has been technically possible for a while, and [as of late 2013](http://stackoverflow.com/a/4129032/211160) the official jQuery team took over management of the Node.JS package `jquery` in NPM.  But it is a little bit *out there* as most server-side code does not want--or need--to be doing manipulations on a browser DOM.  Thus jQuery's lack of appeal on server-side Node gave an early usage boost to a leaner set of foundations: and that would be Underscore.JS.}
-
-{Underscore doesn't have anything to do with web browser abilities like setting up click methods or styling things with CSS.  It's just the basics like those missing functions for iterating and testing datatypes in a safe way.  It also helps fill in other generally useful methods--like getting all the keys from an object and putting them in an array:}
-
-[http://documentcloud.github.io/underscore/ {Underscore.JS one-page function reference}]
-
-{While jQuery and Underscore have *slight* overlap, it actually isn't much.  And if you're programming on the browser side in jQuery and are worried about yet-another-dependency... the dependency's *size* is actually not all that much of an issue.  In fact, you can read the nicely presented [Annotated Underscore.JS Source](http://underscorejs.org/docs/underscore.html) in a novel two column format, showing it to be short and clear.}
-
-[heading {Conclusion}]
-
-{So to sum up the points:}
-
-[list 
-	{Don't use jQuery on Node.JS server-side (unless you have a really weird situation you're sure needs it)}
-
-	{Underscore is used by many-if-not-most Node projects, and you should probably use it too.  For its size, it provides some useful general stuff.}
-
-	{Given its small size, Underscore is a fairly inconsequential dependency for your browser client-side projects.  Plus, if you're using jQuery the last thing you should be claiming to worry about is *the size*.  :-P}
 ]
+
+heading "Node (in itself) doesn't address any of this"
+
+print << [
+
+    {Perhaps you heard that Node comes with some really great functionality out of the box.  But when people say that, they mean stuff like libraries for streaming http and tcp.  They are not talking about basic enhancements to the datatypes.}
+
+    {No...under the hood, Node.JS is just running the standard V8 JavaScript engine that's in Chrome.  So you're getting a pretty fast and modern JavaScript, to the extent we can use those words to describe JavaScript.  :-P  That means all Node installs use ECMAScript 5 *(at least)*, which actually [did add a forEach](http://stackoverflow.com/a/9329476/211160)!}
+
+    {Don't get too excited.  Because `forEach` is really about the only thing they added like that; and they didn't add it because they were all that concerned that people were having to wrap other things.  After all--JavaScript is successful enough that people have already shown they'd deal with it.  Language purists weren't going to switch from Haskell because testing for strings got cleaner.  :-)  Plus any "cleanups" would run the risk of breaking backward compatibility.}
+
+]
+
+note {What you actually get in ECMAScript5 are things like ["strict mode"](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode) *(which you should be using!)* and more functionality for [Objects and Properties](http://ejohn.org/blog/ecmascript-5-objects-and-properties/) *(which you should use if you need it, I dunno)*.}
+
+print {This might make you curious why they would pick out `forEach`...which is partially because of its importance, but mostly for performance reasons.  Wrappers like jQuery's `$.each()` were having to do too much work under the hood and were limited in their efficiency.  Now that the libraries can check for the existence of the faster ECMAScript5 primitive, they can "shim" it invisibly in their implementations.}
+
+note {I hadn't heard the word "shim" used in this particular sense before.  But JavaScript developers apply it to an abstraction that probes for the native presence of a piece of functionality, and prefers the native but can fulfill the request itself if the need arises.}
+
+print {So given that the standards committee didn't particularly add `forEach` for you anyway, there's not much point in rewriting that jQuery code you copy-pasted off StackOverflow to use it.  Except...}
+
+heading "You almost certainly shouldn't use jQuery in Node"
+
+print << [
+
+    {Using jQuery in Node has been technically possible for a while, and [as of late 2013](http://stackoverflow.com/a/4129032/211160) the official jQuery team took over management of the Node.JS package `jquery` in NPM.  But it is a little bit *out there* as most server-side code does not want--or need--to be doing manipulations on a browser DOM.  Thus jQuery's lack of appeal on server-side Node gave an early usage boost to a leaner set of foundations: and that would be Underscore.JS.}
+
+    {Underscore doesn't have anything to do with web browser abilities like setting up click methods or styling things with CSS.  It's just the basics like those missing functions for iterating and testing datatypes in a safe way.  It also helps fill in other generally useful methods--like getting all the keys from an object and putting them in an array:}
+
+]
+
+link [http://documentcloud.github.io/underscore/ "Underscore.JS one-page function reference"]
+
+print {While jQuery and Underscore have *slight* overlap, it actually isn't much.  And if you're programming on the browser side in jQuery and are worried about yet-another-dependency... the dependency's *size* is actually not all that much of an issue.  In fact, you can read the nicely presented [Annotated Underscore.JS Source](http://underscorejs.org/docs/underscore.html) in a novel two column format, showing it to be short and clear.}
+
+heading "Conclusion"
+
+print "So to sum up the points:"
+
+list [item << [
+
+        {Don't use jQuery on Node.JS server-side (unless you have a really weird situation you're sure needs it)}
+
+        {Underscore is used by many-if-not-most Node projects, and you should probably use it too.  For its size, it provides some useful general stuff.}
+
+        {Given its small size, Underscore is a fairly inconsequential dependency for your browser client-side projects.  Plus, if you're using jQuery the last thing you should be claiming to worry about is *the size*.  :-P}
+
+    ]]

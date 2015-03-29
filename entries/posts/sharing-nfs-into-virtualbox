@@ -6,131 +6,165 @@ Draem [
     old-url-prefix: %2013/04/14/
 ]
 
-[update
+update [
 
-    {A reader has pointed out that the specific problem that I was trying to address is actually solvable using another workaround.  Due to bugs in VirtualBox shared folders handling symlinks, they were actually [disabled on purpose](https://www.virtualbox.org/ticket/10085#comment:12)...and no check box was provided in the UI to turn them back on.  But if you're a "risk taker" and have read the issues and don't think they affect you, you can use VBoxManage to enable it on a case by case basis...for particular shares in a particular VM.}
+    print << [
 
-    {So if you go to the directory where your virtual machine lives, and the VM name is VM_NAME with your share named SHARE_NAME, you just need to type:}
+        {A reader has pointed out that the specific problem that I was trying to address is actually solvable using another workaround.  Due to bugs in VirtualBox shared folders handling symlinks, they were actually [disabled on purpose](https://www.virtualbox.org/ticket/10085#comment:12)...and no check box was provided in the UI to turn them back on.  But if you're a "risk taker" and have read the issues and don't think they affect you, you can use VBoxManage to enable it on a case by case basis...for particular shares in a particular VM.}
 
-    [code {VBoxManage setextradata VM_NAME VBoxInternal2/SharedFoldersEnableSymlinksCreate/SHARE_NAME 1}]
+        {So if you go to the directory where your virtual machine lives, and the VM name is VM_NAME with your share named SHARE_NAME, you just need to type:}
 
-    {That turns shared links back on, for that VM and that share.  And if you don't know how to mount VirtualBox shares from within the client in read/write, in my case you have to specify your user id as MY_ID in the following way:}
+    ]
 
-    [code {sudo mount -t vboxsf -o uid=MY_ID,rw share /path/to/share}]
+    source {VBoxManage setextradata VM_NAME VBoxInternal2/SharedFoldersEnableSymlinksCreate/SHARE_NAME 1}
 
-    {In my basic tests, this seems to work.  If anyone has insights into what the actual dangers to doing this are, please add a comment.)}
+    print {That turns shared links back on, for that VM and that share.  And if you don't know how to mount VirtualBox shares from within the client in read/write, in my case you have to specify your user id as MY_ID in the following way:}
+
+    source {sudo mount -t vboxsf -o uid=MY_ID,rw share /path/to/share}
+
+    print {In my basic tests, this seems to work.  If anyone has insights into what the actual dangers to doing this are, please add a comment.)}
 
 ]
 
-{Before I mentioned how I had [moved from VMWare to VirtualBox](http://blog.hostilefork.com/virtual-machines-genuine-windows/), so that more of the stack I use would be open source.  Besides the "Genuine Windows" VM re-activation annoyance I mention (due to a perceived hardware change), everything seemed to go fine after that.}
+print << [
 
-{A couple months later I hit a snag.  In my configuration I wanted to keep certain project directories on the host...and be able to read and write those directories in the guest.  I expected to be able to use the "Shared Folders" feature, which does exactly this.  It's built into VirtualBox:}
+    {Before I mentioned how I had [moved from VMWare to VirtualBox](http://blog.hostilefork.com/virtual-machines-genuine-windows/), so that more of the stack I use would be open source.  Besides the "Genuine Windows" VM re-activation annoyance I mention (due to a perceived hardware change), everything seemed to go fine after that.}
 
-[image http://hostilefork.com/media/blog/sharing-nfs-into-virtualbox/shared-folders.png 428x284 "Shared Folders Feature in VirtualBox"]
+    {A couple months later I hit a snag.  In my configuration I wanted to keep certain project directories on the host...and be able to read and write those directories in the guest.  I expected to be able to use the "Shared Folders" feature, which does exactly this.  It's built into VirtualBox:}
 
-"But eventually I ran into a problem..."
+]
 
-{VirtualBox shared folders don't support the creation of [symbolic links](http://en.wikipedia.org/wiki/Symbolic_link) by the guest in a directory owned by the host.  Not even if the underlying file system on the host supports them.  :(}
+image [http://hostilefork.com/media/blog/sharing-nfs-into-virtualbox/shared-folders.png 428x284 "Shared Folders Feature in VirtualBox"]
 
-{How to work around this?  Networked filesystems were one answer, but have never been something I looked at favorably.  They've always seemed overly complicated to set up, and platforms pull support for any given one at the drop of a hat.  Plus, they offer ridiculously opaque error messages which give you no indication of what setting you might tweak to make them work.}
+print << [
 
-{So despite being the type of person who snarls at people who back up source code with zip files and demand they learn to use version control, I've been a luddite when it comes to networked filesystems.  Rather than go through the pain of setting them up, I'd frequently resort to zipping up a directory...putting it on a ftp server...then downloading it to the other computer!  :-/}
+    "But eventually I ran into a problem..."
 
-{But zipping the problem away wasn't going to be an option in this case.  So it was time to bite the bullet.  I'm going to explain how I set up NFS on an OS/X host with a Debian VM.}
+    {VirtualBox shared folders don't support the creation of [symbolic links](http://en.wikipedia.org/wiki/Symbolic_link) by the guest in a directory owned by the host.  Not even if the underlying file system on the host supports them.  :(}
 
-more
+    {How to work around this?  Networked filesystems were one answer, but have never been something I looked at favorably.  They've always seemed overly complicated to set up, and platforms pull support for any given one at the drop of a hat.  Plus, they offer ridiculously opaque error messages which give you no indication of what setting you might tweak to make them work.}
 
-[heading "Why did I choose NFS?"]
+    {So despite being the type of person who snarls at people who back up source code with zip files and demand they learn to use version control, I've been a luddite when it comes to networked filesystems.  Rather than go through the pain of setting them up, I'd frequently resort to zipping up a directory...putting it on a ftp server...then downloading it to the other computer!  :-/}
 
-{I didn't actually care so much whether the files lived in the guest or host...so long as they could be shared, so I researched several possibilities.  I knew about userspace file-systems ("FUSE"), and I wondered if that could be an avenue of attack.  I'd seen people able to [treat their Gmail accounts as external disks](http://madram.wordpress.com/2007/04/23/accessing-gmail-as-a-filesystem-on-mac-os-x/)...and utilities like ForkLift used FUSE technology to work with at least some of "FTP, SFTP, WebDAV, S3, iDisk, SMB, AFP and NIS".  Could any of this handle symbolic links?}
+    {But zipping the problem away wasn't going to be an option in this case.  So it was time to bite the bullet.  I'm going to explain how I set up NFS on an OS/X host with a Debian VM.}
 
-http://www.binarynights.com/
+]
 
-{To make a long story short, [it is theoretically possible](http://stackoverflow.com/questions/1966856/implementing-symlinks-in-a-virtual-file-system) for a FUSE-based filesystem to implement symbolic links, if it so chooses.  Most people don't.}
+heading "Why did I choose NFS?"
 
-{What worried me the most was that MacFUSE has undergone some divisions, as you can see if you read this ["State of the Union"](http://macfuse.975588.n3.nabble.com/MacFUSE-State-of-the-Union-MacFUSE-vs-Fuse4X-vs-OSXFUSE-td3280966.html).  The original developer decided to abandon the project to go create a commercial project called "NuFS", leaving behind a dead codebase as well as instigating "OSXFUSE" and "Fuse4X".  There were also some stability horror stories since MacFUSE is fairly low-level, and after what I'd read I definitely don't want to install it on my system.}
+print {I didn't actually care so much whether the files lived in the guest or host...so long as they could be shared, so I researched several possibilities.  I knew about userspace file-systems ("FUSE"), and I wondered if that could be an avenue of attack.  I'd seen people able to [treat their Gmail accounts as external disks](http://madram.wordpress.com/2007/04/23/accessing-gmail-as-a-filesystem-on-mac-os-x/)...and utilities like ForkLift used FUSE technology to work with at least some of "FTP, SFTP, WebDAV, S3, iDisk, SMB, AFP and NIS".  Could any of this handle symbolic links?}
 
-{So I decided to take a look at the [Networked File System (NFS)](http://en.wikipedia.org/wiki/Network_File_System).  It's a standard with a long history, but it has gone through various protocol versions...now up to version 4.  I didn't have to install it on any of the systems I use...it was just already there.  That gave me enough peace of mind that I went with it.}
+link http://www.binarynights.com/
 
-[heading "What is the NFS security model?"]
+print << [
 
-{I'll start by stating the obvious: there is a "server" component that sits on the computer with the directory you want to share.  Then there is a "client" component that runs on the computer that wishes to treat this host's directory as if it were local.  The server component runs in the background and is called the "NFS [daemon](http://en.wikipedia.org/wiki/Daemon_(computing))" (**nfsd**).}
+    {To make a long story short, [it is theoretically possible](http://stackoverflow.com/questions/1966856/implementing-symlinks-in-a-virtual-file-system) for a FUSE-based filesystem to implement symbolic links, if it so chooses.  Most people don't.}
 
-{The security model (if you want to call it that) was for tightly-managed "Intranets", which are different from the Internet we know today.  Basically the daemon either "trusts" or "doesn't trust" a machine...this decision is based on its IP address.  Beyond that filter, this trust is based solely on the [unix user ID number](http://en.wikipedia.org/wiki/Id_(Unix)) provided by the client.}
+    {What worried me the most was that MacFUSE has undergone some divisions, as you can see if you read this ["State of the Union"](http://macfuse.975588.n3.nabble.com/MacFUSE-State-of-the-Union-MacFUSE-vs-Fuse4X-vs-OSXFUSE-td3280966.html).  The original developer decided to abandon the project to go create a commercial project called "NuFS", leaving behind a dead codebase as well as instigating "OSXFUSE" and "Fuse4X".  There were also some stability horror stories since MacFUSE is fairly low-level, and after what I'd read I definitely don't want to install it on my system.}
 
-{As the Wikipedia article points out, you can find out your number at the command prompt:}
+    {So I decided to take a look at the [Networked File System (NFS)](http://en.wikipedia.org/wiki/Network_File_System).  It's a standard with a long history, but it has gone through various protocol versions...now up to version 4.  I didn't have to install it on any of the systems I use...it was just already there.  That gave me enough peace of mind that I went with it.}
 
-[code text {
+]
+
+heading "What is the NFS security model?"
+
+print << [
+
+    {I'll start by stating the obvious: there is a "server" component that sits on the computer with the directory you want to share.  Then there is a "client" component that runs on the computer that wishes to treat this host's directory as if it were local.  The server component runs in the background and is called the "NFS [daemon](http://en.wikipedia.org/wiki/Daemon_(computing))" (**nfsd**).}
+
+    {The security model (if you want to call it that) was for tightly-managed "Intranets", which are different from the Internet we know today.  Basically the daemon either "trusts" or "doesn't trust" a machine...this decision is based on its IP address.  Beyond that filter, this trust is based solely on the [unix user ID number](http://en.wikipedia.org/wiki/Id_(Unix)) provided by the client.}
+
+    {As the Wikipedia article points out, you can find out your number at the command prompt:}
+
+]
+
+source 'text {
 alice@darkstar:~$ id
 uid=1020(alice) gid=100(users) groups=100(users)
-}]
+}
 
-{So let's say that alice is a user on machine "darkstar" at 192.168.1.1.  Then let's say that that NFS has been configured on darkstar to share out a certain directory, and allow connections from everything in the range 192.168.1.1 through 192.168.1.255.  If someone is logged in as user id 1020 on 192.168.1.42 and connects, they will get the same permissions that alice would have on that directory...no matter what their username or password are.}
+print << [
 
-{It's important to know that anyone with root access on a machine can [change a user's id](http://it.toolbox.com/blogs/locutus/how-to-change-a-users-uid-and-gid-26368) (so long as they're not logged in at the time).  So imagine this scenario:}
+    {So let's say that alice is a user on machine "darkstar" at 192.168.1.1.  Then let's say that that NFS has been configured on darkstar to share out a certain directory, and allow connections from everything in the range 192.168.1.1 through 192.168.1.255.  If someone is logged in as user id 1020 on 192.168.1.42 and connects, they will get the same permissions that alice would have on that directory...no matter what their username or password are.}
 
-[code text {
+    {It's important to know that anyone with root access on a machine can [change a user's id](http://it.toolbox.com/blogs/locutus/how-to-change-a-users-uid-and-gid-26368) (so long as they're not logged in at the time).  So imagine this scenario:}
+
+]
+
+source 'text {
 root@allyourbase:~$ id mallory
 uid=501(mallory) gid=304(hackers) groups=304(hackers)
 
 root@allyourbase:~$ usermod -u 1020 mallory
-}]
+}
 
-{Now if Mallory connects to an NFS share on darkstar, he will have the same privileges on the shared directory as Alice.  No password required--if NFS trusts the machine's IP address then having the IDs match is enough!  There is a reason that in the UNIX community it is said that what NFS actually stands for is *"No Freakin' Security"*.  :-)}
+print {Now if Mallory connects to an NFS share on darkstar, he will have the same privileges on the shared directory as Alice.  No password required--if NFS trusts the machine's IP address then having the IDs match is enough!  There is a reason that in the UNIX community it is said that what NFS actually stands for is *"No Freakin' Security"*.  :-)}
 
-[note {NFS version 4 actually added a strong security model, based on Kerberos. No idea how to set that up on OSX, though!}]
+note {NFS version 4 actually added a strong security model, based on Kerberos. No idea how to set that up on OSX, though!}
 
-{So this isn't really much of a security measure.  File this under "reason #1,020,304 that you need a firewall."  It's more of a "bookkeeping tool" than a "security tool", and can be important if you have different users on your Intranet.  Or perhaps you (like me) operate under different logins and file ownership depending on which project you are working on...just to sandbox things.  But if you just want to keep it simple, the NFS daemon can be configured to ignore whatever user ID someone connected with, and pretend everyone connects with the same fixed ID.}
+print {So this isn't really much of a security measure.  File this under "reason #1,020,304 that you need a firewall."  It's more of a "bookkeeping tool" than a "security tool", and can be important if you have different users on your Intranet.  Or perhaps you (like me) operate under different logins and file ownership depending on which project you are working on...just to sandbox things.  But if you just want to keep it simple, the NFS daemon can be configured to ignore whatever user ID someone connected with, and pretend everyone connects with the same fixed ID.}
 
-[heading "Configuring the Host and Client"]
+heading "Configuring the Host and Client"
 
-{Some systems (like OS/X) come with NFS already installed.  It's [not terribly easy to check what version of NFS you are running](http://www.linuxquestions.org/questions/linux-newbie-8/how-to-check-nfs-version-627485/) because no one thought to put in a `--version` flag :-( but hopefully whatever version you get is good enough for the purpose of sharing files with a local virtual machine.  If you type `sudo nfsd` and don't get anything back, then try installing with:}
+print {Some systems (like OS/X) come with NFS already installed.  It's [not terribly easy to check what version of NFS you are running](http://www.linuxquestions.org/questions/linux-newbie-8/how-to-check-nfs-version-627485/) because no one thought to put in a `--version` flag :-( but hopefully whatever version you get is good enough for the purpose of sharing files with a local virtual machine.  If you type `sudo nfsd` and don't get anything back, then try installing with:}
 
-[code "sudo apt-get install nfs-common"]
+source "sudo apt-get install nfs-common"
 
-{The configuration on the host which specifies what directories are shared out (and with what permissions) is stored in a file called **/etc/exports**.  If you want the long story of all the options that you can use in this file, I suggest reading something like XMBC's ["NFS sharing from Mac OS/X"](http://wiki.xbmc.org/index.php?title=NFS#NFS_sharing_from_Mac_OSX).  But because the computers on my local network are behind a firewall I just do it like this:}
+print {The configuration on the host which specifies what directories are shared out (and with what permissions) is stored in a file called **/etc/exports**.  If you want the long story of all the options that you can use in this file, I suggest reading something like XMBC's ["NFS sharing from Mac OS/X"](http://wiki.xbmc.org/index.php?title=NFS#NFS_sharing_from_Mac_OSX).  But because the computers on my local network are behind a firewall I just do it like this:}
 
-[code {
+source {
 /path/to/share -network 192.168.0.0 -mask 255.255.0.0
 /another/path -network 192.168.0.0 -mask 255.255.0.0
-}]
+}
 
-{After each time you edit this file, be sure to type `sudo nfsd restart` on the host to get the changes to take.}
+print << [
 
-{The file inside the Linux client of VirtualBox that configures how to connect to those shares is just the usual mount point descriptions in **/etc/fstab**.  The tricky part is how to get your client to know the IP address of the host.  Interestingly enough, it's possible from within VirtualBox to [speak to the host over the address 10.0.2.2](http://stackoverflow.com/questions/1261975/addressing-localhost-from-a-virtualbox-virtual-machine). In fact, I am able to successfully get the list of mount points on the host by running:}
+    {After each time you edit this file, be sure to type `sudo nfsd restart` on the host to get the changes to take.}
 
-[code "sudo showmount -e 10.0.2.2"]
+    {The file inside the Linux client of VirtualBox that configures how to connect to those shares is just the usual mount point descriptions in **/etc/fstab**.  The tricky part is how to get your client to know the IP address of the host.  Interestingly enough, it's possible from within VirtualBox to [speak to the host over the address 10.0.2.2](http://stackoverflow.com/questions/1261975/addressing-localhost-from-a-virtualbox-virtual-machine). In fact, I am able to successfully get the list of mount points on the host by running:}
 
-{But unfortunately, if I try to declare the outer VM in my **/etc/hosts** file with a line like:}
-
-[code "outer 10.0.2.2"]
-
-{Then when I try to mount the NFS share I get the message *mount.nfs: access denied by server while mounting outer:/path/to/share*.  For some reason, it works if I go into the network settings for the outer machine and enter the actual IP address.  (I'm trying to follow up on why or how to get it to work.)}
-
-{In any case, the line you'll need in your virtual machine's **/etc/fstab** will look basically like this:}
-
-[code {
-outer:/path/to/share /home/alice/share nfs rw,user,noauto 0 
-}]
-
-[heading "Changing the user ID in the Guest"]
-
-{As mentioned, NFS wants the user ID to match by default.  This is not actually that hard to do, and because it's been a while since I did this setup I don't remember if it's necessary or if the setting to accept all user IDs works (which would be fine for me).  If you need to change your user ID in the guest, here's what to do:}
-
-[list
-    {Create another administrative account on the Linux guest.}
-
-    {Restart the virtual machine and log in as the new administrator *(it may not be enough to just log out, as some user-related information is still locked after logging out)*}
-
-    {On the host, get the user ID tied to the files.  You can do this by running `id` at a command line on UNIXes.}
-
-    {In the guest, run **usermod -u [ID] [username]** to change the number to match, for the user account}
-
-    [
-        {Depending on the value of ID, you may need to change the minimum user ID that the login manager will show.  Check `/etc/login.defs` for instance, and see if UID_MIN is set to something larger than the number you used.  OS/X starts user IDs at 501 for instance, Linuxes at 1000...so you may find the number is set to 1000.}
-
-        [note {This may make undesirable "fake" users appear in your login screen, and if that bothers you then you will have to reset the user IDs of those}]
-    ]
 ]
 
-{I'm trying to get this entry published, as it has sat around unfinished for quite some time.  So I'll just touch up the entry the next time I actually have to do this.  But feel free to comment in the meantime!}
+source "sudo showmount -e 10.0.2.2"
+
+print {But unfortunately, if I try to declare the outer VM in my **/etc/hosts** file with a line like:}
+
+source "outer 10.0.2.2"
+
+print << [
+
+    {Then when I try to mount the NFS share I get the message *mount.nfs: access denied by server while mounting outer:/path/to/share*.  For some reason, it works if I go into the network settings for the outer machine and enter the actual IP address.  (I'm trying to follow up on why or how to get it to work.)}
+
+    {In any case, the line you'll need in your virtual machine's **/etc/fstab** will look basically like this:}
+
+]
+
+source {
+outer:/path/to/share /home/alice/share nfs rw,user,noauto 0 
+}
+
+heading "Changing the user ID in the Guest"
+
+print {As mentioned, NFS wants the user ID to match by default.  This is not actually that hard to do, and because it's been a while since I did this setup I don't remember if it's necessary or if the setting to accept all user IDs works (which would be fine for me).  If you need to change your user ID in the guest, here's what to do:}
+
+list [item << [
+
+        {Create another administrative account on the Linux guest.}
+
+        {Restart the virtual machine and log in as the new administrator *(it may not be enough to just log out, as some user-related information is still locked after logging out)*}
+
+        {On the host, get the user ID tied to the files.  You can do this by running `id` at a command line on UNIXes.}
+
+        {In the guest, run **usermod -u [ID] [username]** to change the number to match, for the user account}
+
+        [
+
+            print {Depending on the value of ID, you may need to change the minimum user ID that the login manager will show.  Check `/etc/login.defs` for instance, and see if UID_MIN is set to something larger than the number you used.  OS/X starts user IDs at 501 for instance, Linuxes at 1000...so you may find the number is set to 1000.}
+
+            note {This may make undesirable "fake" users appear in your login screen, and if that bothers you then you will have to reset the user IDs of those}
+
+        ]
+
+    ]]
+
+print {I'm trying to get this entry published, as it has sat around unfinished for quite some time.  So I'll just touch up the entry the next time I actually have to do this.  But feel free to comment in the meantime!}

@@ -6,86 +6,106 @@ Draem [
     old-url-prefix: %2009/12/02/
 ]
 
-[update 4-Feb-2013
-	{This article has turned out to be one of the most frequently hit pages on my website. So I rewrote it to try and better help those searching for the keywords. If you are opposed to the idea that bloggers rewrite history to respond to Google Analytics data, [here's the Internet Archive version of the original](https://web.archive.org/web/20130924104241/http://hostilefork.com/2009/12/02/trashes-fseventsd-and-spotlight-v100/).}
+update 4-Feb-2013 {This article has turned out to be one of the most frequently hit pages on my website. So I rewrote it to try and better help those searching for the keywords. If you are opposed to the idea that bloggers rewrite history to respond to Google Analytics data, [here's the Internet Archive version of the original](https://web.archive.org/web/20130924104241/http://hostilefork.com/2009/12/02/trashes-fseventsd-and-spotlight-v100/).}
+
+print << [
+
+    {If you're reading this, you have probably found some USB stick or external drive with files named `.Trashes`, `.fseventsd`, `.Spotlight-V100` (and possibly even the more rarely reported `._.Trashes`) on it.  You might also be annoyed to see files in various directories called `.DS_Store`.  Right?}
+
+    {Odds are, you probably plugged that drive into a Mac at some point.  While it had the opportunity, OS/X decided to throw a party on your drive.  It grabbed some chunks of disk space for itself, which it uses to make the experience of using OS/X with that drive more streamlined.  But if you never plug the disk into an Apple computer again, the space it chewed up will not be reclaimed.}
+
 ]
 
-{If you're reading this, you have probably found some USB stick or external drive with files named `.Trashes`, `.fseventsd`, `.Spotlight-V100` (and possibly even the more rarely reported `._.Trashes`) on it.  You might also be annoyed to see files in various directories called `.DS_Store`.  Right?}
+heading "ASEPSIS: A free open-source permanent solution"
 
-{Odds are, you probably plugged that drive into a Mac at some point.  While it had the opportunity, OS/X decided to throw a party on your drive.  It grabbed some chunks of disk space for itself, which it uses to make the experience of using OS/X with that drive more streamlined.  But if you never plug the disk into an Apple computer again, the space it chewed up will not be reclaimed.}
+print {Since the time of originally writing of the article, a program has come on the scene called [Asepsis](http://asepsis.binaryage.com/).  On versions of OS/X at 10.8 or newer, it will hook the operating system in such a way to contain all the DS_Store files your system makes into a certain subdirectory.}
 
-[heading {ASEPSIS: A free open-source permanent solution}]
+link http://asepsis.binaryage.com/
 
-{Since the time of originally writing of the article, a program has come on the scene called [Asepsis](http://asepsis.binaryage.com/).  On versions of OS/X at 10.8 or newer, it will hook the operating system in such a way to contain all the DS_Store files your system makes into a certain subdirectory.}
+print {It's a promising idea, although maybe a little bit "invasive".  I'll mention some other solutions and details of the problem.}
 
-http://asepsis.binaryage.com/
+heading "Short Version: What To Do"
 
-{It's a promising idea, although maybe a little bit "invasive".  I'll mention some other solutions and details of the problem.}
+print {I only know one method to prevent OS/X from doing this to a specific disk.  Ironically, that involves putting some of your own weird (but tiny) files on the disk before you plug it into an OS/X machine:}
 
-[heading {Short Version: What To Do}]
+list [item << [
 
-{I only know one method to prevent OS/X from doing this to a specific disk.  Ironically, that involves putting some of your own weird (but tiny) files on the disk before you plug it into an OS/X machine:}
+        {To stop OS/X from doing Spotlight indexing, you need a file called `.metadata_never_index` in the root directory of the removable drive.}
 
-[list
+        {To stop OS/X from making a `.Trashes` directory, you need to make your own file that *isn't* a directory and call it `.Trashes`}
 
-    {To stop OS/X from doing Spotlight indexing, you need a file called `.metadata_never_index` in the root directory of the removable drive.}
+        [
 
-    {To stop OS/X from making a `.Trashes` directory, you need to make your own file that *isn't* a directory and call it `.Trashes`}
+            print {To keep it from doing logging of filesystem events on the drive, you need to make a directory called `.fseventsd` and inside that folder put a single file named `no_log`.}
 
-    [
-	    {To keep it from doing logging of filesystem events on the drive, you need to make a directory called `.fseventsd` and inside that folder put a single file named `no_log`.}
+            note {Although you *can* do this for `.fseventsd`, and it will technically stop file system events from being logged, this is probably not worthwhile...since by the time you eject a disk this file should be empty.  And you'll really just be breaking notifications of file system events on macs while it's plugged in.  See technical details below.}
 
-	    [note {Although you *can* do this for `.fseventsd`, and it will technically stop file system events from being logged, this is probably not worthwhile...since by the time you eject a disk this file should be empty.  And you'll really just be breaking notifications of file system events on macs while it's plugged in.  See technical details below.}]
-	]
+        ]
+
+    ]]
+
+print << [
+
+    {The contents of these files don't matter, so you can make them empty files using [touch](http://www.linfo.org/touch.html).  Even better, you could make it a text file with a link to this post, so that you (or someone else) wandering across the files will know what they're for.}
+
+    {I don't know of any way to prevent OS/X from creating `.DS_Store` files, which track some preferences in each directory you open with the Finder.  There is an option to [disable it on "Network Drives"](http://support.apple.com/kb/ht1629) by going to a Terminal Window and typing:}
+
 ]
 
-{The contents of these files don't matter, so you can make them empty files using [touch](http://www.linfo.org/touch.html).  Even better, you could make it a text file with a link to this post, so that you (or someone else) wandering across the files will know what they're for.}
+source 'text {defaults write com.apple.desktopservices DSDontWriteNetworkStores true}
 
-{I don't know of any way to prevent OS/X from creating `.DS_Store` files, which track some preferences in each directory you open with the Finder.  There is an option to [disable it on "Network Drives"](http://support.apple.com/kb/ht1629) by going to a Terminal Window and typing:}
+print << [
 
-[text {defaults write com.apple.desktopservices DSDontWriteNetworkStores true}]
+    {But that won't help you with a USB external HD or an SD card.  All the options I know of are basically things which clean up the files in the background or after-the-fact.}
 
-{But that won't help you with a USB external HD or an SD card.  All the options I know of are basically things which clean up the files in the background or after-the-fact.}
+    {There is a free open-source utility that commenter André pointed out, called ["Eject for Windows"](http://www011.upp.so-net.ne.jp/decafish/EjectForWindows/EjectForWindowsE.html) (which should probably be called "Eject *To* Windows").  This doesn't prevent OS/X from making the indexes.  But if you use it instead of the standard eject it will scrub out all the index files first (including `.DS_Store`.)}
 
-{There is a free open-source utility that commenter André pointed out, called ["Eject for Windows"](http://www011.upp.so-net.ne.jp/decafish/EjectForWindows/EjectForWindowsE.html) (which should probably be called "Eject *To* Windows").  This doesn't prevent OS/X from making the indexes.  But if you use it instead of the standard eject it will scrub out all the index files first (including `.DS_Store`.)}
+    {If you want to go the non-free route, there is a program called [Blue Harvest](http://www.zeroonetwenty.com/blueharvest/) which can monitor your disks and has options to (for example) keep non-Mac Filesystems free of the pesky files.  I have not used this, but people speak well of it.}
 
-{If you want to go the non-free route, there is a program called [Blue Harvest](http://www.zeroonetwenty.com/blueharvest/) which can monitor your disks and has options to (for example) keep non-Mac Filesystems free of the pesky files.  I have not used this, but people speak well of it.}
-
-[heading {Long Version: The Technical Details}]
-
-{The first thing to know--if you do not already--is that when the name of a file or directory starts with a period, that's a "convention" meaning "hide this file from normal view".  This convention is understood by programs like the OS/X Finder or standard UNIX shells.}
-
-[{By contrast, Windows filesystems [have a separate "hidden" attribute](http://windows.microsoft.com/en-us/windows/what-is-hidden-file#1TC=windows-7) that has nothing to do with the filename.  It's a meta-data attribute like whether a file is read only.  So files starting with a dot show up on Windows just like any other.}]
-
-[note {If the idea of there being files on your disk you aren't seeing bothers you, it's possible to "take the blinders off" and really "see everything".  For instance, on OS/X [this article from osxdaily](http://osxdaily.com/2009/02/25/show-hidden-files-in-os-x/) explains how to show the hidden files.  I turn this on, but it is probably distracting for most people.}]
-
-{These files are invisible because Apple doesn't think you need to know they are there.  Yet what are the benefits of each of these files?}
-
-[list
-
-	{`.Spotlight-V100` is an index database used by the [Spotlight](https://support.apple.com/en-us/HT204014) feature of OS/X.  A search index is very much like an index at the back of a book that lets you jump to the page you want for a specific term.  But technically speaking, the information is redundant.  You *could* make a book shorter by omitting the index, and then just have readers find words by flipping from the front of the book to the back every time.  Apple wants searches to be fast, so they put this database on every disk you plug into a Mac.  Unfortunately their format is useless to Windows and Linux machines.}
-
-	[
-		{`.Trashes` is where files go when they've been marked for deletion, but not deleted just yet.  Disks have a fixed amount of space on them (well, physical ones, anyway).  So if you have room to spare--and you're not dealing with sensitive information that you really want to wipe out--there's no real harm done if you keep the file around for a while, in case you want to "un-delete" it.  Of course, only a Mac knows where it secretly put the files instead of deleting them; so if you dragged files to the trash on an external disk without clicking "Empty Trash" before you eject those files could be invisibly eating up space forever.}
-
-		[note {The files that begin `._` on OS/X are somewhat esoteric, and are for storing icons and some other "out of band" information.  *(This would have been what was known as a "resource fork" in earlier versions of MacOS.)*  I'm not entirely sure what `._.Trashes` would be... but presumably it's some kind of extended information about the `.Trashes*` directory, maybe something Time Machine uses?  I've never seen one of these, but people have reported it.}]
-	]
-
-	{**.fseventsd** is a log file of *"(F)ile (S)ystem (EVENTS), logged by the a (D)aemon"*.  Basically there is a monitoring background process ("daemon") on OS/X called `fsevents` which it notices whenever files are created, modified, or deleted.  If a running program wants to register to know about this, it finds out by directly (or indirectly via the FSEvents API) consulting this log.  My understanding is that by the time you eject a disk, this is basically going to be empty, so there's probably no point in preventing OS/X from making it size-wise.  The only reason would be if you don't want OS/X to be writing anything to the disk, out of principle.}
-
-	{`.DS_Store` is a little "Desktop Services" store that the Finder will create when you open a window on a directory.  I'm not certain everything that goes into it, but this is where OS/X saves the positions where you put the icons if you organized them manually into positions.}
 ]
 
-[heading {So what do I think}]
+heading "Long Version: The Technical Details"
 
-{In my original article from 2009 I said:}
+print {The first thing to know--if you do not already--is that when the name of a file or directory starts with a period, that's a "convention" meaning "hide this file from normal view".  This convention is understood by programs like the OS/X Finder or standard UNIX shells.}
 
-[quote {Apple's choice to do this is incredibly self-serving and shameful.  At bare minimum, hidden files and features like these should be off by default for any non-mac-only filesystem formats.  They should only be enabled when the user has been made aware of them.}]
+print {By contrast, Windows filesystems [have a separate "hidden" attribute](http://windows.microsoft.com/en-us/windows/what-is-hidden-file#1TC=windows-7) that has nothing to do with the filename.  It's a meta-data attribute like whether a file is read only.  So files starting with a dot show up on Windows just like any other.}
 
-{Some commenters disagreed, and said that there is no empirical "right" answer.  In their view, the details of understanding what it takes to index a drive or manage the Trash is something their average customer doesn't care to learn.  For them, Apple's job is to watch out for their ecosystem and to make a "turnkey" experience that suits the people paying them money.  Those who disagree supposedly can take their money elsewhere.}
+note {If the idea of there being files on your disk you aren't seeing bothers you, it's possible to "take the blinders off" and really "see everything".  For instance, on OS/X [this article from osxdaily](http://osxdaily.com/2009/02/25/show-hidden-files-in-os-x/) explains how to show the hidden files.  I turn this on, but it is probably distracting for most people.}
 
-{But I'm going to stick to my guns, here.  I could quickly design a simple indexing interface which let you pick--for any connected drives you've ever connected with--where to store indexes for them, or not at all.  It would be out of character for Apple to put the user in control of the device instead of the device in control of the user.  But this is just one more way in which they *could* have gotten it right instead of wrong.}
+print {These files are invisible because Apple doesn't think you need to know they are there.  Yet what are the benefits of each of these files?}
 
-{It's simply not "polite" to write to an external drive--especially of a non-Apple filesystem--without involving the user in the decision.  Besides being impolite, it can be destructive: as commenter David points out, you may be in a situation where you know your disk is bad, and want to get as much data off of it as possible.  Writing to it could completely hose a data recovery operation!}
+list [item << [
 
-{Microsoft (and even some Linux desktop managers) are copying these bad practices, and getting in the habit of writing invisible junk in places they did not ask about.  Hopefully users will push back; demanding to be given more options, and more control.  We've gotten to a point where the role technology plays in our lives is too integral to keep letting that control slip away, one "harmless" feature at a time.}
+        {`.Spotlight-V100` is an index database used by the [Spotlight](https://support.apple.com/en-us/HT204014) feature of OS/X.  A search index is very much like an index at the back of a book that lets you jump to the page you want for a specific term.  But technically speaking, the information is redundant.  You *could* make a book shorter by omitting the index, and then just have readers find words by flipping from the front of the book to the back every time.  Apple wants searches to be fast, so they put this database on every disk you plug into a Mac.  Unfortunately their format is useless to Windows and Linux machines.}
+
+        [
+
+            print {`.Trashes` is where files go when they've been marked for deletion, but not deleted just yet.  Disks have a fixed amount of space on them (well, physical ones, anyway).  So if you have room to spare--and you're not dealing with sensitive information that you really want to wipe out--there's no real harm done if you keep the file around for a while, in case you want to "un-delete" it.  Of course, only a Mac knows where it secretly put the files instead of deleting them; so if you dragged files to the trash on an external disk without clicking "Empty Trash" before you eject those files could be invisibly eating up space forever.}
+
+            note {The files that begin `._` on OS/X are somewhat esoteric, and are for storing icons and some other "out of band" information.  *(This would have been what was known as a "resource fork" in earlier versions of MacOS.)*  I'm not entirely sure what `._.Trashes` would be... but presumably it's some kind of extended information about the `.Trashes*` directory, maybe something Time Machine uses?  I've never seen one of these, but people have reported it.}
+
+        ]
+
+        {**.fseventsd** is a log file of *"(F)ile (S)ystem (EVENTS), logged by the a (D)aemon"*.  Basically there is a monitoring background process ("daemon") on OS/X called `fsevents` which it notices whenever files are created, modified, or deleted.  If a running program wants to register to know about this, it finds out by directly (or indirectly via the FSEvents API) consulting this log.  My understanding is that by the time you eject a disk, this is basically going to be empty, so there's probably no point in preventing OS/X from making it size-wise.  The only reason would be if you don't want OS/X to be writing anything to the disk, out of principle.}
+
+        {`.DS_Store` is a little "Desktop Services" store that the Finder will create when you open a window on a directory.  I'm not certain everything that goes into it, but this is where OS/X saves the positions where you put the icons if you organized them manually into positions.}
+
+    ]]
+
+heading "So what do I think"
+
+print "In my original article from 2009 I said:"
+
+quote {Apple's choice to do this is incredibly self-serving and shameful.  At bare minimum, hidden files and features like these should be off by default for any non-mac-only filesystem formats.  They should only be enabled when the user has been made aware of them.}
+
+print << [
+
+    {Some commenters disagreed, and said that there is no empirical "right" answer.  In their view, the details of understanding what it takes to index a drive or manage the Trash is something their average customer doesn't care to learn.  For them, Apple's job is to watch out for their ecosystem and to make a "turnkey" experience that suits the people paying them money.  Those who disagree supposedly can take their money elsewhere.}
+
+    {But I'm going to stick to my guns, here.  I could quickly design a simple indexing interface which let you pick--for any connected drives you've ever connected with--where to store indexes for them, or not at all.  It would be out of character for Apple to put the user in control of the device instead of the device in control of the user.  But this is just one more way in which they *could* have gotten it right instead of wrong.}
+
+    {It's simply not "polite" to write to an external drive--especially of a non-Apple filesystem--without involving the user in the decision.  Besides being impolite, it can be destructive: as commenter David points out, you may be in a situation where you know your disk is bad, and want to get as much data off of it as possible.  Writing to it could completely hose a data recovery operation!}
+
+    {Microsoft (and even some Linux desktop managers) are copying these bad practices, and getting in the habit of writing invisible junk in places they did not ask about.  Hopefully users will push back; demanding to be given more options, and more control.  We've gotten to a point where the role technology plays in our lives is too integral to keep letting that control slip away, one "harmless" feature at a time.}
+
+]

@@ -6,33 +6,41 @@ Draem [
     old-url-prefix: %2007/11/25/
 ]
 
-{Windows Explorer has a rather odd quirk when you rename a file.  If you happen to have several items selected, all those selected files are given the exact same name.  I don't like the behavior and it only ever happens to me on accident, but Microsoft documented it... so I'll let it slide for now.}
+print << [
 
-{What I *will* complain about is what happens when I try to undo one of these multi-renames.  Despite only running one command, **you have to press undo multiple times** to restore your state!  You have to actually hit undo for each file you had selected.  (Adding injury to insult, Windows only keeps 10 undo items at a time--so you *can't* get back to your initial state if you had 11 or more files selected.)}
+    {Windows Explorer has a rather odd quirk when you rename a file.  If you happen to have several items selected, all those selected files are given the exact same name.  I don't like the behavior and it only ever happens to me on accident, but Microsoft documented it... so I'll let it slide for now.}
 
-{I demonstrate this defect for you in the video below.  Windows Explorer isn't the only program that does this, so after the video I've written about how we can architect our software so that it will never require more than one undo per "user command":}
+    {What I *will* complain about is what happens when I try to undo one of these multi-renames.  Despite only running one command, **you have to press undo multiple times** to restore your state!  You have to actually hit undo for each file you had selected.  (Adding injury to insult, Windows only keeps 10 undo items at a time--so you *can't* get back to your initial state if you had 11 or more files selected.)}
 
-[youtube https://www.youtube.com/watch?v=WW-IXMcCYco 560x315]
-
-[heading "Why would this happen?"]
-
-{To understand why this happens, you have to know a little bit about how a typical undo manager works.  Most applications simply have a list of objects representing recent commands that have been executed.  These "Command" objects usually have the following methods:}
-
-[list
-
-    {**"Run"** (or "Do"): to execute the command initially, while storing enough information inside the command object that it may revert the effect}
-
-    {**"Undo"**: remove the changes the command made by using the stored information (assuming the relevant application state is in the precise condition after the command was finished)}
-
-    {**"Redo"**: bring back the effects of the command using the stored information (assuming the relevant application state is in the precise condition as when the command was initially run)}
+    {I demonstrate this defect for you in the video below.  Windows Explorer isn't the only program that does this, so after the video I've written about how we can architect our software so that it will never require more than one undo per "user command":}
 
 ]
 
-{It might seem that "Run" and "Redo" are redundant, but they actually perform different functions.  Just imagine a command that inserts the current time into your word processing document.  If someone runs this at 4:00 and then undoes it at 5:00, they expect a redo moments later to restore the "4:00" they just undid...not inject "5:01"!  The undo and redo methods merely playback the action data that was stored during the command--*by design*.}
+youtube [https://www.youtube.com/watch?v=WW-IXMcCYco 560x315]
 
-{Once you understand that a simple command processor will only undo one "Command" at a time, it becomes easy to intuit what Windows Explorer's problem must be.  Somewhere in the shell there is code which looks vaguely like this:}
+heading "Why would this happen?"
 
-[code cpp {
+print {To understand why this happens, you have to know a little bit about how a typical undo manager works.  Most applications simply have a list of objects representing recent commands that have been executed.  These "Command" objects usually have the following methods:}
+
+list [item << [
+
+        {**"Run"** (or "Do"): to execute the command initially, while storing enough information inside the command object that it may revert the effect}
+
+        {**"Undo"**: remove the changes the command made by using the stored information (assuming the relevant application state is in the precise condition after the command was finished)}
+
+        {**"Redo"**: bring back the effects of the command using the stored information (assuming the relevant application state is in the precise condition as when the command was initially run)}
+
+    ]]
+
+print << [
+
+    {It might seem that "Run" and "Redo" are redundant, but they actually perform different functions.  Just imagine a command that inserts the current time into your word processing document.  If someone runs this at 4:00 and then undoes it at 5:00, they expect a redo moments later to restore the "4:00" they just undid...not inject "5:01"!  The undo and redo methods merely playback the action data that was stored during the command--*by design*.}
+
+    {Once you understand that a simple command processor will only undo one "Command" at a time, it becomes easy to intuit what Windows Explorer's problem must be.  Somewhere in the shell there is code which looks vaguely like this:}
+
+]
+
+source 'cpp {
 class RenameCommand : public Command
 {
   string filenameNew;
@@ -59,25 +67,25 @@ class RenameCommand : public Command
     fh->SetName(filenameNew);
   }
 };
-}]
+}
 
-{Then when it came time to implement the multiple renaming facility, the Microsoft programmers didn't modify `RenameCommand` to take a list of files.  They simply told the command processor to invoke several of them in series:}
+print {Then when it came time to implement the multiple renaming facility, the Microsoft programmers didn't modify `RenameCommand` to take a list of files.  They simply told the command processor to invoke several of them in series:}
 
-[code cpp {
+source 'cpp {
 string filenameNew = Shell.GetNameFromUser();
 for (FileHandle fh : Shell.GetSelectedFileHandles()) {
   Command* cmd = new RenameCommand(fh, fileNameNew);
   commandProcessor.RunUndoableCommand(cmd);
 }
-}]
+}
 
-{This is where they get into trouble.  They've added multiple undo items to the command processor's list for what conceptually should have been a single command.}
+print {This is where they get into trouble.  They've added multiple undo items to the command processor's list for what conceptually should have been a single command.}
 
-[heading "Tying transactions directly to user events"]
+heading "Tying transactions directly to user events"
 
-{A naive workaround would be to add the idea of a transaction that encapsulates multiple commands into an "undo group":}
+print {A naive workaround would be to add the idea of a transaction that encapsulates multiple commands into an "undo group":}
 
-[code cpp {
+source 'cpp {
 commandProcessor.BeginUndoGroup();
 
 string nameNew = Shell.GetNameFromUser();
@@ -87,38 +95,50 @@ for (FileHandle fh : Shell.GetSelectedFileHandles()) {
 }
 
 commandProcessor.EndUndoGroup();
-}]
+}
 
-{Yet exposing an API like this from your command processor will not protect against the bug in any general sense.  What *will* solve the general problem is if you only permit a few spots in the main UI loop to access `BeginUndoGroup()` and `EndUndoGroup()`.  Those special places are the points where the user triggered an event that they consider "conceptually atomic".  Some good examples of these privileged moments are:}
+print {Yet exposing an API like this from your command processor will not protect against the bug in any general sense.  What *will* solve the general problem is if you only permit a few spots in the main UI loop to access `BeginUndoGroup()` and `EndUndoGroup()`.  Those special places are the points where the user triggered an event that they consider "conceptually atomic".  Some good examples of these privileged moments are:}
 
-[list
+list [item << [
 
-    "a key press or running an accelerator key"
+        "a key press or running an accelerator key"
 
-    "the selection of a menu item"
+        "the selection of a menu item"
 
-    "the pushing of a toolbar button"
+        "the pushing of a toolbar button"
 
-    {the release of the mouse after a dragging operation}
+        {the release of the mouse after a dragging operation}
+
+    ]]
+
+print << [
+
+    {Obviously each individual mouse movement shouldn't generate an undo group--in a paint program you wouldn't want to have to undo each pixel from a brush stroke!  Yet simply calling `BeginUndoGroup()` when the mouse goes down and then `EndUndoGroup()` when the mouse goes up isn't the ideal solution.  The problem is better solved by not allowing the mouse action to submit a command to the command processor until the mouse button is released.  Until that time, the program just accumulates state from the mouse's movement that will ultimately be used by the command's `Run()` method.}
+
+    {There are so many benefits to deferring the calls to `BeginUndoGroup()` and `EndUndoGroup()` until the mouse button is released that I'd have a hard time condensing them all here.  The features this enables warrant articles of their own!  Savvy GUI developers can probably guess that most of the practical benefits relate to not having to pump UI messages while the command processor is inside a "transaction".  Yet there are more fun results, such as the ability to gracefully [suspend a mouse operation when an application loses focus](http://blog.hostilefork.com/lost-focus-placeholder/).}
 
 ]
 
-{Obviously each individual mouse movement shouldn't generate an undo group--in a paint program you wouldn't want to have to undo each pixel from a brush stroke!  Yet simply calling `BeginUndoGroup()` when the mouse goes down and then `EndUndoGroup()` when the mouse goes up isn't the ideal solution.  The problem is better solved by not allowing the mouse action to submit a command to the command processor until the mouse button is released.  Until that time, the program just accumulates state from the mouse's movement that will ultimately be used by the command's `Run()` method.}
+heading "Protecting against stray document modifications"
 
-{There are so many benefits to deferring the calls to `BeginUndoGroup()` and `EndUndoGroup()` until the mouse button is released that I'd have a hard time condensing them all here.  The features this enables warrant articles of their own!  Savvy GUI developers can probably guess that most of the practical benefits relate to not having to pump UI messages while the command processor is inside a "transaction".  Yet there are more fun results, such as the ability to gracefully [suspend a mouse operation when an application loses focus](http://blog.hostilefork.com/lost-focus-placeholder/).}
+print << [
 
-[heading "Protecting against stray document modifications"]
+    {One way to get even more power out of this architectural pattern is to add runtime checks to ensure that none of your documents can be written to unless a `BeginUndoGroup()` is in effect.  This way you protect yourself from writing a program that persistently modifies a user's document while they are merely hovering over the application's window, or running in the idle loop.  During these times there would be no user event with which to associate the effects, so the undo behavior is going to seem random.}
 
-{One way to get even more power out of this architectural pattern is to add runtime checks to ensure that none of your documents can be written to unless a `BeginUndoGroup()` is in effect.  This way you protect yourself from writing a program that persistently modifies a user's document while they are merely hovering over the application's window, or running in the idle loop.  During these times there would be no user event with which to associate the effects, so the undo behavior is going to seem random.}
+    {I know many programs as they are currently written would choke on these strict rules--but look closely and ask yourself how you expected the undo/redo to work otherwise?  You probably are just hiding bugs very much like the one in Explorer above.  Ensuring that a user-motivated undo group is always in effect before invoking a command with the power to make document modifications will protect against a number of awkward scenarios.}
 
-{I know many programs as they are currently written would choke on these strict rules--but look closely and ask yourself how you expected the undo/redo to work otherwise?  You probably are just hiding bugs very much like the one in Explorer above.  Ensuring that a user-motivated undo group is always in effect before invoking a command with the power to make document modifications will protect against a number of awkward scenarios.}
+]
 
-[note {If you program in C++, it's possible too take this even farther and protect against stray document modifications at *compile-time*, try my suggestion of ["extreme" use of const's transitive power](http://blog.hostilefork.com/transitive-power-of-cpp-const/)!  If the only place your application gives out non-`const` pointers is as a parameter to the `Command.Run()` method, you guard against all kinds of accidents.)}]
+note {If you program in C++, it's possible too take this even farther and protect against stray document modifications at *compile-time*, try my suggestion of ["extreme" use of const's transitive power](http://blog.hostilefork.com/transitive-power-of-cpp-const/)!  If the only place your application gives out non-`const` pointers is as a parameter to the `Command.Run()` method, you guard against all kinds of accidents.)}
 
-[heading "Final thoughts"]
+heading "Final thoughts"
 
-{I do want to add in the caveat that there are probably scenarios where you want to hit undo *fewer* times than the number of user events.  In Microsoft Word, typing a sentence and hitting Ctrl-Z will remove the whole sentence--and that's sometimes what the user wants.  Yet even in these cases of providing higher-order undo commands (which I approve of), the user should still always be allowed able to undo on a per-operation basis.}
+print << [
 
-{Also, there is no way to avoid the multiple-undo situation when a third-party software tool is directly manipulating the user interface of an application on a user's behalf.  A devil's advocate might even argue that the bug in the Windows Shell happens because renaming multiple files isn't an intrinsic function of Windows Explorer, but rather a convenience provided by a separate "Windows Shell Extension Tool".  Yet this is hogwash, since any system advertising an extensible architecture *should be able to handle those plug-ins gracefully within its undo model*.}
+    {I do want to add in the caveat that there are probably scenarios where you want to hit undo *fewer* times than the number of user events.  In Microsoft Word, typing a sentence and hitting Ctrl-Z will remove the whole sentence--and that's sometimes what the user wants.  Yet even in these cases of providing higher-order undo commands (which I approve of), the user should still always be allowed able to undo on a per-operation basis.}
 
-{In summary: I am convinced that requiring undo more times than the number of user events is a sign of poor design.  Your undo/redo model will be clean and solid if you manage your undo groupings according to the guidelines above.  I'd love to hear any success or failure stories people have of working with this approach, so please comment.}
+    {Also, there is no way to avoid the multiple-undo situation when a third-party software tool is directly manipulating the user interface of an application on a user's behalf.  A devil's advocate might even argue that the bug in the Windows Shell happens because renaming multiple files isn't an intrinsic function of Windows Explorer, but rather a convenience provided by a separate "Windows Shell Extension Tool".  Yet this is hogwash, since any system advertising an extensible architecture *should be able to handle those plug-ins gracefully within its undo model*.}
+
+    {In summary: I am convinced that requiring undo more times than the number of user events is a sign of poor design.  Your undo/redo model will be clean and solid if you manage your undo groupings according to the guidelines above.  I'd love to hear any success or failure stories people have of working with this approach, so please comment.}
+
+]

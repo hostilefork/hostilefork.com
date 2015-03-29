@@ -2,225 +2,290 @@ Draem [
     title: "Why is PHP Mind Poison?"
     tags: [rebol php philosophy]
     slug: %why-php-is-mind-poison
-    date: 23-Feb-2013/07:30
+    date: 23-Feb-2013/7:30
 ]
 
-{I was chatting online with someone who didn't know anything about programming. She was wondering where to start, and was thinking about learning PHP.  I said it was "mind poison".  She asked:}
+print {I was chatting online with someone who didn't know anything about programming. She was wondering where to start, and was thinking about learning PHP.  I said it was "mind poison".  She asked:}
 
-[quote "Why is PHP mind poison? Is it a language that traps you in a way of thinking about programming that undermines creativity and innovation?"]
+quote {Why is PHP mind poison? Is it a language that traps you in a way of thinking about programming that undermines creativity and innovation?}
 
-{I can't say I've bothered to learn all that much about PHP.  What little I saw in picking apart programs and reading the documentation was enough to send me running the other direction.  But others do the in-depth criticism I don't care to learn enough to do, such as in a well-known essay by [Alex Munroe](http://eev.ee/about/).  It starts with a fairly accessible analogy:}
+print {I can't say I've bothered to learn all that much about PHP.  What little I saw in picking apart programs and reading the documentation was enough to send me running the other direction.  But others do the in-depth criticism I don't care to learn enough to do, such as in a well-known essay by [Alex Munroe](http://eev.ee/about/).  It starts with a fairly accessible analogy:}
 
-[quote 
-    {I can't even say what’s wrong with PHP, because--okay. Imagine you have uh, a toolbox. A set of tools. Looks okay, standard stuff in there.}
+quote [
 
-    {You pull out a screwdriver, and you see it’s one of those weird tri-headed things. Okay, well, that’s not very useful to you, but you guess it comes in handy sometimes.}
+    print << [
 
-    {You pull out the hammer, but to your dismay, it has the claw part on both sides. Still serviceable though, I mean, you can hit nails with the middle of the head holding it sideways.}
+        {I can't even say what’s wrong with PHP, because--okay. Imagine you have uh, a toolbox. A set of tools. Looks okay, standard stuff in there.}
 
-    {You pull out the pliers, but they don't have those serrated surfaces; it’s flat and smooth. That's less useful, but it still turns bolts well enough, so whatever.}
+        {You pull out a screwdriver, and you see it’s one of those weird tri-headed things. Okay, well, that’s not very useful to you, but you guess it comes in handy sometimes.}
 
-    {And on you go. Everything in the box is kind of weird and quirky, but maybe not enough to make it completely worthless. And there's no clear problem with the set as a whole; it still has all the tools.}
+        {You pull out the hammer, but to your dismay, it has the claw part on both sides. Still serviceable though, I mean, you can hit nails with the middle of the head holding it sideways.}
 
-    {Now imagine you meet millions of carpenters using this toolbox who tell you "well hey what's the problem with these tools? They're all I've ever used and they work fine!" And the carpenters show you the houses they’ve built, where every room is a pentagon and the roof is upside-down. And you knock on the front door and it just collapses inwards and they all yell at you for breaking their door.}
+        {You pull out the pliers, but they don't have those serrated surfaces; it’s flat and smooth. That's less useful, but it still turns bolts well enough, so whatever.}
 
-    {That’s what's wrong with PHP.}
+        {And on you go. Everything in the box is kind of weird and quirky, but maybe not enough to make it completely worthless. And there's no clear problem with the set as a whole; it still has all the tools.}
 
-    /source [http://eev.ee/blog/2012/04/09/php-a-fractal-of-bad-design/ {PHP: A Fractal of Bad Design}]
+        {Now imagine you meet millions of carpenters using this toolbox who tell you "well hey what's the problem with these tools? They're all I've ever used and they work fine!" And the carpenters show you the houses they’ve built, where every room is a pentagon and the roof is upside-down. And you knock on the front door and it just collapses inwards and they all yell at you for breaking their door.}
+
+        "That’s what's wrong with PHP."
+
+    ]
+
+    attribution [link [http://eev.ee/blog/2012/04/09/php-a-fractal-of-bad-design/ "PHP: A Fractal of Bad Design"]]
+
 ]
 
-{That's a good analogy, and I shared the page.  But while a computer language is *like* a toolbox, it's still *not* a toolbox (in the construction sense).  So understanding the rest of the arguments on that page will be difficult for someone who has never written a computer program before, and doesn't really know what a "language" is.}
+print << [
 
-{I didn't necessarily wind up answering the question.  But since Google had saved the chat, I thought I'd archive what I said here in case I ever wanted to do something with it.}
- 
-more
+    {That's a good analogy, and I shared the page.  But while a computer language is *like* a toolbox, it's still *not* a toolbox (in the construction sense).  So understanding the rest of the arguments on that page will be difficult for someone who has never written a computer program before, and doesn't really know what a "language" is.}
 
-[heading {What does it mean to "Design a Language"?}]
+    {I didn't necessarily wind up answering the question.  But since Google had saved the chat, I thought I'd archive what I said here in case I ever wanted to do something with it.}
 
-{Well, okay. Let's see how to best answer that to a non-programmer. It would help to help you understand the cascade of decisions that constitute what a language is.}
-
-{I'll talk simply about discrete textual symbolic programming. This is where one uses a tool more or less like a chat window or email software to communicate with a computer. Which is not the best interface, but most of what people do that they call "programming" is still done this way.}
-
-[note {It's tempting to discuss how programming will actually be a couple decades from now, when more sophisticated semantic graph tools are used.  But I think the concepts are more timeless than that, even if we're about to see a paradigm shift of great magnitude.  Like how math was foundational before computers; some aspects don't go away just because technology shifts.}]
-
-{To understand how "free" a language designer really is, let's start by talking about something computers do a lot of: math.  If I were going to write you a math expression in email or a chat window, parentheses help indicate the grouping of the order of operations.  For instance, we "know" that:}
-
-[list
-    {`(2 * 3) + 4` is 10}
-    {`2 * (3 + 4)` is 14}
 ]
 
-{Parentheses tell us what to do first, if there's any doubt.  So in the first case, we multiply the 2 by the 3 and then add 4.  In the bottom case, we add 3 and 4 first and then multiply by 2.  Computer languages can be designed to obey those conventions.}
+heading {What does it mean to "Design a Language"?}
 
-{Yet then we might ask: what is `(2 * (3) + 4)))`?  Is it gibberish?}
- 
-{We probably expect parentheses to match up and make "sense", otherwise a programming language should barf and says "um, you messed up".  A lot of languages will do that in such a case.  Many probably wouldn't care that you put the 3 in parentheses, and consider that harmless.  But they'd likely be unhappy about the two extra closing parentheses.}
+print << [
 
-{Yet that's not written in stone.  It's like in Alice in Wonderland, where Humpty Dumpty proclaimed words mean "whatever he chooses them to mean".  It would be possible to define a language that had behaviors for these cases, or could give totally different meaning to the expressions.}
+    {Well, okay. Let's see how to best answer that to a non-programmer. It would help to help you understand the cascade of decisions that constitute what a language is.}
 
-{For instance: parentheses don't have to be used for grouping expressions.  A language might use the natural order of operations always, but left parentheses could mean *"print L"* and right parentheses could mean *"print R"* so that `(2 * (3) + 4)))` could output **LLRRRR10**.  We could drift farther and say this has nothing to do with math at all.}
- 
-{I'm not saying that example is of any particular interest.  I'm just pointing out the freedom language designers have.  Many choices are based on convention and following pre-existing expectations.}
+    {I'll talk simply about discrete textual symbolic programming. This is where one uses a tool more or less like a chat window or email software to communicate with a computer. Which is not the best interface, but most of what people do that they call "programming" is still done this way.}
 
-{A language might accept questionable inputs and take you literally, instead of being geared toward catching common errors.  Or they might be very strict and reject useful and meaningful inputs, asking you to be more explicit just to be safe...because it thinks that what you tried to do is unlikely to be what you meant (even if it was).}
- 
-{There are thousands of design decisions in languages and libraries.  What the "Fractal of Bad Design" essay was focusing on is that in the specific case of PHP, you see each of those thousands of decisions were made in an ad-hoc fashion.}
+]
 
-[heading "More Humpty Dumpty"]
+note {It's tempting to discuss how programming will actually be a couple decades from now, when more sophisticated semantic graph tools are used.  But I think the concepts are more timeless than that, even if we're about to see a paradigm shift of great magnitude.  Like how math was foundational before computers; some aspects don't go away just because technology shifts.}
 
-{Continuing to speak generally about what it means to "design a computer language", let's look at one simple consideration.  If you write down numbers in computer code, one baseline is for them to start and end with a digit...with a possible decimal points in-between. Things like 56 and 129.46, for example.}
+print {To understand how "free" a language designer really is, let's start by talking about something computers do a lot of: math.  If I were going to write you a math expression in email or a chat window, parentheses help indicate the grouping of the order of operations.  For instance, we "know" that:}
 
-{Now imagine a language where I might have written:}
+list [item << [
 
-[text {
+        "`(2 * 3) + 4` is 10"
+
+        "`2 * (3 + 4)` is 14"
+
+    ]]
+
+print << [
+
+    {Parentheses tell us what to do first, if there's any doubt.  So in the first case, we multiply the 2 by the 3 and then add 4.  In the bottom case, we add 3 and 4 first and then multiply by 2.  Computer languages can be designed to obey those conventions.}
+
+    {Yet then we might ask: what is `(2 * (3) + 4)))`?  Is it gibberish?}
+
+    {We probably expect parentheses to match up and make "sense", otherwise a programming language should barf and says "um, you messed up".  A lot of languages will do that in such a case.  Many probably wouldn't care that you put the 3 in parentheses, and consider that harmless.  But they'd likely be unhappy about the two extra closing parentheses.}
+
+    {Yet that's not written in stone.  It's like in Alice in Wonderland, where Humpty Dumpty proclaimed words mean "whatever he chooses them to mean".  It would be possible to define a language that had behaviors for these cases, or could give totally different meaning to the expressions.}
+
+    {For instance: parentheses don't have to be used for grouping expressions.  A language might use the natural order of operations always, but left parentheses could mean *"print L"* and right parentheses could mean *"print R"* so that `(2 * (3) + 4)))` could output **LLRRRR10**.  We could drift farther and say this has nothing to do with math at all.}
+
+    {I'm not saying that example is of any particular interest.  I'm just pointing out the freedom language designers have.  Many choices are based on convention and following pre-existing expectations.}
+
+    {A language might accept questionable inputs and take you literally, instead of being geared toward catching common errors.  Or they might be very strict and reject useful and meaningful inputs, asking you to be more explicit just to be safe...because it thinks that what you tried to do is unlikely to be what you meant (even if it was).}
+
+    {There are thousands of design decisions in languages and libraries.  What the "Fractal of Bad Design" essay was focusing on is that in the specific case of PHP, you see each of those thousands of decisions were made in an ad-hoc fashion.}
+
+]
+
+heading "More Humpty Dumpty"
+
+print << [
+
+    {Continuing to speak generally about what it means to "design a computer language", let's look at one simple consideration.  If you write down numbers in computer code, one baseline is for them to start and end with a digit...with a possible decimal points in-between. Things like 56 and 129.46, for example.}
+
+    "Now imagine a language where I might have written:"
+
+]
+
+source 'text {
 x = 10
 y = 20
 z = x + y
 print z
-}]
+}
 
-{Let's assume that would assign 10 to x, 20 to y, and then make z the sum of those two (so 30).  Then it would print z, so you'd get 30 on the screen.}
+print << [
 
-{That works, but what if we wanted to name our variables with numbers instead of letters?  You can't really, because then how would you tell the difference between a number and a variable?}
+    {Let's assume that would assign 10 to x, 20 to y, and then make z the sum of those two (so 30).  Then it would print z, so you'd get 30 on the screen.}
 
-{As a language designer, you can either accept this.  Or if you thought you liked the idea of numbered variables you might imagine a solution in your language design of prefixing all variable names with a symbol, like $}
+    {That works, but what if we wanted to name our variables with numbers instead of letters?  You can't really, because then how would you tell the difference between a number and a variable?}
 
-[text {
+    {As a language designer, you can either accept this.  Or if you thought you liked the idea of numbered variables you might imagine a solution in your language design of prefixing all variable names with a symbol, like $}
+
+]
+
+source 'text {
 $1 = 10
 $2 = 20
 $z = $1 + $2
 print $z
-}]
+}
 
-{Or what if you turned the tables, and if you really wanted a number you had to preface the digits with a # sign?}
+print {Or what if you turned the tables, and if you really wanted a number you had to preface the digits with a # sign?}
 
-[text {
+source 'text {
 1 = #10
 2 = #20
 z = 1 + 2
 print z
-}]
+}
 
-{That could still work and print out 30 *(or maybe it would print #30, if the language output was kept consistent with the notation it used internally!)*  But it's getting pretty confusing.  Yet there's nothing fundamentally impossible to do with one of these notations that you can't do with the other.}
+print << [
 
-{Putting numbers on the left side of assignments and considering them names seems pretty nuts to me.  I can't name a language offhand that lets you do that.  But there are quite a few that start all variables with dollar signs.  PHP is one of those languages.}
+    {That could still work and print out 30 *(or maybe it would print #30, if the language output was kept consistent with the notation it used internally!)*  But it's getting pretty confusing.  Yet there's nothing fundamentally impossible to do with one of these notations that you can't do with the other.}
 
-{It's not for the purposes of allowing you to name variables with numbers--they made that illegal.  More to distinguish variables and functions.  There's a tradeoff in putting variable names and function names in the same "name space", and can be technically debated.}
+    {Putting numbers on the left side of assignments and considering them names seems pretty nuts to me.  I can't name a language offhand that lets you do that.  But there are quite a few that start all variables with dollar signs.  PHP is one of those languages.}
 
-[note 
-    {I personally find $-prefixing variables to be a serious legibility problem.  It's on par with if I labeled parts of speech in sentences.}
+    {It's not for the purposes of allowing you to name variables with numbers--they made that illegal.  More to distinguish variables and functions.  There's a tradeoff in putting variable names and function names in the same "name space", and can be technically debated.}
 
-    [list
-        {**Nouns** - begin with a `$` *(like a PHP variable)*}
-        {**Verbs** - no prefix *(like a PHP function)*}
-        {**Adjectives** - begin with a `#`}
-        {**Adverbs** - begin with a `@`}
-        {**Pronouns** - begin with a `%`}
-        {**Articles** - begin with a `*`}
-        {etc...}
-    ]
-
-    {`@How would $you like %it if $I wrote the rest of #this #enlightening $article using #such *a $convention?`}
-
-    {Truthfully, computer languages need to be punctuated and identify their "parts of speech" more than written languages do.  The requirement to be unambiguous tends toward this.  But in a language like PHP, you are typing variable names in *quite a lot*...and I find it "uglifies" even the smallest sections of expression.}
-
-    {That's my tastes, but a very surface point.  Not the bone I'm going to pick with PHP.  Compared to the rest, it's the kind of thing you can adapt to reasonably and accept.}
 ]
 
-[heading "About Strings..."]
+note [
 
-{Numbers are one basic aspect of many languages, but what if you wanted to print out a word?  I've shown some usages of `print`.  But what do you think this should do?}
- 
-[text {
-print print
-}]
+    print {I personally find $-prefixing variables to be a serious legibility problem.  It's on par with if I labeled parts of speech in sentences.}
 
-{In most any language you'll meet, the designers did not choose to make the language in such a way that that will print out the word print.  It's a lot like when we were considering what you might have to do if you wanted a variable called `1` and the value called `1`.  You have to find a way to distinguish between the word `print` used to imply an action, and the word `print` to be text.}
+    list [item << [
 
-{This is similar to the general language issue known as the [Use-Mention Distinction](http://en.wikipedia.org/wiki/Use%E2%80%93mention_distinction).  Following the English convention of how to do this, many languages put what they call "strings" in quotes (as in "a string of letters in a row").  It's just another name for what you might call "text".}
- 
-[text {
+            {**Nouns** - begin with a `$` *(like a PHP variable)*}
+
+            "**Verbs** - no prefix *(like a PHP function)*"
+
+            "**Adjectives** - begin with a `#`"
+
+            "**Adverbs** - begin with a `@`"
+
+            "**Pronouns** - begin with a `%`"
+
+            "**Articles** - begin with a `*`"
+
+            "etc..."
+
+        ]]
+
+    print << [
+
+        {`@How would $you like %it if $I wrote the rest of #this #enlightening $article using #such *a $convention?`}
+
+        {Truthfully, computer languages need to be punctuated and identify their "parts of speech" more than written languages do.  The requirement to be unambiguous tends toward this.  But in a language like PHP, you are typing variable names in *quite a lot*...and I find it "uglifies" even the smallest sections of expression.}
+
+        {That's my tastes, but a very surface point.  Not the bone I'm going to pick with PHP.  Compared to the rest, it's the kind of thing you can adapt to reasonably and accept.}
+
+    ]
+
+]
+
+heading "About Strings..."
+
+print {Numbers are one basic aspect of many languages, but what if you wanted to print out a word?  I've shown some usages of `print`.  But what do you think this should do?}
+
+source 'text "^/NULYNEprint print^/NULYNE"
+
+print << [
+
+    {In most any language you'll meet, the designers did not choose to make the language in such a way that that will print out the word print.  It's a lot like when we were considering what you might have to do if you wanted a variable called `1` and the value called `1`.  You have to find a way to distinguish between the word `print` used to imply an action, and the word `print` to be text.}
+
+    {This is similar to the general language issue known as the [Use-Mention Distinction](http://en.wikipedia.org/wiki/Use%E2%80%93mention_distinction).  Following the English convention of how to do this, many languages put what they call "strings" in quotes (as in "a string of letters in a row").  It's just another name for what you might call "text".}
+
+]
+
+source 'text {
 print "print"
-}]
+}
 
-{Now this works pretty well until you want to print out something like:}
+print {Now this works pretty well until you want to print out something like:}
 
-[quote {Mr. Rogers said "Be back later", turned, and left.}]
- 
-{How do you print out a quote that has quotes embedded in it?}
+quote {Mr. Rogers said "Be back later", turned, and left.}
 
-[text {
+print {How do you print out a quote that has quotes embedded in it?}
+
+source 'text {
 print "Mr. Rogers said "Be back later", turned, and left."
-}]    
+}
 
-{You might think it's possible to figure it out since the quotes happen in pairs, but what if you wanted to print an unpaired quote?  It's a legitimate desire to print out even just a single quote mark.}
+print << [
 
-{One solution is what's called "escaping".  A special unpopular character is picked, and then the appearance of that unpopular character is a signal that the next character is not to participate in its usual behavior.  We might use backslash to escape a quote to prevent it from ending the string.}
+    {You might think it's possible to figure it out since the quotes happen in pairs, but what if you wanted to print an unpaired quote?  It's a legitimate desire to print out even just a single quote mark.}
 
-[text {
+    {One solution is what's called "escaping".  A special unpopular character is picked, and then the appearance of that unpopular character is a signal that the next character is not to participate in its usual behavior.  We might use backslash to escape a quote to prevent it from ending the string.}
+
+]
+
+source 'text {
 print "Mr. Rogers said \"Be back later\", turned, and left."
-}]
+}
 
-{Let's consider a line of thinking that I say leads up to "mind poison".  There are many languages out there that decided that too much escaping was annoying.  So they offered more than one way to indicate your strings.  For instance, you could use a single quote instead:}
- 
-[text {
-print 'Hello'
-}]
+print {Let's consider a line of thinking that I say leads up to "mind poison".  There are many languages out there that decided that too much escaping was annoying.  So they offered more than one way to indicate your strings.  For instance, you could use a single quote instead:}
 
-{So suddenly you can choose to have:}
- 
-[text {
+source 'text "^/NULYNEprint 'Hello'^/NULYNE"
+
+print "So suddenly you can choose to have:"
+
+source 'text {
 print 'Mr. Rogers said "Be back later", turned, and left.'
-}]
+}
 
-{Whether you use single quotes or double quotes on the outside of your string would thus depend on whether your text is more likely to have quotes or apostrophes.  You'll do less escaping if you choose the one that happens less often.}
+print << [
 
-{Great. But what if it was something slightly different:}
+    {Whether you use single quotes or double quotes on the outside of your string would thus depend on whether your text is more likely to have quotes or apostrophes.  You'll do less escaping if you choose the one that happens less often.}
 
-[quote {The Terminator said "I'll be back", turned, and left.}]
+    {Great. But what if it was something slightly different:}
 
-{The English language has a very common usage of both quotes *and* apostrophes.  So using a computer language offering these variations just creates a muddle.  More often than not, people will fight over it... some saying that using single quotes is better because it's fewer marks and makes the code look "cleaner".}
- 
-{Among the decisions in Rebol that I can show as better, they use braces for string constants.  So you can write:}
+]
 
-[code rebol {
+quote {The Terminator said "I'll be back", turned, and left.}
+
+print << [
+
+    {The English language has a very common usage of both quotes *and* apostrophes.  So using a computer language offering these variations just creates a muddle.  More often than not, people will fight over it... some saying that using single quotes is better because it's fewer marks and makes the code look "cleaner".}
+
+    {Among the decisions in Rebol that I can show as better, they use braces for string constants.  So you can write:}
+
+]
+
+source 'rebol {
 print {The Terminator said "I'll be back", turned, and left.}
-}]
- 
-{Braces are asymmetrical. And it even counts nesting levels. So if you want to write:}
- 
-[code rebol {
+}
+
+print {Braces are asymmetrical. And it even counts nesting levels. So if you want to write:}
+
+source 'rebol {
 print {The Terminator said "I'll be {back}", turned, and left.}
-}]
+}
 
-{It would be fine, it can count nesting levels.  You only get problems if you don't match the brace count, as in:}
+print {It would be fine, it can count nesting levels.  You only get problems if you don't match the brace count, as in:}
 
-[code rebol { 
-print {This character, "^{", is a left-hand "curly brace".}
-}]
+source 'rebol { 
+print ^{This character, "^{", is a left-hand "curly brace".^}
+}
 
-{That'll give you an error, and is one of the few cases in Rebol where escaping is required.  Yet Rebol escapes with the caret:}
- 
-[code rebol {
-print {This character, "^^^{", is a left-hand "curly brace".}
-}]
+print {That'll give you an error, and is one of the few cases in Rebol where escaping is required.  Yet Rebol escapes with the caret:}
 
-{It's very rarely needed to do this, but it can happen.}
+source 'rebol {
+print ^{This character, "^^^{", is a left-hand "curly brace".^}
+}
 
-{So there is an example showing how a little bit of thought can go a long way. The sum of decisions like this are what make a language; thousands of them.}
+print << [
 
-[heading "Why did PHP get so popular?"]
+    {It's very rarely needed to do this, but it can happen.}
 
-{PHP was driven by what amounted to a gimmick that was very helpful for the web.  You could write most of your page in ordinary HTML, and then at convenient points use special indicators to flip over into something that you wanted to be interpreted by the server before sending.}
+    {So there is an example showing how a little bit of thought can go a long way. The sum of decisions like this are what make a language; thousands of them.}
 
-{It was a little bit like having a form letter generator, where you could write the boilerplate of your page and then leave behind slots that got "filled in".  Other systems that were generating dynamic web pages on the server weren't that easy.  It was HTML compatible, so people familiar with writing up HTML like `<title>My Awesome Homepage</title>` could suddenly write `<title><?php ... ?></title>` where inside the PHP tag you could put any kind of calculation or database query you wanted.}
+]
 
-{The fact that it was so easy to get started making dynamic web pages is what got a lot of people hooked.  But ultimately they were locked in, because the language itself was not good.  Large projects written in it are a mess.}
+heading "Why did PHP get so popular?"
 
-{In the intervening years, the turf has been moved onto by better languages.  Few of them actually embed their code into HTML in that same way, but do something kind of similar.  They try to do these interstitial insertions through a sort of form-letter system called "templating", which generally tries to more clearly separate the page design from the program logic.  That makes it easier for the designers and the code developers to keep their work separate.}
+print << [
 
-{(Ruby and Rails and Django would be examples of one of these somewhat better systems.)}
+    {PHP was driven by what amounted to a gimmick that was very helpful for the web.  You could write most of your page in ordinary HTML, and then at convenient points use special indicators to flip over into something that you wanted to be interpreted by the server before sending.}
 
-[heading {To be continued...?}]
+    {It was a little bit like having a form letter generator, where you could write the boilerplate of your page and then leave behind slots that got "filled in".  Other systems that were generating dynamic web pages on the server weren't that easy.  It was HTML compatible, so people familiar with writing up HTML like `<title>My Awesome Homepage</title>` could suddenly write `<title><?php ... ?></title>` where inside the PHP tag you could put any kind of calculation or database query you wanted.}
 
-[note {I don't know if I'm going to come back and actually do something with this, or ever really answer the original question.  :-)  But put it here in case I wanted to revisit the topic.}]
+    {The fact that it was so easy to get started making dynamic web pages is what got a lot of people hooked.  But ultimately they were locked in, because the language itself was not good.  Large projects written in it are a mess.}
+
+    {In the intervening years, the turf has been moved onto by better languages.  Few of them actually embed their code into HTML in that same way, but do something kind of similar.  They try to do these interstitial insertions through a sort of form-letter system called "templating", which generally tries to more clearly separate the page design from the program logic.  That makes it easier for the designers and the code developers to keep their work separate.}
+
+    {(Ruby and Rails and Django would be examples of one of these somewhat better systems.)}
+
+]
+
+heading "To be continued...?"
+
+note {I don't know if I'm going to come back and actually do something with this, or ever really answer the original question.  :-)  But put it here in case I wanted to revisit the topic.}

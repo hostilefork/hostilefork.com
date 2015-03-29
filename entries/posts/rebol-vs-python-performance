@@ -1,43 +1,60 @@
-Draem [ 
+Draem [
     title: "A Rebol vs. Python Performance Test"
     tags: [guest-post rebol python performance]
     slug: %rebol-vs-python-performance
     date: 1-Apr-2014/14:20:47-4:00
 ]
 
-[note
-	{Seeing as I never intended for "hostilefork.com" to be a personal brand *(or to have anyone refer to me as "The Fork"!)*, people with articles of interest to the readership here should feel free to [send pull requests](https://github.com/hostilefork/hostilefork.com).  In various ways we are trying to put together the [Rebol/Red future web frameworks story](https://trello.com/b/SHI51H5z/rebol-web-framework-design)...so more people giving experience and feedback on using the [Draem dialect](https://github.com/hostilefork/draem) is very welcome!  Related projects to start looking through are @rebolek's [Lest](http://lest.iluminat.cz/) and rgchris's [CSSR](http://recode.revault.org/wiki/CSSR) dialect.}
+note [
 
-	{In that spirit, this is a guest blog post from Rebol community newcomer [Giulio Lunati (@giuliolunati)](http://stackoverflow.com/users/3264176/giuliolunati).  I also want to give a shout out to Giulio's great work on doing NDK Rebol builds of Android, and helping push Rebol to be more powerful on Android in general!}
+    print << [
+
+        {Seeing as I never intended for "hostilefork.com" to be a personal brand *(or to have anyone refer to me as "The Fork"!)*, people with articles of interest to the readership here should feel free to [send pull requests](https://github.com/hostilefork/hostilefork.com).  In various ways we are trying to put together the [Rebol/Red future web frameworks story](https://trello.com/b/SHI51H5z/rebol-web-framework-design)...so more people giving experience and feedback on using the [Draem dialect](https://github.com/hostilefork/draem) is very welcome!  Related projects to start looking through are @rebolek's [Lest](http://lest.iluminat.cz/) and rgchris's [CSSR](http://recode.revault.org/wiki/CSSR) dialect.}
+
+        {In that spirit, this is a guest blog post from Rebol community newcomer [Giulio Lunati (@giuliolunati)](http://stackoverflow.com/users/3264176/giuliolunati).  I also want to give a shout out to Giulio's great work on doing NDK Rebol builds of Android, and helping push Rebol to be more powerful on Android in general!}
+
+    ]
+
 ]
 
-[quote
+quote [
 
-	{Some time ago, I wrote a Python script to extract data from HTML file and write it as JSON.  These days I'm learning Rebol, so I tried to rewrite it, and consider the differences.  Here are the results of comparing the two versions:}
+    print {Some time ago, I wrote a Python script to extract data from HTML file and write it as JSON.  These days I'm learning Rebol, so I tried to rewrite it, and consider the differences.  Here are the results of comparing the two versions:}
 
-	[heading {Code Length}]
+    heading "Code Length"
 
-	{Python: 5261 chars / Rebol: 5005 chars. But 930 chars were literal strings.  So if you want to consider "code length" in a fairer sense, it becomes: Python: 4371 chars / Rebol: 4075 chars.}
+    print << [
 
-	{We must alo consider that Python code gets benefits from the HTMLParser module and the built-in decoding facilities.  They weren't in Rebol, so I had to add two new functions to get what I needed.  A little more work to do, but when you consider that counted in the size... Rebol seems more concise than Python.}
+        {Python: 5261 chars / Rebol: 5005 chars. But 930 chars were literal strings.  So if you want to consider "code length" in a fairer sense, it becomes: Python: 4371 chars / Rebol: 4075 chars.}
 
-	[heading {Speed}]
+        {We must alo consider that Python code gets benefits from the HTMLParser module and the built-in decoding facilities.  They weren't in Rebol, so I had to add two new functions to get what I needed.  A little more work to do, but when you consider that counted in the size... Rebol seems more concise than Python.}
 
-	{I tested performance by processing 52 of the HTML files to get the JSON on my Android phone:}
+    ]
 
-	[list
-		{*Test 1* -- Processing the files all at once: Python: 12.2 +- 0.2 s / Rebol: 11.7 +- 0.1 s}
+    heading "Speed"
 
-		{*Test 2* -- Processing the files one by one: Python: 44.9 s / Rebol: 15.4 s}
-	]
+    print {I tested performance by processing 52 of the HTML files to get the JSON on my Android phone:}
 
-	{The startup times are: Python: 0.641 +-0.004 / Rebol: 0.073 +- 0.002 s}
+    list [item << [
 
-	{The pure-running times are: Python: 11.56 +- 0.2 s / Rebol: 11.63 +- 0.1 s}
+            {*Test 1* -- Processing the files all at once: Python: 12.2 +- 0.2 s / Rebol: 11.7 +- 0.1 s}
 
-	[heading {Summary}]
+            {*Test 2* -- Processing the files one by one: Python: 44.9 s / Rebol: 15.4 s}
 
-	{Speed seems equivalent once the code starts running.  But Rebol starts up much faster!  Makes it very good in shell scripts.}
+        ]]
 
-	/source [https://github.com/hostilefork/hostilefork.com/commit/c076aedf5661c7a395f217d52f12f882e8e580c4 {Giulio Lunati}]
+    print << [
+
+        {The startup times are: Python: 0.641 +-0.004 / Rebol: 0.073 +- 0.002 s}
+
+        {The pure-running times are: Python: 11.56 +- 0.2 s / Rebol: 11.63 +- 0.1 s}
+
+    ]
+
+    heading "Summary"
+
+    print {Speed seems equivalent once the code starts running.  But Rebol starts up much faster!  Makes it very good in shell scripts.}
+
+    attribution [link [https://github.com/hostilefork/hostilefork.com/commit/c076aedf5661c7a395f217d52f12f882e8e580c4 "Giulio Lunati"]]
+
 ]

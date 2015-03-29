@@ -1,32 +1,43 @@
 Draem [
-    title: {Qt Can't Have Model and View on different Threads?}
+    title: "Qt Can't Have Model and View on different Threads?"
     tags: [qt c++]
     slug: %qt-model-view-different-threads
     date: 7-Aug-2009/7:36
 ]
 
-[note
-	{I wanted to cite this mailing list question from me about models and views on different threads in Qt (along with the ensuing answers).  The qt-interest mailing list entries from 2009 seem to have all but disappeared from the web, but I found this one in an Internet Archive cache off of "gmane".}
+note [
 
-    {The subject matter is still relevant so I decided I'd cache it here.  To make a long story short, *I was right*...**the thread affinity of your model and view have to be the same**.  And because views are widgets and must run on the GUI thread, it means your model must live on the GUI thread as well.}
+    print << [
+
+        {I wanted to cite this mailing list question from me about models and views on different threads in Qt (along with the ensuing answers).  The qt-interest mailing list entries from 2009 seem to have all but disappeared from the web, but I found this one in an Internet Archive cache off of "gmane".}
+
+        {The subject matter is still relevant so I decided I'd cache it here.  To make a long story short, *I was right*...**the thread affinity of your model and view have to be the same**.  And because views are widgets and must run on the GUI thread, it means your model must live on the GUI thread as well.}
+
+    ]
+
 ]
 
-[quote
-	{**From:** me}
+quote [
 
-	{**To:** qt-interest}
+    print << [
 
-	{**Subject:** AmIRight: Can't Have Model and View on different Threads?}
+        "**From:** me"
 
-	{Hello all...!}
+        "**To:** qt-interest"
 
-	{I'm on day #2 of looking at Qt's Model/View architecture, and had a question that turned into an essay.  By the end of it, I figured I'd most likely answered what I started with... but I thought I'd run it by qt-interest (for criticisms if I'm wrong, and for Internet-Searching-Posterity if I'm right!)}
+        {**Subject:** AmIRight: Can't Have Model and View on different Threads?}
 
-	{The short version is that I don't think it's feasible for a Model to be modified on a non-GUI thread...regardless of whether the model's data has been protected with read/write locks.  If what I'm gathering is correct, then Qt should probably have an assert that a model and its view have the same thread affinity (it doesn't seem to do that now).}
+        "Hello all...!"
 
-	{Here's what I think doesn't work:}
+        {I'm on day #2 of looking at Qt's Model/View architecture, and had a question that turned into an essay.  By the end of it, I figured I'd most likely answered what I started with... but I thought I'd run it by qt-interest (for criticisms if I'm wrong, and for Internet-Searching-Posterity if I'm right!)}
 
-[code c++ {
+        {The short version is that I don't think it's feasible for a Model to be modified on a non-GUI thread...regardless of whether the model's data has been protected with read/write locks.  If what I'm gathering is correct, then Qt should probably have an assert that a model and its view have the same thread affinity (it doesn't seem to do that now).}
+
+        "Here's what I think doesn't work:"
+
+    ]
+
+    source 'c++ {
 class NotReallyThreadSafeStandardItemModel :
     public QStandardItemModel
 {
@@ -49,15 +60,19 @@ public:
 
     /* ... */
 };
-}]
+}
 
-	{What I see as the problem is that the model/view updating strategy relies on signals and slots, and it's not expecting them to be queued.}
+    print << [
 
-	{For instance: the Gui View might see a model has 4 items, and set a variable ItemsDrawn to 4.  Then later it gets a notification saying "I'm adding one row", so it sets ItemsDrawn to 5 and tries to fetch the 5th element to draw.  But this could fail if that item has already been removed from the data by another thread.  This may have happened, but the "I'm deleting one row" notification is still pending in the Gui queue after the current "adding" notification we are processing...!}
+        {What I see as the problem is that the model/view updating strategy relies on signals and slots, and it's not expecting them to be queued.}
 
-	{This would seem to suggest that it is not practical to have a model and view on separate threads.  As a thought-experiment, I've scribbled some rough code which tries for a "correct" 2-threaded StandardItemModel:}
+        {For instance: the Gui View might see a model has 4 items, and set a variable ItemsDrawn to 4.  Then later it gets a notification saying "I'm adding one row", so it sets ItemsDrawn to 5 and tries to fetch the 5th element to draw.  But this could fail if that item has already been removed from the data by another thread.  This may have happened, but the "I'm deleting one row" notification is still pending in the Gui queue after the current "adding" notification we are processing...!}
 
-[code c++ {
+        {This would seem to suggest that it is not practical to have a model and view on separate threads.  As a thought-experiment, I've scribbled some rough code which tries for a "correct" 2-threaded StandardItemModel:}
+
+    ]
+
+    source 'c++ {
 class TwoThreadedStandardItemModel : public QStandardItemModel {
 private:
     QReadWriteLock dataLock;
@@ -125,11 +140,11 @@ public:
 
     /* ... */
 };
-}]
+}
 
-    {Despite the synchronization overhead, I imagine this approach could avoid crashes.  But if the View class you are using can do any autonomous modifications (like drag and drop rearrangement), then it could break the expectations of worker thread code, such as:}
+    print {Despite the synchronization overhead, I imagine this approach could avoid crashes.  But if the View class you are using can do any autonomous modifications (like drag and drop rearrangement), then it could break the expectations of worker thread code, such as:}
 
-[code c++ {
+    source 'c++ {
 model->insertRow(0);
 
 // Gui could modify model here!
@@ -143,11 +158,11 @@ model->setData(model->index(0, 1), sender);
 // Gui could modify model here!
 
 model->setData(model->index(0, 2), date);
-}]
+}
 
-    {Any of those opportunities for modification could delete or move the row we are working with.  A better strategy is for the worker to do updates via larger atomic asynchronous operations queued to the GUI thread.  Each should have no reliance on the prior to have finished to perform the next, e.g.}
+    print {Any of those opportunities for modification could delete or move the row we are working with.  A better strategy is for the worker to do updates via larger atomic asynchronous operations queued to the GUI thread.  Each should have no reliance on the prior to have finished to perform the next, e.g.}
 
-[code c++ {
+    source 'c++ {
 public slots
     void addMailMessage(
         const QString & subject,
@@ -160,180 +175,266 @@ public slots
         model->setData(model->index(0, 1), sender);
         model->setData(model->index(0, 2), date);
     }
-}]
+}
 
-    {So... errr... AmiIRight? :)}
+    print << [
 
-    {Thanks!}
-    {Brian}
-    {http://hostilefork.com}
-]
+        "So... errr... AmiIRight? :)"
 
+        "Thanks!"
 
-[quote
-    {**From:** Arnold Krille}
+        "Brian"
 
-    {**To:** qt-interest}
+        "http://hostilefork.com"
 
-    {**Subject:** RE: AmIRight: Can't Have Model and View on different Threads?}
-
-    {Hi,}
-
-    [quote
-        {The short version is that I don't think it's feasible for a Model to be modified on a non-GUI thread...regardless of whether the model's data has been protected with read/write locks.   If what I'm gathering is correct, then Qt should probably have an assert that a model and its view have the same thread affinity (it doesn't seem to do that now)}
-
-        /source {Hostile Fork}
     ]
 
-    {I would find such an assert quite disturbing. Because here it works well to have models and views in different threads.}
-
-    {Basically because the models are kind of read-only for the views. The views can change values, but they can't add or remove rows/columns. That is done by own functions.}
-
-    {Have fun,}
-
-    {Arnold}
 ]
 
+quote [
 
-[quote
-    {**From:** Stephen Kelly}
+    print << [
 
-    {**To:** qt-interest}
+        "**From:** Arnold Krille"
 
-    {**Subject:** RE: AmIRight: Can't Have Model and View on different Threads?}
+        "**To:** qt-interest"
 
-    [quote
+        {**Subject:** RE: AmIRight: Can't Have Model and View on different Threads?}
+
+        "Hi,"
+
+    ]
+
+    quote [
+
+        print {The short version is that I don't think it's feasible for a Model to be modified on a non-GUI thread...regardless of whether the model's data has been protected with read/write locks.   If what I'm gathering is correct, then Qt should probably have an assert that a model and its view have the same thread affinity (it doesn't seem to do that now)}
+
+        attribution "Hostile Fork"
+
+    ]
+
+    print << [
+
         {I would find such an assert quite disturbing. Because here it works well to have models and views in different threads.}
 
-        /source {Arnold Krille}
+        {Basically because the models are kind of read-only for the views. The views can change values, but they can't add or remove rows/columns. That is done by own functions.}
+
+        "Have fun,"
+
+        "Arnold"
+
     ]
 
-    {Can you say more about this? How does it work with QueuedConnections? What  happens if a row gets added then removed, and because of the queue, the view only gets to process the added signal after the row has been removed?}
-
-    {Steve.}
 ]
 
+quote [
 
-[quote
-    {**From:** Arnold Krille}
+    print << [
 
-    {**To:** qt-interest}
+        "**From:** Stephen Kelly"
 
-    {**Subject:** RE: AmIRight: Can't Have Model and View on different Threads?}
+        "**To:** qt-interest"
 
-    [quote
-        {Can you say more about this? How does it work with QueuedConnections? What happens if a row gets added then removed, and because of the queue, the view only gets to process the added signal after the row has been removed?}
+        {**Subject:** RE: AmIRight: Can't Have Model and View on different Threads?}
 
-        /source {Stephen Kelley}
     ]
 
-    {While the slot of a QueuedConnection is not called right away, it is just  converted to an event sent to the receivers event-loop. But there is no  reordering of the event-loop. So there is no way the added-slot is called after the removed-slot in your example.}
+    quote [
 
-    {And that actually works nice. My models normally reset themselfes completely because when the number of rows changes, the bin-width (its models used for  statistics) changes which invalids any data. So its faster to remove  everything and call reset to signal the views to get everything new...}
+        print {I would find such an assert quite disturbing. Because here it works well to have models and views in different threads.}
 
-    {And my models cache updates, with >5000 changed values a second, you don't want to emit dataChanged() to often.}
+        attribution "Arnold Krille"
 
-    {You can find the ((L)GPLv3) code at http://positron.physik.uni-halle.de/EPOS/Software/ which is the last stable release, but the model/view stuff hasn't changed in the last months...}
+    ]
 
-    {I am also open for tests showing where my models and views are wrong. :-) The ModelTest from QtLabs is kind of limited (but nevertheless showed me some errors).}
+    print << [
 
-    {Have fun,}
+        {Can you say more about this? How does it work with QueuedConnections? What  happens if a row gets added then removed, and because of the queue, the view only gets to process the added signal after the row has been removed?}
 
-    {Arnold}
+        "Steve."
+
+    ]
+
 ]
 
+quote [
 
-[quote
-    {**From:** Stephen Kelly}
+    print << [
 
-    {**To:** qt-interest}
+        "**From:** Arnold Krille"
 
-    {**Subject:** RE: AmIRight: Can't Have Model and View on different Threads?}
+        "**To:** qt-interest"
 
-    [quote
-        {While the slot of a QueuedConnection is not called right away, it is just converted to an event sent to the receivers event-loop. But there is no reordering of the event-loop. So there is no way the added-slot is called after the removed-slot in your example.}
+        {**Subject:** RE: AmIRight: Can't Have Model and View on different Threads?}
 
-        /source {Arnold Krille}
     ]
 
-    {I guess you misunderstood what I wrote. I didn't mean anything gets reordered. But because the signals get queued, the begin*Rows and end*Rows signals are all emitted after the model has changed its internal data structure, rather than before and after.}
+    quote [
 
-    {I just committed a unit test for this:}
+        print {Can you say more about this? How does it work with QueuedConnections? What happens if a row gets added then removed, and because of the queue, the view only gets to process the added signal after the row has been removed?}
 
-    http://websvn.kde.org/?view=rev&revision=1011890
+        attribution "Stephen Kelley"
 
-    {Note that at the end of ModelInsertAndRemoveQueuedCommand::doCommand, the internal structure of the model has changed, but no signals have been emitted yet.}
-
-    {When ModelQueuedConnectionsTest::rowsInserted tries to process the rowsInserted signal, the rows that were inserted have already been removed.}
-
-    {If you swap the comments in ModelInsertAndRemoveQueuedCommand::doCommand and comment out the event loop in the test, you will see that the test "fails" because the just-inserted rows are valid.}
-
-    {As QAbstractItemView uses AutoConnections, the signals will be queued if they are in another thread. So, AFAIU, the model and view must be in the same thread if things are not to break. It's not impossible that a model would try to insert and remove rows in quick succession.}
-
-    {If you haven't hit a situation where a signal queue like that doesn't form, I'd say you just got lucky.}
-
-    [quote
-        {And that actually works nice. My models normally reset themselfes completely because when the number of rows changes, the bin-width (its models used for statistics) changes which invalids any data. So its faster to remove everything and call reset to signal the views to get everything new... And my models cache updates, with >5000 changed values a second, you don't want to emit dataChanged() to often.}
-
-        /source {Arnold Krille}
     ]
 
-    {Models shouldn't reset themselves completely when the number of rows changes. Do you get a lot of messages something like "Internal representation of model corrupted. Resetting."?}
+    print << [
 
-    [quote
-        {You can find the ((L)GPLv3) code at [http://positron.physik.uni-halle.de/EPOS/Software/](http://positron.physik.uni-halle.de/EPOS/Software/) which is the last stable release, but the model/view stuff hasn't changed in the last months...}
-    
-        {I am also open for tests showing where my models and views are wrong. :-)  The ModelTest from QtLabs is kind of limited (but nevertheless showed me some errors).}
+        {While the slot of a QueuedConnection is not called right away, it is just  converted to an event sent to the receivers event-loop. But there is no  reordering of the event-loop. So there is no way the added-slot is called after the removed-slot in your example.}
+
+        {And that actually works nice. My models normally reset themselfes completely because when the number of rows changes, the bin-width (its models used for  statistics) changes which invalids any data. So its faster to remove  everything and call reset to signal the views to get everything new...}
+
+        {And my models cache updates, with >5000 changed values a second, you don't want to emit dataChanged() to often.}
+
+        {You can find the ((L)GPLv3) code at http://positron.physik.uni-halle.de/EPOS/Software/ which is the last stable release, but the model/view stuff hasn't changed in the last months...}
+
+        {I am also open for tests showing where my models and views are wrong. :-) The ModelTest from QtLabs is kind of limited (but nevertheless showed me some errors).}
+
+        "Have fun,"
+
+        "Arnold"
+
     ]
 
-    {Yes, it's a good idea to also write your own unit tests. ModelTest is good for smoke testing.}
-
-    {All the best,}
-
-    {Steve.}
 ]
 
+quote [
 
-[quote
-    {**From:** Stephen Kelly}
+    print << [
 
-    {**To:** qt-interest}
+        "**From:** Stephen Kelly"
 
-    {**Subject:** RE: AmIRight: Can't Have Model and View on different Threads?}
+        "**To:** qt-interest"
 
-    {Hi,}
+        {**Subject:** RE: AmIRight: Can't Have Model and View on different Threads?}
 
-    [quote
-        {I'm on day #2 of looking at Qt's Model/View architecture, and had a question that turned into an essay.  By the end of it, I figured I'd most likely answered what I started with... but I thought I'd run it by qt-interest (for criticisms if I'm wrong, and for Internet- Searching-Posterity if I'm right!)}
-     
-        {The short version is that I don't think it's feasible for a Model to be modified on a non-GUI thread...regardless of whether the model's data has been protected with read/write locks.   If what I'm gathering is correct, then Qt should probably have an assert that a model and its view have the same thread affinity (it doesn't seem to do that now)}
-
-        /source {Hostile Fork}
     ]
 
-    {I don't know much about threading stuff yet, but your explanation for this looks fairly reasonable too me.}
+    quote [
 
-    {From my reading of it, the signal/slot connections between the model and view have to be made with Qt::DirectConnection. However, making connections across threads would have to be Qt::QueuedConnection.}
+        print {While the slot of a QueuedConnection is not called right away, it is just converted to an event sent to the receivers event-loop. But there is no reordering of the event-loop. So there is no way the added-slot is called after the removed-slot in your example.}
 
-    {[(archived @ archive.org) http://doc.trolltech.com/4.5/threads.html#signals-and-slots-across-threads](https://web.archive.org/web/20100925011608/http://doc.trolltech.com/4.5/threads.html)}
+        attribution "Arnold Krille"
 
-    {So, if your model was in a different thread to your gui, there could come a  point where there is a queue containing beginInsertRows(...), endInsertRows(), beginRemoveRows(...), endRemoveRows() if two threads had operated on it as you wrote. Then when the view tries to get the data in response to the endInsertRows signal, the data would already be gone.}
+    ]
 
-    {So, I think you're right, the model, all intermediate proxies and views all have to be in the same thread.}
+    print << [
 
-    {However, I think you can make the model use worker threads and then the  model ensures that the correct signals are emitted, directly, and in the correct order. I think you would still have to use locks to ensure that a emailsRemoved signal from a worker thread doesn't get processed by the model until the correct time.}
+        {I guess you misunderstood what I wrote. I didn't mean anything gets reordered. But because the signals get queued, the begin*Rows and end*Rows signals are all emitted after the model has changed its internal data structure, rather than before and after.}
 
-    {Incidentally, I've written a model for handling emails and other PIM data where all the work is done in different *processes*. Notifications are delivered by a Monitor class and processed by the model as soon as they are recieved. Changes made by the model (from the user) are initiated via Jobs, the results of which also come back through the Monitor. See in particular the private slots:}
+        "I just committed a unit test for this:"
 
-    http://websvn.kde.org/trunk/KDE/kdepimlibs/akonadi/entitytreemodel.h?view=markup
+    ]
 
-    {More dox here, which I've just realised I have to move:}
+    link http://websvn.kde.org/?view=rev&revision=1011890
 
-    {[(archived @ archive.org) http://api.kde.org/4.x-api/kdepim-apidocs/akonadi/akonadi_next/html/index.html](https://web.archive.org/web/20090907222240/http://api.kde.org/4.x-api/kdepim-apidocs/akonadi/akonadi_next/html/index.html)}
+    print << [
 
-    {If you're interested in collaborating on this, myself and other Akonadi developers are available on the kde-pim mailing list and #akonadi on freenode.}
+        {Note that at the end of ModelInsertAndRemoveQueuedCommand::doCommand, the internal structure of the model has changed, but no signals have been emitted yet.}
 
-    {All the best,}
+        {When ModelQueuedConnectionsTest::rowsInserted tries to process the rowsInserted signal, the rows that were inserted have already been removed.}
 
-    {Steve.}
+        {If you swap the comments in ModelInsertAndRemoveQueuedCommand::doCommand and comment out the event loop in the test, you will see that the test "fails" because the just-inserted rows are valid.}
+
+        {As QAbstractItemView uses AutoConnections, the signals will be queued if they are in another thread. So, AFAIU, the model and view must be in the same thread if things are not to break. It's not impossible that a model would try to insert and remove rows in quick succession.}
+
+        {If you haven't hit a situation where a signal queue like that doesn't form, I'd say you just got lucky.}
+
+    ]
+
+    quote [
+
+        print {And that actually works nice. My models normally reset themselfes completely because when the number of rows changes, the bin-width (its models used for statistics) changes which invalids any data. So its faster to remove everything and call reset to signal the views to get everything new... And my models cache updates, with >5000 changed values a second, you don't want to emit dataChanged() to often.}
+
+        attribution "Arnold Krille"
+
+    ]
+
+    print {Models shouldn't reset themselves completely when the number of rows changes. Do you get a lot of messages something like "Internal representation of model corrupted. Resetting."?}
+
+    quote [
+
+        print << [
+
+            {You can find the ((L)GPLv3) code at [http://positron.physik.uni-halle.de/EPOS/Software/](http://positron.physik.uni-halle.de/EPOS/Software/) which is the last stable release, but the model/view stuff hasn't changed in the last months...}
+
+            {I am also open for tests showing where my models and views are wrong. :-)  The ModelTest from QtLabs is kind of limited (but nevertheless showed me some errors).}
+
+        ]
+
+    ]
+
+    print << [
+
+        {Yes, it's a good idea to also write your own unit tests. ModelTest is good for smoke testing.}
+
+        "All the best,"
+
+        "Steve."
+
+    ]
+
+]
+
+quote [
+
+    print << [
+
+        "**From:** Stephen Kelly"
+
+        "**To:** qt-interest"
+
+        {**Subject:** RE: AmIRight: Can't Have Model and View on different Threads?}
+
+        "Hi,"
+
+    ]
+
+    quote [
+
+        print << [
+
+            {I'm on day #2 of looking at Qt's Model/View architecture, and had a question that turned into an essay.  By the end of it, I figured I'd most likely answered what I started with... but I thought I'd run it by qt-interest (for criticisms if I'm wrong, and for Internet- Searching-Posterity if I'm right!)}
+
+            {The short version is that I don't think it's feasible for a Model to be modified on a non-GUI thread...regardless of whether the model's data has been protected with read/write locks.   If what I'm gathering is correct, then Qt should probably have an assert that a model and its view have the same thread affinity (it doesn't seem to do that now)}
+
+        ]
+
+        attribution "Hostile Fork"
+
+    ]
+
+    print << [
+
+        {I don't know much about threading stuff yet, but your explanation for this looks fairly reasonable too me.}
+
+        {From my reading of it, the signal/slot connections between the model and view have to be made with Qt::DirectConnection. However, making connections across threads would have to be Qt::QueuedConnection.}
+
+        {[(archived @ archive.org) http://doc.trolltech.com/4.5/threads.html#signals-and-slots-across-threads](https://web.archive.org/web/20100925011608/http://doc.trolltech.com/4.5/threads.html)}
+
+        {So, if your model was in a different thread to your gui, there could come a  point where there is a queue containing beginInsertRows(...), endInsertRows(), beginRemoveRows(...), endRemoveRows() if two threads had operated on it as you wrote. Then when the view tries to get the data in response to the endInsertRows signal, the data would already be gone.}
+
+        {So, I think you're right, the model, all intermediate proxies and views all have to be in the same thread.}
+
+        {However, I think you can make the model use worker threads and then the  model ensures that the correct signals are emitted, directly, and in the correct order. I think you would still have to use locks to ensure that a emailsRemoved signal from a worker thread doesn't get processed by the model until the correct time.}
+
+        {Incidentally, I've written a model for handling emails and other PIM data where all the work is done in different *processes*. Notifications are delivered by a Monitor class and processed by the model as soon as they are recieved. Changes made by the model (from the user) are initiated via Jobs, the results of which also come back through the Monitor. See in particular the private slots:}
+
+    ]
+
+    link http://websvn.kde.org/trunk/KDE/kdepimlibs/akonadi/entitytreemodel.h?view=markup
+
+    print << [
+
+        {More dox here, which I've just realised I have to move:}
+
+        {[(archived @ archive.org) http://api.kde.org/4.x-api/kdepim-apidocs/akonadi/akonadi_next/html/index.html](https://web.archive.org/web/20090907222240/http://api.kde.org/4.x-api/kdepim-apidocs/akonadi/akonadi_next/html/index.html)}
+
+        {If you're interested in collaborating on this, myself and other Akonadi developers are available on the kde-pim mailing list and #akonadi on freenode.}
+
+        "All the best,"
+
+        "Steve."
+
+    ]
+
 ]
