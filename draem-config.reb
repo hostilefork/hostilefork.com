@@ -50,30 +50,30 @@ draem/set-config object compose [
 	site-prologue-html: {<div style="text-align: right; margin-right: 8px;"><p><img src="http://hostilefork.com/media/feed-icon-14x14.png" alt="Feed Icon" />&nbsp;<a href="http://blog.hostilefork.com/feed/">RSS 1.0 XML Feed</a> available </p></div>}
 
 	site-intro: [
-		{An occasionally-updated collection of articles and notes.  Mostly about modern software engineering.  Main topics are C++11 and the Rebol and Red languages, along with general programming philosophy and puzzle-solving.  Now and again, I throw a fit after dealing with some call-center or Internet fraud...and that seems to get the most hits.  *([We've all been there](http://xkcd.com/806/)!)*}
+		print {An occasionally-updated collection of articles and notes.  Mostly about modern software engineering.  Main topics are C++11 and the Rebol and Red languages, along with general programming philosophy and puzzle-solving.  Now and again, I throw a fit after dealing with some call-center or Internet fraud...and that seems to get the most hits.  *([We've all been there](http://xkcd.com/806/)!)*}
 
-		{My claims-to-fame can probably be counted on one or two hands (depending on how many fingers you have), but I designed the logos for both Rebol and Red (and the typography for Red).  Please [read up and learn](http://blog.hostilefork.com/why-rebol-red-parse-cool/) about these unusual philosophy-driven languages:}
+		print {My claims-to-fame can probably be counted on one or two hands (depending on how many fingers you have), but I designed the logos for both Rebol and Red (and the typography for Red).  Please [read up and learn](http://blog.hostilefork.com/why-rebol-red-parse-cool/) about these unusual philosophy-driven languages:}
 
-		[button http://i.stack.imgur.com/VIh6w.png 700x160 "[Rebol and Red] chat room" http://blog.hostilefork.com/why-rebol-red-parse-cool/]
+		button [http://i.stack.imgur.com/VIh6w.png 700x160 "[Rebol and Red] chat room" http://blog.hostilefork.com/why-rebol-red-parse-cool/]
 
-		[heading {Site Reorganization in Progress}]
+		heading {Site Reorganization in Progress}
 
-		{As of mid-2014, blog.hostilefork.com is a scrape and rewrite of content that was previously on the main page of hostilefork.com.  The [new main page](http://hostilefork.com) is starting the path toward being a more formal list of projects *(as opposed to blogs/articles/rants)*.  All old links should be forwarding correctly--so please let me know if you find one that isn't.}
+		print {As of mid-2014, blog.hostilefork.com is a scrape and rewrite of content that was previously on the main page of hostilefork.com.  The [new main page](http://hostilefork.com) is starting the path toward being a more formal list of projects *(as opposed to blogs/articles/rants)*.  All old links should be forwarding correctly--so please let me know if you find one that isn't.}
 
-		{In the transition from an ancient WordPress installation, I did something interesting.  After scraping the content, I encoded it into a [REN](https://github.com/humanistic/REN) *("REadable Notation")* format.  Then I made my own static site builder to generate the pages, called [Draem](http://draem.hostilefork.com), which has some very surprising properties...so you might check that out! The "source code" for this blog is available on GitHub as well:}
+		print {In the transition from an ancient WordPress installation, I did something interesting.  After scraping the content, I encoded it into a [REN](https://github.com/humanistic/REN) *("REadable Notation")* format.  Then I made my own static site builder to generate the pages, called [Draem](http://draem.hostilefork.com), which has some very surprising properties...so you might check that out! The "source code" for this blog is available on GitHub as well:}
 
-		https://github.com/hostilefork/hostilefork.com/tree/master
+		link https://github.com/hostilefork/hostilefork.com/tree/master
 
-		{I'll come up with a fancier index page than this.  But for now, the links here are enough for search engines (and me) to find the pages.  If you'd like, you can also [browse the site by tag](http://hostilefork.com/tag/).  There is some preliminary support for navigating the entries with the left and right arrow keys.}
+		print {I'll come up with a fancier index page than this.  But for now, the links here are enough for search engines (and me) to find the pages.  If you'd like, you can also [browse the site by tag](http://hostilefork.com/tag/).  There is some preliminary support for navigating the entries with the left and right arrow keys.}
 
-		{I appreciate your feedback or suggestions, so feel free to get in touch by comment or mail!  Contact information is available on the [Hire the Fork](http://hostilefork.com/hire-the-fork/) page.}
+		print {I appreciate your feedback or suggestions, so feel free to get in touch by comment or mail!  Contact information is available on the [Hire the Fork](http://hostilefork.com/hire-the-fork/) page.}
 
-		[heading {Master List of Entries}]
+		heading {Master List of Entries}
 	]
 
 	site-footer: [
 
-		[button http://hostilefork.com/media/fork-card-back-320x560.png 320x560 "Business Card from SXSW" http://hostilefork.com/hire-the-fork/]
+		button [http://hostilefork.com/media/fork-card-back-320x560.png 320x560 "Business Card from SXSW" http://hostilefork.com/hire-the-fork/]
 	
 	]
 
@@ -220,6 +220,3 @@ $(document).ready(
 		}
 	]
 ]
-
-
-draem/make-site
