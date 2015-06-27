@@ -1,0 +1,172 @@
+Draem [
+    title: "Handcuffs vs. Run-On Sentences: Draem and Lest"
+    tags: [rebol lest draem]
+    slug: %draem-lest-handcuffs-sentences
+    date: 21-Jun-2015/6:44:35-4:00
+]
+
+print {As some people know, this website is implemented using a static website generator I stuck together in Rebol, called [Draem](http://draem.hostilefork.com/).}
+
+note [print << [
+    {If you thought it's written in Python due to the fact that it throws up Django error pages at times, that would be a bit like saying it's "written in Apache".  I had Django on the server for other reasons, and I decided to use it to do some template substitutions that are superfluous and could just be done in the static generator.  (But having them dynamic means I can change the whole site theme with one file, which can be convenient to test theming quickly).  I also preferred to use Django for URL routing since Apache config files make my eyes bleed.  But the Python really is just one page of "code".}
+
+    {So sorry, hackers...there's no database or Django admin console.  Stop trying!  *(Yeah--I see you there--in the logfiles.)*  :-/}
+]]
+
+print << [
+    {Yet I have a notably negative level of interest in HTML/JS/CSS, jQuery, Require.JS, the ["CSS specificity scoring system"](http://designshack.net/articles/css/what-the-heck-is-css-specificity/), and all the other train-wrecks they're giving kids these days.  Of course I've had to "learn" more about all this [than I care to admit](https://github.com/hostilefork/blackhighlighter/blob/master/jquery-blackhighlighter/jquery-blackhighlighter.js).  But by not using some commodity web platform and just clicking on a theme, I'm setting myself up for maintenance pain, right?}
+
+    {Right!  Even with my pages being validated HTML5 and all on the up-and-up, I got an email visit from the Google Mafia about ["Mobilegeddon"](https://www.searchenginenews.com/sample/update/entry/google-sets-mobile-friendly-deadline-april-21st).  This was a 21-Apr-2015 deadline to *"make your website mobile friendly...or else"*.  They decided that any page I had that served an image or video wider than a cell phone was "in violation" unless it was "reactive".  Penalties to my search rank were to follow if I didn't do as they said.}
+]
+
+note {When was it, exactly, that the burden shifted from the phone browser to *every website in the world* to "react" to the device?  You'd think being HTML5 would be enough.  Nope.  They'll break your kneecaps anyway.}
+
+print << [
+    {Google's flippant advice was "let them eat PHP".  They reasoned that if you're using something like WordPress or Joomla, "you should be able to download a reactive template."  Which is reasonable, except it's not... and I'd [specifically scraped my content OUT of a WordPress installation](http://blog.hostilefork.com/wordpress-kubrick-customization-2007/) to get away from that monstrosity.}
+
+    {To properly solve the problem, I was being *forced* to learn about things like the difference between [Twitter Bootstrap](https://en.wikipedia.org/wiki/Bootstrap_(front-end_framework)), [Foundation](http://foundation.zurb.com/), or trying to go more minimalist with [Skeleton](http://getskeleton.com/).  I don't think anyone who knows me would think these are beyond my ability to grasp.  *But I don't want to keep spiraling into something that has no bearing on what I'd consider knowledge.*}
+
+    {It was time for me to either double-down on Rebol for the site, or switch away entirely.  In the years since my first static web generator, many others had the same idea... so I could convert to [Jekyll](http://jekyllrb.com/).  My Node.JS-fu was acceptable, and [Ghost](https://ghost.org/about/) was popular.  Or I could hit the books and use something more educational like [Yesod](http://www.yesodweb.com/) for Haskell.}
+
+    {I decided that I would double down, and switch the site to be built with another Rebol system called [Lest](http://lest.iluminat.cz/)...the *"Low Entropy System for Templating"*.  Lest was a more complex system being used for some commercial sites, but was running at a scale that was bumping up against bugs in the interpreter.  So I decided I'd look at fixing the bugs.  (As in, all of them.  Sort of.)}
+
+    {It took considerable time to understand the exact landscape of what had been done, and what would need to be done to make Rebol truly reliable.  I'll write that up in another entry, but this one is about the motivation.  So first...some history.}
+]
+
+heading {How Did I Get Here?}
+
+print {To bring the uninitiated up to speed, I became involved with Rebol for the fairly random reason of its usage to implement "Qtask" (which is now [Prolific](https://www.prolific.com/)):}
+
+list [item << [
+    {At first I thought: *"well, it's imperative and interpreted, and I don't think that's much of a way for the future.  But it's like Tcl, I used to like Tcl/Tk a lot.  Let me check it out to see if there's anything new to see here."*.}
+
+    {Next I thought: *"ugh, more brittle garbage, why does anyone like this thing?!"*}
+
+    {Then I went ["ohhh. hmmm."](http://blog.hostilefork.com/enumerated-type-for-rebol2/).  I continued to hmmm over time at it.  When it was open sourced I decided that I'd try to get involved in shaping the web presence for it on StackOverflow and elsewhere.}
+]]
+
+note [
+    print {It's informative to share that I hadn't done any Forth, merely a small bit of Lisp/Scheme...and the only Logo I'd looked at was [Turtle Graphics](https://en.wikipedia.org/wiki/Turtle_graphics) on the Commodore 64.  :-/  Hence Rebol was my lens for fast-forwarding through a cluster of influences that had previously been outside the scope of my work.  While all the ideas weren't "new" in the sense of originating from Rebol, there were many that were new *to me*:}
+
+    quote [
+        print {A language that doesn't affect the way you think about programming, is not worth knowing.}
+
+        attribution [link [https://en.wikipedia.org/wiki/Alan_Perlis "Alan Perlis"]]
+    ]
+]
+
+print << [
+    {Due to the moment in time that I encountered it, I'd used Rebol for a web scrape of my lucid dreaming logs *(to free them from the clutches of the once-great-but-increasingly-evil LiveJournal)*.  My scrape produced files in Rebol's homoiconic format, and I made a sad little static website generator to spit out the most boring HTML I could think of.  The idea was to make it easy for engines and indexers to pick up the data...which actually took a long time, to get into the Internet Archive even.}
+
+    {Years later I had to free hostilefork.com from an [ancient WordPress installation](http://blog.hostilefork.com/wordpress-kubrick-customization-2007/).  My static generator was not going to be good enough to do code samples and such, and so Draem was created as an expansion of the approach.}
+
+    {The gist of my idea differed from some of the prior Rebol-based web generators like [MakeDoc](http://www.rebol.net/docs/makedoc/fastmd.html), because I wanted the files to be LOADable.  So they wouldn't break Rebol syntax rules.  This could be seen as a bit of a burden, because you'd have to make sure string content was inside of quotes or braces.  But my trick was to have paragraphs in MarkDown, and then only use the Rebol structure for tricks on a "Rebol backbone".}
+
+    {It worked fine, and I came to find it pleasant to work with.  So I went on with my archiving initiative ("Hard Drive Zero")...and work on interesting projects like Ren/C++ and ["Ren Garden"](https://www.youtube.com/watch?v=0exDvv5WEv4).}
+]
+
+heading {The "Low-Entropy Templating System"}
+
+print << [
+    {Around the time I was making Draem, Boleslav Březovský (@rebolek) had a similar-but-different idea in ["Lest"](http://lest.iluminat.cz/), and it was also based on building pages out of LOAD-able constructs.}
+
+    {Yet while Draem was a PARSE-based whole-site generator, **lest** was a function that you passed a Rebol block to, and it gave a string back.  So for contrast:}
+]
+
+source 'rebol {
+Draem [
+    title: {My Web Page <title> goes here}
+    tags: [random-demo rebol draem]
+    slug: %you-put-the-slug-here
+    date: 21-Jun-2015/6:44:35-4:00
+]
+
+[heading {Some section heading}]
+
+{This is what [Draem](http://draem.hostilefork.com) looked like.  Each paragraph could support **markdown**.  Every string standing alone would be a paragraph.}
+
+[note
+    {Although a lone string would be interpreted as an exposition, if you opened a block you could put an instruction word at the beginning.}
+
+    {This would hence be a "note" with two paragraphs in it.  And it's recursive, so the following would be a list inside of a note...}
+
+    [list
+        {First item.}
+        {Second item.}
+        {Third item.}
+    ]
+]
+}
+
+print {In Lest it would have to be different, as it was a method for generating strings from the body only.  And it comes with processors for standard HTML.}
+
+source 'rebol {
+h1 {Some section heading}
+
+p {This is what [Lest](http://lest.iluminat.cz/) looks like.  Each paragraph supports **markdown**, if you enable it.}
+
+note green [
+    p {In Draem, you would add an extension by making the dispatch on the first item in a block.  Lest is more freeform in that you add extension rules that dispatch off a word, and then have arbitrary arity.}
+
+    p {So here we might be using a NOTE extension that we registered.  The implementation of note knows that it takes a block that is processed with Lest, but then it might be arity-two and take a color.  It's a little more "risky" but also a little more "Rebol-like".}
+
+    ul #a-div-id-for-list
+        li {First item.}
+        li {Second item.}
+        li {Third item.}
+    ]
+]
+}
+
+print {So there's a little sampler of some of the difference between the approaches.  Lest is more generalized.  So if I wanted to write in the style I was used to, I'd basically write a set of "plugins" which wouldn't speak at the HTML level, but used Lest HTML abstractions.}
+
+heading {Of Handcuffs and Run-On-Sentences}
+
+print << [
+
+    {One of Rebol's big winning points is the pushback against boilerplate, in pursuit of making programming a little more like writing in a human language.  It can make formalists nervous, but there really is something about tapping into the "language instinct" we have vs. *requiring* the regimentation other languages enforce.  You have more options, in ["the most freeform computing language ever invented"](http://www.rebol.com/article/0103.html).}
+
+    {Even though I've found that aspect interesting, I feel you have to be careful and systematic about going too far.  @rebolek and I are kind of infamous for arguing over the question of how "safe" things need to be...I'll tend to push for more restrictions.  He thinks this can ruin the expedience and naturalness; that I have too many rules, and put BLOCK!s in when they aren't needed.}
+
+    {In the case of Draem, I did try an idea that turned out to be fairly useless.  My "rule" was that a lone item **X** would be effectively the same thing as **[X]**, and then if you wanted parameters to it you would put them in a block as **[X ...]**.  This way if you hit a URL! (for instance) and didn't put it in a block, it would decide to make the link text the same as the URL text...and if you wanted to override it you'd say something like **[http://hostilefork.com {The Hostile Fork}]**.}
+
+    {I don't think it turned out to be that much of a win.  And I was also erring with one of the principal purposes of the domain-specific language...writing dialog!  Consider:}
+]
+
+source 'rebol {
+[taco-bell-dog: {Yo quiero taco bell.}]
+
+[purple-cheetah: <growling fiercely> {Give me back that shoe pie!}]
+}
+
+print {This dialect has *three* things... SET-WORD! for who's speaking, STRING! for what's said, and TAG! for whatever character action or gesture is going on.  *So why have a block for every line?*  Why not kick into a dialect and recognize that simple pattern?}
+
+source 'rebol {
+dialog [
+    taco-bell-dog: {Yo quiero taco bell.}
+
+    purple-cheetah: <growling fiercely> {Give me back that shoe pie!}
+]
+}
+
+print << [
+    {I think this brushes up against the real meat of the idea of Rebol when used properly, and why more lexical types can bring you to a "sweet spot".  It's a matter of seeing where the break points need to be.  That's a sense that comes with time, and interesting that it took me so long to "feel" the importance of changing it.}
+
+    {Yet my leanings in these kinds of arguments have truth too.  I was doing some research into converting Draem to use Lest, and came across this situation:}
+]
+
+source 'rebol {
+p {Here is an interesting link:}
+
+a http://example.com/some-interesting-link.html
+
+p {Something I find interesting about it is blah blah blah...}
+}
+
+print << [
+    {With my mind in Draem-mode, that looked to be right.  But then I found out that the **a** anchor abstraction in Lest is arity 2 (at least).  It always wants a link and link text.  The **p** plugin takes the content it gets, lestifies it, and wraps it in `<p>` and `</p>` tags.  So now my link text is that paragraph, complete with the tags!}
+
+    {So I'm trying to balance the concerns.  There's some other good news on this front such as progress on a [CommonMark](http://commonmark.org/) implementation...and a cool **<<** feature you can check out in [Try Lest Online](http://lest.qyz.cz/try.html)}
+
+    {Anyway, I found myself going on a tangent about all this in the *"why am I working on Rebol's C codebase after I said I was not going to do that"*.  Part of it is because I doubled down, and my hopes that a more stable and scalable Rebol brings good returns.  Despite all our differences of opinion, I hope a good product results from this process.}
+]

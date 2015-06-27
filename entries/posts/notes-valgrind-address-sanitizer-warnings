@@ -1,0 +1,47 @@
+Draem [
+    title: "Notes on Valgrind, Address Sanitizer, and Compiler Warnings"
+    tags: [c++ c valgrind]
+    slug: %notes-valgrind-address-sanitizer-warnings
+    date: 30-May-2015/13:28:49-4:00
+]
+
+note [print << [
+	{I actually have a lot of material for this article, and I am putting up a stub for a dumb technical reason.  That reason is that I haven't bothered to make a "draft" feature in my site generator, and I could do that in a few seconds...but really I'm a wiki-style person.  So as in the Dawkins answer to "what good is half an eye?" you can ask "what good is half an article?"...and one thing is that it reminds you that you're supposed to finish it.  I'll get on a full Valgrind/AddressSanitizer/UndefinedBehaviorSanitizer article with lots of nitty gritty things about command lines and linker switches, but I needed to publish this to get some other articles to compile.  Sorry it's not any good yet.}
+]]
+
+print << [
+
+    {I've spent more time than I should reasonably admit going through old C codebases and trying to hammer them together so they are cleaner and less crashy.}
+
+    {While *"sometimes I get paid to do that"* might seem a reasonable excuse to some people, it doesn't to me--there are a lot of other things to do in the world.  Not only that, I sit staring at it for what seems in retrospect to be no reason.  If I'd spent that time practicing Haskell, or Erlang, or Clojure, or doing practically anything else *(painting? [musical mash-ups](http://blog.hostilefork.com/open-source-zip-zap-rap/)?)*... I'd likely be a less grumpy Fork.}
+
+    {Yet as much as some people would like to see C and C++ go away, they are not going to be doing so anytime soon.  It is far more likely that Earth will descend into a new dark ages with no computers before C and C++ get knocked out of the Tiobe Top 10.}
+
+    {But my pain can be your gain.  Here I will start collecting notes on what to do.  I'll start simple and add when I can.}
+]
+
+heading {Valgrind and Callgrind use a simulator}
+
+print {Don't worry about running other processes during your timing.  The timing isn't clock-time, it's ticks on the simulator.  What kind of machine is it simulating?  An old-ish one.  Given that it's a simulation, how reliable is the data you're getting?  In my experience it seems to be reasonable.}
+
+heading {Don't Use Valgrind With Optimized Builds}
+
+print {It doesn't work, and will give you a bunch of false positives.  To make a long story short, they *could* have made it work, but it would make running Valgrind even slower.  So they didn't.}
+
+heading {What's the difference between Address Sanitizer and Valgrind?}
+
+print << [
+	{Address Sanitizer builds and links stuff into your code.  It's invasive and requires recompilation.  Because it doesn't run on a simulator it's a lot faster.}
+
+	{What happens if you try to Valgrind an Address Sanitizer build?  Nothing happens because you can't.}
+
+	{Valgrind will slow you down.  And some of the cases that trigger your worst bugs might be stress tests; things that only show up after 3 billion iterations of something.  If your program tends to start making your CPU fan run when *not* under Valgrind, you will not be in a happy place when it slows you down 20x.}
+]
+
+heading {Leverage Valgrind's Two Stacks}
+
+print << [
+	{Here's a trick.  If you do some "outside the box" thinking about what Valgrind provides you with, it lets you trigger an alarm at a point that indicates the stack at the time of the alarm, *as well as* a stack at a point of origin.  Very handy when the source of the alarm is an allocation or a free, but what if you alloc and then free something instantly?  All you have to do is dereference it, and you get a smoking gun.}
+
+	{*(I'm sure someone else has thought of this, but I came up with it independently.)*}
+]

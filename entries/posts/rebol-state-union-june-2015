@@ -1,0 +1,105 @@
+Draem [
+    title: "Rebol State of the Union (June 2015)"
+    tags: [rebol red c c++]
+    slug: %rebol-state-union-june-2015
+    date: 25-Jun-2015/2:34:54-4:00
+]
+
+print << [
+    {It has been two years now since the Rebol/Red developer conference in Montreal of Summer 2013 (which took place just a short while after the long-requested open-sourcing of Rebol on 12-Dec-2012).  At that time, I gave a talk titled ["E. Rebolus Unum: a cohesive free software community built on the newly open-sourced Rebol code"](http://blog.hostilefork.com/media/rebol-state-union-july-2013/e-rebolus-unum.pdf).}
+
+    {When looking back on my slides, I've already acknowledged a shift in thinking about **/ONLY**.  With a few systemic changes to make /only *more* pervasive and well defined, I think it can be reshaped to make sense.  One example is PRINT/ONLY vs. PRIN, because it's not a very literate or sustainable practice to drop the last letter off of things to suggest they do a more foundational version of the same word.  (If that were the case, it would be APPEN instead of APPEND/ONLY, right?).  The nuances of how this all can be tidied up is a subject for another article entirely...!}
+
+    {But the rest of my slides are still current and relevant, I think.  Unfortunately, a lot of the momentum didn't keep up on the Rebol side of the fence.  By contrast, Red has been doing well with [getting investment capital](http://www.red-lang.org/2015/01/dream-big-work-hard-and-make-it-happen.html) and starting to come on the radar on places like [Hacker News](https://news.ycombinator.com/item?id=9714679), with a shockingly low amount of Haterade.  *(Probably the harshest words are coming from me...about prudence in process and implementation.)*}
+]
+
+heading {So...What's Happenin'?}
+
+print << [
+    {I began a process of trying to "solve" or "fix" [Rebol](https://en.wikipedia.org/wiki/Rebol).  You might ask: of all the things in the world to do with one's time, *why pick that*?  Well, I have a few projects in it, including the site you're reading.  I broke an article on that topic out into one where I cover some of the story of [Draem and Lest](http://blog.hostilefork.com/draem-lest-handcuffs-sentences).  Read that if you're interested.}
+
+    {So while being a [C archaeologist](http://blog.hostilefork.com/where-printf-rubber-meets-road/) is something I'll do for the kids when they ask on SO, it's not my favorite hobby.  I know *how* to do it.  But I'd actually declared that digging into the Rebol3 sources too much would not be a good way to spend time, and wanted everyone to focus on contributing to [Red](http://www.red-lang.org/p/contributions.html).}
+
+    {Writing an article about why I changed my mind is a separate issue.  The short version is that Rebol has a number of open issues that Red has swept under the rug, and in its attempt to surge forward in implementation has failed to worry about.  As the saying goes: *"Weeks of programming can save you hours of planning"*.  :-/  But hopefully the brain trust can fix up the rough edges as I suggested, and Red (or its forks) can swipe the effort.}
+
+    {What most people have heard about is what I've called "Coherence One".  This builds upon my other non-Rebol-related work, where I've tried as hard as I can (mostly) to understand the changing shape of computing...reading every day, learning C++11 and C++14, or Haskell, or whatever is new in the state-of-the-art.  By contrast, working with Rebol does have a little of the caveman-trapped-in-ice movie aesthetic.  (Note that [MUNGWALL](https://github.com/rebol/rebol/blob/25033f897b2bd466068d7663563cd3ff64740b94/src/core/m-pools.c#L223) is from the [Amiga](http://amigadev.elowar.com/read/ADCD_2.1/AmigaMail_Vol2_guide/node0053.html), before there was [Valgrind](https://en.wikipedia.org/wiki/Valgrind) or [AddressSanitizer](https://en.wikipedia.org/wiki/AddressSanitizer).)}
+
+    {Coherence One can be conveniently thought of as a reboot of the Rebol sources so that they build in C89 => C11, as well as C++98 => C++14.  It was a non-trivial amount of design and work to get to that point...but I did a lot more than just that.  I basically rewrote the whole interpreter.  And so now we have to worry about how to get this work into people's hands, before I have a [Windows-induced aneurysm](http://chat.stackoverflow.com/transcript/291?m=23928158#23928158) and it never sees light of day.}
+
+    {I can't write blogs all day and code all day and do everything else I need to do.  Forgive me if I'm not doing the best job, but let me try and sum up the most important bit for going forward:}
+]
+
+heading {The Atronix Fork}
+
+print << [
+    {When Rebol became open source, a previously unknown *(to most)* userbase came forward...an established company called [Atronix Engineering](http://atronixengineering.com/aboutus.html).  In [a talk given by David den Haring](https://www.youtube.com/watch?v=jIw7aRP6JPU), he explains that out of 50 industrial automation engineers, they have 7 Rebol programmers.}
+
+    {In order to have full control over the system, they essentially took over development on the project.  They've also been very good about working in public and sharing everything they've done with the community, and [release frequently](http://atronixengineering.com/downloads.html).  *(In the talk David explains they have nothing to hold back, except for some industrial automation protocol driver that they spent a lot of time and money developing.)*}
+]
+
+note [print {Open-source fanatic that I am, I'll let this slide--as I don't have any industrial robots lying around.  If I get some robots and need that, I'll start harassing him. :-P)}]
+
+print << [
+    {But there was a hitch.  Atronix actually did not start with the version of Rebol that was released on 12-Dec-2012 to the general public.  Instead they established a partnership with [Saphirion AG](http://www.saphirion.com/)...a company that had privileged access to the Rebol code from years before the open sourcing.  It was Saphirion who'd been taking on the mission of developing the GUI-enabled version of Rebol3, and Atronix needed that GUI.}
+
+    {The changes in Saphirion's repository hadn't just been GUI-related.  They'd reorganized the codec model and brought in code to implement the underlying cryptography necessary for writing a PORT! model for HTTPS.  This crucial feature of being able to `read https://example.com/some-https-page.html` was missing from [the core builds](http://rebolsource.net/).  Atronix's build thus had it, and most everyone eventually was forced to use it...whether they needed a GUI or not.  Even [@RebolBot](http://stackapps.com/questions/3960/rebolbot-a-chat-bot-for-the-chat-rooms), which is purely server-side, runs Atronix's graphical Linux build and not Rebol/Core!}
+
+    {So here were some barriers preventing the integration:}
+]
+
+list [item << [
+
+    {By the time Rebol was open-sourced, the codebase was already divergent, and Atronix continued that divergence.  Major bugfixes seemed to have been synced up with the open-source Rebol.  But there were more controversial changes, like how https:// had been done mostly in "user mode" Rebol code instead of all C.  These hadn't been green lighted by Carl and were stalled making it back to master.  While Andreas Bolka (@earl) had done some heroics to keep the repositories at least as proper git clones of each other, *even still* the difference had come to an accumulated total of 800 commits.}
+
+    {Just speaking generally: Making the step from a non-GUI program to a GUI one creates vastly more dependencies, variants, and complexity in the build process.  Rebol3 had been factored out in its implementation to separate the more monolithic nature of the Rebol2 codebase (supposedly) so that the core *could* be shipped without any GUI-based #ifdefs or references.  Leaking those hooks in again would be a step backward...yet the architecture as shipped was not fleshed out well enough to meet the needs of the GUI without some core modifications.}
+
+    {Atronix's needs--as Saphirion's were--are not a mission of designing a language that is pure due to some abstract set of rules or principles.  Their fork thus cannot be tied up by questions of what represents the FOSS vision for a project.  If something is needed to serve a client's need and they need to throw in a dependency, there can't be friction; they have deadlines.}
+]]
+
+print {Yet while getting ready to push onward with Coherence One, and make my changes, I hit some points where I was reeling at the sheer complexity of the effort.  Then I had a vision of breaking through these barriers to end the divergence between Rebol mainline and the Atronix GUI version.  The method parallels work done on Ren Garden via Ren/C++:}
+
+youtube [https://www.youtube.com/watch?v=0exDvv5WEv4 560x315]
+
+print {Ren Garden is not a forked repository of Rebol.  It uses Rebol as a static library.  This library is designed to be full featured and allow clients the effective ability to write code as if it were part of the interpreter itself.  The design efforts of Ren/C++ instigated a similar library for non-C++ clients, called Ren/C:}
+
+link https://github.com/metaeducation/ren-c/
+
+print {So ideally, Atronix's Rebol/View would then become a Ren/C client the way Ren Garden is of Ren/C++.  (Perhaps ultimately choosing to be a Ren/C++ client, as the C++ classes are on a path of being orders-of-magnitude easier to use safely than the low-level C API.)}
+
+heading {Fork un-forks the Atronix Fork}
+
+print << [
+    {To kick off the process of ending the divergence and duplication of upcoming work, Ren/C merged up all the changes from the past years on Atronix's repository to a branch called `atronix-split`.  The basic idea would be that Ren/C would begin by favoring the changes made on that branch...including breaking out the codecs into their own directories (and adding support for cryptography needed by the https protocol).}
+
+    {I also took the changes to make ROUTINE! work.  Because ROUTINE! and STRUCT! had never been implemented in Rebol3, I'd previously been planning to mothball them during the updated `Do_Into` replacement for `Do_Next`.  But having thought about it more I realized that it's actually quite important.  However, libffi is a traditional GNU autotools building library, and the exact kind of dependency Rebol/Core has put its foot down to reject.  So I worked up a little set of stubs to make it compile, and [did a write-up](https://github.com/metaeducation/ren-c/blob/atronix-split/src/core/t-routine.c#L27) of what needs to be done before libffi can truly be *integrated* into the build.}
+
+    {Then the big one: nearly every file that even so much as **mentioned** the graphics library "agg" or did `#include <X11.h>` was deleted.  To help in the interim with understanding what went missing, if a file was kept I just commented out the GUI references.  It's not just graphics that it would be nice to break out; the various codecs and such should be easier to pick and choose.  (What if you want to be able to write JPG files instead of just read them?  What if you don't care about GIFs at all?)}
+
+    {I mentioned that the old make-make.r process had atrophied in Atronix's build to the point of not being able to create a suitable makefile for a core build.  There were quite a number of [hand-maintained makefiles for each platform](https://github.com/zsx/r3/tree/9560df9fbd5a4c400942db34fda64fe090828ce8/make) which could no longer be automatically generated, and a similarly hand-built Visual Studio project, plus some shell scripts.  So I deleted all of those, and did the small bit of work needed to patch make-make for Linux.  Long story short: I don't think it's going to be hard to fix that for the other platforms.}
+
+    {Also: Saphirion had started a practice of snapshotting releases in a directory under version control.  This was actually not such a bad thing when they were using SVN.  But in Git, this meant every single clone of the repository would be getting those EXEs for every platform (and copies of each release version, even).  I wasn't used to Ren/C or Rebol taking any time to clone before, and this was an order of magnitude slower and chewed up disk space in the `.git` directory.  I had to do something about it, so I cracked open a can of git-fu and managed to wipe the binaries' existence out of history completely.}
+]
+
+note {Unfortunately this [`git filter-branch`](http://git-scm.com/docs/git-filter-branch) changed the hashes of the commits.  So although the history is still there, it is no longer a common "branch" with zsx/r3 atronix.  It diverges on the first commit that put release binaries into the repo...which is so early that efectively these branches are now divergent for basically any purpose.  So forget about automatic merging if you've got old changes from that branch, you'll have to remake the commits.  Sorry, @ShixinZeng, I had to do it... :-(}
+
+note {I'll also point out that if indents are [switched to spaces](http://stackoverflow.com/questions/4112410/git-change-styling-whitespace-without-changing-ownership-blame) (as I believe they should be) it will affect cloned repositories.  Ren/C has an edge here as people haven't cloned it, but there are 178 different accounts with clones listed of GitHub rebol/rebol alone.}
+
+heading {The Ren/C Split for Atronix}
+
+print << [
+    {*On the flip side of the coin*, I made another completely different branch off of the current working state of the Atronix repository called `ren-c-split`.  This contained the Atronix branch *but* all the common files wiped out.  Since there is a `c-do.c` in Ren/C, there would be no `c-do.c` in the Atronix repo.  With a file like `host-window.c` it would not be in Ren/C... so I left it alone.}
+
+    {Then to bring all those files back for a build, I included Ren/C as a git subproject.  It's better for the Atronix repo to **contain** the Rebol core engine instead of being a clone of the Rebol repository.  Because that means that most needs they have *(even putting in large binaries, if convenient or expedient)* don't get tangled up with issues of the core maintenance.}
+]
+
+note {This is a change akin to what we call in C++ *"the difference between composition and inheritance"*.  A lot of times people think inheritance is good to "avoid duplicating code", but code-sharing is usually a quite misguided motivation for using inheritance!}
+
+print << [
+    {I also took out any *non-GUI* oriented test code and moved it into the Ren/C test repository.  The GUI tests stayed.}
+
+    {This produced a nicely factored--but **utterly non-compiling**--Atronix R3/View.  So now our next question is how to make it compile and run again.  The strategy I am proposing is to use CMake...and as I said, the idea is to parallel how Ren Garden works where Ren/C is used as a static library.}
+
+    {In any case, I'm going to apply the coherence-one changes to *both* repositories.  This way, Atronix doesn't have to do anything other than figure out how to make it build again.  :-)}
+
+    {So there you have it, and we'll play the ball from here.}
+]
