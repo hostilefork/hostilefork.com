@@ -30,6 +30,7 @@
 %/transitive-power-of-const-in-cpp %/transitive-power-of-cpp-const
 %/turings-thesis-in-his-own-words %/turing-thesis-laymans-terms
 %/the-flexible-series-as-a-core-concept-of-rebol %/core-rebol-concept-flexible-series
+%/c-casting-macros-subversive-cpp %/c-casts-for-the-masses
 
 ;-- This used to be a page, but is now moved to being an archival entry
 

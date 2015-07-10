@@ -1,0 +1,316 @@
+Draem [
+    title: "Casts for the Masses (in C)"
+    tags: [ideas c c++ rebol]
+    slug: %c-casts-for-the-masses
+    date: 9-Jul-2015/4:54:31-4:00
+]
+
+print << [
+    
+    {Whenever dealing with C programming, I constantly miss C++ features.  Fancy ones from C++11 like `<type_traits>`, but also a simple thing: **proper casting**.  I can't stand how unsafe C-style casts are and how frequently they're used in C code.}
+
+    {And though people geek out about the various bit-twiddly problems with casts, they are a fact of life in low-level systems programming.  Pointers can be dangerous, and they're necessary at that level too.  So perhaps the most relevant aspect of "lack-of-safety" is ((how)(hard + the)casts * are) to see!  How can I decide if something is being used correctly or not if I can't see it?  Casts have to jump off the page or be searchable, else I may not get a chance to raise an angry-cartoon-fork-eyebrow at them.}
+
+    {Recently I wrestled with the issue, while looking for a balance in dealing with this on codebases that can be built with either C or C++.  A minimal set of cast macros evolved that I'm pleased with, and would like to share.  I'll detail the process of picking them and what the tradeoffs were, but let me post the code up-front:}
+]
+
+heading {Carefully Crafted by a Subversive C++ Programmer}
+ 
+print << [
+    {It's terse: 83 lines, out of which 32 are comments.  *(Should you use this code, I suggest leaving the comments in, along with a link to this article.)*}
+
+    {It will (obviously) work in all C versions, and the C++11 pattern for expressions is legal under strict ISO `--std=c++11` and `-Wpedantic -Wextra -Wall`.  License is Boost or MIT or whatever cheap-as-free license you need:}
+]
+
+source 'cpp {
+#if !defined(__cplusplus)
+    /* These macros are easier-to-spot variants of the parentheses cast.
+     * The 'm_cast' is when getting [M]utablity on a const is okay (RARELY!)
+     * Plain 'cast' can do everything else (except remove volatile)
+     * The 'c_cast' helper ensures you're ONLY adding [C]onst to a value
+     */
+    #define m_cast(t,v)     ((t)(v))
+    #define cast(t,v)       ((t)(v))
+    #define c_cast(t,v)     ((t)(v))
+    /*
+     * Q: Why divide roles?  A: Frequently, input to cast is const but you
+     * "just forget" to include const in the result type, gaining mutable
+     * access.  Stray writes to that can cause even time-traveling bugs, with
+     * effects *before* that write is made...due to "undefined behavior".
+     */
+#elif defined(__cplusplus) /* <= gcc -Wundef */ && (__cplusplus < 201103L)
+    /* Well-intentioned macros aside, C has no way to enforce that you can't
+     * cast away a const without m_cast. C++98 builds can do that much:
+     */
+    #define m_cast(t,v)     const_cast<t>(v)
+    #define cast(t,v)       (t)(v)
+    #define c_cast(t,v)     const_cast<t>(v)
+#else
+    /* __cplusplus >= 201103L has C++11's type_traits, where we get some
+     * actual power.  cast becomes a reinterpret_cast for pointers and a
+     * static_cast otherwise.  We ensure c_cast added a const and m_cast
+     * removed one, and that neither affected volatility.
+     */
+    template<typename T, typename V>
+    T m_cast_helper(V v) {
+        static_assert(!std::is_const<T>::value,
+            "invalid m_cast() - requested a const type for output result");
+        static_assert(std::is_volatile<T>::value == std::is_volatile<V>::value,
+            "invalid m_cast() - input and output have mismatched volatility");
+        return const_cast<T>(v);
+    }
+    template<typename T, typename V,
+        typename std::enable_if<std::is_pointer<V>::value>::type* = nullptr>
+    T cast_helper(V v) { return reinterpret_cast<T>(v); }
+    template<typename T, typename V,
+        typename std::enable_if<!std::is_pointer<V>::value>::type* = nullptr>
+    T cast_helper(V v) { return static_cast<T>(v); }
+    template<typename T, typename V>
+    T c_cast_helper(V v) {
+        static_assert(!std::is_const<T>::value,
+            "invalid c_cast() - did not request const type for output result");
+        static_assert(std::is_volatile<T>::value == std::is_volatile<V>::value,
+            "invalid c_cast() - input and output have mismatched volatility");
+        return const_cast<T>(v);
+    }
+    #define m_cast(t, v)    m_cast_helper<t>(v)
+    #define cast(t, v)      cast_helper<t>(v)
+    #define c_cast(t, v)    c_cast_helper<t>(v)
+#endif
+#ifdef NDEBUG
+    /* These [S]tring and [B]inary casts are for "flips" between a 'char *'
+     * and 'unsigned char *' (or 'const char *' and 'const unsigned char *').
+     * Being single-arity with no type passed in, they are succinct to use:
+     */
+    #define s_cast(b)       ((char *)(b))
+    #define cs_cast(b)      ((const char *)(b))
+    #define b_cast(s)       ((unsigned char *)(s))
+    #define cb_cast(s)      ((const unsigned char *)(s))
+    /*
+     * In C++ (or C with '-Wpointer-sign') this is powerful.  'char *' can
+     * be used with string functions like strlen().  Then 'unsigned char *'
+     * can be saved for things you shouldn't _accidentally_ pass to functions
+     * like strlen().  (One GREAT example: encoded UTF-8 byte strings.)
+     */
+#else
+    /* We want to ensure the input type is what we thought we were flipping,
+     * particularly not the already-flipped type.  Instead of type_traits, 4
+     * functions check in both C and C++ (here only during Debug builds):
+     */
+    char *s_cast(unsigned char *b);
+        /* { return cast(char *, b); } */
+    const char *cs_cast(const unsigned char *b);
+        /* { return cast(const char *, b); } */
+    unsigned char *b_cast(char *s);
+        /* { return cast(unsigned char *, s); } */
+    const unsigned char *cb_cast(const char *s);
+        /* { return cast(const unsigned char *, s); } */
+#endif
+}
+
+note [
+    print {Yes, I know it has one branch that says `#if !defined(__cplusplus)` and then has an `#elif` that tests if `__cplusplus` is defined.  You probably don't need to do this unless you're like me and turn all the warnings on that you can.  It just turns out that `-Wundef` in GCC checks to see if you're testing the value of an undefined thing even in branches of preprocessor code that are not taken.  *(Clang seems to only complain on active branches.)*}
+]
+
+heading {First: Why Am I Programming in C, anyway?}
+
+print << [
+    
+    {This isn't the only such artifact I'll be sharing like this.  But why did I make them?  They arose by trying to modernize [Rebol](https://en.wikipedia.org/wiki/Rebol)'s C89 codebase...while *still* keeping it compiling in C89.  Through no small amount of effort, I got it working in modern C99 and C11, as well as building it under C++98 up through C++17 with `-pedantic -Wall -Wextra` and ANSI/ISO settings in both GCC and Clang.}
+
+    {The project as a whole involved me putting to the test something I often said to "the C people" in the [Austin C/C++ Group](http://www.meetup.com/The-Austin-C-C-Meetup-Group/events/77907002/).  My claim was that even if you don't commit lines of C++ into your codebase, being *able* to compile as C++ gives instant power for small probes to hunt bugs.  They'd have to pry your debugger out of your cold dead hands--so why resist a static analysis toolset that's *already built into the compiler you have*?}
+]
+
+note [
+    print {I'd also tell them that "C++ is the best C there is".  Not exactly in the jokey way that Haskell programmers say that *"Haskell is the best imperative programming language ever invented."*  (Of course Haskell is pure functional, but what they mean is that if you have a sequence of steps that really must be completed in an imperative ordering, the formalism of forcing you to say it rigorously is important.)}
+]
+
+print << [
+    {What I'm doing probably grates on those people who will [shout newcomers off StackOverflow](https://medium.com/@johnslegers/the-decline-of-stack-overflow-7cb69faa575d) if they ask *"How do I do X in C/C++?"*.  Because "THERE IS NO SUCH LANGUAGE AS C/C++!"  Well, for something that doesn't exist...I've sure been using it a lot lately.  :-)}
+
+    {But it's a divisive topic, and I knew there was a fear to fight: **The Fear that ANY C++ Will Turn C to Gibberish**.  It seems to drive a resistance to even so much as one `#ifdef __cplusplus`...that it's a slippery slope.  Burden on proof was on me to show it wasn't so, and that verification didn't mean ugly - *"we could have our code and run it too"*.  So I wanted to get these right, and to present it right.}
+]
+
+heading {The Winding Road}
+
+print {Here was the evolutionary path I took on the casts *(no `dynamic_cast` of course, as that's only relevant in C++)*:}
+
+list [item << [
+
+    {*"not yet triaged cast"* : `CAST` => ... => (gone!)}
+
+    {**`static_cast`** : `SCAST` => `sCAST` => `s_cast` => `cast` => 1/2 of `cast`}
+
+    {**`reinterpret_cast`** : `RCAST` => `rCAST` => `r_cast` => 1/2 of `cast`}
+
+    {**`const_cast`** : `CCAST` => `cCAST` => `c_cast` => `w_cast` => `c_cast`/`m_cast`}
+
+]]
+
+print << [
+    {I should explain that the "not yet triaged cast" was based on this idea that *most* people building or submitting patches would be using C.  So they wouldn't get any extra checking...it could be up to a C++ programmer who knew which cast it was to build it and "tag it" with the right `S` or `R` or `C`.  In the limit of the codebase, there would be none of the "plain casts"; they'd be used as a search tool to find the ones that hadn't been categorized yet.}
+
+    {Let's put aside the point about what that kind of thinking does to the blame logs in git.  Suddenly my argument about increasing code readability wasn't feeling so solid.  The parentheses had been bad, of course.  But it was also hard to look at expressions with this big ALL-CAPS-MACRO in the middle *(because it's a macro, it has to be caps, right? :-/)*  THEN I was saying that the codebase can't even take an un-decorated cast, and let it stay that way?  So I quickly scrapped the triage idea.}
+
+    {Naming-wise I decided `cast()` was one of those things like `assert()` where you could break the macro naming rules due to prevalence.  And I figured `static_cast` is the "least harmful"...so I let it just take the default `cast` and there would be no triage unless it wasn't good enough.  But `static_cast` *is* the least harmful, which is why it's almost always done automatically!  In practice, the C code was seeming to always need an `r_`, so you're back to ugly+triage again.}
+
+    {Due to a misconception that `reinterpret_cast` was a superset of `static_cast`, for a time I decided to let `reinterpret_cast` be `cast`, and just be glad about filtering out the bugaboo of casting away constness without being *very* aware you're doing it.  Then in practice I found out that no, indeed you cannot do static casts with a reinterpret cast.  So I needed to make the template conditional: if it gets a pointer, it does a `reinterpret_cast`, and a `static_cast` otherwise.}
+
+    {The next thing I struggled with was `const_cast`.  I had trouble with the name `c_cast`: you're generally using it to *cast a const away*.  That's a mutability cast, so I went with `m_cast` to provide that *specific* function.}
+]
+
+note [
+    print {I'm aware that there is a [mutable keyword](http://stackoverflow.com/questions/105014/) in C++, but that doesn't seem like a conflict.}
+]
+
+print << [
+    {A regular `const_cast` seemed unnecessary in C.  Even in C++ there's rarely point to doing `const_cast<const Foo>(...)`; it will do that automatically in assignments to const targets.  So you've got to be [doing something weird](http://stackoverflow.com/q/3421540/211160); why would C need it?}
+
+    {It turned out that there *is* a weird case in C where forcing a cast to a const comes in handy: when you're writing a macro, and that macro wants to add protection to something.  There's no spot like a function return value for the const to be added explicitly.  You can do this with a `reinterpret_cast`, and hence with a `cast` *(it can add cv-qualifiers, just not take them off)*.  But in terms of making sure you are doing what you thought you were doing and *only* that, I felt a `c_cast` was in order.}
+
+    {On a naming note: for a time I *was* a bit worried about using a word like "mutability" and explaining that's what the `m_` is for.  One has to be a little self-aware about how you'll sound to a typical C programmer.  They'll get scared that the next thing you say is going to be about *variadic template constructors* or [SFINAE](https://en.wikipedia.org/wiki/Substitution_failure_is_not_an_error).  So for a while I tried out the idea of calling it a `w_cast` since you can open a file "r" or "w" in C.  So "asking for write access" was more familiar in the domain.  But once I decided a `c_cast` was necessary I scrapped it, since const/mutable is the de-facto pairing in the jargon and not const/writable.}
+]
+
+heading {String Cast and Binary Cast are Great!}
+
+print << [
+
+    {Rebol was first released in 1997.  And Carl Sassenrath was trying to standardize the sizes of fundamental types across the architectures Rebol was needing to run on...which C has a really hard time doing just due to the nature of the beast.  *(Today with C99, there is at least [stdint.h](http://en.cppreference.com/w/cpp/header/cstdint) which helps.  Rebol was updated to use it if available, or revert to its old definitions if not.)*}
+
+    {But if there was one thing in C that was always known and set in stone: `sizeof(signed char) == 1` and `sizeof(unsigned char) == 1`.  Even this seeming anchor has a catch: there's no guarantee on whether a plain `char` is signed or unsigned.  The reason apparently had to do with performance on certain architectures:}
+]
+
+link [http://stackoverflow.com/questions/914242/ "Why is char's sign-ness not defined in C?"]
+
+print << [
+    {Perhaps for that reason (or another?) the Rebol codebase standardized `REBYTE` to be unsigned char, and it was used everywhere instead of the "less-reliable" very-slight-probability-of-being-unsigned `char`.  REBYTE not being signed had advantages, some in terms of the various UTF-8 handling code doing shifting and math...where signedness would just get in the way.  But it created friction any time you have `-Wpointer-sign` enabled (it's mandatory in C++).  With that on, you can't even write:}
+]
+
+source 'cpp {
+const REBYTE *data = "some text";
+}
+
+print {Rebol tried to get around this with a macro that was `#define BYTES(s) (REBYTE*)(s)`.  And even that wound up in shorthand, for instance in `a-constants.c`:}
+
+source 'cpp {
+#define BP (REBYTE*)
+
+const REBYTE Str_Banner[] = "REBOL 3 %d.%d.%d.%d.%d";
+
+const char Str_REBOL[] = "REBOL";
+
+const REBYTE * Str_Stack_Misaligned = {
+    BP("!! Stack misaligned: %d")
+};
+
+const REBYTE * const Crash_Msgs[] = {
+    BP"REBOL System Error",
+    BP"boot failure",
+    BP"internal problem",
+    BP"assertion failed",
+    BP"invalid datatype %d",
+    BP"unspecific",
+    ...
+};
+}
+
+print << [
+    {Looked like a sort of pointless fight to me that wouldn't be won.  At first I'd suggested making REBYTE a `char` and being done with it, but there wasn't immediate consensus.  So I figured I'd take a shot at turning the string literals into ordinary `const char*`, then see what happened as I pushed that wavefront outward.}
+
+    {When I did, something interesting happened.  It seemed when the `char*` hit the point of transition that was natural, having `REBYTE*` be an incompatible type was pointing out a meaningful moment of transition.  So a better idea emerged to *use the incompatibility as a feature*.  When data might be encoded in a form that a string function like strlen() wouldn't make sense on, use REBYTE...for instance UTF-8 encoded data.  But make it easy to switch:}
+]
+
+list [item << [
+    {`strlen(rebyte_ptr)` => `strlen(s_cast(rebyte_ptr))`}
+
+    {`Utf8_Func(char_ptr)` => `Utf8_Func(b_cast(char_ptr))`}
+]]
+
+print {It actually turned out that there was already a sort-of-embrace of this idea, with some macros that had previously puzzled me.  They looked like a type-unsafe subset of `<string.h>`:}
+
+source 'cpp {
+#define COPY_BYTES(t,f,l)   strncpy((char*)t, (char*)f, l)
+// For APPEND_BYTES, l is the max-size allocated for t (dest)
+#define APPEND_BYTES(t,f,l) strncat((char*)t, (char*)f, MAX((l)-strlen(t)-1, 0))
+#define LEN_BYTES(s)        strlen((char*)s)
+#define CMP_BYTES(s,t)      strcmp((char*)s, (char*)t)
+}
+
+print << [
+    {But now they had a chance at making more sense *(if they checked the type for being REBYTE. vs just casting anything they got)*.  You could separate the cases where you meant to use `strlen(...)` from the cases where you intended `strlen(s_cast(...))` *and* get your type-checking right on encoded vs. unencoded data.  Perfect.}
+
+    {I mention in the macro comments that in the release builds, these are simply casts.  But the Debug build uses functions that specifically only let you go from char* to REBYTE* and back.  There are also const variants `cb_cast()` and `cs_cast()`; and the constness of all the inputs dictates what the constness of the output should be.  Having a unary operator as a function for this wound up being very clean, with the check being very helpful to make sure you know what you are doing.}
+]
+
+note [
+    print {For a time I thought Rebol was wrapping <string.h> routines just for the sake of renaming them, and having a level of indirection "in case strlen wasn't available in C".  Which might sound ridiculous.  But it's interesting to see cases on platforms where establishing your own wrapper for something "standard" might not be as loco as you think.  Things keep evolving where "standard" routines get deprecated and you might find an installation where they're not there, consider OpenBSD:}
+
+    quote [
+        print {The strlcpy() and strlcat() functions copy and concatenate strings respectively.  They are designed to be safer, more consistent, and less error prone replacements for strncpy(3) and strncat(3).}
+
+        attribution [link [https://www.freebsd.org/cgi/man.cgi?query=strlcpy&sektion=3 "FreeBSD.org"]]
+    ]
+
+    print {It's not a terrible idea to hedge your bets a little and stay in control.  Remember also that coders coming out of the Amiga era were influenced by not having even a C89 standard *(the first Amiga was released in 1985)*.}
+]
+
+heading {[S]tring and [B]inary?  [S]igned and [B]ytes?}
+
+print << [
+    {When I was first making the operations, I would have called them "char cast" and a "byte cast".  But because `c_cast` was taken for `const_cast`, I decided it would be "string cast" and "byte cast".  (This was at a time where `cast` was still behaving as `static_cast`, with ugly `r_cast` popping up all over the place.)  The awkward risk that you might confuse `s_cast` with `static_cast` crossed my mind, but it was single-arity so it seemed okay.}
+
+    {Looking at it I decided that it paralleled the behavioral separation in Rebol's STRING! and BINARY! types.  When I changed it away from being about REBYTE and about the underlying `unsigned char`, I could generalize it to code any C program could use...which is when I decided to write this article!  Also, if I left all this in the code it would be too much.  See [Comments vs. Links on the Collaborative Web](http://blog.hostilefork.com/comments-vs-web-links-2014/).}
+
+    {All nice and tidy...in theory.  But there's something that can be a little hard to get one's head around (and has tripped me up here and there).  There are two different incompatible types for 8-bit quantities now, sure.  But why exactly does the `char*` map to the idea of a string, and the `unsigned char*` to the idea of a binary?  It seems that every time you are talking about something that is known to be precisely one-byte-per it's a `char*`, and the `unsigned char*` often holds what the user would think of as being strings...}
+
+    {Really it's a matter of semantics.  The `const char*` is something the C language gives as a foundation for holding textual literals; the kind you need to type in the source for debug strings and formatting.  And when you call strlen() you *should* be asking "how many characters".  And if your data type is something like `REBUNI*` and chokes on the strlen() call, that's a cue to look for something like `Strlen_Uni()` that takes the type you mean.}
+
+    {Now we have a new kind of "choke", when you try to pass a `REBYTE*`.  strlen() won't take it, `Strlen_Uni()` won't take it...now what?  You've got an 8-bit pointer, you know it holds a string, what should you do if you're trying to get the length in characters?  It's a call to action to figure out what kind of decoding that "BINARY!" needs.  And it's supposed to jump off the page at you in big capital letters that LEN_BYTES isn't what you want!}
+]
+
+note [
+    print {Though it doesn't always!  For instance [look at this A_LEN action for getting the length of a WORD!](https://github.com/rebol/rebol/blame/25033f897b2bd466068d7663563cd3ff64740b94/src/core/t-word.c#L87).  Try this:}
+
+source 'rebol {
+>> length? to-word to-string to-char 126 
+== 1
+
+>> length? to-word to-string to-char 128 
+== 2
+}
+
+    print {It's giving you a UTF-8 byte length back for the symbol.  That was in the initial open sourcing, not added afterward even!  So every hint that can be set up to help collaborators in the future understand the issues and not make mistakes is good.}
+]
+
+print {So if you forget which is string and which is binary, think about that difference between `LEN_BYTES()` and `strlen()`.  Remember they run the same code, but they are supposed to be calling attention to different semantics.  To help keep everything in line, I've made it so that in Debug builds LEN_BYTES doesn't just evaluate to strlen() with a cast (from an arbitrary type).  It rather calls a function that wraps strlen() with a signature that only accepts `REBYTE *`.}
+
+heading {Miscellaneous Issues}
+
+print << [
+    {There are a couple of questions people might wonder about.  For instance, I've flattened out const cast into exactly two cases; one for getting back a const type and one for getting back a non-const type.  And I explicitly ensure that it didn't change the volatility.  *(Using `const_cast` ensures the rest of the type doesn't change in the cast.)*  But where's the `v_cast` then?  Where's the...er...non-volatile `n_cast`?}
+
+    {Someone could make those, certainly.  I don't need them, and personally felt it's enough to call attention to if you were casting it away, most likely on accident.  (Odds are you didn't know.)  Once you do know, you can either just use a C cast for that case and presumably write a big loud comment saying what on Earth you are doing there.  Or you can add them.}
+
+    {At first I had thought it might be interesting to do type_traits checking to let you know if you were doing no-op casts, and consider those errors.  (Pretty much all the time in Rebol's styling of cast usage, the cast wouldn't be there unless it has to be.)  [@Morwenn on StackOverflow](http://stackoverflow.com/users/1364752/morwenn) suggested that the generality should probably be kept if it's going to be framed as a "cast for the masses" and I guess that's true, so I took the no-op casting check out.}
+
+    {Of course, there are all kinds of invariants in source code...even invariances against the code being edited.  Under such thinking, you might say *"I know this is an integer right now, but I'll cast it to an integer anyway just so if I decide to come and change it to a float later the cast will be there and I don't have to put it in.  I keep changing my mind about the input type anyway!"*  I'm so opposed to wild casting that gives me nightmares...things can go horribly wrong at any moment.  But maybe I should relax.  This is C...so when in casting Rome do as the castiNOO̼O​O NΘ stop the an​*̶͑̾̾​̅ͫ͏̙̤g͇̫͛͆̾ͫ̑͆l͖͉̗̩̳̟̍ͫͥͨe̠̅s ͎a̧͈͖r̽̾̈́͒͑e n​ot rè̑ͧ̌aͨl̘̝̙̃ͤ͂̾̆ ZA̡͊͠͝LGΌ ISͮ̂҉̯͈͕̹̘̱ TO͇̹̺ͅƝ̴ȳ̳ TH̘Ë͖́̉}
+
+    {But one thing that's important here is specifically the narrowness of `s_cast`/`b_cast`/`cs_cast`/`cb_cast`.  They aren't very useful at all if they *aren't* narrow, because then you could just say `cast(REBYTE *, ...)` etc.  Their value comes specifically from the mapping they're doing from input type to output type, and being able to check it.}
+]
+
+heading {Final Thoughts}
+
+print {Bjarne Stroustrup [talked to my Austin C/C++ Meetup](http://www.meetup.com/The-Austin-C-C-Meetup-Group/events/77907002/), and in his first paragraph of his talk description he addressed the dichotomy of "too simple and brittle" and "too abstracted and obtuse":}
+
+quote [
+
+    print {We know how to write bad code: Litter our programs with casts, macros, pointers, naked new and deletes, and complicated control structures. Alternatively (or in addition), obscure every design decision in a mess of deeply nested abstractions using the latest object-oriented programming and generic programming tricks. For good measure, complicate our algorithms with interesting special cases. Such code is incomprehensible, unmaintainable, usually inefficient, and not uncommon.}
+]
+
+print << [
+    {The balance is hard to strike.  When I first attacked the codebase to nail out all the bugs and do address sanitization, I wasn't thinking too much about how the code was looking.  But as I started filing the commits, I did; and "guru meditated" on the fact that things like the `r_` popping up isn't inconsequential.}
+
+    {I even paid attention to the ordering of the macros themselves in the lines of code.  It's a slight bummer to show the C casts first, where `m_cast/cast/c_cast` appear to "do nothing".  Much easier to start with `#ifdef __cplusplus` with the "good" cast macros, and shove C's versions under the rug as a fallback.  Turning it around and finding a way to start `#if !defined(__cplusplus)` tells a different story: C++ isn't here with a compiler the size of a planet and a spec the size of an enclopedia to overthrow the simplicity.  *It's here to help when it can.*}
+
+    {Simplicity is hard, and it can take a long time thinking about it to get there.  Rebol and [Red](http://www.red-lang.org/p/about.html) still are, and haven't given up on ["fighting software complexity pollution"](http://www.rebol.com/article/0497.html).  So if you're curious about this and other topics, stop by in the [Rebol or Red chat on StackOverflow](http://rebolsource.net/go/chat-faq) or Red's [Gitter.im](https://gitter.im/red/red).}
+]
