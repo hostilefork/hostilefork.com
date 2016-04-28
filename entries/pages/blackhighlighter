@@ -21,9 +21,9 @@ youtube [https://www.youtube.com/watch?v=4dtpCTQPqgM 560x315]
 
 heading "Description"
 
-print {The best way to understand the idea is to see a running demo of a site that incorporates it.  So please visit the demo deployment (generously hosted gratis by [Nodejitsu](https://www.nodejitsu.com/)):}
+print {The best way to understand the idea is to see a running demo of a site that incorporates it.  So please visit the demo deployment:}
 
-link http://blackhighlighter.org
+link http://www.blackhighlighter.org
 
 print << [
 

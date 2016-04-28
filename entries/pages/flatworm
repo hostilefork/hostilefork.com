@@ -7,7 +7,7 @@ Draem [
 
 image [http://flatworm.hostilefork.com/media/flatworm-logo.jpg 640x360 "Flatworm"]
 
-note 14-Feb-2014 {This is me documenting an old investigation from 2010, in 2014 -- so I can clean the project off my hard drive!}
+note 14-Feb-2014 {This is me documenting an old investigation from 2008, in 2014 -- so I can clean the project off my hard drive!}
 
 print {Flatworm is a proxy (simpler than a ["Squid"](http://en.wikipedia.org/wiki/Squid_(software)) :-P) that allows for easy bookkeeping while rewriting traffic.  The original goal was to inject frames into YouTube videos as they went by if one were serving as a proxy for a network connection to youtube.com.  It evolved into an attempt to build a general purpose system for mutating http traffic while also mutating the headers to be consistent with the mutated data.}
 

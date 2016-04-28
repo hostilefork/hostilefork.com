@@ -9,11 +9,13 @@ image [http://albumist.hostilefork.com/media/albumist-logo.png 640x360 "Albumist
 
 print << [
 
-    {Albumist is an open source jQuery plug-in, which lets you make a discography widget from cover art available through [MusicBrainz and the Internet Archive](http://blog.musicbrainz.org/2012/10/09/announcing-the-cover-art-archive/). It currently combines that with track listing information in [Freebase](http://freebase.com/), which mirrors and synchronizes with MusicBrainz. *(as the MusicBrainz API stabilizes, Albumist may switch to using that directly instead)*}
+    {Albumist is an open source jQuery plug-in, which lets you make a discography widget from cover art available through [MusicBrainz and the Internet Archive](http://blog.musicbrainz.org/2012/10/09/announcing-the-cover-art-archive/). It currently combines that with track listing information in [Freebase](http://freebase.com/), which mirrors and synchronizes with MusicBrainz.}
 
     {The idea was to give bands an easy way to offer an interactive discography on their own websites or blogs, without requiring them to maintain and curate a database.  It also allows for customization of the presentation--for instance adding "Buy Now" links.}
 
 ]
+
+update 30-Jun-2015 {Google has sadly [discontinued the Freebase API](http://searchengineland.com/google-close-freebase-helped-feed-knowledge-graph-211103), and new webmasters have changed the Legendary Pink Dots website to a new stack.  See the YouTube demo video for how it used to look and work.  If someone were interested in doing something similar with jQuery against some replacement API for Freebase, the code on GitHub may still be a good starting point.}
 
 heading "Overview Video"
 
@@ -67,7 +69,7 @@ print << [
 
     {It's one thing if some people gave up their rights to a label, and now find themselves in a legal mire for that misstep due to not believing in independence in the first place.  That's a teachable moment--one the future will hopefully learn from instead of repeat.  It's quite another thing when artists with no arrangements with said labels are bearing limitations due to of what others have signed.  Further, shouldn't the independent artists be getting a "piece of the pie" if their lyrics are on the site?}
 
-    {So if you're an independent artist with any lyrics present on LyricWiki, **I encourage you to immediately write a cease and desist letter to them for making this deal on your behalf.**  Make them take your lyrics down: **don't let the labels *you didn't sign with* get away with a phony bulk deal.**}
+    {So if you're an independent artist with any lyrics present on LyricWiki, **I encourage you to immediately write a cease and desist letter to them for making this deal on your behalf.**  Make them take your lyrics down: don't let the labels *you didn't sign with* get away with a phony bulk deal.}
 
     {That's my call to action.  Note that projects like the non-profit MusicBrainz emerged from people standing up to an unethical company (GraceNote/CDDB) that relied on volunteer contributions to build a music database.  After taking this volunteer effort to give them their value, they turned around claiming they owned that system and demanding software projects pay royalties to use it.}
 

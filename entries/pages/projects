@@ -12,9 +12,9 @@ Draem [
 
 print << [
 
-    {This is the list of projects authored and supported from hostilefork.com.  As part of the major web overhaul, all projects are being slowly redesigned and revamped.  That includes writeups, demos, YouTube videos, and logos.  No one said it would be easy.  :-/  A better index method *(fancy sliding gallery, etc.)* is on the agenda once all the content is lined up.}
+    {This is the list of projects authored and supported from hostilefork.com.  If you are looking for the blog that used to be here, please visit: **[blog.hostilefork.com](http://blog.hostilefork.com)**}
 
-    {If you are looking for the blog that used to be here, please visit: **[blog.hostilefork.com](http://blog.hostilefork.com)**}
+    {If you aren't familiar with the open-source sense of "fork" from which this site gets its name, see ["Fork (software development)"](https://en.wikipedia.org/wiki/Fork_(software_development)).}
 
     {See also contact and consulting information at [Hire The Fork](http://hostilefork.com/hire-the-fork/).}
 
@@ -24,19 +24,19 @@ heading "Black Highlighter"
 
 button [http://blackhighlighter.hostilefork.com/media/blackhighlighter-logo.png 640x360 "Black Highlighter" http://blackhighlighter.hostilefork.com]
 
-print {[Black Highlighter](http://blackhighlighter.hostilefork.com) implements a node.js server that is coupled with a jQuery widget to bring the tool of redaction to the masses.  Unlike existing redaction software, there is a sharp focus on *cryptographically committing* to what was contained in the missing portions.  This means that if an accountability process requires the revelation of a redacted portion, the system notices when revelations are different from what was originally redacted.  A sandboxed test deployment is available at [blackhighlighter.org](http://blackhighlighter.org).}
-
-heading "Albumist"
-
-button [http://albumist.hostilefork.com/media/albumist-logo.png 640x360 "Albumist" http://albumist.hostilefork.com]
-
-print {When the band The Legendary Pink Dots needed to track their releases on their website, [Albumist](http://albumist.hostilefork.com) was created as a web mash-up from the Freebase graph database.  It generates a thumbnail discography that can be explored and augmented with information *(such as links to promotional deals)*, and is easy for others to use just by changing the artist ID.  Originally written in 2008 as a mootools script to use with Joomla 1.5, it was resurrected in 2014 as a jQuery plugin--as well as to use cover art from the Internet Archive.}
+print {[Black Highlighter](http://blackhighlighter.hostilefork.com) implements a node.js server that is coupled with a jQuery widget to bring the tool of redaction to the masses.  Unlike existing redaction software, there is a sharp focus on *cryptographically committing* to what was contained in the missing portions.  This means that if an accountability process requires the revelation of a redacted portion, the system notices when revelations are different from what was originally redacted.  A sandboxed test deployment is available at [www.blackhighlighter.org](http://www.blackhighlighter.org).}
 
 heading "CopyLight"
 
 button [http://copylight.hostilefork.com/media/copylight-logo.png 640x360 "CopyLight" http://copylight.hostilefork.com/]
 
 print {Some websites--even high profile ones--have been going ever farther to cripple users web browsers to break text copying functionality.  This sabotage is under the claim of wanting to "protect their content" *(frequently including quotes or excerpts from other sources)*.  [CopyLight](http://copylight.hostilefork.com) is a jQuery plugin experiment to tag HTML nodes with their licenses, and offer feedback (such as watermarks, or an alert button) to guide users to consider how the material can be shared.  It does this while keeping copy working as normal, and the user need not do any extra work to interact with or dismiss the alerts.}
+
+heading "Thinker-Qt"
+
+button [http://thinker-qt.hostilefork.com/media/thinker-qt-logo.png 640x360 "Thinker-Qt Logo" http://thinker-qt.hostilefork.com/]
+
+print {Basic concurrency is attacked with foundational tools like mutexes, semaphores, and events.  But more abstract concurrency primitives in languages are being explored, for instance the QFuture in Qt.  [Thinker-Qt](http://thinker-qt.hostilefork.com/) introduces a new kind of concurrency primitive that is similar, but based on a copy-on-write strategy.  Thus an in-progress calculation can be examined with snapshots paid for by the background thread, on an as-needed basis.}
 
 heading "USCII"
 
@@ -49,24 +49,6 @@ heading "TitleWait"
 button [http://titlewait.hostilefork.com/media/titlewait-logo.jpg 640x360 "TitleWait" http://titlewait.hostilefork.com/]
 
 print {In the current software ecology, processes are frequently launching others and then disconnecting, crashing on some unexpected dependency, or hanging in a way conventional APIs can't kill.  [TitleWait](http://titlewait.hostilefork.com) is a program launcher to use in automated testing that under the hood is actually a MS Windows debugger--which gives it a level of control you won't find in programs like AutoHotkey.  It has several interesting features, but as the name suggests it can match regular expressions in window title bars.  This creates a lightweight method for communicating status information from JavaScript in a browser to the automated test script.}
-
-heading "Draem"
-
-button [http://draem.hostilefork.com/media/draem-logo.png 640x360 "Draem" http://draem.hostilefork.com]
-
-print {hostilefork.com was held captive for a many years to a very old WordPress installation.  My programming nature led me to desire to maintain and version my site as if it were source code *(a growing trend among programmers who have switched to "static site builders")*.  I made my own, which is called [Draem](https://github.com/hostilefork/draem)...and similar to other offerings it does paragraphs in MarkDown.  However, the whole toolchain it uses is only half a megabyte, and it can easily do structural transformations as I rethink the format.}
-
-heading "Thinker-Qt"
-
-button [http://thinker-qt.hostilefork.com/media/thinker-qt-logo.png 640x360 "Thinker-Qt Logo" http://thinker-qt.hostilefork.com/]
-
-print {Basic concurrency is attacked with foundational tools like mutexes, semaphores, and events.  But more abstract concurrency primitives in languages are being explored, for instance the QFuture in Qt.  [Thinker-Qt](http://thinker-qt.hostilefork.com/) introduces a new kind of concurrency primitive that is similar, but based on a copy-on-write strategy.  Thus an in-progress calculation can be examined with snapshots paid for by the background thread, on an as-needed basis.}
-
-heading "Rebmu"
-
-button [http://rebmu.hostilefork.com/media/rebmu-logo.png 640x360 "Rebmu Logo" http://rebmu.hostilefork.com/]
-
-print {At this point, it is relatively common knowledge that I am the mysterious Dr. Rebmu.  *(Or at least, that's what the media would have you think.)*  Whatever you choose to believe, one thing is certain: [Dr. Rebmu's bizarre invention](http://rebmu.hostilefork.com/) is a novel tool for "Code Golfing"--a puzzle game where the objective is to solve programming puzzles in the fewest characters of code possible.  It may have coined a new term in computer science as well: "mushing", which is now being referenced in other golf languages.}
 
 heading "Nstate"
 
@@ -85,6 +67,26 @@ heading "Hoist"
 button [http://hoist.hostilefork.com/media/hoist-logo.png 640x360 "The Hoist logo" http://hoist.hostilefork.com]
 
 print {The [Hoist Library](http://hoist.hostilefork.com) establishes a C++ class called "codeplace", which allows you to identify places in your code with a very large number (a UUID).  This number is provided to new location-parameterized assertions, which can help track an alert's identity across code reorganizations.  *(Conventional line numbers and filenames do not have this ability.)*  It includes a suite of partnered abstractions that leverage the ability to do more inbuilt testing, as well as check if a "paranoid" check is on record as being safe to ignore.}
+
+heading "Draem"
+
+button [http://draem.hostilefork.com/media/draem-logo.png 640x360 "Draem" http://draem.hostilefork.com]
+
+print {hostilefork.com was held captive for a many years to a very old WordPress installation.  My programming nature led me to desire to maintain and version my site as if it were source code *(a growing trend among programmers who have switched to "static site builders")*.  I made my own, which is called [Draem](https://github.com/hostilefork/draem)...and similar to other offerings it does paragraphs in MarkDown.  However, the whole toolchain it uses is only half a megabyte, and it can easily do structural transformations as I rethink the format.}
+
+heading "Albumist"
+
+button [http://albumist.hostilefork.com/media/albumist-logo.png 640x360 "Albumist" http://albumist.hostilefork.com]
+
+print {When the band The Legendary Pink Dots needed to track their releases on their website, [Albumist](http://albumist.hostilefork.com) was created as a web mash-up from the Freebase graph database.  It generates a thumbnail discography that can be explored and augmented with information *(such as links to promotional deals)*, and is easy for others to use just by changing the artist ID.  Originally written in 2008 as a mootools script to use with Joomla 1.5, it was resurrected in 2014 as a jQuery plugin--as well as to use cover art from the Internet Archive.}
+
+note {Google has sadly [discontinued the Freebase API](http://searchengineland.com/google-close-freebase-helped-feed-knowledge-graph-211103), and new webmasters have changed the Legendary Pink Dots website to a new stack.  See the YouTube demo video for how it used to look and work.  If someone were interested in doing something similar with jQuery against some replacement API for Freebase, the code on GitHub may still be a good starting point.}
+
+heading "Rebmu"
+
+button [http://rebmu.hostilefork.com/media/rebmu-logo.png 640x360 "Rebmu Logo" http://rebmu.hostilefork.com/]
+
+print {At this point, it is relatively common knowledge that I am the mysterious Dr. Rebmu.  *(Or at least, that's what the media would have you think.)*  Whatever you choose to believe, one thing is certain: [Dr. Rebmu's bizarre invention](http://rebmu.hostilefork.com/) is a novel tool for "Code Golfing"--a puzzle game where the objective is to solve programming puzzles in the fewest characters of code possible.  It may have coined a new term in computer science as well: "mushing", which is now being referenced in other golf languages.}
 
 heading "OpenZoom-Squared"
 

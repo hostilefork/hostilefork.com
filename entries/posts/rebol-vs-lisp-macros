@@ -1,0 +1,280 @@
+Draem [
+    title: "Rebol vs. Lisp Macros"
+    tags: [rebol red lisp]
+    slug: %rebol-vs-lisp-macros
+    date: 19-Apr-2016/10:20
+]
+
+print << [
+
+    {A question that frequently comes up when Lisp users start asking questions about Rebol (and Red) is whether an equivalent to [Lisp Macros](http://c2.com/cgi/wiki?LispMacro) will be added.}
+
+    {I've not weighed in on this before, because Lisp was not something I ever used--despite being quite familiar with technologies that were influenced by it.  But lately I've been motivated to examine the details of Clojure's parallelism-friendly [persistent vector](http://hypirion.com/musings/understanding-persistent-vector-pt-1).  As long as I was bothering to learn that, I thought I'd get out a [Common Lisp Cheat Sheet](http://hyperpolyglot.org/lisp) and try to answer the "do-Rebol-and-Red-need-Lisp-Macros" question.}
+
+    {My answer turns out to be more or less in line with what other people have said, which is...[**Most Probably Not**](http://programmers.stackexchange.com/a/316333/944):}
+]
+
+quote [print << [
+
+    {Lisp Macros appear to have two big purposes.  First is the DRY ("don't-repeat-yourself") aspect, enabling the capture of patterns that would otherwise be difficult-or-impossible in the language.  Second is a performance advantage that comes from being able to apply arbitrary computation at compile-time.}
+
+    {A good number of cases where Lisp programmers appear to *require* macros for expression is because ordinary Lisp functions are limited in how they can work with "context-dependent code fragments" passed as arguments.  Rebol attacks this problem by making bindings of individual symbols "travel along" with their code fragments.  The result is that many cases requiring macros in Lisp can be written as ordinary Rebol functions.}
+
+    {Furthermore, Rebol hinges its "DRY" story on dialects.  Dialects are essentially the idea of processing "quoted" code literally under new rules, distinct from the core evaluator.  This competes with macros as a strategy for language extension...and it's also incompatible.  Lisp itself does not run macros in quoted portions of code, and there would not be a general way to do parameterizations and expansions in an unknown dialect's "grammar".}
+
+    {The performance angle only affects Red (as Rebol is unlikely to ever be compiled).  But if compile-time services are available to optimize function-shaped-things, then the only benefit macros could offer here would be for things that could not be shaped like functions.  Truly motivating cases would probably find better expression as a dialect, which would presumably also be able to take advantage of compile-time services.} 
+
+]]
+
+print << [
+
+    {Something I emphasize here isn't something that's been stressed yet.  That's the baseline difference in expressivity between Lisp *functions* and Rebol *functions*.}
+
+    {Let's put macros aside for a moment and look at that first.}
+]
+
+heading {Functions with Code-As-Data Arguments}
+
+print << [
+
+    {A Rebol function can be passed `[bracketed blocks]`, which are not evaluated unless someone asks them to.  It can then do arbitrary processing on the structure received:}
+]
+
+source 'rebol {
+>> print-reverse: function [array] [print mold (reverse copy array)]
+
+>> print-reverse [some (123 "abc") stuff]
+[stuff (123 "abc") some]
+}
+
+print << [
+
+    {Similarly, a typical Lisp function is able to accept `'(quoted lists)` as data, and do processing on them:}
+]
+
+source 'lisp {
+CL-USER> (defun print-reverse (list) (print (reverse list)))
+
+CL-USER> (print-reverse '(some (123 "abc") stuff))
+(STUFF (123 "abc") SOME)
+}
+
+print << [
+
+    {Given the sales pitch in Lisp that "code-is-data and data-is-code", then it would seem you should be able to also *execute* this code you are passed.  Indeed, there is a primitive called [EVAL](https://en.wikipedia.org/wiki/Eval#Lisp) which evaluates lists--but it's not as seamless as it might first appear.}
+
+    {Let's try making a function called `greater10`, which takes a value and a list as parameters...and only EVALs the list if the value is greater than 10:}
+]
+
+source 'lisp {
+CL-USER> (defun greater10 (value code) (if (> value 10) (eval code)))
+
+CL-USER> (greater10 3 '(print "Hello"))
+
+CL-USER> (greater10 20 '(print "Hello")) 
+"Hello"
+}
+
+print << [
+
+    {Easy enough.  But what if we wanted to print something that wasn't "self-contained" inside the passed list?  How about making "Hello" accessible through a variable...let's say a lexical binding of `msg`:}
+]
+
+source 'lisp {
+CL-USER> (let ((msg "Hello")) (greater10 20 '(print msg)))
+ERROR[!]: Variable `MSG' is unbound.
+}
+
+print << [
+
+    {It fails.  That's because when Lisp's EVAL is handed a fragment of symbolic code, it runs that code in the *"null environment"*.  Lexical bindings that were in effect from the caller of `greater10` will not be visible to that EVAL.}
+
+    {Yet a parallel example with a code fragment in Rebol **does** work *(if using R3-Alpha instead of Ren-C, omit the optional `|` expression barrier)*:}
+]
+
+source 'rebol {
+>> greater10: function [value code] [if value > 10 [do code]]
+
+>> use [msg] [msg: "Hello" | greater10 20 [print msg]]
+Hello
+}
+
+print << [
+
+    {Rebol's DO doesn't take any extra parameters.  It's running `[print msg]` in a "null environment" just like Lisp's EVAL ran `'(print msg)`.  But the difference is that Rebol symbols can carry an "invisible" binding which guides the lookup.}
+
+    {In other words: the `msg` itself in `[print msg]` was *hiding a secret pointer.*}
+
+    {This pointer was sneakily glued onto the symbol by USE.  It received a block of code as its second parameter, but before running that code it did a deep walk through it.  When it saw the `msg:` and `msg` symbols, it linked them to a unique memory location it created.  Nothing changed that linkage prior to `print msg` running...hence the DO found USE's contribution.}
+
+    {It goes further than that--because the `print` symbol is linked to its function by a secret pointer too.  But that was set by a deep walk of the code done by this REPL, before the code started running.  A differently-configured REPL (or module abstraction) might choose a different collection of default bindings.  For that matter, at any point in the process a function could decide to remove all the bindings from a code sample and start from scratch...which could render the code even less runnable than Lisp's!}
+]
+
+source 'rebol {
+>> greater10-raw: function [value code] [unbind code | if value > 10 [do code]]
+
+>> use [msg] [msg: "Hello" | greater10-raw 20 [print msg]]
+** Script error: print word is not bound to a context
+}
+
+print << [
+
+    {What this means is that Rebol has neither lexical nor dynamic scope.  It pins everything on this mechanic of code blocks having their contained symbols annotated with bindings, which may-or-may-not be rewritten on code fragments as they are passed around.  Though it foregoes the idea of environments or "scopes" completely, someone named this ["definitional scoping"](http://stackoverflow.com/questions/21964110/).}
+]
+
+note [
+    print << [
+
+        {Before leaving the world of functions to talk about macros, it's worth pointing out that this *particular* scenario can be addressed by another means.  And it works in Lisp, Rebol, C++...or even JavaScript.}
+     
+        {The trick is to change the unit of currency from passing **source code** to passing **functions**.  Sticking with Lisp, we switch EVAL to FUNCALL and use a LAMBDA at the callsite:}
+    ]
+
+    source 'lisp {
+CL-USER> (defun greater10 (value fun) (if (> value 10) (funcall fun)))
+
+CL-USER> (let ((msg "Hello")) (greater10 20 (lambda () (print msg))))
+"Hello"
+}
+
+    print << [
+        {In Rebol this could be said as:}
+    ]
+
+    source 'rebol {
+>> greater10: function [value fun] [if value > 10 [fun]]
+
+>> use [msg] [msg: "Hello" | greater10 20 (does [print msg])]
+Hello
+}
+
+    print << [
+
+        {Using functions as the contract between pieces of code in different locations has a number of advantages *(arguably so much that it should be ubiquitous, as in Haskell)*.  But packing code into a "black box" creates barriers to transformations that are a big part of the appeal of using a homoiconic language.}
+    ]
+]
+
+heading {Now...On To Macros}
+
+print << [
+
+    {We've seen Lisp functions aren't very amenable to the practical matter of passing "live" source code around to be rearranged and executed elsewhere.  Each EVAL that gets a piece of code would have to start its "environment" from scratch.  That's inconvenient (and even in the dialects of Lisp that can offer passing in an environment parameter, it's not materially different than building the environment back up from code).}
+
+    {So when Lisp programmers want to abstract patterns in their source, they reach for a differently-shaped tool: the Macro.  These can operate on code fragments, but don't do the execution themselves...they just rearrange the structure.  The `greater10` construct can be created using one, and is able to let the `msg` be looked up normally:}
+]
+
+source 'lisp {
+CL-USER> (defmacro greater10 (value code) `(if (> ,value 10) ,code))
+
+CL-USER> (let ((msg "Hello")) (greater10 3 (print msg)))
+NIL
+
+CL-USER> (let ((msg "Hello")) (greater10 20 (print msg)))
+"Hello"
+}
+
+print << [
+
+    {Here the "backtick" notation in Lisp is a way of building a list, where commas are used to escape the parameters into the template.  So this is splicing `,value` and `,code` into an `if` statement, and then splicing that `if` statement in at the spot where the macro was invoked.  Once the splice is finished the code runs normally.}
+
+    {Important to point out is that `greater10` as a macro isn't distinguished by an ability of knowing how to look up `msg`.  It just doesn't care--because it is doing a source substitution before the evaluation of `(print msg)`.  The actual evaluation is instigated later by IF.}
+
+    {What might this look like in Rebol?  To turn `greater10` into something that templatizes source, we could use COMPOSE *(Rebol's way of building a structure of code out of a template, where parenthesized expressions are evaluated)*.  But `greater10` would just be a function returning a structure...that would have to be explicitly DO'd at the callsite:}
+]
+
+source 'rebol {
+>> greater10: function [value code] [compose/deep [if (value) > 10 [(code)]]]
+
+>> greater10 20 [print msg]
+== [if 20 > 10 [print msg]]
+
+>> use [msg] [msg: "Hello" | do greater10 20 [print msg]]
+Hello
+}
+
+print << [
+    {Let's try inventing a *function generator* called MACRO, just to show that it's possible to make it easier to express something like `greater10`:}
+]
+
+source 'rebol {
+>> macro: function [args template] [
+       function args compose/deep [
+           compose/deep [(template)]
+       ]
+   ]
+
+>> greater10: macro [value code] [if (value) > 10 [(code)]]
+
+>> greater10 20 [print msg]
+== [if 20 > 10 [print msg]]
+
+>> use [msg] [msg: "Hello" | do greater10 20 [print msg]]
+Hello
+}
+
+print << [
+
+    {MACRO is a function that makes a function.  Rather than treat its second parameter as a body to execute (the way plain FUNCTION does), it uses COMPOSE to actually template-ize it and return it as structure.}
+
+    {But calling `greater10` only expands the macro--it doesn't execute it.  Though it *could*, I'll now explain why I left the moment of DO up to the caller for this example.}
+]
+
+heading {So...What Can't Be Done?}
+
+print << [
+
+    {We've been studying a case where `msg` was passed in from the caller as part of the `[print msg]` block.  But what if no one passed it in, and it originated as a symbol in the *callee*?  In Lisp macros, that would be okay:}
+]
+
+source 'lisp {
+CL-USER> (defmacro test () 'msg)
+
+CL-USER> (let ((msg "Hello")) (print (test)))
+"Hello"
+}
+
+print << [
+
+    {Now this is where Rebol has a problem, because of definitional scoping.  The USE does the deep walk of its body *before* the macro gets expanded, so it only sees `test`...not `msg`.  Then the unbound `msg` gets substituted, and doesn't know where it should be looked up:}
+
+]
+
+source 'rebol {
+>> test: macro [] [msg]
+
+>> use [msg] [msg: "Hello" | print do test]
+** Script error: msg has no value
+}
+
+print << [
+
+    {If we want to be able to handle this kind of case, ordering matters.  The body of the USE must be COMPOSE-d together with the expansion prior to that body being run:}
+
+]
+
+source 'rebol {
+>> test: macro [] [msg]
+
+>> use [msg] compose [msg: "Hello" | print (test)]
+Hello
+}
+
+print << [
+    
+    {There the COMPOSE got control before USE did.  That meant it was able to do the evaluation of the content in parentheses first, so that the body would look like `[msg: "Hello" | print msg]`.  This was passed to USE, which could write the bindings for `msg`...and then the code block was evaluated.}
+
+    {It comes down to this: though it's easy for Rebol functions to remix code fragments originating from a calling context, there's a speedbump on making *new code* that acts like it originated from a calling context.  Injecting code after the annotation phases means the structure won't get bindings it would have had if it had been at the callsite all along.}
+
+    {Fortunately, this kind of macro is the kind that most programmers can agree are fairly sketchy.  The context is a sort of "invisible parameter" which is picked up implicitly, rather than made explicit.  In Rebol this can't work generically as a function--unless you have a good control on the expansion and the execution phases the way the macro above does.}
+]
+
+heading {Conclusion}
+
+print << [
+
+    {We've seen that Rebol's model for binding is both a friend and a foe to those who want to do *"macro-like things"* with functions.  It hinders the ability to inject code in remote contexts to blend with the local environment and scope...because *there is no such thing as "environment" or "scope"* (!)  This is balanced by the ease of making language extensions that work cooperatively with the code fragments and binding information passed in by the caller.}
+
+    {One point I want to emphasize, though, is that **Rebol's storyline sinks or swims based on the viability of "definitional scoping"**.  If that mechanic doesn't work, the language doesn't work--and these arguments fall apart.  That means people should know that very serious problems were found with its implementation in R3-Alpha, with practical solutions arising only recently.}
+
+    {So check back here soon for a detailed skeptical investigation of definitional scoping, with a report on what has and hasn't been solved by the open source contributors.}
+]

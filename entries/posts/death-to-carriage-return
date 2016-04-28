@@ -1,0 +1,96 @@
+Draem [
+    title: {Line Feeds, No Tabs, and UTF-8}
+    tags: [philosophy unicode]
+    slug: %death-to-carriage-return
+    date: 8-Oct-2015/10:20
+]
+
+print << [
+
+    {I generally believe that most software specifications do **not** belong in text files.  *(Text files have terrible invariants for storing relationships, while graph-structured databases are much better.  Even the abstract syntax tree of conventional languages is better represented and manipulated as a graph.)*}
+
+    {But when we work symbolically with machines in text, I think there's some "writing is on the wall" for best practices.  It hasn't always seemed obvious--and maybe I'll turn out to be wrong years from now.  But with all the other complexity that exists, I think developers *should* be able to agree on these 3 simple things...}
+]
+
+heading {Newlines}
+
+print {I'll start off with a comment from a user "arberg" on the Jeff Atwood's post about [The Great Newline Schism](http://blog.codinghorror.com/the-great-newline-schism/).  The post is a summary of the historical issue of LF, CR/LF, and CR file formats, stressing the importance of using tools that can display the invisibles so you are aware of them.  Jeff stops short of prescriptivism, but the comment comes 3 years later and adds:}
+
+quote [
+    print {Wow I just noticed that this is a non-issue with windows 7. Just use unix-newlines. The only application (of the few tested) I have found which does not understand unix-newlines as newlines is the useless notepad. For instance it seems the following applications understand unix-newlines just fine in windows 7:}
+
+    list [item << [
+        {cmd scripts}
+
+        {powershell scripts}
+
+        {word 2013 *(I can open a txt file with unix-newlines, though I never use that, I can also paste text with unix-newlines and get correct/desired line breaking)*}
+
+        {OneNote 2013 *(pasting text)*}
+
+        {wordpad *(not that I use it)*}
+
+        {Sublime Text 3 *(naturally, just on the list because it the best! smile)*}
+
+        {Eclipse}
+    ]]
+
+    print {That cmd-scripts work with unix-newlines was the most surprising and crucial feature for me. There are bound to be gotchas that may be discovered over the years, but so far so good. I think Microsoft is trying to help here...}
+
+    print {PS: I trust its worthwhile bumping the issue after 3+ years, since I cannot find this information with Google, and I trust mostly everybody watching this topic is still interested in getting rid of the newline-gotchas.}
+]
+
+print << [
+
+    {With Macs converted to OS/X with a UNIX base, and most of Windows able to handle it... *Why can't people just Say No To Notepad*?  Being the default launcher for files associated with `.txt` has given it a frightening amount of power!}
+
+    {Let's grant for a second you actually think people who obtained your source code through Git or elsewhere might be baffled when they try to view a `readme.txt` and the lines are smooshed.  Why not make a `readme.html`, that will launch in a web browser regardless of line endings?  In that readme you explain where to download a better editor.  *(Hopefully one with MarkDown syntax highlighting, as you should be using `.md` files instead of text anyway!)*}
+
+    {It's unfortunate that someone thought it was justified to waste untold man-decades of people's lives with a feature like Git's [line ending translation](http://adaptivepatchwork.com/2012/03/01/mind-the-end-of-your-line/).  Not only have I had to deal with conflicts with regular Windows users, I've had to deal with conflicts when I myself used Windows because I didn't get warnings of what was wrong.  This could have been an opportunity to push for consistency *(download a better editor or have your file considered to be binary!)* and saved a lot of trouble.}
+]
+
+heading {Spaces}
+
+print << [
+    
+    {If anything, I used to think tabs were better than spaces because they were configurable in how wide they would be displayed.  Programmers with different matters of taste wouldn't end up fighting over 2 spaces or 4 spaces, everyone could set it however they want.}
+
+    {But that was an opinion for a different era.  It was when projects were written in just one language by a small group of people, among whom tab size might have seemed like a big philosophical difference.  Now there are so many different people collaborating on so many different types of files that it's a joke to think you're getting *that* much freedom out of it.  Plus, editors are now more complex and can interpret spaces as "virtual tabs" for those who can't adapt to a codebase's choice.}
+
+    {StackOverflow surveys its users to ask which they prefer, spaces or tabs.  Numerically tabs are favored slightly at 45% to 33%.  BUT [upon closer examination of the data, a trend emerges](http://stackoverflow.com/research/developer-survey-2015#tech-tabsspaces):}
+]
+
+quote [
+    print {Developers increasingly prefer spaces as they gain experience. Stack Overflow reputation correlates with a preference for spaces, too: users who have 10,000 rep or more prefer spaces to tabs at a ratio of 3 to 1.}
+]
+
+print << [
+
+    {*Tab is better thought of as a key, not as a character.*  It's used to move around spots on web forms, making it particularly unsuitable for entering code there.  Spaces can be taken for granted much more often than tabs as being reliabily edited and transmitted in textual mediums.}
+]
+
+heading {UTF-8 (or ASCII, which is also valid UTF-8)}
+
+print << [
+
+    {I did not know much about UTF-8 until recently, when I had to bulletproof some routines implementing encoding and decoding.  I'd been a little skeptical of what I'd read because of the "quirky"-seeming method.  Plenty of systems seemed to get by with a fixed 2 bytes per character (...how often did anyone really need more?  Were the extra CJK ideographs more like "emoticons" than symbols those users "needed"?}
+
+    {But UTF-8 is not egregious to implement, has some nice properties, and you basically have to support it now whether you like it or not.  Over 80% of the traffic on the web uses it, for instance--and still climbing.}
+
+    {Plus, formats like UTF-16 are not simpler.  In spite of what some people think, they're not a fixed two bytes per character, but a more complex variable-size encoding.  They have endianness concerns and byte-order-marks, along with a [checkered history](http://stackoverflow.com/a/36550597/211160) of inconsistencies between the standard and practice, especially on Windows.  :-/}
+
+    {The answer I've gotten to is that programming tools should standardize on UTF-8.  There are plenty of conversion tools available, and having people write more of them is easier than forcing every programming tool to maintain other codecs.}
+]
+
+note [print {Among my prescriptions here, this one is perhaps the least controversial.  But if you're looking for more extreme opinions, there's a [UTF-8 Everywhere Manifesto](http://utf8everywhere.org/)...suggesting that the runtime representation of strings forego decoding to fixed-size codepoints.  Instead string operations would be performed on the variable-sized UTF-8 encoding directly.  I'm inclined to like the idea, but I haven't really studied all the implications seriously.}]
+
+print {I'm pretty sure I object to the inclusion of unicode invisibles like the [Zero-Width Non Joiner](https://en.wikipedia.org/wiki/Zero-width_non-joiner) in source code--and especially outside of string literals.  Though it's hard to know exactly how to forbid them, so I just mention it as food for thought.}
+
+heading {Let's Do This!}
+
+print << [
+
+    {We can't go back, there's really only going forward.  Well except if you `git rebase`, and maybe for some things we should.  After all: if we don't rewrite history, how can the past ever improve?  :-)}
+
+    {So Windows users, fight for Windows 10 Line Endings *(call it that instead of UNIX Line Endings, start a trend!)*  Tabbers repent!  And if you need help converting old files from "DOS Code page 1386" or "ISO/IEC 646" to UTF-8, let's get a task force together to help you with that.}
+]

@@ -71,7 +71,7 @@ print << [
 
     {We can see that an optional provides sensible defaulting behavior; it defaults to being empty.  *(This is particularly nice when you have a type like `int` which would ordinarily default to being uninitialized.)*.  A special `nullptr`-like abstraction called `nullopt` is a trivial value of type `nullopt_t` whose assignment signals the reset of a nullopt.}
 
-    {Dereferencing a nullopt is an error, similar to dereferencing a nullptr.  There are lots of subtle interesting things about the behavior.  I picked one showing the comparison against 174 with `defaulted`.  This shows that a `nullopt`-valued optional will compare false against any legal contained value.  You can do equality and inequality comparison without causing a dereference.}
+    {Dereferencing a nullopt is an error, similar to dereferencing a nullptr.  There are lots of subtle interesting things about the behavior.  I picked one showing the comparison against 189 with `defaulted`.  This shows that a `nullopt`-valued optional will compare false against any legal contained value.  You can do equality and inequality comparison without causing a dereference.}
 
 ]
 

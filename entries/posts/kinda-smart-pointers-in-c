@@ -1,0 +1,143 @@
+Draem [
+    title: {Kinda Smart Pointers in "C/C++"}
+    tags: [c c++]
+    slug: %kinda-smart-pointers-in-c
+    date: 10-Feb-2016/10:20
+]
+
+print << [
+
+    {If you happen to ever title a StackOverlow question something like *"How do I do (whatever) in C/C++"*, then I guarantee within a few short minutes someone will say *"Which language?  **There is no such thing as C/C++.**"*.  I don't suggest arguing with them unless you like downvotes.  That said--the C/C++ language does exist, and I'm probably one of the few people who sometimes studies it.  :-)}
+
+    {This article is a note about an "augmented" pointer...in the sense that it can add some intelligence to a C program if it can also be compiled as C++.  I've not actually used the technique, because it requires you to change the notation for how the pointer is declared.  But thinking through how one *might* do it was interesting enough that I thought I'd make a note about it.}
+]
+
+heading {TYPE* vs. TYPE(*) - "AUGMENTED" POINTERS}
+
+print << [
+
+    {If a C codebase uses raw pointers for an abstraction that you would like to compile differently in C++, the way pointers are declared has to change.  *There's just no way around it.*}
+
+    {That is to say that if the C code has a line like:}
+]
+
+source 'c {
+TYPE *value;
+}
+
+print << [
+
+    {You can't come up with a way to `#define TYPE` that makes that line a raw pointer to TYPE in the C build, and a definition of a class variable in a C++ build.  It can *only* be a raw pointer.}
+]
+
+note [
+    
+    print << [
+
+        {If you want to be pedantic AND ridiculous, you might turn it into something like a statement. :-/}
+    ]
+
+    source 'c {
+#include <stdio.h>
+
+#define TYPE int temp = 5; int *value = &temp; bar =
+
+int main(int argc, char* argv[]) {
+    int bar;
+    TYPE *value;
+    printf("bar=%d\n", bar); // prints bar=5
+    return 0;
+}
+}
+]
+
+print << [
+    {So if `TYPE *` cannot become an "augmented pointer" class in a C++ build, what's the best tweak to the pattern that could?  One possibility would be to strike the asterisk from the usage sites, instead making the typedef itself carry the pointer:}
+]
+
+source 'c++ {
+#ifdef __cplusplus
+    class AugmentedPointer { TypeImpl *p; ... };
+
+    typedef class AugmentedPointer TYPE_P; // or PTYPE, etc.
+#else
+    typedef struct TypeImpl *TYPE_P;
+#endif
+}
+
+print << [
+    {That doesn't seem *terrible*.  But it has problems in terms of the interactions with `const`.  Just considering the C side, if you typedef a pointer, you can't add a `const` that goes "inside" the typedef.  `const TYPE_P` would mean [the pointer itself would be unchangeable](http://stackoverflow.com/a/8504502/211160), not the fields of the value it pointed to.}
+
+    {One could just keep making new types to get past it--for instance by naming the const versions as well (`TYPE_P` vs `TYPE_CP`).  Or a parameterized macro could be used: (`P(TYPE)` vs. `P(const TYPE)`).}
+
+    {What I thought was cooler was to make the macro parameterizations `TYPE(*)` and `TYPE(const *)`.  Keeping the asterisk at the callsite helps make it more obvious that it's a pointer.  And it's also more clearly not a function call (which was already suggested by context, but it can't hurt to look even less like one):}
+]
+
+source 'c++ {
+TYPE(*) value = NULL;
+}
+
+heading {Making the Notation Work}
+
+print << [
+    
+    {It's easy enough to see how to define this macro to work for C:}
+]
+
+source 'c {
+#define TYPE(x) TypeImpl x
+//
+// `TYPE(const *) foo;` => `TypeImpl const *foo;`
+// `TYPE(*) foo;`       => `TypeImpl *foo;`
+}
+
+print << [
+
+    {But what about for C++?}
+
+    {As mentioned in the introduction...I didn't go very far with this.  But here's a sketch that chooses one of two template specializations based on the `const` of a dummy parameter.  The mutable form is then derived from the immutable one:}
+]
+
+source 'c++ {
+template<class T>
+class TypePtr;
+
+template<>
+class TypePtr<const void*> {
+protected:
+    TypeImpl *p;
+
+public:
+    TypePtr () {}
+    TypePtr (const TypeImpl *p) : p (const_cast<TypeImpl *>(p)) {}
+
+    const TypeImpl **operator&() { return &p; }
+    const TypeImpl *operator->() { return p; }
+    const TypeImpl &operator*() { return *p; }
+
+    void SomeCommonMethod() { ... }
+};
+
+template<>
+class TypePtr<void *> : public TypePtr<const void *> {
+    
+public:
+    TypePtr () : TypePtr<const void*>() {}
+    TypePtr (TypeImpl *p) : TypePtr<const void*> (p) {}
+
+    TypeImpl **operator&() { return &p; }  
+    TypeImpl *operator->() { return p; }
+    TypeImpl &operator*() { return *p; }
+};
+
+#define TYPE(x) TypePtr<void x>
+}
+
+print << [
+
+    {Note that matching the C behaviors for a pointer is one of the very rare occasions you'd want to [overload the `&` operator](http://stackoverflow.com/questions/6495977/).}
+
+    {Unfortunately, if your type has a lot of pointer math done with it, there's no good way to get that automatically in C++.  Those have to be overloaded manually if they are used.  :-/}
+
+    {So what exactly might a C++ build bring to the table for such a "kind of smart" pointer class?  The ability to hook dereferences could make it easier to write debugging tools, and it would be possible to keep track of how many pointers you have extant.  I'm not exactly sure what it might actually be used for in a "special build" of a C program, I just thought it was interesting!}
+]

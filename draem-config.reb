@@ -50,23 +50,17 @@ draem/set-config object compose [
 	site-prologue-html: {<div style="text-align: right; margin-right: 8px;"><p><img src="http://hostilefork.com/media/feed-icon-14x14.png" alt="Feed Icon" />&nbsp;<a href="http://blog.hostilefork.com/feed/">RSS 1.0 XML Feed</a> available </p></div>}
 
 	site-intro: [
-		print {An occasionally-updated collection of articles and notes.  Mostly about modern software engineering.  Main topics are C++11 and the Rebol and Red languages, along with general programming philosophy and puzzle-solving.  Now and again, I throw a fit after dealing with some call-center or Internet fraud...and that seems to get the most hits.  *([We've all been there](http://xkcd.com/806/)!)*}
+		print {An occasionally-updated collection of articles and notes.  Mostly about software development.  Popular topics are C++ and the [Rebol and Red](http://blog.hostilefork.com/why-rebol-red-parse-cool/) languages, along with general programming philosophy and puzzle-solving.  For project summaries, demos, and overview videos please see the portal at [http://hostilefork.com](http://hostilefork.com).}
 
-		print {My claims-to-fame can probably be counted on one or two hands (depending on how many fingers you have), but I designed the logos for both Rebol and Red (and the typography for Red).  Please [read up and learn](http://blog.hostilefork.com/why-rebol-red-parse-cool/) about these unusual philosophy-driven languages:}
-
-		button [http://i.stack.imgur.com/VIh6w.png 700x160 "[Rebol and Red] chat room" http://blog.hostilefork.com/why-rebol-red-parse-cool/]
-
-		heading {Site Reorganization in Progress}
-
-		print {As of mid-2014, blog.hostilefork.com is a scrape and rewrite of content that was previously on the main page of hostilefork.com.  The [new main page](http://hostilefork.com) is starting the path toward being a more formal list of projects *(as opposed to blogs/articles/rants)*.  All old links should be forwarding correctly--so please let me know if you find one that isn't.}
-
-		print {In the transition from an ancient WordPress installation, I did something interesting.  After scraping the content, I encoded it into a [REN](https://github.com/humanistic/REN) *("REadable Notation")* format.  Then I made my own static site builder to generate the pages, called [Draem](http://draem.hostilefork.com), which has some very surprising properties...so you might check that out! The "source code" for this blog is available on GitHub as well:}
-
+		print {Articles on blog.hostilefork.com originated from a scrape and rewrite of content that was previously on the main page.  All entries were transformed from WordPress to a [REN](https://github.com/humanistic/REN) *("REadable Notation")* format, and run through a custom experimental static site builder called [Draem](http://draem.hostilefork.com).  This means the "source code" for entries are available on GitHub--feel free to send pull requests for any edits or corrections:}
+	
 		link https://github.com/hostilefork/hostilefork.com/tree/master
 
-		print {I'll come up with a fancier index page than this.  But for now, the links here are enough for search engines (and me) to find the pages.  If you'd like, you can also [browse the site by tag](http://hostilefork.com/tag/).  There is some preliminary support for navigating the entries with the left and right arrow keys.}
+		print {The produced HTML is deliberately simple, with the links here enough for search engines (and me) to find the pages.  If you'd like, you can [browse the site by tag](http://hostilefork.com/tag/).  It should also support navigating the entries with the left and right arrow keys to make reading easier.}
 
-		print {I appreciate your feedback or suggestions, so feel free to get in touch by comment or mail!  Contact information is available on the [Hire the Fork](http://hostilefork.com/hire-the-fork/) page.}
+		print {Ideally I would post more often, but in practice writing things on StackOverflow is easier.  So this just winds up as a repository for things that aren't a fit for that medium:}
+
+		button [http://stackexchange.com/users/flair/73298.png 208x58 "profile for HostileFork on Stack Exchange" http://stackoverflow.com/users/211160/hostilefork?tab=answers&sort=votes]
 
 		heading {Master List of Entries}
 	]
@@ -154,8 +148,8 @@ draem/set-config object compose [
 
 	;-- Optional: CSS included on every page
 	css: [
-		http://hostilefork.com/media/google-code-prettify/prettify.css
-		http://hostilefork.com/media/google-code-prettify/reb4me-prettify.css
+;		http://hostilefork.com/media/google-code-prettify/prettify.css
+;		http://hostilefork.com/media/google-code-prettify/reb4me-prettify.css
 		http://hostilefork.com/media/default.css
 		{
 			#title h1 {

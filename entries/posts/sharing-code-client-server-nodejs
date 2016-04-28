@@ -85,7 +85,7 @@ print << [
 
     {BlackHighlighter is a jQuery plug-in which needs to share code between the client and the Node.JS server.  A key constraint on it is that I did not want to include jQuery on the server.}
 
-    {There actually *is* an NPM jQuery package, and you *can* do DOM queries with it.  If you mention it people will groan and ask why you would want such a thing, and admonish you not to use it.  I see there point--and preferred to use underscore.JS on the server side.  Yet I didn't want to depend on underscore AND jQuery on the client.  This put me in a bit of a bind.}
+    {There actually *is* an NPM jQuery package, and you *can* do DOM queries with it.  If you mention it people will groan and ask why you would want such a thing, and admonish you not to use it.  I see their point--and preferred to use underscore.JS on the server side.  Yet I didn't want to depend on underscore AND jQuery on the client.  This put me in a bit of a bind.}
 
     {You can read the blackhighlighter source.  But the punch line is that I require the jQuery widget source on the server side, but shim it with a "fake" jQuery.  The shared code uses native JavaScript calls.  This cuts down the dependencies and so far it has worked out pretty well.  Details are in this StackOverflow question:}
 

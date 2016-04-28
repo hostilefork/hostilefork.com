@@ -1,0 +1,381 @@
+Draem [
+    title: {Poisoning Memory with (or without) Address Sanitizer}
+    tags: [c++ address-sanitizer]
+    slug: %poison-memory-without-asan
+    date: 7-Aug-2015/10:20
+]
+
+print << [
+    
+    {Address Sanitizer provides a [manual memory poisoning](https://github.com/google/sanitizers/wiki/AddressSanitizerManualPoisoning) facility.  As a feature, poisoning is a bit tied up with the internals and efficiency concerns of ASAN itself--as opposed to being some "byte-level-locking service" with hard guarantees.  So I got interested in seeing if I could create a stricter checked contract for a custom allocator using it, to cut down on the variance in what it would check.}
+
+    {The resulting code made me curious about if macros for `POISON_MEMORY_REGION` and `UNPOISON_MEMORY_REGION` could have a "cheap" pure C++ implementation.  What if instead of trapping reads at the memory level, poisoning just corrupted the memory through an XOR...and reversed the XOR to unpoison it?  With tighter rules on the operations, then incorrect code would trip up on the bad data.}
+
+    {I extracted the routines I wrote and include them at the end of the article.  But I thought this would be useful to more people if I went into some of the motivation and background first...}
+]
+
+heading {On The Trapping of Invalid Reads}
+
+print << [
+
+    {Both Valgrind (memcheck) and Address Sanitizer catch cases where you read from memory addresses that your program doesn't "rightfully control".  One example is memory ranges that were allocated correctly, but freed, and then accessed through a stale pointer:}
+]
+
+source 'c++ {
+int *value = new int;
+
+*value = 304;
+delete value;
+
+std::cout << *value; // Valgrind and ASAN (often) catch this!
+}
+
+print << [
+
+    {I say they *often* catch this, because it can't be 100% guaranteed.  Unless your system has unlimited memory, old addresses will need to be recycled at some point in long-running programs.  But the instrumented allocator inside of Valgrind and ASAN try to hold off on recycling addresses as long as possible.}
+]
+
+note [print {If you would like to twiddle with the tradeoff of how much memory Address Sanitizer gloms onto to avoid recycling, you can set [`quarantine_size_mb`](https://github.com/google/sanitizers/wiki/AddressSanitizerFlags).  Sources suggest the default is 256 MB.  Memcheck's setting is [`--freelist-vol=<number>`](http://valgrind.org/docs/manual/mc-manual.html#mc-manual.options) and says it defaults to "20 million bytes", an order of magnitude smaller.  There's additional control in memcheck for how aggressive it is about recycling larger blocks before smaller ones with `--freelist-big-blocks`.}]
+
+print << [
+
+    {Another thing you might want to catch is reads of not-yet-valid data.  Valgrind's memcheck does this, *but Address Sanitizer does not*:}
+]
+
+source 'c++ {
+int *value = new int;
+
+std::cout << *value; // Valgrind catches this (ASAN doesn't)
+}
+
+print << [
+
+    {Be aware that stopping this isn't just a matter of keeping you from "reading some random data you probably didn't want".  Instead of giving you a byte of an unknown value, compiler authors and chip makers are welcome to create a toolchain that crashes and burns on such reads *(or does something more indirect and hard to trace, which is even worse than crashing)*.  [The rules of the C and C++ standard allow this.](http://stackoverflow.com/questions/1597405/what-happens-to-a-declared-uninitialized-variable-in-c-does-it-have-a-value)}
+]
+
+note {For an equivalent feature from Google's tools, there is [Memory Sanitizer](http://clang.llvm.org/docs/MemorySanitizer.html).  But one of Address Sanitizer's purported advantages is speed...so notice the documentation on Memory Sanitizer saying it slows down programs by **3x**!}
+
+heading {Manual Memory Poisoning with ASAN}
+
+print << [
+
+    {Now for something Address Sanitizer does but Valgrind does not.  That's to give you an API for marking regions of memory as "bad for reading", and later marking them as "good for reading" again.  They are provided as macros: [ASAN_POISON_MEMORY_REGION and ASAN_UNPOISON_MEMORY_REGION](https://github.com/google/sanitizers/wiki/AddressSanitizerManualPoisoning).}
+
+    {A good question is **"Why would you use this?"**  For instance: let's say you have an object `Foo` with a member `bar`, and sometimes the object is in a state where the contents of the bar are valid and sometimes they are not.  Why use a special instrumentation API to "poison" the underlying memory representation of bar instead of just having a `getBar()` method which asserts the condition?  :-/}
+
+    {*(More generally, why don't you try redesigning your class hierarchies so the objects are less "modal"/"stateful", so there aren't as many ways to wind up calling methods that aren't legal on a constructed object...?)*}
+
+    {So this shouldn't be the first tool most people reach for.  But sometimes in low-level code, raw pointers to bytes (or low-level structs) are given out, and channels for control get lost.  The most relevant examples would be if you're writing a custom allocator.  There really is no accessor to put the hook in, because you really are just handing out raw storage that you at some point try and recoup in raw form.}
+
+    {If you're going to use the poisoning API though, there are a fair number of caveats!}
+]
+
+heading "Freeing Poisoned Data"
+
+print {The Chromium Blog [summarizes poisoning](http://blog.chromium.org/2011/06/testing-chromium-addresssanitizer-fast.html) with:}
+
+quote [print {The custom malloc() allocates more bytes than requested and "poisons" the redzones around the region returned to the caller. The custom free() "poisons" the entire region and puts it into quarantine for some time. The instrumented code produced by the compiler checks if the address being accessed is poisoned and if so, reports an error. The compiler also inserts poisoned redzones between objects on stack to catch stack buffer overrun/underrun.}]
+
+print {Consistent with what you'd think, there is no need to unpoison memory before you free it.  But it does have to be memory that was "allocated", according to the notes on the macros:}
+
+quote [print "This memory must be previously allocated by the user program."]
+
+print {That phrasing doesn't suggest it would work with stack allocated data.  I tried it for the sake of curiosity--and if a poisoned region on a stack object was left on when it was popped then it would crash.  But unpoisoning before the stack frame went away *seemed* to work, and could still trap the reads in the meantime.}
+
+heading {Alignment Limits}
+
+print {First of all, it might ignore some of your poisoning request based on alignment.  It doesn't give exact details, and just says:}
+
+quote [print "This function is not guaranteed to poison the whole region--it may poison only subregion of [addr, addr+size) due to ASan alignment restrictions."]
+
+print {But here's a example from a 64-bit linux system:}
+
+source 'c++ {
+char *bytes = new char[32];
+
+for (unsigned i = 0; i < 32; ++i) {
+    bytes[i] = 'A';
+    ASAN_POISON_MEMORY_REGION(bytes + i, 1);
+    std::cout << "bytes[" << i << "]=" << bytes[i] << std::endl;
+}
+
+// bytes[0]=A
+// bytes[1]=A
+// bytes[2]=A
+// bytes[3]=A
+// bytes[4]=A
+// bytes[5]=A
+// bytes[6]=A
+// =================================================================
+// ==4413==ERROR: AddressSanitizer: unknown-crash on address ...
+}
+
+print {Changing it from characters to integers shows it not tripping on the first, but only the second (also crossing the last byte in a 64-bit section):}
+
+source 'c++ {
+
+int *values = new int[32];
+
+for (unsigned i = 0; i < 32; ++i) {
+    values[i] = 1020;
+    ASAN_POISON_MEMORY_REGION(values + i, sizeof(int));
+    std::cout << "values[" << i << "]=" << values[i] << std::endl;
+}
+
+// values[0]=1020
+// =================================================================
+// ==4458==ERROR: AddressSanitizer: unknown-crash on address ...
+}
+
+print << [
+    {One might guess something like **for a 64-bit machine, it's safest to mark only in 8-byte increments on 8-byte aligned addresses**.  But some marks other than that do appear to work, depending on the size of the allocation and the numbers in the range.}
+
+    {The overall bias of the wording is that *poisoning may affect less than you asked for*, while *unpoisoning can affect arbitrarily more than you ask for*.}
+] 
+
+heading "Poor Man's Poison"
+
+print << [
+    
+    {Address Sanitizer's poisoning didn't give a lot in the guarantees department or checking...so I wondered how hard it would be to create a checked version.  It would ensure your poison and unpoison calls matched up, that they were all on platform-pointer boundaries at the right length.  I didn't want to write much code, so I thought to use a C++ ordered `[std::set](http://en.cppreference.com/w/cpp/container/set)`.}
+
+    {But doing things like this is always a good measure of how simple things can be a little tricky to do when you're concerned about efficiency.  Since sets are ordered, you can't modify them from iterators directly; the idiom is to [remove and insert](http://stackoverflow.com/a/2217889/211160).  But in C++11 there's the [emplace_hint](http://en.cppreference.com/w/cpp/container/set/emplace_hint).  This combines the idea of hinting where you think the insertion should happen with the efficiency of constructing an object in a data structure directly.}
+
+    {With the checks in place, I realized such code could poison without Address Sanitizer at all.  If you were sure your bookkeeping was straight, you could trivially scramble and unscramble memory with XOR.  Your crashes wouldn't be as informative--yet still, if reproducible could be uncovered as poisonings through a memory breakpoint.}
+
+    {Here's the extracted code.  The comments and asserts make it look "longer than it is", but they basically explain what's going on with merging and splitting of ranges:}
+]
+
+source 'c++ {
+#include <memory>
+#include <set>
+#include <assert.h>
+
+struct PoisonRange {
+    const unsigned char *bp;
+    size_t len;
+
+public:
+    PoisonRange (const unsigned char *bp, size_t len) :
+        bp (bp),
+        len (len)
+    {
+        assert(len > 0);
+    }
+
+    // Sort ranges by their start pointer (no overlap is guaranteed)
+    bool operator<(const PoisonRange &other) const {
+        return bp < other.bp;
+    }
+};
+
+// Set is kept sorted by default (uses operator< on PoisonRange)
+std::set<PoisonRange> poison_ranges;
+
+// Sample XOR bytestring :-)
+const unsigned char a_bad_idea[4] = {0xAB, 0xAD, 0x1D, 0xEA};
+
+void Poison_Memory(void *p, size_t len)
+{
+    auto *bp = reinterpret_cast<unsigned char*>(p);
+    assert(reinterpret_cast<uintptr_t>(bp) % sizeof(uintptr_t) == 0);
+    assert(len % sizeof(uintptr_t) == 0);
+
+    // Lowest range we might overlap (bp >= low->bp)
+    auto it_low = poison_ranges.lower_bound(PoisonRange {bp, len});
+    // http://stackoverflow.com/a/23011602/211160
+    if (it_low != std::begin(poison_ranges)) {
+        if (it_low->bp != bp)
+            it_low--;
+    }
+    else {
+        // No smaller element found
+        it_low = std::end(poison_ranges);
+    }
+
+    // Highest range we *cannot* overlap (bp + len <= high->bp)
+    auto it_high = poison_ranges.lower_bound(PoisonRange {bp + len, len});
+
+    if (
+        it_low == std::end(poison_ranges)
+        && it_high == std::end(poison_ranges)
+    ) {
+        // No contentions
+        poison_ranges.emplace(bp, len);
+    }
+    else if (it_high == std::end(poison_ranges)) {
+        const PoisonRange low = *it_low;
+
+        if (low.bp + low.len == bp) {
+            // end of previous matches our start; merge ranges
+            it_low = poison_ranges.erase(it_low);
+            poison_ranges.emplace_hint(it_low, low.bp, low.len + len);
+        }
+        else {
+            // No overlap, make a new range
+            assert(low.bp + low.len < bp);
+            poison_ranges.emplace_hint(it_low, bp, len);
+        }
+    }
+    else if (it_low == std::end(poison_ranges)) {
+        const PoisonRange high = *it_high;
+
+        if (bp + len == high.bp) {
+            // end of previous matches our start; merge ranges
+            it_high = poison_ranges.erase(it_high);
+            poison_ranges.emplace_hint(it_high, bp, len + high.len);
+        }
+        else {
+            // No overlap, make a new range
+            assert(bp + len < high.bp);
+            poison_ranges.emplace_hint(it_high, bp, len);
+        }
+    }
+    else {
+        const PoisonRange low = *it_low;
+        const PoisonRange high = *it_high;
+
+        // We cannot poison a range that straddles any existing poison
+        // ranges, so the range past our end must be immediately after
+        // the range before our start
+        assert(std::next(it_low, 1) == it_high);
+
+        if (low.bp + low.len == bp && bp + len == high.bp) {
+            // Closes a gap precisely, so we wind up net *removing* a range
+            poison_ranges.erase(it_low);
+            it_high = poison_ranges.erase(it_high);
+            poison_ranges.emplace_hint(
+                it_high, low.bp, low.len + len + high.len
+            );
+        }
+        else {
+            if (low.bp + low.len == bp) {
+                // end of previous matches our start; merge with previous
+                it_low = poison_ranges.erase(it_low);
+                poison_ranges.emplace_hint(it_low, low.bp, low.len + len);
+            }
+            else if (bp + len == high.bp) {
+                // start of next matches our end; merge with next
+                it_high = poison_ranges.erase(it_high);
+                poison_ranges.emplace_hint(it_high, bp, len + high.len);
+            }
+            else {
+                // No merge, so just put a new segment that lives between
+                poison_ranges.emplace_hint(it_high, bp, len);
+            }
+        }
+    }
+
+    // Since we didn't overlap regions, it should be okay to scramble the
+    // memory in the poisoning range
+    while (len)
+        *bp++ ^= a_bad_idea[len-- % 4];
+}
+
+void Unpoison_Memory(void *p, size_t len)
+{
+    auto *bp = reinterpret_cast<unsigned char*>(p);
+    assert(reinterpret_cast<uintptr_t>(bp) % sizeof(uintptr_t) == 0);
+    assert(len % sizeof(uintptr_t) == 0);
+
+    // Invariant is that all ranges are maintained in the poisoning list
+    // contiguously.  Hence the unpoisoning should not be able to straddle
+    // an already unpoisoned range.
+
+    // Lowest range we might overlap (bp >= low->bp)
+    auto it = poison_ranges.lower_bound(PoisonRange {bp, len});
+    // http://stackoverflow.com/a/23011602/211160
+    if (it != std::begin(poison_ranges)) {
+        if (it->bp != bp)
+            it--;
+    }
+    else {
+        if (it->bp != bp) {
+            // No smaller element found
+            assert(false);
+        }
+    }
+
+    assert(it != std::end(poison_ranges));
+
+    // Because we're not using a <multiset>, you can't add entries with the
+    // range's key while the range is still there, and iterator is const
+    const PoisonRange range = *it;
+    it = poison_ranges.erase(it);
+
+    assert(bp >= range.bp);
+    assert(bp + len <= range.bp + range.len);
+
+    if (range.bp == bp && range.len == len) {
+        // Add nothing - we're going to unpoison the whole range
+    }
+    else if (range.bp == bp) {
+        // We're chopping a bit off the head of the range
+        poison_ranges.emplace_hint(it, range.bp + len, range.len - len);
+    }
+    else if (bp + len == range.bp + range.len) {
+        // We're chopping a bit off the tail of the range
+        poison_ranges.emplace_hint(it, range.bp, range.len - len);
+    }
+    else {
+        // in-the-middle: split the range in two with the unpoisoned range
+        it = poison_ranges.emplace_hint(
+            it, bp + len, (range.bp + range.len) - (bp + len)
+        );
+        poison_ranges.emplace_hint(it, range.bp, bp - range.bp);
+    }
+
+    // Unscramble the memory.
+    while (len)
+        *bp++ ^= a_bad_idea[len-- % 4];
+}
+}
+
+print << [
+    
+    {The testing grounds for this code was the pooled allocator it was used with, where it came out balanced to zero.  But if you want to play with it, see if you can come up with a pathological case for it:}
+]
+
+source 'c++ {
+#include <iostream>
+#include <vector>
+
+void Dump_Ranges() {
+    std::cout << "POISONED RANGES" << std::endl;
+    for (auto range : poison_ranges)
+        std::cout << "[" << static_cast<const void*>(range.bp) << ", "
+            << range.len << ")" << std::endl;
+    std::cout << std::endl;
+}
+
+int main() {
+    std::vector<unsigned char> vec (1024, 0xFF); // block of initialized memory
+    unsigned char *bytes = vec.data(); 
+    
+    Poison_Memory(bytes + 8, 16);
+    Poison_Memory(bytes + (8 + 16 + 32), 8);
+
+    Poison_Memory(bytes + 8 + 16, 32); // merges the two separate ranges
+    
+    Dump_Ranges(); // one continuous range
+    
+    Unpoison_Memory(bytes + 16, 8); // splits them by another span
+    
+    Dump_Ranges(); // now two ranges again
+}
+
+// Output:
+//
+// POISONED RANGES
+// [0x23b4c28, 56)
+//
+// POISONED RANGES
+// [0x23b4c28, 8)
+// [0x23b4c38, 40)
+}
+
+print << [
+    {The rules could be relaxed so that it allowed you to double-poison or unpoison.  But the real use of this was to help double-check calls to Address Sanitizer's poisoning, to make sure they were being as effective as they could.}
+
+    {Hopefully this has been somewhat informative!  If anyone is ever interested in adapting the above code, feel free to use it under Boost/MIT/BSD/Apache/GPL license of your choice.}
+]
