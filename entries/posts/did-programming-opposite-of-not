@@ -1,0 +1,236 @@
+Draem [
+    title: "Proposing DID as the Programmer's Antonym of NOT"
+    tags: [ideas naming consensus]
+    slug: %did-programming-opposite-of-not
+    date: 24-Jan-2018/00:18
+]
+
+print << [
+    {Nearly every programming language has some kind of boolean logic type, that can be tested for exact equality to TRUE or FALSE.  Yet languages routinely have *non-boolean* data values that are able to act "conditionally true" or "conditionally false", directing a branch to run or not...without explicitly being converted to a boolean first.}
+
+    {With a [nod to Stephen Colbert](https://en.wikipedia.org/wiki/Truthiness), the terms *"truthy"* and *"fals(e)y"* have gained some traction with programmers for this concept.  Historical C treats only the integer 0 as falsey, and didn't get an actual boolean type until C99.  By comparison, JavaScript has an oodle of falsey types:}
+]
+
+list [item << [
+
+    {`false`}
+
+    {`0` and `-0`}
+
+    {`""` and `''`}
+
+    {`null`}
+
+    {`undefined`}
+
+    {`NaN`}
+
+    {`document.all` (in HTML browsers only...[no, I'm not making this up :-/](https://stackoverflow.com/a/19839953/211160))}
+]]
+
+print << [
+    {I don't want to get into a debate here about how choosing what values are truthy and falsey affect software.  What I want to do is suggest an effective pair of words for dealing with truthiness and falseyness.  One word is already established, the other isn't.}
+
+    {This might seem a little weird, but hear me out...}
+]
+
+heading {Proposed Pairing: DID and NOT}
+
+print {Most people probably don't question why NOT has emerged as the standard *"test for falseyness"*.  One reason is likely that they've just become acclimated to it.  If you hang around programming for a while, you'll eventually get comfortable with:}
+
+source 'text {
+thing = maybe_get_thing();
+if (not thing) {
+    // stuff to do if thing wasn't gotten
+}
+}
+
+print << [
+    {You accept NOT isn't performing "pure" logic on strict boolean input.  It's rather a more abstract test for the absence of an "optional thing".}
+
+    {My thesis is that people can get used to DID too, and perhaps come to like it a lot.  It's short, the same number of letters as NOT, and I found it feels pretty natural after just a little while.}
+
+    {We'll work through some scenarios shortly.  But let's first consider the categories of alternatives for getting a canon logical TRUE out of a "truthy" value:}
+]
+
+list [item << [
+    { **`NOT NOT`** - This seems "obviously bad": whether with symbols or words, double-negation just messes with your mind.  *(Point of curiosity: some have [mistaken `!!` in C for an operator](https://stackoverflow.com/questions/10307281/c-operator-is-a-two-not), instead of a sequence of two separate `!` operations.)*}
+
+    {**`IsTruthy` and `IsFalsey`** -  My view is that you'd actually need to use those goofy words vs. a more plain `IsTrue` or `IsFalse`.  Otherwise if your language has canon true and false values, it isn't distinct enough from testing for those precise canon values.  And I'm not a fan of seeing the words "truthy" and "falsey" make it into my code...I tried it, didn't like it.}
+
+    {**[Perl6 chose `SO` for non-negation](https://docs.perl6.org/routine/so)** - I can only imagine this arose from hearing kids having an argument like *"is not!"*, *"is so!"*, then concluding that SO and NOT must be antonyms.  *(Under that reasoning, perhaps TOO was considered as well?)*  While I certainly commend their initiative in *wanting* to invent a short name for this, it's a pretty bad choice in practice--entirely the wrong type of word.}
+
+    {**Just plain "IS"** - Some Internet debates claim that the opposite of "not-ness" or "nothing-ness" would be "is-ness".  Hence `is thing` could test for the "there-ness" of that thing.  We'll examine it, but I personally think IS has much more of an infix quality...and it's an infix operator in the language I wanted to apply DID too, so it was already ruled out.}
+]]
+
+print << [
+    {But the most familiar mechanism most languages will have is the construct of "conversion" or "casting" to boolean.  For example: with JavaScript you'd have [`ToBoolean`](https://developer.mozilla.org/en-US/docs/Mozilla/Projects/SpiderMonkey/JSAPI_reference/JS::ToBoolean) or `Boolean()`.  Such operations would pretty much always involve the word "Bool"/"Boolean"/"Logic" plus some syntax, like C++'s lengthy `static_cast<bool>(thing)`, or Rebol's `to logic! thing`.}
+
+    {I think conversion is a great way to express what you're doing, *when it matches your intent*.  But I don't think it always does...}
+]
+
+heading {Conversion Meaning vs. "DID Meaning"}
+
+print {Imagine if you have some kind of function that finds values in a collection, but returns you a falsey result to say its missing.  Then someone really just wants to know if it's there.  Let's also say the language has a NOT keyword:}
+
+source 'text {
+var element = find(collection,id);
+
+// Caller expects strictly TRUE or FALSE for availability
+var available;
+if (not element) {
+    available = false;
+} else {
+    available = true;
+}
+
+return available;
+}
+
+print {So is the underlying intent "conversion"?  Let's see how that looks in some hypothetical syntaxes:}
+
+source 'text {
+var available = Boolean(find(collection, id));
+
+var available = find(collection, id).ToBoolean();
+
+var available = find(collection, id) as bool;
+
+var available = (bool)find(collection, id);
+}
+
+print {No matter how you write it, if you need to work the word "boolean" into it, you'll get something that looks like conversion.  Compare this to having a DID operator.}
+
+source 'text {
+var available = did find(collection, id);
+}
+
+print {Pretty nice.  How pleasing this will actually wind up being depends on your language syntax, but the point is about the pairing:}
+
+source 'text {
+available ::= did(collection->find[id]);
+
+unavailable ::= not(collection->find[id]);
+}
+
+print {It's hit or miss, as with NOT.  While SO and IS are kind of always misses:}
+
+source 'text {
+var available = so find(collection, id);
+
+var available = is find(collection, id);
+}
+
+print {Interesting to point out is that DID and NOT can be put together and still make sense...arguably more sense in cases like this than NOT alone:}
+
+source 'text {
+var unavailable = not find(collection, id); // a little cave-man-ish
+
+var unavailable = did not find(collection, id); // more fluent?
+
+var unavailable = didn't find(collection, id); // for the Rebolers :-)
+}
+
+heading {Usage in Conditional Slots}
+
+print {One of the main places you find NOT is in the slots of conditionals.  How does DID hold up there?}
+
+source 'text {
+if (not thing) {
+    // optional thing is not present
+}
+
+if (did thing) {
+    // optional thing is present
+}
+}
+
+print << [
+    {That isn't a great fit.  DID seems like a fairly "active" word, asking about some kind of event.  It looks odd when you're not applying it to some function call or evaluation.}
+
+    {The word `SO` is of course terrible here.  Yet people who would be in favor of IS-ness could actually argue it has the edge:}
+]
+
+source 'text {
+if (not thing) {
+    // optional "thing" is not present
+}
+
+if (is thing) {
+    // optional "thing" is present
+}
+}
+
+print {Admittedly that's better...but, wait!  It's a conditional slot already.  Why would you use an operator at all?}
+
+source 'text {
+if (not thing) {
+    // optional "thing" is not present
+}
+
+if (thing) {
+    // optional "thing" is present
+}
+}
+
+print {The problem DID is trying to solve is when you need to coerce a truthy value in a place that isn't going to do it automatically.  You wouldn't use it in conditional slots.}
+
+heading {Usage with Expressions}
+
+print << [
+    {I mentioned previously that someone outside of computer culture might wonder why an expression like `NOT(1)` would be meaningful at all.  It doesn't seem that much weirder if `DID(0)` has meaning...pretty abstract already.}
+
+    {But in practice you don't see people using NOT on literals, so this isn't that relevant.  Comparing them in action does show that DID does have some harder edges here.  :-/}
+
+    {It keeps pretty good pace with NOT on equality tests:}
+]
+
+source 'text {
+BOOL match = DID(thing == 304);
+BOOL mismatch = NOT(thing == 304);
+}
+
+print {"match if thing did equal 304" has a good feel.  But relative comparisons throw a wrench into it:}
+
+source 'text {
+BOOL enough = DID(volume > 1020);
+BOOL insufficient = NOT(volume > 1020);
+}
+
+print << [
+    {"volume did greater than 1020" doesn't jive as well as "volume not greater than 1020".  It's just about how we read `>` as "greater than" vs. something like "compares bigger than", where "compares" would bridge to "did compare" in a way that equal can, but greater cannot.  *(Someone could probably do their Ph.D in linguistics on this.)*}
+
+    {IS() fares a bit better here again.  But the cases you would use IS() for...testing this intrinsic property...seem covered by a boolean conversion.  It's the `IS(find(...))` that's terribly weak, and that weakness outstrips what I see as a fairly minor drawback for DID() here.}
+
+    {It's definitely a slippery slope when you say "programmers will acclimate to anything".  Because what's to stop you from saying `SO(volume > 1020)`?  But I really do think there's a shorter path to rewire your brain to read it with DID...something akin to *"did the following test pass"*.}
+]
+
+note [
+    print {Also, one might suggest WAS would make a good synonym for DID.  But besides my [competing interests for WAS](https://trello.com/c/qara1pad), I think it's better to keep the functionality focused on one word.}
+]
+
+heading {Usage in Practice}
+
+print << [
+    {The reason I'm writing about this at all is because I added this to an [experimental branch of Rebol3](https://github.com/metaeducation/ren-c/commit/7e5fecb265bedd82b2d2b07ab7ec917bc2b0f6bf).  The suggestion had come up almost in a [simultaneous mindlink with @rgchris](https://forum.rebol.info/t/the-misleading-names-of-true-and-false/191/6), shortly after mocking `SO`...which means the mood wasn't completely serious.}
+
+    {But I found I liked it, and I was actually surprised by how much I liked it.  Surprised enough to write an article.  Surprised enough that I started wanting to see it in C *(especially given the unfortunateness of `!!` I mentioned before.)*}
+
+    {Since not everyone is aware: C++ actually has a `not` keyword (technically an "alternate token") in the standard, along with [`and`, `or`, and `xor`.](https://stackoverflow.com/questions/2376448/the-written-versions-of-the-logical-operators).  They've all been there since the beginning, not that some people seemed to care about that standard *(...cough...Microsoft.  I can say "Microsoft failed to care about the standard"--I worked there some time ago.  That's simply fact, I just had something in my throat.)*}
+
+    {C programmers can find macros like `#define not !` in [`<iso646.h>`](https://en.wikipedia.org/wiki/C_alternative_tokens).  In some alternate reality to ours, there's a `#define did !!` alongside `#define not !` there, I think that would be pretty cool.  :-)}
+
+    {But don't expect this to make it into that particular committee anytime soon.  Those with experience in language standards know of course that if it's a legal variable name, someone out there has decided it's a `(D)evice(ID)` or a `(D)ata(I)nderection(D)ereferencer` in their code.  There are plenty of `did`s out there, which have nothing to do with potential english usages of DID.}
+
+    {So in C you're going to need to define it yourself.}
+]
+
+heading {Heresy vs. Trendsetting}
+
+print << [
+    {People might think this is silly, but I think it's a missing concept that many have realized is important.  History is filled with examples of some under-the-radar idea, that looks blatantly obvious in retrospect.  The [invention of zero](https://en.wikipedia.org/wiki/0#History) comes to mind.}
+
+    {I've seen firsthand how a single article on the Internet can sway public opinion and become canon.  Maybe people will give a thought and link here, instead of embracing Perl6's offering of "SO"?  [I can dream.](http://draem.hostilefork.com/)}
+
+    {If you're interested in talking about it, [join the forum](https://forum.rebol.info/t/the-misleading-names-of-true-and-false/191/6) or [StackOverflow chat](https://chat.stackoverflow.com/rooms/291/rebol).}
+]
