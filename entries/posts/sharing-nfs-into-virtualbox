@@ -70,9 +70,9 @@ heading "What is the NFS security model?"
 
 print << [
 
-    {I'll start by stating the obvious: there is a "server" component that sits on the computer with the directory you want to share.  Then there is a "client" component that runs on the computer that wishes to treat this host's directory as if it were local.  The server component runs in the background and is called the "NFS [daemon](http://en.wikipedia.org/wiki/Daemon_(computing))" (**nfsd**).}
+    {I'll start by stating the obvious: there is a "server" component that sits on the computer with the directory you want to share.  Then there is a "client" component that runs on the computer that wishes to treat this host's directory as if it were local.  The server component runs in the background and is called the "NFS [daemon](http://en.wikipedia.org/wiki/Daemon_%28computing%29)" (**nfsd**).}
 
-    {The security model (if you want to call it that) was for tightly-managed "Intranets", which are different from the Internet we know today.  Basically the daemon either "trusts" or "doesn't trust" a machine...this decision is based on its IP address.  Beyond that filter, this trust is based solely on the [unix user ID number](http://en.wikipedia.org/wiki/Id_(Unix)) provided by the client.}
+    {The security model (if you want to call it that) was for tightly-managed "Intranets", which are different from the Internet we know today.  Basically the daemon either "trusts" or "doesn't trust" a machine...this decision is based on its IP address.  Beyond that filter, this trust is based solely on the [unix user ID number](http://en.wikipedia.org/wiki/Id_%28Unix%29) provided by the client.}
 
     {As the Wikipedia article points out, you can find out your number at the command prompt:}
 

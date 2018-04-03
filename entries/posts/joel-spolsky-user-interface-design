@@ -72,7 +72,7 @@ print << [
 
     {When this was mentioned in the book, I realized how I'm certainly influenced by this.  I empty the trash because I'm troubled by it being there.  Continuing this line of thinking, it made me think about other ways of controlling behavior by using "dirt" and "ugliness" for leverage.  If a designer can't stop a user from doing something, then perhaps at least that thing can be made to feel less pretty than doing it right.}
 
-    {In one program I was writing, I used this principle.  It was a system like Wikipedia, where a word like "Africa" might resolve to [the continent](http://en.wikipedia.org/wiki/Africa) or the [rock song](http://en.wikipedia.org/wiki/Africa_(song)) by Toto.  An unresolved ASCII string was better than nothing--yet I wanted to give a strong visual encouragement to actually invest the work of linking it.}
+    {In one program I was writing, I used this principle.  It was a system like Wikipedia, where a word like "Africa" might resolve to [the continent](http://en.wikipedia.org/wiki/Africa) or the [rock song](http://en.wikipedia.org/wiki/Africa_%28song%29) by Toto.  An unresolved ASCII string was better than nothing--yet I wanted to give a strong visual encouragement to actually invest the work of linking it.}
 
     {The way I decided to do this was that a "resolved" term would be in a nice proportional font, while an "unresolved" string of characters would be in a blocky proportional font.  Here's what it would look like if you left it as the letters A-f-r-i-c-a, while "Bill Bryson" and "visited" pointed to appropriate things:}
 

@@ -49,7 +49,7 @@ print << [
 
     {In that article I bring up something that Ryan's talk mentions, but I'll re-emphasize.  `process` is like `window` in the browser... *except it isn't because it isn't an implicit global that lets you sneak information between your files*.  So start with some basic tests, to understand how the modules work.}
 
-    {There's a whole package management ecology for node called [Node Package Manager ("npm")](http://en.wikipedia.org/wiki/Npm_(software)), and an important thing to realize is that `http` is not one of those packages.  `require('http')` looks similar to how those packages are included, as you don't have to specify any particular path to the JavaScript file.  But `http` is built-in, you don't add it as a package dependency.}
+    {There's a whole package management ecology for node called [Node Package Manager ("npm")](http://en.wikipedia.org/wiki/Npm_%28software%29), and an important thing to realize is that `http` is not one of those packages.  `require('http')` looks similar to how those packages are included, as you don't have to specify any particular path to the JavaScript file.  But `http` is built-in, you don't add it as a package dependency.}
 
     {Upshot is that `http` isn't something you choose to use or not.  You'll be using it, for pretty much any Node-based system that speaks http.  If your program is responding to http requests and *doesn't* have that `require('http')` line in it somewhere--it's a near certainty that's because something else that you are including is including it for you.}
 

@@ -338,7 +338,7 @@ print {Let's look at what's in the packages kept versioned in [rtbkit-deps](http
 
 list [item << [
 
-        {[**boost**](http://en.wikipedia.org/wiki/Boost_(C%2B%2B_libraries) -- Boost is an important library for C++, providing a number of general facilities.  RTBkit makes heavy usage of several boost libraries, which is good.  It still has some lagging references to things like `boost::shared_ptr` instead of `std::shared_ptr`, and some other "not replaced with updated equivalents".}
+        {[**boost**](http://en.wikipedia.org/wiki/Boost_%28C%2B%2B_libraries%29 -- Boost is an important library for C++, providing a number of general facilities.  RTBkit makes heavy usage of several boost libraries, which is good.  It still has some lagging references to things like `boost::shared_ptr` instead of `std::shared_ptr`, and some other "not replaced with updated equivalents".}
 
         {[**cairomm**](http://cairographics.org/cairomm/) -- C++ interface to the [Cairo](http://en.wikipedia.org/wiki/Cairo_%28graphics%29) 2-D drawing library.  It's used to draw a dynamic advertisement which indicates the win price in the ad bid on top of the ad.  For some reason only featured in the exchange tester for the Rubicon ad network.  No other use.}
 

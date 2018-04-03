@@ -98,7 +98,7 @@ struct Road {
 
 print {It sounds appealing to use a graph library someone else has already written...with fully-debugged traversal algorithms and other goodies.  You shouldn't need to make your classes derive from any base classes originating from the graph class, the container should do all the work behind the scenes--just like the STL.}
 
-note {Quick terminology review from the mathematical concept of a [Graph](http://en.wikipedia.org/wiki/Graph_(mathematics)).  It's a set of "vertices" which have connections to other "vertices".  Each connection is called an "edge".  So resist the urge to call them "nodes" or "links" or anything of that nature.}
+note {Quick terminology review from the mathematical concept of a [Graph](http://en.wikipedia.org/wiki/Graph_%28mathematics%29).  It's a set of "vertices" which have connections to other "vertices".  Each connection is called an "edge".  So resist the urge to call them "nodes" or "links" or anything of that nature.}
 
 print {So perhaps you were thinking you'd #include some boost headers and instantiate a template.  It would take the vertex type and the edge type, perhaps something like this:}
 

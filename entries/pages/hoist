@@ -19,7 +19,7 @@ print << [
 
     {Traditional assertion failures capture the source code that caused the problem, which adds no new information to what the developer could already find with the file and line.  But hoist's `tracked` templates actually capture the unexpected runtime data into the error message itself, along with the specific location of last assignment.  When combined with the invariance of `codeplace`, this makes the report of a failure far more useful--with far less need for stack or core dumps to figure out what went wrong.}
 
-    {Hoist is open source and is built on top of [Qt](http://en.wikipedia.org/wiki/Qt_(toolkit)).  It is released under the permissive [boost software license](http://en.wikipedia.org/wiki/Boost_Software_License).}
+    {Hoist is open source and is built on top of [Qt](http://en.wikipedia.org/wiki/Qt_%28toolkit%29).  It is released under the permissive [boost software license](http://en.wikipedia.org/wiki/Boost_Software_License).}
 
 ]
 
