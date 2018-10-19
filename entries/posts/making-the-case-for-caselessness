@@ -1,0 +1,127 @@
+Draem [
+    title: "Making the Case for Caselessness"
+    tags: [philosophy naming]
+    slug: %making-the-case-for-caselessness
+    date: 18-Oct-2018/10:20
+]
+
+print << [
+    {As I was born with the mind of a programmer (and/or a computer), failure to distinguish uppercase and lowercase seemed to me like just another bizarre human foible.  It appeared to serve no purpose but to open up opportunities for bugs in systems.  Treating `H` and `h` the same is the kind of naiveté that leads to being hacked, e.g. because you simply went to Hostilefork.com instead of hostilefork.com.}
+]
+
+note [
+    print {That *particular* hack shouldn't happen to you--because [domain names are case-insensitive](https://stackoverflow.com/a/19747810/211160).  But while that is well-defined for ASCII characters, it's a veritable nightmare in Unicode--with phenomena like [case folding](https://www.w3.org/International/wiki/Case_folding).  I'll have to look into that when buying something like the [`hoşnutsuzçatal.tu`](https://translate.google.com/#auto/en/ho%C5%9Fnutsuz%20%C3%A7atal) Turkish domain.}
+]
+
+print << [
+    {Hence I'd always assumed that case-sensitive filesystems (and case-sensitive string handling in programming languages) were obviously correct.  e.g. POSIX file APIs were *good* since they heeded case, while Windows file APIs were *bad* for ignoring it--and no sane programmer would deny this fact.  The only thing "wrong" with case-sensitive software was its burden in having to interface with the misguided expectations of case-insensitive systems.}
+]
+
+heading {I Can't Put My Finger On It, but...}
+
+print << [
+    {Fast-forward to me getting much older (and perhaps slightly wiser), and I don't see it as being so clear-cut any longer.}
+
+    {For an alphabet, 26 may not be an optimal number of "core" characters for the brain, but it's proven to be widely learnable.  52 is probably too many--not just in terms of what the mind can optimally juggle, but even just for the human-typing scale of things.}
+
+    {One piece of evidence is that I couldn't find any computer keyboards with distinct buttons for uppercase and lowercase glyphs.  So empirically, it would appear that keyboard sizes prove that we really do want to hash 'A' and 'a' into the same bucket (though I did find this one very old *typewriter* from 1917):}
+]
+
+button [http://hostilefork.com/media/blog/making-the-case-for-caselessness/typewriter-upper-lower-keys-400x364.jpg 400x266 "1917 Typewriter With Uppercase and Lowercase keys" http://typewriterdatabase.com/1917-smith-premier-10.2435.typewriter]
+
+print << [
+    {Of course, [typical Japanese/Chinese input setups](https://japan.googleblog.com/2010/04/google.html) for programmers are different... :-)}
+]
+
+button [http://hostilefork.com/media/blog/making-the-case-for-caselessness/japanese-drum-keyboard-joke-400x266.jpg 400x266 "Google Japan Drum Keyboard April Fool's Joke" http://hostilefork.com/media/blog/making-the-case-for-caselessness/japanese-drum-keyboard-joke.jpg]
+
+print << [
+    {On examining the nuances of having more than one way to write the same character, several not-insignificant benefits do emerge.  Sentences can be started with a different glyph to help guide the eye to where they start.  You can leverage the equivalence to call out KEYWORDS or phrases to make them stand out--without needing delimiters or other markup.}
+
+    {I've also become a hobbyist in graphic design and typography.  Having varying cases of letterforms to play with makes the whole game much more interesting.  The benefits to the art likely overhadow weaknesses from technical ambiguities, such as worrying about Hostilefork.com vs. hostilefork.com.  *(After all there's hostile-fork.com and therealhostile.fork.net...case hacking is a small drop in an enormous bucket.)*}
+
+    {So personally, I now think of character cases--and the resulting phenomenon of case-insensitivity--as not just a "foible".  It's an expressive tool with a leg to stand on.}
+
+    {Not that how *I* feel about whether it's justified makes much of a difference--mind you!  **It's there and pervasive whether I approve of it or not:**}
+]
+
+list [item << [
+
+    {Latin-based languages are read by humans as case-insensitive by default.}
+
+    {Domain names are case-insensitive, as already mentioned.  *("Hi, my name is" nametags are also case-insensitive.  I often write things like BRiAN on mine, because that's the sort of person I am these days.)*}
+
+    {File APIs give case-insensitive behavior on Windows, which at time of writing still runs [80%-ish of the desktops/laptops](https://en.wikipedia.org/wiki/Usage_share_of_operating_systems) in the world.  *(If you are using the low-level CreateFile() API on NTFS, [`FILE_FLAG_POSIX_SEMANTICS`](https://stackoverflow.com/a/7200533/211160) that can technically give you case insensitivity, but this ability is basically unused...and not exposed in higher-level APIs like fopen().)*}
+
+    {Spoken letters are case-insensitive without qualification, and spoken words don't convey their case intrinsically in speech, EXCEPT PERHAPS SHOUTING!}
+
+    {Case-insensitivity pops up in many other random technical crevices, [like HTML anchor names](https://www.w3.org/TR/html4/struct/links.html#h-12.2.1).  So `https://en.wikipedia.org/wiki/Meta#Epistemology` and `https://en.wikipedia.org/wiki/Meta#EPISTEMOLOGY` cannot be distinct anchors, for example.}
+]]
+
+heading {Yet Case-Insensitivity is a Programming Language Taboo}
+
+print << [
+    {You can find a fair number of APIs where certain querying strings or parameters don't care about case.  But almost no mainstream language of today (or for that matter, *fringe* language of today) is case-insensitive for identifier lookup.}
+
+    {Some languages even go so far as to connect the casing intrinsically to a symbol's role.  For instance: Haskell ["variables"](https://stackoverflow.com/questions/993124/does-haskell-have-variables) [must start with a lowercase character, while data constructors start with an uppercase character](https://stackoverflow.com/questions/6237775/why-does-haskell-force-data-constructors-first-letter-to-be-upper-case).}
+
+    {Even if case distinction doesn't have an enforced purpose, coding conventions can hinge on giving unique meanings to different cases of the same symbol.  One such convention is Hungarian Notation, [(which I wrote about many years ago)](http://blog.hostilefork.com/defense-of-hungarian-notation/).  That's where the datatypes are in all-caps so that you can lowercase them to automatically name variables of those types.  e.g. `void DestroyWindow(HWND hwnd)` lets the parameter-naming decision flow naturally and uncontroversially, where everyone using the convention would name the parameter identically.}
+
+    {Beyond all of that, programmers fill pages of files with identifiers that are hopefully not too long to type, yet distinct from one another.  So it's hard to ask them to give up combinations.  Four letter variable names using case-insensitive letters gives you `26^^4 = 456976` possibilities, while using case-sensitive letters is `52^^4 = 7311616`...it's an order of magnitude difference.}
+
+    {Most language designers have likely felt that distinguishing case is the obvious and only choice.  But if there's another side to the story, then what is it?}
+]
+
+heading {Case-insensitivity is ["Freedom From"](http://blog.hostilefork.com/freedom-to-and-freedom-from/) Case-sensitivity}
+
+print << [
+    {Consider filenames for a moment.  Sure you can use mixed case characters to distinguish filenames in Linux.  You can have `file-one.txt` and `FILE-ONE.TXT` and `File-oNe.TxT` all in the same directory if you are inclined.}
+
+    {*But is it savvy to do so?*  I don't feel it is.}
+
+    {When you look at case-insensitivity in a language like [Rebol](https://stackoverflow.com/questions/tagged/rebol), it has a benefit I noted where you can call out an identifier within a normal sentence by capitalizing it.  So I could mention GREATER-OR-EQUAL? right here, then talk about how Rebol lets you use hyphens and question marks in identifier names, since spacing is significant (`a-b` is different from `a - b`, or `a- b`, or `a -b`).}
+
+    {The language sacrifices distinguishing from `greater-or-equal?` or `Greater-Or-Equal?` or `Greater-Or-EQUAL?`, ad nauseum.  If they were distinct the capitalization trick wouldn't work, so you'd wind up having to put them in a different font with backticks.  It's noisier in the markdown--and it's noisier when it gets rendered.}
+
+    {But again: are such distinctions actually an example of being savvy?  Or is it possible that programmers are so used to case sensitivity that they accept it without question--despite it maybe not being that good?}
+]
+
+heading {Bridging to Case Insensitive Systems is Unavoidable}
+
+print << [
+    {I mentioned that it didn't really matter whether case insensitivity has my seal of approval or not.  It's a thing.  As a good example of seeing how committing to case-sensitivity creates a mess when it crashes into case-insensitivity, consider something [I ran into with Doxygen](http://blog.hostilefork.com/low-commitment-doxygen-markup-cpp/) some years ago.}
+
+    {Put in a nutshell: C++ has case-sensitive identifiers, and HTML anchors can't be case sensitive.  To work around this, method names in Doxygen get hashed and turned into hexadecimal when URLs are produced...such as this one for Crypto++'s `SimpleKeyingInterface::Resynchronize()`:}
+
+    {[`class_simple_keying_interface.html#ae576137a46ca56005e82f1505cf3cccc`](http://www.cryptopp.com/docs/ref/class_simple_keying_interface.html#ae576137a46ca56005e82f1505cf3cccc)}
+
+    {To have that end in `...html#Resynchronize`, you'd need a strategy for if there were a member variable called something like `reSynchronize`.  It's really not uncommon to have such collisions, and you'd have to transform them somehow.  (Maybe put an illegal C character like a dash in front of any capitals?  `#-resynchronize` vs `#re-synchronize`)}
+
+    {It doesn't matter whether it's the anchor link, or writing the documentation files out to a Windows filesystem.  *A case-sensitive system that interacts with a case-insensitive system at any point* will hit these kinds of issues.}
+]
+
+heading {Good Designs Often End Up Case-Insensitive Anyway}
+
+print << [
+    {I've phrased some challenges to the intrinsic merit of case-sensitive systems, but sometimes it seems like they have an edge.  Random recent personal example: I tried to use Base64 to create and compare unique filenames.  I knew it would only work for Linux, but that was fine.}
+
+    {But alas, the 63rd digit of Base64 is...[a slash](https://en.wikipedia.org/wiki/Base64#Base64_table), which would make a path.  So much for that idea.  As long as you're doing something else, why not make it work case-insensitively too?}
+
+    {People inventing serial number schemes where they might need to be read over the phone know better than to mix cases.  They also know better than to mix `0` and `O`, or `B` and `8`, or `1` and `l` and `I`.}
+
+    {Even if you're just typing in a software serial number from a piece of paper, your internal talking-to-yourself has you remembering the letters in an internal voice.  Remembering casing likely inflates that by a syllable factor of 4, such as *"up-per-case-A low-er-case-B"* instead of simply *"A B"*.  When there's no case, you're also likely thankful you don't have to worry about shifting as you type with one hand and hold the piece of paper with the other.}
+
+    {Humans are the most fitting demographic target to design for when you're using letter-oriented things instead of number-oriented things.  My point is that many of these designs have a nature that case-sensitivity isn't a perfect fit for if you looked at what the *actual* usage was.}
+]
+
+heading {Food For Thought?}
+
+print << [
+    {Getting involved in the design for Rebol has been my main motivation for thinking about this, but I've found it influencing other aspects of my development.  You don't necessarily appreciate all the benefits until you try them.  Most of the time you're typing in all lowercase, which is smoother and faster for program entry due to hitting the shift key less often.  (This goes along nicely with using `[]` instead of `{}` as the main code grouping construct, which doesn't need shift either.)}
+
+    {It's rather interesting that several times, people have challenged Rebol's decision to be case-insensitive when other languages aren't.  But each time, discussions on changing have ended in a belief that it's either break even, or on the whole better.  In fact, portions of this article are digested from my contributions to a [Red wiki circa 2014](https://github.com/red/red/wiki/%5BNOTES%5D-Discussion-of-Case-Sensitive-Map!-Keys) when that language was putting a lot of options on the table for becoming case-sensitive.  The outcome of that lengthy discussion was to leave things as they were.}
+
+    {*(They've since moved the wiki and erased the editing history, but I'm the one who wrote all the bits I borrowed here.)*}
+
+    {Having had enough time to see both sides, I can legitimately see arguments in the balance for and against case-sensitivity in programming.  Hopefully this has given some perspective on the road less traveled.}
+]
