@@ -5,13 +5,15 @@ Draem [
     date: 8-Jun-2014/19:19:30-4:00
 ]
 
+update 8-Sep-2018 {Very interestingly Google has now [open sourced graphd](https://github.com/google/graphd) under the Apache 2.0 license, and this previously-vanished article has reappeared as [part of the repository](https://github.com/google/graphd/commit/718cb25501c7d24b81973540402301ff5b07a0b5).  But I'll leave a copy here, as this update note will hopefully provide another entry point for people to find out where the source is.  *(I'll be building it and looking through it as soon as I get a chance.)*}
+
 note [
 
     print << [
 
         {I have found several cases where things I tend to link to (or often refer to) disappear from the web entirely.  This is an example of something I wanted to link to in a document I was writing but couldn't find at first.  It's a useful description of "Graphd", the database engine behind Freebase.  The article was writen by Scott Meyer and posted to the Freebase blog in 2008, prior to the company's acquisition by Google in 2010.}
 
-        {Fortunately I was able to locate a copy on the [Internet Archive](https://web.archive.org/web/20101208011514/http://blog.freebase.com/2008/04/09/a-brief-tour-of-graphd/) since I had the old URL.  There's also a cache at [http://246tnt.com/files/thumb-1024-788.pdf](http://246tnt.com/files/thumb-1024-788.pdf).  But the not-very-faith-inspiring-URL and requirement of a PDF download are irritating.}
+        {Fortunately I was able to locate a copy on the [Internet Archive](https://web.archive.org/web/20101208011514/http://blog.freebase.com/2008/04/09/a-brief-tour-of-graphd/) since I had the old URL.}
 
         {Given Freebase's "open data" bias, no mention of a license for the (now missing) blog, and lack of an exclusion under `robots.txt` that got a copy in the Internet Archive...I'll put another here to use in my links.  Those links will at least be good for at least as long as my own referring material is.  And it's HTML5 and indexable, so maybe it will help others looking for the information.  As I didn't write it, it is obviously not covered by this blog's terms; so consider it as under its original license.}
 

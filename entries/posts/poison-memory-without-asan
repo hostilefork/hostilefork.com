@@ -6,7 +6,7 @@ Draem [
 ]
 
 print << [
-    
+
     {Address Sanitizer provides a [manual memory poisoning](https://github.com/google/sanitizers/wiki/AddressSanitizerManualPoisoning) facility.  As a feature, poisoning is a bit tied up with the internals and efficiency concerns of ASAN itself--as opposed to being some "byte-level-locking service" with hard guarantees.  So I got interested in seeing if I could create a stricter checked contract for a custom allocator using it, to cut down on the variance in what it would check.}
 
     {The resulting code made me curious about if macros for `POISON_MEMORY_REGION` and `UNPOISON_MEMORY_REGION` could have a "cheap" pure C++ implementation.  What if instead of trapping reads at the memory level, poisoning just corrupted the memory through an XOR...and reversed the XOR to unpoison it?  With tighter rules on the operations, then incorrect code would trip up on the bad data.}
@@ -59,7 +59,7 @@ heading {Manual Memory Poisoning with ASAN}
 
 print << [
 
-    {Now for something Address Sanitizer does but Valgrind does not.  That's to give you an API for marking regions of memory as "bad for reading", and later marking them as "good for reading" again.  They are provided as macros: [ASAN_POISON_MEMORY_REGION and ASAN_UNPOISON_MEMORY_REGION](https://github.com/google/sanitizers/wiki/AddressSanitizerManualPoisoning).}
+    {Now for something Address Sanitizer does but Valgrind does not.  That's to give you an API for marking regions of memory as "bad for reading", and later marking them as "good for reading" again.  They are provided as macros: [`ASAN_POISON_MEMORY_REGION` and `ASAN_UNPOISON_MEMORY_REGION`](https://github.com/google/sanitizers/wiki/AddressSanitizerManualPoisoning).}
 
     {A good question is **"Why would you use this?"**  For instance: let's say you have an object `Foo` with a member `bar`, and sometimes the object is in a state where the contents of the bar are valid and sometimes they are not.  Why use a special instrumentation API to "poison" the underlying memory representation of bar instead of just having a `getBar()` method which asserts the condition?  :-/}
 
@@ -131,13 +131,13 @@ print << [
     {One might guess something like **for a 64-bit machine, it's safest to mark only in 8-byte increments on 8-byte aligned addresses**.  But some marks other than that do appear to work, depending on the size of the allocation and the numbers in the range.}
 
     {The overall bias of the wording is that *poisoning may affect less than you asked for*, while *unpoisoning can affect arbitrarily more than you ask for*.}
-] 
+]
 
 heading "Poor Man's Poison"
 
 print << [
-    
-    {Address Sanitizer's poisoning didn't give a lot in the guarantees department or checking...so I wondered how hard it would be to create a checked version.  It would ensure your poison and unpoison calls matched up, that they were all on platform-pointer boundaries at the right length.  I didn't want to write much code, so I thought to use a C++ ordered `[std::set](http://en.cppreference.com/w/cpp/container/set)`.}
+
+    {Address Sanitizer's poisoning didn't give a lot in the guarantees department or checking...so I wondered how hard it would be to create a checked version.  It would ensure your poison and unpoison calls matched up, that they were all on platform-pointer boundaries at the right length.  I didn't want to write much code, so I thought to use a C++ ordered [`std::set`](http://en.cppreference.com/w/cpp/container/set).}
 
     {But doing things like this is always a good measure of how simple things can be a little tricky to do when you're concerned about efficiency.  Since sets are ordered, you can't modify them from iterators directly; the idiom is to [remove and insert](http://stackoverflow.com/a/2217889/211160).  But in C++11 there's the [emplace_hint](http://en.cppreference.com/w/cpp/container/set/emplace_hint).  This combines the idea of hinting where you think the insertion should happen with the efficiency of constructing an object in a data structure directly.}
 
@@ -332,7 +332,7 @@ void Unpoison_Memory(void *p, size_t len)
 }
 
 print << [
-    
+
     {The testing grounds for this code was the pooled allocator it was used with, where it came out balanced to zero.  But if you want to play with it, see if you can come up with a pathological case for it:}
 ]
 
@@ -350,17 +350,17 @@ void Dump_Ranges() {
 
 int main() {
     std::vector<unsigned char> vec (1024, 0xFF); // block of initialized memory
-    unsigned char *bytes = vec.data(); 
-    
+    unsigned char *bytes = vec.data();
+
     Poison_Memory(bytes + 8, 16);
     Poison_Memory(bytes + (8 + 16 + 32), 8);
 
     Poison_Memory(bytes + 8 + 16, 32); // merges the two separate ranges
-    
+
     Dump_Ranges(); // one continuous range
-    
+
     Unpoison_Memory(bytes + 16, 8); // splits them by another span
-    
+
     Dump_Ranges(); // now two ranges again
 }
 

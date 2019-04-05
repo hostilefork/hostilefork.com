@@ -37,7 +37,7 @@ print << [
 ]
 
 source 'cpp {
-shared_ptr< foo > fooPointer;
+shared_ptr<Foo> fooPointer;
 if (not fooPointer)
    cout << "fooPointer is null" << endl;
 }
@@ -45,7 +45,7 @@ if (not fooPointer)
 print {In fact, look what a mouthful you get if you insist on comparing against null literally:}
 
 source 'cpp {
-shared_ptr< foo > fooPointer;
+shared_ptr<Foo> fooPointer;
 if (fooPointer.get() == nullptr)
    cout << "fooPointer is null" << endl;
 }

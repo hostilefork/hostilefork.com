@@ -49,11 +49,15 @@ list [item << [
 
     {Latin-based languages are read by humans as case-insensitive by default.}
 
-    {Domain names are case-insensitive, as already mentioned.  *("Hi, my name is" nametags are also case-insensitive.  I often write things like BRiAN on mine, because that's the sort of person I am these days.)*}
+    {Spoken letters are case-insensitive without qualification, and spoken words don't convey their case intrinsically in speech, EXCEPT PERHAPS SHOUTING!}
+
+    {Domain names are case-insensitive, as already mentioned.  So are [protocol schemes](https://stackoverflow.com/questions/2148603/is-the-protocol-name-in-urls-case-sensitive), like `http:`, `file:`, or `mailto:`.  *("Hi, my name is" nametags are also case-insensitive.  I often write things like BRiAN on mine, because that's the sort of person I am these days.)*}
 
     {File APIs give case-insensitive behavior on Windows, which at time of writing still runs [80%-ish of the desktops/laptops](https://en.wikipedia.org/wiki/Usage_share_of_operating_systems) in the world.  *(If you are using the low-level CreateFile() API on NTFS, [`FILE_FLAG_POSIX_SEMANTICS`](https://stackoverflow.com/a/7200533/211160) that can technically give you case insensitivity, but this ability is basically unused...and not exposed in higher-level APIs like fopen().)*}
 
-    {Spoken letters are case-insensitive without qualification, and spoken words don't convey their case intrinsically in speech, EXCEPT PERHAPS SHOUTING!}
+    {Hexadecimal is case-insensitive, so 0xae and 0xAE are read the same.  Hexadecimal is common for ID schemes.  Readers are likely familiar with Git commit IDs, which chose [40-digit hex of a SHA1 hash](https://stackoverflow.com/questions/29106996/what-is-a-git-commit-id) instead of a more compact case-sensitive encoding.}
+
+    {HTTP header names (such as `Content-Type:`) [are case-insensitive](https://stackoverflow.com/a/5259004).  To comply with the specification, a client must be willing to accept `cONtENt-tyPE:` if that is what the server chooses to send back...and servers must accept arbitrary casings in the request header.}
 
     {Case-insensitivity pops up in many other random technical crevices, [like HTML anchor names](https://www.w3.org/TR/html4/struct/links.html#h-12.2.1).  So `https://en.wikipedia.org/wiki/Meta#Epistemology` and `https://en.wikipedia.org/wiki/Meta#EPISTEMOLOGY` cannot be distinct anchors, for example.}
 ]]
@@ -105,9 +109,9 @@ heading {Good Designs Often End Up Case-Insensitive Anyway}
 print << [
     {I've phrased some challenges to the intrinsic merit of case-sensitive systems, but sometimes it seems like they have an edge.  Random recent personal example: I tried to use Base64 to create and compare unique filenames.  I knew it would only work for Linux, but that was fine.}
 
-    {But alas, the 63rd digit of Base64 is...[a slash](https://en.wikipedia.org/wiki/Base64#Base64_table), which would make a path.  So much for that idea.  As long as you're doing something else, why not make it work case-insensitively too?}
+    {But alas, the 63rd digit of Base64 is...[a slash](https://en.wikipedia.org/wiki/Base64#Base64_table), which would make a path.  So much for that idea.  As long as you're doing something else, why not make it work case-insensitively too?  I've already brought up how Git hashes use hexadecimal which is case-insensitive, would it have been worth the benefit of compression to bring in a mixture of cases for something like that?}
 
-    {People inventing serial number schemes where they might need to be read over the phone know better than to mix cases.  They also know better than to mix `0` and `O`, or `B` and `8`, or `1` and `l` and `I`.}
+    {People inventing serial number schemes where they might need to be read over the phone know better than to mix cases.  Many go further, knowing better than to mix `0` and `O`, or `B` and `8`, or `1` and `l` and `I`.}
 
     {Even if you're just typing in a software serial number from a piece of paper, your internal talking-to-yourself has you remembering the letters in an internal voice.  Remembering casing likely inflates that by a syllable factor of 4, such as *"up-per-case-A low-er-case-B"* instead of simply *"A B"*.  When there's no case, you're also likely thankful you don't have to worry about shifting as you type with one hand and hold the piece of paper with the other.}
 

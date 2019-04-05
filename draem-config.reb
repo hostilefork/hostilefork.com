@@ -6,7 +6,7 @@ Rebol [
 		called "draem" containing the contents of the Draem repsitory:
 
 			https://github.com/hostilefork/draem
-		
+
 		See the Draem documentation (and/or source) for config options.
 	}
 
@@ -53,14 +53,14 @@ draem/set-config object compose [
 		print {An occasionally-updated collection of articles and notes.  Mostly about software development.  Popular topics are C++ and the [Rebol and Red](http://blog.hostilefork.com/why-rebol-red-parse-cool/) languages, along with general programming philosophy and puzzle-solving.  For project summaries, demos, and overview videos please see the portal at [http://hostilefork.com](http://hostilefork.com).}
 
 		print {Articles on blog.hostilefork.com originated from a scrape and rewrite of content that was previously on the main page.  All entries were transformed from WordPress to a [REN](https://github.com/humanistic/REN) *("REadable Notation")* format, and run through a custom experimental static site builder called [Draem](http://draem.hostilefork.com).  This means the "source code" for entries are available on GitHub--feel free to send pull requests for any edits or corrections:}
-	
+
 		link https://github.com/hostilefork/hostilefork.com/tree/master
 
 		print {The produced HTML is deliberately simple, with the links here enough for search engines (and me) to find the pages.  If you'd like, you can [browse the site by tag](http://hostilefork.com/tag/).  It should also support navigating the entries with the left and right arrow keys to make reading easier.}
 
 		print {Ideally I would post more often, but in practice writing things on StackOverflow is easier.  So this just winds up as a repository for things that aren't a fit for that medium:}
 
-		button [http://stackexchange.com/users/flair/73298.png 208x58 "profile for HostileFork on Stack Exchange" http://stackoverflow.com/users/211160/hostilefork?tab=answers&sort=votes]
+		button [https://stackoverflow.com/users/flair/211160.png 208x58 "profile for HostileFork on Stack Exchange" http://stackoverflow.com/users/211160/hostilefork?tab=answers&sort=votes]
 
 		heading {Master List of Entries}
 	]
@@ -68,10 +68,10 @@ draem/set-config object compose [
 	site-footer: [
 
 		button [http://hostilefork.com/media/fork-card-back-320x560.png 320x560 "Business Card from SXSW" http://hostilefork.com/hire-the-fork/]
-	
+
 	]
 
-	site-trailer-html: {<div style="text-align: right;"><span>Copyright (c) 2007-2015 hostilefork.com</span></div>}
+	site-trailer-html: {<div style="text-align: right;"><span>Copyright (c) 2007-2018 hostilefork.com</span></div>}
 
 	; This is made long to work around the page width issue where we set a
 	; maximum-width but no minimum-width.  In order to make sure we are
@@ -179,9 +179,9 @@ draem/set-config object compose [
 $(document).keydown(function(e) {
 	if (e.shiftKey || e.ctrlKey || e.altKey || e.metaKey)
 		return;
-		
+
 	switch(e.which) {
-		case 37: // left (up is 38) 
+		case 37: // left (up is 38)
 			anchors = $("#prev > a");
 			if (anchors.length > 0) {
 				window.location.href = anchors.eq(0).attr('href');
