@@ -1,0 +1,223 @@
+Draem [
+    title: "2 Space Indent, 4 Space Indent, or Both?"
+    tags: [formatting c++ c ideas]
+    slug: %indent-two-four-or-both
+    date: 11-Nov-2018/03:04
+]
+
+print << [
+    {Giulio Lunati--who works on the [Rebol Ren-C branch](https://github.com/metaeducation/ren-c) with me--has an interesting mission.  He wants to develop *entirely on his phone*.  It's not a matter of not having a desktop computer, but an ambition to know about and push the state of the art in that form factor.}
+
+    {The preferred medium of a small device leads him to strongly favor two-space indentation.  But when I've tried editing code written in that style, it doesn't seem like enough to me on the average screen.  Things feel a bit too "claustrophobic".}
+
+    {Still, trying it out for his sake got me wondering: **Could a mixture of 2 and 4 spaces work better??**  If you're a spaces-instead-of-tabs convert [like I am these days](http://blog.hostilefork.com/death-to-carriage-return/), then you don't have to go whole hog either way.}
+
+    {So I tried some experiments to see what kinds of things might be good fits for 2-space indents.  Here's some of the results...}
+]
+
+heading {Keeping switch() Away From the Far Right}
+
+print << [
+    {The C construct whose formatting in the wild bothers me the most is `switch()`.  If you add an indent level for each case, and then another for the code inside the case, you wind up with 8 spaces before you've even written one line of actual functionality:}
+]
+
+source 'cpp {
+void SomeFunction(enum SomeEnum e) {
+    switch (e) {
+        case enumValueOne:
+            ...
+            break;
+
+        case enumValueTwo: {
+            const char *declaration = "needs braces for scope";
+            if (...) {
+                while (...) {
+                    // indents fast...
+                    // especially with another switch()!
+                }
+            }
+            break;
+        }
+    }
+}
+}
+
+print << [
+    {Because a lot of people recognize this as an unreasonable amount of indentation, they'll not bother with the indent level for the case lines themselves.  They just line them up with the switch:}
+]
+
+source 'cpp {
+void SomeFunction(enum SomeEnum e) {
+    switch (e) {
+    case enumValueOne:
+        ...
+        break;
+
+    case enumValueTwo: {
+        const char *declaration = "needs braces for scope";
+        if (...) {
+            while (...) {
+                // doesn't creep right as quickly
+            }
+        }
+        break; } // this is how *I* close such scopes
+    }
+}
+}
+
+print << [
+    {This saves space, but gives you an ugliness if you have to open a scope for a case label.  If your close brace aligns with the case label it will also align with the switch.  So it looks like you're closing the switch more than once.}
+
+    {Above I show my own trick for avoiding having two braces at the same level--I just always close case labels on the break line (or goto, or whatever the last line is).  This way, whether the case requires a scope or not, I use the indentation as the guide for seeing where the closure is--not the brace.}
+
+    {Another problem with crunching the case left underneath the switch is that some people feel the need to throw in a newline:}
+]
+
+source 'cpp {
+void SomeFunction(enum SomeEnum e) ^{
+    switch (e) ^{
+
+    case enumValueOne:
+        ...
+        break;
+}
+
+print << [
+    {Ugh.  This is a major pet peeve of mine, but still I've sometimes felt that I had to throw it in if code is too dense.  Then I just space everything out a bit more so it doesn't stand out.}
+
+    {**But what if we get out of our two-party-system mentality**, and use a mix?  What about indenting the case labels just by two?  We're immediately going to indent by two again, putting us back on a multiple on 4.  And there's really just two words at each label, max!}
+]
+
+source 'cpp {
+void SomeFunction(enum SomeEnum e) {
+    switch (e) {
+      case enumValueOne:
+        ...
+        break;
+
+      case enumValueTwo: {
+        const char *declaration = "needs braces for scope";
+        if (...) {
+            while (...) {
+                // doesn't creep right as quickly
+            }
+        }
+        break; } // still using my close scope trick
+    }
+}
+}
+
+print << [
+    {Notice I didn't put the close brace at the 2-indentation mark.  I guess the philosophy is that braces either are on 4-indent alignments, or they're not aligned at all--relying on the shape of the code to guide instead.}
+
+    {It's about as happy as I think I can be with `switch()`.  So what about other constructs?}
+]
+
+heading {Other "labels" like private/public, goto targets?}
+
+print << [
+    {Class access modifiers seemed a great candidate for this treatment.  Like the case labels they are brief, tend to be the only thing on their line.  The 2-space indent is immediately followed on the next line by another 2-space indent, keeping ordinary code on 4-space indent alignment:}
+]
+
+source 'cpp {
+class SomeClass {
+  public:
+    SomeClass () { ... }
+    ~SomeClass () { ... }
+
+  private:
+    void SomePrivateMethod() {
+        while (...) {
+            if (...) {
+                ...
+                ...
+                goto some_label;
+            }
+        }
+
+      some_label:
+        std::cout << "Same idea for labels?" << std::endl;
+        std::cout << "But no one should use goto." << std::endl;
+        std::cout << "(j/k...sorry, Dijkstra)" << std::endl;
+    }
+};
+}
+
+print << [
+    {Some people put their goto labels all the way to the left margin, which I definitely hate.  So historically I would outdent the label fully, to avoid needing to indent the code it was labeling.  But I think the 2 space indent is nicer--again, it's not like you need to be making a whole new level of indentation *for one identifier*.}
+]
+
+heading {#if / #ifdef / #endif}
+
+print << [
+    {Preprocessor macros have an interesting aspect in that they're able to apply at the outermost indentation level of your file.  Putting a 2-space indent on that outermost level would be weird, I think.}
+]
+
+source 'cpp {
+#include <type_traits>
+
+  #ifdef SOME_PREPROCESSOR_THING
+    int Wait_A_Minute() {
+        return "Why's that ifdef indented?"
+    }
+  #endif
+}
+
+print << [
+    {What I think is more interesting is to reserve the special case of 0-column #ifdefs as a signal that the conditional applies at file scope.  Then you can save 2-column indents to cue you that you're dealing with something that's inside something else.}
+]
+
+source 'cpp {
+#if !defined(NDEBUG)
+
+int Something_For_Debug_Build() {
+    while (...) {
+        ...
+    }
+
+  #ifdef SOME_PREPROCESSOR THING
+    std::cout << "Scroll to the middle of this "
+        << "even if you can't see the function "
+        << "you know this is in one..." << std::endl;
+  #endif
+
+    if (...) {
+        ...
+    }
+    return 0;
+}
+
+#endif
+}
+
+print << [
+    {It's always a tough decision to introduce some kind of branching in one's code and not indent.  But if you began indenting every line in your file just because you had an include guard at the top, that's pretty nuts.}
+
+    {So this at least offers a little bit of a cue, making some use out of it.}
+]
+
+heading {Supported by Research Findings (sort of?)}
+
+print {There was a study by the ACM in 1983: ["Program Indentation and Comprehensibility"](https://www.cs.umd.edu/~ben/papers/Miara1983Program.pdf), which considered also 0 indenting and 6 indents, and unsurprisingly found that somewhere around 2-4 was probably optimal.  That has led [some people to advocate for 3 spaces](https://ericasadun.com/2016/03/31/swift-style-are-you-a-4-denter/).  That reminds me of a joke:}
+
+quote [
+    print {Should array indices start at 0 or 1?  My compromise of 0.5 was rejected without, I thought, proper consideration.}
+
+    attribution [link [http://en.wikipedia.org/wiki/Stan_Kelly-Bootle "Stan Kelly-Bootle"]]
+]
+
+print << [
+    {But I think this concept of being flexible and using 2 space indentation for things that are "one-offs" and lead immediately to another indentation level is more interesting.}
+
+    {I've experimented with this sporadically to see how it felt... **and I've come to think it feels pretty good.**  Of course I wouldn't suggest anyone violate their organizational coding standards for this, but on an absolute scale I feel it gives the best of both worlds.}
+
+    {*(Though I will say once in an open source commit where I thought it was warranted, I used it--and had a project admin make a commit to respace it.  He considered having points that weren't reachable by his ordinary tabbing distance to be an abomination.  So it's not everyone's cup of tea!)*}
+]
+
+note [
+    print << [
+        {It's actually pretty funny that I would be writing about this topic at all--given that I strongly believe we [shouldn't think of software as text files](https://www.youtube.com/watch?v=tSnnfUj1XCQ).  If you add one line in ASCII you might have to touch hundreds of dependent lines to reindent them, or rename one variable and touch dozens of files.  Graph databases with transaction logs that record exactly what AST nodes you edit are infinitely better for merging.}
+
+        {But despite my wishes and efforts, practical matters in 2018 still dictate ASCII files is how software is done.  So I've formed opinions--might as well write them down.  :-)}
+    ]
+]
